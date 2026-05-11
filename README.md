@@ -1,4 +1,155 @@
 # SPFC — Hoje na História 🔴⚪⚫
+### Web App / PWA · v2.0 — Com Mídia, Vídeos e Hino 8-bit
+
+---
+
+## 📁 Estrutura de Arquivos
+
+```
+spfc-hoje/
+├── index.html          ← App completo (DB + UI + Hino 8-bit)
+├── sw.js               ← Service Worker (PWA + cache offline)
+├── manifest.json       ← Manifesto PWA
+├── icons/              ← Ícones em todos os tamanhos
+└── README.md
+```
+
+---
+
+## 🎬 Como Adicionar Imagens e Vídeos a um Evento
+
+No `index.html`, localize o evento no banco de dados `DB` e adicione os campos:
+
+```javascript
+// ANTES (sem mídia):
+{ cat:'titulo', emoji:'🏆', title:'MUNDIAL 1992', year:1992, context:'...' }
+
+// DEPOIS (com imagem + vídeo):
+{
+  cat: 'titulo',
+  emoji: '🏆',
+  title: 'MUNDIAL 1992',
+  year: 1992,
+  context: '...',
+
+  // IMAGEM (Cloudinary, GitHub, qualquer URL pública):
+  image: 'https://res.cloudinary.com/SEU_CLOUD/image/upload/mundial1992.jpg',
+  imageCaption: 'São Paulo 2 x 1 Barcelona — Tóquio, 1992',
+
+  // VÍDEO DO YOUTUBE:
+  video: 'https://www.youtube.com/embed/ID_DO_VIDEO',
+  videoThumb: 'https://img.youtube.com/vi/ID_DO_VIDEO/hqdefault.jpg',
+}
+```
+
+### Como pegar o ID do YouTube
+URL: `https://www.youtube.com/watch?v=ABC123xyz`
+→ ID = `ABC123xyz`
+→ video: `https://www.youtube.com/embed/ABC123xyz`
+→ videoThumb: `https://img.youtube.com/vi/ABC123xyz/hqdefault.jpg`
+
+### Como hospedar imagens gratuitamente — Cloudinary
+1. Crie conta em cloudinary.com (25 GB grátis)
+2. Faça upload das fotos históricas
+3. Copie a URL gerada e cole no campo `image:`
+
+### Como hospedar imagens no próprio GitHub
+1. No repositório, crie uma pasta `fotos/`
+2. Faça upload das imagens
+3. Clique na imagem → "Raw" → copie a URL
+4. Use essa URL no campo `image:`
+
+---
+
+## 🎵 Hino 8-bit
+
+O hino toca 100% no navegador via Web Audio API — **sem nenhum arquivo de áudio externo**.
+
+- Melodia baseada no Hino Oficial do SPFC
+- Harmonia, baixo e bateria sintética em tempo real
+- Controles de volume e velocidade (BPM)
+- Visualizador de frequências
+- Modo loop
+
+Clique no player "HINO DO SPFC" no topo do app para expandir e tocar.
+
+---
+
+## ➕ Adicionar Novos Eventos
+
+No `index.html`, busque pela data desejada no objeto `DB`:
+
+```javascript
+// Estrutura: DB[MÊS][DIA]
+// Exemplo: adicionar evento no dia 15 de março
+
+DB[3][15].push({
+  cat: 'vitoria',       // vitoria | titulo | aniversario | estreia | despedida | fundacao
+  emoji: '⚽',
+  title: 'Título do evento',
+  desc: 'Descrição curta que aparece no card',
+  year: 2024,
+  context: 'Contexto histórico mais longo — aparece ao expandir o card.',
+
+  // Opcional:
+  image: 'https://URL_DA_IMAGEM.jpg',
+  imageCaption: 'Legenda da foto',
+  video: 'https://www.youtube.com/embed/ID',
+  videoThumb: 'https://img.youtube.com/vi/ID/hqdefault.jpg',
+});
+```
+
+**Atalho no GitHub:** abra o repositório e pressione `.` no teclado → VS Code no navegador.
+
+---
+
+## 🚀 Deploy
+
+### Vercel (recomendado — URL bonita grátis)
+```bash
+npm i -g vercel && vercel --prod
+```
+Depois: Settings → Domains → escolha `spfchoje.vercel.app`
+
+### Netlify (drag & drop)
+Arraste a pasta `spfc-hoje/` em netlify.com/drop
+
+### GitHub Pages
+Settings → Pages → Source: main → Save
+
+---
+
+## 🔔 Push Notifications
+
+Configure o Firebase Cloud Messaging para enviar às 8h diariamente.
+Veja o guia completo em: console.firebase.google.com
+
+Textos sugeridos para rotacionar:
+- *"Hoje o Morumbi tremia. Você sabe o motivo?"*
+- *"Há X anos o São Paulo escreveu história."*
+- *"Você lembra onde estava nesse dia?"*
+- *"Hoje faz aniversário de uma noite inesquecível."*
+
+---
+
+## 🏆 Roadmap
+
+- [x] Banco de dados histórico (~450 eventos)
+- [x] Interface VHS/cinematográfica
+- [x] Calendário navegável
+- [x] PWA instalável
+- [x] Suporte a imagens com lightbox
+- [x] Suporte a vídeos do YouTube
+- [x] Hino 8-bit via Web Audio API
+- [ ] Login com Google (Firebase Auth)
+- [ ] Quiz "Quem Quer Ser Torcedor Milionário"
+- [ ] Ranking de usuários
+- [ ] Compartilhamento de cards para Instagram Stories
+
+---
+
+*Feito com ❤️ por torcedores, para torcedores. Vai São Paulo! 🔴⚪⚫*
+
 ### Web App / PWA do Calendário Histórico São Paulo FC
 
 ---

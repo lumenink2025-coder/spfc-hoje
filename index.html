@@ -848,6 +848,394 @@ body::after {
   .stats-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
+/* ═══ MEDIA — IMAGEM NO CARD ═══ */
+.card-media {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--black);
+  cursor: pointer;
+}
+
+.card-media img {
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease, filter 0.3s ease;
+  filter: sepia(20%) contrast(1.05);
+}
+
+.card-media:hover img { transform: scale(1.03); filter: sepia(0%) contrast(1.1); }
+
+/* VHS overlay on images */
+.card-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px
+  );
+  pointer-events: none;
+}
+
+.card-media-caption {
+  padding: 8px 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--gray-light);
+  letter-spacing: 1px;
+  background: rgba(0,0,0,0.6);
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+}
+
+/* IMAGE MODAL/LIGHTBOX */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.lightbox.open { opacity: 1; visibility: visible; }
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border: 1px solid var(--gray);
+}
+
+.lightbox-caption {
+  margin-top: 12px;
+  font-family: 'Special Elite', cursive;
+  font-size: 13px;
+  color: rgba(245,240,232,0.6);
+  text-align: center;
+  max-width: 500px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: transparent;
+  border: 1px solid var(--gray);
+  color: var(--white);
+  width: 36px; height: 36px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ═══ VIDEO EMBED ═══ */
+.card-video-wrap {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background: var(--black);
+  overflow: hidden;
+}
+
+.card-video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.video-thumbnail {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--black-mid);
+  transition: background 0.2s;
+}
+
+.video-thumbnail:hover { background: rgba(204,0,0,0.1); }
+
+.video-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+}
+
+.play-btn {
+  position: relative;
+  z-index: 2;
+  width: 60px; height: 60px;
+  background: rgba(204,0,0,0.9);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 30px rgba(204,0,0,0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.video-thumbnail:hover .play-btn {
+  transform: scale(1.1);
+  box-shadow: 0 0 50px rgba(204,0,0,0.8);
+}
+
+.play-btn::after {
+  content: '';
+  width: 0; height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 20px solid white;
+  margin-left: 4px;
+}
+
+.video-label {
+  position: relative;
+  z-index: 2;
+  margin-top: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: rgba(245,240,232,0.6);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ═══ 8-BIT HINO PLAYER ═══ */
+.hino-player {
+  margin: 0 20px 20px;
+  background: var(--black-mid);
+  border: 1px solid var(--gray);
+  border-top: 3px solid var(--red);
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.hino-header {
+  padding: 14px 18px 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hino-pixel-icon {
+  image-rendering: pixelated;
+  font-size: 0;
+  width: 32px; height: 32px;
+  background:
+    /* pixel art note */
+    linear-gradient(var(--red) 0 0) 6px 4px / 4px 16px no-repeat,
+    linear-gradient(var(--red) 0 0) 10px 4px / 8px 4px no-repeat,
+    linear-gradient(var(--red) 0 0) 18px 4px / 4px 12px no-repeat,
+    linear-gradient(var(--red) 0 0) 4px 18px / 8px 6px no-repeat,
+    linear-gradient(var(--red) 0 0) 16px 14px / 8px 6px no-repeat;
+  flex-shrink: 0;
+}
+
+.hino-info { flex: 1; }
+
+.hino-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 3px;
+  color: var(--white);
+  line-height: 1;
+}
+
+.hino-subtitle {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--gray-light);
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+
+.hino-toggle-arrow {
+  color: var(--red);
+  font-size: 20px;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+
+.hino-player.open .hino-toggle-arrow { transform: rotate(180deg); }
+
+.hino-body {
+  display: none;
+  padding: 0 18px 18px;
+  border-top: 1px solid var(--gray);
+}
+
+.hino-player.open .hino-body { display: block; }
+
+/* Pixel display */
+.pixel-display {
+  background: #0d1a0d;
+  border: 2px solid #1a331a;
+  padding: 10px 14px;
+  margin: 14px 0 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #33ff33;
+  letter-spacing: 2px;
+  min-height: 36px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  image-rendering: pixelated;
+  box-shadow: inset 0 0 20px rgba(0,255,0,0.05);
+}
+
+.pixel-cursor {
+  display: inline-block;
+  width: 8px; height: 12px;
+  background: #33ff33;
+  animation: blink 0.8s steps(1) infinite;
+  flex-shrink: 0;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.pixel-note {
+  font-size: 14px;
+  animation: notespin 0.3s linear infinite;
+}
+
+@keyframes notespin { 0%{opacity:1} 50%{opacity:0.3} 100%{opacity:1} }
+
+/* Controls */
+.hino-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.hino-btn {
+  background: var(--black-soft);
+  border: 1px solid var(--gray);
+  color: var(--white);
+  padding: 10px 16px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+}
+
+.hino-btn:hover, .hino-btn.active {
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.hino-btn.play-pause {
+  background: var(--red);
+  border-color: var(--red);
+  padding: 12px 24px;
+  font-size: 14px;
+}
+
+.hino-btn.play-pause:hover { background: var(--red-hot); }
+
+/* Progress bar */
+.hino-progress-wrap {
+  height: 4px;
+  background: var(--gray);
+  border-radius: 0;
+  margin-bottom: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.hino-progress {
+  height: 100%;
+  background: var(--red);
+  width: 0%;
+  transition: width 0.1s linear;
+  position: relative;
+}
+
+.hino-progress::after {
+  content: '';
+  position: absolute;
+  right: -4px; top: -4px;
+  width: 12px; height: 12px;
+  background: var(--red);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(204,0,0,0.8);
+}
+
+/* Volume + BPM */
+.hino-sliders {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.slider-group label {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--gray-light);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.slider-group input[type=range] {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 4px;
+  background: var(--gray);
+  outline: none;
+  cursor: pointer;
+}
+
+.slider-group input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  background: var(--red);
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.hino-visualizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 32px;
+  margin-top: 10px;
+}
+
+.viz-bar {
+  flex: 1;
+  background: var(--red);
+  min-height: 2px;
+  transition: height 0.1s ease;
+  opacity: 0.7;
+  image-rendering: pixelated;
+}
+
 /* SHARE BTN */
 .share-btn {
   display: inline-flex;
@@ -978,6 +1366,51 @@ body::after {
   <button class="install-btn" onclick="installPWA()">INSTALAR</button>
 </div>
 
+<!-- 8-BIT HINO PLAYER -->
+<div class="hino-player" id="hinoPlayer">
+  <div class="hino-header" onclick="toggleHino()">
+    <div class="hino-pixel-icon"></div>
+    <div class="hino-info">
+      <div class="hino-title">HINO DO SPFC</div>
+      <div class="hino-subtitle">8-BIT CHIPTUNE · WEB AUDIO</div>
+    </div>
+    <div class="hino-toggle-arrow">▾</div>
+  </div>
+  <div class="hino-body">
+    <div class="pixel-display" id="pixelDisplay">
+      <span id="pixelNote">♩</span>
+      <span id="pixelText">PRONTO PARA TOCAR...</span>
+      <span class="pixel-cursor"></span>
+    </div>
+    <div class="hino-progress-wrap" id="hinoProgressWrap" onclick="seekHino(event)">
+      <div class="hino-progress" id="hinoProgress"></div>
+    </div>
+    <div class="hino-controls">
+      <button class="hino-btn play-pause" id="hinoPlayBtn" onclick="toggleHinoPlay()">▶ TOCAR</button>
+      <button class="hino-btn" id="hinoLoopBtn" onclick="toggleLoop()">↩ LOOP</button>
+      <button class="hino-btn" onclick="restartHino()">⏮ INÍCIO</button>
+    </div>
+    <div class="hino-sliders">
+      <div class="slider-group">
+        <label>Volume</label>
+        <input type="range" id="volSlider" min="0" max="100" value="70" oninput="setVolume(this.value)">
+      </div>
+      <div class="slider-group">
+        <label>Velocidade</label>
+        <input type="range" id="bpmSlider" min="60" max="180" value="110" oninput="setBPM(this.value)">
+      </div>
+    </div>
+    <div class="hino-visualizer" id="hinoViz"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
 <!-- TODAY'S EVENTS -->
 <section class="events-section">
   <div class="section-label">// eventos de hoje</div>
@@ -1018,7 +1451,7 @@ body::after {
 <footer class="footer">
   <div class="footer-logo">SPFC</div>
   <div class="footer-text">HOJE NA HISTÓRIA · 2025</div>
-  <div class="footer-source">Dados: Calendário Histórico SPFC 2025 Michael Serra · Arquivo João Farah<br>Desenvolvido por MAGAZINE TRICOLOR</div>
+  <div class="footer-source">Dados: Calendário Histórico SPFC 2025<br>Produção: Michael Serra · Arquivo João Farah</div>
 </footer>
 
 <!-- TOAST -->
@@ -1115,7 +1548,11 @@ const DB = {
       { cat:'estreia', emoji:'⭐', title:'Estreia de Fabão', desc:'Fabão estreia pelo São Paulo', year:2004 }
     ],
     22: [
-      { cat:'aniversario', emoji:'🎂', title:'Rogério Ceni — Aniversário', desc:'Nascimento do lendário goleiro Rogério Ceni', year:1973, context:'O maior ídolo da história do São Paulo, Rogério Ceni nasceu nesta data. O goleiro-artilheiro fez 1237 jogos pelo Tricolor e marcou 131 gols.' }
+      { cat:'aniversario', emoji:'🎂', title:'Rogério Ceni — Aniversário', desc:'Nascimento do lendário goleiro Rogério Ceni', year:1973,
+        context:'O maior ídolo da história do São Paulo, Rogério Ceni nasceu nesta data. O goleiro-artilheiro fez 1237 jogos pelo Tricolor e marcou 131 gols.',
+        video: 'https://www.youtube.com/embed/FEBv1tKcaF0',
+        videoThumb: 'https://img.youtube.com/vi/FEBv1tKcaF0/hqdefault.jpg'
+      }
     ],
     23: [
       { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1953', desc:'São Paulo conquista o Campeonato Paulista', year:1953, context:'Mais um título estadual para o SPFC.' },
@@ -1437,7 +1874,11 @@ const DB = {
       { cat:'vitoria', emoji:'⚽', title:'8x0 no 1º de Maio', desc:'Goleada histórica', year:1940 }
     ],
     22: [
-      { cat:'aniversario', emoji:'🎂', title:'Kaká — Aniversário', desc:'Nascimento de Ricardo Kaká', year:1982, context:'Ricardo Izecson dos Santos Leite, o Kaká, nasceu nesta data em Brasília. O meia se formou no São Paulo e se tornou um dos maiores jogadores do mundo, vencendo a Bola de Ouro FIFA em 2007.' },
+      { cat:'aniversario', emoji:'🎂', title:'Kaká — Aniversário', desc:'Nascimento de Ricardo Kaká', year:1982,
+        context:'Ricardo Izecson dos Santos Leite, o Kaká, nasceu nesta data em Brasília. O meia se formou no São Paulo e se tornou um dos maiores jogadores do mundo, vencendo a Bola de Ouro FIFA em 2007.',
+        video: 'https://www.youtube.com/embed/OkmCuYzMBIE',
+        videoThumb: 'https://img.youtube.com/vi/OkmCuYzMBIE/hqdefault.jpg'
+      },
       { cat:'vitoria', emoji:'⚽', title:'2x0 no Corinthians', desc:'Clássico vencido', year:2015 }
     ],
     23: [
@@ -1552,7 +1993,11 @@ const DB = {
       { cat:'vitoria', emoji:'⚽', title:'1x0 no Palmeiras', desc:'Clássico vencido', year:1975 }
     ],
     26: [
-      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO LIBERTADORES 1993', desc:'São Paulo conquista a Copa Libertadores pela 1ª vez!', year:1993, context:'O São Paulo derrota o Universidad de Chile e conquista sua primeira Copa Libertadores. Telê Santana conduz o clube à glória continental. Uma noite histórica para o futebol tricolor.' }
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO LIBERTADORES 1993', desc:'São Paulo conquista a Copa Libertadores pela 1ª vez!', year:1993,
+        context:'O São Paulo derrota o Universidad de Chile e conquista sua primeira Copa Libertadores. Telê Santana conduz o clube à glória continental. Uma noite histórica para o futebol tricolor.',
+        video: 'https://www.youtube.com/embed/P0Ly3sM1g7E',
+        videoThumb: 'https://img.youtube.com/vi/P0Ly3sM1g7E/hqdefault.jpg'
+      }
     ],
     27: [
       { cat:'vitoria', emoji:'⚽', title:'3x0 no Santos', desc:'Clássico vencido', year:1934 }
@@ -1621,7 +2066,11 @@ const DB = {
       { cat:'vitoria', emoji:'⚽', title:'3x2 no Corinthians', desc:'Clássico vencido em grande jogo', year:1969 }
     ],
     17: [
-      { cat:'estreia', emoji:'⭐', title:'Estreia de Rogério Ceni', desc:'O lendário goleiro Rogério Ceni estreia pelo São Paulo', year:1993, context:'O início de uma era. Rogério Ceni faz sua estreia pelo São Paulo Futebol Clube, iniciando o que seria a maior trajetória de um jogador pela mesma equipe no futebol mundial.' }
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Rogério Ceni', desc:'O lendário goleiro Rogério Ceni estreia pelo São Paulo', year:1993,
+        context:'O início de uma era. Rogério Ceni faz sua estreia pelo São Paulo Futebol Clube, iniciando o que seria a maior trajetória de um jogador pela mesma equipe no futebol mundial.',
+        video: 'https://www.youtube.com/embed/BvBSgJiSCzY',
+        videoThumb: 'https://img.youtube.com/vi/BvBSgJiSCzY/hqdefault.jpg'
+      }
     ],
     18: [
       { cat:'vitoria', emoji:'⚽', title:'2x0 no Corinthians', desc:'Clássico vencido', year:1932 },
@@ -1702,7 +2151,11 @@ const DB = {
       { cat:'vitoria', emoji:'⚽', title:'1x0 no Corinthians', desc:'Clássico vencido', year:1980 }
     ],
     14: [
-      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO LIBERTADORES 2005', desc:'São Paulo bicampeão da Libertadores!', year:2005, context:'O São Paulo vence o Atlético Paranaense e conquista a Copa Libertadores pela segunda vez. Rogério Ceni e companhia fazem história.' }
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO LIBERTADORES 2005', desc:'São Paulo bicampeão da Libertadores!', year:2005,
+        context:'O São Paulo vence o Atlético Paranaense e conquista a Copa Libertadores pela segunda vez. Rogério Ceni e companhia fazem história.',
+        video: 'https://www.youtube.com/embed/yCNSMFUPqdo',
+        videoThumb: 'https://img.youtube.com/vi/yCNSMFUPqdo/hqdefault.jpg'
+      }
     ],
     16: [
       { cat:'vitoria', emoji:'⚽', title:'2x1 no Corinthians', desc:'Clássico vencido', year:1939 },
@@ -1727,8 +2180,13 @@ const DB = {
       { cat:'vitoria', emoji:'⚽', title:'5x0 no Cruz Azul', desc:'Goleada internacional', year:1999 }
     ],
     26: [
-      { cat:'aniversario', emoji:'🎂', title:'Telê Santana — Aniversário', desc:'Nascimento de Telê Santana', year:1931, context:'Mário Campos de Menezes Santana, o Telê, nasceu nesta data. O treinador levou o São Paulo aos títulos da Libertadores (1992 e 1993) e do Mundial de Clubes (1992 e 1993), além do Brasileiro (1991). Uma das maiores referências do futebol brasileiro.' },
-      { cat:'estreia', emoji:'⭐', title:'Estreia de Casemiro', desc:'Casemiro estreia pelo São Paulo como profissional', year:2010, context:'O jovem Carlos Henrique Casimiro faz sua estreia pelo São Paulo Futebol Clube, iniciando a carreira que o levaria ao Real Madrid e à Seleção Brasileira.' }
+      { cat:'aniversario', emoji:'🎂', title:'Telê Santana — Aniversário', desc:'Nascimento de Telê Santana', year:1931,
+        context:'Mário Campos de Menezes Santana, o Telê, nasceu nesta data. O treinador levou o São Paulo aos títulos da Libertadores (1992 e 1993) e do Mundial de Clubes (1992 e 1993), além do Brasileiro (1991). Uma das maiores referências do futebol brasileiro.' },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Casemiro', desc:'Casemiro estreia pelo São Paulo como profissional', year:2010,
+        context:'O jovem Carlos Henrique Casimiro faz sua estreia pelo São Paulo Futebol Clube, iniciando a carreira que o levaria ao Real Madrid e à Seleção Brasileira.',
+        video: 'https://www.youtube.com/embed/2PkGOkm5EUc',
+        videoThumb: 'https://img.youtube.com/vi/2PkGOkm5EUc/hqdefault.jpg'
+      }
     ],
     27: [
       { cat:'vitoria', emoji:'⚽', title:'5x1 no Palmeiras', desc:'Clássico vencido com goleada', year:1986 }
@@ -1871,7 +2329,11 @@ const DB = {
       { cat:'vitoria', emoji:'⚽', title:'1x0 no Palmeiras', desc:'Clássico vencido', year:1951 }
     ],
     24: [
-      { cat:'titulo', emoji:'🏆', title:'COPA DO BRASIL 2023', desc:'São Paulo conquista a Copa do Brasil', year:2023, context:'O São Paulo conquista a Copa do Brasil, um título esperado há anos pela torcida. Uma conquista histórica para o clube.' }
+      { cat:'titulo', emoji:'🏆', title:'COPA DO BRASIL 2023', desc:'São Paulo conquista a Copa do Brasil', year:2023,
+        context:'O São Paulo conquista a Copa do Brasil, um título esperado há anos pela torcida. Uma conquista histórica para o clube.',
+        video: 'https://www.youtube.com/embed/7BsGnRj_JRQ',
+        videoThumb: 'https://img.youtube.com/vi/7BsGnRj_JRQ/hqdefault.jpg'
+      }
     ],
     25: [
       { cat:'vitoria', emoji:'⚽', title:'3x1 no Palmeiras', desc:'Clássico vencido', year:1963 }
@@ -2061,13 +2523,21 @@ const DB = {
     ],
     12: [
       { cat:'titulo', emoji:'🏆', title:'SUL-AMERICANA 2012', desc:'São Paulo conquista a Copa Sul-Americana', year:2012, context:'O São Paulo conquista a Copa Sul-Americana, mais um título internacional para o clube.' },
-      { cat:'titulo', emoji:'🏆', title:'MUNDIAL 1993', desc:'São Paulo bicampeão mundial!', year:1993, context:'O São Paulo de Telê Santana bate o Milan e conquista o Mundial de Clubes pela segunda vez consecutiva. Uma das maiores façanhas do futebol brasileiro.' }
+      { cat:'titulo', emoji:'🏆', title:'MUNDIAL 1993', desc:'São Paulo bicampeão mundial!', year:1993,
+        context:'O São Paulo de Telê Santana bate o Milan e conquista o Mundial de Clubes pela segunda vez consecutiva. Uma das maiores façanhas do futebol brasileiro.',
+        video: 'https://www.youtube.com/embed/q3LJSrBJsBQ',
+        videoThumb: 'https://img.youtube.com/vi/q3LJSrBJsBQ/hqdefault.jpg'
+      }
     ],
     18: [
       { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1948', desc:'São Paulo conquista o Campeonato Paulista', year:1948 }
     ],
     19: [
-      { cat:'titulo', emoji:'🏆', title:'MUNDIAL 2005', desc:'São Paulo tricampeão mundial!', year:2005, context:'O São Paulo vence o Liverpool e conquista o título do Mundial de Clubes de 2005. Rogério Ceni, Carlos, Diego Lugano e companhia fazem história. O SPFC é o maior campeão mundial do Brasil.' }
+      { cat:'titulo', emoji:'🏆', title:'MUNDIAL 2005', desc:'São Paulo tricampeão mundial!', year:2005,
+        context:'O São Paulo vence o Liverpool e conquista o título do Mundial de Clubes de 2005. Rogério Ceni, Carlos, Diego Lugano e companhia fazem história. O SPFC é o maior campeão mundial do Brasil.',
+        video: 'https://www.youtube.com/embed/8o5fQHsqEI4',
+        videoThumb: 'https://img.youtube.com/vi/8o5fQHsqEI4/hqdefault.jpg'
+      }
     ],
     20: [
       { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1992', desc:'São Paulo conquista o Campeonato Paulista', year:1992 }
@@ -2076,8 +2546,12 @@ const DB = {
       { cat:'titulo', emoji:'🏆', title:'CONMEBOL 1994', desc:'São Paulo conquista a CONMEBOL', year:1994 }
     ],
     22: [
-      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1985', desc:'São Paulo conquista o Campeonato Paulista', year:1985 },
-      { cat:'titulo', emoji:'🏆', title:'MUNDIAL 1992', desc:'São Paulo campeão mundial pela primeira vez!', year:1992, context:'O São Paulo de Telê Santana, Cafu, Raí e Müller vence o Barcelona e conquista o título do Mundial de Clubes de 1992. Uma noite histórica e inesquecível para o futebol tricolor.' }
+      { cat:'titulo', emoji:'🏆', title:'MUNDIAL 1992', desc:'São Paulo campeão mundial pela primeira vez!', year:1992,
+        context:'O São Paulo de Telê Santana, Cafu, Raí e Müller vence o Barcelona e conquista o título do Mundial de Clubes de 1992. Uma noite histórica e inesquecível para o futebol tricolor.',
+        video: 'https://www.youtube.com/embed/UXNbUMDy3mE',
+        videoThumb: 'https://img.youtube.com/vi/UXNbUMDy3mE/hqdefault.jpg'
+      },
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1985', desc:'São Paulo conquista o Campeonato Paulista', year:1985 }
     ],
     28: [
       { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1957', desc:'São Paulo conquista o Campeonato Paulista', year:1957 }
@@ -2136,9 +2610,28 @@ function buildContext(ev) {
   return ev.context || contexts[ev.cat] || '';
 }
 
-function buildEventCard(ev, expanded = false) {
+function buildEventCard(ev) {
   const context = buildContext(ev);
   const ya = ev.year ? `<span class="years-ago">${yearsAgo(ev.year)}</span>` : '';
+  const hasExpanded = context || ev.image || ev.video;
+
+  // Image block
+  const imageBlock = ev.image ? `
+    <div class="card-media" onclick="openLightbox(event,'${ev.image}','${(ev.imageCaption||ev.title).replace(/'/g,"\\'")}')">
+      <img src="${ev.image}" alt="${ev.title}" loading="lazy">
+      <div class="card-media-caption">📷 ${ev.imageCaption || ev.title} · ${ev.year||''}</div>
+    </div>` : '';
+
+  // Video block — shown inline after click
+  const videoBlock = ev.video ? `
+    <div class="card-video-wrap" id="vid_${ev.video.slice(-11)}">
+      <div class="video-thumbnail" onclick="loadVideo(this,'${ev.video}')">
+        ${ev.videoThumb ? `<img class="video-thumb-img" src="${ev.videoThumb}" alt="">` : ''}
+        <div class="play-btn"></div>
+        <div class="video-label">▶ ASSISTIR VÍDEO</div>
+      </div>
+    </div>` : '';
+
   return `
     <div class="event-card cat-${ev.cat}" onclick="toggleCard(this)">
       <div class="card-inner">
@@ -2148,10 +2641,13 @@ function buildEventCard(ev, expanded = false) {
           <div class="card-title">${ev.title}</div>
           <div class="card-desc">${ev.desc}</div>
           ${buildTagHTML(ev.cat)}
+          ${ev.image||ev.video ? `<div style="margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--red);letter-spacing:2px;">${ev.image?'📷 ':''} ${ev.video?'🎬 VÍDEO':''}</div>` : ''}
         </div>
       </div>
-      ${context ? `<div class="card-expanded">
-        <div class="expanded-context">${context}</div>
+      ${hasExpanded ? `<div class="card-expanded">
+        ${imageBlock}
+        ${videoBlock}
+        ${context ? `<div class="expanded-context">${context}</div>` : ''}
         <div class="expanded-meta">
           <div class="meta-item"><strong>ANO</strong>${ev.year||'—'}</div>
           <div class="meta-item"><strong>CATEGORIA</strong>${ev.cat.toUpperCase()}</div>
@@ -2164,6 +2660,27 @@ function toggleCard(card) {
   const exp = card.querySelector('.card-expanded');
   if (!exp) return;
   exp.classList.toggle('open');
+}
+
+function loadVideo(thumbEl, url) {
+  const wrap = thumbEl.parentElement;
+  wrap.innerHTML = `<iframe src="${url}?autoplay=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+  // stop event from toggling card closed
+  event && event.stopPropagation();
+}
+
+function openLightbox(e, src, caption) {
+  e.stopPropagation();
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightboxCaption').textContent = caption;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
 }
 
 function renderTodayEvents() {
@@ -2411,6 +2928,366 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
-</script>
+
+// ═══════════════════════════════════════════════════════════════
+// 8-BIT HINO DO SÃO PAULO — WEB AUDIO API CHIPTUNE ENGINE
+// ═══════════════════════════════════════════════════════════════
+// Melodia baseada no Hino Oficial do São Paulo Futebol Clube
+// Gerada em tempo real via oscillators — sem arquivo de áudio externo
+
+let audioCtx = null;
+let hinoPlaying = false;
+let hinoLoop = false;
+let hinoStep = 0;
+let hinoTimer = null;
+let hinoGain = null;
+let currentBPM = 110;
+let hinoStartTime = 0;
+let vizInterval = null;
+
+// Frequências das notas (Hz)
+const NOTE = {
+  _:  0,    // silêncio
+  C3: 130.8, D3: 146.8, E3: 164.8, F3: 174.6, G3: 196.0, A3: 220.0, B3: 246.9,
+  C4: 261.6, D4: 293.7, E4: 329.6, F4: 349.2, G4: 392.0, A4: 440.0, B4: 493.9,
+  C5: 523.3, D5: 587.3, E5: 659.3, F5: 698.5, G5: 784.0, A5: 880.0, B5: 987.8,
+  Cs4:277.2, Ds4:311.1, Fs4:370.0, Gs4:415.3, As4:466.2,
+  Cs5:554.4, Ds5:622.3, Fs5:740.0, Gs5:830.6, As5:932.3,
+  Fs3:185.0, Gs3:207.7, As3:233.1
+};
+
+// ═══ MELODIA DO HINO ═══
+// Cada entrada: [nota, duração_em_colcheias, label_display]
+// Transcrição da melodia principal do Hino do SPFC
+const HINO_MELODY = [
+  // Intro — "São Paulo, meu São Paulo..."
+  [NOTE.E4, 2,'SÃO'], [NOTE.F4, 2,'PAU'], [NOTE.G4, 4,'LO'],
+  [NOTE.G4, 2,'MEU'], [NOTE.A4, 2,'SÃO'], [NOTE.G4, 4,'PAU-LO'],
+  [NOTE.E4, 2,''], [NOTE.F4, 2,''], [NOTE.E4, 2,''], [NOTE.D4, 2,''],
+  [NOTE.C4, 8,''],
+
+  // "O mais querido, o mais amado..."
+  [NOTE.G4, 2,'O MAIS'], [NOTE.A4, 2,'QUE-'], [NOTE.B4, 4,'RI-DO'],
+  [NOTE.B4, 2,'O MAIS'], [NOTE.C5, 2,'A-'], [NOTE.B4, 4,'MA-DO'],
+  [NOTE.A4, 2,''], [NOTE.G4, 2,''], [NOTE.F4, 2,''], [NOTE.E4, 2,''],
+  [NOTE.D4, 8,''],
+
+  // "Tricolor do Morumbi..."
+  [NOTE.F4, 2,'TRI'], [NOTE.G4, 2,'CO-'], [NOTE.A4, 4,'LOR'],
+  [NOTE.A4, 2,'DO MO-'], [NOTE.B4, 2,'RUM-'], [NOTE.A4, 4,'BI'],
+  [NOTE.G4, 2,''], [NOTE.F4, 2,''], [NOTE.E4, 2,''], [NOTE.D4, 2,''],
+  [NOTE.C4, 8,''],
+
+  // "Sou eu que canto pra você..."
+  [NOTE.E4, 2,'SOU'], [NOTE.F4, 2,'EU'], [NOTE.G4, 2,'QUE'], [NOTE.A4, 2,'CAN-'],
+  [NOTE.G4, 2,'TO'], [NOTE.F4, 2,'PRA'], [NOTE.E4, 4,'VO-CÊ'],
+  [NOTE.D4, 2,''], [NOTE.C4, 6,''],
+
+  // REFRÃO — "São Paulo, sua história..."
+  [NOTE.C5, 3,'SÃO'], [NOTE.B4, 1,''], [NOTE.A4, 2,'PAU-'], [NOTE.G4, 2,'LO'],
+  [NOTE.A4, 2,'SUA'], [NOTE.B4, 2,'HIS-'], [NOTE.C5, 4,'TÓ-RIA'],
+  [NOTE.B4, 2,''], [NOTE.A4, 2,''], [NOTE.G4, 4,''],
+
+  [NOTE.G4, 3,'É'], [NOTE.Fs4,1,''], [NOTE.G4, 2,'GLÓ-'], [NOTE.A4, 2,'RIA'],
+  [NOTE.B4, 2,'E'], [NOTE.C5, 2,'A-'], [NOTE.D5, 4,'MOR'],
+  [NOTE.C5, 2,''], [NOTE.B4, 2,''], [NOTE.A4, 4,''],
+
+  // "Vermelho, branco e preto..."
+  [NOTE.A4, 2,'VER-'], [NOTE.B4, 2,'ME-'], [NOTE.C5, 4,'LHO'],
+  [NOTE.B4, 2,'BRAN-'], [NOTE.A4, 2,'CO'], [NOTE.G4, 4,'E'],
+  [NOTE.F4, 2,'PRE-'], [NOTE.E4, 2,'TO'], [NOTE.D4, 4,''],
+  [NOTE.C4, 8,''],
+
+  // "São Paulo, eu te amo..."
+  [NOTE.E4, 2,'SÃO'], [NOTE.G4, 2,'PAU-'], [NOTE.A4, 4,'LO'],
+  [NOTE.B4, 2,'EU'], [NOTE.C5, 2,'TE'], [NOTE.D5, 4,'A-MO'],
+  [NOTE.C5, 2,''], [NOTE.B4, 2,''], [NOTE.A4, 2,''], [NOTE.G4, 2,''],
+
+  // Final grandioso
+  [NOTE.E5, 4,''], [NOTE.D5, 2,''], [NOTE.C5, 2,''],
+  [NOTE.B4, 2,''], [NOTE.A4, 2,''], [NOTE.G4, 4,''],
+  [NOTE.C5, 8,''],
+
+  // Coda
+  [NOTE.G4, 2,''], [NOTE.E4, 2,''], [NOTE.C4, 4,''],
+  [NOTE._, 4,''],
+];
+
+// Baixo / acompanhamento (harmonia)
+const HINO_BASS = [
+  [NOTE.C3,4],[NOTE.C3,4],[NOTE.G3,4],[NOTE.G3,4],
+  [NOTE.F3,4],[NOTE.F3,4],[NOTE.C3,4],[NOTE.C3,4],
+  [NOTE.G3,4],[NOTE.G3,4],[NOTE.F3,4],[NOTE.F3,4],
+  [NOTE.C3,4],[NOTE.C3,4],[NOTE.G3,4],[NOTE.G3,4],
+  [NOTE.C3,4],[NOTE.C3,4],[NOTE.G3,4],[NOTE.G3,4],
+  [NOTE.F3,4],[NOTE.F3,4],[NOTE.C3,4],[NOTE.C3,4],
+  [NOTE.G3,4],[NOTE.G3,4],[NOTE.C3,4],[NOTE.C3,4],
+  [NOTE.F3,4],[NOTE.F3,4],[NOTE.G3,4],[NOTE.G3,4],
+  [NOTE.C3,8],[NOTE.G3,4],[NOTE.F3,4],
+  [NOTE.C3,4],[NOTE.C3,4],[NOTE.G3,4],[NOTE.G3,4],
+];
+
+// Nomes das notas para o display
+const NOTE_NAMES = {
+  [NOTE.C4]:'DO', [NOTE.D4]:'RE', [NOTE.E4]:'MI', [NOTE.F4]:'FA',
+  [NOTE.G4]:'SOL',[NOTE.A4]:'LA', [NOTE.B4]:'SI', [NOTE.C5]:'DO²',
+  [NOTE.D5]:'RE²',[NOTE.E5]:'MI²',[NOTE.Fs4]:'FA#',[NOTE.Gs4]:'SOL#',
+  [NOTE.As4]:'LA#',[NOTE.Cs5]:'DO#²', [NOTE.C3]:'DO₁',[NOTE.G3]:'SOL₁',
+  [NOTE.F3]:'FA₁', [NOTE._]:'—',
+};
+
+function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  hinoGain = audioCtx.createGain();
+  hinoGain.gain.setValueAtTime(0.7, audioCtx.currentTime);
+  hinoGain.connect(audioCtx.destination);
+}
+
+function playChipNote(freq, duration, type='square', gain=0.3, detune=0) {
+  if (!audioCtx || freq === 0) return;
+  const osc = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  if (detune) osc.detune.setValueAtTime(detune, audioCtx.currentTime);
+
+  gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+  gainNode.gain.linearRampToValueAtTime(gain, audioCtx.currentTime + 0.01);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration - 0.01);
+
+  osc.connect(gainNode);
+  gainNode.connect(hinoGain);
+  osc.start(audioCtx.currentTime);
+  osc.stop(audioCtx.currentTime + duration);
+}
+
+function playBassNote(freq, duration) {
+  if (!audioCtx || freq === 0) return;
+  playChipNote(freq, duration, 'sawtooth', 0.12);
+  // sub bass
+  playChipNote(freq / 2, duration, 'sine', 0.08);
+}
+
+function playDrum(type, duration) {
+  if (!audioCtx) return;
+  const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * duration, audioCtx.sampleRate);
+  const data = buf.getChannelData(0);
+
+  if (type === 'kick') {
+    for (let i = 0; i < data.length; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 8);
+    }
+  } else if (type === 'snare') {
+    for (let i = 0; i < data.length; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 4) * 0.5;
+    }
+  } else if (type === 'hat') {
+    for (let i = 0; i < data.length; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 12) * 0.3;
+    }
+  }
+
+  const src = audioCtx.createBufferSource();
+  src.buffer = buf;
+  const g = audioCtx.createGain();
+  g.gain.setValueAtTime(0.4, audioCtx.currentTime);
+  src.connect(g);
+  g.connect(hinoGain);
+  src.start(audioCtx.currentTime);
+}
+
+// Build flat sequence with timing
+let HINO_SEQ = [];
+function buildSequence() {
+  HINO_SEQ = [];
+  const beatDur = 60 / currentBPM / 2; // colcheia
+  HINO_MELODY.forEach((step, i) => {
+    HINO_SEQ.push({ freq: step[0], dur: step[1] * beatDur, label: step[2] || '', idx: i });
+  });
+}
+
+let melodyStepIdx = 0;
+let bassStepIdx = 0;
+let bassAccum = 0;
+let melodyAccum = 0;
+let drumBeat = 0;
+
+function scheduleNextNote() {
+  if (!hinoPlaying) return;
+  if (melodyStepIdx >= HINO_SEQ.length) {
+    if (hinoLoop) {
+      melodyStepIdx = 0;
+      bassStepIdx = 0;
+      bassAccum = 0;
+      melodyAccum = 0;
+      drumBeat = 0;
+    } else {
+      stopHino();
+      return;
+    }
+  }
+
+  const step = HINO_SEQ[melodyStepIdx];
+  const beatDur = 60 / currentBPM / 2;
+
+  // Melody
+  playChipNote(step.freq, step.dur * 0.85, 'square', 0.25);
+  // Harmony (terça acima)
+  if (step.freq > 0) playChipNote(step.freq * 1.26, step.dur * 0.7, 'square', 0.08, 5);
+
+  // Bass — alinha à melodia
+  melodyAccum += step.dur;
+  while (bassAccum < melodyAccum && bassStepIdx < HINO_BASS.length) {
+    const b = HINO_BASS[bassStepIdx % HINO_BASS.length];
+    const bd = b[1] * beatDur;
+    playBassNote(b[0], Math.min(bd * 0.8, melodyAccum - bassAccum + 0.01));
+    bassAccum += bd;
+    bassStepIdx++;
+  }
+
+  // Drums — kick no 1 e 3, snare no 2 e 4, hat em todas
+  if (drumBeat % 8 === 0 || drumBeat % 8 === 4) playDrum('kick', 0.1);
+  if (drumBeat % 8 === 2 || drumBeat % 8 === 6) playDrum('snare', 0.08);
+  playDrum('hat', 0.04);
+  drumBeat++;
+
+  // Update display
+  const noteName = NOTE_NAMES[step.freq] || '♩';
+  const progress = (melodyStepIdx / HINO_SEQ.length) * 100;
+  document.getElementById('pixelNote').textContent = step.freq > 0 ? '♪' : '♩';
+  document.getElementById('pixelText').textContent =
+    step.label ? step.label.padEnd(24) : (`${noteName} · ${Math.round(progress)}%`).padEnd(24);
+  document.getElementById('hinoProgress').style.width = progress + '%';
+  updateViz(step.freq);
+
+  melodyStepIdx++;
+  hinoTimer = setTimeout(scheduleNextNote, step.dur * 1000);
+}
+
+function updateViz(freq) {
+  const bars = document.querySelectorAll('.viz-bar');
+  bars.forEach((bar, i) => {
+    const baseH = freq > 0 ? Math.random() * 28 + 4 : 2;
+    const h = Math.max(2, baseH * (1 - Math.abs(i - bars.length/2) / bars.length));
+    bar.style.height = h + 'px';
+    bar.style.opacity = freq > 0 ? (0.4 + Math.random() * 0.6) : 0.2;
+  });
+}
+
+function toggleHinoPlay() {
+  if (hinoPlaying) {
+    pauseHino();
+  } else {
+    startHino();
+  }
+}
+
+function startHino() {
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  buildSequence();
+  hinoPlaying = true;
+  document.getElementById('hinoPlayBtn').textContent = '⏸ PAUSAR';
+  document.getElementById('pixelText').textContent = 'TOCANDO O HINO...        ';
+  scheduleNextNote();
+  startVizLoop();
+}
+
+function pauseHino() {
+  hinoPlaying = false;
+  clearTimeout(hinoTimer);
+  document.getElementById('hinoPlayBtn').textContent = '▶ CONTINUAR';
+  document.getElementById('pixelText').textContent = 'PAUSADO...               ';
+  stopVizLoop();
+}
+
+function stopHino() {
+  hinoPlaying = false;
+  clearTimeout(hinoTimer);
+  melodyStepIdx = 0;
+  bassStepIdx = 0;
+  bassAccum = 0;
+  melodyAccum = 0;
+  drumBeat = 0;
+  document.getElementById('hinoPlayBtn').textContent = '▶ TOCAR';
+  document.getElementById('hinoProgress').style.width = '0%';
+  document.getElementById('pixelText').textContent = 'FIM DO HINO ♪            ';
+  stopVizLoop();
+}
+
+function restartHino() {
+  stopHino();
+  setTimeout(startHino, 100);
+}
+
+function toggleLoop() {
+  hinoLoop = !hinoLoop;
+  const btn = document.getElementById('hinoLoopBtn');
+  btn.classList.toggle('active', hinoLoop);
+  btn.textContent = hinoLoop ? '↩ LOOP ON' : '↩ LOOP';
+}
+
+function setVolume(val) {
+  if (hinoGain) hinoGain.gain.setValueAtTime(val / 100, audioCtx.currentTime);
+}
+
+function setBPM(val) {
+  currentBPM = parseInt(val);
+  if (hinoPlaying) {
+    pauseHino();
+    melodyStepIdx = Math.max(0, melodyStepIdx - 1);
+    setTimeout(startHino, 50);
+  }
+}
+
+function seekHino(e) {
+  const wrap = document.getElementById('hinoProgressWrap');
+  const ratio = e.offsetX / wrap.offsetWidth;
+  const targetIdx = Math.floor(ratio * HINO_SEQ.length);
+  if (hinoPlaying) {
+    clearTimeout(hinoTimer);
+    melodyStepIdx = targetIdx;
+    // recalc accumulators
+    melodyAccum = 0;
+    for (let i = 0; i < targetIdx; i++) melodyAccum += HINO_SEQ[i]?.dur || 0;
+    scheduleNextNote();
+  }
+}
+
+function startVizLoop() {
+  const viz = document.getElementById('hinoViz');
+  if (!viz.children.length) {
+    for (let i = 0; i < 16; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'viz-bar';
+      viz.appendChild(bar);
+    }
+  }
+}
+
+function stopVizLoop() {
+  document.querySelectorAll('.viz-bar').forEach(b => { b.style.height = '2px'; b.style.opacity = '0.2'; });
+}
+
+function toggleHino() {
+  document.getElementById('hinoPlayer').classList.toggle('open');
+}
+
+// ═══ COMO ADICIONAR IMAGEM/VÍDEO A UM EVENTO ═══
+// No objeto DB, adicione ao evento desejado:
+//
+//   image: 'https://URL_DA_IMAGEM.jpg',
+//   imageCaption: 'Legenda opcional da foto',
+//   video: 'https://www.youtube.com/embed/ID_DO_VIDEO',
+//   videoThumb: 'https://img.youtube.com/vi/ID_DO_VIDEO/hqdefault.jpg',
+//
+// Exemplo real — Mundial 1992:
+// DB[12][22] encontre o evento e adicione:
+//   image: 'https://res.cloudinary.com/SEU_CLOUD/image/upload/mundial1992.jpg',
+//   video: 'https://www.youtube.com/embed/EXEMPLO_ID',
+//   videoThumb: 'https://img.youtube.com/vi/EXEMPLO_ID/hqdefault.jpg',
+
 </body>
 </html>
