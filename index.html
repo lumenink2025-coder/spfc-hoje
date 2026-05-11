@@ -789,56 +789,6 @@ body::after {
   animation: glitch 6s steps(1) infinite;
 }
 
-/* LOADING */
-.loading-screen {
-  position: fixed;
-  inset: 0;
-  background: var(--black);
-  z-index: 9000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
-  pointer-events: all;
-}
-
-.loading-screen.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.loading-logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 48px;
-  color: var(--red);
-  letter-spacing: 6px;
-  animation: pulse 1s ease-in-out infinite;
-}
-
-.loading-bar-wrap {
-  width: 200px;
-  height: 2px;
-  background: var(--gray);
-}
-
-.loading-bar {
-  height: 100%;
-  background: var(--red);
-  width: 0%;
-  transition: width 0.7s ease-out;
-}
-
-.loading-text {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  color: var(--gray-light);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
 /* RESPONSIVE */
 @media (min-width: 480px) {
   .hero { padding: 0 30px 40px; }
@@ -1303,14 +1253,7 @@ body::after {
 
 <body>
 
-<!-- LOADING SCREEN -->
-<div class="loading-screen" id="loadingScreen">
-  <div class="loading-logo" style="font-family:'Bebas Neue',Impact,'Arial Black',sans-serif;font-size:48px;color:#CC0000;letter-spacing:6px;">SPFC</div>
-  <div class="loading-bar-wrap">
-    <div class="loading-bar" id="loadingBar"></div>
-  </div>
-  <div class="loading-text" style="font-family:monospace;font-size:11px;color:#444;letter-spacing:3px;">Abrindo a cápsula do tempo...</div>
-</div>
+
 
 <!-- CHANNEL BAR -->
 <div class="channel-bar"></div>
@@ -2912,35 +2855,13 @@ function checkNotifStatus() {
 }
 
 // INIT
-function hideLoading() {
-  const el = document.getElementById('loadingScreen');
-  if (el) {
-    el.classList.add('hidden');
-    setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 600);
-  }
-}
-
 function init() {
-  // Animate loading bar immediately via JS (no CSS animation dependency)
-  const bar = document.getElementById('loadingBar');
-  if (bar) {
-    requestAnimationFrame(() => { bar.style.width = '100%'; });
-  }
-
-  // Render everything — each wrapped so one failure never blocks the rest
-  try { renderHero(); } catch(e) { console.warn('renderHero', e); }
-  try { renderTodayEvents(); } catch(e) { console.warn('renderTodayEvents', e); }
-  try { renderStats(); } catch(e) { console.warn('renderStats', e); }
-  try { renderMonthTabs(); } catch(e) { console.warn('renderMonthTabs', e); }
-  try { renderCalendar(); } catch(e) { console.warn('renderCalendar', e); }
-  try { checkNotifStatus(); } catch(e) {}
-
-  // Hide loading after render — 800ms is enough, no font/network wait
-  setTimeout(hideLoading, 800);
-
-  // Nuclear safety net
-  setTimeout(hideLoading, 2500);
-
+  renderHero();
+  renderTodayEvents();
+  renderStats();
+  renderMonthTabs();
+  renderCalendar();
+  checkNotifStatus();
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').catch(()=>{});
   }
@@ -2951,9 +2872,6 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
-
-// Also fire on window load as absolute fallback
-window.addEventListener('load', () => setTimeout(hideLoading, 100));
 
 // ═══════════════════════════════════════════════════════════════
 // 8-BIT HINO DO SÃO PAULO — WEB AUDIO API CHIPTUNE ENGINE
