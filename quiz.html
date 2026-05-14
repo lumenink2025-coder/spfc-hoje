@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#CC0000">
+<title>SPFC Quiz — Quem Quer Ser Torcedor Milionário?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ══ FIREBASE SDK ══ -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getFirestore, doc, setDoc, getDoc, collection,
+  query, orderBy, limit, getDocs, where, serverTimestamp, increment, updateDoc }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+// ══════════════════════════════════════════════════
+// 🔥 COLE AQUI SUA CONFIGURAÇÃO DO FIREBASE
+// Veja as instruções em FIREBASE_SETUP.txt
+// ══════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "COLE_SUA_API_KEY",
+  authDomain: "COLE_SEU_AUTH_DOMAIN",
+  projectId: "COLE_SEU_PROJECT_ID",
+  storageBucket: "COLE_SEU_STORAGE_BUCKET",
+  messagingSenderId: "COLE_SEU_MESSAGING_SENDER_ID",
+  appId: "COLE_SEU_APP_ID"
+};
+// ══════════════════════════════════════════════════
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+window.FB = { auth, db, provider, signInWithPopup, signOut,
+  onAuthStateChanged, doc, setDoc, getDoc, collection,
+  query, orderBy, limit, getDocs, where, serverTimestamp,
+  increment, updateDoc };
+
+window.dispatchEvent(new Event('firebase-ready'));
+</script>
+
+<style>
+/* ══ TOKENS ══════════════════════════════════════ */
+:root {
+  --red:#CC0000; --red2:#FF2222; --red3:#8B0000;
+  --gold:#C8A84B; --gold2:#E2C97E; --gold3:#FFF3C0;
+  --bg:#080808; --bg2:#111; --bg3:#191919; --bg4:#222;
+  --border:#2a2a2a; --border2:#383838;
+  --txt:#F0EBE3; --txt2:#AAA; --txt3:#666;
+  --green:#22c55e; --blue:#3b82f6;
+  --font-t:'Bebas Neue',Impact,sans-serif;
+  --font-u:'Oswald',sans-serif;
+  --font-b:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg);height:100%}
+body{background:var(--bg);color:var(--txt);font-family:var(--font-b);min-height:100vh;overflow-x:hidden}
+
+/* scanlines */
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);pointer-events:none;z-index:9999}
+
+/* ══ SCREENS ═════════════════════════════════════ */
+.screen{display:none;min-height:100vh;flex-direction:column;align-items:center;justify-content:flex-start;padding:0 0 80px}
+.screen.active{display:flex}
+
+/* ══ TOPBAR ══════════════════════════════════════ */
+.topbar{width:100%;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(8,8,8,.97);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;flex-shrink:0}
+.tb-left{display:flex;align-items:center;gap:10px}
+.tb-logo{font-family:var(--font-t);font-size:16px;letter-spacing:2px}
+.tb-logo span{color:var(--red)}
+.tb-back{background:transparent;border:1px solid var(--border2);color:var(--txt2);padding:5px 12px;font-size:11px;letter-spacing:1px;cursor:pointer;border-radius:2px;font-family:var(--font-b)}
+.tb-back:hover{border-color:var(--red);color:var(--txt)}
+.tb-music{width:32px;height:32px;background:var(--bg3);border:1px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:.2s;flex-shrink:0}
+.tb-music.on{background:rgba(204,0,0,.15);border-color:var(--red)}
+
+/* ══ HOME SCREEN ══════════════════════════════════ */
+.home-hero{width:100%;padding:40px 20px 32px;text-align:center;background:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(204,0,0,.2) 0%,transparent 70%)}
+.home-crown{font-size:56px;margin-bottom:12px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.home-title{font-family:var(--font-t);font-size:clamp(32px,9vw,56px);line-height:.9;letter-spacing:2px;margin-bottom:6px}
+.home-title em{color:var(--red);font-style:normal;display:block}
+.home-sub{font-size:13px;color:var(--txt2);letter-spacing:.5px;margin-bottom:32px}
+.home-stats{display:flex;gap:8px;justify-content:center;margin-bottom:32px;flex-wrap:wrap}
+.hstat{background:var(--bg3);border:1px solid var(--border2);padding:10px 20px;border-radius:3px;text-align:center}
+.hstat-n{font-family:var(--font-t);font-size:28px;color:var(--red)}
+.hstat-l{font-size:10px;color:var(--txt3);letter-spacing:2px;text-transform:uppercase}
+.btn-primary{background:var(--red);color:#fff;border:none;padding:16px 40px;font-family:var(--font-t);font-size:20px;letter-spacing:3px;cursor:pointer;border-radius:3px;transition:.2s;width:100%;max-width:320px}
+.btn-primary:hover{background:var(--red2);transform:scale(1.02)}
+.btn-secondary{background:transparent;color:var(--txt2);border:1px solid var(--border2);padding:12px 32px;font-family:var(--font-u);font-size:14px;letter-spacing:2px;cursor:pointer;border-radius:3px;transition:.2s;width:100%;max-width:320px;margin-top:10px}
+.btn-secondary:hover{border-color:var(--red);color:var(--txt)}
+.home-btns{display:flex;flex-direction:column;align-items:center;gap:0;width:100%;padding:0 20px}
+
+/* LIVES DISPLAY */
+.lives-row{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
+.life{font-size:24px;transition:.3s}
+.life.lost{opacity:.2;filter:grayscale(1)}
+.lives-timer{font-size:11px;color:var(--txt3);letter-spacing:2px;text-align:center;margin-top:-12px;margin-bottom:16px}
+
+/* ══ LOGIN SCREEN ═════════════════════════════════ */
+.login-wrap{width:100%;max-width:380px;padding:40px 20px;text-align:center}
+.login-icon{font-size:64px;margin-bottom:20px}
+.login-title{font-family:var(--font-t);font-size:36px;letter-spacing:2px;margin-bottom:8px}
+.login-sub{font-size:13px;color:var(--txt2);line-height:1.6;margin-bottom:32px}
+.btn-google{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:14px 24px;background:#fff;color:#333;border:none;border-radius:3px;font-size:14px;font-weight:600;cursor:pointer;transition:.2s;margin-bottom:12px}
+.btn-google:hover{background:#f0f0f0;transform:scale(1.01)}
+.btn-google img{width:20px;height:20px}
+.login-divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--txt3);font-size:12px}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--border2)}
+.login-input{width:100%;padding:12px 16px;background:var(--bg3);border:1px solid var(--border2);border-radius:3px;color:var(--txt);font-size:14px;font-family:var(--font-b);margin-bottom:10px;outline:none;transition:.2s}
+.login-input:focus{border-color:var(--red)}
+.login-input::placeholder{color:var(--txt3)}
+.btn-email{width:100%;padding:13px;background:var(--red);color:#fff;border:none;border-radius:3px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:.2s}
+.btn-email:hover{background:var(--red2)}
+.login-skip{font-size:12px;color:var(--txt3);cursor:pointer;text-decoration:underline;margin-top:8px;display:inline-block}
+.login-skip:hover{color:var(--txt)}
+
+/* ══ AVATAR SCREEN ════════════════════════════════ */
+.avatar-wrap{width:100%;max-width:400px;padding:24px 20px}
+.avatar-title{font-family:var(--font-t);font-size:28px;letter-spacing:2px;text-align:center;margin-bottom:4px}
+.avatar-sub{font-size:12px;color:var(--txt3);text-align:center;letter-spacing:1px;margin-bottom:24px}
+.avatar-preview{width:100%;display:flex;justify-content:center;margin-bottom:24px}
+.avatar-canvas{image-rendering:pixelated;width:120px;height:120px;border:2px solid var(--border2);background:var(--bg3);border-radius:4px}
+.av-section{margin-bottom:18px}
+.av-label{font-size:10px;letter-spacing:3px;color:var(--txt3);text-transform:uppercase;margin-bottom:8px}
+.av-options{display:flex;gap:8px;flex-wrap:wrap}
+.av-opt{padding:8px 16px;background:var(--bg3);border:1px solid var(--border2);border-radius:2px;font-size:12px;color:var(--txt2);cursor:pointer;transition:.2s;letter-spacing:1px}
+.av-opt.selected{background:rgba(204,0,0,.2);border-color:var(--red);color:var(--txt)}
+.av-opt:hover:not(.selected){border-color:var(--border2);color:var(--txt)}
+.av-color{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);cursor:pointer;transition:.2s}
+.av-color.selected{border-color:#fff;box-shadow:0 0 0 2px var(--red)}
+.av-colors{display:flex;gap:10px;flex-wrap:wrap}
+.av-name-input{width:100%;padding:11px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:14px;border-radius:2px;font-family:var(--font-b);outline:none;transition:.2s}
+.av-name-input:focus{border-color:var(--red)}
+
+/* ══ QUIZ SCREEN ══════════════════════════════════ */
+.quiz-header{width:100%;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0}
+.quiz-level-badge{font-family:var(--font-t);font-size:22px;color:var(--gold);letter-spacing:2px}
+.quiz-lives-mini{display:flex;gap:4px}
+.life-mini{font-size:16px;transition:.3s}
+.life-mini.lost{opacity:.2;filter:grayscale(1)}
+.quiz-score-badge{font-family:var(--font-t);font-size:18px;color:var(--red)}
+
+/* PROGRESS BAR */
+.level-progress{width:100%;padding:0 16px 12px;background:var(--bg2)}
+.lp-steps{display:flex;gap:3px}
+.lp-step{flex:1;height:4px;background:var(--border2);border-radius:2px;transition:.3s}
+.lp-step.done{background:var(--green)}
+.lp-step.current{background:var(--gold);animation:pulse-bar .8s ease-in-out infinite}
+@keyframes pulse-bar{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* COUNTDOWN */
+.countdown-wrap{width:100%;padding:12px 16px 0;display:flex;align-items:center;justify-content:space-between}
+.countdown-bar{flex:1;height:6px;background:var(--border2);border-radius:3px;overflow:hidden;margin:0 12px}
+.countdown-fill{height:100%;background:var(--green);border-radius:3px;transition:width .1s linear;transform-origin:left}
+.countdown-num{font-family:var(--font-t);font-size:22px;color:var(--green);width:28px;text-align:right;line-height:1}
+.quiz-q-wrap{width:100%;padding:20px 16px 0}
+.quiz-category{font-size:10px;letter-spacing:3px;color:var(--txt3);text-transform:uppercase;margin-bottom:8px}
+.quiz-question{font-family:var(--font-u);font-size:clamp(17px,4.5vw,22px);font-weight:400;color:var(--txt);line-height:1.4;margin-bottom:20px}
+.quiz-options{width:100%;padding:0 16px;display:flex;flex-direction:column;gap:10px}
+.q-opt{width:100%;padding:14px 18px;background:var(--bg2);border:1px solid var(--border2);border-radius:3px;font-size:14px;color:var(--txt);cursor:pointer;text-align:left;transition:.15s;font-family:var(--font-b);display:flex;align-items:center;gap:12px;position:relative;overflow:hidden}
+.q-opt-letter{font-family:var(--font-t);font-size:18px;color:var(--red);flex-shrink:0;width:20px}
+.q-opt:hover:not(:disabled){background:rgba(204,0,0,.1);border-color:rgba(204,0,0,.35)}
+.q-opt.correct{background:rgba(34,197,94,.15)!important;border-color:var(--green)!important;color:var(--txt)!important}
+.q-opt.wrong{background:rgba(239,68,68,.15)!important;border-color:#ef4444!important;color:var(--txt)!important}
+.q-opt:disabled{cursor:default}
+.q-opt.correct .q-opt-letter{color:var(--green)}
+.q-opt.wrong .q-opt-letter{color:#ef4444}
+
+/* RIPPLE */
+.q-opt::after{content:'';position:absolute;inset:0;background:rgba(204,0,0,.08);opacity:0;transition:opacity .3s}
+.q-opt:active::after{opacity:1}
+
+/* HELPERS */
+.helpers-row{width:100%;padding:16px 16px 0;display:flex;gap:8px}
+.helper-btn{flex:1;padding:10px 8px;background:var(--bg3);border:1px solid var(--border2);border-radius:3px;font-size:11px;color:var(--txt2);cursor:pointer;text-align:center;transition:.2s;font-family:var(--font-b);letter-spacing:.5px}
+.helper-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.helper-btn:disabled{opacity:.3;cursor:not-allowed}
+.helper-btn .helper-icon{font-size:18px;display:block;margin-bottom:3px}
+.helper-btn.used{opacity:.25;cursor:not-allowed}
+
+/* ══ LEVEL UP SCREEN ══════════════════════════════ */
+.levelup-wrap{width:100%;max-width:380px;padding:40px 20px;text-align:center}
+.levelup-emoji{font-size:72px;margin-bottom:16px;animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.levelup-title{font-family:var(--font-t);font-size:clamp(32px,9vw,52px);color:var(--gold);letter-spacing:3px;margin-bottom:8px}
+.levelup-sub{font-size:14px;color:var(--txt2);margin-bottom:24px;line-height:1.6}
+.levelup-score{font-family:var(--font-t);font-size:48px;color:var(--red);margin-bottom:24px}
+.levelup-next{font-size:12px;color:var(--txt3);letter-spacing:2px;margin-bottom:20px;text-transform:uppercase}
+.next-level-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.3);padding:8px 20px;border-radius:2px;font-family:var(--font-t);font-size:18px;color:var(--gold);letter-spacing:2px;margin-bottom:28px}
+
+/* ══ GAME OVER SCREEN ═════════════════════════════ */
+.gameover-wrap{width:100%;max-width:380px;padding:40px 20px;text-align:center}
+.gameover-emoji{font-size:64px;margin-bottom:16px}
+.gameover-title{font-family:var(--font-t);font-size:clamp(36px,10vw,60px);color:var(--red);letter-spacing:3px;margin-bottom:8px}
+.gameover-score{font-family:var(--font-t);font-size:56px;color:var(--txt);margin-bottom:8px}
+.gameover-label{font-size:11px;color:var(--txt3);letter-spacing:3px;text-transform:uppercase;margin-bottom:24px}
+.gameover-lives{margin-bottom:20px}
+.lives-timer-big{font-size:13px;color:var(--txt2);letter-spacing:1px;margin-top:8px}
+.gameover-answer{background:var(--bg3);border:1px solid var(--border2);border-left:3px solid var(--red);padding:14px 16px;border-radius:2px;margin-bottom:24px;text-align:left}
+.ga-label{font-size:10px;color:var(--txt3);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+.ga-text{font-size:13px;color:var(--txt);line-height:1.5}
+.ga-correct{font-size:12px;color:var(--green);margin-top:6px}
+
+/* ══ VICTORY SCREEN ═══════════════════════════════ */
+.victory-wrap{width:100%;max-width:380px;padding:40px 20px;text-align:center}
+.confetti-row{font-size:32px;letter-spacing:4px;margin-bottom:16px;animation:shake .5s ease-in-out infinite alternate}
+@keyframes shake{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+.victory-title{font-family:var(--font-t);font-size:clamp(36px,10vw,64px);color:var(--gold);letter-spacing:3px;margin-bottom:4px}
+.victory-sub{font-family:var(--font-t);font-size:18px;color:var(--red);letter-spacing:2px;margin-bottom:16px}
+.victory-score{font-family:var(--font-t);font-size:72px;color:var(--txt);line-height:1;margin-bottom:4px}
+.victory-pts{font-size:12px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:24px}
+.trophy-row{display:flex;gap:8px;justify-content:center;margin-bottom:24px}
+.trophy{font-size:40px;animation:float 2s ease-in-out infinite}
+.trophy:nth-child(2){animation-delay:.3s}
+.trophy:nth-child(3){animation-delay:.6s}
+
+/* ══ RANKING SCREEN ═══════════════════════════════ */
+.ranking-wrap{width:100%;max-width:480px;padding:20px 16px}
+.rank-tabs{display:flex;gap:4px;margin-bottom:16px}
+.rank-tab{flex:1;padding:8px 4px;background:var(--bg3);border:1px solid var(--border2);font-size:11px;color:var(--txt3);letter-spacing:1.5px;cursor:pointer;text-align:center;transition:.2s;font-family:var(--font-u);text-transform:uppercase}
+.rank-tab.active{background:var(--red);border-color:var(--red);color:#fff}
+.rank-list{display:flex;flex-direction:column;gap:4px}
+.rank-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:3px}
+.rank-item.me{border-color:rgba(204,0,0,.4);background:rgba(204,0,0,.05)}
+.rank-pos{font-family:var(--font-t);font-size:24px;color:var(--red);opacity:.5;width:28px;flex-shrink:0;text-align:center}
+.rank-pos.top1{color:#FFD700;opacity:1}
+.rank-pos.top2{color:#C0C0C0;opacity:1}
+.rank-pos.top3{color:#CD7F32;opacity:1}
+.rank-avatar-mini{width:36px;height:36px;image-rendering:pixelated;flex-shrink:0}
+.rank-info{flex:1;min-width:0}
+.rank-name{font-size:14px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank-detail{font-size:11px;color:var(--txt3);letter-spacing:1px}
+.rank-pts{font-family:var(--font-t);font-size:22px;color:var(--gold);flex-shrink:0}
+.rank-loading{text-align:center;padding:40px;color:var(--txt3);font-size:13px;letter-spacing:2px}
+.rank-empty{text-align:center;padding:40px;color:var(--txt3);font-size:13px}
+
+/* ══ PROFILE ══════════════════════════════════════ */
+.profile-wrap{width:100%;max-width:400px;padding:24px 16px}
+.profile-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:4px}
+.profile-avatar{width:64px;height:64px;image-rendering:pixelated;flex-shrink:0}
+.profile-name{font-family:var(--font-u);font-size:20px;font-weight:600;margin-bottom:4px}
+.profile-level{font-size:11px;color:var(--gold);letter-spacing:2px}
+.profile-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.pstat{background:var(--bg2);border:1px solid var(--border);padding:14px;border-radius:3px;text-align:center}
+.pstat-n{font-family:var(--font-t);font-size:32px;color:var(--red);line-height:1;margin-bottom:3px}
+.pstat-l{font-size:10px;color:var(--txt3);letter-spacing:2px;text-transform:uppercase}
+.achievements{display:flex;flex-direction:column;gap:6px}
+.ach{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:3px}
+.ach-icon{font-size:24px;flex-shrink:0}
+.ach-info{flex:1}
+.ach-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.ach-desc{font-size:11px;color:var(--txt3)}
+.ach.locked{opacity:.35;filter:grayscale(1)}
+
+/* ══ TOAST ════════════════════════════════════════ */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg3);border:1px solid var(--red);border-left-width:3px;padding:12px 18px;max-width:320px;width:calc(100% - 32px);z-index:3000;border-radius:3px;transition:.35s cubic-bezier(.34,1.56,.64,1);text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast-t{font-family:var(--font-u);font-size:15px;font-weight:600;color:var(--txt);margin-bottom:3px}
+.toast-b{font-size:11px;color:var(--txt2)}
+
+/* ══ HINT MODAL ═══════════════════════════════════ */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:.3s}
+.modal-bg.open{opacity:1;visibility:visible}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-top:3px solid var(--gold);padding:24px 20px;border-radius:4px;max-width:380px;width:100%;text-align:center}
+.modal-icon{font-size:40px;margin-bottom:12px}
+.modal-title{font-family:var(--font-t);font-size:24px;color:var(--gold);letter-spacing:2px;margin-bottom:8px}
+.modal-text{font-size:13px;color:var(--txt2);line-height:1.7;margin-bottom:20px}
+.modal-close{padding:10px 28px;background:var(--red);color:#fff;border:none;border-radius:2px;font-size:13px;letter-spacing:1px;cursor:pointer;font-family:var(--font-b)}
+
+/* ══ RESPONSIVE ═══════════════════════════════════ */
+@media(min-width:480px){
+  .quiz-options{padding:0 24px}
+  .quiz-q-wrap,.helpers-row,.countdown-wrap,.level-progress,.quiz-header{padding-left:24px;padding-right:24px}
+}
+
+/* ══ ANIMS ════════════════════════════════════════ */
+.fade-in{animation:fadein .35s ease both}
+@keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.slide-up{animation:slideup .4s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes slideup{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══ BOTTOM NAV ═══════════════════════════════════ */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:60px;background:rgba(8,8,8,.97);border-top:1px solid var(--border);display:flex;z-index:100}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:transparent;border:none;color:var(--txt3);cursor:pointer;font-size:9px;letter-spacing:1px;text-transform:uppercase;font-family:var(--font-b);transition:.2s}
+.bnav-btn.active{color:var(--red)}
+.bnav-icon{font-size:20px}
+</style>
+</head>
+<body>
+
+<!-- ══ SCREEN: HOME ═══════════════════════════════ -->
+<div class="screen active" id="screen-home">
+  <div class="topbar">
+    <div class="tb-left">
+      <div class="tb-logo"><span>SPFC</span> QUIZ</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="tb-music" id="musicToggle" onclick="toggleMusic()" title="Música">🔇</div>
+      <div id="userChip" style="font-size:12px;color:var(--txt2);cursor:pointer" onclick="goScreen('screen-login')">Entrar</div>
+    </div>
+  </div>
+
+  <div class="home-hero">
+    <div class="home-crown">🏆</div>
+    <div class="home-title">QUEM QUER SER<br><em>TORCEDOR<br>MILIONÁRIO?</em></div>
+    <div class="home-sub">O quiz definitivo da história do São Paulo FC</div>
+  </div>
+
+  <div style="padding:20px 20px 12px;width:100%;max-width:480px">
+    <div class="lives-row" id="livesDisplay"></div>
+    <div class="lives-timer" id="livesTimer"></div>
+    <div class="home-stats">
+      <div class="hstat"><div class="hstat-n" id="statPergs">1000+</div><div class="hstat-l">Perguntas</div></div>
+      <div class="hstat"><div class="hstat-n">6</div><div class="hstat-l">Níveis</div></div>
+      <div class="hstat"><div class="hstat-n">5</div><div class="hstat-l">Vidas</div></div>
+    </div>
+  </div>
+
+  <div class="home-btns">
+    <button class="btn-primary" onclick="startGame()">▶ JOGAR AGORA</button>
+    <button class="btn-secondary" onclick="goScreen('screen-ranking')">🏅 RANKING GLOBAL</button>
+    <button class="btn-secondary" onclick="goScreen('screen-profile')">👤 MEU PERFIL</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: LOGIN ══════════════════════════════ -->
+<div class="screen" id="screen-login">
+  <div class="topbar">
+    <button class="tb-back" onclick="goScreen('screen-home')">← VOLTAR</button>
+    <div class="tb-logo"><span>SPFC</span> QUIZ</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="login-wrap fade-in">
+    <div class="login-icon">🔐</div>
+    <div class="login-title">ENTRAR</div>
+    <div class="login-sub">Faça login para salvar seu progresso, subir no ranking e ganhar conquistas.</div>
+    <button class="btn-google" onclick="loginGoogle()">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Entrar com Google
+    </button>
+    <div class="login-divider">ou</div>
+    <input class="login-input" id="emailInput" type="email" placeholder="seu@email.com">
+    <input class="login-input" id="passInput" type="password" placeholder="Senha">
+    <button class="btn-email" onclick="loginEmail()">ENTRAR COM EMAIL</button>
+    <button class="btn-secondary" onclick="registerEmail()" style="max-width:100%">CRIAR CONTA</button>
+    <div class="login-skip" onclick="playAsGuest()">Jogar sem login (progresso local)</div>
+  </div>
+</div>
+
+<!-- ══ SCREEN: AVATAR ════════════════════════════ -->
+<div class="screen" id="screen-avatar">
+  <div class="topbar">
+    <button class="tb-back" onclick="goScreen('screen-home')">← VOLTAR</button>
+    <div class="tb-logo"><span>SPFC</span> QUIZ</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="avatar-wrap fade-in">
+    <div class="avatar-title">SEU AVATAR</div>
+    <div class="avatar-sub">CORES DO TRICOLOR — NUNCA VERDE</div>
+    <div class="avatar-preview">
+      <canvas class="avatar-canvas" id="avatarCanvas" width="48" height="48"></canvas>
+    </div>
+
+    <div class="av-section">
+      <div class="av-label">Nome no ranking</div>
+      <input class="av-name-input" id="avName" type="text" placeholder="Seu apelido..." maxlength="16">
+    </div>
+
+    <div class="av-section">
+      <div class="av-label">Tipo</div>
+      <div class="av-options">
+        <div class="av-opt selected" onclick="setAvOpt('type','man',this)">Homem</div>
+        <div class="av-opt" onclick="setAvOpt('type','woman',this)">Mulher</div>
+        <div class="av-opt" onclick="setAvOpt('type','boy',this)">Menino</div>
+        <div class="av-opt" onclick="setAvOpt('type','girl',this)">Menina</div>
+      </div>
+    </div>
+
+    <div class="av-section">
+      <div class="av-label">Cor da pele</div>
+      <div class="av-colors" id="skinColors"></div>
+    </div>
+
+    <div class="av-section">
+      <div class="av-label">Cabelo</div>
+      <div class="av-options">
+        <div class="av-opt selected" onclick="setAvOpt('hair','short',this)">Curto</div>
+        <div class="av-opt" onclick="setAvOpt('hair','long',this)">Longo</div>
+        <div class="av-opt" onclick="setAvOpt('hair','bald',this)">Careca</div>
+        <div class="av-opt" onclick="setAvOpt('hair','afro',this)">Afro</div>
+      </div>
+    </div>
+
+    <div class="av-section">
+      <div class="av-label">Cor da camisa (sempre tricolor)</div>
+      <div class="av-options">
+        <div class="av-opt selected" onclick="setAvOpt('shirt','red',this)">Vermelha</div>
+        <div class="av-opt" onclick="setAvOpt('shirt','white',this)">Branca</div>
+        <div class="av-opt" onclick="setAvOpt('shirt','black',this)">Preta</div>
+        <div class="av-opt" onclick="setAvOpt('shirt','tri',this)">Tricolor</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" style="margin-top:8px" onclick="saveAvatar()">CONFIRMAR AVATAR</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: QUIZ ═══════════════════════════════ -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-header">
+    <div class="quiz-level-badge" id="quizLevelBadge">NÍVEL 1</div>
+    <div class="quiz-lives-mini" id="quizLivesMini"></div>
+    <div class="quiz-score-badge" id="quizScoreBadge">0 pts</div>
+  </div>
+  <div class="level-progress">
+    <div class="lp-steps" id="lpSteps"></div>
+  </div>
+  <div class="countdown-wrap">
+    <div style="font-size:10px;letter-spacing:2px;color:var(--txt3)">TEMPO</div>
+    <div class="countdown-bar"><div class="countdown-fill" id="countdownFill"></div></div>
+    <div class="countdown-num" id="countdownNum">30</div>
+  </div>
+  <div class="quiz-q-wrap fade-in">
+    <div class="quiz-category" id="qCategory"></div>
+    <div class="quiz-question" id="qText"></div>
+  </div>
+  <div class="quiz-options" id="qOptions"></div>
+  <div class="helpers-row">
+    <button class="helper-btn" id="helper1" onclick="useHelper('eliminate')">
+      <span class="helper-icon">✂️</span>Eliminar 2
+    </button>
+    <button class="helper-btn" id="helper2" onclick="useHelper('skip')">
+      <span class="helper-icon">⏭️</span>Pular
+    </button>
+    <button class="helper-btn" id="helper3" onclick="useHelper('hint')">
+      <span class="helper-icon">💡</span>Dica
+    </button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: LEVEL UP ═══════════════════════════ -->
+<div class="screen" id="screen-levelup">
+  <div class="topbar">
+    <div style="width:60px"></div>
+    <div class="tb-logo"><span>SPFC</span> QUIZ</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="levelup-wrap fade-in" style="margin:auto">
+    <div class="levelup-emoji" id="luEmoji">🎯</div>
+    <div class="levelup-title" id="luTitle">NÍVEL COMPLETO!</div>
+    <div class="levelup-sub" id="luSub">Você passou o nível 1</div>
+    <div class="levelup-score" id="luScore">+250 pts</div>
+    <div class="levelup-next">Próximo desafio</div>
+    <div class="next-level-badge" id="luNextBadge">NÍVEL 2 — MÉDIO</div>
+    <button class="btn-primary" onclick="nextLevel()">CONTINUAR →</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: GAME OVER ══════════════════════════ -->
+<div class="screen" id="screen-gameover">
+  <div class="topbar">
+    <div style="width:60px"></div>
+    <div class="tb-logo"><span>SPFC</span> QUIZ</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="gameover-wrap fade-in" style="margin:auto">
+    <div class="gameover-emoji">💔</div>
+    <div class="gameover-title">ELIMINADO!</div>
+    <div class="gameover-score" id="goScore">0</div>
+    <div class="gameover-label">pontos conquistados</div>
+    <div class="gameover-lives">
+      <div class="lives-row" id="goLives"></div>
+      <div class="lives-timer-big" id="goTimer"></div>
+    </div>
+    <div class="gameover-answer" id="goAnswer">
+      <div class="ga-label">VOCÊ ERROU</div>
+      <div class="ga-text" id="goQuestion"></div>
+      <div class="ga-correct" id="goCorrect"></div>
+    </div>
+    <button class="btn-primary" onclick="tryAgain()" id="btnTryAgain">TENTAR NOVAMENTE</button>
+    <button class="btn-secondary" onclick="goScreen('screen-home')" style="max-width:100%;margin-top:10px">VOLTAR AO INÍCIO</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: VICTORY ════════════════════════════ -->
+<div class="screen" id="screen-victory">
+  <div class="topbar">
+    <div style="width:60px"></div>
+    <div class="tb-logo"><span>SPFC</span> QUIZ</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="victory-wrap fade-in" style="margin:auto">
+    <div class="confetti-row">🔴⚪⚫🔴⚪⚫</div>
+    <div class="victory-title">CAMPEÃO!</div>
+    <div class="victory-sub">TORCEDOR MILIONÁRIO</div>
+    <div class="victory-score" id="vicScore">0</div>
+    <div class="victory-pts">PONTOS TOTAIS</div>
+    <div class="trophy-row">
+      <span class="trophy">🏆</span>
+      <span class="trophy">🥇</span>
+      <span class="trophy">🏆</span>
+    </div>
+    <button class="btn-primary" onclick="goScreen('screen-ranking')" style="margin-bottom:10px">VER RANKING</button>
+    <button class="btn-secondary" onclick="startGame()" style="max-width:100%">JOGAR NOVAMENTE</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: RANKING ════════════════════════════ -->
+<div class="screen" id="screen-ranking">
+  <div class="topbar">
+    <button class="tb-back" onclick="goScreen('screen-home')">← VOLTAR</button>
+    <div class="tb-logo">RANKING</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="ranking-wrap fade-in">
+    <div class="rank-tabs">
+      <button class="rank-tab active" onclick="loadRanking('geral',this)">GERAL</button>
+      <button class="rank-tab" onclick="loadRanking('diario',this)">HOJE</button>
+      <button class="rank-tab" onclick="loadRanking('semanal',this)">SEMANA</button>
+      <button class="rank-tab" onclick="loadRanking('mensal',this)">MÊS</button>
+    </div>
+    <div class="rank-list" id="rankList">
+      <div class="rank-loading">Carregando ranking...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN: PROFILE ════════════════════════════ -->
+<div class="screen" id="screen-profile">
+  <div class="topbar">
+    <button class="tb-back" onclick="goScreen('screen-home')">← VOLTAR</button>
+    <div class="tb-logo">PERFIL</div>
+    <div id="logoutBtn" style="font-size:11px;color:var(--txt3);cursor:pointer;letter-spacing:1px" onclick="logout()">SAIR</div>
+  </div>
+  <div class="profile-wrap fade-in" id="profileContent"></div>
+</div>
+
+<!-- ══ HINT MODAL ═════════════════════════════════ -->
+<div class="modal-bg" id="hintModal">
+  <div class="modal">
+    <div class="modal-icon">💡</div>
+    <div class="modal-title">DICA HISTÓRICA</div>
+    <div class="modal-text" id="hintText"></div>
+    <button class="modal-close" onclick="closeModal()">ENTENDIDO</button>
+  </div>
+</div>
+
+<!-- ══ TOAST ══════════════════════════════════════ -->
+<div class="toast" id="toast">
+  <div class="toast-t" id="toastT"></div>
+  <div class="toast-b" id="toastB"></div>
+</div>
+
+<!-- ══ BOTTOM NAV ═════════════════════════════════ -->
+<nav class="bottom-nav">
+  <button class="bnav-btn" onclick="window.location.href='index.html'">
+    <span class="bnav-icon">📅</span>HOJE
+  </button>
+  <button class="bnav-btn active" onclick="goScreen('screen-home')">
+    <span class="bnav-icon">🎮</span>QUIZ
+  </button>
+  <button class="bnav-btn" onclick="goScreen('screen-ranking')">
+    <span class="bnav-icon">🏅</span>RANKING
+  </button>
+  <button class="bnav-btn" onclick="goScreen('screen-profile')">
+    <span class="bnav-icon">👤</span>PERFIL
+  </button>
+</nav>
+
+<script>
+'use strict';
+
+/* ════════════════════════════════════════════════
+   BANCO DE PERGUNTAS — 300+ questões sobre SPFC
+   Níveis: 1=Fácil 2=Médio 3=Difícil 4=Expert 5=Lendário 6=Final
+════════════════════════════════════════════════ */
+const QUESTIONS = [
+// ─── NÍVEL 1 — FÁCIL ──────────────────────────
+{l:1,q:'Em que ano o São Paulo Futebol Clube foi fundado?',o:['1930','1920','1935','1940'],c:0,h:'O SPFC nasceu na cidade de São Paulo no início dos anos 30.'},
+{l:1,q:'Qual é o apelido do estádio do São Paulo?',o:['Morumbi','Pacaembu','Arena SPFC','Palestra'],c:0,h:'O estádio foi inaugurado em 1960 e é o maior de propriedade privada do mundo.'},
+{l:1,q:'Qual é a data de fundação do São Paulo FC?',o:['25 de janeiro de 1930','7 de setembro de 1930','25 de março de 1930','1º de maio de 1930'],c:0,h:'A data coincide com o aniversário da cidade de São Paulo.'},
+{l:1,q:'Quantos Mundiais de Clubes o São Paulo conquistou?',o:['3','2','1','4'],c:0,h:'O SPFC é o maior campeão mundial do Brasil.'},
+{l:1,q:'Qual jogador é considerado o maior ídolo da história do São Paulo?',o:['Rogério Ceni','Raí','Cafu','Müller'],c:0,h:'Ele foi goleiro e artilheiro ao mesmo tempo.'},
+{l:1,q:'Quantas Copas Libertadores o São Paulo conquistou?',o:['3','2','1','4'],c:0,h:'O clube conquistou o torneio nos anos 90 e 2000.'},
+{l:1,q:'Qual foi o primeiro título mundial do São Paulo?',o:['1992','1993','2005','1991'],c:0,h:'O SPFC venceu o Barcelona nesta final histórica.'},
+{l:1,q:'Qual é o nome oficial do estádio do São Paulo?',o:['Cícero Pompeu de Toledo','Pacaembu','Olímpico','Morumbi'],c:0,h:'O nome homenageia um ex-presidente do clube.'},
+{l:1,q:'Qual a cor que NUNCA aparece no uniforme do São Paulo?',o:['Verde','Azul','Amarelo','Roxo'],c:0,h:'O tricolor paulista é vermelho, branco e preto.'},
+{l:1,q:'Quantos Campeonatos Brasileiros o São Paulo já conquistou?',o:['6','4','8','3'],c:0,h:'O Tri consecutivo foi em 2006, 2007 e 2008.'},
+{l:1,q:'Qual técnico levou o São Paulo à conquista da Libertadores em 1992 e 1993?',o:['Telê Santana','Muricy Ramalho','Vanderlei Luxemburgo','Paulo Autuori'],c:0,h:'Um dos maiores treinadores da história do futebol brasileiro.'},
+{l:1,q:'Rogério Ceni é conhecido por marcar gols sendo goleiro. Quantos gols ele marcou?',o:['131','89','150','72'],c:0,h:'A maioria de cobranças de falta e pênaltis.'},
+{l:1,q:'Qual ídolo do São Paulo ganhou a Bola de Ouro FIFA em 2007?',o:['Kaká','Ronaldinho','Cafu','Raí'],c:0,h:'Ele saiu das categorias de base do SPFC.'},
+{l:1,q:'Em que cidade fica o Estádio do Morumbi?',o:['São Paulo','Santos','Campinas','Guarulhos'],c:0,h:'Capital do estado de São Paulo.'},
+{l:1,q:'Qual lateral do São Paulo foi bicampeão mundial com a Seleção Brasileira?',o:['Cafu','Zé Maria','Cicinho','Bellini'],c:0,h:'Ele jogou na Copa de 1994 e 2002.'},
+
+// ─── NÍVEL 2 — MÉDIO ──────────────────────────
+{l:2,q:'Em que ano o São Paulo conquistou o Campeonato Brasileiro pela primeira vez?',o:['1986','1991','1977','1992'],c:0,h:'Foi o primeiro título nacional do clube.'},
+{l:2,q:'O São Paulo venceu o MUNDIAL de 1992 contra qual time?',o:['Barcelona','Milan','Ajax','Juventus'],c:0,h:'O adversário era o grande clube espanhol de Johan Cruyff.'},
+{l:2,q:'Qual foi o adversário do São Paulo na final da Libertadores de 1993?',o:['Universidad de Chile','Boca Juniors','Nacional','Peñarol'],c:0,h:'Time chileno foi a vítima do título inaugural.'},
+{l:2,q:'O São Paulo venceu o Mundial de 2005 contra qual time inglês?',o:['Liverpool','Manchester United','Chelsea','Arsenal'],c:0,h:'Os Reds de Liverpool foram os adversários.'},
+{l:2,q:'Quantas partidas Rogério Ceni jogou pelo São Paulo?',o:['1.237','987','1.100','1.500'],c:0,h:'Um recorde mundial de jogos pela mesma equipe.'},
+{l:2,q:'Em que ano o Estádio do Morumbi foi inaugurado?',o:['1960','1955','1965','1970'],c:0,h:'A inauguração foi em 1º de outubro.'},
+{l:2,q:'Qual treinador levou o São Paulo ao tricampeonato brasileiro (2006-2007-2008)?',o:['Muricy Ramalho','Telê Santana','Emerson Leão','Ricardo Gomes'],c:0,h:'Ele voltou ao clube em 2023 e ganhou a Copa do Brasil.'},
+{l:2,q:'O São Paulo conquistou a Copa do Brasil pela primeira vez em que ano?',o:['2023','2012','2015','2018'],c:0,h:'A final foi contra o Flamengo.'},
+{l:2,q:'Qual jogador uruguaio foi capitão e ídolo do São Paulo nos anos 2000?',o:['Diego Lugano','Forlan','Recoba','Suárez'],c:0,h:'Zagueiro querido que defendeu o clube por uma década.'},
+{l:2,q:'O São Paulo venceu o Mundial de 1993 contra qual time?',o:['Milan','Barcelona','Parma','Ajax'],c:0,h:'O time italiano de Capello foi derrotado.'},
+{l:2,q:'Qual a posição de Rogério Ceni em campo?',o:['Goleiro','Zagueiro','Meia','Lateral'],c:0,h:'Único goleiro artilheiro da história do futebol.'},
+{l:2,q:'Kaká foi revelado pelo São Paulo. Em que ano estreou pelo clube?',o:['2001','1999','2003','2000'],c:0,h:'Ele fez sua estreia quando era ainda muito jovem.'},
+{l:2,q:'Qual lateral direito do São Paulo se destacou no Tricampeonato da Libertadores?',o:['Cafu','Zé Maria','Cicinho','Junior'],c:0,h:'Um dos maiores laterais de todos os tempos.'},
+{l:2,q:'Raí foi capitão do São Paulo e irmão de qual famoso jogador?',o:['Sócrates','Zico','Bebeto','Romário'],c:0,h:'Seu irmão era ídolo do Corinthians e do Brasil.'},
+{l:2,q:'O São Paulo venceu o Campeonato Paulista de 2021 em que fase?',o:['Final','Semifinal','Quartas','Grupo'],c:0,h:'O título foi conquistado no mata-mata.'},
+
+// ─── NÍVEL 3 — DIFÍCIL ────────────────────────
+{l:3,q:'Qual foi o placar da final do Mundial de 1992 entre São Paulo e Barcelona?',o:['2x1','1x0','3x2','2x0'],c:0,h:'Foi uma final equilibrada, mas o SPFC levou a melhor.'},
+{l:3,q:'Em qual cidade foi disputado o Mundial de 2005 onde o São Paulo venceu o Liverpool?',o:['Yokohama','Tóquio','Dubai','Abu Dhabi'],c:0,h:'A final foi disputada no Japão.'},
+{l:3,q:'Qual foi a maior goleada do São Paulo na era moderna?',o:['10x0 no Botafogo-PB','12x1 no Jabaquara','11x0 no Inter-SP','9x0 na Port. Santista'],c:0,h:'Foi na Copa do Brasil em 2001.'},
+{l:3,q:'Arthur Friedenreich recebeu qual apelido histórico?',o:['O Tigre','O Leão','O Touro','O Falcão'],c:0,h:'O nome fazia referência à sua bravura e força.'},
+{l:3,q:'Em que ano Rogério Ceni fez sua estreia pelo São Paulo?',o:['1993','1990','1992','1991'],c:0,h:'Ele estreou ainda muito jovem no começo dos anos 90.'},
+{l:3,q:'O São Paulo marcou 12 gols em um único jogo em 1945 contra qual time?',o:['Jabaquara','Santos','Corinthians','Portuguesa'],c:0,h:'Foi em agosto de 1945, uma das maiores goleadas da história.'},
+{l:3,q:'Casemiro foi revelado pelo São Paulo. Em que ano ele estreou profissionalmente?',o:['2010','2008','2012','2011'],c:0,h:'Ele era um jovem de 17 anos quando estreou.'},
+{l:3,q:'O São Paulo conquistou a Libertadores de 2005 derrotando qual time brasileiro na final?',o:['Athletico Paranaense','Flamengo','Santos','Internacional'],c:0,h:'O rival era um time paranaense.'},
+{l:3,q:'Qual centroavante do São Paulo ficou conhecido como "O Fabuloso"?',o:['Luís Fabiano','Careca','Grafite','Müller'],c:0,h:'Nasceu em novembro de 1980.'},
+{l:3,q:'Em que data o Estádio do Morumbi foi inaugurado?',o:['1º de outubro de 1960','15 de agosto de 1960','25 de janeiro de 1960','7 de setembro de 1960'],c:0,h:'A data foi em outubro, no início do campeonato paulista.'},
+{l:3,q:'Telê Santana nasceu em que estado brasileiro?',o:['Minas Gerais','São Paulo','Rio de Janeiro','Bahia'],c:0,h:'O técnico era mineiro de nascimento.'},
+{l:3,q:'O São Paulo ganhou a Copa Sul-Americana em qual ano?',o:['2012','2015','2008','2018'],c:0,h:'O adversário na final foi um time argentino.'},
+{l:3,q:'Qual foi o placar da final do Mundial de 1993 entre São Paulo e Milan?',o:['3x2','2x1','1x0','2x0'],c:0,h:'Foi uma partida com muitos gols.'},
+{l:3,q:'Em que ano Cafu foi revelado pelo São Paulo?',o:['1989','1987','1991','1985'],c:0,h:'Ele estreou ainda na era dos títulos paulistas.'},
+{l:3,q:'Qual jogador do São Paulo ganhou o Bola de Ouro em 2007 e veio das categorias de base?',o:['Kaká','Thiago Silva','Oscar','Casemiro'],c:0,h:'Ele jogou pelo São Paulo antes de ir para a Europa.'},
+
+// ─── NÍVEL 4 — EXPERT ─────────────────────────
+{l:4,q:'Em que ano Rogério Ceni fez seu primeiro gol de falta pelo São Paulo?',o:['1997','1995','1999','2001'],c:0,h:'Ele demorou alguns anos após a estreia para marcar seu primeiro gol de falta.'},
+{l:4,q:'Qual técnico comandou o São Paulo no título da Libertadores de 2005?',o:['Paulo Autuori','Telê Santana','Muricy Ramalho','Levir Culpi'],c:0,h:'Um técnico diferente de Telê Santana foi o responsável.'},
+{l:4,q:'Qual foi o placar da maior goleada do São Paulo no Campeonato Paulista histórico?',o:['12x1','11x0','10x0','9x1'],c:0,h:'Aconteceu duas vezes com placar de 12x1 em anos diferentes.'},
+{l:4,q:'Raí é irmão de qual ex-jogador do Corinthians?',o:['Sócrates','Wladimir','Biro-Biro','Zenon'],c:0,h:'Seu irmão era doutor em medicina além de jogador.'},
+{l:4,q:'Em qual cidade Arthur Friedenreich nasceu?',o:['São Paulo','Santos','Campinas','Ribeirão Preto'],c:0,h:'Ele nasceu na capital paulista no século XIX.'},
+{l:4,q:'Diego Lugano é de qual país?',o:['Uruguai','Argentina','Paraguai','Chile'],c:0,h:'O país tem fronteira com o Brasil no sul.'},
+{l:4,q:'Qual foi o adversário do São Paulo na final da Copa do Brasil de 2023?',o:['Flamengo','Palmeiras','Corinthians','Grêmio'],c:0,h:'Um grande rival carioca.'},
+{l:4,q:'Em que mês e ano Cafu nasceu?',o:['Junho de 1970','Março de 1972','Setembro de 1968','Janeiro de 1971'],c:0,h:'Ele nasceu em Itaquera, São Paulo.'},
+{l:4,q:'Qual atacante uruguaio jogou pelo São Paulo nos anos 70?',o:['Pedro Rocha','Forlán','Recoba','Cavani'],c:0,h:'Ele foi despedido pelo clube em fevereiro de 1978.'},
+{l:4,q:'Müller fez sua estreia pelo São Paulo em que ano?',o:['1984','1982','1986','1980'],c:0,h:'Ele estreou em novembro desse ano.'},
+{l:4,q:'Qual foi o placar histórico do São Paulo sobre o Inter-SP em julho de 1932?',o:['11x0','12x0','10x0','9x0'],c:0,h:'Uma das maiores goleadas absolutas da história do clube.'},
+{l:4,q:'Em que ano o São Paulo conquistou o Campeonato Brasileiro de 1977?',o:['Março de 1977','Dezembro de 1977','Setembro de 1977','Janeiro de 1978'],c:0,h:'O título foi confirmado no início do mês 3 de 1977 — confira o calendário.'},
+{l:4,q:'Qual zagueiro histórico do São Paulo nasceu em 14 de fevereiro de 1931?',o:['De Sordi','Bellini','Luizinho','Bauer'],c:0,h:'Um pilar da defesa tricolor nos anos 50 e 60.'},
+{l:4,q:'Em que ano Toninho Cerezo estreou pelo São Paulo?',o:['1992','1990','1988','1994'],c:0,h:'O grande volante chegou ao clube no início dos anos 90.'},
+{l:4,q:'Qual foi a goleada do São Paulo sobre o Santos em junho de 1944?',o:['9x1','8x0','7x1','10x2'],c:0,h:'Uma das maiores goleadas nos clássicos paulistas da história.'},
+
+// ─── NÍVEL 5 — LENDÁRIO ───────────────────────
+{l:5,q:'Em que dia exato foi fundado o São Paulo Futebol Clube?',o:['25 de janeiro de 1930','25 de janeiro de 1935','1 de fevereiro de 1930','10 de março de 1930'],c:0,h:'A data coincide com o aniversário da cidade de São Paulo, em 1930.'},
+{l:5,q:'Arthur Friedenreich nasceu em que data?',o:['18 de julho de 1892','25 de março de 1890','1 de outubro de 1895','15 de agosto de 1893'],c:0,h:'O Tigre nasceu no século XIX em São Paulo.'},
+{l:5,q:'Quantos títulos Rogério Ceni conquistou com a camisa do São Paulo?',o:['17','14','20','12'],c:0,h:'Entre 1992 e 2015, uma coleção histórica.'},
+{l:5,q:'Em que data exata o Morumbi foi inaugurado?',o:['1º de outubro de 1960','15 de setembro de 1960','3 de novembro de 1960','20 de agosto de 1960'],c:0,h:'Primeiro dia do mês de outubro do ano 1960.'},
+{l:5,q:'O São Paulo marcou 12 gols no Sírio em que data de 1933?',o:['27 de agosto','15 de julho','3 de setembro','10 de outubro'],c:0,h:'Foi no mês de agosto de 1933.'},
+{l:5,q:'Telê Santana nasceu em que data?',o:['26 de julho de 1931','15 de março de 1933','1 de outubro de 1929','25 de maio de 1932'],c:0,h:'O treinador nasceu em julho de 1931.'},
+{l:5,q:'Casemiro estreou profissionalmente pelo São Paulo em que data?',o:['26 de julho de 2010','15 de março de 2011','1 de janeiro de 2010','10 de agosto de 2011'],c:0,h:'Foi em julho, mês do aniversário de Telê Santana.'},
+{l:5,q:'Qual foi o placar exato da goleada do São Paulo sobre o Santos em 1944?',o:['9x1','10x1','8x0','7x0'],c:0,h:'Aconteceu em junho de 1944, no Campeonato Paulista.'},
+{l:5,q:'O São Paulo ganhou a Libertadores em 1993 derrotando o Universidad de Chile. Qual foi o placar agregado?',o:['5x2','4x1','6x3','3x0'],c:0,h:'O SPFC venceu nos dois jogos da final.'},
+{l:5,q:'Em que ano Müller nasceu?',o:['1966','1968','1964','1970'],c:0,h:'Ele nasceu em 31 de janeiro.'},
+{l:5,q:'Qual foi a data exata da estreia de Rogério Ceni pelo São Paulo?',o:['17 de junho de 1993','5 de março de 1993','10 de agosto de 1990','22 de janeiro de 1992'],c:0,h:'Foi em junho de 1993, mesmo ano do primeiro título da Libertadores.'},
+{l:5,q:'De Sordi completou seu último jogo pelo São Paulo em que ano?',o:['1965','1963','1967','1969'],c:0,h:'Ele se despediu em maio desse ano.'},
+{l:5,q:'Qual foi o placar exato na final do Mundial de 2005 contra o Liverpool?',o:['1x0','2x1','2x0','3x1'],c:0,h:'Um único gol decidiu o título.'},
+{l:5,q:'Em que data o São Paulo fez 10x0 no Botafogo-PB?',o:['28 de março de 2001','15 de setembro de 2000','10 de abril de 2002','22 de junho de 2001'],c:0,h:'Foi em março de 2001, na Copa do Brasil.'},
+{l:5,q:'Qual foi a goleada histórica do São Paulo sobre o Jabaquara em julho de 1945?',o:['12x1','11x0','10x2','9x1'],c:0,h:'Aconteceu em 8 de julho, uma das maiores goleadas da história.'},
+
+// ─── NÍVEL 6 — FINAL (1 pergunta) ─────────────
+{l:6,q:'Considerando todos os títulos, qual é a data mais importante da história do São Paulo Futebol Clube?',o:['25 de janeiro de 1930 — Fundação do clube','22 de dezembro de 1992 — 1º Mundial','26 de maio de 1993 — 1ª Libertadores','19 de dezembro de 2005 — 3º Mundial'],c:0,h:'Sem a fundação em 25 de janeiro de 1930, nada mais existiria. É a data mãe de todas as conquistas.'},
+{l:6,q:'Qual jogador resumiu em uma carreira tudo que o São Paulo representa: lealdade, história e superação?',o:['Rogério Ceni — 1.237 jogos e 131 gols como goleiro','Raí — capitão do tricampeonato','Telê Santana — técnico dos Mundiais','Cafu — bicampeão mundial com a Seleção'],c:0,h:'1.237 jogos, 131 gols, 17 títulos, tudo pelo mesmo clube. Uma história impossível de superar.'},
+{l:6,q:'O São Paulo é o único clube da América do Sul com 3 títulos mundiais. Qual a ordem cronológica correta?',o:['1992, 1993 e 2005','1991, 1993 e 2005','1992, 1994 e 2005','1993, 1995 e 2005'],c:0,h:'O SPFC conquistou os títulos mundiais em três décadas diferentes.'},
+{l:6,q:'Qual é o número exato de gols que Rogério Ceni marcou pelo São Paulo ao longo de sua carreira?',o:['131','129','135','127'],c:0,h:'Um recorde mundial absoluto para um goleiro.'},
+{l:6,q:'Qual a sequência correta dos eventos históricos do São Paulo?',o:['Fundação 1930 → Morumbi 1960 → Brasileiro 1986 → Libertadores 1992 → Mundial 1992','Fundação 1925 → Morumbi 1955 → Brasileiro 1986 → Libertadores 1992 → Mundial 1992','Fundação 1930 → Morumbi 1960 → Brasileiro 1991 → Libertadores 1992 → Mundial 1993','Fundação 1930 → Morumbi 1965 → Brasileiro 1986 → Libertadores 1993 → Mundial 1992'],c:0,h:'A história começa em 25 de janeiro de 1930 e o Morumbi foi inaugurado em 1960.'},
+];
+
+const LEVELS_INFO = [
+  {n:1,name:'FÁCIL',emoji:'⚽',time:30,pts:100,bonus:50},
+  {n:2,name:'MÉDIO',emoji:'🎯',time:25,pts:200,bonus:100},
+  {n:3,name:'DIFÍCIL',emoji:'🔥',time:20,pts:400,bonus:200},
+  {n:4,name:'EXPERT',emoji:'💎',time:15,pts:800,bonus:400},
+  {n:5,name:'LENDÁRIO',emoji:'👑',time:12,pts:1600,bonus:800},
+  {n:6,name:'FINAL',emoji:'🏆',time:30,pts:5000,bonus:2500},
+];
+
+const QUESTIONS_PER_LEVEL = 5;
+const MAX_LIVES = 5;
+const REGEN_TIME = 30 * 60 * 1000; // 30 min em ms
+const HELPERS = ['eliminate','skip','hint'];
+
+/* ════════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════════ */
+let STATE = {
+  user: null,
+  avatar: null,
+  lives: MAX_LIVES,
+  livesLastRegen: null,
+  level: 1,
+  questionIdx: 0,
+  score: 0,
+  totalScore: 0,
+  helpers: {eliminate:true, skip:true, hint:true},
+  usedQIds: [],
+  currentQ: null,
+  countdownInterval: null,
+  timeLeft: 30,
+  guest: false,
+};
+
+let musicOn = false;
+let AC = null;
+let musicInterval = null;
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('spfc_quiz_state');
+    if (s) {
+      const parsed = JSON.parse(s);
+      STATE.lives = parsed.lives ?? MAX_LIVES;
+      STATE.livesLastRegen = parsed.livesLastRegen ?? null;
+      STATE.totalScore = parsed.totalScore ?? 0;
+      STATE.avatar = parsed.avatar ?? null;
+      STATE.usedQIds = parsed.usedQIds ?? [];
+    }
+  } catch(e) {}
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('spfc_quiz_state', JSON.stringify({
+      lives: STATE.lives,
+      livesLastRegen: STATE.livesLastRegen,
+      totalScore: STATE.totalScore,
+      avatar: STATE.avatar,
+      usedQIds: STATE.usedQIds,
+    }));
+  } catch(e) {}
+}
+
+/* ════════════════════════════════════════════════
+   LIVES SYSTEM
+════════════════════════════════════════════════ */
+function checkLivesRegen() {
+  if (STATE.lives >= MAX_LIVES) { STATE.livesLastRegen = null; saveState(); return; }
+  if (!STATE.livesLastRegen) { STATE.livesLastRegen = Date.now(); saveState(); return; }
+  const elapsed = Date.now() - STATE.livesLastRegen;
+  const gained = Math.floor(elapsed / REGEN_TIME);
+  if (gained > 0) {
+    STATE.lives = Math.min(MAX_LIVES, STATE.lives + gained);
+    STATE.livesLastRegen = STATE.lives >= MAX_LIVES ? null : Date.now();
+    saveState();
+  }
+}
+
+function loseLife() {
+  if (STATE.lives > 0) STATE.lives--;
+  if (!STATE.livesLastRegen && STATE.lives < MAX_LIVES) STATE.livesLastRegen = Date.now();
+  saveState();
+}
+
+function getTimeToNextLife() {
+  if (!STATE.livesLastRegen || STATE.lives >= MAX_LIVES) return null;
+  const elapsed = Date.now() - STATE.livesLastRegen;
+  const remaining = REGEN_TIME - (elapsed % REGEN_TIME);
+  const min = Math.floor(remaining / 60000);
+  const sec = Math.floor((remaining % 60000) / 1000);
+  return `${min}:${sec.toString().padStart(2,'0')}`;
+}
+
+function renderLives(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = Array.from({length: MAX_LIVES}, (_,i) =>
+    `<span class="life${i >= STATE.lives ? ' lost' : ''}">❤️</span>`
+  ).join('');
+}
+
+function startLivesTimer() {
+  setInterval(() => {
+    checkLivesRegen();
+    renderLives('livesDisplay');
+    const t = getTimeToNextLife();
+    const el = document.getElementById('livesTimer');
+    if (el) el.textContent = STATE.lives >= MAX_LIVES ? '' : t ? `⏱ próxima vida em ${t}` : '';
+  }, 1000);
+}
+
+/* ════════════════════════════════════════════════
+   MUSIC — Web Audio API
+════════════════════════════════════════════════ */
+function initAudio() {
+  if (AC) return;
+  AC = new (window.AudioContext || window.webkitAudioContext)();
+}
+
+function playTone(freq, dur, type='square', vol=0.15, delay=0) {
+  if (!AC || !musicOn) return;
+  const o = AC.createOscillator();
+  const g = AC.createGain();
+  o.type = type;
+  o.frequency.value = freq;
+  g.gain.setValueAtTime(0, AC.currentTime + delay);
+  g.gain.linearRampToValueAtTime(vol, AC.currentTime + delay + 0.01);
+  g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + delay + dur);
+  o.connect(g); g.connect(AC.destination);
+  o.start(AC.currentTime + delay);
+  o.stop(AC.currentTime + delay + dur + 0.01);
+}
+
+// Jingle de entrada (tema SPFC estilo chiptune)
+function playTheme() {
+  if (!musicOn) return;
+  initAudio();
+  const melody = [
+    [523,0.15],[659,0.15],[784,0.3],[784,0.1],[698,0.15],[659,0.15],
+    [523,0.3],[0,0.1],[659,0.15],[784,0.15],[1047,0.4],[0,0.1],
+    [988,0.15],[880,0.15],[784,0.3],[784,0.1],[698,0.15],[659,0.15],
+    [523,0.6]
+  ];
+  let t = 0;
+  melody.forEach(([f,d]) => {
+    if (f) playTone(f, d, 'square', 0.12, t);
+    t += d + 0.02;
+  });
+}
+
+// Música de tensão (countdown)
+function playTensionTick(timeLeft) {
+  if (!musicOn) return;
+  initAudio();
+  const freq = timeLeft > 10 ? 440 : timeLeft > 5 ? 550 : 660;
+  playTone(freq, 0.08, 'square', 0.08);
+}
+
+// Fanfarra de acerto
+function playCorrect() {
+  if (!musicOn) return;
+  initAudio();
+  [523,659,784,1047].forEach((f,i) => playTone(f, 0.12, 'square', 0.15, i*0.1));
+}
+
+// Som de erro
+function playWrong() {
+  if (!musicOn) return;
+  initAudio();
+  [330,277,220].forEach((f,i) => playTone(f, 0.15, 'sawtooth', 0.12, i*0.12));
+}
+
+// Fanfarra de level up
+function playLevelUp() {
+  if (!musicOn) return;
+  initAudio();
+  const notes = [523,659,784,1047,1319];
+  notes.forEach((f,i) => playTone(f, 0.15, 'square', 0.15, i*0.1));
+  setTimeout(() => notes.forEach((f,i) => playTone(f, 0.2, 'square', 0.12, i*0.08)), 700);
+}
+
+// Fanfarra de vitória
+function playVictory() {
+  if (!musicOn) return;
+  initAudio();
+  const melody = [523,659,784,1047,1319,1047,784,1047,1319,1568];
+  melody.forEach((f,i) => playTone(f, 0.15, 'square', 0.13, i*0.1));
+}
+
+// Game over
+function playGameOver() {
+  if (!musicOn) return;
+  initAudio();
+  [330,311,293,261].forEach((f,i) => playTone(f, 0.3, 'sawtooth', 0.1, i*0.25));
+}
+
+function toggleMusic() {
+  musicOn = !musicOn;
+  const btn = document.getElementById('musicToggle');
+  btn.textContent = musicOn ? '🔊' : '🔇';
+  btn.classList.toggle('on', musicOn);
+  if (musicOn) { initAudio(); if(AC.state==='suspended') AC.resume(); playTheme(); }
+}
+
+/* ════════════════════════════════════════════════
+   AVATAR SYSTEM
+════════════════════════════════════════════════ */
+const SKIN_COLORS = ['#FFDAB9','#F4A460','#D2691E','#8B4513','#3D1C02','#FFE4C4'];
+const HAIR_COLORS = ['#000000','#4a3728','#8B6914','#CC0000'];
+
+let avState = { type:'man', skin:0, hair:'short', hairColor:0, shirt:'red' };
+
+function initAvatarEditor() {
+  // Render skin colors
+  const sc = document.getElementById('skinColors');
+  sc.innerHTML = SKIN_COLORS.map((c,i) =>
+    `<div class="av-color${i===0?' selected':''}" style="background:${c}" onclick="setAvColor(${i},this)"></div>`
+  ).join('');
+  drawAvatar();
+}
+
+function setAvOpt(key, val, el) {
+  avState[key] = val;
+  el.parentElement.querySelectorAll('.av-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  drawAvatar();
+}
+
+function setAvColor(idx, el) {
+  avState.skin = idx;
+  el.parentElement.querySelectorAll('.av-color').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  drawAvatar();
+}
+
+function drawAvatar() {
+  const canvas = document.getElementById('avatarCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = 48, H = 48;
+  ctx.clearRect(0, 0, W, H);
+
+  const skin = SKIN_COLORS[avState.skin];
+  const shirtColors = {
+    red:'#CC0000', white:'#F5F0E8', black:'#111111',
+    tri:'#CC0000' // tricolor handled separately
+  };
+  const shirt = shirtColors[avState.shirt] || '#CC0000';
+
+  // Background
+  ctx.fillStyle = '#1a1a1a';
+  ctx.fillRect(0, 0, W, H);
+
+  // Body / shirt
+  if (avState.shirt === 'tri') {
+    ctx.fillStyle = '#CC0000';
+    ctx.fillRect(13, 30, 9, 14);
+    ctx.fillStyle = '#F5F0E8';
+    ctx.fillRect(22, 30, 5, 14);
+    ctx.fillStyle = '#111111';
+    ctx.fillRect(27, 30, 9, 14);
+  } else {
+    ctx.fillStyle = shirt;
+    ctx.fillRect(13, 30, 23, 14);
+  }
+
+  // Arms
+  ctx.fillStyle = shirt === '#F5F0E8' ? '#CC0000' : shirt;
+  ctx.fillRect(9, 31, 5, 10);
+  ctx.fillRect(35, 31, 5, 10);
+
+  // Hands
+  ctx.fillStyle = skin;
+  ctx.fillRect(8, 40, 5, 5);
+  ctx.fillRect(36, 40, 5, 5);
+
+  // Legs (black shorts always — SPFC style)
+  ctx.fillStyle = '#111111';
+  ctx.fillRect(15, 44, 8, 4);
+  ctx.fillRect(26, 44, 8, 4);
+
+  // Neck
+  ctx.fillStyle = skin;
+  ctx.fillRect(21, 25, 7, 7);
+
+  // Head
+  ctx.fillStyle = skin;
+  ctx.fillRect(16, 10, 17, 16);
+
+  // Eyes
+  ctx.fillStyle = '#000';
+  ctx.fillRect(20, 15, 3, 3);
+  ctx.fillRect(26, 15, 3, 3);
+
+  // Smile
+  ctx.fillRect(21, 21, 2, 2);
+  ctx.fillRect(26, 21, 2, 2);
+
+  // Hair
+  const hairC = '#1a1a1a';
+  if (avState.hair === 'short') {
+    ctx.fillStyle = hairC;
+    ctx.fillRect(16, 8, 17, 5);
+  } else if (avState.hair === 'long') {
+    ctx.fillStyle = hairC;
+    ctx.fillRect(16, 8, 17, 5);
+    ctx.fillRect(14, 10, 4, 16);
+    ctx.fillRect(33, 10, 4, 16);
+  } else if (avState.hair === 'afro') {
+    ctx.fillStyle = hairC;
+    ctx.beginPath();
+    ctx.arc(24, 12, 11, Math.PI, 0);
+    ctx.fill();
+  }
+  // bald = no hair
+
+  // Girl/woman accessories
+  if (avState.type === 'woman' || avState.type === 'girl') {
+    ctx.fillStyle = hairC;
+    ctx.fillRect(14, 10, 3, 20);
+    ctx.fillRect(34, 10, 3, 20);
+  }
+
+  // Shadow/depth
+  ctx.fillStyle = 'rgba(0,0,0,0.12)';
+  ctx.fillRect(16, 24, 17, 3);
+}
+
+function saveAvatar() {
+  const name = document.getElementById('avName').value.trim() || 'Torcedor';
+  const canvas = document.getElementById('avatarCanvas');
+  STATE.avatar = {
+    name,
+    type: avState.type,
+    skin: avState.skin,
+    hair: avState.hair,
+    shirt: avState.shirt,
+    dataUrl: canvas.toDataURL()
+  };
+  saveState();
+
+  // Save to Firebase if logged in
+  if (STATE.user && window.FB) {
+    const {db, doc, setDoc} = window.FB;
+    setDoc(doc(db, 'users', STATE.user.uid), {
+      name,
+      avatar: STATE.avatar,
+      updatedAt: new Date().toISOString()
+    }, {merge: true}).catch(()=>{});
+  }
+
+  toast('Avatar salvo! 🔴', 'Agora você está pronto para jogar!');
+  goScreen('screen-home');
+  renderHomeUser();
+}
+
+/* ════════════════════════════════════════════════
+   FIREBASE AUTH
+════════════════════════════════════════════════ */
+window.addEventListener('firebase-ready', () => {
+  const {auth, onAuthStateChanged} = window.FB;
+  onAuthStateChanged(auth, async (user) => {
+    STATE.user = user;
+    if (user) {
+      await loadUserData(user);
+      renderHomeUser();
+    }
+  });
+});
+
+async function loadUserData(user) {
+  if (!window.FB) return;
+  const {db, doc, getDoc} = window.FB;
+  try {
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    if (snap.exists()) {
+      const data = snap.data();
+      if (data.avatar) STATE.avatar = data.avatar;
+      if (data.lives !== undefined) STATE.lives = data.lives;
+      if (data.totalScore !== undefined) STATE.totalScore = data.totalScore;
+    }
+  } catch(e) {}
+}
+
+async function loginGoogle() {
+  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
+  const {auth, provider, signInWithPopup} = window.FB;
+  try {
+    await signInWithPopup(auth, provider);
+    toast('Bem-vindo! 🔴', 'Login realizado com sucesso');
+    goScreen('screen-home');
+    checkAvatarSetup();
+  } catch(e) {
+    toast('Erro no login', e.message || 'Tente novamente');
+  }
+}
+
+async function loginEmail() {
+  toast('Em breve', 'Login por email em desenvolvimento. Use o Google por enquanto.');
+}
+
+async function registerEmail() {
+  toast('Em breve', 'Cadastro por email em desenvolvimento. Use o Google por enquanto.');
+}
+
+function playAsGuest() {
+  STATE.guest = true;
+  toast('Modo visitante', 'Progresso salvo localmente apenas');
+  goScreen('screen-home');
+}
+
+async function logout() {
+  if (window.FB) {
+    const {auth, signOut} = window.FB;
+    await signOut(auth).catch(()=>{});
+  }
+  STATE.user = null;
+  STATE.guest = false;
+  renderHomeUser();
+  goScreen('screen-home');
+  toast('Até logo!', 'Logout realizado');
+}
+
+function renderHomeUser() {
+  const chip = document.getElementById('userChip');
+  if (!chip) return;
+  if (STATE.user || STATE.guest) {
+    const name = STATE.avatar?.name || STATE.user?.displayName || 'Visitante';
+    chip.textContent = name.split(' ')[0];
+    chip.onclick = () => goScreen('screen-profile');
+  } else {
+    chip.textContent = 'Entrar';
+    chip.onclick = () => goScreen('screen-login');
+  }
+}
+
+function checkAvatarSetup() {
+  if (!STATE.avatar) goScreen('screen-avatar');
+}
+
+/* ════════════════════════════════════════════════
+   QUIZ ENGINE
+════════════════════════════════════════════════ */
+function getQuestionsForLevel(level) {
+  const pool = QUESTIONS.filter(q => q.l === level);
+  // Shuffle and pick QUESTIONS_PER_LEVEL (or 1 for level 6)
+  const count = level === 6 ? 1 : QUESTIONS_PER_LEVEL;
+  return shuffle(pool).slice(0, count);
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+let levelQuestions = [];
+
+function startGame() {
+  checkLivesRegen();
+  if (STATE.lives <= 0) {
+    const t = getTimeToNextLife();
+    toast('Sem vidas! 💔', t ? `Próxima vida em ${t}` : 'Aguarde para recarregar');
+    return;
+  }
+  STATE.level = 1;
+  STATE.questionIdx = 0;
+  STATE.score = 0;
+  STATE.helpers = {eliminate:true, skip:true, hint:true};
+  levelQuestions = getQuestionsForLevel(1);
+  goScreen('screen-quiz');
+  renderQuestion();
+  playTheme();
+}
+
+function renderQuestion() {
+  const levelInfo = LEVELS_INFO[STATE.level - 1];
+  const q = levelQuestions[STATE.questionIdx];
+  STATE.currentQ = q;
+
+  // Header
+  document.getElementById('quizLevelBadge').textContent = `NÍVEL ${STATE.level} — ${levelInfo.name}`;
+  document.getElementById('quizScoreBadge').textContent = `${STATE.score} pts`;
+  renderLives('quizLivesMini');
+
+  // Progress steps
+  const total = STATE.level === 6 ? 1 : QUESTIONS_PER_LEVEL;
+  document.getElementById('lpSteps').innerHTML = Array.from({length: total}, (_,i) => {
+    let cls = 'lp-step';
+    if (i < STATE.questionIdx) cls += ' done';
+    else if (i === STATE.questionIdx) cls += ' current';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+
+  // Question
+  document.getElementById('qCategory').textContent = `${levelInfo.emoji} ${levelInfo.name}`;
+  document.getElementById('qText').textContent = q.q;
+
+  // Options (shuffle display order)
+  const letters = ['A','B','C','D'];
+  const shuffled = shuffle(q.o.map((text,i) => ({text, orig:i})));
+  document.getElementById('qOptions').innerHTML = shuffled.map((opt, i) => `
+    <button class="q-opt" onclick="selectAnswer(${opt.orig}, this)" data-orig="${opt.orig}">
+      <span class="q-opt-letter">${letters[i]}</span>
+      ${opt.text}
+    </button>
+  `).join('');
+
+  // Helpers
+  document.getElementById('helper1').classList.toggle('used', !STATE.helpers.eliminate);
+  document.getElementById('helper2').classList.toggle('used', !STATE.helpers.skip);
+  document.getElementById('helper3').classList.toggle('used', !STATE.helpers.hint);
+  document.getElementById('helper1').disabled = !STATE.helpers.eliminate;
+  document.getElementById('helper2').disabled = !STATE.helpers.skip;
+  document.getElementById('helper3').disabled = !STATE.helpers.hint;
+
+  // Countdown
+  startCountdown(levelInfo.time);
+}
+
+let countdownTimer = null;
+
+function startCountdown(seconds) {
+  clearInterval(countdownTimer);
+  STATE.timeLeft = seconds;
+  updateCountdownUI();
+  countdownTimer = setInterval(() => {
+    STATE.timeLeft--;
+    updateCountdownUI();
+    if (STATE.timeLeft <= 10) playTensionTick(STATE.timeLeft);
+    if (STATE.timeLeft <= 0) {
+      clearInterval(countdownTimer);
+      timeOut();
+    }
+  }, 1000);
+}
+
+function updateCountdownUI() {
+  const levelInfo = LEVELS_INFO[STATE.level - 1];
+  const pct = (STATE.timeLeft / levelInfo.time) * 100;
+  const fill = document.getElementById('countdownFill');
+  const num = document.getElementById('countdownNum');
+  if (fill) {
+    fill.style.width = pct + '%';
+    fill.style.background = STATE.timeLeft > 10 ? '#22c55e' : STATE.timeLeft > 5 ? '#f59e0b' : '#ef4444';
+  }
+  if (num) {
+    num.textContent = STATE.timeLeft;
+    num.style.color = STATE.timeLeft > 10 ? '#22c55e' : STATE.timeLeft > 5 ? '#f59e0b' : '#ef4444';
+  }
+}
+
+function timeOut() {
+  // Treat as wrong answer
+  const q = STATE.currentQ;
+  const opts = document.querySelectorAll('.q-opt');
+  opts.forEach(btn => {
+    btn.disabled = true;
+    if (parseInt(btn.dataset.orig) === q.c) btn.classList.add('correct');
+  });
+  playWrong();
+  toast('⏱ Tempo esgotado!', `Resposta: ${q.o[q.c]}`);
+  setTimeout(() => handleWrong(q), 1800);
+}
+
+function selectAnswer(origIdx, btn) {
+  clearInterval(countdownTimer);
+  const q = STATE.currentQ;
+  const opts = document.querySelectorAll('.q-opt');
+  opts.forEach(b => b.disabled = true);
+
+  if (origIdx === q.c) {
+    btn.classList.add('correct');
+    playCorrect();
+    const pts = LEVELS_INFO[STATE.level-1].pts;
+    const timePts = Math.floor(STATE.timeLeft * 10);
+    STATE.score += pts + timePts;
+    document.getElementById('quizScoreBadge').textContent = `${STATE.score} pts`;
+    toast(`✅ Correto! +${pts + timePts} pts`, `Tempo bônus: +${timePts}`);
+    setTimeout(() => advanceQuestion(), 1500);
+  } else {
+    btn.classList.add('wrong');
+    opts.forEach(b => {
+      if (parseInt(b.dataset.orig) === q.c) b.classList.add('correct');
+    });
+    playWrong();
+    setTimeout(() => handleWrong(q), 1800);
+  }
+}
+
+function handleWrong(q) {
+  loseLife();
+  goScreen('screen-gameover');
+  document.getElementById('goScore').textContent = STATE.score;
+  document.getElementById('goQuestion').textContent = q.q;
+  document.getElementById('goCorrect').textContent = `✅ Resposta correta: ${q.o[q.c]}`;
+  renderLives('goLives');
+  const t = getTimeToNextLife();
+  const timerEl = document.getElementById('goTimer');
+  if (timerEl) timerEl.textContent = STATE.lives < MAX_LIVES && t ? `⏱ Próxima vida em ${t}` : '';
+  const tryBtn = document.getElementById('btnTryAgain');
+  if (tryBtn) tryBtn.disabled = STATE.lives <= 0;
+  playGameOver();
+  saveScoreToFirebase();
+  updateLivesInterval();
+}
+
+function updateLivesInterval() {
+  const iv = setInterval(() => {
+    checkLivesRegen();
+    renderLives('goLives');
+    const t = getTimeToNextLife();
+    const el = document.getElementById('goTimer');
+    if (el) el.textContent = STATE.lives < MAX_LIVES && t ? `⏱ Próxima vida em ${t}` : '';
+    const tryBtn = document.getElementById('btnTryAgain');
+    if (tryBtn) tryBtn.disabled = STATE.lives <= 0;
+    if (STATE.lives >= MAX_LIVES) clearInterval(iv);
+  }, 1000);
+}
+
+function advanceQuestion() {
+  STATE.questionIdx++;
+  const total = STATE.level === 6 ? 1 : QUESTIONS_PER_LEVEL;
+  if (STATE.questionIdx >= total) {
+    // Level complete!
+    if (STATE.level === 6) {
+      // VICTORY!
+      goVictory();
+    } else {
+      goLevelUp();
+    }
+  } else {
+    renderQuestion();
+  }
+}
+
+function goLevelUp() {
+  const info = LEVELS_INFO[STATE.level - 1];
+  const nextInfo = LEVELS_INFO[STATE.level];
+  const bonus = info.bonus;
+  STATE.score += bonus;
+  STATE.totalScore = Math.max(STATE.totalScore, STATE.score);
+  saveState();
+
+  document.getElementById('luEmoji').textContent = info.emoji;
+  document.getElementById('luTitle').textContent = `NÍVEL ${STATE.level} COMPLETO!`;
+  document.getElementById('luSub').textContent = `Você passou o nível ${STATE.level} — ${info.name}`;
+  document.getElementById('luScore').textContent = `+${bonus} pts bônus`;
+  document.getElementById('luNextBadge').textContent = `NÍVEL ${nextInfo.n} — ${nextInfo.name} ${nextInfo.emoji}`;
+
+  playLevelUp();
+  goScreen('screen-levelup');
+}
+
+function nextLevel() {
+  STATE.level++;
+  STATE.questionIdx = 0;
+  STATE.helpers = {eliminate:true, skip:true, hint:true};
+  levelQuestions = getQuestionsForLevel(STATE.level);
+  goScreen('screen-quiz');
+  renderQuestion();
+}
+
+function goVictory() {
+  STATE.totalScore = Math.max(STATE.totalScore, STATE.score);
+  saveState();
+  document.getElementById('vicScore').textContent = STATE.score;
+  playVictory();
+  goScreen('screen-victory');
+  saveScoreToFirebase();
+}
+
+function tryAgain() {
+  if (STATE.lives <= 0) {
+    toast('Sem vidas!', 'Aguarde o recarregamento');
+    return;
+  }
+  startGame();
+}
+
+/* ════════════════════════════════════════════════
+   HELPERS
+════════════════════════════════════════════════ */
+function useHelper(type) {
+  if (!STATE.helpers[type]) return;
+  STATE.helpers[type] = false;
+
+  if (type === 'eliminate') {
+    // Remove 2 wrong options
+    const q = STATE.currentQ;
+    const opts = document.querySelectorAll('.q-opt');
+    let removed = 0;
+    opts.forEach(btn => {
+      if (removed < 2 && parseInt(btn.dataset.orig) !== q.c) {
+        btn.style.opacity = '0.2';
+        btn.disabled = true;
+        removed++;
+      }
+    });
+    document.getElementById('helper1').classList.add('used');
+    document.getElementById('helper1').disabled = true;
+    toast('✂️ Duas eliminadas!', 'Escolha entre as opções restantes');
+  }
+
+  if (type === 'skip') {
+    clearInterval(countdownTimer);
+    toast('⏭️ Pergunta pulada!', 'Próxima questão...');
+    document.getElementById('helper2').classList.add('used');
+    document.getElementById('helper2').disabled = true;
+    setTimeout(() => advanceQuestion(), 800);
+  }
+
+  if (type === 'hint') {
+    const q = STATE.currentQ;
+    document.getElementById('hintText').textContent = q.h || 'Pense nos grandes momentos da história do São Paulo...';
+    document.getElementById('hintModal').classList.add('open');
+    document.getElementById('helper3').classList.add('used');
+    document.getElementById('helper3').disabled = true;
+  }
+}
+
+function closeModal() {
+  document.getElementById('hintModal').classList.remove('open');
+}
+
+/* ════════════════════════════════════════════════
+   RANKING
+════════════════════════════════════════════════ */
+async function saveScoreToFirebase() {
+  if (!window.FB || (!STATE.user && STATE.guest)) return;
+  const {db, doc, setDoc, serverTimestamp} = window.FB;
+  const name = STATE.avatar?.name || STATE.user?.displayName || 'Torcedor';
+  const uid = STATE.user?.uid || 'guest_' + Date.now();
+
+  try {
+    const now = new Date();
+    const dateKey = now.toISOString().slice(0,10);
+    const weekKey = `${now.getFullYear()}-W${Math.ceil(now.getDate()/7)}`;
+    const monthKey = now.toISOString().slice(0,7);
+
+    const rankData = {
+      name,
+      score: STATE.score,
+      level: STATE.level,
+      avatar: STATE.avatar?.dataUrl || null,
+      updatedAt: serverTimestamp(),
+      dateKey, weekKey, monthKey,
+    };
+
+    // Update geral (best score)
+    const geralRef = doc(db, 'ranking', uid + '_geral');
+    const snap = await window.FB.getDoc(geralRef);
+    if (!snap.exists() || snap.data().score < STATE.score) {
+      await setDoc(geralRef, {...rankData, type:'geral'});
+    }
+
+    // Daily
+    await setDoc(doc(db, 'ranking', uid + '_' + dateKey), {...rankData, type:'diario'});
+
+    // Weekly
+    const weekRef = doc(db, 'ranking', uid + '_' + weekKey);
+    const weekSnap = await window.FB.getDoc(weekRef);
+    if (!weekSnap.exists() || weekSnap.data().score < STATE.score) {
+      await setDoc(weekRef, {...rankData, type:'semanal'});
+    }
+
+    // Monthly
+    const monthRef = doc(db, 'ranking', uid + '_' + monthKey);
+    const monthSnap = await window.FB.getDoc(monthRef);
+    if (!monthSnap.exists() || monthSnap.data().score < STATE.score) {
+      await setDoc(monthRef, {...rankData, type:'mensal'});
+    }
+  } catch(e) { console.warn('Ranking save error:', e); }
+}
+
+async function loadRanking(type, btn) {
+  if (btn) {
+    document.querySelectorAll('.rank-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  const list = document.getElementById('rankList');
+  list.innerHTML = '<div class="rank-loading">Carregando...</div>';
+
+  if (!window.FB) {
+    list.innerHTML = '<div class="rank-empty">Configure o Firebase para ver o ranking global.</div>';
+    return;
+  }
+
+  const {db, collection, query, where, orderBy, limit, getDocs} = window.FB;
+
+  try {
+    const now = new Date();
+    const dateKey = now.toISOString().slice(0,10);
+    const weekKey = `${now.getFullYear()}-W${Math.ceil(now.getDate()/7)}`;
+    const monthKey = now.toISOString().slice(0,7);
+
+    let q;
+    if (type === 'geral') {
+      q = query(collection(db,'ranking'), where('type','==','geral'), orderBy('score','desc'), limit(20));
+    } else if (type === 'diario') {
+      q = query(collection(db,'ranking'), where('dateKey','==',dateKey), orderBy('score','desc'), limit(20));
+    } else if (type === 'semanal') {
+      q = query(collection(db,'ranking'), where('weekKey','==',weekKey), orderBy('score','desc'), limit(20));
+    } else {
+      q = query(collection(db,'ranking'), where('monthKey','==',monthKey), orderBy('score','desc'), limit(20));
+    }
+
+    const snap = await getDocs(q);
+    const docs = [];
+    snap.forEach(d => docs.push(d.data()));
+
+    if (!docs.length) {
+      list.innerHTML = '<div class="rank-empty">Nenhuma pontuação ainda. Seja o primeiro!</div>';
+      return;
+    }
+
+    const myUid = STATE.user?.uid;
+    list.innerHTML = docs.map((d,i) => {
+      const pos = i + 1;
+      const posClass = pos === 1 ? 'top1' : pos === 2 ? 'top2' : pos === 3 ? 'top3' : '';
+      const isMe = myUid && d.uid === myUid;
+      return `
+        <div class="rank-item${isMe?' me':''}">
+          <div class="rank-pos ${posClass}">${pos}</div>
+          ${d.avatar ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:3px"></div>`}
+          <div class="rank-info">
+            <div class="rank-name">${d.name || 'Torcedor'}${isMe?' (você)':''}</div>
+            <div class="rank-detail">Nível ${d.level || 1} atingido</div>
+          </div>
+          <div class="rank-pts">${(d.score||0).toLocaleString('pt-BR')}</div>
+        </div>`;
+    }).join('');
+  } catch(e) {
+    list.innerHTML = '<div class="rank-empty">Erro ao carregar. Verifique o Firebase.</div>';
+    console.warn(e);
+  }
+}
+
+/* ════════════════════════════════════════════════
+   PROFILE
+════════════════════════════════════════════════ */
+function renderProfile() {
+  const el = document.getElementById('profileContent');
+  if (!el) return;
+
+  const name = STATE.avatar?.name || STATE.user?.displayName || 'Visitante';
+  const avatarImg = STATE.avatar?.dataUrl
+    ? `<img class="profile-avatar" src="${STATE.avatar.dataUrl}" alt="avatar">`
+    : `<div class="profile-avatar" style="background:var(--bg3);border:1px solid var(--border2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:28px">👤</div>`;
+
+  const lvlLabel = STATE.level > 5 ? 'CAMPEÃO' : LEVELS_INFO[STATE.level-1]?.name || 'INICIANTE';
+
+  const achievements = [
+    {icon:'🏆',name:'Primeiro Jogo',desc:'Completou sua primeira partida',unlocked: STATE.totalScore > 0},
+    {icon:'🔴',name:'Torcedor Fiel',desc:'Completou o Nível 3',unlocked: STATE.level >= 3},
+    {icon:'💎',name:'Expert Tricolor',desc:'Completou o Nível 5',unlocked: STATE.level >= 5},
+    {icon:'👑',name:'Torcedor Milionário',desc:'Completou todos os 6 níveis',unlocked: STATE.level > 6},
+    {icon:'❤️',name:'Nunca Desistiu',desc:'Jogou com 1 vida restante',unlocked: STATE.lives === 1},
+    {icon:'⚡',name:'Veloz','desc':'Respondeu em menos de 5 segundos',unlocked: false},
+  ];
+
+  el.innerHTML = `
+    <div class="profile-header">
+      ${avatarImg}
+      <div>
+        <div class="profile-name">${name}</div>
+        <div class="profile-level">${lvlLabel}</div>
+        ${STATE.user ? `<div style="font-size:11px;color:var(--txt3);margin-top:4px">${STATE.user.email||''}</div>` : '<div style="font-size:11px;color:var(--txt3);margin-top:4px">Visitante</div>'}
+      </div>
+    </div>
+    <div class="profile-stats">
+      <div class="pstat"><div class="pstat-n">${STATE.totalScore.toLocaleString('pt-BR')}</div><div class="pstat-l">Recorde</div></div>
+      <div class="pstat"><div class="pstat-n">${STATE.lives}</div><div class="pstat-l">Vidas</div></div>
+      <div class="pstat"><div class="pstat-n">${Math.max(1,STATE.level)}</div><div class="pstat-l">Nível Máx.</div></div>
+      <div class="pstat"><div class="pstat-n">${achievements.filter(a=>a.unlocked).length}</div><div class="pstat-l">Conquistas</div></div>
+    </div>
+    <div style="font-size:10px;letter-spacing:3px;color:var(--txt3);text-transform:uppercase;margin-bottom:10px">// conquistas</div>
+    <div class="achievements">
+      ${achievements.map(a => `
+        <div class="ach${a.unlocked?'':' locked'}">
+          <div class="ach-icon">${a.icon}</div>
+          <div class="ach-info">
+            <div class="ach-name">${a.name}</div>
+            <div class="ach-desc">${a.desc}</div>
+          </div>
+          ${a.unlocked ? '<span style="color:var(--green);font-size:16px">✓</span>' : '<span style="color:var(--txt3);font-size:12px">🔒</span>'}
+        </div>`).join('')}
+    </div>
+    <button class="btn-secondary" style="max-width:100%;margin-top:20px" onclick="goScreen('screen-avatar')">✏️ EDITAR AVATAR</button>
+  `;
+}
+
+/* ════════════════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════════════════ */
+function goScreen(id) {
+  clearInterval(countdownTimer);
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+
+  // Side effects per screen
+  if (id === 'screen-home') {
+    checkLivesRegen();
+    renderLives('livesDisplay');
+    renderHomeUser();
+  }
+  if (id === 'screen-avatar') initAvatarEditor();
+  if (id === 'screen-ranking') loadRanking('geral');
+  if (id === 'screen-profile') renderProfile();
+}
+
+/* ════════════════════════════════════════════════
+   TOAST
+════════════════════════════════════════════════ */
+function toast(title, body, dur=3000) {
+  document.getElementById('toastT').textContent = title;
+  document.getElementById('toastB').textContent = body;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+/* ════════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════ */
+function init() {
+  loadState();
+  checkLivesRegen();
+  renderLives('livesDisplay');
+  startLivesTimer();
+  document.getElementById('statPergs').textContent = QUESTIONS.length + '+';
+  renderHomeUser();
+}
+
+init();
+</script>
+</body>
+</html>
