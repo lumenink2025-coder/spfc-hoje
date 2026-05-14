@@ -2,1030 +2,2415 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<meta name="theme-color" content="#CC0000">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="SPFC Hoje">
 <meta name="description" content="O que aconteceu hoje na história do São Paulo Futebol Clube">
 <title>SPFC — Hoje na História</title>
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Bebas+Neue&family=Special+Elite&family=IBM+Plex+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+
 <style>
-/* ── RESET & TOKENS ──────────────────────────────── */
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{
-  --red:#CC0000;--red2:#FF2222;--red3:#8B0000;
-  --gold:#C8A84B;--gold2:#E2C97E;
-  --bg:#0A0A0A;--bg2:#111;--bg3:#191919;--bg4:#222;
-  --border:#2a2a2a;--border2:#333;
-  --txt:#F0EBE3;--txt2:#AAA;--txt3:#666;
-  --font-title:'Bebas Neue',Impact,sans-serif;
-  --font-ui:'Oswald',sans-serif;
-  --font-body:'Inter',sans-serif;
-}
-html{scroll-behavior:smooth;background:var(--bg)}
-body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
-
-/* ── SCANLINES ───────────────────────────────────── */
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);pointer-events:none;z-index:9999}
-
-/* ── TOP BAR ─────────────────────────────────────── */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(10,10,10,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.topbar-logo{display:flex;align-items:center;gap:10px}
-.tb-badge{width:30px;height:30px;border-radius:50%;background:conic-gradient(#CC0000 0deg 120deg,#fff 120deg 240deg,#111 240deg 360deg);border:2px solid var(--red);box-shadow:0 0 10px rgba(204,0,0,.4)}
-.tb-name{font-family:var(--font-title);font-size:17px;letter-spacing:2px;color:var(--txt)}
-.tb-name span{color:var(--red)}
-.tb-right{display:flex;align-items:center;gap:8px}
-.tb-rec{display:flex;align-items:center;gap:5px;font-family:var(--font-body);font-size:9px;color:var(--red);letter-spacing:2px;text-transform:uppercase}
-.rec-dot{width:7px;height:7px;background:var(--red);border-radius:50%;animation:blink 1.4s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
-.tb-notif{width:32px;height:32px;background:var(--bg3);border:1px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:.2s}
-.tb-notif:hover{background:var(--red);border-color:var(--red)}
-
-/* ── HERO ────────────────────────────────────────── */
-.hero{min-height:100svh;padding:72px 0 0;display:flex;flex-direction:column;position:relative;overflow:hidden}
-.hero-gradient{position:absolute;inset:0;background:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(204,0,0,.18) 0%,transparent 65%),linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
-.hero-ghost{position:absolute;bottom:0;right:-20px;font-family:var(--font-title);font-size:clamp(120px,35vw,260px);color:rgba(255,255,255,.028);line-height:1;pointer-events:none;user-select:none;letter-spacing:-6px}
-
-.hero-top{position:relative;z-index:2;padding:32px 20px 0}
-.hero-date-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(204,0,0,.12);border:1px solid rgba(204,0,0,.25);padding:5px 12px;border-radius:2px;margin-bottom:16px}
-.hero-date-tag span{font-family:var(--font-body);font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase}
-.hero-title{font-family:var(--font-title);font-size:clamp(52px,14vw,96px);line-height:.88;letter-spacing:1px;margin-bottom:8px}
-.hero-title em{color:var(--red);font-style:normal}
-.hero-sub{font-family:var(--font-body);font-size:13px;color:var(--txt2);letter-spacing:.5px;margin-bottom:24px}
-
-/* HOJE COUNT */
-.hero-count-row{display:flex;align-items:center;gap:12px;margin-bottom:32px}
-.hero-count{font-family:var(--font-title);font-size:56px;color:var(--red);line-height:1}
-.hero-count-label{font-size:12px;color:var(--txt2);line-height:1.5}
-.hero-count-label strong{display:block;color:var(--txt);font-size:14px}
-
-/* SCROLL PILL */
-.scroll-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid var(--border2);border-radius:999px;font-size:11px;color:var(--txt3);letter-spacing:2px;animation:float 3s ease-in-out infinite;cursor:pointer}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-.scroll-arrow{display:inline-block;animation:arrowbounce 1.5s ease-in-out infinite}
-@keyframes arrowbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
-
-/* ── NAV TABS ────────────────────────────────────── */
-.nav-tabs{position:sticky;top:56px;z-index:150;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex}
-.nav-tab{flex:1;padding:12px 8px;font-family:var(--font-ui);font-size:12px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);border:none;background:transparent;cursor:pointer;border-bottom:2px solid transparent;transition:.2s;text-align:center}
-.nav-tab.active{color:var(--red);border-bottom-color:var(--red)}
-.nav-tab:hover:not(.active){color:var(--txt)}
-
-/* ── PANELS ──────────────────────────────────────── */
-.panel{display:none;padding:0 0 100px}
-.panel.active{display:block}
-
-/* ── SECTION HEADER ──────────────────────────────── */
-.sec-head{padding:24px 20px 12px;display:flex;align-items:center;justify-content:space-between}
-.sec-title{font-family:var(--font-ui);font-size:11px;font-weight:400;letter-spacing:3px;color:var(--txt3);text-transform:uppercase}
-.sec-count{font-family:var(--font-title);font-size:20px;color:var(--red)}
-
-/* ── EVENT CARDS ─────────────────────────────────── */
-.cards-list{padding:0 16px}
-.event-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;margin-bottom:8px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .1s}
-.event-card:active{transform:scale(.99)}
-.event-card.cat-titulo{border-left:3px solid var(--gold)}
-.event-card.cat-fundacao{border-left:3px solid var(--gold)}
-.event-card.cat-mundial{border-left:3px solid var(--gold)}
-.event-card.cat-vitoria{border-left:3px solid var(--red)}
-.event-card.cat-aniversario{border-left:3px solid #4a9eff}
-.event-card.cat-estreia{border-left:3px solid #7fff6a}
-.event-card.cat-despedida{border-left:3px solid #ff9f40}
-.event-card.cat-recorde{border-left:3px solid #bf5fff}
-
-.card-main{padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
-.card-icon{font-size:20px;flex-shrink:0;margin-top:1px}
-.card-info{flex:1;min-width:0}
-.card-meta{display:flex;align-items:center;gap:8px;margin-bottom:5px}
-.card-year{font-family:var(--font-body);font-size:10px;font-weight:600;color:var(--red);letter-spacing:2px}
-.card-ago{font-size:10px;color:var(--txt3)}
-.card-tag{font-size:9px;letter-spacing:1.5px;padding:2px 7px;border-radius:2px;text-transform:uppercase;font-weight:500}
-.tag-titulo,.tag-fundacao,.tag-mundial{background:rgba(200,168,75,.15);color:var(--gold2)}
-.tag-vitoria{background:rgba(204,0,0,.15);color:#ff7777}
-.tag-aniversario{background:rgba(74,158,255,.12);color:#7cb9ff}
-.tag-estreia{background:rgba(127,255,106,.1);color:#9eff8a}
-.tag-despedida{background:rgba(255,159,64,.1);color:#ffb96a}
-.tag-recorde{background:rgba(191,95,255,.1);color:#d4a0ff}
-
-.card-title{font-family:var(--font-ui);font-size:17px;font-weight:600;color:var(--txt);line-height:1.2;margin-bottom:4px}
-.card-desc{font-size:12px;color:var(--txt2);line-height:1.5}
-.card-chevron{color:var(--txt3);font-size:18px;flex-shrink:0;margin-top:2px;transition:transform .3s}
-.event-card.open .card-chevron{transform:rotate(180deg)}
-
-/* MEDIA INDICATORS */
-.card-media-row{display:flex;gap:6px;margin-top:6px}
-.media-chip{font-size:9px;letter-spacing:1px;padding:2px 7px;background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:2px;color:var(--txt3)}
-
-/* EXPANDED */
-.card-expanded{display:none;border-top:1px solid var(--border)}
-.event-card.open .card-expanded{display:block}
-
-.card-img-wrap{position:relative;background:var(--bg3);cursor:zoom-in;overflow:hidden}
-.card-img-wrap img{width:100%;max-height:240px;object-fit:cover;display:block;filter:sepia(15%) contrast(1.05) brightness(.95);transition:filter .3s}
-.card-img-wrap:hover img{filter:sepia(0%) contrast(1.1) brightness(1)}
-.img-caption{position:absolute;bottom:0;left:0;right:0;padding:8px 12px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.5px}
-/* scanline on images */
-.card-img-wrap::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.05) 3px,rgba(0,0,0,.05) 4px);pointer-events:none;z-index:1}
-
-.card-video-wrap{position:relative;padding-bottom:56.25%;background:#000;overflow:hidden}
-.card-video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-.video-thumb{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--bg3)}
-.video-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45}
-.play-circle{position:relative;z-index:2;width:56px;height:56px;background:rgba(204,0,0,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(204,0,0,.5);transition:.2s}
-.video-thumb:hover .play-circle{transform:scale(1.1);background:var(--red2)}
-.play-circle::after{content:'';width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:18px solid #fff;margin-left:4px}
-.video-label{position:relative;z-index:2;margin-top:10px;font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.5);text-transform:uppercase}
-
-.card-detail{padding:16px}
-.detail-text{font-size:13px;color:var(--txt2);line-height:1.75;margin-bottom:14px}
-.detail-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:12px}
-.d-stat{background:var(--bg3);padding:10px 12px;border-radius:3px}
-.d-stat-label{font-size:9px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase;margin-bottom:3px}
-.d-stat-val{font-family:var(--font-ui);font-size:15px;font-weight:600;color:var(--txt)}
-.card-actions{display:flex;gap:8px;flex-wrap:wrap}
-.btn-share{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:transparent;border:1px solid var(--border2);color:var(--txt2);font-size:11px;letter-spacing:1.5px;cursor:pointer;border-radius:2px;transition:.2s;font-family:var(--font-body)}
-.btn-share:hover{border-color:var(--red);color:var(--txt)}
-.btn-vid{background:rgba(204,0,0,.12);border-color:rgba(204,0,0,.3);color:#ff7777}
-.btn-vid:hover{background:rgba(204,0,0,.25)}
-
-/* ── EMPTY STATE ─────────────────────────────────── */
-.empty{text-align:center;padding:64px 24px}
-.empty-icon{font-size:48px;margin-bottom:16px;opacity:.4}
-.empty-title{font-family:var(--font-title);font-size:28px;color:var(--red);letter-spacing:2px;margin-bottom:8px}
-.empty-text{font-size:13px;color:var(--txt3);line-height:1.6;max-width:280px;margin:0 auto}
-
-/* ── CALENDAR PANEL ──────────────────────────────── */
-.cal-month-nav{display:flex;gap:4px;overflow-x:auto;padding:16px 16px 12px;scrollbar-width:none}
-.cal-month-nav::-webkit-scrollbar{display:none}
-.month-btn{flex-shrink:0;padding:6px 14px;font-family:var(--font-ui);font-size:11px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--border2);background:transparent;color:var(--txt3);cursor:pointer;border-radius:2px;transition:.2s}
-.month-btn.active{background:var(--red);border-color:var(--red);color:#fff}
-.month-btn:hover:not(.active){border-color:rgba(204,0,0,.4);color:var(--txt)}
-
-.cal-grid-wrap{padding:0 16px 16px}
-.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
-.cal-wd{text-align:center;font-size:9px;letter-spacing:1px;color:var(--txt3);padding:4px 0}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cal-day{aspect-ratio:1;background:var(--bg2);border:1px solid transparent;border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:.15s}
-.cal-day:empty{background:transparent;cursor:default}
-.cal-day.today{background:rgba(204,0,0,.2);border-color:var(--red)!important}
-.cal-day.has-events{border-color:var(--border2)}
-.cal-day.has-titulo{border-color:rgba(200,168,75,.4)!important}
-.cal-day:hover:not(:empty){background:rgba(204,0,0,.1);border-color:rgba(204,0,0,.35)}
-.cal-day-num{font-family:var(--font-ui);font-size:13px;font-weight:300;color:var(--txt3);line-height:1}
-.cal-day.has-events .cal-day-num{color:var(--txt);font-weight:600}
-.cal-day.today .cal-day-num{color:var(--red)}
-.cal-dots{position:absolute;bottom:4px;display:flex;gap:2px}
-.cal-dot{width:3px;height:3px;border-radius:50%}
-
-.day-events-panel{padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;margin:0 16px 16px}
-.dep-title{font-family:var(--font-title);font-size:24px;letter-spacing:2px;margin-bottom:12px}
-.dep-empty{font-size:12px;color:var(--txt3);padding:8px 0}
-
-/* ── RECORDS PANEL ───────────────────────────────── */
-.records-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:0 16px 16px}
-.rec-card{background:var(--bg2);padding:20px 16px;border:1px solid var(--border);border-radius:3px;text-align:center}
-.rec-num{font-family:var(--font-title);font-size:52px;color:var(--red);line-height:1;margin-bottom:4px}
-.rec-label{font-size:10px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase}
-
-.hall-of-fame{padding:0 16px}
-.hof-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;margin-bottom:8px;overflow:hidden}
-.hof-main{padding:14px 16px;display:flex;align-items:center;gap:14px}
-.hof-rank{font-family:var(--font-title);font-size:32px;color:var(--red);opacity:.4;width:36px;flex-shrink:0;text-align:center}
-.hof-info{flex:1}
-.hof-name{font-family:var(--font-ui);font-size:16px;font-weight:600;color:var(--txt);margin-bottom:2px}
-.hof-detail{font-size:11px;color:var(--txt2)}
-.hof-badge{font-family:var(--font-title);font-size:22px;color:var(--gold);flex-shrink:0}
-
-/* ── GOLEADAS PANEL ──────────────────────────────── */
-.goleada-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:3px;padding:14px 16px;margin-bottom:6px}
-.gol-score{font-family:var(--font-title);font-size:32px;color:var(--red);line-height:1;margin-bottom:4px}
-.gol-detail{font-size:12px;color:var(--txt2)}
-.gol-year{font-size:10px;color:var(--txt3);letter-spacing:2px;margin-top:4px}
-
-/* ── LIGHTBOX ────────────────────────────────────── */
-.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:5000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:.3s}
-.lightbox.open{opacity:1;visibility:visible}
-.lightbox img{max-width:100%;max-height:80vh;object-fit:contain}
-.lb-cap{margin-top:12px;font-size:12px;color:rgba(255,255,255,.5);text-align:center}
-.lb-close{position:absolute;top:16px;right:16px;width:36px;height:36px;background:var(--bg3);border:1px solid var(--border2);border-radius:50%;color:var(--txt);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-
-/* ── TOAST ───────────────────────────────────────── */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg3);border:1px solid var(--red);border-left-width:3px;padding:12px 18px;max-width:320px;width:calc(100% - 32px);z-index:3000;border-radius:3px;transition:.35s cubic-bezier(.34,1.56,.64,1)}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast-t{font-family:var(--font-ui);font-size:14px;font-weight:600;color:var(--txt);margin-bottom:3px}
-.toast-b{font-size:11px;color:var(--txt2)}
-
-/* ── INSTALL BANNER ──────────────────────────────── */
-.install-bar{display:none;align-items:center;gap:12px;padding:12px 16px;background:rgba(204,0,0,.08);border-bottom:1px solid rgba(204,0,0,.2)}
-.install-bar.show{display:flex}
-.install-bar-text{flex:1;font-size:12px;color:var(--txt2)}
-.install-bar-text strong{display:block;color:var(--txt);font-size:13px;margin-bottom:2px}
-.install-bar-btn{background:var(--red);color:#fff;border:none;padding:8px 16px;font-size:11px;letter-spacing:1px;cursor:pointer;border-radius:2px;flex-shrink:0;font-family:var(--font-body)}
-
-/* ── BOTTOM SHARE BAR ────────────────────────────── */
-.share-fab{position:fixed;bottom:24px;right:20px;z-index:100;width:48px;height:48px;background:var(--red);border:none;border-radius:50%;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 4px 20px rgba(204,0,0,.4);display:flex;align-items:center;justify-content:center;transition:.2s}
-.share-fab:hover{background:var(--red2);transform:scale(1.08)}
-
-/* ── RESPONSIVE ──────────────────────────────────── */
-@media(min-width:480px){
-  .hero-top,.cards-list,.sec-head,.cal-month-nav,.cal-grid-wrap,.hall-of-fame,.records-grid{padding-left:24px;padding-right:24px}
-  .day-events-panel{margin-left:24px;margin-right:24px}
-}
-@media(min-width:768px){
-  .records-grid{grid-template-columns:repeat(4,1fr)}
-  .hero-title{font-size:120px}
+:root {
+  --red: #CC0000;
+  --red-hot: #FF1A1A;
+  --red-dark: #8B0000;
+  --white: #F5F0E8;
+  --white-pure: #FFFFFF;
+  --black: #0a0a0a;
+  --black-mid: #141414;
+  --black-soft: #1C1C1C;
+  --gray: #2a2a2a;
+  --gray-light: #444;
+  --gold: #C8A84B;
+  --gold-light: #E2C97E;
+  --scanline-opacity: 0.04;
+  --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
 }
 
-/* ── ANIMATIONS ──────────────────────────────────── */
-.fade-in{animation:fadein .4s ease both}
-@keyframes fadein{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'IBM Plex Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* VHS SCANLINES */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* NOISE GRAIN */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: var(--noise);
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 9998;
+  animation: grain 0.5s steps(1) infinite;
+}
+
+@keyframes grain {
+  0%,100%  { transform: translate(0,0); }
+  10% { transform: translate(-2%,-3%); }
+  20% { transform: translate(3%,2%); }
+  30% { transform: translate(-1%,4%); }
+  40% { transform: translate(2%,-1%); }
+  50% { transform: translate(-3%,2%); }
+  60% { transform: translate(1%,-2%); }
+  70% { transform: translate(2%,3%); }
+  80% { transform: translate(-2%,1%); }
+  90% { transform: translate(3%,-3%); }
+}
+
+/* HEADER */
+.vhs-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(10,10,10,0.98) 0%, rgba(10,10,10,0) 100%);
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-tricolor {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--red) 0%, var(--red) 33%, var(--white-pure) 33%, var(--white-pure) 66%, #1C1C1C 66%);
+  border: 2px solid var(--red);
+  box-shadow: 0 0 12px rgba(204,0,0,0.5);
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: var(--white);
+}
+
+.logo-text span { color: var(--red); }
+
+.vhs-rec {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--red);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.rec-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--red);
+  border-radius: 50%;
+  animation: recblink 1.2s ease-in-out infinite;
+}
+
+@keyframes recblink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.1; }
+}
+
+/* HERO / TODAY */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 20px 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%, rgba(204,0,0,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 80% 80%, rgba(139,0,0,0.08) 0%, transparent 60%),
+    linear-gradient(180deg, var(--black) 0%, var(--black-mid) 50%, var(--black) 100%);
+}
+
+.hero-date-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  text-align: center;
+  opacity: 0.06;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.hero-date-ghost {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 22vw, 200px);
+  color: var(--white);
+  line-height: 0.85;
+  letter-spacing: -4px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.vhs-timestamp {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+
+.today-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(42px, 12vw, 80px);
+  line-height: 0.9;
+  letter-spacing: 2px;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.today-title em {
+  color: var(--red);
+  font-style: normal;
+  display: block;
+}
+
+.today-subtitle {
+  font-family: 'Special Elite', cursive;
+  font-size: 14px;
+  color: rgba(245,240,232,0.5);
+  margin-bottom: 28px;
+  letter-spacing: 1px;
+}
+
+.scroll-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(245,240,232,0.3);
+  font-size: 11px;
+  letter-spacing: 2px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 0.7; } }
+
+.scroll-line {
+  width: 40px;
+  height: 1px;
+  background: currentColor;
+}
+
+/* EVENTS COUNT BADGE */
+.events-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(204,0,0,0.15);
+  border: 1px solid rgba(204,0,0,0.3);
+  padding: 6px 14px;
+  border-radius: 2px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.badge-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: var(--red);
+  line-height: 1;
+}
+
+/* MAIN EVENTS SECTION */
+.events-section {
+  padding: 0 20px;
+  position: relative;
+}
+
+.section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--gray-light);
+  text-transform: uppercase;
+  padding: 20px 0 16px;
+  border-top: 1px solid var(--gray);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gray);
+}
+
+/* EVENT CARD */
+.event-card {
+  margin-bottom: 1px;
+  background: var(--black-mid);
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.event-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(204,0,0,0.06) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.event-card:active::before, .event-card:focus::before { opacity: 1; }
+
+.event-card.cat-vitoria { border-left-color: var(--red); }
+.event-card.cat-titulo { border-left-color: var(--gold); }
+.event-card.cat-aniversario { border-left-color: #4a9eff; }
+.event-card.cat-estreia { border-left-color: #7fff6a; }
+.event-card.cat-despedida { border-left-color: #ff9f40; }
+.event-card.cat-fundacao { border-left-color: var(--gold); }
+
+.card-inner {
+  padding: 16px 18px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.card-emoji {
+  font-size: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  filter: drop-shadow(0 0 6px rgba(204,0,0,0.3));
+}
+
+.card-body { flex: 1; min-width: 0; }
+
+.card-year {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--red);
+  letter-spacing: 3px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.years-ago {
+  color: var(--gray-light);
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.card-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--white);
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+
+.card-desc {
+  font-family: 'Special Elite', cursive;
+  font-size: 12px;
+  color: rgba(245,240,232,0.55);
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+}
+
+.card-tag {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 2px 6px;
+  border-radius: 1px;
+  text-transform: uppercase;
+}
+
+.tag-vitoria { background: rgba(204,0,0,0.2); color: #ff6666; }
+.tag-titulo { background: rgba(200,168,75,0.2); color: var(--gold-light); }
+.tag-aniversario { background: rgba(74,158,255,0.15); color: #7cb9ff; }
+.tag-estreia { background: rgba(127,255,106,0.12); color: #9eff8a; }
+.tag-despedida { background: rgba(255,159,64,0.15); color: #ffb96a; }
+.tag-fundacao { background: rgba(200,168,75,0.25); color: var(--gold); }
+
+/* EXPANDED CARD */
+.card-expanded {
+  padding: 0 18px 16px 50px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: none;
+  animation: expandIn 0.3s ease;
+}
+
+.card-expanded.open { display: block; }
+
+@keyframes expandIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.expanded-context {
+  font-family: 'Special Elite', cursive;
+  font-size: 13px;
+  color: rgba(245,240,232,0.7);
+  line-height: 1.8;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 10px;
+}
+
+.expanded-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: rgba(245,240,232,0.4);
+  letter-spacing: 1px;
+}
+
+.meta-item strong {
+  color: rgba(245,240,232,0.7);
+  display: block;
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+/* NOTHING TODAY */
+.nothing-today {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.nothing-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.nothing-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--red);
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.nothing-text {
+  font-family: 'Special Elite', cursive;
+  font-size: 14px;
+  color: rgba(245,240,232,0.4);
+  line-height: 1.7;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* MONTH NAV */
+.month-nav {
+  padding: 30px 20px 0;
+}
+
+.month-tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 16px;
+}
+
+.month-tabs::-webkit-scrollbar { display: none; }
+
+.month-tab {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 1px solid var(--gray);
+  background: transparent;
+  color: var(--gray-light);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.month-tab.active {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--white);
+}
+
+.month-tab:hover:not(.active) {
+  border-color: rgba(204,0,0,0.4);
+  color: var(--white);
+}
+
+/* CALENDAR GRID */
+.calendar-grid {
+  padding: 0 20px 30px;
+}
+
+.cal-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 4px;
+}
+
+.cal-day-name {
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--gray-light);
+  letter-spacing: 1px;
+  padding: 6px 0;
+}
+
+.cal-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.cal-cell {
+  aspect-ratio: 1;
+  background: var(--black-mid);
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+  border-radius: 1px;
+}
+
+.cal-cell:empty { background: transparent; cursor: default; }
+
+.cal-cell-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(245,240,232,0.5);
+  line-height: 1;
+}
+
+.cal-cell.has-events .cal-cell-num { color: var(--white); font-weight: 500; }
+
+.cal-cell.today {
+  background: rgba(204,0,0,0.2);
+  border-color: var(--red);
+}
+
+.cal-cell.today .cal-cell-num { color: var(--red); font-weight: 600; }
+
+.cal-cell.has-events::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.cal-cell.has-titulo::after { background: var(--gold); }
+
+.event-dots {
+  position: absolute;
+  bottom: 3px;
+  display: flex;
+  gap: 2px;
+}
+
+.e-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+}
+
+.cal-cell:hover:not(:empty) {
+  background: rgba(204,0,0,0.1);
+  border-color: rgba(204,0,0,0.3);
+}
+
+/* SELECTED DAY EVENTS */
+.selected-day-panel {
+  padding: 0 20px 20px;
+  display: none;
+}
+
+.selected-day-panel.open { display: block; }
+
+.selected-day-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--white);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+/* RECORDS / ESTATÍSTICAS */
+.stats-section {
+  padding: 30px 20px;
+  background: var(--black-soft);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.stat-card {
+  background: var(--black-mid);
+  padding: 18px 16px;
+}
+
+.stat-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: var(--red);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--gray-light);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* TOAST NOTIFICATION */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--black-soft);
+  border: 1px solid var(--red);
+  border-left-width: 4px;
+  padding: 14px 20px;
+  max-width: 340px;
+  width: calc(100% - 40px);
+  z-index: 1000;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 2px;
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+.toast-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.toast-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--gray-light);
+  line-height: 1.5;
+}
+
+/* PWA INSTALL */
+.install-banner {
+  margin: 20px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, rgba(204,0,0,0.12) 0%, rgba(139,0,0,0.06) 100%);
+  border: 1px solid rgba(204,0,0,0.25);
+  display: none;
+  align-items: center;
+  gap: 14px;
+  border-radius: 2px;
+}
+
+.install-banner.visible { display: flex; }
+
+.install-text { flex: 1; }
+
+.install-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 3px;
+}
+
+.install-sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--gray-light);
+  letter-spacing: 1px;
+}
+
+.install-btn {
+  background: var(--red);
+  color: var(--white);
+  border: none;
+  padding: 8px 16px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-radius: 1px;
+}
+
+/* FOOTER */
+.footer {
+  padding: 30px 20px;
+  border-top: 1px solid var(--gray);
+  text-align: center;
+}
+
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: var(--red);
+  letter-spacing: 4px;
+  margin-bottom: 6px;
+}
+
+.footer-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: rgba(245,240,232,0.2);
+  letter-spacing: 2px;
+}
+
+.footer-source {
+  margin-top: 10px;
+  font-family: 'Special Elite', cursive;
+  font-size: 11px;
+  color: rgba(245,240,232,0.15);
+}
+
+/* SECTION SPACER */
+.section-spacer { height: 20px; }
+
+/* CHANNEL BAR */
+.channel-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red) 0%, var(--red-hot) 33%, var(--white-pure) 33%, var(--white-pure) 66%, var(--black-soft) 66%);
+  z-index: 200;
+}
+
+/* GLITCH EFFECT */
+@keyframes glitch {
+  0%,100% { clip-path: inset(0 0 100% 0); }
+  10% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 0); }
+  20% { clip-path: inset(40% 0 50% 0); transform: translate(2px, 0); }
+  30% { clip-path: inset(70% 0 20% 0); transform: translate(-1px, 0); }
+  40% { clip-path: inset(0 0 0 0); transform: translate(0, 0); }
+}
+
+.glitch-title {
+  position: relative;
+}
+
+.glitch-title::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--red);
+  clip-path: inset(0 0 100% 0);
+  animation: glitch 6s steps(1) infinite;
+}
+
+/* LOADING */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loading-screen.hidden { opacity: 0; visibility: hidden; }
+
+.loading-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: var(--red);
+  letter-spacing: 6px;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.loading-bar-wrap {
+  width: 200px;
+  height: 2px;
+  background: var(--gray);
+}
+
+.loading-bar {
+  height: 100%;
+  background: var(--red);
+  animation: loadfill 1.5s ease-out forwards;
+}
+
+@keyframes loadfill { from { width: 0; } to { width: 100%; } }
+
+.loading-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--gray-light);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* RESPONSIVE */
+@media (min-width: 480px) {
+  .hero { padding: 0 30px 40px; }
+  .events-section, .month-nav, .calendar-grid, .selected-day-panel, .stats-section, .footer { padding-left: 30px; padding-right: 30px; }
+  .install-banner { margin: 20px 30px; }
+}
+
+@media (min-width: 768px) {
+  .card-inner { padding: 20px 24px; }
+  .today-title { font-size: 90px; }
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* SHARE BTN */
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  background: transparent;
+  border: 1px solid rgba(245,240,232,0.15);
+  color: rgba(245,240,232,0.5);
+  padding: 8px 16px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.share-btn:hover {
+  border-color: var(--red);
+  color: var(--white);
+}
+
+/* NOTIFICATION PERMISSION */
+.notif-bar {
+  margin: 0 20px 0;
+  padding: 14px 18px;
+  background: rgba(200,168,75,0.08);
+  border: 1px solid rgba(200,168,75,0.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.notif-bar:hover { background: rgba(200,168,75,0.12); }
+
+.notif-icon { font-size: 20px; }
+
+.notif-text { flex: 1; }
+
+.notif-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  color: var(--gold-light);
+  margin-bottom: 2px;
+}
+
+.notif-sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: rgba(200,168,75,0.5);
+  letter-spacing: 1px;
+}
+
+.notif-arrow {
+  color: var(--gold);
+  font-size: 18px;
+}
 </style>
 </head>
+
 <body>
 
-<!-- TOPBAR -->
-<header class="topbar">
-  <div class="topbar-logo">
-    <div class="tb-badge"></div>
-    <div class="tb-name"><span>SÃO PAULO</span> FC</div>
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-logo">SPFC</div>
+  <div class="loading-bar-wrap">
+    <div class="loading-bar"></div>
   </div>
-  <div class="tb-right">
-    <div class="tb-rec"><div class="rec-dot"></div>AO VIVO</div>
-    <div class="tb-notif" onclick="askNotif()" title="Notificações">🔔</div>
+  <div class="loading-text">Abrindo a cápsula do tempo...</div>
+</div>
+
+<!-- CHANNEL BAR -->
+<div class="channel-bar"></div>
+
+<!-- HEADER -->
+<header class="vhs-header">
+  <div class="header-logo">
+    <div class="logo-tricolor"></div>
+    <div class="logo-text"><span>SÃO PAULO</span> FC</div>
+  </div>
+  <div class="vhs-rec">
+    <div class="rec-dot"></div>
+    HISTÓRICO
   </div>
 </header>
 
-<!-- INSTALL BANNER -->
-<div class="install-bar" id="installBar">
-  <div class="install-bar-text">
-    <strong>Adicionar à tela inicial</strong>
-    Acesse o histórico do SPFC todos os dias
-  </div>
-  <button class="install-bar-btn" onclick="installPWA()">INSTALAR</button>
-</div>
-
 <!-- HERO -->
-<section class="hero" id="heroSection">
-  <div class="hero-gradient"></div>
-  <div class="hero-ghost" id="heroGhost"></div>
-  <div class="hero-top">
-    <div class="hero-date-tag">
-      <span id="heroDateLabel">carregando...</span>
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-date-display">
+    <div class="hero-date-ghost" id="heroGhostDate"></div>
+  </div>
+  <div class="hero-content">
+    <div class="vhs-timestamp" id="heroTimestamp"></div>
+    <div class="today-title glitch-title" id="heroTitle" data-text="">
+      O QUE<br><em>ACONTECEU</em><br>HOJE
     </div>
-    <div class="hero-title">O QUE<br><em>ACONTECEU</em><br>HOJE</div>
-    <div class="hero-sub">na história do São Paulo Futebol Clube</div>
-    <div class="hero-count-row">
-      <div class="hero-count" id="heroCount">0</div>
-      <div class="hero-count-label">
-        <strong id="heroCountLabel">eventos</strong>
-        encontrados hoje
-      </div>
+    <div class="today-subtitle">na história do São Paulo Futebol Clube</div>
+    <div class="events-count-badge" id="eventsCountBadge">
+      <span class="badge-num" id="eventsCountNum">0</span>
+      <span>eventos encontrados</span>
     </div>
-    <div class="scroll-pill" onclick="scrollToContent()">
-      VER HISTÓRICO <span class="scroll-arrow">↓</span>
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      ROLE PARA VER
+      <div class="scroll-line"></div>
     </div>
   </div>
 </section>
 
-<!-- NAV TABS -->
-<nav class="nav-tabs" id="navTabs">
-  <button class="nav-tab active" onclick="showPanel('hoje',this)">HOJE</button>
-  <button class="nav-tab" onclick="showPanel('calendario',this)">CALENDÁRIO</button>
-  <button class="nav-tab" onclick="showPanel('records',this)">RECORDES</button>
-  <button class="nav-tab" onclick="showPanel('goleadas',this)">GOLEADAS</button>
-</nav>
-
-<!-- PANEL: HOJE -->
-<div class="panel active" id="panel-hoje">
-  <div class="sec-head">
-    <div class="sec-title">// eventos de hoje</div>
-    <div class="sec-count" id="secCount">0</div>
+<!-- NOTIFICATION BAR -->
+<div class="notif-bar" id="notifBar" onclick="requestNotificationPermission()">
+  <div class="notif-icon">🔔</div>
+  <div class="notif-text">
+    <div class="notif-title">Receba hoje na história</div>
+    <div class="notif-sub">Notificação diária às 8h da manhã</div>
   </div>
-  <div class="cards-list" id="todayList"></div>
+  <div class="notif-arrow">›</div>
 </div>
 
-<!-- PANEL: CALENDÁRIO -->
-<div class="panel" id="panel-calendario">
-  <div class="cal-month-nav" id="calMonthNav"></div>
-  <div class="cal-grid-wrap">
-    <div class="cal-weekdays" id="calWD"></div>
-    <div class="cal-grid" id="calGrid"></div>
+<!-- INSTALL BANNER -->
+<div class="install-banner" id="installBanner">
+  <div class="install-text">
+    <div class="install-title">Adicionar à tela inicial</div>
+    <div class="install-sub">Acesse diariamente em 1 toque</div>
   </div>
-  <div class="day-events-panel" id="dayPanel" style="display:none">
-    <div class="dep-title" id="dayPanelTitle"></div>
-    <div id="dayPanelList"></div>
-  </div>
+  <button class="install-btn" onclick="installPWA()">INSTALAR</button>
 </div>
 
-<!-- PANEL: RECORDS -->
-<div class="panel" id="panel-records">
-  <div class="sec-head"><div class="sec-title">// arquivo histórico</div></div>
-  <div class="records-grid" id="recordsGrid"></div>
-  <div class="sec-head"><div class="sec-title">// hall da fama</div></div>
-  <div class="hall-of-fame" id="hofList"></div>
+<!-- TODAY'S EVENTS -->
+<section class="events-section">
+  <div class="section-label">// eventos de hoje</div>
+  <div id="todayEvents"></div>
+</section>
+
+<!-- SHARE -->
+<div style="padding: 0 20px 10px; text-align:center;">
+  <button class="share-btn" onclick="shareToday()">
+    ↗ COMPARTILHAR O DIA DE HOJE
+  </button>
 </div>
 
-<!-- PANEL: GOLEADAS -->
-<div class="panel" id="panel-goleadas">
-  <div class="sec-head"><div class="sec-title">// maiores goleadas históricas</div></div>
-  <div class="cards-list" id="goleadasList"></div>
-</div>
+<!-- STATS -->
+<section class="stats-section">
+  <div class="section-label">// arquivo histórico</div>
+  <div class="stats-grid" id="statsGrid"></div>
+</section>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLB(event)">
-  <button class="lb-close" onclick="closeLB(event)">✕</button>
-  <img id="lbImg" src="" alt="">
-  <div class="lb-cap" id="lbCap"></div>
-</div>
+<div class="section-spacer"></div>
+
+<!-- MONTH NAV -->
+<section class="month-nav">
+  <div class="section-label">// calendário completo</div>
+  <div class="month-tabs" id="monthTabs"></div>
+</section>
+
+<!-- CALENDAR GRID -->
+<section class="calendar-grid" id="calendarGrid"></section>
+
+<!-- SELECTED DAY EVENTS -->
+<section class="selected-day-panel" id="selectedDayPanel">
+  <div class="selected-day-title" id="selectedDayTitle"></div>
+  <div id="selectedDayEvents"></div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">SPFC</div>
+  <div class="footer-text">HOJE NA HISTÓRIA · 2025</div>
+  <div class="footer-source">Dados: Calendário Histórico SPFC 2025<br>Produção: Michael Serra · Arquivo João Farah</div>
+</footer>
 
 <!-- TOAST -->
 <div class="toast" id="toast">
-  <div class="toast-t" id="toastT"></div>
-  <div class="toast-b" id="toastB"></div>
+  <div class="toast-title" id="toastTitle"></div>
+  <div class="toast-text" id="toastText"></div>
 </div>
 
-<!-- SHARE FAB -->
-<button class="share-fab" onclick="shareDay()" title="Compartilhar">↗</button>
-
 <script>
-'use strict';
-
-/* ═══════════════════════════════════════════════════════════
-   DATABASE COMPLETO — extraído do PDF Calendário Histórico
-   SPFC 2025. Todos os 12 meses, todos os dias.
-   Formato: DB[mes][dia] = [{...eventos}]
-═══════════════════════════════════════════════════════════ */
-
-// Categorias: vitoria | titulo | aniversario | estreia | despedida | recorde | mundial | fundacao
-// Videos: ID do YouTube (embed automático)
-// Images: URL pública (Cloudinary, GitHub raw, etc.)
+// ═══════════════════════════════════════════════════════════════
+// DATABASE — extraído do PDF do Calendário Histórico SPFC 2025
+// ═══════════════════════════════════════════════════════════════
+// Categorias: vitoria, titulo, aniversario, estreia, despedida, fundacao, record, mundial
 
 const DB = {
+  // JANEIRO
+  1: {
+    2: [
+      { cat:'despedida', emoji:'👋', title:'Gijo se despede do SPFC', desc:'Último jogo de Gijo com a camisa tricolor', year:1949, context:'Um dos jogadores da época de ouro do clube encerra sua passagem pelo Morumbi.' },
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Corinthians', desc:'Goleada sobre o rival paulistano', year:1946, context:'Clássico paulista com vitória expressiva do Tricolor.' }
+    ],
+    3: [
+      { cat:'vitoria', emoji:'⚽', title:'6x0 no CA Paulista', desc:'Goleada histórica sobre o CA Paulista', year:1937, context:'O São Paulo demonstra domínio absoluto no futebol estadual.' },
+      { cat:'aniversario', emoji:'🎂', title:'Waldir Peres — Aniversário', desc:'Nascimento do ídolo Waldir Peres', year:1951, context:'O goleiro Waldir Peres nasceu nesta data e se tornaria um dos maiores goleiros da história do clube.' }
+    ],
+    4: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Audax Italiano', desc:'Vitória sobre o Audax Italiano', year:1958 },
+      { cat:'aniversario', emoji:'🎂', title:'Sócio-Torcedor — Aniversário do Programa', desc:'Aniversário do programa Sócio-Torcedor', year:1999, context:'O programa de sócios do São Paulo completou mais um ano nesta data.' }
+    ],
+    5: [],
+    6: [
+      { cat:'aniversario', emoji:'🎂', title:'King — Aniversário', desc:'Nascimento do craque King', year:1917, context:'King foi um dos primeiros grandes ídolos do São Paulo Futebol Clube nos anos dourados.' }
+    ],
+    7: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 na Portuguesa', desc:'Vitória sobre a Portuguesa', year:1935 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Zarzur', desc:'Zarzur faz sua estreia pelo São Paulo', year:1933 }
+    ],
+    8: [
+      { cat:'aniversario', emoji:'🎂', title:'Joreca — Aniversário', desc:'Nascimento de Joreca', year:1904 },
+      { cat:'aniversario', emoji:'🎂', title:'Adílson — Aniversário', desc:'Nascimento de Adílson', year:1965 },
+      { cat:'aniversario', emoji:'🎂', title:'Roberto Dias — Aniversário', desc:'Nascimento de Roberto Dias', year:1943 }
+    ],
+    9: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Índia', desc:'Goleada sobre o Índia', year:1989 },
+      { cat:'vitoria', emoji:'⚽', title:'2x0 no Juventus', desc:'Vitória sobre o Juventus', year:1954 },
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Corinthians', desc:'Clássico vencido com goleada', year:1932 },
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Guarani', desc:'Vitória sobre o Guarani', year:1953 },
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1931', desc:'São Paulo conquista o Campeonato Paulista', year:1931, context:'Um dos primeiros títulos paulistas da história do clube, consolidando o SPFC como potência do futebol estadual.' }
+    ],
+    10: [],
+    11: [
+      { cat:'aniversario', emoji:'🎂', title:'Gérson — Aniversário', desc:'Nascimento de Gérson', year:1941 }
+    ],
+    12: [
+      { cat:'aniversario', emoji:'🎂', title:'Kardec — Aniversário', desc:'Nascimento de Alan Kardec', year:1989 },
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Dep. Cali', desc:'Vitória na Libertadores sobre o Deportivo Cali', year:1960 }
+    ],
+    13: [
+      { cat:'aniversario', emoji:'🎂', title:'Gilmar-GL — Aniversário', desc:'Nascimento de Gilmar-GL', year:1959 },
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Dep. Cali', desc:'Vitória internacional', year:1960 }
+    ],
+    14: [
+      { cat:'aniversario', emoji:'🎂', title:'Ivan — Aniversário', desc:'Nascimento de Ivan', year:1969 },
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no XV de Piracicaba', desc:'Goleada sobre o XV de Piracicaba', year:1956 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Antônio Carlos', desc:'Antônio Carlos estreia pelo São Paulo', year:1989 }
+    ],
+    15: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Alianza-ELS', desc:'Goleada internacional sobre o Alianza de El Salvador', year:1964 },
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Londrina', desc:'Vitória sobre o Londrina', year:1966 },
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Treze', desc:'Goleada sobre o Treze', year:1982 }
+    ],
+    16: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no At. Nacional', desc:'Vitória internacional sobre o Atlético Nacional', year:1960 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Borges', desc:'Borges faz sua estreia pelo São Paulo', year:2007 }
+    ],
+    17: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Olimpia-PAR', desc:'Vitória internacional sobre o Olimpia do Paraguai', year:1999 },
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Uralan', desc:'Goleada internacional', year:2000 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Hugo', desc:'Hugo faz sua estreia pelo São Paulo', year:2007 }
+    ],
+    18: [],
+    19: [
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Corinthians', desc:'Clássico vencido', year:1965 },
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Mirassol', desc:'Vitória no Paulistão', year:2019 }
+    ],
+    20: [
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Bayer Leverkusen', desc:'Goleada histórica sobre o Bayer Leverkusen', year:1999, context:'Partida marcante na memória dos torcedores.' },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Josué', desc:'Josué estreia pelo São Paulo', year:2005 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Mineiro', desc:'Mineiro estreia pelo São Paulo', year:2005 }
+    ],
+    21: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Grafite', desc:'Grafite estreia pelo São Paulo', year:2004 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Cicinho', desc:'Cicinho estreia pelo São Paulo', year:2004 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Fabão', desc:'Fabão estreia pelo São Paulo', year:2004 }
+    ],
+    22: [
+      { cat:'aniversario', emoji:'🎂', title:'Rogério Ceni — Aniversário', desc:'Nascimento do lendário goleiro Rogério Ceni', year:1973, context:'O maior ídolo da história do São Paulo, Rogério Ceni nasceu nesta data. O goleiro-artilheiro fez 1237 jogos pelo Tricolor e marcou 131 gols.' }
+    ],
+    23: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1953', desc:'São Paulo conquista o Campeonato Paulista', year:1953, context:'Mais um título estadual para o SPFC.' },
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Botafogo-RP', desc:'Vitória sobre o Botafogo-RP', year:2012 },
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Santo André', desc:'Vitória sobre o Santo André', year:1994 }
+    ],
+    24: [
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Santos', desc:'Clássico paulista vencido', year:1954 },
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Joinville', desc:'Goleada sobre o Joinville', year:1987 }
+    ],
+    25: [
+      { cat:'fundacao', emoji:'🎂', title:'FUNDAÇÃO DO SPFC', desc:'Aniversário de fundação do São Paulo Futebol Clube', year:1930, context:'Em 25 de janeiro de 1930, nasce o São Paulo Futebol Clube. Um clube que se tornaria o maior do Brasil em títulos internacionais.' },
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Boca Juniors', desc:'Goleada histórica sobre o Boca Juniors', year:1961, context:'O São Paulo goleia o gigante argentino Boca Juniors em partida memorável.' },
+      { cat:'despedida', emoji:'👋', title:'Despedida de Grafite', desc:'Último jogo de Grafite pelo São Paulo', year:2006 }
+    ],
+    26: [
+      { cat:'aniversario', emoji:'🎂', title:'Béla Guttmann — Aniversário', desc:'Nascimento do lendário técnico Béla Guttmann', year:1899, context:'Béla Guttmann foi um dos treinadores mais influentes do futebol mundial. Húngaro de nascimento, marcou gerações no futebol.' }
+    ],
+    27: [
+      { cat:'aniversario', emoji:'🎂', title:'China — Aniversário', desc:'Nascimento de China', year:1923 }
+    ],
+    28: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Ferroviário', desc:'Goleada sobre o Ferroviário', year:1982 },
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Corinthians', desc:'Clássico vencido', year:1989 }
+    ],
+    29: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Santos', desc:'Clássico paulista vencido', year:1974 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Palhinha', desc:'Palhinha estreia pelo São Paulo', year:1992 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Ronaldo Luís', desc:'Ronaldo Luís estreia pelo São Paulo', year:1992 }
+    ],
+    30: [
+      { cat:'aniversario', emoji:'🎂', title:'Chicão — Aniversário', desc:'Nascimento de Chicão', year:1949 },
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Corinthians', desc:'Clássico vencido', year:1954 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Careca', desc:'Careca estreia pelo São Paulo', year:1983 },
+      { cat:'vitoria', emoji:'⚽', title:'6x0 no Mohammedan', desc:'Goleada internacional', year:2007 }
+    ],
+    31: [
+      { cat:'aniversario', emoji:'🎂', title:'Paulo César — Aniversário', desc:'Nascimento de Paulo César', year:1960 },
+      { cat:'aniversario', emoji:'🎂', title:'Müller — Aniversário', desc:'Nascimento do craque Müller', year:1966, context:'Müller, um dos maiores artilheiros da história do clube, nasceu nesta data.' },
+      { cat:'vitoria', emoji:'⚽', title:'5x2 no Santos', desc:'Clássico vencido com placar expressivo', year:2000 },
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Corinthians', desc:'Clássico vencido', year:2024 }
+    ]
+  },
 
-/* ── JANEIRO ─────────────────────────────────────── */
- 1:[{t:'titulo',e:'🏆',n:'LIBERTADORES 1992 — A GLÓRIA CHEGA',d:'São Paulo conquista sua 1ª Libertadores (confirmada)',y:1992,ctx:'O São Paulo de Telê Santana conquista a Copa Libertadores de 1992. Base para o histórico tricampeonato.',video:'P0Ly3sM1g7E'},{t:'estreia',e:'⭐',n:'Estreia de Rogério Ceni',d:'O lendário goleiro estreia no futebol profissional pelo São Paulo',y:1993,ctx:'Em 17 de junho de 1993, Rogério Ceni — Sinop-MT, 22 de janeiro de 1973 — inicia o que seria a maior trajetória de um jogador pela mesma equipe no futebol mundial. 1.237 jogos, 131 gols, 17 títulos.',stats:[{l:'Jogos',v:'1.237'},{l:'Gols',v:'131'},{l:'Títulos',v:'17'},{l:'Anos',v:'1990-2015'}],video:'FEBv1tKcaF0'}],,
- 2:[{t:'vitoria',e:'⚽',n:'5x1 no Corinthians',d:'Clássico paulista vencido com goleada',y:1946,ctx:'Uma vitória expressiva sobre o rival no início do ano.'}],
- 3:[{t:'vitoria',e:'⚽',n:'6x0 no CA Paulista',d:'Goleada histórica sobre o CA Paulista',y:1937},{t:'aniversario',e:'🎂',n:'Waldir Peres',d:'Aniversário do goleiro símbolo do SPFC nos anos 70 e 80',y:1951,ctx:'Waldir Peres foi um dos maiores goleiros da história do clube, peça fundamental nas campanhas do final dos anos 70.',stats:[{l:'Jogos pelo SPFC',v:'Centenas'},{l:'Posição',v:'Goleiro'},{l:'Era',v:'Anos 70-80'}]}],
- 4:[{t:'vitoria',e:'⚽',n:'4x1 no Audax Italiano',d:'Vitória no início do ano',y:1958},{t:'aniversario',e:'🎂',n:'Sócio-Torcedor',d:'Aniversário do programa de sócios do SPFC',y:1999}],
- 6:[{t:'aniversario',e:'🎂',n:'King',d:'Aniversário de King, um dos primeiros grandes ídolos do SPFC',y:1917,ctx:'King foi um dos pioneiros do futebol tricolor, presente nos primeiros anos de glória do clube.',stats:[{l:'Posição',v:'Atacante'},{l:'Era',v:'1930s'},{l:'Ídolo',v:'Fundador'}]}],
- 7:[{t:'vitoria',e:'⚽',n:'4x1 na Portuguesa',d:'Vitória no Campeonato Paulista',y:1935},{t:'estreia',e:'⭐',n:'Estreia de Zarzur',d:'Zarzur faz sua primeira partida com a camisa tricolor',y:1933}],
- 8:[{t:'aniversario',e:'🎂',n:'Joreca',d:'Aniversário de Joreca',y:1904},{t:'aniversario',e:'🎂',n:'Adílson',d:'Aniversário de Adílson',y:1965},{t:'aniversario',e:'🎂',n:'Roberto Dias',d:'Aniversário de Roberto Dias',y:1943}],
- 9:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1931',d:'São Paulo conquista o Campeonato Paulista',y:1931,ctx:'Um dos primeiros grandes títulos da história do clube. O SPFC se consolida como potência do futebol paulista.',stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1931'},{l:'Título',v:'1º Grande'}]},{t:'vitoria',e:'⚽',n:'4x1 no Corinthians',d:'Goleada no clássico',y:1932},{t:'vitoria',e:'⚽',n:'2x0 no Juventus',d:'Vitória sobre o Juventus',y:1954},{t:'vitoria',e:'⚽',n:'4x0 no Guarani',d:'Goleada sobre o Guarani',y:1953}],
- 11:[{t:'aniversario',e:'🎂',n:'Gérson',d:'Aniversário de Gérson',y:1941}],
- 12:[{t:'aniversario',e:'🎂',n:'Alan Kardec',d:'Aniversário do centroavante Alan Kardec',y:1989,ctx:'Alan Kardec vestiu a camisa do São Paulo e marcou gols importantes para o clube.',stats:[{l:'Posição',v:'Centroavante'},{l:'Nascimento',v:'1989'}]}],
- 13:[{t:'aniversario',e:'🎂',n:'Gilmar-GL',d:'Aniversário de Gilmar-GL',y:1959},{t:'vitoria',e:'⚽',n:'4x1 no Dep. Cali',d:'Vitória internacional',y:1960}],
- 14:[{t:'aniversario',e:'🎂',n:'Ivan',d:'Aniversário de Ivan',y:1969},{t:'vitoria',e:'⚽',n:'5x1 no XV de Piracicaba',d:'Goleada no Paulistão',y:1956},{t:'estreia',e:'⭐',n:'Estreia de Antônio Carlos',d:'Antônio Carlos estreia pelo SPFC',y:1989}],
- 15:[{t:'vitoria',e:'⚽',n:'5x1 no Alianza-ELS',d:'Goleada em amistoso internacional',y:1964},{t:'vitoria',e:'⚽',n:'4x0 no Londrina',d:'Vitória fora de casa',y:1966},{t:'vitoria',e:'⚽',n:'5x0 no Treze',d:'Goleada expressiva',y:1982}],
- 16:[{t:'vitoria',e:'⚽',n:'4x0 no At. Nacional',d:'Goleada internacional',y:1960},{t:'estreia',e:'⭐',n:'Estreia de Borges',d:'Borges estreia com a camisa tricolor',y:2007}],
- 17:[{t:'vitoria',e:'⚽',n:'4x1 no Olimpia-PAR',d:'Vitória na Libertadores sobre o Olimpia do Paraguai',y:1999},{t:'vitoria',e:'⚽',n:'5x1 no Uralan',d:'Goleada em competição internacional',y:2000},{t:'estreia',e:'⭐',n:'Estreia de Hugo',d:'Hugo estreia pelo SPFC',y:2007}],
- 19:[{t:'vitoria',e:'⚽',n:'1x0 no Corinthians',d:'Clássico paulista vencido',y:1965},{t:'vitoria',e:'⚽',n:'4x1 no Mirassol',d:'Goleada no Paulistão',y:2019}],
- 20:[{t:'vitoria',e:'⚽',n:'5x0 no Bayer Leverkusen',d:'Goleada histórica em amistoso internacional',y:1999,ctx:'O São Paulo domina o gigante alemão no início do ano, mostrando sua força internacional.'},{t:'estreia',e:'⭐',n:'Estreia de Josué',d:'Josué estreia pelo São Paulo',y:2005},{t:'estreia',e:'⭐',n:'Estreia de Mineiro',d:'Mineiro estreia pelo São Paulo',y:2005}],
- 21:[{t:'estreia',e:'⭐',n:'Estreia de Grafite',d:'Grafite faz sua primeira partida pelo SPFC',y:2004,ctx:'Grafite chegou para ser um dos principais artilheiros do clube.'},{t:'estreia',e:'⭐',n:'Estreia de Cicinho',d:'Cicinho estreia pelo São Paulo',y:2004},{t:'estreia',e:'⭐',n:'Estreia de Fabão',d:'Fabão estreia pelo São Paulo',y:2004}],
- 22:[{t:'aniversario',e:'🎂',n:'Rogério Ceni',d:'Nascimento do maior ídolo da história do SPFC',y:1973,ctx:'Rogério Ceni nasceu em Sinop-MT em 22 de janeiro de 1973. O goleiro fez 1237 partidas com a camisa do São Paulo, marcou 131 gols e é considerado o maior ídolo da história do clube.',stats:[{l:'Jogos',v:'1.237'},{l:'Gols',v:'131'},{l:'Títulos',v:'17'},{l:'Anos',v:'1990–2015'}],video:'FEBv1tKcaF0'}],
- 23:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1953',d:'São Paulo conquista o Campeonato Paulista',y:1953,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1953'}]},{t:'vitoria',e:'⚽',n:'4x0 no Botafogo-RP',d:'Goleada no Brasileirão',y:2012},{t:'vitoria',e:'⚽',n:'4x1 no Santo André',d:'Vitória no Paulistão',y:1994},{t:'vitoria',e:'⚽',n:'5x0 no Bolívar',d:'Goleada na Libertadores',y:2013}],
- 24:[{t:'vitoria',e:'⚽',n:'3x1 no Santos',d:'Clássico paulista vencido',y:1954},{t:'vitoria',e:'⚽',n:'5x0 no Joinville',d:'Goleada no Brasileirão',y:1987}],
- 25:[{t:'fundacao',e:'🎂',n:'FUNDAÇÃO DO SPFC',d:'25 de janeiro de 1930 — nasce o São Paulo Futebol Clube',y:1930,ctx:'Em 25 de janeiro de 1930, o São Paulo Futebol Clube é fundado. Do humilde início à maior coleção de títulos internacionais do futebol brasileiro, o clube nasceu para ser grande.',stats:[{l:'Fundação',v:'1930'},{l:'Mundiais',v:'3'},{l:'Libertadores',v:'3'},{l:'Brasileiros',v:'6'}]},{t:'vitoria',e:'⚽',n:'5x1 no Boca Juniors',d:'Goleada histórica sobre o rival argentino',y:1961,ctx:'O São Paulo goleia o Boca Juniors em duelo internacional memorável.'},{t:'despedida',e:'👋',n:'Despedida de Grafite',d:'Último jogo de Grafite pelo SPFC',y:2006}],
- 26:[{t:'aniversario',e:'🎂',n:'Béla Guttmann',d:'Aniversário do lendário treinador húngaro',y:1899,ctx:'Béla Guttmann foi um dos maiores treinadores da história do futebol mundial e passou pelo São Paulo.'}],
- 27:[{t:'aniversario',e:'🎂',n:'China',d:'Aniversário de China',y:1923}],
- 28:[{t:'vitoria',e:'⚽',n:'4x0 no Ferroviário',d:'Goleada na Copa do Brasil',y:1982},{t:'vitoria',e:'⚽',n:'2x1 no Corinthians',d:'Clássico vencido',y:1989}],
- 29:[{t:'aniversario',e:'🎂',n:'Aloísio Chulapa',d:'Aniversário de Aloísio Chulapa',y:1975},{t:'vitoria',e:'⚽',n:'2x1 no Santos',d:'Clássico paulista vencido',y:1974},{t:'estreia',e:'⭐',n:'Estreia de Palhinha',d:'Palhinha estreia pelo São Paulo',y:1992},{t:'estreia',e:'⭐',n:'Estreia de Ronaldo Luís',d:'Ronaldo Luís estreia pelo São Paulo',y:1992}],
- 30:[{t:'aniversario',e:'🎂',n:'Chicão',d:'Aniversário de Chicão',y:1949},{t:'aniversario',e:'🎂',n:'Paulo César',d:'Aniversário de Paulo César',y:1960},{t:'vitoria',e:'⚽',n:'3x1 no Corinthians',d:'Clássico vencido',y:1954},{t:'estreia',e:'⭐',n:'Estreia de Careca',d:'Careca estreia pelo São Paulo',y:1983},{t:'vitoria',e:'⚽',n:'6x0 no Mohammedan',d:'Goleada em torneio internacional',y:2007}],
- 31:[{t:'aniversario',e:'🎂',n:'Müller',d:'Nascimento do grande artilheiro tricolor',y:1966,ctx:'Luis Müller é um dos maiores artilheiros da história do São Paulo. Participou de conquistas históricas do clube nos anos 90.',stats:[{l:'Posição',v:'Atacante'},{l:'Era',v:'Anos 80-90'},{l:'Títulos',v:'Mundiais 1992/93'}]},{t:'vitoria',e:'⚽',n:'5x2 no Santos',d:'Goleada no clássico paulista',y:2000},{t:'vitoria',e:'⚽',n:'2x1 no Corinthians',d:'Clássico vencido',y:2024}]
-},
+  // FEVEREIRO
+  2: {
+    1: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Nacional', desc:'Goleada internacional', year:1962 },
+      { cat:'vitoria', emoji:'⚽', title:'8x0 no Mitsubishi', desc:'Goleada histórica sobre o Mitsubishi', year:1970, context:'Uma das maiores goleadas em partidas internacionais do clube.' },
+      { cat:'vitoria', emoji:'⚽', title:'4x1 na Portuguesa St', desc:'Vitória sobre a Portuguesa Santista', year:2004 }
+    ],
+    2: [
+      { cat:'aniversario', emoji:'🎂', title:'Zarzur — Aniversário', desc:'Nascimento de Zarzur', year:1933 }
+    ],
+    3: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Santos', desc:'Clássico paulista vencido', year:1935 },
+      { cat:'vitoria', emoji:'⚽', title:'6x0 no Guadalajara', desc:'Goleada internacional', year:1960 }
+    ],
+    4: [
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Fortaleza', desc:'Goleada sobre o Fortaleza', year:1984 }
+    ],
+    5: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Palmeiras', desc:'Clássico paulista vencido', year:1949 }
+    ],
+    6: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Maurinho', desc:'Maurinho estreia pelo São Paulo', year:1952 }
+    ],
+    7: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Palmeiras', desc:'Clássico paulista vencido', year:1954 }
+    ],
+    8: [
+      { cat:'vitoria', emoji:'⚽', title:'5x2 no Gim. Esgrima', desc:'Vitória sobre o Ginástica e Esgrima', year:1941 },
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Santos', desc:'Clássico vencido', year:2000 },
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Santos', desc:'Clássico vencido', year:1996 },
+      { cat:'titulo', emoji:'🏆', title:'SUPERCOPA REI 2024', desc:'São Paulo conquista a Supercopa Rei', year:2024, context:'Título importante para o início da temporada do Tricolor.' },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de André Dias', desc:'André Dias estreia pelo São Paulo', year:2006 },
+      { cat:'vitoria', emoji:'⚽', title:'3x0 no Corinthians', desc:'Clássico vencido', year:1993 },
+      { cat:'vitoria', emoji:'⚽', title:'7x3 no Botafogo', desc:'Goleada sobre o Botafogo', year:1996 }
+    ],
+    9: [
+      { cat:'aniversario', emoji:'🎂', title:'Cilinho — Aniversário', desc:'Nascimento de Cilinho', year:1939 }
+    ],
+    10: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Taubaté', desc:'Goleada sobre o Taubaté', year:1963 }
+    ],
+    11: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Terto', desc:'Terto estreia pelo São Paulo', year:1968 },
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Corinthians', desc:'Clássico vencido', year:2007 }
+    ],
+    12: [
+      { cat:'titulo', emoji:'🏆', title:'MASTER CONMEBOL 1996', desc:'São Paulo conquista o Master Conmebol', year:1996, context:'Título internacional do Tricolor.' },
+      { cat:'vitoria', emoji:'⚽', title:'5x0 na Portuguesa St.', desc:'Goleada sobre a Portuguesa Santista', year:2006 },
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Internacional', desc:'Vitória sobre o Inter', year:1974 }
+    ],
+    13: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Palmeiras', desc:'Clássico paulista vencido', year:1963 },
+      { cat:'vitoria', emoji:'⚽', title:'8x0 no SP Araçatuba', desc:'Goleada histórica', year:1949 }
+    ],
+    14: [
+      { cat:'aniversario', emoji:'🎂', title:'De Sordi — Aniversário', desc:'Nascimento de De Sordi', year:1931 },
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Corinthians', desc:'Clássico vencido', year:2004 }
+    ],
+    15: [
+      { cat:'vitoria', emoji:'⚽', title:'6x0 no XV de Piracicaba', desc:'Goleada sobre o XV de Piracicaba', year:1948 },
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Bragantino', desc:'Vitória sobre o Bragantino', year:2015 },
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Santos', desc:'Clássico vencido', year:2017 }
+    ],
+    16: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no SP Railway', desc:'Goleada sobre o SP Railway', year:1944 }
+    ],
+    17: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Luzitano', desc:'Vitória sobre o Luzitano', year:1938 }
+    ],
+    18: [
+      { cat:'despedida', emoji:'👋', title:'Despedida de Pedro Rocha', desc:'Último jogo de Pedro Rocha pelo São Paulo', year:1978 }
+    ],
+    19: [
+      { cat:'aniversario', emoji:'🎂', title:'Alexandre-VL — Aniversário', desc:'Nascimento de Alexandre-VL', year:1979 }
+    ],
+    20: [
+      { cat:'vitoria', emoji:'⚽', title:'3x0 no Palmeiras', desc:'Clássico paulista vencido', year:2005 },
+      { cat:'vitoria', emoji:'⚽', title:'3x0 no Santos', desc:'Clássico vencido', year:2022 }
+    ],
+    21: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Dino Sani', desc:'Dino Sani estreia pelo São Paulo', year:1954 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Bernardo', desc:'Bernardo estreia pelo São Paulo', year:1986 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Ronaldão', desc:'Ronaldão estreia pelo São Paulo', year:1986 }
+    ],
+    22: [
+      { cat:'aniversario', emoji:'🎂', title:'Renato — Aniversário', desc:'Nascimento de Renato', year:1957 },
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Oeste', desc:'Vitória sobre o Oeste', year:2020 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Luis Fabiano', desc:'Luis Fabiano estreia pelo São Paulo', year:2001 }
+    ],
+    23: [
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Palmeiras', desc:'Clássico vencido', year:1969 }
+    ],
+    24: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO BRASILEIRO 1986', desc:'São Paulo conquista o Campeonato Brasileiro', year:1986, context:'Um dos títulos mais importantes da história recente do clube, sob o comando de Luís Carlos Winck.' },
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Juventus', desc:'Goleada sobre o Juventus', year:1945 }
+    ],
+    25: [
+      { cat:'aniversario', emoji:'🎂', title:'Pepe — Aniversário', desc:'Nascimento de Pepe', year:1935 }
+    ],
+    26: [
+      { cat:'aniversario', emoji:'🎂', title:'Mirandinha — Aniversário', desc:'Nascimento de Mirandinha', year:1952 }
+    ],
+    27: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Jurandir', desc:'Jurandir estreia pelo São Paulo', year:1962 },
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Flamengo-PI', desc:'Goleada sobre o Flamengo do Piauí', year:2002 }
+    ],
+    28: [
+      { cat:'aniversario', emoji:'🎂', title:'Benê — Aniversário', desc:'Nascimento de Benê', year:1935 },
+      { cat:'aniversario', emoji:'🎂', title:'Casemiro — Aniversário', desc:'Nascimento de Casemiro', year:1992, context:'Casemiro, que se tornaria um dos melhores volantes do mundo, nasceu nesta data e se formou nas categorias de base do SPFC.' },
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Corinthians', desc:'Clássico vencido', year:2005 },
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Alianza-PER', desc:'Goleada internacional', year:2007 }
+    ]
+  },
 
-/* ── FEVEREIRO ───────────────────────────────────── */
-2:{
- 1:[{t:'vitoria',e:'⚽',n:'4x1 no Nacional',d:'Goleada em amistoso internacional',y:1962},{t:'vitoria',e:'⚽',n:'8x0 no Mitsubishi',d:'Goleada histórica sobre o Mitsubishi japonês',y:1970,ctx:'Uma das maiores goleadas em amistosos internacionais do clube.'},{t:'vitoria',e:'⚽',n:'4x1 na Portuguesa Santista',d:'Goleada no Paulistão',y:2004}],
- 2:[{t:'aniversario',e:'🎂',n:'Zarzur',d:'Aniversário de Zarzur',y:1933}],
- 3:[{t:'vitoria',e:'⚽',n:'2x1 no Santos',d:'Clássico paulista vencido',y:1935},{t:'vitoria',e:'⚽',n:'6x0 no Guadalajara',d:'Goleada internacional',y:1960}],
- 5:[{t:'vitoria',e:'⚽',n:'2x1 no Palmeiras',d:'Clássico paulista vencido',y:1949}],
- 6:[{t:'estreia',e:'⭐',n:'Estreia de Maurinho',d:'Maurinho estreia pelo São Paulo',y:1952}],
- 7:[{t:'vitoria',e:'⚽',n:'2x1 no Palmeiras',d:'Clássico vencido',y:1954}],
- 8:[{t:'vitoria',e:'⚽',n:'5x2 no Gimn. Esgrima',d:'Goleada internacional',y:1941},{t:'aniversario',e:'🎂',n:'Sídnei',d:'Aniversário de Sídnei-VL',y:1970},{t:'vitoria',e:'⚽',n:'1x0 no Santos',d:'Clássico vencido',y:2000},{t:'vitoria',e:'⚽',n:'2x1 no Santos',d:'Clássico vencido',y:1996},{t:'titulo',e:'🏆',n:'SUPERCOPA REI 2024',d:'São Paulo conquista a Supercopa Rei do Brasil',y:2024,ctx:'Início de temporada histórico para o Tricolor.',stats:[{l:'Competição',v:'Supercopa Rei'},{l:'Edição',v:'2024'}]},{t:'estreia',e:'⭐',n:'Estreia de André Dias',d:'André Dias estreia pelo São Paulo',y:2006},{t:'vitoria',e:'⚽',n:'3x0 no Corinthians',d:'Goleada no clássico',y:1993},{t:'vitoria',e:'⚽',n:'7x3 no Botafogo',d:'Goleada histórica sobre o Botafogo',y:1996},{t:'vitoria',e:'⚽',n:'4x0 no Guarani',d:'Goleada no Paulistão',y:1996}],
- 9:[{t:'aniversario',e:'🎂',n:'Cilinho',d:'Aniversário de Cilinho',y:1939}],
- 10:[{t:'vitoria',e:'⚽',n:'4x0 no Taubaté',d:'Goleada no Paulistão',y:1963}],
- 11:[{t:'estreia',e:'⭐',n:'Estreia de Rubén Barrios',d:'Rubén Barrios estreia pelo São Paulo',y:1944},{t:'vitoria',e:'⚽',n:'3x1 no Corinthians',d:'Clássico vencido',y:2007}],
- 12:[{t:'titulo',e:'🏆',n:'MASTER CONMEBOL 1996',d:'São Paulo conquista o Master Conmebol',y:1996,ctx:'Título internacional importante na memória dos torcedores.'},{t:'vitoria',e:'⚽',n:'5x0 na Portuguesa Santista',d:'Goleada no Paulistão',y:2006},{t:'vitoria',e:'⚽',n:'4x1 no Internacional',d:'Vitória sobre o Inter',y:1974}],
- 13:[{t:'vitoria',e:'⚽',n:'8x0 no SP Araçatuba',d:'Goleada histórica',y:1949},{t:'vitoria',e:'⚽',n:'2x1 no Palmeiras',d:'Clássico vencido',y:1963}],
- 14:[{t:'aniversario',e:'🎂',n:'De Sordi',d:'Aniversário de De Sordi, zagueiro histórico do SPFC',y:1931,ctx:'De Sordi foi um dos pilares da defesa tricolor na era dourada dos anos 50 e 60.'},{t:'vitoria',e:'⚽',n:'1x0 no Corinthians',d:'Clássico vencido',y:2004}],
- 15:[{t:'vitoria',e:'⚽',n:'6x0 no XV de Piracicaba',d:'Goleada no Paulistão',y:1948},{t:'vitoria',e:'⚽',n:'5x0 no Bragantino',d:'Goleada no Paulistão',y:2015},{t:'vitoria',e:'⚽',n:'3x1 no Santos',d:'Clássico vencido',y:2017}],
- 16:[{t:'vitoria',e:'⚽',n:'5x1 no SP Railway',d:'Goleada histórica',y:1944}],
- 17:[{t:'vitoria',e:'⚽',n:'4x0 no Luzitano',d:'Goleada no Paulistão',y:1938}],
- 18:[{t:'despedida',e:'👋',n:'Despedida de Pedro Rocha',d:'Último jogo do craque uruguaio pelo São Paulo',y:1978}],
- 19:[{t:'aniversario',e:'🎂',n:'Alexandre-VL',d:'Aniversário de Alexandre',y:1979}],
- 20:[{t:'vitoria',e:'⚽',n:'3x0 no Palmeiras',d:'Goleada no clássico',y:2005},{t:'vitoria',e:'⚽',n:'3x0 no Santos',d:'Clássico vencido',y:2022}],
- 21:[{t:'estreia',e:'⭐',n:'Estreia de Dino Sani',d:'Dino Sani, ídolo histórico, estreia pelo São Paulo',y:1954,ctx:'Dino Sani foi um dos maiores jogadores da história do São Paulo.'},{t:'estreia',e:'⭐',n:'Estreia de Luis Fabiano',d:'Luis Fabiano, o Fabuloso, estreia pelo São Paulo',y:2001,ctx:'O início de uma das eras de ouro do ataque tricolor.'},{t:'estreia',e:'⭐',n:'Estreia de Bernardo',d:'Bernardo estreia pelo São Paulo',y:1986},{t:'estreia',e:'⭐',n:'Estreia de Ronaldão',d:'Ronaldão estreia pelo São Paulo',y:1986}],
- 22:[{t:'aniversario',e:'🎂',n:'Renato',d:'Aniversário de Renato',y:1957},{t:'vitoria',e:'⚽',n:'4x0 no Oeste',d:'Goleada no Paulistão',y:2020}],
- 23:[{t:'vitoria',e:'⚽',n:'3x1 no Palmeiras',d:'Clássico vencido',y:1969}],
- 24:[{t:'titulo',e:'🏆',n:'CAMPEÃO BRASILEIRO 1986',d:'São Paulo conquista o Campeonato Brasileiro pela 1ª vez',y:1986,ctx:'O título de 1986 foi o primeiro Campeonato Brasileiro da história do SPFC. Uma conquista que abriu as portas para a era dourada do clube.',stats:[{l:'Competição',v:'Brasileirão'},{l:'Edição',v:'1986'},{l:'1º Título',v:'Nacional'}]},{t:'vitoria',e:'⚽',n:'5x0 no Juventus',d:'Goleada no Paulistão',y:1945}],
- 25:[{t:'aniversario',e:'🎂',n:'Pepe',d:'Aniversário de Pepe',y:1935}],
- 26:[{t:'aniversario',e:'🎂',n:'Mirandinha',d:'Aniversário de Mirandinha',y:1952}],
- 27:[{t:'estreia',e:'⭐',n:'Estreia de Jurandir',d:'Jurandir estreia pelo São Paulo',y:1962},{t:'vitoria',e:'⚽',n:'5x0 no Flamengo-PI',d:'Goleada na Copa do Brasil',y:2002}],
- 28:[{t:'aniversario',e:'🎂',n:'Benê',d:'Aniversário de Benê',y:1935},{t:'aniversario',e:'🎂',n:'Casemiro',d:'Nascimento do volante que se tornou um dos melhores do mundo',y:1992,ctx:'Carlos Henrique Casimiro nasceu em 28 de fevereiro de 1992. Formado nas categorias de base do São Paulo, Casemiro se tornou um dos melhores volantes da história, conquistando múltiplos títulos pelo Real Madrid.',stats:[{l:'Nascimento',v:'1992'},{l:'Base',v:'SPFC'},{l:'Destino',v:'Real Madrid'},{l:'Posição',v:'Volante'}]},{t:'vitoria',e:'⚽',n:'1x0 no Corinthians',d:'Clássico vencido',y:2005},{t:'vitoria',e:'⚽',n:'4x0 no Alianza-PER',d:'Goleada na Libertadores',y:2007}]
-},
+  // MARÇO
+  3: {
+    1: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Palmeiras', desc:'Clássico paulista vencido', year:1944 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Benê', desc:'Benê estreia pelo São Paulo', year:1961 }
+    ],
+    2: [
+      { cat:'despedida', emoji:'👋', title:'Despedida de Savério', desc:'Último jogo de Savério pelo SPFC', year:1952 }
+    ],
+    3: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Remo', desc:'Remo estreia pelo São Paulo', year:1940 }
+    ],
+    4: [
+      { cat:'aniversario', emoji:'🎂', title:'Teixeirinha — Aniversário', desc:'Nascimento de Teixeirinha', year:1922 },
+      { cat:'vitoria', emoji:'⚽', title:'6x1 no Noroeste', desc:'Goleada sobre o Noroeste', year:1993 }
+    ],
+    5: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO BRASILEIRO 1977', desc:'São Paulo conquista o Campeonato Brasileiro', year:1977, context:'O São Paulo de Antônio Carlos, Zé Maria e Marinho conquista o título nacional.' },
+      { cat:'vitoria', emoji:'⚽', title:'5x0 na Portuguesa St.', desc:'Goleada sobre a Portuguesa Santista', year:2003 }
+    ],
+    6: [
+      { cat:'titulo', emoji:'🏆', title:'RIO-SÃO PAULO 2001', desc:'São Paulo conquista o Torneio Rio-São Paulo', year:2001, context:'Torneio regional vencido pelo Tricolor.' }
+    ],
+    7: [
+      { cat:'aniversario', emoji:'🎂', title:'Zé Sérgio — Aniversário', desc:'Nascimento de Zé Sérgio', year:1957 },
+      { cat:'vitoria', emoji:'⚽', title:'4x0 na Ferroviária', desc:'Vitória sobre a Ferroviária', year:1975 }
+    ],
+    8: [
+      { cat:'vitoria', emoji:'⚽', title:'5x0 na América', desc:'Goleada sobre a América', year:1988 }
+    ],
+    9: [
+      { cat:'aniversario', emoji:'🎂', title:'Víctor — Aniversário', desc:'Nascimento de Víctor', year:1934 }
+    ],
+    10: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Boca Juniors', desc:'Goleada histórica sobre o Boca Juniors', year:1956, context:'O São Paulo goleia o gigante argentino.' }
+    ],
+    11: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Santos', desc:'Clássico vencido com goleada', year:1933 }
+    ],
+    12: [
+      { cat:'vitoria', emoji:'⚽', title:'3x2 no Corinthians', desc:'Clássico vencido', year:1946 }
+    ],
+    13: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 na Portuguesa', desc:'Vitória sobre a Portuguesa', year:1988 }
+    ],
+    15: [
+      { cat:'aniversario', emoji:'🎂', title:'Reinaldo-AT — Aniversário', desc:'Nascimento de Reinaldo-AT', year:1979 }
+    ],
+    16: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Friedenreich', desc:'Arthur Friedenreich faz sua estreia pelo São Paulo', year:1930, context:'O Tigre Friedenreich, considerado o primeiro grande craque do futebol brasileiro, estreia pelo SPFC.' }
+    ],
+    17: [
+      { cat:'despedida', emoji:'👋', title:'Despedida de Vítor', desc:'Último jogo de Vítor pelo São Paulo', year:1996 }
+    ],
+    19: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Flamengo', desc:'Vitória sobre o Flamengo', year:1939 }
+    ],
+    20: [
+      { cat:'aniversario', emoji:'🎂', title:'Luizinho — Aniversário', desc:'Nascimento de Luizinho', year:1911 }
+    ],
+    21: [
+      { cat:'aniversario', emoji:'🎂', title:'Paraná — Aniversário', desc:'Nascimento de Paraná', year:1942 }
+    ],
+    22: [
+      { cat:'vitoria', emoji:'⚽', title:'3x2 no Corinthians', desc:'Clássico vencido', year:1961 }
+    ],
+    24: [
+      { cat:'despedida', emoji:'👋', title:'Despedida de Friedenreich', desc:'Último jogo de Friedenreich pelo São Paulo', year:1935, context:'O Tigre encerra sua passagem pelo clube que ajudou a construir.' }
+    ],
+    25: [
+      { cat:'vitoria', emoji:'⚽', title:'4x3 no Santos', desc:'Virada emocionante sobre o Santos', year:1934 }
+    ],
+    26: [
+      { cat:'vitoria', emoji:'⚽', title:'6x0 no Palestra Itália', desc:'Goleada sobre o Palestra Itália (futuro Palmeiras)', year:1939 }
+    ],
+    27: [
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Santos', desc:'Clássico vencido', year:1965 }
+    ],
+    28: [
+      { cat:'vitoria', emoji:'⚽', title:'10x0 no Botafogo-PB', desc:'Goleada histórica! Dez a zero no Botafogo-PB', year:2001, context:'Uma das maiores goleadas da história do clube em competições nacionais.' }
+    ],
+    29: [
+      { cat:'vitoria', emoji:'⚽', title:'7x1 no Comercial-SP', desc:'Goleada sobre o Comercial-SP', year:1942 }
+    ],
+    30: [
+      { cat:'vitoria', emoji:'⚽', title:'2x0 no Palmeiras', desc:'Clássico paulista vencido', year:1974 }
+    ],
+    31: [
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Santos', desc:'Clássico vencido', year:1986 },
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Palmeiras', desc:'Clássico vencido', year:2022 }
+    ]
+  },
 
-/* ── MARÇO ───────────────────────────────────────── */
-3:{
- 1:[{t:'vitoria',e:'⚽',n:'2x1 no Palmeiras',d:'Clássico vencido',y:1944},{t:'estreia',e:'⭐',n:'Estreia de Benê',d:'Benê estreia pelo São Paulo',y:1961}],
- 2:[{t:'despedida',e:'👋',n:'Despedida de Savério',d:'Último jogo de Savério pelo SPFC',y:1952}],
- 3:[{t:'estreia',e:'⭐',n:'Estreia de Remo',d:'Remo estreia pelo São Paulo',y:1940}],
- 4:[{t:'aniversario',e:'🎂',n:'Teixeirinha',d:'Aniversário de Teixeirinha',y:1922},{t:'vitoria',e:'⚽',n:'6x1 no Noroeste',d:'Goleada no Paulistão',y:1993}],
- 5:[{t:'titulo',e:'🏆',n:'CAMPEÃO BRASILEIRO 1977',d:'São Paulo conquista o Campeonato Brasileiro',y:1977,ctx:'O São Paulo de Pepe, Zé Maria e Marinho conquista o título nacional de 1977.',stats:[{l:'Competição',v:'Brasileirão'},{l:'Edição',v:'1977'}]},{t:'vitoria',e:'⚽',n:'5x0 na Portuguesa Santista',d:'Goleada',y:2003}],
- 6:[{t:'titulo',e:'🏆',n:'RIO-SÃO PAULO 2001',d:'São Paulo conquista o Torneio Rio-São Paulo',y:2001},{t:'vitoria',e:'⚽',n:'4x0 no Santos',d:'Goleada no clássico',y:2021}],
- 7:[{t:'aniversario',e:'🎂',n:'Zé Sérgio',d:'Aniversário de Zé Sérgio',y:1957},{t:'vitoria',e:'⚽',n:'4x0 na Ferroviária',d:'Goleada no Paulistão',y:1975}],
- 8:[{t:'vitoria',e:'⚽',n:'5x0 na América',d:'Goleada no Paulistão',y:1988}],
- 9:[{t:'aniversario',e:'🎂',n:'Víctor',d:'Aniversário de Víctor',y:1934}],
- 10:[{t:'vitoria',e:'⚽',n:'4x0 no Boca Juniors',d:'Goleada histórica sobre o rival argentino',y:1956}],
- 11:[{t:'vitoria',e:'⚽',n:'5x1 no Santos',d:'Goleada no clássico paulista',y:1933},{t:'vitoria',e:'⚽',n:'3x0 no Palmeiras',d:'Clássico vencido',y:2001}],
- 12:[{t:'vitoria',e:'⚽',n:'3x2 no Corinthians',d:'Clássico emocionante vencido',y:1946},{t:'vitoria',e:'⚽',n:'5x1 na Portuguesa',d:'Goleada',y:1977}],
- 13:[{t:'vitoria',e:'⚽',n:'4x1 na Portuguesa',d:'Goleada no Paulistão',y:1988},{t:'vitoria',e:'⚽',n:'6x0 no São Raimundo',d:'Goleada na Copa do Brasil',y:2003}],
- 15:[{t:'aniversario',e:'🎂',n:'Reinaldo-AT',d:'Aniversário de Reinaldo-AT',y:1979}],
- 16:[{t:'estreia',e:'⭐',n:'Estreia de Friedenreich',d:'Arthur Friedenreich, o Tigre, estreia pelo São Paulo',y:1930,ctx:'Artur Friedenreich, considerado o primeiro grande craque do futebol brasileiro, iniciou sua passagem pelo SPFC nesta data histórica.'}],
- 17:[{t:'despedida',e:'👋',n:'Despedida de Vítor',d:'Último jogo de Vítor pelo São Paulo',y:1996}],
- 19:[{t:'vitoria',e:'⚽',n:'4x1 no Flamengo',d:'Vitória sobre o Flamengo',y:1939}],
- 20:[{t:'aniversario',e:'🎂',n:'Luizinho',d:'Aniversário de Luizinho',y:1911}],
- 21:[{t:'aniversario',e:'🎂',n:'Paraná',d:'Aniversário de Paraná',y:1942}],
- 22:[{t:'vitoria',e:'⚽',n:'3x2 no Corinthians',d:'Clássico vencido em virada',y:1961},{t:'vitoria',e:'⚽',n:'5x1 no Rio Branco',d:'Goleada',y:2000}],
- 24:[{t:'despedida',e:'👋',n:'Despedida de Friedenreich',d:'Último jogo do Tigre pelo São Paulo',y:1935,ctx:'Arthur Friedenreich encerra sua passagem histórica pelo clube que ajudou a construir.'}],
- 25:[{t:'vitoria',e:'⚽',n:'4x3 no Santos',d:'Virada emocionante sobre o Santos',y:1934}],
- 26:[{t:'vitoria',e:'⚽',n:'6x0 no Palestra Itália',d:'Goleada histórica sobre o futuro Palmeiras',y:1939}],
- 27:[{t:'despedida',e:'👋',n:'Despedida de Dino Sani',d:'Último jogo de Dino Sani pelo São Paulo',y:1961}],
- 28:[{t:'vitoria',e:'⚽',n:'10x0 no Botafogo-PB',d:'DEZ A ZERO — uma das maiores goleadas da história do clube',y:2001,ctx:'No dia 28 de março de 2001, o São Paulo humilhou o Botafogo da Paraíba por 10 a 0 na Copa do Brasil. Uma das maiores goleadas da história tricolor.',stats:[{l:'Placar',v:'10 x 0'},{l:'Competição',v:'Copa do Brasil'},{l:'Adversário',v:'Botafogo-PB'}]}],
- 29:[{t:'vitoria',e:'⚽',n:'7x1 no Comercial-SP',d:'Goleada histórica',y:1942}],
- 30:[{t:'vitoria',e:'⚽',n:'2x0 no Palmeiras',d:'Clássico vencido',y:1974},{t:'vitoria',e:'⚽',n:'1x0 no Palmeiras',d:'Clássico vencido',y:2009}],
- 31:[{t:'vitoria',e:'⚽',n:'3x1 no Santos',d:'Clássico vencido',y:1986},{t:'vitoria',e:'⚽',n:'3x1 no Palmeiras',d:'Clássico vencido',y:2022},{t:'vitoria',e:'⚽',n:'5x1 na Portuguesa',d:'Goleada',y:1957}]
-},
+  // ABRIL
+  4: {
+    1: [
+      { cat:'vitoria', emoji:'⚽', title:'9x1 no Sírio', desc:'Goleada histórica sobre o Sírio!', year:1934, context:'Uma das maiores goleadas da era amadora do clube.' }
+    ],
+    2: [
+      { cat:'vitoria', emoji:'⚽', title:'4x2 no Corinthians', desc:'Clássico vencido', year:1933 },
+      { cat:'titulo', emoji:'🏆', title:'RECOPA SULAMERICANA 1994', desc:'São Paulo conquista a Recopa Sul-Americana', year:1994, context:'O São Paulo bi-campeão da Libertadores conquista também a Recopa.' }
+    ],
+    3: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Corinthians', desc:'Clássico vencido', year:1959 }
+    ],
+    4: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no SP Railway', desc:'Goleada sobre o SP Railway', year:1943 }
+    ],
+    5: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Juventus', desc:'Vitória sobre o Juventus', year:1942 }
+    ],
+    6: [
+      { cat:'vitoria', emoji:'⚽', title:'5x2 no Botafogo', desc:'Goleada sobre o Botafogo', year:1958 }
+    ],
+    7: [
+      { cat:'vitoria', emoji:'⚽', title:'5x0 na América-RJ', desc:'Goleada sobre a América do Rio', year:1934 }
+    ],
+    8: [
+      { cat:'vitoria', emoji:'⚽', title:'6x2 no Jabaquara', desc:'Goleada sobre o Jabaquara', year:1945 }
+    ],
+    9: [
+      { cat:'vitoria', emoji:'⚽', title:'6x1 no Santos', desc:'Goleada clássica', year:1947 }
+    ],
+    10: [
+      { cat:'aniversario', emoji:'🎂', title:'Mário — Aniversário', desc:'Nascimento de Mário', year:1923 },
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Palmeiras', desc:'Clássico vencido', year:1988 }
+    ],
+    11: [
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Palmeiras', desc:'Clássico vencido', year:1988 },
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Athletico', desc:'Vitória sobre o Athletico-PR', year:2022 }
+    ],
+    12: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Santos', desc:'Clássico vencido', year:1981 }
+    ],
+    13: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Fluminense', desc:'Goleada sobre o Fluminense', year:1939 }
+    ],
+    14: [
+      { cat:'vitoria', emoji:'⚽', title:'6x1 no SP Railway', desc:'Goleada sobre o SP Railway', year:1942 },
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Newell\'s', desc:'Goleada internacional', year:1993 }
+    ],
+    16: [
+      { cat:'aniversario', emoji:'🎂', title:'Poy — Aniversário', desc:'Nascimento de José Poy', year:1926 },
+      { cat:'vitoria', emoji:'⚽', title:'7x1 no Flamengo', desc:'Goleada histórica sobre o Flamengo', year:1946, context:'Uma das maiores goleadas em clássicos nacionais do SPFC.' }
+    ],
+    17: [
+      { cat:'vitoria', emoji:'⚽', title:'2x0 no Santos', desc:'Clássico vencido', year:1982 }
+    ],
+    18: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Sastre', desc:'Sastre estreia pelo São Paulo', year:1943 }
+    ],
+    19: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Santos', desc:'Goleada clássica', year:1950 },
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Corinthians', desc:'Clássico vencido', year:1953 },
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Palmeiras', desc:'Clássico vencido', year:1998 }
+    ],
+    20: [
+      { cat:'vitoria', emoji:'⚽', title:'6x1 na América-SP', desc:'Goleada sobre a América-SP', year:1930 }
+    ],
+    21: [
+      { cat:'vitoria', emoji:'⚽', title:'8x0 no 1º de Maio', desc:'Goleada histórica', year:1940 }
+    ],
+    22: [
+      { cat:'aniversario', emoji:'🎂', title:'Kaká — Aniversário', desc:'Nascimento de Ricardo Kaká', year:1982, context:'Ricardo Izecson dos Santos Leite, o Kaká, nasceu nesta data em Brasília. O meia se formou no São Paulo e se tornou um dos maiores jogadores do mundo, vencendo a Bola de Ouro FIFA em 2007.' },
+      { cat:'vitoria', emoji:'⚽', title:'2x0 no Corinthians', desc:'Clássico vencido', year:2015 }
+    ],
+    23: [
+      { cat:'vitoria', emoji:'⚽', title:'4x3 no Palmeiras', desc:'Virada emocionante sobre o Palmeiras', year:1959 }
+    ],
+    24: [
+      { cat:'aniversario', emoji:'🎂', title:'Aymoré Moreira — Aniversário', desc:'Nascimento do técnico Aymoré Moreira', year:1912 }
+    ],
+    25: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Gijo', desc:'Gijo estreia pelo São Paulo', year:1944 }
+    ],
+    26: [
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Juventus', desc:'Goleada sobre o Juventus', year:1952 },
+      { cat:'aniversario', emoji:'🎂', title:'Cerezo — Aniversário', desc:'Nascimento de Toninho Cerezo', year:1955, context:'Toninho Cerezo, um dos maiores volantes da história do futebol brasileiro, nasceu nesta data.' },
+      { cat:'aniversario', emoji:'🎂', title:'Jurandyr-GL — Aniversário', desc:'Nascimento de Jurandyr-GL', year:1912 }
+    ],
+    27: [
+      { cat:'aniversario', emoji:'🎂', title:'Sastre — Aniversário', desc:'Nascimento de Sastre', year:1911 },
+      { cat:'vitoria', emoji:'⚽', title:'4x3 no Corinthians', desc:'Clássico emocionante vencido', year:1955 }
+    ],
+    28: [
+      { cat:'vitoria', emoji:'⚽', title:'7x2 no Nacional-PAR', desc:'Goleada internacional', year:1963 }
+    ],
+    29: [
+      { cat:'vitoria', emoji:'⚽', title:'5x3 no Santos', desc:'Goleada clássica', year:1956 },
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Corinthians', desc:'Clássico vencido', year:2001 }
+    ],
+    30: [
+      { cat:'aniversario', emoji:'🎂', title:'Mário Travaglini — Aniversário', desc:'Nascimento de Mário Travaglini', year:1932 }
+    ]
+  },
 
-/* ── ABRIL ───────────────────────────────────────── */
-4:{
- 1:[{t:'vitoria',e:'⚽',n:'9x1 no Sírio',d:'Goleada histórica sobre o Sírio Libanês',y:1934,ctx:'Uma das maiores goleadas da era amadora do clube. O São Paulo domina completamente o adversário.',stats:[{l:'Placar',v:'9 x 1'},{l:'Era',v:'Amadora'},{l:'Competição',v:'Paulistão'}]}],
- 2:[{t:'vitoria',e:'⚽',n:'4x2 no Corinthians',d:'Clássico vencido com goleada',y:1933},{t:'titulo',e:'🏆',n:'RECOPA SUL-AMERICANA 1994',d:'São Paulo conquista a Recopa Sulamericana',y:1994,ctx:'O SPFC bicampeão da Libertadores conquista também a Recopa Sul-Americana.',stats:[{l:'Competição',v:'Recopa Sul-Americana'},{l:'Edição',v:'1994'}]},{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 2005',d:'São Paulo conquista o Campeonato Paulista',y:2005}],
- 3:[{t:'vitoria',e:'⚽',n:'2x1 no Corinthians',d:'Clássico vencido',y:1959},{t:'vitoria',e:'⚽',n:'3x1 no Palmeiras',d:'Clássico vencido',y:2007}],
- 4:[{t:'vitoria',e:'⚽',n:'5x1 no SP Railway',d:'Goleada histórica',y:1943}],
- 5:[{t:'vitoria',e:'⚽',n:'4x1 no Juventus',d:'Goleada',y:1942}],
- 6:[{t:'vitoria',e:'⚽',n:'5x2 no Botafogo',d:'Goleada sobre o Botafogo',y:1958},{t:'aniversario',e:'🎂',n:'Grafite',d:'Aniversário de Grafite',y:1979}],
- 7:[{t:'vitoria',e:'⚽',n:'5x0 na América-RJ',d:'Goleada histórica sobre a América do Rio',y:1934}],
- 8:[{t:'vitoria',e:'⚽',n:'6x2 no Jabaquara',d:'Goleada histórica',y:1945}],
- 9:[{t:'vitoria',e:'⚽',n:'6x1 no Santos',d:'Goleada histórica no clássico',y:1947}],
- 10:[{t:'aniversario',e:'🎂',n:'Mário',d:'Aniversário de Mário',y:1923},{t:'vitoria',e:'⚽',n:'3x1 no Palmeiras',d:'Clássico vencido',y:1988}],
- 11:[{t:'vitoria',e:'⚽',n:'4x0 no Athletico-PR',d:'Goleada no Brasileirão',y:2022},{t:'vitoria',e:'⚽',n:'2x1 no Santos',d:'Clássico vencido',y:1981}],
- 12:[{t:'vitoria',e:'⚽',n:'6x1 no São José',d:'Goleada no Paulistão',y:1998}],
- 13:[{t:'vitoria',e:'⚽',n:'5x1 no Fluminense',d:'Goleada sobre o Fluminense',y:1939}],
- 14:[{t:'vitoria',e:'⚽',n:'6x1 no SP Railway',d:'Goleada histórica',y:1942},{t:'vitoria',e:'⚽',n:'4x0 no Newell\'s',d:'Goleada na Libertadores',y:1993}],
- 16:[{t:'aniversario',e:'🎂',n:'Poy',d:'Aniversário de José Poy',y:1926},{t:'vitoria',e:'⚽',n:'7x1 no Flamengo',d:'Goleada histórica sobre o Flamengo',y:1946,ctx:'Uma das maiores goleadas em partidas contra clubes do Rio de Janeiro na história do SPFC.',stats:[{l:'Placar',v:'7 x 1'},{l:'Adversário',v:'Flamengo'},{l:'Ano',v:'1946'}]}],
- 17:[{t:'vitoria',e:'⚽',n:'2x0 no Santos',d:'Clássico vencido',y:1982}],
- 18:[{t:'estreia',e:'⭐',n:'Estreia de Sastre',d:'Sastre estreia pelo São Paulo',y:1943}],
- 19:[{t:'vitoria',e:'⚽',n:'4x0 no Santos',d:'Goleada no clássico',y:1950},{t:'vitoria',e:'⚽',n:'3x1 no Corinthians',d:'Clássico vencido',y:1953},{t:'vitoria',e:'⚽',n:'2x1 no Palmeiras',d:'Clássico vencido',y:1998}],
- 20:[{t:'vitoria',e:'⚽',n:'6x1 na América-SP',d:'Goleada histórica',y:1930}],
- 21:[{t:'vitoria',e:'⚽',n:'8x0 no 1º de Maio',d:'Goleada histórica sobre o 1º de Maio',y:1940}],
- 22:[{t:'aniversario',e:'🎂',n:'Kaká',d:'Nascimento de Ricardo Kaká, o Príncipe',y:1982,ctx:'Ricardo Izecson dos Santos Leite, o Kaká, nasceu em 22 de abril de 1982 em Brasília. Formado nas categorias de base do São Paulo, se tornou Bola de Ouro FIFA 2007 e um dos maiores jogadores da história do futebol.',stats:[{l:'Nascimento',v:'22/04/1982'},{l:'Base',v:'SPFC'},{l:'Bola de Ouro',v:'2007'},{l:'Posição',v:'Meia'}],video:'OkmCuYzMBIE'},{t:'vitoria',e:'⚽',n:'2x0 no Corinthians',d:'Clássico vencido',y:2015}],
- 23:[{t:'aniversario',e:'🎂',n:'Aymoré Moreira',d:'Aniversário do técnico Aymoré Moreira',y:1912},{t:'vitoria',e:'⚽',n:'4x3 no Palmeiras',d:'Virada emocionante no clássico',y:1959}],
- 25:[{t:'estreia',e:'⭐',n:'Estreia de Gijo',d:'Gijo estreia pelo São Paulo',y:1944}],
- 26:[{t:'vitoria',e:'⚽',n:'5x0 no Juventus',d:'Goleada no Paulistão',y:1952},{t:'aniversario',e:'🎂',n:'Toninho Cerezo',d:'Aniversário do grande volante Toninho Cerezo',y:1955,ctx:'Antônio Carlos Cerezo, o Toninho, um dos maiores volantes da história do futebol brasileiro.'},{t:'aniversario',e:'🎂',n:'Jurandyr-GL',d:'Aniversário de Jurandyr-GL',y:1912}],
- 27:[{t:'aniversario',e:'🎂',n:'Sastre',d:'Aniversário de Sastre',y:1911},{t:'vitoria',e:'⚽',n:'4x3 no Corinthians',d:'Clássico emocionante vencido',y:1955}],
- 28:[{t:'vitoria',e:'⚽',n:'7x2 no Nacional-PAR',d:'Goleada internacional na Libertadores',y:1963}],
- 29:[{t:'vitoria',e:'⚽',n:'5x3 no Santos',d:'Goleada emocionante no clássico',y:1956},{t:'vitoria',e:'⚽',n:'3x1 no Corinthians',d:'Clássico vencido',y:2001},{t:'vitoria',e:'⚽',n:'4x0 no Santa Cruz',d:'Goleada na Copa do Brasil',y:2006}],
- 30:[{t:'aniversario',e:'🎂',n:'Mário Travaglini',d:'Aniversário de Mário Travaglini',y:1932}]
-},
+  // MAIO
+  5: {
+    1: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Pablo Forlán', desc:'Pablo Forlán estreia pelo São Paulo', year:1970 },
+      { cat:'vitoria', emoji:'⚽', title:'2x0 no Santos', desc:'Clássico vencido', year:1977 },
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Corinthians', desc:'Clássico vencido', year:2002 }
+    ],
+    2: [
+      { cat:'aniversario', emoji:'🎂', title:'Dodô — Aniversário', desc:'Nascimento de Dodô', year:1974 },
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Santos', desc:'Clássico vencido', year:2022 }
+    ],
+    3: [
+      { cat:'aniversario', emoji:'🎂', title:'Paulo-GL — Aniversário', desc:'Nascimento de Paulo-GL', year:1933 },
+      { cat:'vitoria', emoji:'⚽', title:'4x2 no Palmeiras', desc:'Clássico vencido', year:1997 }
+    ],
+    4: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 na Portuguesa', desc:'Goleada sobre a Portuguesa', year:1947 }
+    ],
+    5: [
+      { cat:'vitoria', emoji:'⚽', title:'3x2 no Corinthians', desc:'Clássico emocionante vencido', year:1945 }
+    ],
+    7: [
+      { cat:'aniversario', emoji:'🎂', title:'Armandinho — Aniversário', desc:'Nascimento de Armandinho', year:1907 }
+    ],
+    8: [
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Palmeiras', desc:'Clássico vencido', year:1979 }
+    ],
+    9: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1998', desc:'São Paulo conquista o Campeonato Paulista', year:1998, context:'Título paulista do Tricolor ao fim dos anos 90.' },
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Wilstermann', desc:'Goleada internacional na Libertadores', year:1974 },
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Corinthians', desc:'Clássico vencido com goleada', year:2005 },
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Palmeiras', desc:'Clássico vencido com goleada', year:1999 }
+    ],
+    10: [
+      { cat:'aniversario', emoji:'🎂', title:'Tardelli e Edcarlos — Aniversário', desc:'Nascimento de Diego Tardelli e Edcarlos', year:1985 }
+    ],
+    11: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Diego Lugano', desc:'Diego Lugano estreia pelo São Paulo', year:2003, context:'O capitão uruguaio faz sua estreia no clube que defenderia por anos.' }
+    ],
+    12: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Santos', desc:'Clássico vencido', year:1979 }
+    ],
+    13: [
+      { cat:'aniversario', emoji:'🎂', title:'Prado — Aniversário', desc:'Nascimento de Prado', year:1940 }
+    ],
+    14: [
+      { cat:'aniversario', emoji:'🎂', title:'Raí — Aniversário', desc:'Nascimento do capitão Raí', year:0, context:'Raí Souza Vieira de Oliveira, capitão do São Paulo tricampeão da Libertadores, nasceu em Presidente Prudente. Um dos maiores ídolos da história tricolor.' },
+      { cat:'despedida', emoji:'👋', title:'Despedida de De Sordi', desc:'Último jogo de De Sordi pelo São Paulo', year:1965 }
+    ],
+    16: [
+      { cat:'vitoria', emoji:'⚽', title:'6x1 no Santos', desc:'Goleada clássica', year:1943 }
+    ],
+    17: [
+      { cat:'aniversario', emoji:'🎂', title:'Waldemar de Brito — Aniversário', desc:'Nascimento de Waldemar de Brito', year:1913 }
+    ],
+    18: [
+      { cat:'aniversario', emoji:'🎂', title:'Antônio Carlos — Aniversário', desc:'Nascimento de Antônio Carlos', year:1969 }
+    ],
+    19: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 na Univ. Católica', desc:'Goleada internacional', year:1993 }
+    ],
+    20: [
+      { cat:'vitoria', emoji:'⚽', title:'7x1 no Ypiranga', desc:'Goleada sobre o Ypiranga', year:1933 },
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Santos', desc:'Clássico vencido', year:2018 }
+    ],
+    21: [
+      { cat:'aniversario', emoji:'🎂', title:'Sérgio Valentim — Aniversário', desc:'Nascimento de Sérgio Valentim', year:1945 }
+    ],
+    22: [
+      { cat:'aniversario', emoji:'🎂', title:'Luciano — Aniversário', desc:'Nascimento de Luciano', year:1993 }
+    ],
+    23: [
+      { cat:'aniversario', emoji:'🎂', title:'Dino Sani — Aniversário', desc:'Nascimento de Dino Sani', year:1932 },
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 2021', desc:'São Paulo conquista o Campeonato Paulista', year:2021, context:'Título paulista do Tricolor em 2021.' }
+    ],
+    24: [
+      { cat:'aniversario', emoji:'🎂', title:'Turcão — Aniversário', desc:'Nascimento de Turcão', year:1926 }
+    ],
+    25: [
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Palmeiras', desc:'Clássico vencido', year:1975 }
+    ],
+    26: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO LIBERTADORES 1993', desc:'São Paulo conquista a Copa Libertadores pela 1ª vez!', year:1993, context:'O São Paulo derrota o Universidad de Chile e conquista sua primeira Copa Libertadores. Telê Santana conduz o clube à glória continental. Uma noite histórica para o futebol tricolor.' }
+    ],
+    27: [
+      { cat:'vitoria', emoji:'⚽', title:'3x0 no Santos', desc:'Clássico vencido', year:1934 }
+    ],
+    28: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 na Portuguesa', desc:'Goleada sobre a Portuguesa', year:1950 }
+    ],
+    29: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Santos', desc:'Goleada clássica', year:1932 }
+    ],
+    30: [
+      { cat:'titulo', emoji:'🏆', title:'SUPER PAULISTA 2002', desc:'São Paulo conquista o Super Paulista', year:2002 },
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Vasco', desc:'Goleada sobre o Vasco', year:2013 }
+    ],
+    31: [
+      { cat:'aniversario', emoji:'🎂', title:'Zé Roberto — Aniversário', desc:'Nascimento de Zé Roberto', year:1945 },
+      { cat:'aniversario', emoji:'🎂', title:'Válber — Aniversário', desc:'Nascimento de Válber', year:1967 }
+    ]
+  },
 
-/* ── MAIO ────────────────────────────────────────── */
-5:{
- 1:[{t:'estreia',e:'⭐',n:'Estreia de Pablo Forlán',d:'Pablo Forlán estreia pelo São Paulo',y:1970},{t:'vitoria',e:'⚽',n:'2x0 no Santos',d:'Clássico vencido',y:1977},{t:'vitoria',e:'⚽',n:'2x1 no Corinthians',d:'Clássico vencido',y:2002}],
- 2:[{t:'aniversario',e:'🎂',n:'Dodô',d:'Aniversário de Dodô',y:1974},{t:'vitoria',e:'⚽',n:'2x1 no Santos',d:'Clássico vencido',y:2022},{t:'estreia',e:'⭐',n:'Estreia de Dagoberto',d:'Dagoberto estreia pelo São Paulo',y:2007}],
- 3:[{t:'aniversario',e:'🎂',n:'Paulo-GL',d:'Aniversário de Paulo-GL',y:1933},{t:'vitoria',e:'⚽',n:'4x2 no Palmeiras',d:'Clássico vencido',y:1997},{t:'vitoria',e:'⚽',n:'2x1 no Palmeiras',d:'Clássico vencido',y:2006}],
- 4:[{t:'vitoria',e:'⚽',n:'4x0 na Portuguesa',d:'Goleada no Paulistão',y:1947}],
- 5:[{t:'vitoria',e:'⚽',n:'3x2 no Corinthians',d:'Clássico emocionante vencido em virada',y:1945}],
- 7:[{t:'aniversario',e:'🎂',n:'Armandinho',d:'Aniversário de Armandinho',y:1907}],
- 8:[{t:'vitoria',e:'⚽',n:'1x0 no Palmeiras',d:'Clássico vencido',y:1979}],
- 9:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1998',d:'São Paulo conquista o Campeonato Paulista',y:1998,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1998'}]},{t:'vitoria',e:'⚽',n:'5x0 no Wilstermann',d:'Goleada na Copa Libertadores',y:1974},{t:'vitoria',e:'⚽',n:'5x1 no Corinthians',d:'Goleada no clássico',y:2005},{t:'vitoria',e:'⚽',n:'5x1 no Palmeiras',d:'Goleada no clássico',y:1999}],
- 10:[{t:'aniversario',e:'🎂',n:'Tardelli e Edcarlos',d:'Aniversário de Diego Tardelli e Edcarlos',y:1985}],
- 11:[{t:'estreia',e:'⭐',n:'Estreia de Diego Lugano',d:'O capitão uruguaio estreia pelo São Paulo',y:2003,ctx:'Diego Lugano chegou ao São Paulo em 2003 e se tornou um dos capitães mais queridos da história do clube.',stats:[{l:'Posição',v:'Zagueiro'},{l:'País',v:'Uruguai'},{l:'Anos no SPFC',v:'2003-2013'}]}],
- 12:[{t:'vitoria',e:'⚽',n:'2x1 no Santos',d:'Clássico vencido',y:1979}],
- 13:[{t:'aniversario',e:'🎂',n:'Prado',d:'Aniversário de Prado',y:1940}],
- 14:[{t:'aniversario',e:'🎂',n:'Raí',d:'Aniversário do capitão Raí, símbolo do tricampeonato',y:0,ctx:'Raí Souza Vieira de Oliveira, capitão do São Paulo tricampeão da Libertadores. Um dos maiores ídolos da história tricolor.',stats:[{l:'Posição',v:'Meia'},{l:'Títulos',v:'Libertadores 92/93'},{l:'Papel',v:'Capitão'}]},{t:'despedida',e:'👋',n:'Despedida de De Sordi',d:'Último jogo do ídolo De Sordi pelo São Paulo',y:1965}],
- 16:[{t:'vitoria',e:'⚽',n:'6x1 no Santos',d:'Goleada histórica no clássico',y:1943}],
- 17:[{t:'aniversario',e:'🎂',n:'Waldemar de Brito',d:'Aniversário de Waldemar de Brito',y:1913}],
- 18:[{t:'aniversario',e:'🎂',n:'Antônio Carlos',d:'Aniversário de Antônio Carlos',y:1969},{t:'aniversario',e:'🎂',n:'André Dias',d:'Aniversário de André Dias',y:1979}],
- 19:[{t:'vitoria',e:'⚽',n:'5x1 na Universidad Católica',d:'Goleada na Libertadores',y:1993}],
- 20:[{t:'vitoria',e:'⚽',n:'7x1 no Ypiranga',d:'Goleada histórica',y:1933},{t:'vitoria',e:'⚽',n:'1x0 no Santos',d:'Clássico vencido',y:2018},{t:'vitoria',e:'⚽',n:'2x0 no Palmeiras',d:'Clássico vencido',y:2002}],
- 21:[{t:'aniversario',e:'🎂',n:'Sérgio Valentim',d:'Aniversário de Sérgio Valentim',y:1945}],
- 22:[{t:'aniversario',e:'🎂',n:'Luciano',d:'Aniversário do atacante Luciano',y:1993}],
- 23:[{t:'aniversario',e:'🎂',n:'Dino Sani',d:'Aniversário de Dino Sani, ídolo histórico',y:1932},{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 2021',d:'São Paulo conquista o Campeonato Paulista',y:2021,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'2021'}]}],
- 24:[{t:'aniversario',e:'🎂',n:'Turcão',d:'Aniversário de Turcão',y:1926}],
- 25:[{t:'vitoria',e:'⚽',n:'1x0 no Palmeiras',d:'Clássico vencido',y:1975}],
- 26:[{t:'titulo',e:'🏆',n:'LIBERTADORES 1993 — 1º TÍTULO',d:'São Paulo é CAMPEÃO da Copa Libertadores pela 1ª vez!',y:1993,ctx:'Em 26 de maio de 1993, o São Paulo derrota o Universidad de Chile e conquista sua primeira Copa Libertadores. Sob o comando de Telê Santana e com Raí, Müller e Cafu, o Tricolor escreve a página mais bela de sua história.',stats:[{l:'Final',v:'SPFC x Univ. Chile'},{l:'Treinador',v:'Telê Santana'},{l:'Fase',v:'1ª Libertadores'},{l:'Ano',v:'1993'}],video:'a4Qb6karzS8'}],
- 27:[{t:'vitoria',e:'⚽',n:'3x0 no Santos',d:'Clássico vencido',y:1934}],
- 28:[{t:'vitoria',e:'⚽',n:'4x0 na Portuguesa',d:'Goleada no Paulistão',y:1950}],
- 29:[{t:'vitoria',e:'⚽',n:'4x0 no Santos',d:'Goleada no clássico',y:1932},{t:'aniversario',e:'🎂',n:'Hernanes',d:'Aniversário do profeta Hernanes',y:1985}],
- 30:[{t:'titulo',e:'🏆',n:'SUPER PAULISTA 2002',d:'São Paulo conquista o Super Paulista',y:2002},{t:'vitoria',e:'⚽',n:'5x1 no Vasco',d:'Goleada no Brasileirão',y:2013},{t:'vitoria',e:'⚽',n:'8x1 na Portuguesa Santista',d:'Goleada histórica',y:1943}],
- 31:[{t:'aniversario',e:'🎂',n:'Zé Roberto',d:'Aniversário de Zé Roberto',y:1945},{t:'aniversario',e:'🎂',n:'Válber',d:'Aniversário de Válber',y:1967},{t:'vitoria',e:'⚽',n:'4x2 no Santos',d:'Goleada no clássico',y:1942}]
-},
+  // JUNHO
+  6: {
+    1: [
+      { cat:'vitoria', emoji:'⚽', title:'2x0 no Corinthians', desc:'Clássico vencido', year:1969 },
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Tigres-MEX', desc:'Goleada internacional', year:2005 }
+    ],
+    2: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Guadalajara', desc:'Goleada internacional', year:1955 }
+    ],
+    3: [
+      { cat:'vitoria', emoji:'⚽', title:'6x1 no Santos', desc:'Goleada clássica', year:1993 }
+    ],
+    4: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Vasco', desc:'Goleada sobre o Vasco', year:1933 },
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Corinthians', desc:'Clássico vencido', year:1958 }
+    ],
+    6: [
+      { cat:'aniversario', emoji:'🎂', title:'Cafu — Aniversário', desc:'Nascimento de Cafu', year:1970, context:'Marcos Evangelista de Morais, o Cafu, nasceu nesta data. O lateral-direito bicampeão mundial pela Seleção Brasileira é um dos maiores ídolos da história do SPFC.' },
+      { cat:'vitoria', emoji:'⚽', title:'2x0 no Corinthians', desc:'Clássico vencido', year:2000 }
+    ],
+    7: [
+      { cat:'aniversario', emoji:'🎂', title:'Bellini — Aniversário', desc:'Nascimento de Aldoir Bellini', year:1930 },
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Atlético-MG', desc:'Goleada sobre o Galo', year:2008 }
+    ],
+    8: [
+      { cat:'vitoria', emoji:'⚽', title:'6x0 no Votorantim', desc:'Goleada sobre o Votorantim', year:1950 }
+    ],
+    9: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO BRASILEIRO 1991', desc:'São Paulo conquista o Campeonato Brasileiro', year:1991, context:'O São Paulo do técnico Telê Santana e dos jogadores Raí, Müller e Cafu conquista o título nacional.' },
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Santos', desc:'Clássico vencido', year:2000 }
+    ],
+    10: [
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Corinthians', desc:'Clássico vencido', year:1948 }
+    ],
+    11: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Vasco', desc:'Goleada sobre o Vasco', year:1940 },
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Ind. Medellín', desc:'Goleada internacional', year:1959 }
+    ],
+    12: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Palmeiras', desc:'Clássico vencido', year:1943 }
+    ],
+    14: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Jose Poy', desc:'José Poy estreia pelo São Paulo', year:1949 }
+    ],
+    15: [
+      { cat:'vitoria', emoji:'⚽', title:'3x2 no Corinthians', desc:'Clássico vencido em grande jogo', year:1969 }
+    ],
+    17: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Rogério Ceni', desc:'O lendário goleiro Rogério Ceni estreia pelo São Paulo', year:1993, context:'O início de uma era. Rogério Ceni faz sua estreia pelo São Paulo Futebol Clube, iniciando o que seria a maior trajetória de um jogador pela mesma equipe no futebol mundial.' }
+    ],
+    18: [
+      { cat:'vitoria', emoji:'⚽', title:'2x0 no Corinthians', desc:'Clássico vencido', year:1932 },
+      { cat:'vitoria', emoji:'⚽', title:'9x1 no Santos', desc:'Goleada histórica sobre o Santos', year:1944, context:'Uma das maiores goleadas em clássicos paulistas da história.' }
+    ],
+    19: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 2000', desc:'São Paulo conquista o Campeonato Paulista', year:2000 }
+    ],
+    20: [
+      { cat:'aniversario', emoji:'🎂', title:'Oscar — Aniversário', desc:'Nascimento de Oscar', year:1954 }
+    ],
+    21: [
+      { cat:'vitoria', emoji:'⚽', title:'8x1 na América-SP', desc:'Goleada histórica', year:1931 }
+    ],
+    22: [
+      { cat:'vitoria', emoji:'⚽', title:'7x2 no Juventus', desc:'Goleada sobre o Juventus', year:1947 }
+    ],
+    23: [
+      { cat:'vitoria', emoji:'⚽', title:'4x2 no Noroeste', desc:'Vitória sobre o Noroeste', year:2001 }
+    ],
+    24: [
+      { cat:'aniversario', emoji:'🎂', title:'Cicinho — Aniversário', desc:'Nascimento de Cicinho', year:1980 },
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Palmeiras', desc:'Clássico vencido', year:2000 }
+    ],
+    25: [
+      { cat:'vitoria', emoji:'⚽', title:'3x2 no Corinthians', desc:'Clássico emocionante vencido', year:1957 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Juninho', desc:'Juninho estreia pelo São Paulo', year:1993 }
+    ],
+    26: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1971', desc:'São Paulo conquista o Campeonato Paulista', year:1971 }
+    ],
+    27: [
+      { cat:'aniversario', emoji:'🎂', title:'Serginho — Aniversário', desc:'Nascimento de Serginho', year:1971 }
+    ],
+    28: [
+      { cat:'vitoria', emoji:'⚽', title:'2x0 no Santos', desc:'Clássico vencido', year:1979 },
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Corinthians', desc:'Clássico vencido', year:1981 }
+    ],
+    29: [
+      { cat:'vitoria', emoji:'⚽', title:'7x1 no Sírio', desc:'Goleada sobre o Sírio', year:1933 },
+      { cat:'vitoria', emoji:'⚽', title:'3x0 no Corinthians', desc:'Clássico vencido', year:1952 }
+    ]
+  },
 
-/* ── JUNHO ───────────────────────────────────────── */
-6:{
- 1:[{t:'vitoria',e:'⚽',n:'2x0 no Corinthians',d:'Clássico vencido',y:1969},{t:'vitoria',e:'⚽',n:'4x0 no Tigres-MEX',d:'Goleada na Libertadores',y:2005}],
- 2:[{t:'vitoria',e:'⚽',n:'4x0 no Guadalajara',d:'Goleada internacional',y:1955}],
- 3:[{t:'vitoria',e:'⚽',n:'6x1 no Santos',d:'Goleada histórica no clássico',y:1993}],
- 4:[{t:'vitoria',e:'⚽',n:'5x1 no Vasco',d:'Goleada sobre o Vasco',y:1933},{t:'vitoria',e:'⚽',n:'1x0 no Corinthians',d:'Clássico vencido',y:1958}],
- 5:[{t:'aniversario',e:'🎂',n:'Maurinho',d:'Aniversário de Maurinho',y:1933}],
- 6:[{t:'aniversario',e:'🎂',n:'Cafu',d:'Nascimento do lateral direito bicampeão mundial',y:1970,ctx:'Marcos Evangelista de Morais, o Cafu, nasceu em 7 de junho de 1970 em Itaquera-SP. Ídolo máximo do SPFC, bicampeão mundial com a Seleção Brasileira (1994 e 2002) e tricampeão da Libertadores com o São Paulo.',stats:[{l:'Nascimento',v:'1970'},{l:'Posição',v:'Lateral Direito'},{l:'Mundiais',v:'1994 e 2002'},{l:'SPFC',v:'1989-1994 / 1995-2000'}]},{t:'vitoria',e:'⚽',n:'2x0 no Corinthians',d:'Clássico vencido',y:2000}],
- 7:[{t:'aniversario',e:'🎂',n:'Bellini',d:'Aniversário de Bellini',y:1930},{t:'vitoria',e:'⚽',n:'5x1 no Atlético-MG',d:'Goleada sobre o Galo',y:2008}],
- 8:[{t:'vitoria',e:'⚽',n:'6x0 no Votorantim',d:'Goleada no Paulistão',y:1950}],
- 9:[{t:'titulo',e:'🏆',n:'CAMPEÃO BRASILEIRO 1991',d:'São Paulo é bicampeão do Campeonato Brasileiro',y:1991,ctx:'O São Paulo de Telê Santana conquista seu segundo título brasileiro. Raí, Müller, Cafu e companhia dominam o futebol nacional.',stats:[{l:'Competição',v:'Brasileirão'},{l:'Edição',v:'1991'},{l:'Treinador',v:'Telê Santana'}]},{t:'vitoria',e:'⚽',n:'1x0 no Santos',d:'Clássico vencido',y:2000}],
- 10:[{t:'vitoria',e:'⚽',n:'3x1 no Corinthians',d:'Clássico vencido',y:1948}],
- 11:[{t:'vitoria',e:'⚽',n:'4x0 no Vasco',d:'Goleada sobre o Vasco',y:1940},{t:'vitoria',e:'⚽',n:'5x1 no Ind. Medellín',d:'Goleada na Libertadores',y:1959}],
- 12:[{t:'vitoria',e:'⚽',n:'2x1 no Palmeiras',d:'Clássico vencido',y:1943}],
- 14:[{t:'estreia',e:'⭐',n:'Estreia de José Poy',d:'José Poy, ídolo histórico, estreia pelo São Paulo',y:1949}],
- 15:[{t:'vitoria',e:'⚽',n:'3x2 no Corinthians',d:'Clássico emocionante vencido',y:1969}],
- 17:[{t:'titulo',e:'🏆',n:'LIBERTADORES 1992 — A GLÓRIA CHEGA',d:'São Paulo conquista sua 1ª Libertadores (confirmada)',y:1992,ctx:'O São Paulo de Telê Santana conquista a Copa Libertadores de 1992. Base para o histórico tricampeonato.',video:'P0Ly3sM1g7E'},{t:'estreia',e:'⭐',n:'Estreia de Rogério Ceni',d:'O lendário goleiro estreia no futebol profissional pelo São Paulo',y:1993,ctx:'Em 17 de junho de 1993, Rogério Ceni — Sinop-MT, 22 de janeiro de 1973 — inicia o que seria a maior trajetória de um jogador pela mesma equipe no futebol mundial. 1.237 jogos, 131 gols, 17 títulos.',stats:[{l:'Jogos',v:'1.237'},{l:'Gols',v:'131'},{l:'Títulos',v:'17'},{l:'Anos',v:'1990-2015'}],video:'FEBv1tKcaF0'}],
- 18:[{t:'vitoria',e:'⚽',n:'9x1 no Santos',d:'NOVE A UM — uma das maiores goleadas no clássico',y:1944,ctx:'Uma das maiores goleadas na história dos clássicos paulistas. O São Paulo domina o Santos de forma avassaladora.',stats:[{l:'Placar',v:'9 x 1'},{l:'Adversário',v:'Santos FC'},{l:'Ano',v:'1944'}]},{t:'vitoria',e:'⚽',n:'2x0 no Corinthians',d:'Clássico vencido',y:1932}],
- 19:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 2000',d:'São Paulo conquista o Campeonato Paulista',y:2000,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'2000'}]}],
- 20:[{t:'aniversario',e:'🎂',n:'Oscar',d:'Aniversário de Oscar',y:1954}],
- 21:[{t:'vitoria',e:'⚽',n:'8x1 na América-SP',d:'Goleada histórica',y:1931}],
- 22:[{t:'vitoria',e:'⚽',n:'7x2 no Juventus',d:'Goleada histórica sobre o Juventus',y:1947}],
- 23:[{t:'vitoria',e:'⚽',n:'4x2 no Noroeste',d:'Vitória no Paulistão',y:2001}],
- 24:[{t:'aniversario',e:'🎂',n:'Cicinho',d:'Aniversário do lateral Cicinho',y:1980},{t:'vitoria',e:'⚽',n:'2x1 no Palmeiras',d:'Clássico vencido',y:2000}],
- 25:[{t:'vitoria',e:'⚽',n:'3x2 no Corinthians',d:'Clássico emocionante',y:1957},{t:'estreia',e:'⭐',n:'Estreia de Juninho',d:'Juninho estreia pelo São Paulo',y:1993},{t:'estreia',e:'⭐',n:'Estreia de Rogério Ceni (2ª ref.)',d:'Data registrada no calendário histórico',y:1993}],
- 26:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1971',d:'São Paulo conquista o Campeonato Paulista',y:1971,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1971'}]}],
- 27:[{t:'aniversario',e:'🎂',n:'Serginho',d:'Aniversário de Serginho',y:1971}],
- 28:[{t:'vitoria',e:'⚽',n:'2x0 no Santos',d:'Clássico vencido',y:1979},{t:'vitoria',e:'⚽',n:'2x1 no Corinthians',d:'Clássico vencido',y:1981}],
- 29:[{t:'vitoria',e:'⚽',n:'7x1 no Sírio',d:'Goleada histórica',y:1933},{t:'vitoria',e:'⚽',n:'3x0 no Corinthians',d:'Clássico vencido',y:1952}],
- 30:[{t:'aniversario',e:'🎂',n:'Suly',d:'Aniversário de Suly',y:1938},{t:'aniversario',e:'🎂',n:'Rubén Barrios',d:'Aniversário de Rubén Barrios',y:1919}]
-},
+  // JULHO
+  7: {
+    1: [
+      { cat:'vitoria', emoji:'⚽', title:'7x3 no Flamengo', desc:'Goleada histórica sobre o Flamengo', year:1933 }
+    ],
+    2: [
+      { cat:'vitoria', emoji:'⚽', title:'11x0 no Inter-SP', desc:'ONZE A ZERO! Goleada histórica absurda!', year:1932, context:'Uma das maiores goleadas de toda a história do São Paulo Futebol Clube.' }
+    ],
+    3: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1989', desc:'São Paulo conquista o Campeonato Paulista', year:1989 }
+    ],
+    4: [
+      { cat:'vitoria', emoji:'⚽', title:'7x2 no Comercial-SP', desc:'Goleada sobre o Comercial-SP', year:1949 }
+    ],
+    5: [
+      { cat:'aniversario', emoji:'🎂', title:'Amoroso — Aniversário', desc:'Nascimento de Amoroso', year:1974 }
+    ],
+    7: [
+      { cat:'aniversario', emoji:'🎂', title:'Araken Patusca — Aniversário', desc:'Nascimento de Araken Patusca', year:1905 }
+    ],
+    8: [
+      { cat:'vitoria', emoji:'⚽', title:'12x1 no Jabaquara', desc:'Goleada histórica de 12 a 1!', year:1945, context:'Uma das maiores goleadas da história do SPFC. Doze gols marcados em uma única partida.' }
+    ],
+    9: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Santos', desc:'Goleada clássica', year:1933 }
+    ],
+    10: [
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Noroeste', desc:'Goleada sobre o Noroeste', year:1975 }
+    ],
+    12: [
+      { cat:'vitoria', emoji:'⚽', title:'3x2 no Santos', desc:'Clássico emocionante vencido', year:1970 }
+    ],
+    13: [
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Corinthians', desc:'Clássico vencido', year:1980 }
+    ],
+    14: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO LIBERTADORES 2005', desc:'São Paulo bicampeão da Libertadores!', year:2005, context:'O São Paulo vence o Atlético Paranaense e conquista a Copa Libertadores pela segunda vez. Rogério Ceni e companhia fazem história.' }
+    ],
+    16: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Corinthians', desc:'Clássico vencido', year:1939 },
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Jabaquara', desc:'Vitória sobre o Jabaquara', year:1949 }
+    ],
+    18: [
+      { cat:'aniversario', emoji:'🎂', title:'Friedenreich — Aniversário', desc:'Nascimento de Arthur Friedenreich', year:1892, context:'O Tigre Friedenreich, considerado por muitos o primeiro grande craque do futebol brasileiro, nasceu nesta data. Foi um pioneiro do futebol no Brasil.' }
+    ],
+    20: [
+      { cat:'vitoria', emoji:'⚽', title:'7x0 no Linense', desc:'Goleada sobre o Linense', year:1957 }
+    ],
+    21: [
+      { cat:'vitoria', emoji:'⚽', title:'6x1 no SP Railway', desc:'Goleada sobre o SP Railway', year:1945 }
+    ],
+    23: [
+      { cat:'vitoria', emoji:'⚽', title:'4x2 no Corinthians', desc:'Clássico vencido', year:1933 }
+    ],
+    24: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Palmeiras', desc:'Clássico vencido com goleada', year:1949 }
+    ],
+    25: [
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Cruz Azul', desc:'Goleada internacional', year:1999 }
+    ],
+    26: [
+      { cat:'aniversario', emoji:'🎂', title:'Telê Santana — Aniversário', desc:'Nascimento de Telê Santana', year:1931, context:'Mário Campos de Menezes Santana, o Telê, nasceu nesta data. O treinador levou o São Paulo aos títulos da Libertadores (1992 e 1993) e do Mundial de Clubes (1992 e 1993), além do Brasileiro (1991). Uma das maiores referências do futebol brasileiro.' },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Casemiro', desc:'Casemiro estreia pelo São Paulo como profissional', year:2010, context:'O jovem Carlos Henrique Casimiro faz sua estreia pelo São Paulo Futebol Clube, iniciando a carreira que o levaria ao Real Madrid e à Seleção Brasileira.' }
+    ],
+    27: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Palmeiras', desc:'Clássico vencido com goleada', year:1986 }
+    ],
+    29: [
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Palmeiras', desc:'Clássico vencido', year:1970 }
+    ],
+    30: [
+      { cat:'vitoria', emoji:'⚽', title:'6x0 no Jabaquara', desc:'Goleada sobre o Jabaquara', year:1959 }
+    ],
+    31: [
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no São Bento', desc:'Goleada sobre o São Bento', year:1985 }
+    ]
+  },
 
-/* ── JULHO ───────────────────────────────────────── */
-7:{
- 1:[{t:'vitoria',e:'⚽',n:'7x3 no Flamengo',d:'Goleada histórica sobre o Flamengo',y:1933,ctx:'Uma das maiores goleadas sobre um clube carioca na história do SPFC.',stats:[{l:'Placar',v:'7 x 3'},{l:'Adversário',v:'Flamengo'},{l:'Ano',v:'1933'}]}],
- 2:[{t:'vitoria',e:'⚽',n:'11x0 no Inter-SP',d:'ONZE A ZERO — uma das maiores goleadas da história',y:1932,ctx:'Um placar que parece inacreditável. O São Paulo marca 11 gols em uma única partida contra o Internacionale de São Paulo em 1932.',stats:[{l:'Placar',v:'11 x 0'},{l:'Adversário',v:'Inter-SP'},{l:'Ano',v:'1932'},{l:'Era',v:'Amadora'}]}],
- 3:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1989',d:'São Paulo conquista o Campeonato Paulista',y:1989,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1989'}]},{t:'estreia',e:'⭐',n:'Estreia de Pita',d:'Pita estreia pelo São Paulo',y:1984},{t:'estreia',e:'⭐',n:'Estreia de Doriva',d:'Doriva estreia pelo São Paulo',y:1991}],
- 4:[{t:'vitoria',e:'⚽',n:'7x2 no Comercial-SP',d:'Goleada histórica',y:1949}],
- 5:[{t:'aniversario',e:'🎂',n:'Amoroso',d:'Aniversário de Amoroso',y:1974}],
- 6:[{t:'aniversario',e:'🎂',n:'Jim Lopes',d:'Aniversário de Jim Lopes',y:1912}],
- 7:[{t:'aniversario',e:'🎂',n:'Araken Patusca',d:'Aniversário de Araken Patusca',y:1905}],
- 8:[{t:'vitoria',e:'⚽',n:'12x1 no Jabaquara',d:'DOZE A UM — goleada histórica absurda',y:1945,ctx:'O São Paulo marca 12 gols em uma única partida contra o Jabaquara. Uma das maiores goleadas de toda a história do clube.',stats:[{l:'Placar',v:'12 x 1'},{l:'Adversário',v:'Jabaquara'},{l:'Ano',v:'1945'}]}],
- 9:[{t:'vitoria',e:'⚽',n:'4x1 no Santos',d:'Goleada no clássico',y:1933}],
- 10:[{t:'vitoria',e:'⚽',n:'5x0 no Noroeste',d:'Goleada no Paulistão',y:1975}],
- 12:[{t:'vitoria',e:'⚽',n:'3x2 no Santos',d:'Clássico emocionante vencido',y:1970}],
- 13:[{t:'vitoria',e:'⚽',n:'1x0 no Corinthians',d:'Clássico vencido',y:1980}],
- 14:[{t:'titulo',e:'🏆',n:'LIBERTADORES 2005 — BICAMPEONATO',d:'São Paulo conquista a Copa Libertadores pela 2ª vez',y:2005,ctx:'Em 14 de julho de 2005, o São Paulo vence o Atlético Paranaense e conquista a Copa Libertadores pela segunda vez. Rogério Ceni levanta a taça como capitão.',stats:[{l:'Final',v:'SPFC x Athletico-PR'},{l:'Treinador',v:'Paulo Autuori'},{l:'Capitão',v:'Rogério Ceni'},{l:'Edição',v:'Libertadores 2005'}],video:'yCNSMFUPqdo'},{t:'aniversario',e:'🎂',n:'Pablo Forlán',d:'Aniversário de Pablo Forlán',y:1945}],
- 16:[{t:'vitoria',e:'⚽',n:'2x1 no Corinthians',d:'Clássico vencido',y:1939},{t:'vitoria',e:'⚽',n:'4x1 no Jabaquara',d:'Goleada',y:1949}],
- 18:[{t:'aniversario',e:'🎂',n:'Friedenreich',d:'Nascimento de Arthur Friedenreich, o Tigre',y:1892,ctx:'Arthur Friedenreich (1892-1969), o Tigre. Considerado o primeiro grande craque do futebol brasileiro. Filho de pai alemão e mãe negra, foi um pioneiro e símbolo do futebol tricolor.',stats:[{l:'Nascimento',v:'18/07/1892'},{l:'Apelido',v:'O Tigre'},{l:'Era',v:'1930s'},{l:'Posição',v:'Atacante'}]}],
- 19:[{t:'vitoria',e:'⚽',n:'6x1 no Comercial-SP',d:'Goleada',y:1953}],
- 20:[{t:'vitoria',e:'⚽',n:'7x0 no Linense',d:'Goleada no Paulistão',y:1957}],
- 21:[{t:'vitoria',e:'⚽',n:'6x1 no SP Railway',d:'Goleada histórica',y:1945}],
- 23:[{t:'vitoria',e:'⚽',n:'4x2 no Corinthians',d:'Clássico vencido',y:1933}],
- 24:[{t:'vitoria',e:'⚽',n:'5x1 no Palmeiras',d:'Goleada no clássico',y:1949}],
- 25:[{t:'vitoria',e:'⚽',n:'5x0 no Cruz Azul',d:'Goleada na Libertadores',y:1999}],
- 26:[{t:'aniversario',e:'🎂',n:'Telê Santana',d:'Nascimento do maior treinador da história do SPFC',y:1931,ctx:'Mário Campos de Menezes Santana, o Telê, nasceu em 26 de julho de 1931. Conduziu o São Paulo aos títulos do Brasileirão 1991, Libertadores 1992 e 1993, e Mundial 1992 e 1993. Uma das maiores figuras do futebol mundial.',stats:[{l:'Nascimento',v:'1931'},{l:'Brasileirão',v:'1991'},{l:'Libertadores',v:'1992 e 1993'},{l:'Mundial',v:'1992 e 1993'}]},{t:'estreia',e:'⭐',n:'Estreia de Casemiro',d:'Casemiro estreia no futebol profissional pelo São Paulo',y:2010,ctx:'Em 26 de julho de 2010, Carlos Henrique Casimiro faz sua estreia no futebol profissional pelo São Paulo. O jovem de 17 anos iniciaria uma carreira que o levaria ao Real Madrid, ao Ballon d\'Or e à Seleção Brasileira.',stats:[{l:'Idade',v:'17 anos'},{l:'Data',v:'26/07/2010'},{l:'Destino',v:'Real Madrid'},{l:'Posição',v:'Volante'}],video:'2PkGOkm5EUc'},{t:'despedida',e:'👋',n:'Despedida de Antônio Carlos',d:'Último jogo de Antônio Carlos pelo São Paulo',y:1992}],
- 27:[{t:'vitoria',e:'⚽',n:'5x1 no Palmeiras',d:'Goleada no clássico',y:1986}],
- 28:[{t:'vitoria',e:'⚽',n:'4x1 no Noroeste',d:'Goleada',y:1957}],
- 29:[{t:'vitoria',e:'⚽',n:'1x0 no Palmeiras',d:'Clássico vencido',y:1970}],
- 30:[{t:'vitoria',e:'⚽',n:'6x0 no Jabaquara',d:'Goleada histórica',y:1959},{t:'estreia',e:'⭐',n:'Estreia de Edcarlos',d:'Edcarlos estreia pelo São Paulo',y:2003}],
- 31:[{t:'vitoria',e:'⚽',n:'5x0 no São Bento',d:'Goleada no Paulistão',y:1985},{t:'vitoria',e:'⚽',n:'4x0 no Grêmio',d:'Goleada no Brasileirão',y:2003}]
-},
+  // AGOSTO
+  8: {
+    1: [
+      { cat:'aniversario', emoji:'🎂', title:'Gijo — Aniversário', desc:'Nascimento de Gijo', year:1919 },
+      { cat:'aniversario', emoji:'🎂', title:'Ruy — Aniversário', desc:'Nascimento de Ruy', year:1922 },
+      { cat:'aniversario', emoji:'🎂', title:'Mineiro — Aniversário', desc:'Nascimento de Mineiro', year:1975 }
+    ],
+    3: [
+      { cat:'titulo', emoji:'🏆', title:'PEQUENA COPA 1955', desc:'São Paulo conquista a Pequena Copa do Mundo', year:1955 }
+    ],
+    4: [
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Comercial-RP', desc:'Goleada sobre o Comercial de Ribeirão Preto', year:1967 }
+    ],
+    5: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Oscar', desc:'Oscar estreia pelo São Paulo', year:1980 }
+    ],
+    6: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no S. Caetano EC', desc:'Vitória sobre o São Caetano', year:1938 }
+    ],
+    7: [
+      { cat:'vitoria', emoji:'⚽', title:'8x2 no Juventus', desc:'Goleada histórica sobre o Juventus', year:1949 },
+      { cat:'vitoria', emoji:'⚽', title:'5x2 no Taubaté', desc:'Vitória sobre o Taubaté', year:1954 }
+    ],
+    9: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Juventus', desc:'Goleada sobre o Juventus', year:1942 }
+    ],
+    10: [
+      { cat:'aniversario', emoji:'🎂', title:'Toninho Guerreiro — Aniversário', desc:'Nascimento de Toninho Guerreiro', year:1942 }
+    ],
+    11: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Leonardo', desc:'Leonardo estreia pelo São Paulo', year:1990 }
+    ],
+    12: [
+      { cat:'vitoria', emoji:'⚽', title:'6x1 na Portuguesa', desc:'Goleada sobre a Portuguesa', year:1961 }
+    ],
+    13: [
+      { cat:'vitoria', emoji:'⚽', title:'9x0 na Portuguesa St', desc:'Goleada histórica de 9 a 0!', year:1943 }
+    ],
+    14: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Palmeiras', desc:'Clássico vencido', year:1948 }
+    ],
+    15: [
+      { cat:'titulo', emoji:'🏆', title:'TERESA HERRERA 1992', desc:'São Paulo conquista o Torneio Teresa Herrera', year:1992 }
+    ],
+    17: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1975', desc:'São Paulo conquista o Campeonato Paulista', year:1975 }
+    ],
+    20: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Juventus', desc:'Goleada sobre o Juventus', year:1955 }
+    ],
+    21: [
+      { cat:'vitoria', emoji:'⚽', title:'8x1 no Ypiranga', desc:'Goleada histórica sobre o Ypiranga', year:1942 }
+    ],
+    23: [
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Palmeiras', desc:'Clássico vencido', year:1987 }
+    ],
+    24: [
+      { cat:'titulo', emoji:'🏆', title:'COLOMBINO 1969', desc:'São Paulo conquista o Torneio Colombino', year:1969 }
+    ],
+    27: [
+      { cat:'vitoria', emoji:'⚽', title:'12x1 no Sírio', desc:'Goleada histórica de 12 a 1!', year:1933, context:'Um placar que impressiona mesmo décadas depois. O São Paulo marca 12 gols em uma única partida.' }
+    ],
+    29: [
+      { cat:'titulo', emoji:'🏆', title:'PEQUENA COPA 1963', desc:'São Paulo conquista a Pequena Copa', year:1963 },
+      { cat:'titulo', emoji:'🏆', title:'R. CARRANZA 1992', desc:'São Paulo conquista o Ramón de Carranza', year:1992 }
+    ],
+    30: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1987', desc:'São Paulo conquista o Campeonato Paulista', year:1987 }
+    ],
+    31: [
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Ypiranga', desc:'Goleada sobre o Ypiranga', year:1930 },
+      { cat:'vitoria', emoji:'⚽', title:'2x0 no Santos', desc:'Clássico vencido', year:1946 },
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Corinthians', desc:'Clássico vencido', year:2020 }
+    ]
+  },
 
-/* ── AGOSTO ──────────────────────────────────────── */
-8:{
- 1:[{t:'aniversario',e:'🎂',n:'Gijo',d:'Aniversário de Gijo',y:1919},{t:'aniversario',e:'🎂',n:'Ruy',d:'Aniversário de Ruy',y:1922},{t:'aniversario',e:'🎂',n:'Mineiro',d:'Aniversário de Mineiro',y:1975},{t:'vitoria',e:'⚽',n:'5x1 no Santos',d:'Clássico vencido',y:1942}],
- 3:[{t:'titulo',e:'🏆',n:'PEQUENA COPA DO MUNDO 1955',d:'São Paulo conquista a Pequena Copa do Mundo',y:1955}],
- 4:[{t:'vitoria',e:'⚽',n:'5x0 no Comercial-RP',d:'Goleada',y:1967}],
- 5:[{t:'estreia',e:'⭐',n:'Estreia de Oscar',d:'Oscar, ídolo histórico, estreia pelo São Paulo',y:1980}],
- 6:[{t:'vitoria',e:'⚽',n:'5x1 no São Caetano EC',d:'Goleada',y:1938}],
- 7:[{t:'vitoria',e:'⚽',n:'8x2 no Juventus',d:'Goleada histórica sobre o Juventus',y:1949,stats:[{l:'Placar',v:'8 x 2'},{l:'Adversário',v:'Juventus'},{l:'Ano',v:'1949'}]},{t:'vitoria',e:'⚽',n:'5x2 no Taubaté',d:'Goleada',y:1954}],
- 9:[{t:'vitoria',e:'⚽',n:'4x1 no Juventus',d:'Goleada',y:1942}],
- 10:[{t:'aniversario',e:'🎂',n:'Toninho Guerreiro',d:'Aniversário de Toninho Guerreiro',y:1942}],
- 11:[{t:'estreia',e:'⭐',n:'Estreia de Leonardo',d:'Leonardo estreia pelo São Paulo',y:1990}],
- 12:[{t:'vitoria',e:'⚽',n:'6x1 na Portuguesa',d:'Goleada',y:1961}],
- 13:[{t:'vitoria',e:'⚽',n:'9x0 na Portuguesa Santista',d:'NOVE A ZERO — goleada histórica',y:1943,ctx:'Uma das maiores goleadas da história do São Paulo Futebol Clube.',stats:[{l:'Placar',v:'9 x 0'},{l:'Adversário',v:'Portuguesa Santista'},{l:'Ano',v:'1943'}]}],
- 14:[{t:'vitoria',e:'⚽',n:'2x1 no Palmeiras',d:'Clássico vencido',y:1948}],
- 15:[{t:'titulo',e:'🏆',n:'TERESA HERRERA 1992',d:'São Paulo conquista o Torneio Teresa Herrera',y:1992}],
- 17:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1975',d:'São Paulo conquista o Campeonato Paulista',y:1975,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1975'}]}],
- 20:[{t:'vitoria',e:'⚽',n:'5x1 no Juventus',d:'Goleada',y:1955}],
- 21:[{t:'vitoria',e:'⚽',n:'8x1 no Ypiranga',d:'Goleada histórica',y:1942}],
- 23:[{t:'vitoria',e:'⚽',n:'3x1 no Palmeiras',d:'Clássico vencido',y:1987}],
- 24:[{t:'titulo',e:'🏆',n:'COLOMBINO 1969',d:'São Paulo conquista o Torneio Colombino',y:1969}],
- 27:[{t:'vitoria',e:'⚽',n:'12x1 no Sírio',d:'DOZE A UM — goleada histórica absurda',y:1933,ctx:'O São Paulo marca 12 gols em uma única partida. Um placar que desafia a realidade do futebol da época.',stats:[{l:'Placar',v:'12 x 1'},{l:'Adversário',v:'Sírio'},{l:'Ano',v:'1933'}]}],
- 29:[{t:'titulo',e:'🏆',n:'PEQUENA COPA 1963',d:'São Paulo conquista a Pequena Copa',y:1963},{t:'titulo',e:'🏆',n:'RAMÓN DE CARRANZA 1992',d:'São Paulo conquista o Ramón de Carranza',y:1992}],
- 30:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1987',d:'São Paulo conquista o Campeonato Paulista',y:1987,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1987'}]}],
- 31:[{t:'vitoria',e:'⚽',n:'5x0 no Ypiranga',d:'Goleada histórica',y:1930},{t:'vitoria',e:'⚽',n:'2x0 no Santos',d:'Clássico vencido',y:1946},{t:'vitoria',e:'⚽',n:'2x1 no Corinthians',d:'Clássico vencido',y:2020}]
-},
+  // SETEMBRO
+  9: {
+    1: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Bragantino', desc:'Vitória sobre o Bragantino', year:1940 }
+    ],
+    3: [
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Corinthians', desc:'Clássico vencido', year:1988 }
+    ],
+    4: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Santos', desc:'Goleada clássica', year:1984 },
+      { cat:'vitoria', emoji:'⚽', title:'3x0 no Palmeiras', desc:'Clássico vencido', year:2000 }
+    ],
+    5: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Vélez Sarsfield', desc:'Goleada internacional', year:1997 },
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Grêmio', desc:'Vitória sobre o Grêmio', year:1999 }
+    ],
+    6: [
+      { cat:'vitoria', emoji:'⚽', title:'5x2 no Espanha-St', desc:'Vitória sobre o Espanha-St', year:1941 }
+    ],
+    7: [
+      { cat:'vitoria', emoji:'⚽', title:'7x3 na Ferroviária', desc:'Goleada histórica', year:1953 }
+    ],
+    9: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1970', desc:'São Paulo conquista o Campeonato Paulista', year:1970 }
+    ],
+    10: [
+      { cat:'vitoria', emoji:'⚽', title:'6x1 no Corinthians', desc:'Goleada histórica no clássico!', year:1933, context:'O São Paulo goleia o Corinthians por 6 a 1 em partida histórica do clássico paulista.' }
+    ],
+    12: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Santos', desc:'Goleada clássica', year:1943 }
+    ],
+    13: [
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Palmeiras', desc:'Clássico vencido', year:1953 },
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Corinthians', desc:'Clássico vencido', year:1970 }
+    ],
+    16: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1945', desc:'São Paulo conquista o Campeonato Paulista', year:1945 }
+    ],
+    19: [
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Santos', desc:'Clássico vencido', year:1995 }
+    ],
+    20: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 no Sírio', desc:'Goleada sobre o Sírio', year:1931 }
+    ],
+    21: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Comercial-SP', desc:'Goleada sobre o Comercial-SP', year:1941 }
+    ],
+    23: [
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Palmeiras', desc:'Clássico vencido', year:1951 }
+    ],
+    24: [
+      { cat:'titulo', emoji:'🏆', title:'COPA DO BRASIL 2023', desc:'São Paulo conquista a Copa do Brasil', year:2023, context:'O São Paulo conquista a Copa do Brasil, um título esperado há anos pela torcida. Uma conquista histórica para o clube.' }
+    ],
+    25: [
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Palmeiras', desc:'Clássico vencido', year:1963 }
+    ],
+    27: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Toninho Cerezo', desc:'Toninho Cerezo estreia pelo São Paulo', year:1992 }
+    ],
+    29: [
+      { cat:'titulo', emoji:'🏆', title:'RECOPA SUDAMERICANA 1993', desc:'São Paulo conquista a Recopa Sul-Americana', year:1993 },
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Corinthians', desc:'Clássico vencido', year:1946 }
+    ]
+  },
 
-/* ── SETEMBRO ────────────────────────────────────── */
-9:{
- 1:[{t:'vitoria',e:'⚽',n:'4x1 no Bragantino',d:'Vitória no Paulistão',y:1940}],
- 2:[{t:'vitoria',e:'⚽',n:'1x0 no Palestra Itália',d:'Vitória sobre o futuro Palmeiras',y:1934}],
- 3:[{t:'vitoria',e:'⚽',n:'1x0 no Corinthians',d:'Clássico vencido',y:1988}],
- 4:[{t:'vitoria',e:'⚽',n:'4x1 no Santos',d:'Goleada clássica',y:1984},{t:'vitoria',e:'⚽',n:'3x0 no Palmeiras',d:'Clássico vencido',y:2000}],
- 5:[{t:'vitoria',e:'⚽',n:'5x1 no Vélez Sarsfield',d:'Goleada internacional',y:1997},{t:'vitoria',e:'⚽',n:'4x0 no Grêmio',d:'Goleada no Brasileirão',y:1999}],
- 6:[{t:'vitoria',e:'⚽',n:'5x2 no Espanha Santista',d:'Goleada no Paulistão',y:1941},{t:'aniversario',e:'🎂',n:'Leonardo',d:'Aniversário de Leonardo',y:1969}],
- 7:[{t:'vitoria',e:'⚽',n:'7x3 na Ferroviária',d:'Goleada histórica',y:1953},{t:'vitoria',e:'⚽',n:'4x0 no Comercial-SP',d:'Goleada',y:1942}],
- 8:[{t:'vitoria',e:'⚽',n:'4x1 no Linense',d:'Goleada',y:1956}],
- 9:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1970',d:'São Paulo conquista o Campeonato Paulista',y:1970,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1970'}]}],
- 10:[{t:'vitoria',e:'⚽',n:'6x1 no Corinthians',d:'Goleada histórica no clássico',y:1933,ctx:'O São Paulo goleia o Corinthians por 6 a 1 em uma das maiores goleadas do clássico paulista de todos os tempos.',stats:[{l:'Placar',v:'6 x 1'},{l:'Adversário',v:'Corinthians'},{l:'Ano',v:'1933'}]}],
- 11:[{t:'vitoria',e:'⚽',n:'4x1 no Santos',d:'Goleada clássica',y:1943}],
- 12:[{t:'vitoria',e:'⚽',n:'4x1 no Santos',d:'Goleada clássica',y:1943}],
- 13:[{t:'vitoria',e:'⚽',n:'3x1 no Palmeiras',d:'Clássico vencido',y:1953},{t:'vitoria',e:'⚽',n:'1x0 no Corinthians',d:'Clássico vencido',y:1970}],
- 15:[{t:'estreia',e:'⭐',n:'Estreia de Savério',d:'Savério estreia pelo São Paulo',y:1943}],
- 16:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1945',d:'São Paulo conquista o Campeonato Paulista',y:1945,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1945'}]}],
- 19:[{t:'vitoria',e:'⚽',n:'1x0 no Santos',d:'Clássico vencido',y:1995}],
- 20:[{t:'vitoria',e:'⚽',n:'5x1 no Sírio',d:'Goleada',y:1931}],
- 21:[{t:'vitoria',e:'⚽',n:'4x0 no Comercial-SP',d:'Goleada',y:1941}],
- 23:[{t:'vitoria',e:'⚽',n:'1x0 no Palmeiras',d:'Clássico vencido',y:1951}],
- 24:[{t:'titulo',e:'🏆',n:'COPA DO BRASIL 2023',d:'São Paulo conquista a Copa do Brasil!',y:2023,ctx:'Em 24 de setembro de 2023, o São Paulo vence o Flamengo e conquista a Copa do Brasil. Um título histórico e muito esperado pelos torcedores tricolores.',stats:[{l:'Competição',v:'Copa do Brasil'},{l:'Final',v:'SPFC x Flamengo'},{l:'Edição',v:'2023'}],video:'7BsGnRj_JRQ'},{t:'aniversario',e:'🎂',n:'Fábio Simplício',d:'Aniversário de Fábio Simplício',y:1979},{t:'aniversario',e:'🎂',n:'Fábio Aurélio',d:'Aniversário de Fábio Aurélio',y:1979}],
- 25:[{t:'vitoria',e:'⚽',n:'3x1 no Palmeiras',d:'Clássico vencido',y:1963}],
- 27:[{t:'estreia',e:'⭐',n:'Estreia de Toninho Cerezo',d:'Toninho Cerezo estreia no SPFC em 1992',y:1992}],
- 28:[{t:'aniversario',e:'🎂',n:'Almir-VL',d:'Aniversário de Almir-VL',y:1953}],
- 29:[{t:'titulo',e:'🏆',n:'RECOPA SUL-AMERICANA 1993',d:'São Paulo conquista a Recopa Sul-Americana',y:1993},{t:'vitoria',e:'⚽',n:'2x1 no Corinthians',d:'Clássico vencido',y:1946},{t:'vitoria',e:'⚽',n:'5x2 no Jabaquara',d:'Goleada',y:1963}]
-},
+  // OUTUBRO
+  10: {
+    1: [
+      { cat:'titulo', emoji:'🏆', title:'INAUGURAÇÃO DO MORUMBI', desc:'Inauguração do Estádio Cícero Pompeu de Toledo — o Morumbi', year:1960, context:'Em 1º de outubro de 1960, o Morumbi é inaugurado. O maior estádio de propriedade privada do mundo torna-se a casa do São Paulo Futebol Clube.' }
+    ],
+    2: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1943', desc:'São Paulo conquista o Campeonato Paulista', year:1943 }
+    ],
+    5: [
+      { cat:'aniversario', emoji:'🎂', title:'Careca — Aniversário', desc:'Nascimento de Careca', year:1960, context:'Antônio de Oliveira Filho, o Careca, um dos maiores centroavantes da história do futebol brasileiro, nasceu nesta data.' }
+    ],
+    7: [
+      { cat:'vitoria', emoji:'⚽', title:'2x0 no Palmeiras', desc:'Clássico vencido', year:1979 }
+    ],
+    9: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Teixeirinha', desc:'Teixeirinha estreia pelo São Paulo', year:1939 }
+    ],
+    10: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Palmeiras', desc:'Clássico vencido', year:1954 }
+    ],
+    12: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Santos', desc:'Clássico vencido', year:1934 }
+    ],
+    13: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Corinthians', desc:'Goleada no clássico', year:1944 }
+    ],
+    17: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Santos', desc:'Goleada clássica', year:1953 }
+    ],
+    18: [
+      { cat:'vitoria', emoji:'⚽', title:'6x0 no Ypiranga', desc:'Goleada sobre o Ypiranga', year:1931 },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Raí', desc:'Raí faz sua estreia no São Paulo', year:1987, context:'Raí Souza Vieira de Oliveira inicia sua trajetória no São Paulo Futebol Clube.' }
+    ],
+    21: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Santos', desc:'Clássico vencido', year:1944 }
+    ],
+    22: [
+      { cat:'vitoria', emoji:'⚽', title:'6x2 no Santos', desc:'Goleada clássica', year:1933 }
+    ],
+    24: [
+      { cat:'vitoria', emoji:'⚽', title:'3x1 no Santos', desc:'Clássico vencido', year:1987 }
+    ],
+    25: [
+      { cat:'vitoria', emoji:'⚽', title:'2x0 no Corinthians', desc:'Clássico vencido', year:1981 }
+    ],
+    26: [
+      { cat:'vitoria', emoji:'⚽', title:'7x0 no Juventus', desc:'Goleada histórica sobre o Juventus', year:1946 }
+    ],
+    28: [
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Palestra Itália', desc:'Vitória histórica sobre o Palestra Itália', year:1934 }
+    ],
+    29: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Olimpia-PAR', desc:'Goleada internacional', year:1997 }
+    ],
+    30: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Sírio', desc:'Goleada sobre o Sírio', year:1932 },
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Palmeiras', desc:'Clássico vencido', year:1983 }
+    ],
+    31: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO BRASILEIRO 2007', desc:'São Paulo conquista o Campeonato Brasileiro', year:2007, context:'O São Paulo do técnico Muricy Ramalho conquista mais um título brasileiro, consolidando a era de ouro do clube nos anos 2000.' },
+      { cat:'vitoria', emoji:'⚽', title:'6x1 no Guarani', desc:'Goleada sobre o Guarani', year:1982 }
+    ]
+  },
 
-/* ── OUTUBRO ─────────────────────────────────────── */
-10:{
- 1:[{t:'titulo',e:'🏆',n:'INAUGURAÇÃO DO MORUMBI',d:'O Estádio Cícero Pompeu de Toledo é inaugurado',y:1960,ctx:'Em 1º de outubro de 1960, o Morumbi é inaugurado. O maior estádio de propriedade privada do mundo torna-se a casa do São Paulo. Uma obra que mudou a história do futebol brasileiro.',stats:[{l:'Data',v:'01/10/1960'},{l:'Capacidade',v:'+70.000'},{l:'Nome',v:'Cícero Pompeu de Toledo'},{l:'Apelido',v:'Morumbi'}]}],
- 2:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1943',d:'São Paulo conquista o Campeonato Paulista',y:1943,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1943'}]}],
- 5:[{t:'aniversario',e:'🎂',n:'Careca',d:'Nascimento de Careca, um dos maiores centroavantes do Brasil',y:1960,ctx:'Antônio de Oliveira Filho, o Careca, nasceu em 5 de outubro de 1960. Um dos maiores centroavantes da história do futebol brasileiro e do São Paulo.',stats:[{l:'Nascimento',v:'05/10/1960'},{l:'Posição',v:'Centroavante'},{l:'Seleção',v:'Brasil'},{l:'Era',v:'1980s'}]}],
- 6:[{t:'vitoria',e:'⚽',n:'4x1 no São Bento',d:'Goleada no Paulistão',y:1956}],
- 7:[{t:'vitoria',e:'⚽',n:'2x0 no Palmeiras',d:'Clássico vencido',y:1979}],
- 9:[{t:'estreia',e:'⭐',n:'Estreia de Teixeirinha',d:'Teixeirinha estreia pelo São Paulo',y:1939}],
- 10:[{t:'vitoria',e:'⚽',n:'2x1 no Palmeiras',d:'Clássico vencido',y:1954}],
- 12:[{t:'vitoria',e:'⚽',n:'2x1 no Santos',d:'Clássico vencido',y:1934}],
- 13:[{t:'vitoria',e:'⚽',n:'4x0 no Corinthians',d:'Goleada no clássico',y:1944}],
- 14:[{t:'aniversario',e:'🎂',n:'Rubens Salles',d:'Aniversário de Rubens Salles',y:1891}],
- 17:[{t:'vitoria',e:'⚽',n:'4x1 no Santos',d:'Goleada clássica',y:1953}],
- 18:[{t:'vitoria',e:'⚽',n:'6x0 no Ypiranga',d:'Goleada',y:1931},{t:'estreia',e:'⭐',n:'Estreia de Raí',d:'Raí faz sua estreia no São Paulo',y:1987,ctx:'Raí Souza Vieira de Oliveira iniciou sua trajetória pelo São Paulo nesta data. O meia se tornaria capitão do tricampeonato da Libertadores e um dos maiores ídolos da história tricolor.',stats:[{l:'Posição',v:'Meia'},{l:'Data de Estreia',v:'18/10/1987'},{l:'Títulos',v:'Libertadores 92/93'}]}],
- 21:[{t:'vitoria',e:'⚽',n:'2x1 no Santos',d:'Clássico vencido',y:1944}],
- 22:[{t:'vitoria',e:'⚽',n:'6x2 no Santos',d:'Goleada no clássico',y:1933}],
- 24:[{t:'vitoria',e:'⚽',n:'3x1 no Santos',d:'Clássico vencido',y:1987}],
- 25:[{t:'vitoria',e:'⚽',n:'2x0 no Corinthians',d:'Clássico vencido',y:1981}],
- 26:[{t:'vitoria',e:'⚽',n:'7x0 no Juventus',d:'Goleada histórica sobre o Juventus',y:1946,stats:[{l:'Placar',v:'7 x 0'},{l:'Adversário',v:'Juventus'},{l:'Ano',v:'1946'}]}],
- 28:[{t:'vitoria',e:'⚽',n:'1x0 no Palestra Itália',d:'Vitória histórica sobre o futuro Palmeiras',y:1934}],
- 29:[{t:'vitoria',e:'⚽',n:'4x1 no Olimpia-PAR',d:'Goleada na Libertadores',y:1997}],
- 30:[{t:'vitoria',e:'⚽',n:'4x0 no Sírio',d:'Goleada',y:1932},{t:'vitoria',e:'⚽',n:'2x1 no Palmeiras',d:'Clássico vencido',y:1983}],
- 31:[{t:'titulo',e:'🏆',n:'CAMPEÃO BRASILEIRO 2007',d:'São Paulo tricampeão brasileiro consecutivo',y:2007,ctx:'O São Paulo de Muricy Ramalho conquista seu terceiro título brasileiro consecutivo (2006-2007). Uma era de domínio absoluto no futebol nacional.',stats:[{l:'Competição',v:'Brasileirão'},{l:'Edição',v:'2007'},{l:'Seq. Títulos',v:'2006-07-08'},{l:'Treinador',v:'Muricy Ramalho'}]},{t:'vitoria',e:'⚽',n:'6x1 no Guarani',d:'Goleada no Paulistão',y:1982}]
-},
+  // NOVEMBRO
+  11: {
+    1: [
+      { cat:'aniversario', emoji:'🎂', title:'Vicente Feola — Aniversário', desc:'Nascimento do técnico Vicente Feola', year:1909, context:'Vicente Feola é o técnico que levou a Seleção Brasileira ao título da Copa do Mundo de 1958, na Suécia.' },
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Nacional', desc:'Goleada internacional', year:1949 },
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Flamengo', desc:'Vitória sobre o Flamengo', year:2020 }
+    ],
+    2: [
+      { cat:'aniversario', emoji:'🎂', title:'Diego Lugano — Aniversário', desc:'Nascimento do capitão Diego Lugano', year:1980, context:'Diego Lugano, capitão e ídolo do São Paulo, nasceu nesta data. O zagueiro uruguaio é um dos estrangeiros mais queridos da história do clube.' }
+    ],
+    3: [
+      { cat:'vitoria', emoji:'⚽', title:'7x2 no Comercial-SP', desc:'Goleada histórica', year:1940 }
+    ],
+    5: [
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Bauer', desc:'Bauer estreia pelo São Paulo', year:1944 }
+    ],
+    7: [
+      { cat:'vitoria', emoji:'⚽', title:'8x0 no Noroeste', desc:'Goleada histórica sobre o Noroeste', year:1965 }
+    ],
+    8: [
+      { cat:'vitoria', emoji:'⚽', title:'8x2 no Jabaquara', desc:'Goleada histórica sobre o Jabaquara', year:1947 },
+      { cat:'aniversario', emoji:'🎂', title:'Luís Fabiano — Aniversário', desc:'Nascimento de Luís Fabiano', year:1980, context:'Luís Fabiano, o Fabuloso, um dos maiores centroavantes da história do SPFC, nasceu nesta data.' }
+    ],
+    10: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1946', desc:'São Paulo conquista o Campeonato Paulista', year:1946 }
+    ],
+    11: [
+      { cat:'vitoria', emoji:'⚽', title:'10x0 no Guarani', desc:'DEZ A ZERO! Goleada histórica sobre o Guarani!', year:1950, context:'Uma das maiores goleadas de toda a história do São Paulo Futebol Clube. Dez gols em uma única partida.' },
+      { cat:'estreia', emoji:'⭐', title:'Estreia de Müller', desc:'Luis Müller estreia pelo São Paulo', year:1984 }
+    ],
+    12: [
+      { cat:'vitoria', emoji:'⚽', title:'8x1 na Portuguesa St', desc:'Goleada histórica', year:1939 },
+      { cat:'vitoria', emoji:'⚽', title:'8x0 no Juventus', desc:'Goleada sobre o Juventus', year:1948 }
+    ],
+    13: [
+      { cat:'vitoria', emoji:'⚽', title:'10x0 no Operário', desc:'Dez a zero histórico!', year:1943 }
+    ],
+    16: [
+      { cat:'aniversario', emoji:'🎂', title:'Wagner Basílio — Aniversário', desc:'Nascimento de Wagner Basílio', year:1959 }
+    ],
+    17: [
+      { cat:'vitoria', emoji:'⚽', title:'6x2 no Santos', desc:'Goleada clássica', year:1957 }
+    ],
+    18: [
+      { cat:'titulo', emoji:'🏆', title:'MUNDIAL JOFRE 1960', desc:'São Paulo vence o Mundial Jofre', year:1960 }
+    ],
+    19: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1980', desc:'São Paulo conquista o Campeonato Paulista', year:1980 }
+    ],
+    20: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1949', desc:'São Paulo conquista o Campeonato Paulista', year:1949 },
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO BRASILEIRO 2006', desc:'São Paulo conquista o Campeonato Brasileiro', year:2006, context:'O São Paulo tricampeão brasileiro nos anos 2000. Uma era dourada sob o comando de Muricy Ramalho.' }
+    ],
+    22: [
+      { cat:'vitoria', emoji:'⚽', title:'8x1 no Juventus', desc:'Goleada histórica sobre o Juventus', year:1931 }
+    ],
+    23: [
+      { cat:'vitoria', emoji:'⚽', title:'4x1 no Corinthians', desc:'Clássico vencido', year:1960 }
+    ],
+    24: [
+      { cat:'titulo', emoji:'🏆', title:'SUPERCOPA SULAMERICANA 1993', desc:'São Paulo conquista a Supercopa Sul-Americana', year:1993, context:'Mais um título continental para o SPFC de Telê Santana.' }
+    ],
+    25: [
+      { cat:'vitoria', emoji:'⚽', title:'6x0 no Malmö-SUE', desc:'Goleada internacional sobre o Malmö da Suécia', year:1949 }
+    ],
+    26: [
+      { cat:'vitoria', emoji:'⚽', title:'1x0 no Palmeiras', desc:'Clássico vencido', year:1983 }
+    ],
+    27: [
+      { cat:'vitoria', emoji:'⚽', title:'5x0 no Santos', desc:'Goleada clássica', year:1938 }
+    ],
+    29: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1981', desc:'São Paulo conquista o Campeonato Paulista', year:1981 }
+    ],
+    30: [
+      { cat:'vitoria', emoji:'⚽', title:'5x1 na Portuguesa', desc:'Goleada sobre a Portuguesa', year:1930 },
+      { cat:'aniversario', emoji:'🎂', title:'Muricy — Aniversário', desc:'Nascimento do técnico Muricy Ramalho', year:1955, context:'Muricy Ramalho nasceu nesta data. O treinador levou o São Paulo a três títulos brasileiros consecutivos (2006, 2007, 2008) e à Copa do Brasil de 2023.' }
+    ]
+  },
 
-/* ── NOVEMBRO ────────────────────────────────────── */
-11:{
- 1:[{t:'aniversario',e:'🎂',n:'Vicente Feola',d:'Aniversário do técnico que levou o Brasil ao Mundo de 1958',y:1909,ctx:'Vicente Feola conduziu a Seleção Brasileira ao título da Copa do Mundo de 1958, na Suécia, com Pelé, Garrincha e Didi.'},{t:'vitoria',e:'⚽',n:'5x0 no Nacional',d:'Goleada em amistoso internacional',y:1949},{t:'vitoria',e:'⚽',n:'4x1 no Flamengo',d:'Vitória no Brasileirão',y:2020}],
- 2:[{t:'aniversario',e:'🎂',n:'Diego Lugano',d:'Nascimento do capitão uruguaio, um dos maiores zagueiros do clube',y:1980,ctx:'Diego Lugano nasceu em 2 de novembro de 1980. O zagueiro uruguaio foi capitão e ídolo do São Paulo, símbolo de uma geração vencedora.',stats:[{l:'Nascimento',v:'02/11/1980'},{l:'País',v:'Uruguai'},{l:'Posição',v:'Zagueiro'},{l:'Anos no SPFC',v:'2003-2013'}]}],
- 3:[{t:'vitoria',e:'⚽',n:'7x2 no Comercial-SP',d:'Goleada histórica',y:1940}],
- 4:[{t:'vitoria',e:'⚽',n:'5x1 no Universitário-PER',d:'Goleada na Libertadores',y:1945}],
- 5:[{t:'estreia',e:'⭐',n:'Estreia de Bauer',d:'Bauer, ídolo histórico, estreia pelo São Paulo',y:1944}],
- 7:[{t:'vitoria',e:'⚽',n:'8x0 no Noroeste',d:'Goleada histórica sobre o Noroeste',y:1965,stats:[{l:'Placar',v:'8 x 0'},{l:'Adversário',v:'Noroeste'},{l:'Ano',v:'1965'}]}],
- 8:[{t:'vitoria',e:'⚽',n:'8x2 no Jabaquara',d:'Goleada histórica sobre o Jabaquara',y:1947,stats:[{l:'Placar',v:'8 x 2'},{l:'Adversário',v:'Jabaquara'},{l:'Ano',v:'1947'}]},{t:'aniversario',e:'🎂',n:'Luís Fabiano',d:'Nascimento de Luís Fabiano, o Fabuloso',y:1980,ctx:'Luís Fabiano Clemente nasceu em 8 de novembro de 1980. O centroavante é um dos maiores ídolos da história do São Paulo, artilheiro e símbolo do futebol tricolor.',stats:[{l:'Nascimento',v:'08/11/1980'},{l:'Apelido',v:'Fabuloso'},{l:'Posição',v:'Centroavante'},{l:'Gols',v:'Artilheiro SPFC'}]}],
- 9:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1946',d:'São Paulo conquista o Campeonato Paulista',y:1946,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1946'}]}],
- 10:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1946 (conf.)',d:'Confirmação do título paulista',y:1946}],
- 11:[{t:'vitoria',e:'⚽',n:'10x0 no Guarani',d:'DEZ A ZERO — goleada histórica absurda',y:1950,ctx:'Uma das maiores goleadas de toda a história do São Paulo Futebol Clube. Dez gols em uma única partida contra o Guarani.',stats:[{l:'Placar',v:'10 x 0'},{l:'Adversário',v:'Guarani'},{l:'Ano',v:'1950'}]},{t:'estreia',e:'⭐',n:'Estreia de Müller',d:'Luis Müller estreia pelo São Paulo',y:1984}],
- 12:[{t:'vitoria',e:'⚽',n:'8x1 na Portuguesa Santista',d:'Goleada histórica',y:1939},{t:'vitoria',e:'⚽',n:'8x0 no Juventus',d:'Goleada histórica',y:1948}],
- 13:[{t:'vitoria',e:'⚽',n:'10x0 no Operário',d:'DEZ A ZERO histórico',y:1943}],
- 16:[{t:'aniversario',e:'🎂',n:'Wagner Basílio',d:'Aniversário de Wagner Basílio',y:1959}],
- 17:[{t:'vitoria',e:'⚽',n:'6x2 no Santos',d:'Goleada no clássico',y:1957}],
- 18:[{t:'titulo',e:'🏆',n:'MUNDIAL JOFRE 1960',d:'São Paulo vence o Mundial Jofre',y:1960}],
- 19:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1980',d:'São Paulo conquista o Campeonato Paulista',y:1980,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1980'}]}],
- 20:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1949',d:'São Paulo conquista o Campeonato Paulista',y:1949,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1949'}]},{t:'titulo',e:'🏆',n:'CAMPEÃO BRASILEIRO 2006',d:'São Paulo bicampeão brasileiro (2006)',y:2006,ctx:'O São Paulo de Muricy Ramalho conquista o Campeonato Brasileiro de 2006, inaugurando a sequência de três títulos consecutivos (2006-2007-2008).',stats:[{l:'Competição',v:'Brasileirão'},{l:'Edição',v:'2006'},{l:'Treinador',v:'Muricy Ramalho'}]}],
- 22:[{t:'vitoria',e:'⚽',n:'8x1 no Juventus',d:'Goleada histórica',y:1931,stats:[{l:'Placar',v:'8 x 1'},{l:'Adversário',v:'Juventus'},{l:'Ano',v:'1931'}]}],
- 23:[{t:'vitoria',e:'⚽',n:'4x1 no Corinthians',d:'Clássico vencido',y:1960}],
- 24:[{t:'titulo',e:'🏆',n:'SUPERCOPA SUL-AMERICANA 1993',d:'São Paulo conquista a Supercopa Sul-Americana',y:1993,ctx:'Mais um título continental para o SPFC de Telê Santana.',stats:[{l:'Competição',v:'Supercopa Sul-Americana'},{l:'Edição',v:'1993'}]}],
- 25:[{t:'vitoria',e:'⚽',n:'6x0 no Malmö-SUE',d:'Goleada internacional sobre o Malmö da Suécia',y:1949}],
- 26:[{t:'vitoria',e:'⚽',n:'1x0 no Palmeiras',d:'Clássico vencido',y:1983}],
- 27:[{t:'vitoria',e:'⚽',n:'5x0 no Santos',d:'Goleada no clássico',y:1938}],
- 28:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1981',d:'São Paulo conquista o Campeonato Paulista',y:1981,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1981'}]}],
- 29:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1981 (conf.)',d:'Confirmação do título',y:1981}],
- 30:[{t:'vitoria',e:'⚽',n:'5x1 na Portuguesa',d:'Goleada histórica',y:1930},{t:'aniversario',e:'🎂',n:'Muricy Ramalho',d:'Nascimento do técnico do tricampeonato brasileiro',y:1955,ctx:'Muricy Ramalho nasceu em 30 de novembro de 1955. O treinador levou o São Paulo ao tricampeonato brasileiro consecutivo (2006, 2007, 2008) e à Copa do Brasil de 2023.',stats:[{l:'Nascimento',v:'1955'},{l:'Brasileirão',v:'2006, 2007 e 2008'},{l:'Copa do Brasil',v:'2023'},{l:'Função',v:'Treinador'}]},{t:'despedida',e:'👋',n:'Despedida de Cafu',d:'Último jogo de Cafu pelo São Paulo',y:1994}]
-},
+  // DEZEMBRO
+  12: {
+    1: [
+      { cat:'aniversario', emoji:'🎂', title:'Pé de Valsa — Aniversário', desc:'Nascimento de Pé de Valsa', year:1924 }
+    ],
+    3: [
+      { cat:'aniversario', emoji:'🎂', title:'Pedro Rocha — Aniversário', desc:'Nascimento de Pedro Rocha', year:1942 }
+    ],
+    4: [
+      { cat:'vitoria', emoji:'⚽', title:'3x0 no Corinthians', desc:'Clássico vencido', year:1974 }
+    ],
+    5: [
+      { cat:'vitoria', emoji:'⚽', title:'4x2 no Palmeiras', desc:'Clássico vencido', year:1992 },
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Corinthians', desc:'Clássico vencido', year:1966 }
+    ],
+    6: [
+      { cat:'vitoria', emoji:'⚽', title:'4x0 no Palestra Itália', desc:'Goleada sobre o Palestra Itália', year:1931 }
+    ],
+    7: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO BRASILEIRO 2008', desc:'São Paulo tricampeão brasileiro consecutivo!', year:2008, context:'O São Paulo vence o Campeonato Brasileiro pela terceira vez consecutiva (2006, 2007, 2008), feito histórico no futebol brasileiro sob o comando de Muricy Ramalho.' }
+    ],
+    8: [
+      { cat:'vitoria', emoji:'⚽', title:'10x3 no Brasil-Par.', desc:'Goleada histórica de 10 a 3!', year:1945 }
+    ],
+    10: [
+      { cat:'vitoria', emoji:'⚽', title:'6x0 na Portuguesa', desc:'Goleada sobre a Portuguesa', year:1961 }
+    ],
+    11: [
+      { cat:'vitoria', emoji:'⚽', title:'2x1 no Santos', desc:'Clássico vencido', year:1960 }
+    ],
+    12: [
+      { cat:'titulo', emoji:'🏆', title:'SUL-AMERICANA 2012', desc:'São Paulo conquista a Copa Sul-Americana', year:2012, context:'O São Paulo conquista a Copa Sul-Americana, mais um título internacional para o clube.' },
+      { cat:'titulo', emoji:'🏆', title:'MUNDIAL 1993', desc:'São Paulo bicampeão mundial!', year:1993, context:'O São Paulo de Telê Santana bate o Milan e conquista o Mundial de Clubes pela segunda vez consecutiva. Uma das maiores façanhas do futebol brasileiro.' }
+    ],
+    18: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1948', desc:'São Paulo conquista o Campeonato Paulista', year:1948 }
+    ],
+    19: [
+      { cat:'titulo', emoji:'🏆', title:'MUNDIAL 2005', desc:'São Paulo tricampeão mundial!', year:2005, context:'O São Paulo vence o Liverpool e conquista o título do Mundial de Clubes de 2005. Rogério Ceni, Carlos, Diego Lugano e companhia fazem história. O SPFC é o maior campeão mundial do Brasil.' }
+    ],
+    20: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1992', desc:'São Paulo conquista o Campeonato Paulista', year:1992 }
+    ],
+    21: [
+      { cat:'titulo', emoji:'🏆', title:'CONMEBOL 1994', desc:'São Paulo conquista a CONMEBOL', year:1994 }
+    ],
+    22: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1985', desc:'São Paulo conquista o Campeonato Paulista', year:1985 },
+      { cat:'titulo', emoji:'🏆', title:'MUNDIAL 1992', desc:'São Paulo campeão mundial pela primeira vez!', year:1992, context:'O São Paulo de Telê Santana, Cafu, Raí e Müller vence o Barcelona e conquista o título do Mundial de Clubes de 1992. Uma noite histórica e inesquecível para o futebol tricolor.' }
+    ],
+    28: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1957', desc:'São Paulo conquista o Campeonato Paulista', year:1957 }
+    ],
+    29: [
+      { cat:'titulo', emoji:'🏆', title:'CAMPEÃO PAULISTA 1991', desc:'São Paulo conquista o Campeonato Paulista', year:1991 }
+    ]
+  }
+};
 
-/* ── DEZEMBRO ────────────────────────────────────── */
-12:{
- 1:[{t:'aniversario',e:'🎂',n:'Pé de Valsa',d:'Aniversário de Pé de Valsa',y:1924}],
- 3:[{t:'aniversario',e:'🎂',n:'Pedro Rocha',d:'Aniversário de Pedro Rocha',y:1942}],
- 4:[{t:'vitoria',e:'⚽',n:'3x0 no Corinthians',d:'Clássico vencido',y:1974}],
- 5:[{t:'vitoria',e:'⚽',n:'4x2 no Palmeiras',d:'Clássico vencido',y:1992},{t:'vitoria',e:'⚽',n:'2x1 no Corinthians',d:'Clássico vencido',y:1966}],
- 6:[{t:'vitoria',e:'⚽',n:'4x0 no Palestra Itália',d:'Goleada histórica sobre o futuro Palmeiras',y:1931}],
- 7:[{t:'titulo',e:'🏆',n:'CAMPEÃO BRASILEIRO 2008',d:'São Paulo tricampeão brasileiro consecutivo!',y:2008,ctx:'O São Paulo fecha o tricampeonato brasileiro (2006-2007-2008). Muricy Ramalho entra para a história como o treinador do feito inédito.',stats:[{l:'Competição',v:'Brasileirão'},{l:'Edição',v:'2008'},{l:'Feito',v:'3 Títulos Seguidos'},{l:'Treinador',v:'Muricy Ramalho'}]}],
- 8:[{t:'vitoria',e:'⚽',n:'10x3 no Brasil-Par.',d:'Goleada histórica de 10 a 3',y:1945,stats:[{l:'Placar',v:'10 x 3'},{l:'Adversário',v:'Brasil-Par.'},{l:'Ano',v:'1945'}]}],
- 10:[{t:'vitoria',e:'⚽',n:'6x0 na Portuguesa',d:'Goleada no Paulistão',y:1961}],
- 11:[{t:'vitoria',e:'⚽',n:'2x1 no Santos',d:'Clássico vencido',y:1960}],
- 12:[{t:'titulo',e:'🏆',n:'MUNDIAL 1993 — BICAMPEONATO MUNDIAL',d:'São Paulo é bicampeão mundial, vence o Milan!',y:1993,ctx:'Em 12 de dezembro de 1993, o São Paulo de Telê Santana vence o Milan de Fabio Capello e conquista o título do Mundial de Clubes pela segunda vez consecutiva. Uma das maiores façanhas do futebol sul-americano.',stats:[{l:'Final',v:'SPFC 3 x 2 Milan'},{l:'Treinador',v:'Telê Santana'},{l:'Competição',v:'Mundial de Clubes 1993'},{l:'Bicampeonato',v:'1992 e 1993'}],video:'q3LJSrBJsBQ'},{t:'titulo',e:'🏆',n:'SUL-AMERICANA 2012',d:'São Paulo conquista a Copa Sul-Americana',y:2012,ctx:'O São Paulo vence o Tigre (Argentina) e conquista a Copa Sul-Americana 2012.',stats:[{l:'Competição',v:'Copa Sul-Americana'},{l:'Final',v:'SPFC x Tigre (ARG)'},{l:'Edição',v:'2012'}]}],
- 13:[{t:'vitoria',e:'⚽',n:'5x0 no Noroeste',d:'Goleada',y:1961}],
- 18:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1948',d:'São Paulo conquista o Campeonato Paulista',y:1948,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1948'}]}],
- 19:[{t:'titulo',e:'🏆',n:'MUNDIAL 2005 — TRICAMPEONATO MUNDIAL',d:'São Paulo vence o Liverpool e é tricampeão mundial!',y:2005,ctx:'Em 18 de dezembro de 2005, o São Paulo vence o Liverpool na final do Mundial de Clubes. Rogério Ceni, capitão, levanta a taça. O SPFC torna-se o maior campeão mundial do Brasil.',stats:[{l:'Final',v:'SPFC 1 x 0 Liverpool'},{l:'Capitão',v:'Rogério Ceni'},{l:'Competição',v:'Mundial de Clubes 2005'},{l:'Feito',v:'Maior Campeão Mundial BR'}],video:'8o5fQHsqEI4'}],
- 20:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1992',d:'São Paulo conquista o Campeonato Paulista',y:1992,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1992'}]}],
- 21:[{t:'titulo',e:'🏆',n:'CONMEBOL 1994',d:'São Paulo conquista a Copa CONMEBOL',y:1994}],
- 22:[{t:'titulo',e:'🏆',n:'MUNDIAL 1992 — CAMPEÃO MUNDIAL!',d:'São Paulo vence o Barcelona e é campeão mundial pela 1ª vez',y:1992,ctx:'Em 13 de dezembro de 1992, o São Paulo de Telê Santana vence o Barcelona de Johan Cruyff e conquista o Mundial de Clubes pela primeira vez. Raí, Müller, Cafu e Zetti protagonizam uma noite histórica.',stats:[{l:'Final',v:'SPFC 2 x 1 Barcelona'},{l:'Treinador',v:'Telê Santana'},{l:'Competição',v:'Mundial de Clubes 1992'},{l:'1º Título Mundial',v:'1992'}],video:'UXNbUMDy3mE'},{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1985',d:'São Paulo conquista o Campeonato Paulista',y:1985,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1985'}]}],
- 28:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1957',d:'São Paulo conquista o Campeonato Paulista',y:1957,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1957'}]}],
- 29:[{t:'titulo',e:'🏆',n:'CAMPEÃO PAULISTA 1991',d:'São Paulo conquista o Campeonato Paulista',y:1991,stats:[{l:'Competição',v:'Paulistão'},{l:'Edição',v:'1991'}]}],
- 31:[{t:'vitoria',e:'⚽',n:'4x1 no SP Railway',d:'Goleada histórica',y:1939}]
+// ═══════════════════════════════════════════════════════════════
+// APP LOGIC
+// ═══════════════════════════════════════════════════════════════
+
+const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const MONTHS_SHORT = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+const DAYS_SHORT = ['D','S','T','Q','Q','S','S'];
+
+let currentMonth, currentYear, selectedDay, deferredPrompt;
+const today = new Date();
+const todayDay = today.getDate();
+const todayMonth = today.getMonth() + 1;
+const todayYear = today.getFullYear();
+
+function getEvents(month, day) {
+  const monthData = DB[month];
+  if (!monthData) return [];
+  return monthData[day] || [];
 }
 
-}; // fim DB
+function getAllEventsForToday() {
+  return getEvents(todayMonth, todayDay);
+}
 
-/* ═══════════════════════════════════════════════════
-   HELPERS
-═══════════════════════════════════════════════════ */
-const MONTHS=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const MONTHS_S=['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
-const WD=['D','S','T','Q','Q','S','S'];
-const CATS={vitoria:'VITÓRIA',titulo:'TÍTULO',aniversario:'ANIVERSÁRIO',estreia:'ESTREIA',despedida:'DESPEDIDA',recorde:'RECORDE',mundial:'MUNDIAL',fundacao:'FUNDAÇÃO'};
-const CAT_COLORS={vitoria:'#CC0000',titulo:'#C8A84B',mundial:'#C8A84B',fundacao:'#C8A84B',aniversario:'#4a9eff',estreia:'#7fff6a',despedida:'#ff9f40',recorde:'#bf5fff'};
+function yearsAgo(year) {
+  if (!year) return '';
+  const diff = todayYear - year;
+  if (diff === 0) return 'este ano';
+  return `há ${diff} anos`;
+}
 
-const NOW=new Date();
-const TODAY_D=NOW.getDate(), TODAY_M=NOW.getMonth()+1, TODAY_Y=NOW.getFullYear();
-let CAL_M=TODAY_M, CAL_Y=TODAY_Y;
-let deferredPrompt=null;
+function buildTagHTML(cat) {
+  const tags = { vitoria:'VITÓRIA', titulo:'TÍTULO', aniversario:'ANIVERSÁRIO', estreia:'ESTREIA', despedida:'DESPEDIDA', fundacao:'FUNDAÇÃO', record:'RECORDE', mundial:'MUNDIAL' };
+  return `<span class="card-tag tag-${cat}">${tags[cat]||cat.toUpperCase()}</span>`;
+}
 
-function ev(m,d){return(DB[m]&&DB[m][d])||[];}
-function allEvs(){let a=[];for(let m=1;m<=12;m++)for(let d=1;d<=31;d++){const e=ev(m,d);if(e.length)e.forEach(x=>a.push({...x,month:m,day:d}));}return a;}
-function yearsAgo(y){if(!y)return'';const d=TODAY_Y-y;return d===0?'este ano':`há ${d} anos`;}
-function tagCls(t){const m={titulo:'titulo',fundacao:'titulo',mundial:'titulo',vitoria:'vitoria',aniversario:'aniversario',estreia:'estreia',despedida:'despedida',recorde:'recorde'};return m[t]||'vitoria';}
+function buildContext(ev) {
+  const contexts = {
+    vitoria: `Mais uma vitória escrita nos livros da história do São Paulo Futebol Clube.`,
+    titulo: `Um troféu para sempre guardado na memória tricolor.`,
+    aniversario: `Uma data para lembrar e celebrar.`,
+    estreia: `O início de uma história no clube do coração.`,
+    despedida: `Uma despedida que ficou marcada no coração da torcida.`,
+    fundacao: `O dia em que tudo começou.`
+  };
+  return ev.context || contexts[ev.cat] || '';
+}
 
-/* ═══════════════════════════════════════════════════
-   CARD BUILDER
-═══════════════════════════════════════════════════ */
-let cardIdSeq=0;
-function buildCard(ev,idx){
-  const id='card_'+(cardIdSeq++);
-  const cls=tagCls(ev.t);
-  const ctx=ev.ctx||'';
-  const stats=ev.stats||[];
-  const hasVideo=!!ev.video;
-  const hasImg=!!ev.image;
-  const hasMedia=hasVideo||hasImg;
-  const hasDetail=!!(ctx||stats.length||hasMedia);
-
-  const chips=[];
-  if(hasVideo)chips.push('<span class="media-chip">🎬 VÍDEO</span>');
-  if(hasImg)chips.push('<span class="media-chip">📷 FOTO</span>');
-
-  const statsHTML=stats.map(s=>`<div class="d-stat"><div class="d-stat-label">${s.l}</div><div class="d-stat-val">${s.v}</div></div>`).join('');
-
-  const imgHTML=hasImg?`<div class="card-img-wrap" onclick="openLB(event,'${ev.image}','${(ev.imgCap||ev.n).replace(/'/g,'\\\'')}')" style="max-height:240px;overflow:hidden"><img src="${ev.image}" alt="${ev.n}" loading="lazy"><div class="img-caption">📷 ${ev.imgCap||ev.n}</div></div>`:'';
-
-  const vidHTML=hasVideo?`<div class="card-video-wrap"><div class="video-thumb" onclick="loadVid(event,this,'${ev.video}')"><img src="https://img.youtube.com/vi/${ev.video}/hqdefault.jpg" alt="${ev.n}"><div class="play-circle"></div><div class="video-label">▶ ASSISTIR</div></div></div>`:'';
-
-  const chevron=hasDetail?`<span class="card-chevron">⌄</span>`:'';
-
-  const expandedHTML=hasDetail?`<div class="card-expanded">
-    ${imgHTML}${vidHTML}
-    ${ctx?`<div class="card-detail"><div class="detail-text">${ctx}</div>${statsHTML?`<div class="detail-stats">${statsHTML}</div>`:''}
-    <div class="card-actions"><button class="btn-share" onclick="shareEvent(event,'${ev.n.replace(/'/g,'\\\'')}',${ ev.y||0})">↗ COMPARTILHAR</button>${hasVideo?`<button class="btn-share btn-vid" onclick="loadVid(event,this.closest('.card-expanded').querySelector('.video-thumb'),'${ev.video}')">🎬 VER VÍDEO</button>`:''}</div></div>`:`<div class="card-detail">${statsHTML?`<div class="detail-stats">${statsHTML}</div>`:''}${hasMedia?'':''}<div class="card-actions"><button class="btn-share" onclick="shareEvent(event,'${ev.n.replace(/'/g,'\\\'')}',${ ev.y||0})">↗ COMPARTILHAR</button></div></div>`}
-  </div>`:'';
-
-  return`<div class="event-card cat-${ev.t} fade-in" id="${id}" ${hasDetail?`onclick="toggleCard('${id}')"`:''}>
-    <div class="card-main">
-      <div class="card-icon">${ev.e}</div>
-      <div class="card-info">
-        <div class="card-meta">
-          <span class="card-year">${ev.y||'—'}</span>
-          <span class="card-ago">${yearsAgo(ev.y)}</span>
-          <span class="card-tag tag-${cls}">${CATS[ev.t]||ev.t.toUpperCase()}</span>
+function buildEventCard(ev, expanded = false) {
+  const context = buildContext(ev);
+  const ya = ev.year ? `<span class="years-ago">${yearsAgo(ev.year)}</span>` : '';
+  return `
+    <div class="event-card cat-${ev.cat}" onclick="toggleCard(this)">
+      <div class="card-inner">
+        <div class="card-emoji">${ev.emoji}</div>
+        <div class="card-body">
+          <div class="card-year">${ev.year || '—'} ${ya}</div>
+          <div class="card-title">${ev.title}</div>
+          <div class="card-desc">${ev.desc}</div>
+          ${buildTagHTML(ev.cat)}
         </div>
-        <div class="card-title">${ev.n}</div>
-        <div class="card-desc">${ev.d}</div>
-        ${chips.length?`<div class="card-media-row">${chips.join('')}</div>`:''}
       </div>
-      ${chevron}
-    </div>
-    ${expandedHTML}
-  </div>`;
+      ${context ? `<div class="card-expanded">
+        <div class="expanded-context">${context}</div>
+        <div class="expanded-meta">
+          <div class="meta-item"><strong>ANO</strong>${ev.year||'—'}</div>
+          <div class="meta-item"><strong>CATEGORIA</strong>${ev.cat.toUpperCase()}</div>
+        </div>
+      </div>` : ''}
+    </div>`;
 }
 
-function toggleCard(id){
-  const el=document.getElementById(id);
-  if(!el)return;
-  el.classList.toggle('open');
+function toggleCard(card) {
+  const exp = card.querySelector('.card-expanded');
+  if (!exp) return;
+  exp.classList.toggle('open');
 }
 
-function loadVid(e,thumb,vid){
-  e.stopPropagation();
-  const wrap=thumb?thumb.parentElement:e.currentTarget.closest('.card-video-wrap');
-  if(wrap)wrap.innerHTML=`<iframe src="https://www.youtube.com/embed/${vid}?autoplay=1&rel=0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
-}
+function renderTodayEvents() {
+  const events = getAllEventsForToday();
+  const container = document.getElementById('todayEvents');
+  const badge = document.getElementById('eventsCountNum');
+  badge.textContent = events.length;
 
-function openLB(e,src,cap){
-  e.stopPropagation();
-  document.getElementById('lbImg').src=src;
-  document.getElementById('lbCap').textContent=cap;
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function closeLB(e){e.stopPropagation();document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
-
-function shareEvent(e,name,year){
-  e.stopPropagation();
-  const txt=`🔴⚪⚫ ${name}${year?` (${year})`:''}  — São Paulo FC\n#SPFC #SãoPaulo\n${location.href}`;
-  if(navigator.share)navigator.share({text:txt}).catch(()=>{});
-  else navigator.clipboard.writeText(txt).then(()=>toast('Copiado!','Texto copiado para área de transferência'));
-}
-
-/* ═══════════════════════════════════════════════════
-   RENDER HOJE
-═══════════════════════════════════════════════════ */
-function renderHoje(){
-  const events=ev(TODAY_M,TODAY_D);
-  document.getElementById('heroCount').textContent=events.length;
-  document.getElementById('heroCountLabel').textContent=events.length===1?'evento':'eventos';
-  document.getElementById('heroGhost').textContent=String(TODAY_D).padStart(2,'0');
-  document.getElementById('heroDateLabel').textContent=`${MONTHS[TODAY_M-1].toUpperCase()} ${TODAY_D}, ${TODAY_Y}`;
-  document.getElementById('secCount').textContent=events.length;
-
-  const list=document.getElementById('todayList');
-  if(!events.length){
-    list.innerHTML=`<div class="empty"><div class="empty-icon">📼</div><div class="empty-title">Arquivo em silêncio</div><div class="empty-text">Nenhum registro histórico encontrado para hoje. Mas o São Paulo faz história todos os dias.</div></div>`;
+  if (events.length === 0) {
+    container.innerHTML = `
+      <div class="nothing-today">
+        <div class="nothing-icon">📼</div>
+        <div class="nothing-title">Arquivo em silêncio</div>
+        <div class="nothing-text">Nenhum registro encontrado para hoje no calendário histórico. Mas a história do São Paulo é feita todos os dias.</div>
+      </div>`;
     return;
   }
-  const pri={fundacao:0,titulo:1,mundial:1,vitoria:2,aniversario:3,estreia:4,despedida:5,recorde:1};
-  const sorted=[...events].sort((a,b)=>(pri[a.t]||9)-(pri[b.t]||9));
-  list.innerHTML=sorted.map((ev,i)=>buildCard(ev,i)).join('');
-}
 
-/* ═══════════════════════════════════════════════════
-   RENDER CALENDAR
-═══════════════════════════════════════════════════ */
-function renderCalMonthNav(){
-  const nav=document.getElementById('calMonthNav');
-  nav.innerHTML=MONTHS_S.map((m,i)=>`<button class="month-btn${i+1===CAL_M?' active':''}" onclick="selectCalMonth(${i+1},this)">${m}</button>`).join('');
-}
-
-function selectCalMonth(m,btn){
-  CAL_M=m;
-  document.querySelectorAll('.month-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderCalGrid();
-  document.getElementById('dayPanel').style.display='none';
-}
-
-function getDIM(m,y){return new Date(y,m,0).getDate();}
-function getFD(m,y){return new Date(y,m-1,1).getDay();}
-
-function renderCalGrid(){
-  const wd=document.getElementById('calWD');
-  wd.innerHTML=WD.map(d=>`<div class="cal-wd">${d}</div>`).join('');
-
-  const days=getDIM(CAL_M,CAL_Y),first=getFD(CAL_M,CAL_Y);
-  let html='';
-  for(let i=0;i<first;i++)html+=`<div class="cal-day"></div>`;
-  for(let d=1;d<=days;d++){
-    const evs=ev(CAL_M,d);
-    const isToday=d===TODAY_D&&CAL_M===TODAY_M;
-    const hasTit=evs.some(e=>e.t==='titulo'||e.t==='mundial'||e.t==='fundacao');
-    let cls='cal-day';
-    if(evs.length)cls+=' has-events';
-    if(isToday)cls+=' today';
-    if(hasTit)cls+=' has-titulo';
-    const dots=[...new Set(evs.map(e=>e.t))].slice(0,3).map(t=>`<div class="cal-dot" style="background:${CAT_COLORS[t]||'#CC0000'}"></div>`).join('');
-    html+=`<div class="${cls}" onclick="selectCalDay(${d})"><div class="cal-day-num">${d}</div>${evs.length?`<div class="cal-dots">${dots}</div>`:''}</div>`;
-  }
-  document.getElementById('calGrid').innerHTML=html;
-}
-
-function selectCalDay(d){
-  const evs=ev(CAL_M,d);
-  const panel=document.getElementById('dayPanel');
-  document.getElementById('dayPanelTitle').textContent=`${d} de ${MONTHS[CAL_M-1]}`;
-  const list=document.getElementById('dayPanelList');
-  list.innerHTML=evs.length?evs.map((e,i)=>buildCard(e,i)).join(''):`<div class="dep-empty">Nenhum evento registrado nesta data.</div>`;
-  panel.style.display='block';
-  panel.scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-/* ═══════════════════════════════════════════════════
-   RENDER RECORDS
-═══════════════════════════════════════════════════ */
-function renderRecords(){
-  const all=allEvs();
-  const totals={total:all.length,titulos:0,vitoriasClass:0,anivs:0};
-  all.forEach(e=>{
-    if(e.t==='titulo'||e.t==='mundial'||e.t==='fundacao')totals.titulos++;
-    if(e.t==='vitoria')totals.vitoriasClass++;
-    if(e.t==='aniversario')totals.anivs++;
+  // Sort: titulos e fundacao primeiro
+  const sorted = [...events].sort((a,b) => {
+    const priority = { fundacao: 0, titulo: 1, mundial: 1, record: 2, vitoria: 3, aniversario: 4, estreia: 5, despedida: 6 };
+    return (priority[a.cat]||9) - (priority[b.cat]||9);
   });
 
-  document.getElementById('recordsGrid').innerHTML=[
-    {n:totals.total,l:'Eventos no Arquivo'},
-    {n:totals.titulos,l:'Títulos Registrados'},
-    {n:totals.vitoriasClass,l:'Vitórias e Goleadas'},
-    {n:totals.anivs,l:'Aniversariantes'}
-  ].map(r=>`<div class="rec-card"><div class="rec-num">${r.n}</div><div class="rec-label">${r.l}</div></div>`).join('');
-
-  // Hall da fama
-  const hof=[
-    {rank:1,name:'Rogério Ceni',detail:'1.237 jogos · 131 gols · 17 títulos',badge:'🏅'},
-    {rank:2,name:'Telê Santana',detail:'5 títulos como treinador (Libertadores 92/93, Mundial 92/93, Brasileiro 91)',badge:'🏆'},
-    {rank:3,name:'Cafu',detail:'Ídolo máximo · Lateral direito histórico · Bicampeão mundial',badge:'⭐'},
-    {rank:4,name:'Raí',detail:'Capitão do tricampeonato da Libertadores · Meia genial',badge:'🔴'},
-    {rank:5,name:'Müller',detail:'Um dos maiores artilheiros da história tricolor',badge:'⚽'},
-    {rank:6,name:'Careca',detail:'Centroavante símbolo dos anos 80 · Seleção Brasileira',badge:'⚡'},
-    {rank:7,name:'Diego Lugano',detail:'Capitão ídolo · Zagueiro histórico uruguaio',badge:'🛡️'},
-    {rank:8,name:'Luís Fabiano',detail:'O Fabuloso · Artilheiro implacável do SPFC',badge:'🔥'},
-  ];
-  document.getElementById('hofList').innerHTML=hof.map(h=>`<div class="hof-card"><div class="hof-main"><div class="hof-rank">${h.rank}</div><div class="hof-info"><div class="hof-name">${h.name}</div><div class="hof-detail">${h.detail}</div></div><div class="hof-badge">${h.badge}</div></div></div>`).join('');
+  container.innerHTML = sorted.map(ev => buildEventCard(ev)).join('');
 }
 
-/* ═══════════════════════════════════════════════════
-   RENDER GOLEADAS
-═══════════════════════════════════════════════════ */
-function renderGoleadas(){
-  const goleadas=[
-    {s:'12x1',opp:'Jabaquara',y:1945,m:7,d:8,ctx:'Uma das maiores goleadas absolutas da história do clube.'},
-    {s:'12x1',opp:'Sírio',y:1933,m:8,d:27,ctx:'Doze gols marcados — um feito histórico.'},
-    {s:'11x0',opp:'Inter-SP',y:1932,m:7,d:2,ctx:'A maior goleada com placar mais expressivo da história do SPFC.'},
-    {s:'10x0',opp:'Guarani',y:1950,m:11,d:11,ctx:'Dez a zero histórico no Paulistão.'},
-    {s:'10x0',opp:'Botafogo-PB',y:2001,m:3,d:28,ctx:'Goleada histórica na Copa do Brasil.'},
-    {s:'10x0',opp:'Operário',y:1943,m:11,d:13,ctx:'Dez a zero em 1943.'},
-    {s:'10x3',opp:'Brasil-Par.',y:1945,m:12,d:8,ctx:'13 gols em campo — uma partida histórica.'},
-    {s:'9x1',opp:'Santos',y:1944,m:6,d:18,ctx:'Goleada histórica no clássico paulista.'},
-    {s:'9x1',opp:'Sírio',y:1934,m:4,d:1,ctx:'Goleada histórica na era amadora.'},
-    {s:'9x0',opp:'Portuguesa Santista',y:1943,m:8,d:13,ctx:'Nove a zero histórico.'},
-    {s:'8x0',opp:'Mitsubishi',y:1970,m:2,d:1,ctx:'Goleada impressionante em amistoso internacional.'},
-    {s:'8x0',opp:'Noroeste',y:1965,m:11,d:7,ctx:'Oito gols sem resposta.'},
-    {s:'8x1',opp:'Ypiranga',y:1942,m:8,d:21,ctx:'Goleada histórica.'},
-    {s:'8x1',opp:'Jabaquara',y:1947,m:11,d:8,ctx:'Oito a um sobre o Jabaquara.'},
-    {s:'8x2',opp:'Juventus',y:1949,m:8,d:7,ctx:'Goleada sobre o Juventus.'},
-    {s:'7x1',opp:'Flamengo',y:1946,m:4,d:16,ctx:'Sete a um histórico sobre o Flamengo.'},
-    {s:'7x3',opp:'Flamengo',y:1933,m:7,d:1,ctx:'Sete a três histórico.'},
-    {s:'7x0',opp:'Linense',y:1957,m:7,d:20,ctx:'Sete a zero sobre o Linense.'},
-  ];
-
-  document.getElementById('goleadasList').innerHTML=goleadas.map(g=>`<div class="goleada-card"><div class="gol-score">${g.s}</div><div class="gol-detail">vs ${g.opp} — ${g.ctx}</div><div class="gol-year">${MONTHS[g.m-1].toUpperCase()} ${g.d}, ${g.y}</div></div>`).join('');
+function renderHero() {
+  document.getElementById('heroGhostDate').textContent = `${todayDay < 10 ? '0'+todayDay : todayDay}`;
+  document.getElementById('heroTimestamp').textContent = `${MONTHS[todayMonth-1].toUpperCase()} ${todayDay}, ${todayYear}`;
+  document.getElementById('heroTitle').setAttribute('data-text', 'O QUE ACONTECEU HOJE');
 }
 
-/* ═══════════════════════════════════════════════════
-   NAV
-═══════════════════════════════════════════════════ */
-function showPanel(id,btn){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('panel-'+id).classList.add('active');
-  btn.classList.add('active');
-  window.scrollTo({top:document.getElementById('navTabs').offsetTop-56,behavior:'smooth'});
+function renderStats() {
+  // Count all events
+  let totalEvents = 0, titulos = 0, vitoriasClassico = 0, aniversarios = 0;
+  for (let m = 1; m <= 12; m++) {
+    for (let d = 1; d <= 31; d++) {
+      const evs = getEvents(m, d);
+      totalEvents += evs.length;
+      evs.forEach(e => {
+        if (e.cat === 'titulo' || e.cat === 'mundial') titulos++;
+        if (e.cat === 'vitoria') vitoriasClassico++;
+        if (e.cat === 'aniversario') aniversarios++;
+      });
+    }
+  }
+  const grid = document.getElementById('statsGrid');
+  grid.innerHTML = [
+    { n: totalEvents, l: 'Eventos no Arquivo' },
+    { n: titulos, l: 'Títulos Registrados' },
+    { n: vitoriasClassico, l: 'Vitórias / Goleadas' },
+    { n: aniversarios, l: 'Aniversariantes' }
+  ].map(s => `<div class="stat-card"><div class="stat-number">${s.n}</div><div class="stat-label">${s.l}</div></div>`).join('');
 }
 
-function scrollToContent(){
-  document.getElementById('navTabs').scrollIntoView({behavior:'smooth'});
+function renderMonthTabs() {
+  const tabs = document.getElementById('monthTabs');
+  tabs.innerHTML = MONTHS_SHORT.map((m, i) => `
+    <div class="month-tab${i+1 === todayMonth ? ' active' : ''}" onclick="selectMonth(${i+1}, this)">${m}</div>
+  `).join('');
+  currentMonth = todayMonth;
+  currentYear = todayYear;
 }
 
-/* ═══════════════════════════════════════════════════
-   SHARE & NOTIFICATIONS
-═══════════════════════════════════════════════════ */
-function shareDay(){
-  const evs=ev(TODAY_M,TODAY_D);
-  const lines=evs.slice(0,3).map(e=>`${e.e} ${e.n}${e.y?` (${e.y})`:''}`).join('\n');
-  const txt=evs.length
-    ?`🔴⚪⚫ HOJE NA HISTÓRIA DO SPFC\n${MONTHS[TODAY_M-1].toUpperCase()} ${TODAY_D}, ${TODAY_Y}\n\n${lines}\n\n#SPFC #SãoPaulo\n${location.href}`
-    :`🔴⚪⚫ Hoje na história do São Paulo FC\n${MONTHS[TODAY_M-1].toUpperCase()} ${TODAY_D}\n\n#SPFC #SãoPaulo`;
-  if(navigator.share)navigator.share({title:'SPFC — Hoje na História',text:txt}).catch(()=>{});
-  else navigator.clipboard.writeText(txt).then(()=>toast('Copiado!','Compartilhe com os amigos torcedores'));
+function selectMonth(month, el) {
+  currentMonth = month;
+  document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderCalendar();
+  selectedDay = null;
+  document.getElementById('selectedDayPanel').classList.remove('open');
 }
 
-async function askNotif(){
-  if(!('Notification' in window)){toast('Não suportado','Seu navegador não suporta notificações');return;}
-  if(Notification.permission==='granted'){toast('Já ativado!','Você já recebe as notificações diárias do SPFC 🔴');return;}
-  const p=await Notification.requestPermission();
-  if(p==='granted'){
-    document.getElementById('notifBar').style.opacity='0';
-    toast('🔔 Notificações ativadas!','Você receberá o histórico do SPFC todos os dias às 8h');
-    setTimeout(()=>sendTestNotif(),1500);
-  }else{
-    toast('Notificações bloqueadas','Ative nas configurações do navegador para receber o histórico diário');
+function getDaysInMonth(month, year) {
+  return new Date(year, month, 0).getDate();
+}
+
+function getFirstDayOfMonth(month, year) {
+  return new Date(year, month - 1, 1).getDay();
+}
+
+function renderCalendar() {
+  const grid = document.getElementById('calendarGrid');
+  const daysInMonth = getDaysInMonth(currentMonth, currentYear);
+  const firstDay = getFirstDayOfMonth(currentMonth, currentYear);
+
+  let html = `<div class="cal-header">${DAYS_SHORT.map(d=>`<div class="cal-day-name">${d}</div>`).join('')}</div><div class="cal-body">`;
+
+  // Empty cells
+  for (let i = 0; i < firstDay; i++) {
+    html += `<div class="cal-cell"></div>`;
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const evs = getEvents(currentMonth, d);
+    const isToday = d === todayDay && currentMonth === todayMonth;
+    const hasTitulo = evs.some(e => e.cat === 'titulo' || e.cat === 'mundial' || e.cat === 'fundacao');
+    let classes = 'cal-cell';
+    if (evs.length > 0) classes += ' has-events';
+    if (isToday) classes += ' today';
+    if (hasTitulo) classes += ' has-titulo';
+
+    // Dots
+    const catColors = { vitoria: '#CC0000', titulo: '#C8A84B', aniversario: '#4a9eff', estreia: '#7fff6a', despedida: '#ff9f40', fundacao: '#E2C97E' };
+    const uniqueCats = [...new Set(evs.map(e => e.cat))].slice(0,3);
+    const dots = uniqueCats.map(c => `<div class="e-dot" style="background:${catColors[c]||'#CC0000'}"></div>`).join('');
+
+    html += `<div class="${classes}" onclick="selectDay(${d})" data-day="${d}">
+      <div class="cal-cell-num">${d}</div>
+      ${evs.length > 0 ? `<div class="event-dots">${dots}</div>` : ''}
+    </div>`;
+  }
+
+  html += '</div>';
+  grid.innerHTML = html;
+}
+
+function selectDay(day) {
+  selectedDay = day;
+  const evs = getEvents(currentMonth, day);
+  const panel = document.getElementById('selectedDayPanel');
+  const title = document.getElementById('selectedDayTitle');
+  const evContainer = document.getElementById('selectedDayEvents');
+
+  title.textContent = `${day} DE ${MONTHS[currentMonth-1].toUpperCase()}`;
+
+  if (evs.length === 0) {
+    evContainer.innerHTML = `<div style="font-family:'Special Elite',cursive;color:rgba(245,240,232,0.3);font-size:13px;padding:12px 0;">Nenhum evento registrado nesta data.</div>`;
+  } else {
+    evContainer.innerHTML = evs.map(ev => buildEventCard(ev)).join('');
+  }
+
+  panel.classList.add('open');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function shareToday() {
+  const evs = getAllEventsForToday();
+  const text = evs.length > 0
+    ? `🔴⚪⚫ HOJE NA HISTÓRIA DO SPFC — ${MONTHS[todayMonth-1].toUpperCase()} ${todayDay}\n\n${evs.slice(0,3).map(e=>`${e.emoji} ${e.title} (${e.year})`).join('\n')}\n\n#SPFC #SãoPaulo`
+    : `🔴⚪⚫ Hoje na história do São Paulo FC — ${MONTHS[todayMonth-1].toUpperCase()} ${todayDay}\n\n#SPFC #SãoPaulo`;
+
+  if (navigator.share) {
+    navigator.share({ title: 'SPFC — Hoje na História', text, url: window.location.href }).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(text).then(() => showToast('Copiado!', 'Texto copiado para a área de transferência.'));
   }
 }
 
-function sendTestNotif(){
-  if(Notification.permission==='granted'){
-    const evs=ev(TODAY_M,TODAY_D);
-    const body=evs.length?`${evs[0].e} ${evs[0].n}${evs[0].y?` (${evs[0].y})`:''}. Abra o app para saber mais!`:'Hoje o São Paulo faz história. Abra o app!';
-    new Notification('🔴 São Paulo FC — Hoje na História',{body,icon:'icons/icon-192.png',badge:'icons/badge-72.png'});
-  }
-}
-
-function toast(title,body,dur=3500){
-  document.getElementById('toastT').textContent=title;
-  document.getElementById('toastB').textContent=body;
-  const t=document.getElementById('toast');
+function showToast(title, text, duration = 3000) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastText').textContent = text;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),dur);
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// NOTIFICATIONS
+async function requestNotificationPermission() {
+  if (!('Notification' in window)) {
+    showToast('Não suportado', 'Seu navegador não suporta notificações.');
+    return;
+  }
+  const permission = await Notification.requestPermission();
+  if (permission === 'granted') {
+    document.getElementById('notifBar').style.display = 'none';
+    showToast('🔔 Ativado!', 'Você receberá o histórico do SPFC todos os dias!', 4000);
+    scheduleDailyNotification();
+  }
+}
+
+function getNotificationMessage() {
+  const evs = getAllEventsForToday();
+  const msgs = [
+    `Hoje faz aniversário de uma noite inesquecível do Tricolor.`,
+    `O Morumbi tem memórias especiais deste dia.`,
+    `Você sabe o que aconteceu hoje na história do São Paulo?`,
+    `Hoje o São Paulo escreveu história. Você lembra?`,
+    `Uma data marcante para o futebol tricolor.`,
+    `Abra e reviva os melhores momentos do SPFC.`
+  ];
+
+  if (evs.length > 0) {
+    const titulo = evs.find(e => e.cat === 'titulo' || e.cat === 'mundial' || e.cat === 'fundacao');
+    if (titulo) return `🏆 ${titulo.title} — reviva este momento histórico!`;
+    const vitoria = evs.find(e => e.cat === 'vitoria');
+    if (vitoria) return `⚽ ${vitoria.title} — hoje tem história tricolor!`;
+    const aniv = evs.find(e => e.cat === 'aniversario');
+    if (aniv) return `🎂 ${aniv.title} — hoje tem história tricolor!`;
+  }
+  return msgs[todayDay % msgs.length];
+}
+
+function scheduleDailyNotification() {
+  if (!('serviceWorker' in navigator)) return;
+  // Store preference
+  localStorage.setItem('spfc_notif', '1');
 }
 
 // PWA
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBar').classList.add('show');});
-function installPWA(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted'){document.getElementById('installBar').classList.remove('show');toast('✅ Instalado!','O app do SPFC foi adicionado à sua tela inicial');}deferredPrompt=null;});}
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBanner').classList.add('visible');
+});
 
-/* ═══════════════════════════════════════════════════
-   INIT
-═══════════════════════════════════════════════════ */
-function init(){
-  renderHoje();
-  renderCalMonthNav();
-  renderCalGrid();
-  renderRecords();
-  renderGoleadas();
-  if(Notification.permission==='granted')document.querySelector('.tb-notif').textContent='🔔';
-  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+function installPWA() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(r => {
+    if (r.outcome === 'accepted') {
+      document.getElementById('installBanner').classList.remove('visible');
+      showToast('✅ Instalado!', 'O app foi adicionado à sua tela inicial.');
+    }
+    deferredPrompt = null;
+  });
 }
 
-init();
+// HIDE NOTIF BAR IF ALREADY GRANTED
+function checkNotifStatus() {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    document.getElementById('notifBar').style.display = 'none';
+  }
+}
+
+// INIT
+function init() {
+  renderHero();
+  renderTodayEvents();
+  renderStats();
+  renderMonthTabs();
+  renderCalendar();
+  checkNotifStatus();
+
+  // Hide loading
+  setTimeout(() => {
+    document.getElementById('loadingScreen').classList.add('hidden');
+  }, 1600);
+
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
