@@ -4,39 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#CC0000">
-<title>SPFC Quiz - Você é o maior São Paulino?</title>
+<title>SPFC Quiz — Quem Quer Ser Torcedor Milionário?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- ══ FIREBASE SDK ══ -->
 <script type="module">
-import {
-  getAuth,
-  signOut,
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile
-} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged,
+  signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getFirestore, doc, setDoc, getDoc, collection,
+  query, orderBy, limit, getDocs, where, serverTimestamp, increment, updateDoc }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 // ══════════════════════════════════════════════════
-// const firebaseConfig = {
-  apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
-  authDomain: "spfc-hoje-da329.firebaseapp.com",
-  projectId: "spfc-hoje-da329",
-  storageBucket: ""spfc-hoje-da329.appspot.com",
-  messagingSenderId: "116174859005",
-  appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
-};
+// 🔥 COLE AQUI SUA CONFIGURAÇÃO DO FIREBASE
+// Veja as instruções em FIREBASE_SETUP.txt
 // ══════════════════════════════════════════════════
 const firebaseConfig = {
-    apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
-    authDomain: "spfc-hoje-da329.firebaseapp.com",
-    projectId: "spfc-hoje-da329",
-    storageBucket: ""spfc-hoje-da329.appspot.com",
-    messagingSenderId: "116174859005",
-    appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
-  };
+  apiKey: "COLE_SUA_API_KEY",
+  authDomain: "COLE_SEU_AUTH_DOMAIN",
+  projectId: "COLE_SEU_PROJECT_ID",
+  storageBucket: "COLE_SEU_STORAGE_BUCKET",
+  messagingSenderId: "COLE_SEU_MESSAGING_SENDER_ID",
+  appId: "COLE_SEU_APP_ID"
+};
 // ══════════════════════════════════════════════════
 
 const app = initializeApp(firebaseConfig);
@@ -45,7 +38,9 @@ const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
 window.FB = { auth, db, provider, signInWithPopup, signOut,
-  onAuthStateChanged, doc, setDoc, getDoc, collection,
+  onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  doc, setDoc, getDoc, collection,
   query, orderBy, limit, getDocs, where, serverTimestamp,
   increment, updateDoc };
 
@@ -356,6 +351,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <input class="login-input" id="passInput" type="password" placeholder="Senha">
     <button class="btn-email" onclick="loginEmail()">ENTRAR COM EMAIL</button>
     <button class="btn-secondary" onclick="registerEmail()" style="max-width:100%">CRIAR CONTA</button>
+    <div class="login-skip" onclick="forgotPassword()" style="margin-top:4px">Esqueci minha senha</div>
     <div class="login-skip" onclick="playAsGuest()">Jogar sem login (progresso local)</div>
   </div>
 </div>
@@ -1080,11 +1076,57 @@ async function loginGoogle() {
 }
 
 async function loginEmail() {
-  toast('Em breve', 'Login por email em desenvolvimento. Use o Google por enquanto.');
+  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
+  const email = document.getElementById('emailInput').value.trim();
+  const pass  = document.getElementById('passInput').value;
+  if (!email || !pass) { toast('Preencha os campos', 'Email e senha são obrigatórios'); return; }
+  const {auth, signInWithEmailAndPassword} = window.FB;
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+    toast('Bem-vindo de volta! 🔴', 'Login realizado com sucesso');
+    goScreen('screen-home');
+    checkAvatarSetup();
+  } catch(e) {
+    const msg = e.code === 'auth/user-not-found' ? 'Usuário não encontrado'
+              : e.code === 'auth/wrong-password'  ? 'Senha incorreta'
+              : e.code === 'auth/invalid-email'   ? 'Email inválido'
+              : e.code === 'auth/invalid-credential' ? 'Email ou senha incorretos'
+              : e.message || 'Tente novamente';
+    toast('Erro no login', msg);
+  }
 }
 
 async function registerEmail() {
-  toast('Em breve', 'Cadastro por email em desenvolvimento. Use o Google por enquanto.');
+  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
+  const email = document.getElementById('emailInput').value.trim();
+  const pass  = document.getElementById('passInput').value;
+  if (!email || !pass) { toast('Preencha os campos', 'Email e senha são obrigatórios'); return; }
+  if (pass.length < 6) { toast('Senha fraca', 'A senha deve ter pelo menos 6 caracteres'); return; }
+  const {auth, createUserWithEmailAndPassword} = window.FB;
+  try {
+    await createUserWithEmailAndPassword(auth, email, pass);
+    toast('Conta criada! 🎉', 'Bem-vindo ao SPFC Quiz');
+    goScreen('screen-avatar');
+  } catch(e) {
+    const msg = e.code === 'auth/email-already-in-use' ? 'Este email já está cadastrado'
+              : e.code === 'auth/invalid-email'         ? 'Email inválido'
+              : e.code === 'auth/weak-password'         ? 'Senha muito fraca (mín. 6 caracteres)'
+              : e.message || 'Tente novamente';
+    toast('Erro no cadastro', msg);
+  }
+}
+
+async function forgotPassword() {
+  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
+  const email = document.getElementById('emailInput').value.trim();
+  if (!email) { toast('Digite seu email', 'Preencha o campo de email primeiro'); return; }
+  const {auth, sendPasswordResetEmail} = window.FB;
+  try {
+    await sendPasswordResetEmail(auth, email);
+    toast('Email enviado! 📧', 'Verifique sua caixa de entrada');
+  } catch(e) {
+    toast('Erro', e.message || 'Verifique o email digitado');
+  }
 }
 
 function playAsGuest() {
