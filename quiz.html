@@ -4,18 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#CC0000">
-<title>SPFC Quiz — Quem Quer Ser Torcedor Milionário?</title>
+<title>SPFC Quiz - Você é o maior São Paulino?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- ══ FIREBASE SDK ══ -->
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged }
-  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import { getFirestore, doc, setDoc, getDoc, collection,
-  query, orderBy, limit, getDocs, where, serverTimestamp, increment, updateDoc }
-  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import {
+  getAuth,
+  signOut,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile
+} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
 // ══════════════════════════════════════════════════
 // const firebaseConfig = {
