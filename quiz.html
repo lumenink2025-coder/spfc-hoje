@@ -123,20 +123,19 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .login-skip:hover{color:var(--txt)}
 
 /* ══ AVATAR SCREEN ════════════════════════════════ */
-.avatar-wrap{width:100%;max-width:400px;padding:24px 20px}
+.avatar-wrap{width:100%;max-width:480px;padding:24px 20px}
 .avatar-title{font-family:var(--font-t);font-size:28px;letter-spacing:2px;text-align:center;margin-bottom:4px}
 .avatar-sub{font-size:12px;color:var(--txt3);text-align:center;letter-spacing:1px;margin-bottom:24px}
 .avatar-preview{width:100%;display:flex;justify-content:center;margin-bottom:24px}
-.avatar-canvas{image-rendering:pixelated;width:120px;height:120px;border:2px solid var(--border2);background:var(--bg3);border-radius:4px}
+.avatar-selected-img{width:110px;height:110px;border-radius:50%;border:3px solid var(--red);object-fit:cover;background:var(--bg3);box-shadow:0 0 0 4px rgba(204,0,0,.2)}
+.avatar-placeholder{width:110px;height:110px;border-radius:50%;border:3px dashed var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:36px}
 .av-section{margin-bottom:18px}
-.av-label{font-size:10px;letter-spacing:3px;color:var(--txt3);text-transform:uppercase;margin-bottom:8px}
-.av-options{display:flex;gap:8px;flex-wrap:wrap}
-.av-opt{padding:8px 16px;background:var(--bg3);border:1px solid var(--border2);border-radius:2px;font-size:12px;color:var(--txt2);cursor:pointer;transition:.2s;letter-spacing:1px}
-.av-opt.selected{background:rgba(204,0,0,.2);border-color:var(--red);color:var(--txt)}
-.av-opt:hover:not(.selected){border-color:var(--border2);color:var(--txt)}
-.av-color{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);cursor:pointer;transition:.2s}
-.av-color.selected{border-color:#fff;box-shadow:0 0 0 2px var(--red)}
-.av-colors{display:flex;gap:10px;flex-wrap:wrap}
+.av-label{font-size:10px;letter-spacing:3px;color:var(--txt3);text-transform:uppercase;margin-bottom:10px}
+.av-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.av-img-opt{border-radius:50%;border:2px solid var(--border);cursor:pointer;transition:.2s;aspect-ratio:1;overflow:hidden;background:var(--bg3)}
+.av-img-opt img{width:100%;height:100%;object-fit:cover;display:block;transition:.2s}
+.av-img-opt:hover{border-color:rgba(204,0,0,.5);transform:scale(1.05)}
+.av-img-opt.selected{border-color:var(--red);box-shadow:0 0 0 3px rgba(204,0,0,.3)}
 .av-name-input{width:100%;padding:11px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:14px;border-radius:2px;font-family:var(--font-b);outline:none;transition:.2s}
 .av-name-input:focus{border-color:var(--red)}
 
@@ -234,7 +233,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .rank-pos.top1{color:#FFD700;opacity:1}
 .rank-pos.top2{color:#C0C0C0;opacity:1}
 .rank-pos.top3{color:#CD7F32;opacity:1}
-.rank-avatar-mini{width:36px;height:36px;image-rendering:pixelated;flex-shrink:0}
+.rank-avatar-mini{width:36px;height:36px;image-rendering:auto;flex-shrink:0;border-radius:50%;object-fit:cover}
 .rank-info{flex:1;min-width:0}
 .rank-name{font-size:14px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rank-detail{font-size:11px;color:var(--txt3);letter-spacing:1px}
@@ -245,7 +244,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 /* ══ PROFILE ══════════════════════════════════════ */
 .profile-wrap{width:100%;max-width:400px;padding:24px 16px}
 .profile-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:4px}
-.profile-avatar{width:64px;height:64px;image-rendering:pixelated;flex-shrink:0}
+.profile-avatar{width:64px;height:64px;image-rendering:auto;flex-shrink:0;border-radius:50%;object-fit:cover}
 .profile-name{font-family:var(--font-u);font-size:20px;font-weight:600;margin-bottom:4px}
 .profile-level{font-size:11px;color:var(--gold);letter-spacing:2px}
 .profile-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
@@ -369,9 +368,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   </div>
   <div class="avatar-wrap fade-in">
     <div class="avatar-title">SEU AVATAR</div>
-    <div class="avatar-sub">CORES DO TRICOLOR — NUNCA VERDE</div>
+    <div class="avatar-sub">ESCOLHA SEU PERSONAGEM TRICOLOR</div>
     <div class="avatar-preview">
-      <canvas class="avatar-canvas" id="avatarCanvas" width="48" height="48"></canvas>
+      <img class="avatar-selected-img" id="avatarPreviewImg" src="" alt="avatar" style="display:none">
+      <div class="avatar-placeholder" id="avatarPlaceholder">👤</div>
     </div>
 
     <div class="av-section">
@@ -386,38 +386,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div>
 
     <div class="av-section">
-      <div class="av-label">Tipo</div>
-      <div class="av-options">
-        <div class="av-opt selected" onclick="setAvOpt('type','man',this)">Homem</div>
-        <div class="av-opt" onclick="setAvOpt('type','woman',this)">Mulher</div>
-        <div class="av-opt" onclick="setAvOpt('type','boy',this)">Menino</div>
-        <div class="av-opt" onclick="setAvOpt('type','girl',this)">Menina</div>
-      </div>
-    </div>
-
-    <div class="av-section">
-      <div class="av-label">Cor da pele</div>
-      <div class="av-colors" id="skinColors"></div>
-    </div>
-
-    <div class="av-section">
-      <div class="av-label">Cabelo</div>
-      <div class="av-options">
-        <div class="av-opt selected" onclick="setAvOpt('hair','short',this)">Curto</div>
-        <div class="av-opt" onclick="setAvOpt('hair','long',this)">Longo</div>
-        <div class="av-opt" onclick="setAvOpt('hair','bald',this)">Careca</div>
-        <div class="av-opt" onclick="setAvOpt('hair','afro',this)">Afro</div>
-      </div>
-    </div>
-
-    <div class="av-section">
-      <div class="av-label">Cor da camisa (sempre tricolor)</div>
-      <div class="av-options">
-        <div class="av-opt selected" onclick="setAvOpt('shirt','red',this)">Vermelha</div>
-        <div class="av-opt" onclick="setAvOpt('shirt','white',this)">Branca</div>
-        <div class="av-opt" onclick="setAvOpt('shirt','black',this)">Preta</div>
-        <div class="av-opt" onclick="setAvOpt('shirt','tri',this)">Tricolor</div>
-      </div>
+      <div class="av-label">Escolha seu personagem (32)</div>
+      <div class="av-grid" id="avatarGrid"></div>
     </div>
 
     <button class="btn-primary" style="margin-top:8px" onclick="saveAvatar()">CONFIRMAR AVATAR</button>
@@ -804,6 +774,7 @@ function loadState() {
       STATE.livesLastRegen = parsed.livesLastRegen ?? null;
       STATE.totalScore = parsed.totalScore ?? 0;
       STATE.avatar = parsed.avatar ?? null;
+      if (STATE.avatar?.id) selectedAvatarId = STATE.avatar.id;
       STATE.usedQIds = parsed.usedQIds ?? [];
       STATE.streak = parsed.streak ?? 0;
       STATE.bestStreak = parsed.bestStreak ?? 0;
@@ -1069,127 +1040,93 @@ function toggleMusic() {
 }
 
 /* ════════════════════════════════════════════════
-   AVATAR SYSTEM
+   AVATAR SYSTEM — Cloudinary images
 ════════════════════════════════════════════════ */
-const SKIN_COLORS = ['#FFDAB9','#F4A460','#D2691E','#8B4513','#3D1C02','#FFE4C4'];
-const HAIR_COLORS = ['#000000','#4a3728','#8B6914','#CC0000'];
+const AVATARS = [
+  {id:'rai',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rai_arcph5.png',         label:'Raí'},
+  {id:'luisfabiano', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luisfabiano_iabzdg.png', label:'Luís Fabiano'},
+  {id:'franca',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/franca_x5eggx.png',      label:'França'},
+  {id:'telesantana', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/telesantana_urocmb.png', label:'Telê Santana'},
+  {id:'juju',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/juju_rw3xvq.png',        label:'Juju'},
+  {id:'luciano',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luciano_jwalve.png',     label:'Luciano'},
+  {id:'rogerioceni', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rogerioceni_p1nx2r.jpg', label:'Rogério Ceni'},
+  {id:'kaka',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/kaka_wjkphp.png',        label:'Kaká'},
+  {id:'muricy',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/muricy_pssymw.png',      label:'Muricy'},
+  {id:'lugano',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/lugano_dlqqgg.png',      label:'Lugano'},
+  {id:'ederjofre',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/ederjofre_ria6ie.png',   label:'Éder Jofre'},
+  {id:'mulher1',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/mulher1_gwwpzo.png',     label:'Torcedora'},
+  {id:'serginhochulapa', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/serginhochulapa_kxetqb.png', label:'Serginho Chulapa'},
+  {id:'formiga',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/formiga_rvqxck.png',     label:'Formiga'},
+  {id:'leonidas',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/leonidas_xn4j6n.png',    label:'Leônidas'},
+  {id:'aloisiochulapa', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/aloisiochulapa_o0a8uo.png', label:'Aloísio Chulapa'},
+  {id:'seumadruga',  url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/seumadruga_znz9sd.png',  label:'Seu Madruga'},
+  {id:'sara',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/sara_obqp7y.png',        label:'Sara'},
+  {id:'mia',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/mia_uliddk.png',         label:'Mia'},
+  {id:'keanu',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/keanu_vronzk.png',       label:'Keanu'},
+  {id:'shalia',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/shalia_zr0gzd.png',      label:'Shalia'},
+  {id:'clotilde',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/clotilde_gfvo11.png',    label:'Clotilde'},
+  {id:'koreanman',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/koreanman_ln80il.png',   label:'Korean Man'},
+  {id:'callerius',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/callerius_qgnekt.png',   label:'Callerius'},
+  {id:'hunger',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/hunger_dztgdc.png',      label:'Hunger'},
+  {id:'chavito',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/chavito_qiz9zq.jpg',     label:'Chavito'},
+  {id:'ruiva',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/ruiva_ccyhqn.png',       label:'Ruiva'},
+  {id:'mulherrocker',url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/mulherrocker_h7ahs1.png',label:'Mulher Rocker'},
+  {id:'killb',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/killb_tenkhy.png',       label:'Kill B'},
+  {id:'koreaw',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/koreaw_i1kh7r.png',      label:'Korean W'},
+  {id:'chiquinha',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/chiquinha_gczqbm.png',   label:'Chiquinha'},
+  {id:'prada',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/prada_g012tx.jpg',       label:'Prada'},
+];
 
-let avState = { type:'man', skin:0, hair:'short', hairColor:0, shirt:'red' };
+let selectedAvatarId = null;
 
 function initAvatarEditor() {
-  // Render skin colors
-  const sc = document.getElementById('skinColors');
-  sc.innerHTML = SKIN_COLORS.map((c,i) =>
-    `<div class="av-color${i===0?' selected':''}" style="background:${c}" onclick="setAvColor(${i},this)"></div>`
-  ).join('');
-  drawAvatar();
+  const grid = document.getElementById('avatarGrid');
+  if (!grid) return;
+
+  // Update label count
+  const label = document.querySelector('#screen-avatar .av-label');
+  if (label) label.textContent = `Escolha seu personagem (${AVATARS.length})`;
+
+  // Restore previously selected avatar if exists
+  if (STATE.avatar?.id) selectedAvatarId = STATE.avatar.id;
+
+  grid.innerHTML = AVATARS.map(av => `
+    <div class="av-img-opt${selectedAvatarId === av.id ? ' selected' : ''}"
+         id="avopt_${av.id}"
+         onclick="selectAvatarImg('${av.id}')"
+         title="${av.label}">
+      <img src="${av.url}" alt="${av.label}" loading="lazy">
+    </div>
+  `).join('');
+
+  // Update preview
+  updateAvatarPreview();
 }
 
-function setAvOpt(key, val, el) {
-  avState[key] = val;
-  el.parentElement.querySelectorAll('.av-opt').forEach(e => e.classList.remove('selected'));
-  el.classList.add('selected');
-  drawAvatar();
+function selectAvatarImg(id) {
+  selectedAvatarId = id;
+  document.querySelectorAll('.av-img-opt').forEach(el => el.classList.remove('selected'));
+  const el = document.getElementById('avopt_' + id);
+  if (el) {
+    el.classList.add('selected');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  updateAvatarPreview();
 }
 
-function setAvColor(idx, el) {
-  avState.skin = idx;
-  el.parentElement.querySelectorAll('.av-color').forEach(e => e.classList.remove('selected'));
-  el.classList.add('selected');
-  drawAvatar();
-}
-
-function drawAvatar() {
-  const canvas = document.getElementById('avatarCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const W = 48, H = 48;
-  ctx.clearRect(0, 0, W, H);
-
-  const skin = SKIN_COLORS[avState.skin];
-  const shirtColors = {
-    red:'#CC0000', white:'#F5F0E8', black:'#111111',
-    tri:'#CC0000' // tricolor handled separately
-  };
-  const shirt = shirtColors[avState.shirt] || '#CC0000';
-
-  // Background
-  ctx.fillStyle = '#1a1a1a';
-  ctx.fillRect(0, 0, W, H);
-
-  // Body / shirt
-  if (avState.shirt === 'tri') {
-    ctx.fillStyle = '#CC0000';
-    ctx.fillRect(13, 30, 9, 14);
-    ctx.fillStyle = '#F5F0E8';
-    ctx.fillRect(22, 30, 5, 14);
-    ctx.fillStyle = '#111111';
-    ctx.fillRect(27, 30, 9, 14);
+function updateAvatarPreview() {
+  const img = document.getElementById('avatarPreviewImg');
+  const placeholder = document.getElementById('avatarPlaceholder');
+  if (!img || !placeholder) return;
+  const av = AVATARS.find(a => a.id === selectedAvatarId);
+  if (av) {
+    img.src = av.url;
+    img.style.display = 'block';
+    placeholder.style.display = 'none';
   } else {
-    ctx.fillStyle = shirt;
-    ctx.fillRect(13, 30, 23, 14);
+    img.style.display = 'none';
+    placeholder.style.display = 'flex';
   }
-
-  // Arms
-  ctx.fillStyle = shirt === '#F5F0E8' ? '#CC0000' : shirt;
-  ctx.fillRect(9, 31, 5, 10);
-  ctx.fillRect(35, 31, 5, 10);
-
-  // Hands
-  ctx.fillStyle = skin;
-  ctx.fillRect(8, 40, 5, 5);
-  ctx.fillRect(36, 40, 5, 5);
-
-  // Legs (black shorts always — SPFC style)
-  ctx.fillStyle = '#111111';
-  ctx.fillRect(15, 44, 8, 4);
-  ctx.fillRect(26, 44, 8, 4);
-
-  // Neck
-  ctx.fillStyle = skin;
-  ctx.fillRect(21, 25, 7, 7);
-
-  // Head
-  ctx.fillStyle = skin;
-  ctx.fillRect(16, 10, 17, 16);
-
-  // Eyes
-  ctx.fillStyle = '#000';
-  ctx.fillRect(20, 15, 3, 3);
-  ctx.fillRect(26, 15, 3, 3);
-
-  // Smile
-  ctx.fillRect(21, 21, 2, 2);
-  ctx.fillRect(26, 21, 2, 2);
-
-  // Hair
-  const hairC = '#1a1a1a';
-  if (avState.hair === 'short') {
-    ctx.fillStyle = hairC;
-    ctx.fillRect(16, 8, 17, 5);
-  } else if (avState.hair === 'long') {
-    ctx.fillStyle = hairC;
-    ctx.fillRect(16, 8, 17, 5);
-    ctx.fillRect(14, 10, 4, 16);
-    ctx.fillRect(33, 10, 4, 16);
-  } else if (avState.hair === 'afro') {
-    ctx.fillStyle = hairC;
-    ctx.beginPath();
-    ctx.arc(24, 12, 11, Math.PI, 0);
-    ctx.fill();
-  }
-  // bald = no hair
-
-  // Girl/woman accessories
-  if (avState.type === 'woman' || avState.type === 'girl') {
-    ctx.fillStyle = hairC;
-    ctx.fillRect(14, 10, 3, 20);
-    ctx.fillRect(34, 10, 3, 20);
-  }
-
-  // Shadow/depth
-  ctx.fillStyle = 'rgba(0,0,0,0.12)';
-  ctx.fillRect(16, 24, 17, 3);
 }
 
 // ── NICKNAME ÚNICO ────────────────────────────────
@@ -1312,14 +1249,17 @@ function saveAvatar() {
     return;
   }
 
-  const canvas = document.getElementById('avatarCanvas');
+  if (!selectedAvatarId) {
+    toast('Escolha um avatar ❌', 'Selecione um personagem antes de continuar');
+    return;
+  }
+
+  const av = AVATARS.find(a => a.id === selectedAvatarId);
   STATE.avatar = {
     name,
-    type: avState.type,
-    skin: avState.skin,
-    hair: avState.hair,
-    shirt: avState.shirt,
-    dataUrl: canvas.toDataURL()
+    id: av.id,
+    label: av.label,
+    dataUrl: av.url,
   };
   saveState();
 
@@ -1339,7 +1279,7 @@ function saveAvatar() {
     }, {merge: true}).catch(()=>{});
   }
 
-  toast('Avatar salvo! 🔴', 'Agora você está pronto para jogar!');
+  toast('Avatar salvo! 🔴', `${av.label} é o seu personagem!`);
   goScreen('screen-home');
   renderHomeUser();
 }
@@ -1366,6 +1306,7 @@ async function loadUserData(user) {
     if (snap.exists()) {
       const data = snap.data();
       if (data.avatar) STATE.avatar = data.avatar;
+      if (data.avatar?.id) selectedAvatarId = data.avatar.id;
       if (data.lives !== undefined) STATE.lives = data.lives;
       if (data.totalScore !== undefined) STATE.totalScore = data.totalScore;
     }

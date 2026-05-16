@@ -242,6 +242,22 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 /* ── ANIMATIONS ──────────────────────────────────── */
 .fade-in{animation:fadein .4s ease both}
 @keyframes fadein{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── BOTÃO QUIZ DESTAQUE ─────────────────────────── */
+.quiz-hero-btn{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;padding:18px 20px;margin-top:28px;background:linear-gradient(135deg,#CC0000 0%,#8B0000 100%);border:none;border-radius:10px;cursor:pointer;overflow:hidden;position:relative;box-shadow:0 8px 32px rgba(204,0,0,.45),0 2px 8px rgba(0,0,0,.4);transition:transform .18s,box-shadow .18s;animation:qpulse 2.8s ease-in-out infinite;text-align:left}
+.quiz-hero-btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(204,0,0,.65)}
+.quiz-hero-btn:active{transform:scale(.98)}
+@keyframes qpulse{0%,100%{box-shadow:0 8px 32px rgba(204,0,0,.45),0 2px 8px rgba(0,0,0,.4)}50%{box-shadow:0 8px 52px rgba(204,0,0,.72),0 2px 8px rgba(0,0,0,.4)}}
+.quiz-hero-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.12) 50%,transparent 70%);background-size:200% 100%;animation:qshimmer 2.4s linear infinite}
+@keyframes qshimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+.qhb-left{z-index:1}
+.qhb-eyebrow{font-family:var(--font-body);font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.6);text-transform:uppercase;margin-bottom:3px}
+.qhb-title{font-family:var(--font-title);font-size:26px;letter-spacing:3px;color:#fff;line-height:1}
+.qhb-sub{font-family:var(--font-body);font-size:10px;color:rgba(255,255,255,.65);letter-spacing:1px;margin-top:3px}
+.qhb-right{display:flex;align-items:center;gap:10px;z-index:1;flex-shrink:0}
+.qhb-ball{font-size:40px;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4))}
+.qhb-arrow{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0}
+.qhb-stripe{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#CC0000 33%,#fff 33%,#fff 66%,#111 66%)}
 </style>
 </head>
 <body>
@@ -284,7 +300,21 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         encontrados hoje
       </div>
     </div>
-    <div class="scroll-pill" onclick="scrollToContent()">
+    <!-- BOTÃO QUIZ EM DESTAQUE -->
+    <button class="quiz-hero-btn" onclick="window.location.href='quiz.html'">
+      <div class="qhb-left">
+        <div class="qhb-eyebrow">Teste seus conhecimentos</div>
+        <div class="qhb-title">QUIZ TRICOLOR</div>
+        <div class="qhb-sub">6 níveis · perguntas históricas · ranking global</div>
+      </div>
+      <div class="qhb-right">
+        <div class="qhb-ball">⚽</div>
+        <div class="qhb-arrow">▶</div>
+      </div>
+      <div class="qhb-stripe"></div>
+    </button>
+
+    <div class="scroll-pill" onclick="scrollToContent()" style="margin-top:20px">
       VER HISTÓRICO <span class="scroll-arrow">↓</span>
     </div>
   </div>
@@ -348,9 +378,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </div>
 
 <!-- SHARE FAB -->
-<!-- QUIZ FAB -->
-<button onclick="window.location.href='quiz.html'" title="Jogar Quiz" style="position:fixed;bottom:84px;right:20px;z-index:100;width:48px;height:48px;background:var(--gold);border:none;border-radius:50%;color:#000;font-size:22px;cursor:pointer;box-shadow:0 4px 20px rgba(200,168,75,.5);display:flex;align-items:center;justify-content:center;transition:.2s;font-family:sans-serif">🎮</button>
-
 <button class="share-fab" onclick="shareDay()" title="Compartilhar">↗</button>
 
 <script>
