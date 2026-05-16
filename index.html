@@ -277,6 +277,86 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .nmc-loading{padding:20px;text-align:center;font-size:12px;color:var(--txt3);letter-spacing:2px}
 .nmc-error{padding:16px;text-align:center;font-size:11px;color:var(--txt3)}
 .nmc-score{font-family:var(--font-title);font-size:28px;color:#fff;letter-spacing:2px;text-align:center}
+
+/* ══ WORDLE ═══════════════════════════════════════ */
+.wrd-wrap{max-width:480px;margin:0 auto;padding:12px 0}
+.wrd-hdr{text-align:center;padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:12px;position:relative}
+.wrd-badge{font-size:9px;letter-spacing:3px;color:var(--red);margin-bottom:2px}
+.wrd-title{font-size:26px;font-weight:700;letter-spacing:2px;color:var(--txt)}
+.wrd-sub{font-size:10px;color:var(--txt3);letter-spacing:1px;margin-top:2px}
+.wrd-streak{position:absolute;right:0;top:0;text-align:center;line-height:1.2}
+.wrd-streak b{display:block;font-size:20px;color:var(--red)}
+.wrd-streak span{font-size:9px;color:var(--txt3);letter-spacing:1px}
+
+.wrd-hint{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;margin-bottom:12px;display:flex;gap:10px;align-items:center}
+.wrd-hint-icon{width:48px;height:48px;border-radius:50%;background:var(--bg3);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.wrd-hint-right{flex:1}
+.wrd-hint-label{font-size:9px;letter-spacing:2px;color:var(--txt3);margin-bottom:5px}
+.wrd-clues{display:flex;flex-wrap:wrap;gap:5px}
+.wrd-clue{padding:3px 9px;border-radius:20px;font-size:10px;border:1px solid var(--border2);color:var(--txt3);background:var(--bg3);transition:.3s}
+.wrd-clue.on{border-color:var(--gold);color:var(--gold);background:#1e1800}
+
+.wrd-leg{display:flex;gap:10px;justify-content:center;margin-bottom:10px}
+.wrd-li{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--txt3)}
+.wrd-ld{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+.wrd-scroll{overflow-x:auto;margin-bottom:10px;padding-bottom:4px}
+.wrd-scroll::-webkit-scrollbar{height:3px}
+.wrd-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.wrd-col-hdr{display:grid;gap:3px;margin-bottom:3px;padding:0 2px}
+.wrd-ch{font-size:8px;letter-spacing:.5px;color:var(--txt3);text-transform:uppercase;text-align:center;padding:2px 0}
+.wrd-ch:first-child{text-align:left;padding-left:6px}
+.wrd-rows{display:flex;flex-direction:column;gap:3px}
+.wrd-row{display:grid;gap:3px;align-items:stretch}
+.wrd-name{font-size:11px;font-weight:500;color:var(--txt);background:var(--bg2);border:1px solid var(--border2);border-radius:6px;padding:7px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wrd-name.emp{color:var(--txt3);font-size:10px;font-style:italic}
+.wrd-cell{border-radius:6px;padding:6px 3px;text-align:center;border:1px solid transparent;min-width:0;transition:all .25s}
+.wrd-cv{font-size:9px;font-weight:600;line-height:1.3;word-break:break-word}
+.wrd-ci{font-size:11px;margin-bottom:1px}
+.wrd-cell.hit{background:#0a2a0a;border-color:#22c55e}
+.wrd-cell.hit .wrd-cv{color:#22c55e}
+.wrd-cell.near{background:#2a1e00;border-color:#f59e0b}
+.wrd-cell.near .wrd-cv{color:#f59e0b}
+.wrd-cell.miss{background:#2a0a0a;border-color:#7a2222}
+.wrd-cell.miss .wrd-cv{color:#aa4444}
+.wrd-cell.emp{background:var(--bg2);border-color:var(--border)}
+.wrd-cell.emp .wrd-cv{color:var(--txt3)}
+
+.wrd-tries{text-align:center;font-size:10px;color:var(--txt3);letter-spacing:2px;margin-bottom:8px}
+.wrd-tries b{color:var(--red)}
+
+.wrd-input-area{margin-bottom:8px}
+.wrd-input-label{font-size:9px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase;margin-bottom:5px}
+.wrd-input-row{display:flex;gap:6px}
+.wrd-inp{flex:1;padding:10px 12px;background:var(--bg2);border:1px solid var(--border2);color:var(--txt);font-size:13px;border-radius:8px;outline:none;font-family:inherit;min-width:0}
+.wrd-inp:focus{border-color:var(--red)}
+.wrd-inp::placeholder{color:var(--txt3);font-size:11px}
+.wrd-gbtn{padding:10px 14px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;font-weight:700;letter-spacing:1px;white-space:nowrap;transition:.15s}
+.wrd-gbtn:hover{background:#aa0000}
+.wrd-sug{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;margin-top:4px;overflow:hidden;display:none;max-height:160px;overflow-y:auto}
+.wrd-si{padding:8px 12px;font-size:12px;color:var(--txt2);cursor:pointer;border-bottom:1px solid var(--border)}
+.wrd-si:last-child{border-bottom:none}
+.wrd-si:hover{background:var(--bg3);color:var(--txt)}
+.wrd-err{font-size:10px;color:#cc5555;text-align:center;min-height:14px;margin-top:3px;letter-spacing:1px}
+
+.wrd-result{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:16px;text-align:center;animation:fadein .3s ease;margin-top:8px}
+.wrd-ri{font-size:36px;margin-bottom:6px}
+.wrd-rt{font-size:18px;font-weight:700;color:var(--txt);margin-bottom:3px}
+.wrd-rs{font-size:11px;color:var(--txt2);margin-bottom:10px}
+.wrd-rp{display:flex;align-items:center;gap:10px;background:var(--bg3);border-radius:8px;padding:10px;margin-bottom:10px;text-align:left}
+.wrd-rpp{width:44px;height:44px;border-radius:50%;background:var(--bg2);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.wrd-rpn{font-size:15px;font-weight:600;color:var(--txt)}
+.wrd-rpd{font-size:10px;color:var(--txt3);margin-top:2px;line-height:1.6}
+.wrd-emj{font-size:13px;letter-spacing:3px;line-height:2;background:var(--bg3);border-radius:8px;padding:8px;margin-bottom:10px}
+.wrd-sbtn{width:100%;padding:11px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:2px;transition:.15s}
+.wrd-sbtn:hover{background:#aa0000}
+.wrd-played{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px;text-align:center}
+.wrd-played-icon{font-size:40px;margin-bottom:8px}
+.wrd-played-title{font-size:16px;font-weight:600;color:var(--txt);margin-bottom:4px}
+.wrd-played-sub{font-size:12px;color:var(--txt3);margin-bottom:12px}
+.wrd-next{font-size:11px;color:var(--txt2);letter-spacing:1px}
+.wrd-next b{color:var(--red)}
+
 </style>
 </head>
 <body>
@@ -350,6 +430,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <button class="nav-tab" onclick="showPanel('calendario',this)">CALENDÁRIO</button>
   <button class="nav-tab" onclick="showPanel('records',this)">RECORDES</button>
   <button class="nav-tab" onclick="showPanel('goleadas',this)">GOLEADAS</button>
+  <button class="nav-tab" onclick="showPanel('wordle',this);initWordle()">WORDLE</button>
 </nav>
 
 <!-- PANEL: HOJE -->
@@ -387,6 +468,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="sec-head"><div class="sec-title">// maiores goleadas históricas</div></div>
   <div class="cards-list" id="goleadasList"></div>
 </div>
+
+<!-- PANEL: WORDLE -->
+<div class="panel" id="panel-wordle"></div>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLB(event)">
@@ -1318,6 +1402,327 @@ async function loadFirebaseEvents() {
   } catch(e) {
     console.warn('Firebase offline, usando DB local:', e.message);
   }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   SPFC WORDLE — Adivinha o ídolo tricolor
+═══════════════════════════════════════════════════ */
+
+const WORDLE_COLS = [
+  {k:'posicao',  l:'Posição'},
+  {k:'pais',     l:'País'},
+  {k:'decada',   l:'Década'},
+  {k:'jogos',    l:'Jogos'},
+  {k:'gols',     l:'Gols'},
+  {k:'titulos',  l:'Títulos'},
+  {k:'selecao',  l:'Seleção'},
+  {k:'revelado', l:'Revelado'},
+  {k:'idolo',    l:'Ídolo'},
+];
+
+const WORDLE_DB = [
+  {nome:'Rogério Ceni',    emoji:'🧤',posicao:'Goleiro',  pais:'Brasil',    decada:1990,jogos:1237,gols:131,titulos:16,selecao:true, revelado:true, idolo:true, periodo:'1990–2015',desc:'O maior ídolo da história do SPFC. Goleiro artilheiro. 1237 jogos, 131 gols, 16 títulos.'},
+  {nome:'Müller',          emoji:'⚽',posicao:'Atacante', pais:'Brasil',    decada:1980,jogos:380, gols:196,titulos:10,selecao:true, revelado:true, idolo:true, periodo:'1982–1994',desc:'Maior artilheiro da história do São Paulo com 196 gols. Ídolo eterno.'},
+  {nome:'Careca',          emoji:'🎯',posicao:'Atacante', pais:'Brasil',    decada:1980,jogos:274, gols:157,titulos:8, selecao:true, revelado:true, idolo:true, periodo:'1978–1988',desc:'Um dos maiores centroavantes da história do futebol brasileiro.'},
+  {nome:'Raí',             emoji:'🎖️',posicao:'Meia',     pais:'Brasil',    decada:1990,jogos:273, gols:82, titulos:6, selecao:true, revelado:false,idolo:true, periodo:'1991–2004',desc:'Capitão dos campeões mundiais e libertadores. Ídolo eterno do Morumbi.'},
+  {nome:'Kaká',            emoji:'⚡',posicao:'Meia',     pais:'Brasil',    decada:2000,jogos:195, gols:68, titulos:8, selecao:true, revelado:true, idolo:true, periodo:'1999–2003/2014',desc:'Bola de Ouro 2007. Revelado pelo São Paulo, um dos maiores jogadores da história.'},
+  {nome:'Cafu',            emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:1990,jogos:263, gols:14, titulos:5, selecao:true, revelado:true, idolo:true, periodo:'1989–1994',desc:'Melhor lateral-direito da história do futebol. Revelado pelo SPFC.'},
+  {nome:'Lugano',          emoji:'🛡️',posicao:'Zagueiro', pais:'Uruguai',   decada:2000,jogos:280, gols:12, titulos:7, selecao:true, revelado:false,idolo:true, periodo:'2004–2014',desc:'Capitão e zagueiro ídolo. Um dos maiores líderes da história tricolor.'},
+  {nome:'Zetti',           emoji:'🧤',posicao:'Goleiro',  pais:'Brasil',    decada:1990,jogos:346, gols:0,  titulos:12,selecao:true, revelado:true, idolo:true, periodo:'1987–1999',desc:'Goleiro do tricampeonato mundial. Um dos maiores do clube.'},
+  {nome:'Luís Fabiano',    emoji:'💥',posicao:'Atacante', pais:'Brasil',    decada:2000,jogos:305, gols:175,titulos:4, selecao:true, revelado:false,idolo:true, periodo:'2006–2012',desc:'O Fabuloso. Um dos maiores artilheiros da história do São Paulo.'},
+  {nome:'Serginho Chulapa',emoji:'👟',posicao:'Atacante', pais:'Brasil',    decada:1980,jogos:198, gols:86, titulos:6, selecao:false,revelado:true, idolo:true, periodo:'1978–1985',desc:'Ídolo do povo. Artilheiro importante na era dourada dos anos 80.'},
+  {nome:'Aloísio Chulapa', emoji:'💪',posicao:'Atacante', pais:'Brasil',    decada:1980,jogos:178, gols:72, titulos:5, selecao:false,revelado:true, idolo:true, periodo:'1979–1986',desc:'Parceiro de Serginho, formou uma das duplas mais temidas da história.'},
+  {nome:'Léo',             emoji:'🛡️',posicao:'Zagueiro', pais:'Brasil',    decada:2000,jogos:298, gols:15, titulos:8, selecao:false,revelado:false,idolo:true, periodo:'2003–2012',desc:'Um dos pilares da defesa do São Paulo nos anos de maior glória.'},
+  {nome:'Leonardo',        emoji:'🎯',posicao:'Lateral',  pais:'Brasil',    decada:1990,jogos:87,  gols:19, titulos:4, selecao:true, revelado:true, idolo:false,periodo:'1989–1992',desc:'Lateral criativo que brilhou no São Paulo antes de ir para a Europa.'},
+  {nome:'Denilson',        emoji:'🌀',posicao:'Meia',     pais:'Brasil',    decada:1990,jogos:29,  gols:4,  titulos:2, selecao:true, revelado:true, idolo:false,periodo:'1995–1997',desc:'Revelado pelo SPFC antes de sua transferência milionária para o Betis.'},
+  {nome:'Grafite',         emoji:'⚡',posicao:'Atacante', pais:'Brasil',    decada:2000,jogos:66,  gols:28, titulos:3, selecao:false,revelado:false,idolo:false,periodo:'2003–2005',desc:'Atacante que marcou muitos gols importantes antes de ir para a Europa.'},
+  {nome:'Hernanes',        emoji:'🎯',posicao:'Meia',     pais:'Brasil',    decada:2010,jogos:98,  gols:22, titulos:3, selecao:true, revelado:false,idolo:false,periodo:'2007–2012/2019',desc:'Meia talentoso, revelado pelo SPFC e que voltou no fim da carreira.'},
+  {nome:'Miranda',         emoji:'🛡️',posicao:'Zagueiro', pais:'Brasil',    decada:2010,jogos:112, gols:8,  titulos:5, selecao:true, revelado:false,idolo:false,periodo:'2009–2014',desc:'Zagueiro que foi peça importante antes de ir para o Atlético de Madrid.'},
+  {nome:'Cicinho',         emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:2000,jogos:145, gols:6,  titulos:5, selecao:true, revelado:false,idolo:false,periodo:'2002–2006',desc:'Lateral que foi parte importante do tricampeonato brasileiro.'},
+  {nome:'Amoroso',         emoji:'💥',posicao:'Atacante', pais:'Brasil',    decada:2000,jogos:38,  gols:14, titulos:2, selecao:true, revelado:false,idolo:false,periodo:'2004',desc:'Atacante que passou pelo São Paulo em 2004.'},
+  {nome:'Danilo',          emoji:'🎯',posicao:'Meia',     pais:'Brasil',    decada:2000,jogos:188, gols:34, titulos:6, selecao:true, revelado:false,idolo:false,periodo:'2000–2007',desc:'Meia que foi peça fundamental no tricampeonato brasileiro.'},
+  {nome:'Mineiro',         emoji:'💪',posicao:'Volante',  pais:'Brasil',    decada:2000,jogos:142, gols:8,  titulos:5, selecao:true, revelado:false,idolo:false,periodo:'2003–2007',desc:'Volante raçudo que conquistou o tricampeonato e o Mundial de 2005.'},
+  {nome:'Júlio Baptista',  emoji:'⚡',posicao:'Meia',     pais:'Brasil',    decada:2000,jogos:88,  gols:32, titulos:4, selecao:true, revelado:true, idolo:false,periodo:'1999–2003',desc:'Revelado pelo São Paulo antes de ir para a Europa ainda jovem.'},
+  {nome:'Lúcio',           emoji:'🛡️',posicao:'Zagueiro', pais:'Brasil',    decada:2000,jogos:56,  gols:4,  titulos:3, selecao:true, revelado:false,idolo:false,periodo:'2007–2009',desc:'Zagueiro campeão do mundo com o Brasil em 2002, passou pelo SPFC.'},
+  {nome:'Fabão',           emoji:'🛡️',posicao:'Zagueiro', pais:'Brasil',    decada:1990,jogos:244, gols:12, titulos:8, selecao:false,revelado:false,idolo:false,periodo:'1993–2002',desc:'Zagueiro que foi companheiro de Rogério Ceni por muitos anos.'},
+  {nome:'Fábio Santos',    emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:2000,jogos:198, gols:8,  titulos:5, selecao:false,revelado:false,idolo:false,periodo:'2004–2010',desc:'Lateral-esquerdo confiável do tricampeonato brasileiro.'},
+  {nome:'Wellington Nem',  emoji:'⚽',posicao:'Atacante', pais:'Brasil',    decada:2010,jogos:62,  gols:15, titulos:1, selecao:false,revelado:false,idolo:false,periodo:'2015–2017',desc:'Atacante que passou pelo São Paulo nos anos 2010.'},
+  {nome:'Nenê',            emoji:'🎯',posicao:'Meia',     pais:'Brasil',    decada:2010,jogos:48,  gols:12, titulos:1, selecao:false,revelado:false,idolo:false,periodo:'2019',desc:'Meia veterano que passou pelo São Paulo em 2019.'},
+  {nome:'Pablo',           emoji:'💥',posicao:'Atacante', pais:'Brasil',    decada:2010,jogos:88,  gols:28, titulos:1, selecao:false,revelado:false,idolo:false,periodo:'2018–2020',desc:'Centroavante que foi destaque pelo São Paulo.'},
+  {nome:'Dani Alves',      emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:2020,jogos:44,  gols:2,  titulos:1, selecao:true, revelado:false,idolo:false,periodo:'2019–2021',desc:'Um dos maiores vencedores da história do futebol, passou pelo SPFC.'},
+  {nome:'Calleri',         emoji:'⚽',posicao:'Atacante', pais:'Argentina', decada:2020,jogos:148, gols:68, titulos:2, selecao:true, revelado:false,idolo:true, periodo:'2021–',desc:'Artilheiro argentino que se tornou ídolo no São Paulo.'},
+  {nome:'Lucas Moura',     emoji:'⚡',posicao:'Meia',     pais:'Brasil',    decada:2020,jogos:78,  gols:14, titulos:1, selecao:true, revelado:true, idolo:true, periodo:'2012–2013/2023–',desc:'Revelado pelo São Paulo, voltou como herói após carreira na Europa.'},
+  {nome:'Wellington',      emoji:'🧤',posicao:'Goleiro',  pais:'Brasil',    decada:2010,jogos:112, gols:0,  titulos:2, selecao:false,revelado:false,idolo:false,periodo:'2013–2019',desc:'Goleiro reserva que foi importante nos momentos decisivos.'},
+  {nome:'Pato',            emoji:'💥',posicao:'Atacante', pais:'Brasil',    decada:2010,jogos:38,  gols:12, titulos:1, selecao:true, revelado:false,idolo:false,periodo:'2014–2015',desc:'Alexandre Pato passou pelo São Paulo em sua volta ao Brasil.'},
+  {nome:'Centurión',       emoji:'🌀',posicao:'Meia',     pais:'Argentina', decada:2010,jogos:55,  gols:8,  titulos:1, selecao:false,revelado:false,idolo:false,periodo:'2016–2017',desc:'Meia argentino talentoso e polêmico que encantou no SPFC.'},
+  {nome:'Antony',          emoji:'⚡',posicao:'Atacante', pais:'Brasil',    decada:2020,jogos:52,  gols:9,  titulos:1, selecao:true, revelado:true, idolo:false,periodo:'2019–2021',desc:'Revelado pelo São Paulo antes de ir para o Ajax e Manchester United.'},
+  {nome:'Igor Vinicius',   emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:2020,jogos:145, gols:8,  titulos:2, selecao:false,revelado:false,idolo:false,periodo:'2019–',desc:'Lateral-direito dedicado e querido pela torcida do São Paulo.'},
+  {nome:'Rafinha',         emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:2020,jogos:68,  gols:3,  titulos:1, selecao:false,revelado:false,idolo:false,periodo:'2022–2023',desc:'Lateral experiente que passou pelo São Paulo.'},
+  {nome:'Arboleda',        emoji:'🛡️',posicao:'Zagueiro', pais:'Equador',   decada:2010,jogos:198, gols:12, titulos:2, selecao:true, revelado:false,idolo:true, periodo:'2017–',desc:'Zagueiro equatoriano que se tornou um dos pilares da defesa do SPFC.'},
+  {nome:'Reinaldo',        emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:2010,jogos:245, gols:18, titulos:2, selecao:false,revelado:false,idolo:true, periodo:'2015–2023',desc:'Lateral-esquerdo querido pela torcida, um dos mais longevos.'},
+  {nome:'Luan',            emoji:'⚡',posicao:'Meia',     pais:'Brasil',    decada:2020,jogos:44,  gols:4,  titulos:1, selecao:false,revelado:false,idolo:false,periodo:'2021–2022',desc:'Meia que passou pelo São Paulo após boa passagem pelo Grêmio.'},
+];
+
+let wordleState = {
+  guesses: [],
+  won: false,
+  dicas: 0,
+  secret: null,
+  edition: 0,
+  todayKey: '',
+  streak: 0,
+};
+
+let wordleInited = false;
+
+function initWordle() {
+  if (wordleInited && wordleState.todayKey === getTodayKey()) return;
+
+  const todayKey = getTodayKey();
+  wordleState.todayKey = todayKey;
+
+  // Carrega estado salvo
+  try {
+    const saved = JSON.parse(localStorage.getItem('spfc_wordle') || '{}');
+    if (saved.todayKey === todayKey) {
+      wordleState.guesses = saved.guesses || [];
+      wordleState.won = saved.won || false;
+      wordleState.dicas = saved.dicas || 0;
+    } else {
+      wordleState.guesses = [];
+      wordleState.won = false;
+      wordleState.dicas = 0;
+    }
+    wordleState.streak = saved.streak || 0;
+  } catch(e) {}
+
+  // Sorteia jogador do dia pela data (mesmo para todos)
+  const dayNum = Math.floor(Date.now() / 86400000);
+  wordleState.edition = dayNum % WORDLE_DB.length;
+  wordleState.secret = WORDLE_DB[wordleState.edition];
+
+  wordleInited = true;
+  renderWordle();
+}
+
+function getTodayKey() {
+  return new Date().toISOString().slice(0,10);
+}
+
+function saveWordleState() {
+  localStorage.setItem('spfc_wordle', JSON.stringify({
+    todayKey: wordleState.todayKey,
+    guesses: wordleState.guesses,
+    won: wordleState.won,
+    dicas: wordleState.dicas,
+    streak: wordleState.streak,
+  }));
+}
+
+function wrdColWidth() {
+  return `110px repeat(${WORDLE_COLS.length}, minmax(50px, 1fr))`;
+}
+
+function wrdCellVal(k, val) {
+  if (k==='selecao'||k==='revelado'||k==='idolo') return val?'Sim':'Não';
+  if (k==='decada') return val+'s';
+  return String(val);
+}
+
+function wrdCompare(j) {
+  const s = wordleState.secret;
+  return WORDLE_COLS.map(({k}) => {
+    const jv = j[k], sv = s[k];
+    if (typeof sv === 'boolean') {
+      return {cls: jv===sv?'hit':'miss', val: wrdCellVal(k,jv)};
+    }
+    if (typeof sv === 'number') {
+      if (jv===sv) return {cls:'hit', val: wrdCellVal(k,jv)};
+      const diff = jv-sv;
+      const near = k==='decada' ? Math.abs(diff)===10 : Math.abs(diff)/sv < 0.25;
+      const arrow = diff>0?' ⬇':' ⬆';
+      return {cls: near?'near':'miss', val: wrdCellVal(k,jv)+arrow};
+    }
+    return {cls: jv===sv?'hit':'miss', val: wrdCellVal(k,jv)};
+  });
+}
+
+function renderWordle() {
+  const panel = document.getElementById('panel-wordle');
+  const s = wordleState.secret;
+  const alreadyPlayed = wordleState.won || wordleState.guesses.length >= 6;
+
+  // Dicas reveladas
+  const dicas = s ? [
+    s.posicao,
+    s.decada+'s · '+s.pais,
+    s.titulos+' títulos pelo SPFC'
+  ] : ['','',''];
+
+  panel.innerHTML = `<div class="wrd-wrap">
+    <div class="wrd-hdr">
+      <div class="wrd-badge">SÃO PAULO FC</div>
+      <div class="wrd-title">WORDLE</div>
+      <div class="wrd-sub">${new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'long'})} · Édição #${wordleState.edition+1}</div>
+      <div class="wrd-streak"><b>🔥${wordleState.streak}</b><span>STREAK</span></div>
+    </div>
+
+    <div class="wrd-hint">
+      <div class="wrd-hint-icon" id="wSil">${alreadyPlayed ? s.emoji : '❓'}</div>
+      <div class="wrd-hint-right">
+        <div class="wrd-hint-label">PISTAS REVELADAS</div>
+        <div class="wrd-clues">
+          <div class="wrd-clue on">${dicas[0]}</div>
+          <div class="wrd-clue${wordleState.dicas>=1?' on':''}" id="wClue2">${wordleState.dicas>=1?dicas[1]:'🔒 após 2 erros'}</div>
+          <div class="wrd-clue${wordleState.dicas>=2?' on':''}" id="wClue3">${wordleState.dicas>=2?dicas[2]:'🔒 após 4 erros'}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrd-leg">
+      <div class="wrd-li"><div class="wrd-ld" style="background:#22c55e"></div>Correto</div>
+      <div class="wrd-li"><div class="wrd-ld" style="background:#f59e0b"></div>Quase</div>
+      <div class="wrd-li"><div class="wrd-ld" style="background:#7a2222"></div>Errado</div>
+      <div class="wrd-li"><div class="wrd-ld" style="background:var(--border2)"></div>⬆⬇ direção</div>
+    </div>
+
+    <div class="wrd-scroll">
+      <div class="wrd-col-hdr" id="wColHdr" style="grid-template-columns:${wrdColWidth()}">
+        <div class="wrd-ch" style="text-align:left;padding-left:6px">Jogador</div>
+        ${WORDLE_COLS.map(c=>`<div class="wrd-ch">${c.l}</div>`).join('')}
+      </div>
+      <div class="wrd-rows" id="wRows"></div>
+    </div>
+
+    <div class="wrd-tries" id="wTries">Tentativa <b id="wTnum">${wordleState.guesses.length+1}</b> de 6</div>
+
+    <div class="wrd-input-area" id="wInputArea">
+      <div class="wrd-input-label">Quem é o ídolo tricolor?</div>
+      <div class="wrd-input-row">
+        <input class="wrd-inp" id="wInp" type="text" placeholder="Digite o nome do jogador..." autocomplete="off">
+        <button class="wrd-gbtn" onclick="wrdGuess()">▶ TENTAR</button>
+      </div>
+      <div class="wrd-sug" id="wSug"></div>
+      <div class="wrd-err" id="wErr"></div>
+    </div>
+
+    <div id="wResult"></div>
+  </div>`;
+
+  buildWrdGrid();
+  if (alreadyPlayed) showWrdResult();
+
+  // Input listeners
+  const inp = document.getElementById('wInp');
+  if (inp) {
+    inp.addEventListener('keydown', e=>{ if(e.key==='Enter') wrdGuess(); });
+    inp.addEventListener('input', function(){
+      const v = this.value.trim().toLowerCase();
+      const sug = document.getElementById('wSug');
+      if (v.length < 2) { sug.style.display='none'; return; }
+      const matches = WORDLE_DB.filter(j=>j.nome.toLowerCase().includes(v)).slice(0,6);
+      if (!matches.length) { sug.style.display='none'; return; }
+      sug.style.display='block';
+      sug.innerHTML = matches.map(j=>`<div class="wrd-si" onclick="document.getElementById('wInp').value='${j.nome}';document.getElementById('wSug').style.display='none';wrdGuess()">${j.emoji} ${j.nome}</div>`).join('');
+    });
+  }
+}
+
+function buildWrdGrid() {
+  const all = [...wordleState.guesses];
+  while (all.length < 6) all.push(null);
+  const el = document.getElementById('wRows');
+  if (!el) return;
+  el.innerHTML = all.map((g,i) => {
+    const tmpl = `grid-template-columns:${wrdColWidth()}`;
+    if (!g) return `<div class="wrd-row" style="${tmpl}">
+      <div class="wrd-name emp">${i===wordleState.guesses.length?'← sua vez':'—'}</div>
+      ${WORDLE_COLS.map(()=>`<div class="wrd-cell emp"><div class="wrd-cv">·</div></div>`).join('')}
+    </div>`;
+    return `<div class="wrd-row" style="${tmpl}">
+      <div class="wrd-name">${g.emoji} ${g.nome}</div>
+      ${g.cells.map(c=>`<div class="wrd-cell ${c.cls}">
+        <div class="wrd-ci">${c.cls==='hit'?'✓':c.cls==='near'?'≈':'✗'}</div>
+        <div class="wrd-cv">${c.val}</div>
+      </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+function wrdGuess() {
+  if (wordleState.won || wordleState.guesses.length >= 6) return;
+  const raw = document.getElementById('wInp').value.trim();
+  const j = WORDLE_DB.find(x => x.nome.toLowerCase() === raw.toLowerCase());
+  document.getElementById('wSug').style.display = 'none';
+  if (!j) { document.getElementById('wErr').textContent = 'Jogador não encontrado. Tente outro.'; return; }
+  document.getElementById('wErr').textContent = '';
+
+  const cells = wrdCompare(j);
+  wordleState.guesses.push({...j, cells});
+  document.getElementById('wInp').value = '';
+
+  const s = wordleState.secret;
+  const dicas = [s.posicao, s.decada+'s · '+s.pais, s.titulos+' títulos pelo SPFC'];
+
+  if (wordleState.guesses.length >= 2 && wordleState.dicas < 1) {
+    wordleState.dicas = 1;
+    const e = document.getElementById('wClue2');
+    if (e) { e.textContent = dicas[1]; e.classList.add('on'); }
+  }
+  if (wordleState.guesses.length >= 4 && wordleState.dicas < 2) {
+    wordleState.dicas = 2;
+    const e = document.getElementById('wClue3');
+    if (e) { e.textContent = dicas[2]; e.classList.add('on'); }
+  }
+
+  buildWrdGrid();
+
+  const isWin = j.nome === wordleState.secret.nome;
+  if (isWin) {
+    wordleState.won = true;
+    wordleState.streak++;
+  }
+
+  if (isWin || wordleState.guesses.length >= 6) {
+    if (!isWin) wordleState.streak = 0;
+    saveWordleState();
+    document.getElementById('wInputArea').style.display = 'none';
+    document.getElementById('wTries').style.display = 'none';
+    document.getElementById('wSil').textContent = wordleState.secret.emoji;
+    showWrdResult();
+  } else {
+    saveWordleState();
+    document.getElementById('wTnum').textContent = wordleState.guesses.length + 1;
+  }
+}
+
+function showWrdResult() {
+  const s = wordleState.secret;
+  const isWin = wordleState.won;
+  const EMJI = {hit:'🟢',near:'🟡',miss:'🔴'};
+  const eg = wordleState.guesses.map(g=>g.cells.map(c=>EMJI[c.cls]).join('')).join('\n');
+  const shareText = `🔴 SPFC Wordle #${wordleState.edition+1} ${isWin?wordleState.guesses.length+'/6':'X/6'}\n${eg}\nspfc-hoje.vercel.app`;
+
+  document.getElementById('wInputArea') && (document.getElementById('wInputArea').style.display='none');
+  document.getElementById('wTries') && (document.getElementById('wTries').style.display='none');
+
+  const el = document.getElementById('wResult');
+  if (!el) return;
+  el.innerHTML = `<div class="wrd-result">
+    <div class="wrd-ri">${isWin?'🔴':'💔'}</div>
+    <div class="wrd-rt">${isWin?'Acertou!':'Game Over'}</div>
+    <div class="wrd-rs">${isWin?`Em ${wordleState.guesses.length}/6 tentativas · Édição #${wordleState.edition+1}`:`O jogador era ${s.nome}`}</div>
+    <div class="wrd-rp">
+      <div class="wrd-rpp">${s.emoji}</div>
+      <div>
+        <div class="wrd-rpn">${s.nome}</div>
+        <div class="wrd-rpd">${s.posicao} · ${s.periodo}<br>${s.desc}</div>
+      </div>
+    </div>
+    <div class="wrd-emj">${eg}</div>
+    <button class="wrd-sbtn" onclick="(async()=>{try{await navigator.clipboard.writeText(\`${shareText}\`);this.textContent='✓ COPIADO!';}catch(e){}})()">↗ COMPARTILHAR RESULTADO</button>
+  </div>`;
 }
 
 function init(){
