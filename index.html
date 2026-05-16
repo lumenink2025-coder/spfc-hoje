@@ -1178,13 +1178,15 @@ async function loadNextMatch() {
   if (!card) return;
 
   try {
-    const today = new Date().toISOString().slice(0, 10);
+    const now2 = new Date();
+    const today = now2.toISOString().slice(0, 10);
+    const season = now2.getFullYear();
     let fixture = null;
 
     // Busca jogos de hoje E próximos jogos, em todas as ligas
     const allFetches = LEAGUES.flatMap(leagueId => [
-      // Jogo de hoje (ao vivo ou agendado)
-      fetch(`https://v3.football.api-sports.io/fixtures?team=${SPFC_ID}&league=${leagueId}&date=${today}&timezone=America/Sao_Paulo`,
+      // Jogo de hoje (ao vivo ou agendado) — season obrigatório com date
+      fetch(`https://v3.football.api-sports.io/fixtures?team=${SPFC_ID}&league=${leagueId}&date=${today}&season=${season}&timezone=America/Sao_Paulo`,
         { headers: { 'x-apisports-key': API_FOOTBALL_KEY } }),
       // Próximos jogos
       fetch(`https://v3.football.api-sports.io/fixtures?team=${SPFC_ID}&league=${leagueId}&next=1&timezone=America/Sao_Paulo`,
