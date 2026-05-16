@@ -11,23 +11,22 @@
 <!-- ══ FIREBASE SDK ══ -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged,
-  signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail }
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { getFirestore, doc, setDoc, getDoc, collection,
-  query, orderBy, limit, getDocs, where, serverTimestamp,
-  increment, updateDoc, deleteDoc, writeBatch }
+  query, orderBy, limit, getDocs, where, serverTimestamp, increment, updateDoc }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 // ══════════════════════════════════════════════════
-
-
-
-// 🔥 COLE AQUI SUA CONFIGURAÇÃO DO FIREBASE
-
+//  apiKey: "AIzaSyDUcA0l4guvkNxrstd84isk2_TixB9Wz2g",
+  authDomain: "spfc-hoje.firebaseapp.com",
+  projectId: "spfc-hoje",
+  storageBucket: "spfc-hoje.firebasestorage.app",
+  messagingSenderId: "504617127415",
+  appId: "1:504617127415:web:cf30ac89ddea883cedb2f2"
+};
 // ══════════════════════════════════════════════════
 const firebaseConfig = {
-
   apiKey: "AIzaSyDUcA0l4guvkNxrstd84isk2_TixB9Wz2g",
   authDomain: "spfc-hoje.firebaseapp.com",
   projectId: "spfc-hoje",
@@ -36,10 +35,10 @@ const firebaseConfig = {
   appId: "1:504617127415:web:cf30ac89ddea883cedb2f2"
 };
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+};
 // ══════════════════════════════════════════════════
-
-
-
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -47,11 +46,9 @@ const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
 window.FB = { auth, db, provider, signInWithPopup, signOut,
-  onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
-  doc, setDoc, getDoc, collection,
+  onAuthStateChanged, doc, setDoc, getDoc, collection,
   query, orderBy, limit, getDocs, where, serverTimestamp,
-  increment, updateDoc, deleteDoc, writeBatch };
+  increment, updateDoc };
 
 window.dispatchEvent(new Event('firebase-ready'));
 </script>
@@ -319,7 +316,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
   <div class="home-hero">
     <div class="home-crown">🏆</div>
-    <div class="home-title">VOCÊ<br><em>SABE TUDO SOBRE O <br>TRICOLOR?</em></div>
+    <div class="home-title">QUEM QUER SER<br><em>TORCEDOR<br>MILIONÁRIO?</em></div>
     <div class="home-sub">O quiz definitivo da história do São Paulo FC</div>
   </div>
 
@@ -360,7 +357,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <input class="login-input" id="passInput" type="password" placeholder="Senha">
     <button class="btn-email" onclick="loginEmail()">ENTRAR COM EMAIL</button>
     <button class="btn-secondary" onclick="registerEmail()" style="max-width:100%">CRIAR CONTA</button>
-    <div class="login-skip" onclick="forgotPassword()" style="margin-top:4px">Esqueci minha senha</div>
     <div class="login-skip" onclick="playAsGuest()">Jogar sem login (progresso local)</div>
   </div>
 </div>
@@ -381,13 +377,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
     <div class="av-section">
       <div class="av-label">Nome no ranking</div>
-      <div style="position:relative">
-        <input class="av-name-input" id="avName" type="text" placeholder="Seu apelido..." maxlength="16"
-          oninput="checkNickname(this.value)" autocomplete="off"
-          style="padding-right:40px">
-        <span id="nickStatus" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:16px"></span>
-      </div>
-      <div id="nickMsg" style="font-size:11px;margin-top:5px;letter-spacing:1px;min-height:16px"></div>
+      <input class="av-name-input" id="avName" type="text" placeholder="Seu apelido..." maxlength="16">
     </div>
 
     <div class="av-section">
@@ -557,71 +547,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div id="logoutBtn" style="font-size:11px;color:var(--txt3);cursor:pointer;letter-spacing:1px" onclick="logout()">SAIR</div>
   </div>
   <div class="profile-wrap fade-in" id="profileContent"></div>
-</div>
-
-<!-- ══ SCREEN: ADMIN ══════════════════════════════ -->
-<div class="screen" id="screen-admin">
-  <div class="topbar">
-    <button class="tb-back" onclick="goScreen('screen-profile')">← VOLTAR</button>
-    <div class="tb-logo" style="color:var(--red)">⚙️ ADMIN</div>
-    <div style="width:60px"></div>
-  </div>
-  <div style="padding:24px 16px;max-width:400px;width:100%">
-
-    <!-- SENHA ADMIN -->
-    <div id="adminLock" style="text-align:center;padding:40px 0">
-      <div style="font-size:48px;margin-bottom:16px">🔐</div>
-      <div style="font-family:var(--font-t);font-size:24px;letter-spacing:2px;margin-bottom:20px">ÁREA RESTRITA</div>
-      <input id="adminPass" type="password" placeholder="Senha de administrador"
-        style="width:100%;padding:12px 16px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:14px;border-radius:2px;outline:none;margin-bottom:12px;font-family:var(--font-b)">
-      <button onclick="unlockAdmin()" style="width:100%;padding:13px;background:var(--red);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;border-radius:2px;font-family:var(--font-b)">ENTRAR</button>
-    </div>
-
-    <!-- PAINEL ADMIN (escondido até autenticar) -->
-    <div id="adminPanel" style="display:none">
-
-      <div style="font-size:10px;letter-spacing:3px;color:var(--txt3);text-transform:uppercase;margin-bottom:16px">// gerenciar ranking</div>
-
-      <!-- LIMPAR TUDO -->
-      <div style="background:var(--bg2);border:1px solid var(--border);border-left:3px solid #ef4444;padding:16px;border-radius:3px;margin-bottom:10px">
-        <div style="font-family:var(--font-u);font-size:15px;font-weight:600;margin-bottom:6px">Limpar TODO o ranking</div>
-        <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Remove todas as pontuações de todos os usuários. Irreversível.</div>
-        <button onclick="adminClearAll()" style="width:100%;padding:10px;background:#ef4444;color:#fff;border:none;font-size:12px;letter-spacing:1px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">⚠️ LIMPAR TUDO</button>
-      </div>
-
-      <!-- LIMPAR POR PERÍODO -->
-      <div style="background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);padding:16px;border-radius:3px;margin-bottom:10px">
-        <div style="font-family:var(--font-u);font-size:15px;font-weight:600;margin-bottom:6px">Limpar por período</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button onclick="adminClearType('diario')" style="flex:1;padding:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);font-size:11px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">Hoje</button>
-          <button onclick="adminClearType('semanal')" style="flex:1;padding:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);font-size:11px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">Semana</button>
-          <button onclick="adminClearType('mensal')" style="flex:1;padding:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);font-size:11px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">Mês</button>
-          <button onclick="adminClearType('geral')" style="flex:1;padding:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);font-size:11px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">Geral</button>
-        </div>
-      </div>
-
-      <!-- REMOVER USUÁRIO ESPECÍFICO -->
-      <div style="background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:3px;margin-bottom:10px">
-        <div style="font-family:var(--font-u);font-size:15px;font-weight:600;margin-bottom:6px">Remover usuário do ranking</div>
-        <input id="adminNickInput" type="text" placeholder="Digite o nickname exato..."
-          style="width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:13px;border-radius:2px;outline:none;margin-bottom:10px;font-family:var(--font-b)">
-        <button onclick="adminRemoveUser()" style="width:100%;padding:10px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:12px;letter-spacing:1px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">REMOVER</button>
-      </div>
-
-      <!-- LIBERAR NICKNAME TRAVADO -->
-      <div style="background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:3px;margin-bottom:10px">
-        <div style="font-family:var(--font-u);font-size:15px;font-weight:600;margin-bottom:6px">Liberar nickname travado</div>
-        <div style="font-size:12px;color:var(--txt3);margin-bottom:10px">Use se um nick estiver reservado mas o usuário não existe mais.</div>
-        <input id="adminNickFree" type="text" placeholder="Nickname para liberar..."
-          style="width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:13px;border-radius:2px;outline:none;margin-bottom:10px;font-family:var(--font-b)">
-        <button onclick="adminFreeNick()" style="width:100%;padding:10px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:12px;letter-spacing:1px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">LIBERAR</button>
-      </div>
-
-      <!-- LOG -->
-      <div id="adminLog" style="background:var(--bg3);border:1px solid var(--border);padding:14px;border-radius:3px;font-size:11px;color:var(--txt3);min-height:60px;font-family:monospace;letter-spacing:.5px;white-space:pre-wrap">Aguardando ação...</div>
-
-    </div>
-  </div>
 </div>
 
 <!-- ══ HINT MODAL ═════════════════════════════════ -->
@@ -1086,126 +1011,8 @@ function drawAvatar() {
   ctx.fillRect(16, 24, 17, 3);
 }
 
-// ── NICKNAME ÚNICO ────────────────────────────────
-let nickCheckTimer = null;
-let nickAvailable = false;
-
-async function checkNickname(val) {
-  const status = document.getElementById('nickStatus');
-  const msg = document.getElementById('nickMsg');
-  const input = document.getElementById('avName');
-  val = val.trim();
-
-  // Reset
-  status.textContent = '';
-  msg.textContent = '';
-  nickAvailable = false;
-
-  if (!val || val.length < 3) {
-    msg.textContent = 'Mínimo 3 caracteres';
-    msg.style.color = 'var(--txt3)';
-    return;
-  }
-
-  // Bloquear nomes proibidos
-  const banned = ['admin','spfc','saopaulo','tricolor','teste','test','null','undefined'];
-  if (banned.includes(val.toLowerCase())) {
-    status.textContent = '❌';
-    msg.textContent = 'Este nome não é permitido';
-    msg.style.color = '#ef4444';
-    return;
-  }
-
-  // Se não tem Firebase, libera direto
-  if (!window.FB) {
-    nickAvailable = true;
-    status.textContent = '✅';
-    msg.textContent = 'Disponível';
-    msg.style.color = 'var(--green)';
-    return;
-  }
-
-  // Debounce — espera 600ms após parar de digitar
-  clearTimeout(nickCheckTimer);
-  status.textContent = '⏳';
-  msg.textContent = 'Verificando...';
-  msg.style.color = 'var(--txt3)';
-
-  nickCheckTimer = setTimeout(async () => {
-    try {
-      const {db, doc, getDoc} = window.FB;
-      const nickKey = val.toLowerCase().replace(/\s+/g, '_');
-      const snap = await getDoc(doc(db, 'nicknames', nickKey));
-
-      // Verifica se o nick pertence ao próprio usuário (edição)
-      const isOwn = snap.exists() && STATE.user && snap.data().uid === STATE.user.uid;
-
-      if (!snap.exists() || isOwn) {
-        nickAvailable = true;
-        status.textContent = '✅';
-        msg.textContent = isOwn ? 'Seu nick atual' : 'Disponível! 🔴';
-        msg.style.color = 'var(--green)';
-        input.style.borderColor = 'var(--green)';
-      } else {
-        nickAvailable = false;
-        status.textContent = '❌';
-        msg.textContent = 'Nome já em uso — tente outro';
-        msg.style.color = '#ef4444';
-        input.style.borderColor = '#ef4444';
-      }
-    } catch(e) {
-      // Erro real — bloqueia até resolver
-      nickAvailable = false;
-      status.textContent = '⚠️';
-      msg.textContent = 'Erro ao verificar — tente novamente';
-      msg.style.color = '#ef4444';
-      console.warn('Erro ao verificar nickname:', e.code, e.message);
-    }
-  }, 600);
-}
-
-async function reserveNickname(name, uid) {
-  if (!window.FB) return;
-  const {db, doc, setDoc, getDoc} = window.FB;
-  const nickKey = name.toLowerCase().replace(/\s+/g, '_');
-
-  // Libera nick antigo se existia
-  if (STATE.avatar && STATE.avatar.name) {
-    const oldKey = STATE.avatar.name.toLowerCase().replace(/\s+/g, '_');
-    if (oldKey !== nickKey) {
-      try {
-        const oldSnap = await getDoc(doc(db, 'nicknames', oldKey));
-        if (oldSnap.exists() && oldSnap.data().uid === uid) {
-          await window.FB.deleteDoc(doc(db, 'nicknames', oldKey)).catch(()=>{});
-        }
-      } catch(e) {}
-    }
-  }
-
-  // Reserva novo nick
-  await setDoc(doc(db, 'nicknames', nickKey), {
-    uid,
-    name,
-    reservedAt: new Date().toISOString()
-  }).catch(()=>{});
-}
-
 function saveAvatar() {
-  const nameRaw = document.getElementById('avName').value.trim();
-  const name = nameRaw || 'Torcedor';
-
-  // Valida nickname
-  if (nameRaw && nameRaw.length < 3) {
-    toast('Nome muito curto', 'Use pelo menos 3 caracteres');
-    return;
-  }
-
-  if (window.FB && nameRaw && !nickAvailable) {
-    toast('Nome indisponível ❌', 'Escolha outro apelido');
-    document.getElementById('avName').focus();
-    return;
-  }
-
+  const name = document.getElementById('avName').value.trim() || 'Torcedor';
   const canvas = document.getElementById('avatarCanvas');
   STATE.avatar = {
     name,
@@ -1217,16 +1024,10 @@ function saveAvatar() {
   };
   saveState();
 
-  // Salva no Firebase
+  // Save to Firebase if logged in
   if (STATE.user && window.FB) {
     const {db, doc, setDoc} = window.FB;
-    const uid = STATE.user.uid;
-
-    // Reserva o nickname
-    if (nameRaw) reserveNickname(name, uid);
-
-    // Salva perfil
-    setDoc(doc(db, 'users', uid), {
+    setDoc(doc(db, 'users', STATE.user.uid), {
       name,
       avatar: STATE.avatar,
       updatedAt: new Date().toISOString()
@@ -1280,57 +1081,11 @@ async function loginGoogle() {
 }
 
 async function loginEmail() {
-  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
-  const email = document.getElementById('emailInput').value.trim();
-  const pass  = document.getElementById('passInput').value;
-  if (!email || !pass) { toast('Preencha os campos', 'Email e senha são obrigatórios'); return; }
-  const {auth, signInWithEmailAndPassword} = window.FB;
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-    toast('Bem-vindo de volta! 🔴', 'Login realizado com sucesso');
-    goScreen('screen-home');
-    checkAvatarSetup();
-  } catch(e) {
-    const msg = e.code === 'auth/user-not-found'     ? 'Usuário não encontrado'
-              : e.code === 'auth/wrong-password'      ? 'Senha incorreta'
-              : e.code === 'auth/invalid-email'       ? 'Email inválido'
-              : e.code === 'auth/invalid-credential'  ? 'Email ou senha incorretos'
-              : e.message || 'Tente novamente';
-    toast('Erro no login', msg);
-  }
+  toast('Em breve', 'Login por email em desenvolvimento. Use o Google por enquanto.');
 }
 
 async function registerEmail() {
-  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
-  const email = document.getElementById('emailInput').value.trim();
-  const pass  = document.getElementById('passInput').value;
-  if (!email || !pass) { toast('Preencha os campos', 'Email e senha são obrigatórios'); return; }
-  if (pass.length < 6) { toast('Senha fraca', 'A senha deve ter pelo menos 6 caracteres'); return; }
-  const {auth, createUserWithEmailAndPassword} = window.FB;
-  try {
-    await createUserWithEmailAndPassword(auth, email, pass);
-    toast('Conta criada! 🎉', 'Bem-vindo ao SPFC Quiz');
-    goScreen('screen-avatar');
-  } catch(e) {
-    const msg = e.code === 'auth/email-already-in-use' ? 'Este email já está cadastrado'
-              : e.code === 'auth/invalid-email'         ? 'Email inválido'
-              : e.code === 'auth/weak-password'         ? 'Senha fraca (mín. 6 caracteres)'
-              : e.message || 'Tente novamente';
-    toast('Erro no cadastro', msg);
-  }
-}
-
-async function forgotPassword() {
-  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
-  const email = document.getElementById('emailInput').value.trim();
-  if (!email) { toast('Digite seu email', 'Preencha o campo de email primeiro'); return; }
-  const {auth, sendPasswordResetEmail} = window.FB;
-  try {
-    await sendPasswordResetEmail(auth, email);
-    toast('Email enviado! 📧', 'Verifique sua caixa de entrada');
-  } catch(e) {
-    toast('Erro', e.message || 'Verifique o email digitado');
-  }
+  toast('Em breve', 'Cadastro por email em desenvolvimento. Use o Google por enquanto.');
 }
 
 function playAsGuest() {
@@ -1821,152 +1576,7 @@ function renderProfile() {
         </div>`).join('')}
     </div>
     <button class="btn-secondary" style="max-width:100%;margin-top:20px" onclick="goScreen('screen-avatar')">✏️ EDITAR AVATAR</button>
-    <button onclick="goScreen('screen-admin')" style="display:block;width:100%;margin-top:10px;padding:10px;background:transparent;border:1px solid var(--border);color:var(--txt3);font-size:11px;letter-spacing:2px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">⚙️ ADMINISTRAÇÃO</button>
   `;
-}
-
-/* ════════════════════════════════════════════════
-   ADMIN PANEL
-════════════════════════════════════════════════ */
-// ⚠️ TROQUE ESTA SENHA antes de publicar!
-const ADMIN_PASSWORD = 'spfc1930admin';
-
-function unlockAdmin() {
-  const pass = document.getElementById('adminPass').value;
-  if (pass === ADMIN_PASSWORD) {
-    document.getElementById('adminLock').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'block';
-    adminLog('✅ Acesso liberado. Bem-vindo, administrador.');
-  } else {
-    toast('Senha incorreta ❌', 'Verifique a senha de administrador');
-    document.getElementById('adminPass').value = '';
-    document.getElementById('adminPass').style.borderColor = '#ef4444';
-    setTimeout(() => {
-      document.getElementById('adminPass').style.borderColor = '';
-    }, 2000);
-  }
-}
-
-function adminLog(msg) {
-  const el = document.getElementById('adminLog');
-  if (el) {
-    const time = new Date().toLocaleTimeString('pt-BR');
-    el.textContent = `[${time}] ${msg}\n` + el.textContent;
-  }
-}
-
-async function adminClearAll() {
-  if (!window.FB) { adminLog('❌ Firebase não configurado'); return; }
-  if (!confirm('⚠️ Tem certeza? Isso apaga TODO o ranking. Essa ação é irreversível.')) return;
-
-  adminLog('⏳ Limpando todo o ranking...');
-  const {db, collection, getDocs, writeBatch} = window.FB;
-
-  try {
-    const snap = await getDocs(collection(db, 'ranking'));
-    if (snap.empty) { adminLog('ℹ️ Ranking já está vazio.'); return; }
-
-    // Firebase permite max 500 deletes por batch
-    const batches = [];
-    let batch = writeBatch(db);
-    let count = 0;
-
-    snap.forEach(d => {
-      batch.delete(d.ref);
-      count++;
-      if (count % 500 === 0) {
-        batches.push(batch.commit());
-        batch = writeBatch(db);
-      }
-    });
-    batches.push(batch.commit());
-    await Promise.all(batches);
-
-    adminLog(`✅ ${count} registros removidos. Ranking limpo!`);
-    toast('Ranking limpo! ✅', `${count} registros removidos`);
-  } catch(e) {
-    adminLog('❌ Erro: ' + e.message);
-    toast('Erro ❌', e.message);
-  }
-}
-
-async function adminClearType(type) {
-  if (!window.FB) { adminLog('❌ Firebase não configurado'); return; }
-  if (!confirm(`Limpar ranking do tipo "${type}"?`)) return;
-
-  adminLog(`⏳ Limpando ranking "${type}"...`);
-  const {db, collection, query, where, getDocs, writeBatch} = window.FB;
-
-  try {
-    const q = query(collection(db, 'ranking'), where('type', '==', type));
-    const snap = await getDocs(q);
-    if (snap.empty) { adminLog(`ℹ️ Sem registros do tipo "${type}".`); return; }
-
-    const batch = writeBatch(db);
-    let count = 0;
-    snap.forEach(d => { batch.delete(d.ref); count++; });
-    await batch.commit();
-
-    adminLog(`✅ ${count} registros "${type}" removidos.`);
-    toast(`Ranking ${type} limpo! ✅`, `${count} registros removidos`);
-  } catch(e) {
-    adminLog('❌ Erro: ' + e.message);
-  }
-}
-
-async function adminRemoveUser() {
-  if (!window.FB) { adminLog('❌ Firebase não configurado'); return; }
-  const nick = document.getElementById('adminNickInput').value.trim();
-  if (!nick) { adminLog('❌ Digite um nickname'); return; }
-  if (!confirm(`Remover "${nick}" do ranking?`)) return;
-
-  adminLog(`⏳ Removendo "${nick}" do ranking...`);
-  const {db, collection, getDocs, writeBatch} = window.FB;
-
-  try {
-    const snap = await getDocs(collection(db, 'ranking'));
-    const batch = writeBatch(db);
-    let count = 0;
-
-    snap.forEach(d => {
-      const data = d.data();
-      if (data.name && data.name.toLowerCase() === nick.toLowerCase()) {
-        batch.delete(d.ref);
-        count++;
-      }
-    });
-
-    if (count === 0) {
-      adminLog(`ℹ️ Nenhum registro encontrado para "${nick}".`);
-      return;
-    }
-
-    await batch.commit();
-    adminLog(`✅ ${count} registro(s) de "${nick}" removidos.`);
-    toast(`"${nick}" removido! ✅`, `${count} entradas removidas do ranking`);
-    document.getElementById('adminNickInput').value = '';
-  } catch(e) {
-    adminLog('❌ Erro: ' + e.message);
-  }
-}
-
-async function adminFreeNick() {
-  if (!window.FB) { adminLog('❌ Firebase não configurado'); return; }
-  const nick = document.getElementById('adminNickFree').value.trim();
-  if (!nick) { adminLog('❌ Digite um nickname'); return; }
-
-  adminLog(`⏳ Liberando nickname "${nick}"...`);
-  const {db, doc, deleteDoc} = window.FB;
-  const nickKey = nick.toLowerCase().replace(/\s+/g, '_');
-
-  try {
-    await deleteDoc(doc(db, 'nicknames', nickKey));
-    adminLog(`✅ Nickname "${nick}" liberado com sucesso.`);
-    toast(`Nick liberado! ✅`, `"${nick}" pode ser usado por outro torcedor`);
-    document.getElementById('adminNickFree').value = '';
-  } catch(e) {
-    adminLog('❌ Erro: ' + e.message);
-  }
 }
 
 /* ════════════════════════════════════════════════
