@@ -276,6 +276,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .nmc-chip-red{border-color:rgba(204,0,0,.3);color:#ff7777;background:rgba(204,0,0,.08)}
 .nmc-loading{padding:20px;text-align:center;font-size:12px;color:var(--txt3);letter-spacing:2px}
 .nmc-error{padding:16px;text-align:center;font-size:11px;color:var(--txt3)}
+.nmc-score{font-family:var(--font-title);font-size:28px;color:#fff;letter-spacing:2px;text-align:center}
 </style>
 </head>
 <body>
@@ -1177,85 +1178,126 @@ async function loadNextMatch() {
   if (!card) return;
 
   try {
-    // Tenta cada liga até achar o próximo jogo
+    const today = new Date().toISOString().slice(0, 10);
     let fixture = null;
 
-    for (const leagueId of LEAGUES) {
-      const res = await fetch(
-        `https://v3.football.api-sports.io/fixtures?team=${SPFC_ID}&league=${leagueId}&next=1&timezone=America/Sao_Paulo`,
-        { headers: { 'x-apisports-key': API_FOOTBALL_KEY } }
-      );
-      const data = await res.json();
+    // Busca jogos de hoje E próximos jogos, em todas as ligas
+    const allFetches = LEAGUES.flatMap(leagueId => [
+      // Jogo de hoje (ao vivo ou agendado)
+      fetch(`https://v3.football.api-sports.io/fixtures?team=${SPFC_ID}&league=${leagueId}&date=${today}&timezone=America/Sao_Paulo`,
+        { headers: { 'x-apisports-key': API_FOOTBALL_KEY } }),
+      // Próximos jogos
+      fetch(`https://v3.football.api-sports.io/fixtures?team=${SPFC_ID}&league=${leagueId}&next=1&timezone=America/Sao_Paulo`,
+        { headers: { 'x-apisports-key': API_FOOTBALL_KEY } }),
+    ]);
+
+    const responses = await Promise.all(allFetches);
+    const jsons = await Promise.all(responses.map(r => r.json()));
+
+    const candidates = [];
+    for (const data of jsons) {
       if (data.response && data.response.length > 0) {
-        // Pega o mais próximo entre as ligas
-        if (!fixture || new Date(data.response[0].fixture.date) < new Date(fixture.fixture.date)) {
-          fixture = data.response[0];
-        }
+        candidates.push(...data.response);
       }
     }
 
-    if (!fixture) {
+    if (candidates.length === 0) {
       card.innerHTML = '<div class="nmc-error">Nenhum jogo agendado no momento</div>';
       return;
     }
+
+    // Remove duplicatas por fixture id
+    const seen = new Set();
+    const unique = candidates.filter(f => {
+      if (seen.has(f.fixture.id)) return false;
+      seen.add(f.fixture.id);
+      return true;
+    });
+
+    // Prioriza: ao vivo > hoje > mais próximo futuro
+    const now = new Date();
+    unique.sort((a, b) => {
+      const da = new Date(a.fixture.date);
+      const db = new Date(b.fixture.date);
+      const aLive = ['1H','2H','HT','ET','BT','P'].includes(a.fixture.status.short);
+      const bLive = ['1H','2H','HT','ET','BT','P'].includes(b.fixture.status.short);
+      if (aLive && !bLive) return -1;
+      if (!aLive && bLive) return 1;
+      return da - db;
+    });
+
+    fixture = unique[0];
 
     const f = fixture.fixture;
     const home = fixture.teams.home;
     const away = fixture.teams.away;
     const league = fixture.league;
+    const status = f.status.short;
 
-    // Formata data e hora
+    const isLive = ['1H','2H','HT','ET','BT','P'].includes(status);
+    const isFinished = ['FT','AET','PEN'].includes(status);
+
     const matchDate = new Date(f.date);
-    const now = new Date();
     const diffMs = matchDate - now;
     const diffDays = Math.floor(diffMs / 86400000);
     const diffHours = Math.floor((diffMs % 86400000) / 3600000);
+    const diffMins = Math.floor((diffMs % 3600000) / 60000);
 
     let countdown = '';
-    if (diffMs < 0) {
-      countdown = 'Em andamento';
+    let chipClass = 'nmc-chip-red';
+    if (isLive) {
+      countdown = `🔴 AO VIVO — ${f.status.elapsed}'`;
+    } else if (isFinished) {
+      countdown = 'Encerrado';
+      chipClass = '';
+    } else if (diffMs <= 0) {
+      countdown = 'Em breve!';
+    } else if (diffDays === 0 && diffHours === 0) {
+      countdown = `Em ${diffMins} min`;
     } else if (diffDays === 0) {
-      countdown = diffHours === 0 ? 'Hoje, em breve!' : `Hoje em ${diffHours}h`;
+      countdown = `Hoje em ${diffHours}h`;
     } else if (diffDays === 1) {
       countdown = 'Amanhã';
     } else {
       countdown = `Em ${diffDays} dias`;
     }
 
-    const dateStr = matchDate.toLocaleDateString('pt-BR', {
-      weekday:'short', day:'numeric', month:'short'
-    });
-    const timeStr = matchDate.toLocaleTimeString('pt-BR', {
-      hour:'2-digit', minute:'2-digit'
-    });
+    const dateStr = matchDate.toLocaleDateString('pt-BR', {weekday:'short', day:'numeric', month:'short'});
+    const timeStr = matchDate.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
 
     const isSPFCHome = home.id === SPFC_ID;
     const opponent = isSPFCHome ? away : home;
     const spfc = isSPFCHome ? home : away;
 
+    // Placar se ao vivo ou encerrado
+    const goals = fixture.goals;
+    const spfcGoals = isSPFCHome ? goals.home : goals.away;
+    const oppGoals  = isSPFCHome ? goals.away : goals.home;
+    const scoreHtml = (isLive || isFinished) && spfcGoals !== null
+      ? `<div class="nmc-score">${spfcGoals} — ${oppGoals}</div>`
+      : '';
+
+    const headerLabel = isLive ? '🔴 Ao Vivo' : isFinished ? '✅ Encerrado' : '📅 Próximo Jogo';
+
     card.innerHTML = `
       <div class="nmc-header">
-        <span class="nmc-label">⚽ Próximo Jogo</span>
+        <span class="nmc-label">${headerLabel}</span>
         <span class="nmc-comp">${league.name}</span>
       </div>
       <div class="nmc-body">
         <div class="nmc-teams">
           <div class="nmc-team">
-            ${spfc.logo
-              ? `<img class="nmc-logo" src="${spfc.logo}" alt="${spfc.name}" onerror="this.style.display='none'">`
-              : `<div class="nmc-logo-placeholder">🔴</div>`}
+            ${spfc.logo ? `<img class="nmc-logo" src="${spfc.logo}" alt="${spfc.name}" onerror="this.style.display='none'">` : `<div class="nmc-logo-placeholder">🔴</div>`}
             <div class="nmc-team-name">${spfc.name}</div>
           </div>
-          <div class="nmc-vs">VS</div>
+          <div class="nmc-vs">${scoreHtml || 'VS'}</div>
           <div class="nmc-team">
-            ${opponent.logo
-              ? `<img class="nmc-logo" src="${opponent.logo}" alt="${opponent.name}" onerror="this.style.display='none'">`
-              : `<div class="nmc-logo-placeholder">⚽</div>`}
+            ${opponent.logo ? `<img class="nmc-logo" src="${opponent.logo}" alt="${opponent.name}" onerror="this.style.display='none'">` : `<div class="nmc-logo-placeholder">⚽</div>`}
             <div class="nmc-team-name">${opponent.name}</div>
           </div>
         </div>
         <div class="nmc-info">
-          <span class="nmc-chip nmc-chip-red">🕐 ${countdown}</span>
+          <span class="nmc-chip ${chipClass}">${countdown}</span>
           <span class="nmc-chip">📅 ${dateStr}</span>
           <span class="nmc-chip">🕗 ${timeStr}</span>
           ${isSPFCHome ? '<span class="nmc-chip">🏠 Casa</span>' : '<span class="nmc-chip">✈️ Fora</span>'}
@@ -1263,6 +1305,9 @@ async function loadNextMatch() {
         </div>
       </div>
     `;
+
+    // Se ao vivo, atualiza a cada 60s
+    if (isLive) setTimeout(loadNextMatch, 60000);
 
   } catch(e) {
     card.innerHTML = '<div class="nmc-error">Não foi possível carregar o próximo jogo</div>';
