@@ -23,13 +23,13 @@ import { getFirestore, doc, setDoc, getDoc, collection,
 // 🔥 COLE AQUI SUA CONFIGURAÇÃO DO FIREBASE
 // ══════════════════════════════════════════════════
 const firebaseConfig = {
-  apiKey: "COLE_SUA_API_KEY",
-  authDomain: "COLE_SEU_AUTH_DOMAIN",
-  projectId: "COLE_SEU_PROJECT_ID",
-  storageBucket: "COLE_SEU_STORAGE_BUCKET",
-  messagingSenderId: "COLE_SEU_MESSAGING_SENDER_ID",
-  appId: "COLE_SEU_APP_ID"
-};
+    apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
+    authDomain: "spfc-hoje-da329.firebaseapp.com",
+    projectId: "spfc-hoje-da329",
+    storageBucket: "spfc-hoje-da329.firebasestorage.app",
+    messagingSenderId: "116174859005",
+    appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
+  };
 // ══════════════════════════════════════════════════
 
 const app = initializeApp(firebaseConfig);
@@ -310,11 +310,15 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
   <div class="home-hero">
     <div class="home-crown">🏆</div>
-    <div class="home-title">QUEM QUER SER<br><em>TORCEDOR<br>MILIONÁRIO?</em></div>
+    <div class="home-title">VOCÊ<br><em>SABE TUDO SOBRE O <br>TRICOLOR?</em></div>
     <div class="home-sub">O quiz definitivo da história do São Paulo FC</div>
   </div>
 
   <div style="padding:20px 20px 12px;width:100%;max-width:480px">
+
+    <!-- STREAK -->
+    <div id="streakBadge" style="display:flex;align-items:center;gap:4px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid #ff6b00;padding:12px 16px;border-radius:3px;margin-bottom:12px"></div>
+
     <div class="lives-row" id="livesDisplay"></div>
     <div class="lives-timer" id="livesTimer"></div>
     <div class="home-stats">
@@ -780,6 +784,11 @@ let STATE = {
   countdownInterval: null,
   timeLeft: 30,
   guest: false,
+  // STREAK
+  streak: 0,
+  bestStreak: 0,
+  lastPlayedDate: null,
+  wonToday: false,
 };
 
 let musicOn = false;
@@ -796,6 +805,10 @@ function loadState() {
       STATE.totalScore = parsed.totalScore ?? 0;
       STATE.avatar = parsed.avatar ?? null;
       STATE.usedQIds = parsed.usedQIds ?? [];
+      STATE.streak = parsed.streak ?? 0;
+      STATE.bestStreak = parsed.bestStreak ?? 0;
+      STATE.lastPlayedDate = parsed.lastPlayedDate ?? null;
+      STATE.wonToday = parsed.wonToday ?? false;
     }
   } catch(e) {}
 }
@@ -808,6 +821,10 @@ function saveState() {
       totalScore: STATE.totalScore,
       avatar: STATE.avatar,
       usedQIds: STATE.usedQIds,
+      streak: STATE.streak,
+      bestStreak: STATE.bestStreak,
+      lastPlayedDate: STATE.lastPlayedDate,
+      wonToday: STATE.wonToday,
     }));
   } catch(e) {}
 }
@@ -858,6 +875,104 @@ function startLivesTimer() {
     const el = document.getElementById('livesTimer');
     if (el) el.textContent = STATE.lives >= MAX_LIVES ? '' : t ? `⏱ próxima vida em ${t}` : '';
   }, 1000);
+}
+
+/* ════════════════════════════════════════════════
+   STREAK SYSTEM
+════════════════════════════════════════════════ */
+function todayKey() {
+  return new Date().toISOString().slice(0, 10);
+}
+function yesterdayKey() {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return d.toISOString().slice(0, 10);
+}
+
+function checkStreakOnLoad() {
+  const today = todayKey();
+  const last = STATE.lastPlayedDate;
+  if (!last) return;
+  // Quebra streak se ficou mais de 1 dia sem jogar
+  if (last !== today && last !== yesterdayKey()) {
+    STATE.streak = 0;
+    STATE.wonToday = false;
+    saveState();
+  }
+  // Reset wonToday se virou o dia
+  if (last !== today) {
+    STATE.wonToday = false;
+    saveState();
+  }
+}
+
+function updateStreak() {
+  const today = todayKey();
+  if (STATE.wonToday) return; // já contou hoje
+  const last = STATE.lastPlayedDate;
+  if (last === yesterdayKey() || last === today) {
+    STATE.streak++;
+  } else {
+    STATE.streak = 1;
+  }
+  STATE.wonToday = true;
+  STATE.lastPlayedDate = today;
+  STATE.bestStreak = Math.max(STATE.bestStreak, STATE.streak);
+  saveState();
+  saveStreakToFirebase();
+  // Notificação em marcos especiais
+  const marcos = [3, 7, 15, 30, 60, 100];
+  if (marcos.includes(STATE.streak)) {
+    setTimeout(() => {
+      toast(
+        `🔥 ${STATE.streak} dias seguidos!`,
+        STATE.streak >= 30 ? `Lendário! ${STATE.streak} dias de sequência!` : `Incrível! Continue assim!`,
+        5000
+      );
+      playLevelUp();
+    }, 1500);
+  }
+}
+
+async function saveStreakToFirebase() {
+  if (!window.FB || !STATE.user) return;
+  const { db, doc, setDoc } = window.FB;
+  try {
+    await setDoc(doc(db, 'users', STATE.user.uid), {
+      streak: STATE.streak,
+      bestStreak: STATE.bestStreak,
+      lastPlayedDate: STATE.lastPlayedDate,
+    }, { merge: true });
+  } catch(e) {}
+}
+
+function getStreakEmoji() {
+  if (STATE.streak === 0) return '❄️';
+  if (STATE.streak < 3)   return '🔥';
+  if (STATE.streak < 7)   return '🔥🔥';
+  if (STATE.streak < 15)  return '🔥🔥🔥';
+  if (STATE.streak < 30)  return '⚡🔥';
+  if (STATE.streak < 60)  return '💎🔥';
+  return '👑🔥';
+}
+
+function renderStreakBadge() {
+  const el = document.getElementById('streakBadge');
+  if (!el) return;
+  if (STATE.streak === 0) {
+    el.innerHTML = `<span style="font-size:20px">❄️</span><span style="color:var(--txt3);font-size:12px;letter-spacing:1px;margin-left:8px">Comece sua sequência hoje!</span>`;
+    return;
+  }
+  const emoji = getStreakEmoji();
+  const cor = STATE.wonToday ? '#ff6b00' : 'var(--red)';
+  const label = STATE.wonToday ? '✓ sequência ativa hoje' : '⚠️ jogue hoje para continuar!';
+  el.innerHTML = `
+    <span style="font-family:var(--font-t);font-size:32px;color:${cor};line-height:1">${STATE.streak}</span>
+    <span style="font-size:22px;margin:0 6px">${emoji}</span>
+    <div>
+      <div style="font-size:13px;color:var(--txt);font-weight:600">${STATE.streak} dia${STATE.streak>1?'s':''} seguido${STATE.streak>1?'s':''}</div>
+      <div style="font-size:10px;color:var(--txt3);letter-spacing:1px">${label} · recorde: ${STATE.bestStreak}</div>
+    </div>`;
 }
 
 /* ════════════════════════════════════════════════
@@ -1145,11 +1260,12 @@ async function checkNickname(val) {
         input.style.borderColor = '#ef4444';
       }
     } catch(e) {
-      // Erro na consulta — libera para não travar o usuário
-      nickAvailable = true;
-      status.textContent = '✅';
-      msg.textContent = 'Disponível';
-      msg.style.color = 'var(--green)';
+      // Erro real — bloqueia até resolver
+      nickAvailable = false;
+      status.textContent = '⚠️';
+      msg.textContent = 'Erro ao verificar — tente novamente';
+      msg.style.color = '#ef4444';
+      console.warn('Erro ao verificar nickname:', e.code, e.message);
     }
   }, 600);
 }
@@ -1586,6 +1702,7 @@ function nextLevel() {
 
 function goVictory() {
   STATE.totalScore = Math.max(STATE.totalScore, STATE.score);
+  updateStreak();
   saveState();
   document.getElementById('vicScore').textContent = STATE.score;
   playVictory();
@@ -1666,6 +1783,8 @@ async function saveScoreToFirebase() {
       score: STATE.score,
       level: STATE.level,
       avatar: STATE.avatar?.dataUrl || null,
+      streak: STATE.streak,
+      bestStreak: STATE.bestStreak,
       updatedAt: serverTimestamp(),
       dateKey, weekKey, monthKey,
     };
@@ -1748,8 +1867,8 @@ async function loadRanking(type, btn) {
           <div class="rank-pos ${posClass}">${pos}</div>
           ${d.avatar ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:3px"></div>`}
           <div class="rank-info">
-            <div class="rank-name">${d.name || 'Torcedor'}${isMe?' (você)':''}</div>
-            <div class="rank-detail">Nível ${d.level || 1} atingido</div>
+            <div class="rank-name">${d.name || 'Torcedor'}${isMe?' (você)':''} ${d.streak>2?'🔥'.repeat(Math.min(3,Math.floor(d.streak/3))):''}</div>
+            <div class="rank-detail">Nível ${d.level || 1} · ${d.streak||0} dias seguidos</div>
           </div>
           <div class="rank-pts">${(d.score||0).toLocaleString('pt-BR')}</div>
         </div>`;
@@ -1795,8 +1914,8 @@ function renderProfile() {
     <div class="profile-stats">
       <div class="pstat"><div class="pstat-n">${STATE.totalScore.toLocaleString('pt-BR')}</div><div class="pstat-l">Recorde</div></div>
       <div class="pstat"><div class="pstat-n">${STATE.lives}</div><div class="pstat-l">Vidas</div></div>
-      <div class="pstat"><div class="pstat-n">${Math.max(1,STATE.level)}</div><div class="pstat-l">Nível Máx.</div></div>
-      <div class="pstat"><div class="pstat-n">${achievements.filter(a=>a.unlocked).length}</div><div class="pstat-l">Conquistas</div></div>
+      <div class="pstat"><div class="pstat-n">${STATE.streak}${getStreakEmoji()}</div><div class="pstat-l">Sequência Atual</div></div>
+      <div class="pstat"><div class="pstat-n">${STATE.bestStreak}</div><div class="pstat-l">Melhor Sequência</div></div>
     </div>
     <div style="font-size:10px;letter-spacing:3px;color:var(--txt3);text-transform:uppercase;margin-bottom:10px">// conquistas</div>
     <div class="achievements">
@@ -1971,7 +2090,9 @@ function goScreen(id) {
   // Side effects per screen
   if (id === 'screen-home') {
     checkLivesRegen();
+    checkStreakOnLoad();
     renderLives('livesDisplay');
+    renderStreakBadge();
     renderHomeUser();
   }
   if (id === 'screen-avatar') initAvatarEditor();
@@ -1996,7 +2117,9 @@ function toast(title, body, dur=3000) {
 function init() {
   loadState();
   checkLivesRegen();
+  checkStreakOnLoad();
   renderLives('livesDisplay');
+  renderStreakBadge();
   startLivesTimer();
   document.getElementById('statPergs').textContent = QUESTIONS.length + '+';
   renderHomeUser();
