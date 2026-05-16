@@ -258,6 +258,24 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .qhb-ball{font-size:40px;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4))}
 .qhb-arrow{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0}
 .qhb-stripe{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#CC0000 33%,#fff 33%,#fff 66%,#111 66%)}
+
+/* ── PRÓXIMO JOGO ────────────────────────────────── */
+.next-match-card{width:100%;margin-top:12px;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;overflow:hidden;position:relative}
+.nmc-header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)}
+.nmc-label{font-family:var(--font-body);font-size:9px;letter-spacing:3px;color:var(--txt3);text-transform:uppercase}
+.nmc-comp{font-family:var(--font-body);font-size:9px;letter-spacing:1px;color:var(--gold);text-transform:uppercase}
+.nmc-body{padding:14px}
+.nmc-teams{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.nmc-team{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+.nmc-logo{width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.nmc-logo-placeholder{width:44px;height:44px;background:var(--bg3);border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:20px}
+.nmc-team-name{font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--txt);text-align:center;line-height:1.2}
+.nmc-vs{font-family:var(--font-title);font-size:22px;color:var(--txt3);flex-shrink:0}
+.nmc-info{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.nmc-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:20px;font-size:10px;color:var(--txt2);letter-spacing:.5px}
+.nmc-chip-red{border-color:rgba(204,0,0,.3);color:#ff7777;background:rgba(204,0,0,.08)}
+.nmc-loading{padding:20px;text-align:center;font-size:12px;color:var(--txt3);letter-spacing:2px}
+.nmc-error{padding:16px;text-align:center;font-size:11px;color:var(--txt3)}
 </style>
 </head>
 <body>
@@ -313,6 +331,11 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       </div>
       <div class="qhb-stripe"></div>
     </button>
+
+    <!-- PRÓXIMO JOGO -->
+    <div class="next-match-card" id="nextMatchCard">
+      <div class="nmc-loading">⏳ buscando próximo jogo...</div>
+    </div>
 
     <div class="scroll-pill" onclick="scrollToContent()" style="margin-top:20px">
       VER HISTÓRICO <span class="scroll-arrow">↓</span>
@@ -1142,6 +1165,111 @@ function installPWA(){if(!deferredPrompt)return;deferredPrompt.prompt();deferred
 /* ═══════════════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   PRÓXIMO JOGO — API-Football
+═══════════════════════════════════════════════════ */
+const API_FOOTBALL_KEY = 'b42cd62dab0f779395e893492afd2322';
+const SPFC_ID = 126;
+const LEAGUES = [71, 11]; // Brasileirão, Sul-Americana
+
+async function loadNextMatch() {
+  const card = document.getElementById('nextMatchCard');
+  if (!card) return;
+
+  try {
+    // Tenta cada liga até achar o próximo jogo
+    let fixture = null;
+
+    for (const leagueId of LEAGUES) {
+      const res = await fetch(
+        `https://v3.football.api-sports.io/fixtures?team=${SPFC_ID}&league=${leagueId}&next=1&timezone=America/Sao_Paulo`,
+        { headers: { 'x-apisports-key': API_FOOTBALL_KEY } }
+      );
+      const data = await res.json();
+      if (data.response && data.response.length > 0) {
+        // Pega o mais próximo entre as ligas
+        if (!fixture || new Date(data.response[0].fixture.date) < new Date(fixture.fixture.date)) {
+          fixture = data.response[0];
+        }
+      }
+    }
+
+    if (!fixture) {
+      card.innerHTML = '<div class="nmc-error">Nenhum jogo agendado no momento</div>';
+      return;
+    }
+
+    const f = fixture.fixture;
+    const home = fixture.teams.home;
+    const away = fixture.teams.away;
+    const league = fixture.league;
+
+    // Formata data e hora
+    const matchDate = new Date(f.date);
+    const now = new Date();
+    const diffMs = matchDate - now;
+    const diffDays = Math.floor(diffMs / 86400000);
+    const diffHours = Math.floor((diffMs % 86400000) / 3600000);
+
+    let countdown = '';
+    if (diffMs < 0) {
+      countdown = 'Em andamento';
+    } else if (diffDays === 0) {
+      countdown = diffHours === 0 ? 'Hoje, em breve!' : `Hoje em ${diffHours}h`;
+    } else if (diffDays === 1) {
+      countdown = 'Amanhã';
+    } else {
+      countdown = `Em ${diffDays} dias`;
+    }
+
+    const dateStr = matchDate.toLocaleDateString('pt-BR', {
+      weekday:'short', day:'numeric', month:'short'
+    });
+    const timeStr = matchDate.toLocaleTimeString('pt-BR', {
+      hour:'2-digit', minute:'2-digit'
+    });
+
+    const isSPFCHome = home.id === SPFC_ID;
+    const opponent = isSPFCHome ? away : home;
+    const spfc = isSPFCHome ? home : away;
+
+    card.innerHTML = `
+      <div class="nmc-header">
+        <span class="nmc-label">⚽ Próximo Jogo</span>
+        <span class="nmc-comp">${league.name}</span>
+      </div>
+      <div class="nmc-body">
+        <div class="nmc-teams">
+          <div class="nmc-team">
+            ${spfc.logo
+              ? `<img class="nmc-logo" src="${spfc.logo}" alt="${spfc.name}" onerror="this.style.display='none'">`
+              : `<div class="nmc-logo-placeholder">🔴</div>`}
+            <div class="nmc-team-name">${spfc.name}</div>
+          </div>
+          <div class="nmc-vs">VS</div>
+          <div class="nmc-team">
+            ${opponent.logo
+              ? `<img class="nmc-logo" src="${opponent.logo}" alt="${opponent.name}" onerror="this.style.display='none'">`
+              : `<div class="nmc-logo-placeholder">⚽</div>`}
+            <div class="nmc-team-name">${opponent.name}</div>
+          </div>
+        </div>
+        <div class="nmc-info">
+          <span class="nmc-chip nmc-chip-red">🕐 ${countdown}</span>
+          <span class="nmc-chip">📅 ${dateStr}</span>
+          <span class="nmc-chip">🕗 ${timeStr}</span>
+          ${isSPFCHome ? '<span class="nmc-chip">🏠 Casa</span>' : '<span class="nmc-chip">✈️ Fora</span>'}
+          ${f.venue?.name ? `<span class="nmc-chip">📍 ${f.venue.name}</span>` : ''}
+        </div>
+      </div>
+    `;
+
+  } catch(e) {
+    card.innerHTML = '<div class="nmc-error">Não foi possível carregar o próximo jogo</div>';
+    console.warn('Next match error:', e);
+  }
+}
+
 function init(){
   renderHoje();
   renderCalMonthNav();
@@ -1150,6 +1278,7 @@ function init(){
   renderGoleadas();
   updateNotifUI();
   registerSW();
+  loadNextMatch();
 }
 
 init();
