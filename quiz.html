@@ -2147,6 +2147,45 @@ function toast(title, body, dur=3000) {
   setTimeout(() => t.classList.remove('show'), dur);
 }
 
+/* ═══════════════════════════════════════════════════
+   FIREBASE PERGUNTAS — carrega do Firestore
+   Usa QUESTIONS local como fallback
+═══════════════════════════════════════════════════ */
+async function loadFirebaseQuestions() {
+  try {
+    const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js");
+    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js");
+
+    const existing = getApps().find(a => a.name === 'quiz-questions');
+    const app = existing || initializeApp({
+      apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
+      authDomain: "spfc-hoje-da329.firebaseapp.com",
+      projectId: "spfc-hoje-da329",
+      storageBucket: "spfc-hoje-da329.firebasestorage.app",
+      messagingSenderId: "116174859005",
+      appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
+    }, 'quiz-questions');
+
+    const db = getFirestore(app);
+    const snap = await getDocs(collection(db, 'perguntas'));
+    if (snap.empty) return;
+
+    const firebaseQs = [];
+    snap.forEach(d => firebaseQs.push({ id: d.id, ...d.data() }));
+
+    // Substitui QUESTIONS pelo banco do Firebase
+    QUESTIONS.length = 0;
+    firebaseQs.forEach(q => QUESTIONS.push(q));
+
+    // Atualiza contador na home
+    const el = document.getElementById('statPergs');
+    if (el) el.textContent = QUESTIONS.length + '+';
+    console.log(`✅ Firebase: ${QUESTIONS.length} perguntas carregadas`);
+  } catch(e) {
+    console.warn('Firebase perguntas offline, usando local:', e.message);
+  }
+}
+
 /* ════════════════════════════════════════════════
    INIT
 ════════════════════════════════════════════════ */
@@ -2159,6 +2198,7 @@ function init() {
   startLivesTimer();
   document.getElementById('statPergs').textContent = QUESTIONS.length + '+';
   renderHomeUser();
+  loadFirebaseQuestions(); // carrega do Firebase em paralelo
 }
 
 init();

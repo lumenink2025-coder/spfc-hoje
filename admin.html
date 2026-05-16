@@ -99,6 +99,21 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 .migrate-btn:disabled{opacity:.5;cursor:not-allowed}
 .migrate-progress{font-size:12px;color:var(--txt3);margin-top:12px;min-height:18px}
 @media(max-width:600px){.form-row{grid-template-columns:1fr}.stat-row{grid-template-columns:1fr 1fr auto}}
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.opt-group{display:flex;flex-direction:column;gap:6px}
+.opt-label{font-size:10px;letter-spacing:1px;color:var(--txt3);display:flex;align-items:center;gap:6px}
+.opt-label input[type=radio]{accent-color:var(--red)}
+.correct-badge{display:inline-block;background:rgba(34,197,94,.15);border:1px solid #22c55e;color:#22c55e;font-size:9px;letter-spacing:1px;padding:1px 6px;border-radius:3px;margin-left:4px}
+.q-item{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
+.q-item-info{flex:1;min-width:0}
+.q-item-q{font-size:13px;font-weight:500;color:var(--txt);margin-bottom:4px;line-height:1.4}
+.q-item-meta{font-size:10px;color:var(--txt3);letter-spacing:1px}
+.q-item-opts{font-size:11px;color:var(--txt2);margin-top:5px;line-height:1.6}
+.q-item-actions{display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+.nivel-tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
+.nivel-tab{padding:6px 12px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt3);border-radius:6px;cursor:pointer;font-size:11px;letter-spacing:1px;transition:.2s}
+.nivel-tab.active{background:var(--red);border-color:var(--red);color:#fff}
+.q-count{font-size:11px;color:var(--txt3);letter-spacing:1px;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -125,6 +140,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
     <button class="admin-tab active" onclick="showTab('add',this)">➕ NOVO EVENTO</button>
     <button class="admin-tab" onclick="showTab('list',this)">📋 EVENTOS</button>
     <button class="admin-tab" onclick="showTab('migrate',this)">⚙️ MIGRAR DADOS</button>
+    <button class="admin-tab" onclick="showTab('perguntas',this)">❓ PERGUNTAS</button>
   </div>
 
   <!-- TAB: NOVO EVENTO -->
@@ -254,6 +270,76 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
     <div class="ev-list" id="evList"><div class="loading-msg">Carregando...</div></div>
   </div>
 
+  <!-- TAB: PERGUNTAS -->
+  <div id="tab-perguntas" style="display:none">
+
+    <div class="form-card">
+      <div class="form-title">❓ Nova Pergunta</div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label">Nível</label>
+          <select class="form-select" id="qNivel">
+            <option value="1">Nível 1 — Fácil</option>
+            <option value="2">Nível 2 — Médio</option>
+            <option value="3">Nível 3 — Difícil</option>
+            <option value="4">Nível 4 — Expert</option>
+            <option value="5">Nível 5 — Lendário</option>
+            <option value="6">Nível 6 — Final</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label">Pergunta</label>
+          <textarea class="form-textarea" id="qPergunta" placeholder="Em que ano o São Paulo foi fundado?" style="min-height:60px"></textarea>
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="form-label" style="margin-bottom:8px">Opções de resposta — marque a correta</div>
+        <div class="opt-grid">
+          <div class="opt-group">
+            <label class="opt-label"><input type="radio" name="qCorreto" value="0"> Opção A <span class="correct-badge">correta</span></label>
+            <input class="form-input" id="qOpt0" type="text" placeholder="Opção A (resposta correta)">
+          </div>
+          <div class="opt-group">
+            <label class="opt-label"><input type="radio" name="qCorreto" value="1"> Opção B</label>
+            <input class="form-input" id="qOpt1" type="text" placeholder="Opção B">
+          </div>
+          <div class="opt-group">
+            <label class="opt-label"><input type="radio" name="qCorreto" value="2"> Opção C</label>
+            <input class="form-input" id="qOpt2" type="text" placeholder="Opção C">
+          </div>
+          <div class="opt-group">
+            <label class="opt-label"><input type="radio" name="qCorreto" value="3"> Opção D</label>
+            <input class="form-input" id="qOpt3" type="text" placeholder="Opção D">
+          </div>
+        </div>
+      </div>
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label">Dica (aparece quando o jogador usa o 💡)</label>
+          <input class="form-input" id="qDica" type="text" placeholder="Ex: O SPFC nasceu na cidade de São Paulo no início dos anos 30.">
+        </div>
+      </div>
+      <button class="submit-btn" id="qSubmitBtn" onclick="submitPergunta()">💾 SALVAR PERGUNTA</button>
+    </div>
+
+    <div class="form-card" style="margin-top:4px">
+      <div class="form-title">📋 Perguntas cadastradas</div>
+      <div class="nivel-tabs" id="qNivelFilter">
+        <div class="nivel-tab active" onclick="filterPerguntas(0,this)">Todas</div>
+        <div class="nivel-tab" onclick="filterPerguntas(1,this)">Nível 1</div>
+        <div class="nivel-tab" onclick="filterPerguntas(2,this)">Nível 2</div>
+        <div class="nivel-tab" onclick="filterPerguntas(3,this)">Nível 3</div>
+        <div class="nivel-tab" onclick="filterPerguntas(4,this)">Nível 4</div>
+        <div class="nivel-tab" onclick="filterPerguntas(5,this)">Nível 5</div>
+        <div class="nivel-tab" onclick="filterPerguntas(6,this)">Nível 6</div>
+      </div>
+      <div class="q-count" id="qCount"></div>
+      <div id="qList"><div class="loading-msg">Carregando...</div></div>
+    </div>
+  </div>
+
   <!-- TAB: MIGRAR -->
   <div id="tab-migrate" style="display:none">
     <div class="migrate-card">
@@ -264,6 +350,16 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
       </div>
       <button class="migrate-btn" id="migrateBtn" onclick="migrateDB()">MIGRAR AGORA</button>
       <div class="migrate-progress" id="migrateProgress"></div>
+    </div>
+
+    <div class="migrate-card" style="border-color:var(--red);margin-top:16px">
+      <div class="migrate-title" style="color:var(--red)">❓ MIGRAR PERGUNTAS DO QUIZ</div>
+      <div class="migrate-desc">
+        Envia todas as perguntas do <strong>quiz.html</strong> para o Firebase.<br>
+        Faça isso <strong>uma única vez</strong>. Após a migração, o quiz lê as perguntas do Firebase.
+      </div>
+      <button class="migrate-btn" id="migratePerguntasBtn" style="background:var(--red)" onclick="migratePerguntas()">MIGRAR PERGUNTAS</button>
+      <div class="migrate-progress" id="migratePerguntasProgress"></div>
     </div>
   </div>
 </div>
@@ -287,7 +383,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // ── SENHA ADMIN ─────────────────────────────────────
-const ADMIN_PASS = 'spfctricolor2025';
+const ADMIN_PASS = 'Spfc1930*';
 
 window.doLogin = function() {
   const pass = document.getElementById('loginPass').value;
@@ -313,6 +409,7 @@ window.showTab = function(tab, btn) {
   document.getElementById('tab-' + tab).style.display = 'block';
   btn.classList.add('active');
   if (tab === 'list') loadEvents();
+  if (tab === 'perguntas') loadPerguntas();
 };
 
 // ── EMOJI ────────────────────────────────────────────
@@ -557,7 +654,164 @@ async function fetchDBFromIndex() {
   }
 }
 
-// ── TOAST ────────────────────────────────────────────
+// ── PERGUNTAS ────────────────────────────────────────
+const NIVEL_LABELS = ['','Fácil','Médio','Difícil','Expert','Lendário','Final'];
+let qFilterNivel = 0;
+
+window.submitPergunta = async function() {
+  const nivel = parseInt(document.getElementById('qNivel').value);
+  const pergunta = document.getElementById('qPergunta').value.trim();
+  const opts = [0,1,2,3].map(i => document.getElementById('qOpt'+i).value.trim());
+  const correta = document.querySelector('input[name="qCorreto"]:checked');
+  const dica = document.getElementById('qDica').value.trim();
+
+  if (!pergunta) { toast('Pergunta obrigatória', 'err'); return; }
+  if (opts.some(o => !o)) { toast('Preencha todas as 4 opções', 'err'); return; }
+  if (!correta) { toast('Marque a resposta correta', 'err'); return; }
+  if (!dica) { toast('Dica obrigatória', 'err'); return; }
+
+  const btn = document.getElementById('qSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Salvando...';
+
+  try {
+    await addDoc(collection(db, 'perguntas'), {
+      l: nivel,
+      q: pergunta,
+      o: opts,
+      c: parseInt(correta.value),
+      h: dica,
+      createdAt: new Date().toISOString()
+    });
+    toast('✅ Pergunta salva! Nível ' + nivel, 'ok');
+    resetPerguntaForm();
+    loadPerguntas();
+  } catch(e) {
+    toast('Erro: ' + e.message, 'err');
+  }
+
+  btn.disabled = false;
+  btn.textContent = '💾 SALVAR PERGUNTA';
+};
+
+function resetPerguntaForm() {
+  document.getElementById('qPergunta').value = '';
+  [0,1,2,3].forEach(i => document.getElementById('qOpt'+i).value = '');
+  document.getElementById('qDica').value = '';
+  const r = document.querySelector('input[name="qCorreto"]:checked');
+  if (r) r.checked = false;
+}
+
+window.filterPerguntas = function(nivel, btn) {
+  qFilterNivel = nivel;
+  document.querySelectorAll('.nivel-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  loadPerguntas();
+};
+
+async function loadPerguntas() {
+  const list = document.getElementById('qList');
+  const count = document.getElementById('qCount');
+  if (!list) return;
+  list.innerHTML = '<div class="loading-msg">⏳ Carregando...</div>';
+
+  try {
+    const snap = await getDocs(collection(db, 'perguntas'));
+    let qs = snap.docs.map(d => ({id: d.id, ...d.data()}));
+    if (qFilterNivel > 0) qs = qs.filter(q => q.l === qFilterNivel);
+    qs.sort((a,b) => a.l - b.l);
+
+    count.textContent = `${qs.length} pergunta${qs.length !== 1 ? 's' : ''} — ${qFilterNivel === 0 ? 'todos os níveis' : 'Nível ' + qFilterNivel + ' · ' + NIVEL_LABELS[qFilterNivel]}`;
+
+    if (!qs.length) {
+      list.innerHTML = '<div class="loading-msg">Nenhuma pergunta encontrada</div>';
+      return;
+    }
+
+    list.innerHTML = qs.map(q => `
+      <div class="q-item" style="margin-bottom:8px">
+        <div class="q-item-info">
+          <div class="q-item-meta">NÍVEL ${q.l} — ${NIVEL_LABELS[q.l] || ''}</div>
+          <div class="q-item-q">${q.q}</div>
+          <div class="q-item-opts">
+            ${(q.o||[]).map((op,i) => `<span style="color:${i===q.c?'#22c55e':'var(--txt3)'}">${i===q.c?'✓':'·'} ${op}</span>`).join('  ')}
+          </div>
+          <div class="q-item-meta" style="margin-top:4px">💡 ${q.h}</div>
+        </div>
+        <div class="q-item-actions">
+          <button class="ev-btn del" onclick="deletePergunta('${q.id}', this)">🗑️</button>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {
+    list.innerHTML = `<div class="loading-msg">Erro: ${e.message}</div>`;
+  }
+}
+
+window.deletePergunta = async function(id, btn) {
+  if (!confirm('Excluir esta pergunta?')) return;
+  btn.disabled = true;
+  try {
+    await deleteDoc(doc(db, 'perguntas', id));
+    toast('Pergunta excluída', 'ok');
+    loadPerguntas();
+  } catch(e) {
+    toast('Erro: ' + e.message, 'err');
+    btn.disabled = false;
+  }
+};
+
+// ── MIGRAÇÃO DE PERGUNTAS ─────────────────────────
+window.migratePerguntas = async function() {
+  const btn = document.getElementById('migratePerguntasBtn');
+  const progress = document.getElementById('migratePerguntasProgress');
+  btn.disabled = true;
+
+  try {
+    const existing = await getDocs(collection(db, 'perguntas'));
+    if (existing.size > 0) {
+      if (!confirm(`Já existem ${existing.size} perguntas no Firebase. Continuar vai DUPLICAR. Tem certeza?`)) {
+        btn.disabled = false;
+        return;
+      }
+    }
+
+    progress.textContent = '⏳ Buscando perguntas do quiz.html...';
+    const res = await fetch('quiz.html');
+    const text = await res.text();
+    const match = text.match(/const QUESTIONS = \[([\s\S]*?)\];\s*\/\//);
+    if (!match) {
+      progress.textContent = '❌ Não encontrou o array QUESTIONS no quiz.html. Verifique se estão na mesma pasta.';
+      btn.disabled = false;
+      return;
+    }
+
+    const fn = new Function('return [' + match[1] + ']');
+    const qs = fn();
+
+    progress.textContent = `⏳ Enviando ${qs.length} perguntas...`;
+    let batch = writeBatch(db), count = 0, total = 0;
+
+    for (const q of qs) {
+      const ref = doc(collection(db, 'perguntas'));
+      batch.set(ref, { l:q.l, q:q.q, o:q.o, c:q.c, h:q.h, createdAt: new Date().toISOString() });
+      count++; total++;
+      if (count === 400) {
+        await batch.commit();
+        batch = writeBatch(db); count = 0;
+        progress.textContent = `⏳ ${total} enviadas...`;
+      }
+    }
+    if (count > 0) await batch.commit();
+    progress.textContent = `✅ ${total} perguntas migradas com sucesso!`;
+    toast(`✅ ${total} perguntas migradas!`, 'ok');
+  } catch(e) {
+    progress.textContent = '❌ Erro: ' + e.message;
+    btn.disabled = false;
+  }
+};
+
+// ── TOAST ─────────────────────────────────────────
 function toast(msg, type = 'ok') {
   const el = document.getElementById('toast');
   el.textContent = msg;
