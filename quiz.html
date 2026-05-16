@@ -382,11 +382,16 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           style="padding-right:40px">
         <span id="nickStatus" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:16px"></span>
       </div>
-      <div id="nickMsg" style="font-size:11px;margin-top:5px;letter-spacing:1px;min-height:16px"></div>
+      <div id="nickSection">
+        <div id="nickMsg" style="font-size:11px;margin-top:5px;letter-spacing:1px;min-height:16px"></div>
+      </div>
     </div>
 
     <div class="av-section">
       <div class="av-label">Escolha seu personagem (32)</div>
+      <div id="avatarCooldown" style="display:none;background:rgba(204,0,0,.08);border:1px solid rgba(204,0,0,.2);border-radius:3px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--txt2)">
+        🔒 Você só pode trocar de personagem uma vez por mês.
+      </div>
       <div class="av-grid" id="avatarGrid"></div>
     </div>
 
@@ -754,6 +759,9 @@ let STATE = {
   countdownInterval: null,
   timeLeft: 30,
   guest: false,
+  // RESTRIÇÕES
+  nicknameLocked: false,
+  avatarLastChanged: null,
   // STREAK
   streak: 0,
   bestStreak: 0,
@@ -780,6 +788,8 @@ function loadState() {
       STATE.bestStreak = parsed.bestStreak ?? 0;
       STATE.lastPlayedDate = parsed.lastPlayedDate ?? null;
       STATE.wonToday = parsed.wonToday ?? false;
+      STATE.nicknameLocked = parsed.nicknameLocked ?? false;
+      STATE.avatarLastChanged = parsed.avatarLastChanged ?? null;
     }
   } catch(e) {}
 }
@@ -796,6 +806,8 @@ function saveState() {
       bestStreak: STATE.bestStreak,
       lastPlayedDate: STATE.lastPlayedDate,
       wonToday: STATE.wonToday,
+      nicknameLocked: STATE.nicknameLocked,
+      avatarLastChanged: STATE.avatarLastChanged,
     }));
   } catch(e) {}
 }
@@ -1083,24 +1095,74 @@ function initAvatarEditor() {
   const grid = document.getElementById('avatarGrid');
   if (!grid) return;
 
-  // Update label count
-  const label = document.querySelector('#screen-avatar .av-label');
-  if (label) label.textContent = `Escolha seu personagem (${AVATARS.length})`;
-
   // Restore previously selected avatar if exists
   if (STATE.avatar?.id) selectedAvatarId = STATE.avatar.id;
 
-  grid.innerHTML = AVATARS.map(av => `
-    <div class="av-img-opt${selectedAvatarId === av.id ? ' selected' : ''}"
-         id="avopt_${av.id}"
-         onclick="selectAvatarImg('${av.id}')"
-         title="${av.label}">
-      <img src="${av.url}" alt="${av.label}" loading="lazy">
-    </div>
-  `).join('');
+  // ── NICKNAME: bloquear se já definido ──
+  const nameInput = document.getElementById('avName');
+  const nickSection = document.getElementById('nickSection');
+  if (STATE.nicknameLocked && STATE.avatar?.name) {
+    nameInput.value = STATE.avatar.name;
+    nameInput.disabled = true;
+    nameInput.style.opacity = '0.5';
+    nameInput.style.cursor = 'not-allowed';
+    if (nickSection) nickSection.innerHTML = `<div style="font-size:11px;color:var(--txt3);margin-top:5px;letter-spacing:1px">🔒 Nickname permanente — não pode ser alterado</div>`;
+  } else {
+    nameInput.disabled = false;
+    nameInput.style.opacity = '';
+    nameInput.style.cursor = '';
+    if (STATE.avatar?.name) nameInput.value = STATE.avatar.name;
+  }
 
-  // Update preview
+  // ── AVATAR: verificar cooldown de 30 dias ──
+  const avatarCooldownEl = document.getElementById('avatarCooldown');
+  const canChangeAvatar = checkAvatarCooldown();
+  const label = document.querySelector('#screen-avatar .av-label');
+
+  if (!canChangeAvatar) {
+    const daysLeft = getAvatarDaysLeft();
+    if (label) label.textContent = `Personagem bloqueado por ${daysLeft} dia${daysLeft !== 1 ? 's' : ''}`;
+    if (avatarCooldownEl) avatarCooldownEl.style.display = 'block';
+    // Disable all avatar options
+    grid.innerHTML = AVATARS.map(av => `
+      <div class="av-img-opt${selectedAvatarId === av.id ? ' selected' : ''}"
+           id="avopt_${av.id}"
+           style="opacity:${selectedAvatarId === av.id ? '1' : '0.3'};cursor:not-allowed"
+           title="${av.label}">
+        <img src="${av.url}" alt="${av.label}" loading="lazy">
+      </div>
+    `).join('');
+  } else {
+    if (label) label.textContent = `Escolha seu personagem (${AVATARS.length})`;
+    if (avatarCooldownEl) avatarCooldownEl.style.display = 'none';
+    grid.innerHTML = AVATARS.map(av => `
+      <div class="av-img-opt${selectedAvatarId === av.id ? ' selected' : ''}"
+           id="avopt_${av.id}"
+           onclick="selectAvatarImg('${av.id}')"
+           title="${av.label}">
+        <img src="${av.url}" alt="${av.label}" loading="lazy">
+      </div>
+    `).join('');
+  }
+
   updateAvatarPreview();
+}
+
+function checkAvatarCooldown() {
+  // Primeira vez — sem cooldown
+  if (!STATE.avatarLastChanged) return true;
+  const last = new Date(STATE.avatarLastChanged);
+  const now = new Date();
+  const diffDays = (now - last) / (1000 * 60 * 60 * 24);
+  return diffDays >= 30;
+}
+
+function getAvatarDaysLeft() {
+  if (!STATE.avatarLastChanged) return 0;
+  const last = new Date(STATE.avatarLastChanged);
+  const now = new Date();
+  const diffDays = (now - last) / (1000 * 60 * 60 * 24);
+  return Math.ceil(30 - diffDays);
 }
 
 function selectAvatarImg(id) {
@@ -1234,19 +1296,22 @@ async function reserveNickname(name, uid) {
 }
 
 function saveAvatar() {
-  const nameRaw = document.getElementById('avName').value.trim();
+  // ── Nickname: usa o salvo se já bloqueado ──
+  const nameRaw = STATE.nicknameLocked && STATE.avatar?.name
+    ? STATE.avatar.name
+    : document.getElementById('avName').value.trim();
   const name = nameRaw || 'Torcedor';
 
-  // Valida nickname
-  if (nameRaw && nameRaw.length < 3) {
-    toast('Nome muito curto', 'Use pelo menos 3 caracteres');
-    return;
-  }
-
-  if (window.FB && nameRaw && !nickAvailable) {
-    toast('Nome indisponível ❌', 'Escolha outro apelido');
-    document.getElementById('avName').focus();
-    return;
+  if (!STATE.nicknameLocked) {
+    if (nameRaw && nameRaw.length < 3) {
+      toast('Nome muito curto', 'Use pelo menos 3 caracteres');
+      return;
+    }
+    if (window.FB && nameRaw && !nickAvailable) {
+      toast('Nome indisponível ❌', 'Escolha outro apelido');
+      document.getElementById('avName').focus();
+      return;
+    }
   }
 
   if (!selectedAvatarId) {
@@ -1254,13 +1319,32 @@ function saveAvatar() {
     return;
   }
 
+  // ── Avatar: verificar cooldown ──
+  const avatarChanged = selectedAvatarId !== STATE.avatar?.id;
+  if (avatarChanged && !checkAvatarCooldown()) {
+    const d = getAvatarDaysLeft();
+    toast('Avatar bloqueado 🔒', `Você pode trocar em ${d} dia${d !== 1 ? 's' : ''}`);
+    return;
+  }
+
   const av = AVATARS.find(a => a.id === selectedAvatarId);
+  const isFirstSave = !STATE.avatar;
+
   STATE.avatar = {
     name,
     id: av.id,
     label: av.label,
     dataUrl: av.url,
   };
+
+  // Bloqueia nickname permanentemente após primeiro save
+  STATE.nicknameLocked = true;
+
+  // Registra data de troca de avatar (só se realmente trocou ou é o primeiro)
+  if (avatarChanged || isFirstSave) {
+    STATE.avatarLastChanged = new Date().toISOString();
+  }
+
   saveState();
 
   // Salva no Firebase
@@ -1268,18 +1352,19 @@ function saveAvatar() {
     const {db, doc, setDoc} = window.FB;
     const uid = STATE.user.uid;
 
-    // Reserva o nickname
-    if (nameRaw) reserveNickname(name, uid);
+    if (!STATE.nicknameLocked) reserveNickname(name, uid);
 
-    // Salva perfil
     setDoc(doc(db, 'users', uid), {
       name,
       avatar: STATE.avatar,
+      nicknameLocked: STATE.nicknameLocked,
+      avatarLastChanged: STATE.avatarLastChanged,
       updatedAt: new Date().toISOString()
     }, {merge: true}).catch(()=>{});
   }
 
-  toast('Avatar salvo! 🔴', `${av.label} é o seu personagem!`);
+  const msg = isFirstSave ? `${av.label} é o seu personagem!` : avatarChanged ? `Trocado para ${av.label}!` : 'Perfil salvo!';
+  toast('Avatar salvo! 🔴', msg);
   goScreen('screen-home');
   renderHomeUser();
 }
@@ -1309,6 +1394,8 @@ async function loadUserData(user) {
       if (data.avatar?.id) selectedAvatarId = data.avatar.id;
       if (data.lives !== undefined) STATE.lives = data.lives;
       if (data.totalScore !== undefined) STATE.totalScore = data.totalScore;
+      if (data.nicknameLocked !== undefined) STATE.nicknameLocked = data.nicknameLocked;
+      if (data.avatarLastChanged !== undefined) STATE.avatarLastChanged = data.avatarLastChanged;
     }
   } catch(e) {}
 }
@@ -1708,18 +1795,21 @@ function closeModal() {
    RANKING
 ════════════════════════════════════════════════ */
 async function saveScoreToFirebase() {
-  if (!window.FB || (!STATE.user && STATE.guest)) return;
+  // Só salva usuários logados — guest não entra no ranking
+  if (!window.FB || !STATE.user) return;
+
   const {db, doc, setDoc, serverTimestamp} = window.FB;
   const name = STATE.avatar?.name || STATE.user?.displayName || 'Torcedor';
-  const uid = STATE.user?.uid || 'guest_' + Date.now();
+  const uid = STATE.user.uid; // sempre o UID real, nunca Date.now()
 
   try {
     const now = new Date();
     const dateKey = now.toISOString().slice(0,10);
-    const weekKey = `${now.getFullYear()}-W${Math.ceil(now.getDate()/7)}`;
+    const weekKey = `${now.getFullYear()}-W${String(Math.ceil((now - new Date(now.getFullYear(),0,1)) / 86400000 / 7)).padStart(2,'0')}`;
     const monthKey = now.toISOString().slice(0,7);
 
     const rankData = {
+      uid,
       name,
       score: STATE.score,
       level: STATE.level,
@@ -1730,29 +1820,34 @@ async function saveScoreToFirebase() {
       dateKey, weekKey, monthKey,
     };
 
-    // Update geral (best score)
+    // GERAL — só atualiza se for melhor pontuação
     const geralRef = doc(db, 'ranking', uid + '_geral');
-    const snap = await window.FB.getDoc(geralRef);
-    if (!snap.exists() || snap.data().score < STATE.score) {
+    const geralSnap = await window.FB.getDoc(geralRef);
+    if (!geralSnap.exists() || geralSnap.data().score < STATE.score) {
       await setDoc(geralRef, {...rankData, type:'geral'});
     }
 
-    // Daily
-    await setDoc(doc(db, 'ranking', uid + '_' + dateKey), {...rankData, type:'diario'});
+    // DIÁRIO — 1 entrada por usuário por dia, só atualiza se for melhor
+    const dailyRef = doc(db, 'ranking', uid + '_diario_' + dateKey);
+    const dailySnap = await window.FB.getDoc(dailyRef);
+    if (!dailySnap.exists() || dailySnap.data().score < STATE.score) {
+      await setDoc(dailyRef, {...rankData, type:'diario'});
+    }
 
-    // Weekly
-    const weekRef = doc(db, 'ranking', uid + '_' + weekKey);
+    // SEMANAL — 1 entrada por usuário por semana, só atualiza se for melhor
+    const weekRef = doc(db, 'ranking', uid + '_semanal_' + weekKey);
     const weekSnap = await window.FB.getDoc(weekRef);
     if (!weekSnap.exists() || weekSnap.data().score < STATE.score) {
       await setDoc(weekRef, {...rankData, type:'semanal'});
     }
 
-    // Monthly
-    const monthRef = doc(db, 'ranking', uid + '_' + monthKey);
+    // MENSAL — 1 entrada por usuário por mês, só atualiza se for melhor
+    const monthRef = doc(db, 'ranking', uid + '_mensal_' + monthKey);
     const monthSnap = await window.FB.getDoc(monthRef);
     if (!monthSnap.exists() || monthSnap.data().score < STATE.score) {
       await setDoc(monthRef, {...rankData, type:'mensal'});
     }
+
   } catch(e) { console.warn('Ranking save error:', e); }
 }
 
