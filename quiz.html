@@ -1877,11 +1877,11 @@ async function loadRanking(type, btn) {
     if (type === 'geral') {
       q = query(collection(db,'ranking'), where('type','==','geral'), orderBy('score','desc'), limit(20));
     } else if (type === 'diario') {
-      q = query(collection(db,'ranking'), where('dateKey','==',dateKey), orderBy('score','desc'), limit(20));
+      q = query(collection(db,'ranking'), where('type','==','diario'), where('dateKey','==',dateKey), orderBy('score','desc'), limit(20));
     } else if (type === 'semanal') {
-      q = query(collection(db,'ranking'), where('weekKey','==',weekKey), orderBy('score','desc'), limit(20));
+      q = query(collection(db,'ranking'), where('type','==','semanal'), where('weekKey','==',weekKey), orderBy('score','desc'), limit(20));
     } else {
-      q = query(collection(db,'ranking'), where('monthKey','==',monthKey), orderBy('score','desc'), limit(20));
+      q = query(collection(db,'ranking'), where('type','==','mensal'), where('monthKey','==',monthKey), orderBy('score','desc'), limit(20));
     }
 
     const snap = await getDocs(q);
