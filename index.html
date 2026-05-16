@@ -1272,6 +1272,54 @@ async function loadNextMatch() {
   }
 }
 
+/* ═══════════════════════════════════════════════════
+   FIREBASE — lê eventos do Firestore
+   Usa DB local como fallback se offline
+═══════════════════════════════════════════════════ */
+let DB_LOADED = false; // true quando Firebase carregou
+
+async function loadFirebaseEvents() {
+  try {
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js");
+    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js");
+
+    const app = initializeApp({
+      apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
+      authDomain: "spfc-hoje-da329.firebaseapp.com",
+      projectId: "spfc-hoje-da329",
+      storageBucket: "spfc-hoje-da329.firebasestorage.app",
+      messagingSenderId: "116174859005",
+      appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
+    }, 'calendar-app');
+
+    const db = getFirestore(app);
+    const snap = await getDocs(collection(db, 'eventos'));
+
+    if (snap.empty) return; // sem dados no Firebase, usa DB local
+
+    // Reconstrói o DB no formato {mes: {dia: [eventos]}}
+    const newDB = {};
+    snap.forEach(d => {
+      const ev = d.data();
+      if (!newDB[ev.mes]) newDB[ev.mes] = {};
+      if (!newDB[ev.mes][ev.dia]) newDB[ev.mes][ev.dia] = [];
+      newDB[ev.mes][ev.dia].push(ev);
+    });
+
+    // Substitui o DB local
+    Object.keys(DB).forEach(k => delete DB[k]);
+    Object.assign(DB, newDB);
+    DB_LOADED = true;
+
+    // Re-renderiza com dados do Firebase
+    renderHoje();
+    renderCalGrid();
+    console.log(`✅ Firebase: ${snap.size} eventos carregados`);
+  } catch(e) {
+    console.warn('Firebase offline, usando DB local:', e.message);
+  }
+}
+
 function init(){
   renderHoje();
   renderCalMonthNav();
@@ -1281,6 +1329,7 @@ function init(){
   updateNotifUI();
   registerSW();
   loadNextMatch();
+  loadFirebaseEvents(); // carrega do Firebase em paralelo
 }
 
 init();
