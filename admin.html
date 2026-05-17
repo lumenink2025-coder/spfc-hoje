@@ -779,14 +779,24 @@ window.migratePerguntas = async function() {
     progress.textContent = '⏳ Buscando perguntas do quiz.html...';
     const res = await fetch('quiz.html');
     const text = await res.text();
-    const match = text.match(/const QUESTIONS = \[([\s\S]*?)\];\s*\/\//);
-    if (!match) {
+
+    // Busca o array QUESTIONS de forma robusta
+    const startMarker = 'const QUESTIONS = [';
+    const startIdx = text.indexOf(startMarker);
+    if (startIdx === -1) {
       progress.textContent = '❌ Não encontrou o array QUESTIONS no quiz.html. Verifique se estão na mesma pasta.';
       btn.disabled = false;
       return;
     }
 
-    const fn = new Function('return [' + match[1] + ']');
+    // Encontra o fechamento do array contando colchetes
+    let depth = 0, endIdx = startIdx + startMarker.length - 1;
+    for (let i = endIdx; i < text.length; i++) {
+      if (text[i] === '[') depth++;
+      else if (text[i] === ']') { depth--; if (depth === 0) { endIdx = i; break; } }
+    }
+    const arrStr = text.slice(startIdx + 'const QUESTIONS = '.length, endIdx + 1);
+    const fn = new Function('return ' + arrStr);
     const qs = fn();
 
     progress.textContent = `⏳ Enviando ${qs.length} perguntas...`;
