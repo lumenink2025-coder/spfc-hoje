@@ -321,7 +321,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
           <input class="form-input" id="qDica" type="text" placeholder="Ex: O SPFC nasceu na cidade de São Paulo no início dos anos 30.">
         </div>
       </div>
-      <button class="submit-btn" id="qSubmitBtn" onclick="submitPergunta()">💾 SALVAR PERGUNTA</button>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="submit-btn" id="qSubmitBtn" onclick="submitPergunta()" style="flex:1">💾 SALVAR PERGUNTA</button>
+        <button class="submit-btn" onclick="cancelEdit()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);max-width:120px">✕ CANCELAR</button>
+      </div>
     </div>
 
     <div class="form-card" style="margin-top:4px">
@@ -672,18 +675,28 @@ window.submitPergunta = async function() {
 
   const btn = document.getElementById('qSubmitBtn');
   btn.disabled = true;
-  btn.textContent = 'Salvando...';
+  btn.textContent = editingPerguntaId ? 'Atualizando...' : 'Salvando...';
+
+  const dados = {
+    l: nivel, q: pergunta, o: opts,
+    c: parseInt(correta.value), h: dica,
+    updatedAt: new Date().toISOString()
+  };
 
   try {
-    await addDoc(collection(db, 'perguntas'), {
-      l: nivel,
-      q: pergunta,
-      o: opts,
-      c: parseInt(correta.value),
-      h: dica,
-      createdAt: new Date().toISOString()
-    });
-    toast('✅ Pergunta salva! Nível ' + nivel, 'ok');
+    if (editingPerguntaId) {
+      // Atualiza pergunta existente
+      const { setDoc } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js");
+      await setDoc(doc(db, 'perguntas', editingPerguntaId), dados, { merge: true });
+      toast('✅ Pergunta atualizada!', 'ok');
+      editingPerguntaId = null;
+      btn.style.background = '';
+    } else {
+      // Nova pergunta
+      dados.createdAt = new Date().toISOString();
+      await addDoc(collection(db, 'perguntas'), dados);
+      toast('✅ Pergunta salva! Nível ' + nivel, 'ok');
+    }
     resetPerguntaForm();
     loadPerguntas();
   } catch(e) {
@@ -739,6 +752,7 @@ async function loadPerguntas() {
           <div class="q-item-meta" style="margin-top:4px">💡 ${q.h}</div>
         </div>
         <div class="q-item-actions">
+          <button class="ev-btn" onclick="editPergunta('${q.id}')">✏️</button>
           <button class="ev-btn del" onclick="deletePergunta('${q.id}', this)">🗑️</button>
         </div>
       </div>
@@ -747,6 +761,50 @@ async function loadPerguntas() {
     list.innerHTML = `<div class="loading-msg">Erro: ${e.message}</div>`;
   }
 }
+
+// ── EDITAR PERGUNTA ──────────────────────────────
+let editingPerguntaId = null;
+
+window.editPergunta = async function(id) {
+  // Busca a pergunta no Firebase
+  try {
+    const snap = await getDocs(collection(db, 'perguntas'));
+    const q = snap.docs.find(d => d.id === id);
+    if (!q) { toast('Pergunta não encontrada', 'err'); return; }
+    const data = q.data();
+
+    // Preenche o formulário
+    document.getElementById('qNivel').value = data.l;
+    document.getElementById('qPergunta').value = data.q;
+    (data.o || []).forEach((op, i) => {
+      const el = document.getElementById('qOpt' + i);
+      if (el) el.value = op;
+    });
+    const radio = document.querySelector(`input[name="qCorreto"][value="${data.c}"]`);
+    if (radio) radio.checked = true;
+    document.getElementById('qDica').value = data.h || '';
+
+    // Marca modo edição
+    editingPerguntaId = id;
+    const btn = document.getElementById('qSubmitBtn');
+    btn.textContent = '💾 ATUALIZAR PERGUNTA';
+    btn.style.background = '#f59e0b';
+
+    // Scroll para o formulário
+    document.getElementById('qNivel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    toast('✏️ Editando pergunta — faça as alterações e salve', 'ok');
+  } catch(e) {
+    toast('Erro: ' + e.message, 'err');
+  }
+};
+
+window.cancelEdit = function() {
+  editingPerguntaId = null;
+  const btn = document.getElementById('qSubmitBtn');
+  btn.textContent = '💾 SALVAR PERGUNTA';
+  btn.style.background = '';
+  resetPerguntaForm();
+};
 
 window.deletePergunta = async function(id, btn) {
   if (!confirm('Excluir esta pergunta?')) return;
