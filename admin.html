@@ -239,7 +239,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
       <button class="add-stat-btn" onclick="addStat()">+ ADICIONAR ESTATÍSTICA</button>
     </div>
 
-    <button class="submit-btn" id="submitBtn" onclick="submitEvent()">💾 SALVAR EVENTO</button>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="submit-btn" id="submitBtn" onclick="submitEvent()" style="flex:1">💾 SALVAR EVENTO</button>
+      <button class="submit-btn" onclick="cancelEditEvent()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);max-width:120px">✕ CANCELAR</button>
+    </div>
   </div>
 
   <!-- TAB: LISTA -->
@@ -495,8 +498,16 @@ window.submitEvent = async function() {
   };
 
   try {
-    await addDoc(collection(db, 'eventos'), ev);
-    toast('✅ Evento salvo!', 'ok');
+    if (editingEventId) {
+      const { setDoc } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js");
+      await setDoc(doc(db, 'eventos', editingEventId), {...ev, updatedAt: new Date().toISOString()}, { merge: true });
+      toast('✅ Evento atualizado!', 'ok');
+      editingEventId = null;
+      btn.style.background = '';
+    } else {
+      await addDoc(collection(db, 'eventos'), ev);
+      toast('✅ Evento salvo!', 'ok');
+    }
     resetForm();
   } catch(e) {
     toast('Erro ao salvar: ' + e.message, 'err');
@@ -550,6 +561,7 @@ window.loadEvents = async function() {
           <div class="ev-item-meta">${MONTHS[ev.mes]} ${ev.dia}${ev.y ? ` · ${ev.y}` : ''} · ${ev.t.toUpperCase()}${ev.image ? ' · 📷' : ''}${ev.video ? ' · 🎬' : ''}</div>
         </div>
         <div class="ev-item-actions">
+          <button class="ev-btn" onclick="editEvent('${ev.id}')">✏️</button>
           <button class="ev-btn del" onclick="deleteEvent('${ev.id}', this)">🗑️</button>
         </div>
       </div>
@@ -557,6 +569,66 @@ window.loadEvents = async function() {
   } catch(e) {
     list.innerHTML = `<div class="loading-msg">Erro: ${e.message}</div>`;
   }
+};
+
+// ── EDITAR EVENTO ────────────────────────────────
+let editingEventId = null;
+
+window.editEvent = async function(id) {
+  try {
+    const snap = await getDocs(collection(db, 'eventos'));
+    const d = snap.docs.find(d => d.id === id);
+    if (!d) { toast('Evento não encontrado', 'err'); return; }
+    const ev = d.data();
+
+    // Preenche formulário
+    document.getElementById('fMes').value = ev.mes;
+    document.getElementById('fDia').value = ev.dia;
+    document.getElementById('fTipo').value = ev.t;
+    document.getElementById('fAno').value = ev.y || '';
+    document.getElementById('fTitulo').value = ev.n || '';
+    document.getElementById('fDesc').value = ev.d || '';
+    document.getElementById('fCtx').value = ev.ctx || '';
+    document.getElementById('fImg').value = ev.image || '';
+    document.getElementById('fImgCap').value = ev.imgCap || '';
+    document.getElementById('fVid').value = ev.video || '';
+
+    // Preview mídia
+    previewImg(); previewVid();
+
+    // Stats
+    document.getElementById('statsList').innerHTML = '';
+    if (ev.stats && ev.stats.length) {
+      ev.stats.forEach(s => {
+        addStat();
+        const rows = document.querySelectorAll('.stat-row');
+        const last = rows[rows.length - 1];
+        last.querySelector('[data-stat-l]').value = s.l;
+        last.querySelector('[data-stat-v]').value = s.v;
+      });
+    }
+
+    // Marca modo edição
+    editingEventId = id;
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = '💾 ATUALIZAR EVENTO';
+    btn.style.background = '#f59e0b';
+
+    // Vai para a aba de adicionar
+    showTab('add', document.querySelector('.admin-tab'));
+    document.getElementById('fMes').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    toast('✏️ Editando evento — faça as alterações e salve', 'ok');
+  } catch(e) {
+    toast('Erro: ' + e.message, 'err');
+  }
+};
+
+window.cancelEditEvent = function() {
+  editingEventId = null;
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = '💾 SALVAR EVENTO';
+  btn.style.background = '';
+  resetForm();
 };
 
 window.deleteEvent = async function(id, btn) {
