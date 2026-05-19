@@ -1476,6 +1476,38 @@ let wordleState = {
 
 let wordleInited = false;
 
+async function loadWordleFromFirebase() {
+  try {
+    const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js");
+    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js");
+    const existing = getApps().find(a => a.name === 'wordle-app');
+    const app = existing || initializeApp({
+      apiKey:"AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
+      authDomain:"spfc-hoje-da329.firebaseapp.com",
+      projectId:"spfc-hoje-da329",
+      storageBucket:"spfc-hoje-da329.firebasestorage.app",
+      messagingSenderId:"116174859005",
+      appId:"1:116174859005:web:b1e54b040aef23c9c16c94"
+    }, 'wordle-app');
+    const db = getFirestore(app);
+    const snap = await getDocs(collection(db, 'wordle_jogadores'));
+    if (snap.empty) return;
+    const jogadores = [];
+    snap.forEach(d => jogadores.push({id: d.id, ...d.data()}));
+    // Substitui o DB local
+    WORDLE_DB.length = 0;
+    jogadores.forEach(j => WORDLE_DB.push(j));
+    console.log('✅ Wordle Firebase: ' + WORDLE_DB.length + ' jogadores');
+    // Re-renderiza se já estiver na tela
+    if (document.getElementById('panel-wordle').classList.contains('active')) {
+      wordleInited = false;
+      initWordle();
+    }
+  } catch(e) {
+    console.warn('Wordle Firebase offline:', e.message);
+  }
+}
+
 function initWordle() {
   if (wordleInited && wordleState.todayKey === getTodayKey()) return;
 
