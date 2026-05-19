@@ -459,6 +459,16 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
       </div>
     </div>
 
+    <div class="migrate-card" style="border-color:#3b82f6;margin-bottom:16px">
+      <div class="migrate-title" style="color:#3b82f6">🔤 MIGRAR JOGADORES DO WORDLE</div>
+      <div class="migrate-desc">
+        Envia todos os jogadores do <strong>index.html</strong> para o Firebase.<br>
+        Após migrar, edite ou corrija cada um pelo painel abaixo.
+      </div>
+      <button class="migrate-btn" id="migrateWordleBtn" style="background:#3b82f6" onclick="migrateWordle()">MIGRAR JOGADORES</button>
+      <div class="migrate-progress" id="migrateWordleProgress"></div>
+    </div>
+
     <div class="form-card" style="margin-top:4px">
       <div class="form-title">👥 Jogadores cadastrados</div>
       <div class="q-count" id="wCount"></div>
@@ -1210,6 +1220,63 @@ window.editWordle = async function(id) {
     toast('✏️ Editando ' + j.nome, 'ok');
   } catch(e) {
     toast('Erro: ' + e.message, 'err');
+  }
+};
+
+window.migrateWordle = async function() {
+  const btn = document.getElementById('migrateWordleBtn');
+  const progress = document.getElementById('migrateWordleProgress');
+  btn.disabled = true;
+
+  try {
+    const existing = await getDocs(collection(db, 'wordle_jogadores'));
+    if (existing.size > 0) {
+      if (!confirm(`Já existem ${existing.size} jogadores no Firebase. Continuar vai DUPLICAR. Tem certeza?`)) {
+        btn.disabled = false;
+        return;
+      }
+    }
+
+    progress.textContent = '⏳ Buscando jogadores do index.html...';
+    const res = await fetch('index.html');
+    const text = await res.text();
+
+    const startMarker = 'const WORDLE_DB = [';
+    const startIdx = text.indexOf(startMarker);
+    if (startIdx === -1) {
+      progress.textContent = '❌ Não encontrou WORDLE_DB no index.html.';
+      btn.disabled = false;
+      return;
+    }
+
+    let depth = 0, endIdx = startIdx + startMarker.length - 1;
+    for (let i = endIdx; i < text.length; i++) {
+      if (text[i] === '[') depth++;
+      else if (text[i] === ']') { depth--; if (depth === 0) { endIdx = i; break; } }
+    }
+    const arrStr = text.slice(startIdx + 'const WORDLE_DB = '.length, endIdx + 1);
+    const fn = new Function('return ' + arrStr);
+    const jogadores = fn();
+
+    progress.textContent = `⏳ Enviando ${jogadores.length} jogadores...`;
+    let batch = writeBatch(db), count = 0, total = 0;
+
+    for (const j of jogadores) {
+      const ref = doc(collection(db, 'wordle_jogadores'));
+      batch.set(ref, { ...j, createdAt: new Date().toISOString() });
+      count++; total++;
+      if (count === 400) {
+        await batch.commit();
+        batch = writeBatch(db); count = 0;
+      }
+    }
+    if (count > 0) await batch.commit();
+    progress.textContent = `✅ ${total} jogadores migrados!`;
+    toast(`✅ ${total} jogadores migrados!`, 'ok');
+    loadWordle();
+  } catch(e) {
+    progress.textContent = '❌ Erro: ' + e.message;
+    btn.disabled = false;
   }
 };
 
