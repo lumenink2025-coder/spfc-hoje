@@ -1971,7 +1971,7 @@ async function loadRanking(type, btn) {
   try {
     const now = new Date();
     const dateKey = now.toISOString().slice(0,10);
-    const weekKey = `${now.getFullYear()}-W${Math.ceil(now.getDate()/7)}`;
+    const weekKey = `${now.getFullYear()}-W${String(Math.ceil((now - new Date(now.getFullYear(),0,1)) / 86400000 / 7)).padStart(2,"0")}`;
     const monthKey = now.toISOString().slice(0,7);
 
     let q;
