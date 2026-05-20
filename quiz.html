@@ -11,7 +11,7 @@
 <!-- ══ FIREBASE SDK ══ -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged,
+import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged,
   signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { getFirestore, doc, setDoc, getDoc, collection,
@@ -37,7 +37,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-window.FB = { auth, db, provider, signInWithPopup, signOut,
+window.FB = { auth, db, provider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut,
   onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   doc, setDoc, getDoc, collection,
@@ -1492,6 +1492,7 @@ window.addEventListener('firebase-ready', () => {
       renderHomeUser();
     }
   });
+  handleRedirectResult(); // trata retorno do login Google por redirect
 });
 
 async function loadUserData(user) {
@@ -1513,14 +1514,29 @@ async function loadUserData(user) {
 
 async function loginGoogle() {
   if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
-  const {auth, provider, signInWithPopup} = window.FB;
+  const {auth, provider, signInWithRedirect} = window.FB;
   try {
-    await signInWithPopup(auth, provider);
-    toast('Bem-vindo! 🔴', 'Login realizado com sucesso');
-    goScreen('screen-home');
-    checkAvatarSetup();
+    await signInWithRedirect(auth, provider);
+    // página vai redirecionar — o resultado é tratado em handleRedirectResult()
   } catch(e) {
     toast('Erro no login', e.message || 'Tente novamente');
+  }
+}
+
+async function handleRedirectResult() {
+  if (!window.FB) return;
+  const {auth, getRedirectResult} = window.FB;
+  try {
+    const result = await getRedirectResult(auth);
+    if (result && result.user) {
+      toast('Bem-vindo! 🔴', 'Login realizado com sucesso');
+      goScreen('screen-home');
+      checkAvatarSetup();
+    }
+  } catch(e) {
+    if (e && e.code !== 'auth/no-redirect-operation-pending') {
+      toast('Erro no login', e.message || 'Tente novamente');
+    }
   }
 }
 
