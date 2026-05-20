@@ -1514,30 +1514,19 @@ async function loadUserData(user) {
 
 async function loginGoogle() {
   if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
-  const {auth, provider, signInWithRedirect} = window.FB;
+  const {auth, provider, signInWithPopup} = window.FB;
   try {
-    await signInWithRedirect(auth, provider);
-    // página vai redirecionar — o resultado é tratado em handleRedirectResult()
+    await signInWithPopup(auth, provider);
+    toast('Bem-vindo! 🔴', 'Login realizado com sucesso');
+    goScreen('screen-home');
+    checkAvatarSetup();
   } catch(e) {
     toast('Erro no login', e.message || 'Tente novamente');
   }
 }
 
 async function handleRedirectResult() {
-  if (!window.FB) return;
-  const {auth, getRedirectResult} = window.FB;
-  try {
-    const result = await getRedirectResult(auth);
-    if (result && result.user) {
-      toast('Bem-vindo! 🔴', 'Login realizado com sucesso');
-      goScreen('screen-home');
-      checkAvatarSetup();
-    }
-  } catch(e) {
-    if (e && e.code !== 'auth/no-redirect-operation-pending') {
-      toast('Erro no login', e.message || 'Tente novamente');
-    }
-  }
+  // não utilizado — site hospedado no Vercel, não no Firebase Hosting
 }
 
 async function loginEmail() {
