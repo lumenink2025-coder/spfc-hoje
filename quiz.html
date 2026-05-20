@@ -913,6 +913,22 @@ let musicOn = false;
 let AC = null;
 let musicInterval = null;
 
+function toggleMusic() {
+  musicOn = !musicOn;
+  const btn = document.getElementById('musicToggle');
+  if (btn) {
+    btn.textContent = musicOn ? '🎵' : '🔇';
+    btn.classList.toggle('on', musicOn);
+  }
+  if (musicOn) {
+    if (!AC) { try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){} }
+    if (AC && AC.state === 'suspended') AC.resume();
+    toast('🎵 Som ativado', '');
+  } else {
+    toast('🔇 Som desativado', '');
+  }
+}
+
 function loadState() {
   try {
     const s = localStorage.getItem('spfc_quiz_state');
@@ -1662,7 +1678,7 @@ function renderQuestion() {
   const letters = ['A','B','C','D'];
   const shuffled = shuffle(q.o.map((text,i) => ({text, orig:i})));
   document.getElementById('qOptions').innerHTML = shuffled.map((opt, i) => `
-    <button class="q-opt" onclick="selectAnswer(${opt.orig}, this)" data-orig="${opt.orig}">
+    <button class="q-opt" onclick="selectAnswer(${opt.orig}, event)" data-orig="${opt.orig}">
       <div class="q-opt-inner">
         <span class="q-opt-letter">${letters[i]}</span>
         <span class="q-opt-text">${opt.text}</span>
@@ -1764,7 +1780,8 @@ function updateCombo() {
   }
 }
 
-function selectAnswer(origIdx, btn) {
+function selectAnswer(origIdx, evtOrBtn) {
+  const btn = evtOrBtn instanceof Event ? evtOrBtn.currentTarget : evtOrBtn;
   clearInterval(countdownTimer);
   const q = STATE.currentQ;
   const opts = document.querySelectorAll('.q-opt');
