@@ -1757,14 +1757,16 @@ function showFeedback(type) {
 }
 
 function showScorePopup(pts, btn) {
-  const popup = document.createElement('div');
-  popup.className = 'score-popup';
-  popup.textContent = '+' + pts;
-  const rect = btn.getBoundingClientRect();
-  popup.style.left = rect.left + rect.width/2 + 'px';
-  popup.style.top = rect.top + 'px';
-  document.body.appendChild(popup);
-  setTimeout(() => popup.remove(), 800);
+  try {
+    const popup = document.createElement('div');
+    popup.className = 'score-popup';
+    popup.textContent = '+' + pts;
+    const rect = btn ? btn.getBoundingClientRect() : {left: window.innerWidth/2, top: window.innerHeight/2, width: 0};
+    popup.style.left = (rect.left + rect.width/2) + 'px';
+    popup.style.top = rect.top + 'px';
+    document.body.appendChild(popup);
+    setTimeout(() => popup.remove(), 800);
+  } catch(e) {}
 }
 
 function updateCombo() {
@@ -1788,7 +1790,7 @@ function selectAnswer(origIdx, evtOrBtn) {
   opts.forEach(b => b.disabled = true);
 
   if (origIdx === q.c) {
-    btn.classList.add('correct');
+    if (btn) btn.classList.add('correct');
     playCorrect();
     showFeedback('correct');
     updateCombo();
