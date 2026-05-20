@@ -595,6 +595,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <button class="rank-tab" onclick="loadRanking('diario',this)">HOJE</button>
       <button class="rank-tab" onclick="loadRanking('semanal',this)">SEMANA</button>
       <button class="rank-tab" onclick="loadRanking('mensal',this)">MÊS</button>
+      <button class="rank-tab" onclick="loadRankingWordle(this)">🔤 WORDLE</button>
     </div>
     <div class="rank-list" id="rankList">
       <div class="rank-loading">Carregando ranking...</div>
@@ -1892,12 +1893,15 @@ function closeModal() {
    RANKING
 ════════════════════════════════════════════════ */
 async function saveScoreToFirebase() {
-  // Só salva usuários logados — guest não entra no ranking
-  if (!window.FB || !STATE.user) return;
+  if (!window.FB) return;
+  // Garante auth resolvido — pega do Firebase diretamente, não só do STATE
+  const currentUser = window.FB.auth.currentUser || STATE.user;
+  if (!currentUser) return;
+  if (!STATE.user) STATE.user = currentUser;
 
   const {db, doc, setDoc, serverTimestamp} = window.FB;
-  const name = STATE.avatar?.name || STATE.user?.displayName || 'Torcedor';
-  const uid = STATE.user.uid; // sempre o UID real, nunca Date.now()
+  const name = STATE.avatar?.name || currentUser.displayName || 'Torcedor';
+  const uid = currentUser.uid;
 
   try {
     const now = new Date();
@@ -2009,6 +2013,72 @@ async function loadRanking(type, btn) {
   } catch(e) {
     list.innerHTML = '<div class="rank-empty">Erro ao carregar. Verifique o Firebase.</div>';
     console.warn(e);
+  }
+}
+
+async function loadRankingWordle(btn) {
+  if (btn) {
+    document.querySelectorAll('.rank-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  const list = document.getElementById('rankList');
+  list.innerHTML = '<div class="rank-loading">Carregando ranking do Wordle...</div>';
+
+  if (!window.FB) {
+    list.innerHTML = '<div class="rank-empty">Configure o Firebase para ver o ranking.</div>';
+    return;
+  }
+
+  const {db, collection, query, orderBy, limit, getDocs} = window.FB;
+
+  try {
+    // Agrupa por uid pegando o maior streak de cada jogador
+    const snap = await getDocs(query(collection(db, 'ranking_wordle'), orderBy('streak', 'desc'), limit(100)));
+    const byUid = {};
+    snap.forEach(d => {
+      const data = d.data();
+      if (!byUid[data.uid] || byUid[data.uid].streak < data.streak) {
+        byUid[data.uid] = data;
+      }
+    });
+
+    const docs = Object.values(byUid)
+      .sort((a, b) => b.streak - a.streak || a.tries - b.tries)
+      .slice(0, 20);
+
+    if (!docs.length) {
+      list.innerHTML = '<div class="rank-empty">Nenhum registro ainda. Jogue o Wordle hoje!</div>';
+      return;
+    }
+
+    const myUid = window.FB.auth.currentUser?.uid || STATE.user?.uid;
+    list.innerHTML = `
+      <div style="font-size:10px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase;padding:8px 4px 12px;text-align:center">
+        🔤 RANKING POR SEQUÊNCIA CONSECUTIVA
+      </div>
+      ${docs.map((d, i) => {
+        const pos = i + 1;
+        const posClass = pos === 1 ? 'top1' : pos === 2 ? 'top2' : pos === 3 ? 'top3' : '';
+        const isMe = myUid && d.uid === myUid;
+        const streakFire = d.streak >= 30 ? '👑' : d.streak >= 15 ? '💎' : d.streak >= 7 ? '🔥🔥' : d.streak >= 3 ? '🔥' : '';
+        return `
+          <div class="rank-item${isMe ? ' me' : ''}">
+            <div class="rank-pos ${posClass}">${pos}</div>
+            ${d.avatar ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
+            <div class="rank-info">
+              <div class="rank-name">${d.name || 'Torcedor'}${isMe ? ' (você)' : ''} ${streakFire}</div>
+              <div class="rank-detail">${d.tries || '?'} tent. · Édição #${(d.edition || 0) + 1}</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <div class="rank-pts">${d.streak}</div>
+              <div style="font-size:9px;color:var(--txt3);letter-spacing:1px">dias seguidos</div>
+            </div>
+          </div>`;
+      }).join('')}`;
+  } catch(e) {
+    list.innerHTML = '<div class="rank-empty">Erro ao carregar. Verifique o Firebase.</div>';
+    console.warn('Wordle ranking error:', e);
   }
 }
 
@@ -2255,8 +2325,8 @@ function toast(title, body, dur=3000) {
 ═══════════════════════════════════════════════════ */
 async function loadFirebaseQuestions() {
   try {
-    const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js");
-    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js");
+    const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
+    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
 
     const existing = getApps().find(a => a.name === 'quiz-questions');
     const app = existing || initializeApp({
@@ -2294,8 +2364,8 @@ async function loadFirebaseQuestions() {
 ════════════════════════════════════════════════ */
 async function loadWordleFromFirebase() {
   try {
-    const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js");
-    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js");
+    const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
+    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
     const existing = getApps().find(a => a.name === 'wordle-app');
     const app = existing || initializeApp({
       apiKey:"AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
@@ -2397,8 +2467,8 @@ let wordleInited = false;
 
 async function loadWordleFromFirebase() {
   try {
-    const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js");
-    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js");
+    const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
+    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
     const existing = getApps().find(a => a.name === 'wordle-app');
     const app = existing || initializeApp({
       apiKey:"AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
@@ -2470,20 +2540,25 @@ function saveWordleState() {
     streak: wordleState.streak,
   }));
   // Salva no Firebase se logado e acabou de ganhar
-  if (wordleState.won && STATE.user && window.FB) {
-    const {db, doc, setDoc, serverTimestamp} = window.FB;
-    const uid = STATE.user.uid;
-    const dateKey = wordleState.todayKey;
-    setDoc(doc(db, 'ranking_wordle', uid + '_' + dateKey), {
-      uid,
-      name: STATE.avatar?.name || 'Torcedor',
-      avatar: STATE.avatar?.dataUrl || null,
-      streak: wordleState.streak,
-      tries: wordleState.guesses.length,
-      edition: wordleState.edition,
-      dateKey,
-      updatedAt: serverTimestamp(),
-    }).catch(() => {});
+  if (wordleState.won && window.FB) {
+    const currentUser = window.FB.auth.currentUser || STATE.user;
+    if (currentUser) {
+      if (!STATE.user) STATE.user = currentUser;
+      const {db, doc, setDoc, serverTimestamp} = window.FB;
+      const uid = currentUser.uid;
+      const dateKey = wordleState.todayKey;
+      setDoc(doc(db, 'ranking_wordle', uid + '_' + dateKey), {
+        uid,
+        name: STATE.avatar?.name || currentUser.displayName || 'Torcedor',
+        avatar: STATE.avatar?.dataUrl || null,
+        streak: wordleState.streak,
+        bestStreak: wordleState.streak, // atualizado abaixo se for record
+        tries: wordleState.guesses.length,
+        edition: wordleState.edition,
+        dateKey,
+        updatedAt: serverTimestamp(),
+      }).catch(() => {});
+    }
   }
 }
 
