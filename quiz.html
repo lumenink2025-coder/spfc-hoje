@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<!-- saved from url=(0044)file:///C:/Users/vitor/Downloads/quiz_2.html -->
+<!-- saved from url=(0044)# -->
 <html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#CC0000">
 <title>SPFC Quiz — Quem Quer Ser Torcedor Milionário?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
-<link href="./quiz_files/css2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- ══ FIREBASE SDK ══ -->
 <script type="module">
@@ -48,6 +48,11 @@ window.dispatchEvent(new Event('firebase-ready'));
 </script>
 
 <style>
+/* Font loading optimization */
+@font-face { font-family: 'Bebas Neue'; font-display: swap; }
+@font-face { font-family: 'Oswald'; font-display: swap; }
+@font-face { font-family: 'Inter'; font-display: swap; }
+
 /* ══ TOKENS ══════════════════════════════════════ */
 :root {
   --red:#CC0000; --red2:#FF2222; --red3:#8B0000;
@@ -1466,7 +1471,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         <div class="home-tb-right">
           <div class="home-tb-bell" onclick="toggleMusic()" id="musicToggleHome">🔔</div>
           <div class="home-tb-avatar" id="userChipHome" onclick="goScreen('screen-login')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" id="homeAvatarImg" onerror="this.src='./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png'">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" id="homeAvatarImg" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
           </div>
         </div>
       </div>
@@ -1480,7 +1485,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           <span class="star-red">⭐</span>
           <span class="star-gold">⭐</span>
         </div>
-        <img class="home-shield" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" onerror="this.src='./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png'">
+        <img class="home-shield" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
       </div>
 
       <!-- TITLE -->
@@ -1561,23 +1566,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="home-card-title">RANKING SEMANAL</div>
       <div class="home-card-subtitle">TOP 3 TORCEDORES</div>
       <div class="home-ranking-list" id="homeRankingList">
-        <div class="home-rank-item">
-          <span class="home-rank-num">1</span>
-          <img class="home-rank-avatar" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rai_arcph5.png" alt="">
-          <span class="home-rank-name">JoãoSPFC</span>
-          <span class="home-rank-pts">2.450</span>
-        </div>
-        <div class="home-rank-item">
-          <span class="home-rank-num">2</span>
-          <img class="home-rank-avatar" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luisfabiano_iabzdg.png" alt="">
-          <span class="home-rank-name">Dani Tricolor</span>
-          <span class="home-rank-pts">1.980</span>
-        </div>
-        <div class="home-rank-item">
-          <span class="home-rank-num">3</span>
-          <img class="home-rank-avatar" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/kaka_wjkphp.png" alt="">
-          <span class="home-rank-name">Legado92</span>
-          <span class="home-rank-pts">1.670</span>
+        <div class="home-rank-item" style="justify-content:center;padding:20px 0">
+          <span style="font-size:11px;color:var(--txt3);letter-spacing:2px">Carregando ranking...</span>
         </div>
       </div>
       <button class="home-card-btn" onclick="goScreen('screen-ranking')">
@@ -1611,7 +1601,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- Hero -->
   <div class="login-hero">
     <div class="login-badge">
-      <img class="login-badge-img" src="./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
+      <img class="login-badge-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC">
     </div>
     <div class="login-quiz-title">QUIZ</div>
     <div class="login-tricolor">T R I C O L O R</div>
@@ -1711,7 +1701,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="avatar-title">SEU AVATAR</div>
     <div class="avatar-sub">ESCOLHA SEU PERSONAGEM TRICOLOR</div>
     <div class="avatar-preview">
-      <img class="avatar-selected-img" id="avatarPreviewImg" src="file:///C:/Users/vitor/Downloads/quiz_2.html" alt="avatar" style="display:none">
+      <img class="avatar-selected-img" id="avatarPreviewImg" src="#" alt="avatar" style="display:none">
       <div class="avatar-placeholder" id="avatarPlaceholder">👤</div>
     </div>
 
@@ -1747,7 +1737,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="quiz-lives-mini" id="quizLivesMini"></div>
     </div>
     <div class="quiz-header-center">
-      <img class="quiz-header-logo" src="./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
+      <img class="quiz-header-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC">
     </div>
     <div class="quiz-header-right">
       <div class="quiz-ranking-badge">🏆 <span>RANKING</span></div>
@@ -1822,7 +1812,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="quiz-bottom-bar">
     <button class="quiz-bottom-btn" onclick="useHelper(&#39;skip&#39;)" id="quizBtnPular">⏭ PULAR</button>
     <div class="quiz-bottom-player">
-      <img class="quiz-player-shield" src="./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
+      <img class="quiz-player-shield" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC">
       <div class="quiz-player-info">
         <div class="quiz-player-label">TORCEDOR</div>
         <div class="quiz-player-level" id="quizPlayerLevel">NÍVEL 1</div>
@@ -2395,6 +2385,8 @@ function updateStreak() {
   STATE.bestStreak = Math.max(STATE.bestStreak, STATE.streak);
   saveState();
   saveStreakToFirebase();
+  // Atualiza missão de streak
+  updateMissionProgress('streak7', STATE.streak);
   // Notificação em marcos especiais
   const marcos = [3, 7, 15, 30, 60, 100];
   if (marcos.includes(STATE.streak)) {
@@ -3257,6 +3249,10 @@ function selectAnswer(origIdx, evtOrBtn) {
     STATE.score += total;
     document.getElementById('quizScoreBadge').textContent = `${STATE.score} pts`;
     showScorePopup(total, btn);
+    // Atualiza XP e missões ao acertar
+    addXP(total);
+    updateMissionProgress('correct20', 1);
+    updateMissionProgress('score5000', total);
     setTimeout(() => advanceQuestion(), 1400);
   } else {
     btn.classList.add('wrong');
@@ -3268,6 +3264,8 @@ function selectAnswer(origIdx, evtOrBtn) {
     comboCount = 0;
     const comboEl = document.getElementById('comboDisplay');
     if (comboEl) comboEl.classList.remove('show');
+    // Adiciona XP mesmo ao errar (metade dos pontos do nível)
+    addXP(Math.floor(LEVELS_INFO[STATE.level-1].pts / 2));
     setTimeout(() => handleWrong(q), 1800);
   }
 }
@@ -3287,6 +3285,9 @@ function handleWrong(q) {
   playGameOver();
   saveScoreToFirebase();
   updateLivesInterval();
+  // Atualiza missão de partidas jogadas mesmo ao perder
+  updateMissionProgress('play5', 1);
+  updateMissionProgress('score5000', STATE.score);
 }
 
 function updateLivesInterval() {
@@ -3334,6 +3335,10 @@ function goLevelUp() {
 
   playLevelUp();
   goScreen('screen-levelup');
+  // Atualiza missões ao completar nível
+  updateMissionProgress('win3', 1);
+  updateMissionProgress('play5', 1);
+  updateMissionProgress('score5000', STATE.score);
 }
 
 function nextLevel() {
@@ -3353,6 +3358,10 @@ function goVictory() {
   playVictory();
   goScreen('screen-victory');
   saveScoreToFirebase();
+  // Atualiza missões de vitória
+  updateMissionProgress('win3', 1);
+  updateMissionProgress('play5', 1);
+  updateMissionProgress('score5000', STATE.score);
 }
 
 function tryAgain() {
@@ -3481,7 +3490,7 @@ async function loadRanking(type, btn) {
   list.innerHTML = '<div class="rank-loading">Carregando...</div>';
 
   if (!window.FB) {
-    list.innerHTML = '<div class="rank-empty">Configure o Firebase para ver o ranking global.</div>';
+    list.innerHTML = '<div class="rank-empty">Conectando ao servidor...</div>';
     return;
   }
 
@@ -3901,10 +3910,12 @@ function goScreen(id) {
     renderLives('livesDisplay');
     renderStreakBadge();
     renderHomeUser();
+    initHomeExtras(); // Recarrega ranking e missões ao voltar
   }
   if (id === 'screen-avatar') initAvatarEditor();
   if (id === 'screen-ranking') loadRanking('geral');
   if (id === 'screen-profile') renderProfile();
+  if (id === 'screen-desafios') renderDesafios();
 }
 
 /* ════════════════════════════════════════════════
@@ -4586,16 +4597,23 @@ async function loadHomeRanking() {
   const listEl = document.getElementById('homeRankingList');
   if (!listEl) return;
 
-  // Dados mock como fallback imediato
-  const fallbackData = [
-    {pos:1, name:'JoãoSPFC', pts:2450, avatar:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rai_arcph5.png'},
-    {pos:2, name:'Dani Tricolor', pts:1980, avatar:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luisfabiano_iabzdg.png'},
-    {pos:3, name:'Legado92', pts:1670, avatar:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/kaka_wjkphp.png'},
-  ];
-  renderHomeRankingList(fallbackData);
+  // Sempre mostra carregando primeiro
+  listEl.innerHTML = `
+    <div class="home-rank-item" style="justify-content:center;padding:20px 0">
+      <span style="font-size:11px;color:var(--txt3);letter-spacing:2px">Carregando ranking...</span>
+    </div>
+  `;
 
-  // Tentar carregar do Firebase
-  if (!window.FB) return;
+  // Se não tem Firebase ainda, mostra mensagem e aguarda
+  if (!window.FB || !window.FB.db) {
+    listEl.innerHTML = `
+      <div class="home-rank-item" style="justify-content:center;padding:20px 0">
+        <span style="font-size:11px;color:var(--txt3);letter-spacing:2px">Aguardando conexão...</span>
+      </div>
+    `;
+    return;
+  }
+
   try {
     const {db, collection, query, where, orderBy, limit, getDocs} = window.FB;
     const now = new Date();
@@ -4618,10 +4636,27 @@ async function loadHomeRanking() {
       });
       if (realData.length > 0) {
         renderHomeRankingList(realData);
+        return;
       }
     }
+
+    // Se não tem dados no Firebase, mostra mensagem amigável
+    listEl.innerHTML = `
+      <div class="home-rank-item" style="justify-content:center;padding:20px 0;flex-direction:column;gap:8px">
+        <span style="font-size:11px;color:var(--txt3);letter-spacing:2px">Nenhum jogador no ranking ainda</span>
+        <span style="font-size:10px;color:var(--gold)">Seja o primeiro! Jogue agora ⚡</span>
+      </div>
+    `;
   } catch(e) {
     console.warn('Erro ao carregar ranking semanal:', e);
+    // Se for erro de permissão, mostra mensagem específica
+    const isPermissionError = e.code === 'permission-denied' || e.message?.includes('permission');
+    listEl.innerHTML = `
+      <div class="home-rank-item" style="justify-content:center;padding:20px 0;flex-direction:column;gap:8px">
+        <span style="font-size:11px;color:var(--txt3);letter-spacing:2px">${isPermissionError ? 'Ranking em manutenção 🔧' : 'Erro ao carregar 😕'}</span>
+        <span style="font-size:10px;color:var(--txt2)">${isPermissionError ? 'Tente novamente mais tarde' : 'Verifique sua conexão'}</span>
+      </div>
+    `;
   }
 }
 
@@ -4818,10 +4853,19 @@ function renderDesafios() {
 ═══════════════════════════════════════════════════ */
 
 function initHomeExtras() {
+  // Tenta carregar imediatamente (Firebase pode já estar pronto)
   loadHomeRanking();
   renderHomeMissions();
   renderHomeXP();
   updateLiveStats();
+
+  // Se Firebase ainda não está pronto, aguarda e recarrega
+  if (!window.FB) {
+    window.addEventListener('firebase-ready', function() {
+      console.log('Firebase pronto - recarregando ranking...');
+      loadHomeRanking();
+    }, { once: true });
+  }
 }
 
 function updateLiveStats() {
@@ -4866,6 +4910,7 @@ function init() {
   document.getElementById('statPergs').textContent = QUESTIONS.length + '+';
   renderHomeUser();
   renderHomeXP();
+  initHomeExtras(); // ← CARREGA RANKING REAL E MISSÕES NA HOME
   loadFirebaseQuestions(); // carrega do Firebase em paralelo
   loadWordleFromFirebase(); // carrega jogadores do Wordle
 }
