@@ -2317,7 +2317,10 @@ function loadState() {
   } catch(e) {}
 }
 
+// Debounce para não sobrecarregar o Firestore com escritas rápidas
+let _saveFirebaseTimer = null;
 function saveState() {
+  // 1. Sempre salva no localStorage (offline/fallback)
   try {
     localStorage.setItem('spfc_quiz_state', JSON.stringify({
       lives: STATE.lives,
@@ -2333,6 +2336,29 @@ function saveState() {
       avatarLastChanged: STATE.avatarLastChanged,
     }));
   } catch(e) {}
+
+  // 2. Salva no Firestore se logado (com debounce de 2s)
+  if (!window.FB || !STATE.user) return;
+  clearTimeout(_saveFirebaseTimer);
+  _saveFirebaseTimer = setTimeout(() => {
+    const uid = STATE.user.uid;
+    const {db, doc, setDoc} = window.FB;
+    setDoc(doc(db, 'users', uid), {
+      lives: STATE.lives,
+      livesLastRegen: STATE.livesLastRegen,
+      totalScore: STATE.totalScore,
+      streak: STATE.streak,
+      bestStreak: STATE.bestStreak,
+      lastPlayedDate: STATE.lastPlayedDate,
+      wonToday: STATE.wonToday,
+      nicknameLocked: STATE.nicknameLocked,
+      avatarLastChanged: STATE.avatarLastChanged,
+      xp: STATE.userData?.xp || 0,
+      level: STATE.userData?.level || 1,
+      totalXP: STATE.userData?.totalXP || 0,
+      updatedAt: new Date().toISOString(),
+    }, { merge: true }).catch(e => console.warn('saveState Firebase erro:', e));
+  }, 2000);
 }
 
 /* ════════════════════════════════════════════════
@@ -2882,8 +2908,35 @@ async function loadUserData(user) {
       if (data.totalScore !== undefined) STATE.totalScore = data.totalScore;
       if (data.nicknameLocked !== undefined) STATE.nicknameLocked = data.nicknameLocked;
       if (data.avatarLastChanged !== undefined) STATE.avatarLastChanged = data.avatarLastChanged;
+      // Restaurar todo o progresso do Firestore (fonte de verdade)
+      if (!STATE.userData) STATE.userData = { xp: 0, level: 1, totalXP: 0 };
+      if (data.xp !== undefined) STATE.userData.xp = data.xp;
+      if (data.level !== undefined) STATE.userData.level = data.level;
+      if (data.totalXP !== undefined) STATE.userData.totalXP = data.totalXP;
+      if (data.bestStreak !== undefined) STATE.bestStreak = data.bestStreak;
+      if (data.streak !== undefined) STATE.streak = data.streak;
+      if (data.lastPlayedDate !== undefined) STATE.lastPlayedDate = data.lastPlayedDate;
+      if (data.wonToday !== undefined) STATE.wonToday = data.wonToday;
+      if (data.livesLastRegen !== undefined) STATE.livesLastRegen = data.livesLastRegen;
+      // Recalcular level a partir do XP para garantir consistência
+      const info = getLevelInfo(STATE.userData.xp);
+      STATE.userData.level = info.level;
+      renderHomeXP();
+      renderStreakBadge();
+      renderLives('livesDisplay');
+      // Sincroniza localStorage com os dados do Firestore
+      try {
+        localStorage.setItem('spfc_quiz_state', JSON.stringify({
+          lives: STATE.lives, livesLastRegen: STATE.livesLastRegen,
+          totalScore: STATE.totalScore, avatar: STATE.avatar,
+          usedQIds: STATE.usedQIds, streak: STATE.streak,
+          bestStreak: STATE.bestStreak, lastPlayedDate: STATE.lastPlayedDate,
+          wonToday: STATE.wonToday, nicknameLocked: STATE.nicknameLocked,
+          avatarLastChanged: STATE.avatarLastChanged,
+        }));
+      } catch(e) {}
     }
-  } catch(e) {}
+  } catch(e) { console.warn('loadUserData erro:', e); }
 }
 
 function toggleEmailForm() {
@@ -4996,24 +5049,10 @@ async function updateLiveStats() {
       onlineSnap.forEach(d => uniquePlayers.add(d.data().uid));
       if (onlineEl) onlineEl.textContent = uniquePlayers.size.toLocaleString('pt-BR');
 
-      // 2. Maior sequência (bestStreak) — busca top jogadores sem orderBy (evita erro de índice/permissão)
-      try {
-        const streakQ = query(collection(db, 'users'), limit(50));
-        const streakSnap = await getDocs(streakQ);
-        if (!streakSnap.empty && streakEl) {
-          let maxStreak = 0;
-          streakSnap.forEach(d => {
-            const v = d.data().bestStreak || 0;
-            if (v > maxStreak) maxStreak = v;
-          });
-          streakEl.textContent = maxStreak.toString();
-          streakEl.dataset.loaded = '1';
-        }
-      } catch(e2) {
-        // Mostra streak local como fallback silencioso
-        if (streakEl && !streakEl.dataset.loaded) {
-          streakEl.textContent = STATE.bestStreak?.toString() || '0';
-        }
+      // 2. Maior sequência — usa o bestStreak do próprio jogador (já carregado do Firestore)
+      if (streakEl) {
+        streakEl.textContent = STATE.bestStreak?.toString() || '0';
+        streakEl.dataset.loaded = '1';
       }
 
       // 3. Melhor jogador hoje — busca por dateKey e type, ordena no cliente
