@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0044)file:///C:/Users/vitor/Downloads/quiz_2.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#CC0000">
 <title>SPFC Quiz — Quem Quer Ser Torcedor Milionário?</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./quiz_files/css2" rel="stylesheet">
 
 <!-- ══ FIREBASE SDK ══ -->
 <script type="module">
@@ -472,6 +472,38 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 /* ══ WORDLE SCREEN ══ */
 .screen-wordle{}
+
+/* ══ WORDLE MOBILE FIX ══ */
+.wrd-wrap{
+  width:100%;
+  max-width:480px;
+  margin:0 auto;
+  padding:12px 10px;
+  overflow:hidden;
+  box-sizing:border-box;
+}
+.wrd-scroll{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  margin-bottom:10px;
+  padding-bottom:4px;
+  max-width:100%;
+}
+.wrd-col-hdr,
+.wrd-row{
+  min-width:0;
+}
+@media(max-width:480px){
+  .wrd-name{
+    font-size:10px;
+    padding:6px 6px;
+    max-width:90px;
+    min-width:80px;
+  }
+  .wrd-cv{font-size:8px}
+  .wrd-ci{font-size:10px}
+  .wrd-cell{padding:5px 2px;min-width:42px}
+}
 </style>
 </head>
 <body>
@@ -484,7 +516,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div>
     <div style="display:flex;align-items:center;gap:8px">
       <div class="tb-music" id="musicToggle" onclick="toggleMusic()" title="Música">🔇</div>
-      <div id="userChip" style="font-size:12px;color:var(--txt2);cursor:pointer" onclick="goScreen('screen-login')">Entrar</div>
+      <div id="userChip" style="font-size:12px;color:var(--txt2);cursor:pointer" onclick="goScreen(&#39;screen-login&#39;)">Entrar</div>
     </div>
   </div>
 
@@ -497,9 +529,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div style="padding:20px 20px 12px;width:100%;max-width:480px">
 
     <!-- STREAK -->
-    <div id="streakBadge" style="display:flex;align-items:center;gap:4px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid #ff6b00;padding:12px 16px;border-radius:3px;margin-bottom:12px"></div>
+    <div id="streakBadge" style="display:flex;align-items:center;gap:4px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid #ff6b00;padding:12px 16px;border-radius:3px;margin-bottom:12px"><span style="font-size:20px">❄️</span><span style="color:var(--txt3);font-size:12px;letter-spacing:1px;margin-left:8px">Comece sua sequência hoje!</span></div>
 
-    <div class="lives-row" id="livesDisplay"></div>
+    <div class="lives-row" id="livesDisplay"><span class="life life-mini-heart">❤️</span><span class="life life-mini-heart">❤️</span><span class="life life-mini-heart">❤️</span><span class="life life-mini-heart">❤️</span><span class="life life-mini-heart">❤️</span></div>
     <div class="lives-timer" id="livesTimer"></div>
     <div class="home-stats">
       <div class="hstat"><div class="hstat-n" id="statPergs">180+</div><div class="hstat-l">Perguntas</div></div>
@@ -511,8 +543,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="home-btns">
     <button class="btn-primary" onclick="startGame()">▶ JOGAR AGORA</button>
     <button class="btn-secondary" onclick="goScreenWordle()">🔤 WORDLE DIÁRIO</button>
-    <button class="btn-secondary" onclick="goScreen('screen-ranking')">🏅 RANKING GLOBAL</button>
-    <button class="btn-secondary" onclick="goScreen('screen-profile')">👤 MEU PERFIL</button>
+    <button class="btn-secondary" onclick="goScreen(&#39;screen-ranking&#39;)">🏅 RANKING GLOBAL</button>
+    <button class="btn-secondary" onclick="goScreen(&#39;screen-profile&#39;)">👤 MEU PERFIL</button>
   </div>
 </div>
 
@@ -521,7 +553,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- Hero -->
   <div class="login-hero">
     <div class="login-badge">
-      <img class="login-badge-img" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779331854/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
+      <img class="login-badge-img" src="./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
     </div>
     <div class="login-quiz-title">QUIZ</div>
     <div class="login-tricolor">T R I C O L O R</div>
@@ -564,7 +596,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <!-- Google -->
       <button class="login-btn login-btn-google" onclick="loginGoogle()">
         <div class="login-btn-icon">
-          <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path></svg>
         </div>
         <span class="login-btn-text">Continuar com Google</span>
         <span class="login-btn-arrow">›</span>
@@ -613,7 +645,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <!-- ══ SCREEN: AVATAR ════════════════════════════ -->
 <div class="screen" id="screen-avatar">
   <div class="topbar">
-    <button class="tb-back" onclick="goScreen('screen-home')">← VOLTAR</button>
+    <button class="tb-back" onclick="goScreen(&#39;screen-home&#39;)">← VOLTAR</button>
     <div class="tb-logo"><span>SPFC</span> QUIZ</div>
     <div style="width:60px"></div>
   </div>
@@ -621,16 +653,14 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="avatar-title">SEU AVATAR</div>
     <div class="avatar-sub">ESCOLHA SEU PERSONAGEM TRICOLOR</div>
     <div class="avatar-preview">
-      <img class="avatar-selected-img" id="avatarPreviewImg" src="" alt="avatar" style="display:none">
+      <img class="avatar-selected-img" id="avatarPreviewImg" src="file:///C:/Users/vitor/Downloads/quiz_2.html" alt="avatar" style="display:none">
       <div class="avatar-placeholder" id="avatarPlaceholder">👤</div>
     </div>
 
     <div class="av-section">
       <div class="av-label">Nome no ranking</div>
       <div style="position:relative">
-        <input class="av-name-input" id="avName" type="text" placeholder="Seu apelido..." maxlength="16"
-          oninput="checkNickname(this.value)" autocomplete="off"
-          style="padding-right:40px">
+        <input class="av-name-input" id="avName" type="text" placeholder="Seu apelido..." maxlength="16" oninput="checkNickname(this.value)" autocomplete="off" style="padding-right:40px">
         <span id="nickStatus" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:16px"></span>
       </div>
       <div id="nickSection">
@@ -659,7 +689,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="quiz-lives-mini" id="quizLivesMini"></div>
     </div>
     <div class="quiz-header-center">
-      <img class="quiz-header-logo" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779331854/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
+      <img class="quiz-header-logo" src="./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
     </div>
     <div class="quiz-header-right">
       <div class="quiz-ranking-badge">🏆 <span>RANKING</span></div>
@@ -685,8 +715,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="countdown-wrap">
     <div class="timer-ring-wrap">
       <svg class="timer-ring-svg" viewBox="0 0 80 80">
-        <circle class="timer-ring-bg" cx="40" cy="40" r="33"/>
-        <circle class="timer-ring-fill" id="countdownFill" cx="40" cy="40" r="33"/>
+        <circle class="timer-ring-bg" cx="40" cy="40" r="33"></circle>
+        <circle class="timer-ring-fill" id="countdownFill" cx="40" cy="40" r="33"></circle>
       </svg>
       <div class="timer-ring-num">
         <span class="timer-num-val" id="countdownNum">30</span>
@@ -699,17 +729,17 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
   <!-- HELPERS -->
   <div class="helpers-row">
-    <button class="helper-btn" id="helper1" onclick="useHelper('eliminate')">
+    <button class="helper-btn" id="helper1" onclick="useHelper(&#39;eliminate&#39;)">
       <span class="helper-icon">50:50</span>
       <span class="helper-badge">2</span>
       ELIMINAR 2
     </button>
-    <button class="helper-btn" id="helper2" onclick="useHelper('skip')">
+    <button class="helper-btn" id="helper2" onclick="useHelper(&#39;skip&#39;)">
       <span class="helper-icon">👥</span>
       <span class="helper-badge">1</span>
       AJUDA DA TORCIDA
     </button>
-    <button class="helper-btn" id="helper3" onclick="useHelper('hint')">
+    <button class="helper-btn" id="helper3" onclick="useHelper(&#39;hint&#39;)">
       <span class="helper-icon">📞</span>
       <span class="helper-badge">1</span>
       LIGAR P/ AMIGO
@@ -732,9 +762,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
   <!-- BOTTOM BAR -->
   <div class="quiz-bottom-bar">
-    <button class="quiz-bottom-btn" onclick="useHelper('skip')" id="quizBtnPular">⏭ PULAR</button>
+    <button class="quiz-bottom-btn" onclick="useHelper(&#39;skip&#39;)" id="quizBtnPular">⏭ PULAR</button>
     <div class="quiz-bottom-player">
-      <img class="quiz-player-shield" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779331854/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
+      <img class="quiz-player-shield" src="./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
       <div class="quiz-player-info">
         <div class="quiz-player-label">TORCEDOR</div>
         <div class="quiz-player-level" id="quizPlayerLevel">NÍVEL 1</div>
@@ -796,7 +826,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="ga-correct" id="goCorrect"></div>
     </div>
     <button class="btn-primary" onclick="tryAgain()" id="btnTryAgain">TENTAR NOVAMENTE</button>
-    <button class="btn-secondary" onclick="goScreen('screen-home')" style="max-width:100%;margin-top:10px">VOLTAR AO INÍCIO</button>
+    <button class="btn-secondary" onclick="goScreen(&#39;screen-home&#39;)" style="max-width:100%;margin-top:10px">VOLTAR AO INÍCIO</button>
   </div>
 </div>
 
@@ -818,7 +848,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <span class="trophy">🥇</span>
       <span class="trophy">🏆</span>
     </div>
-    <button class="btn-primary" onclick="goScreen('screen-ranking')" style="margin-bottom:10px">VER RANKING</button>
+    <button class="btn-primary" onclick="goScreen(&#39;screen-ranking&#39;)" style="margin-bottom:10px">VER RANKING</button>
     <button class="btn-secondary" onclick="startGame()" style="max-width:100%">JOGAR NOVAMENTE</button>
   </div>
 </div>
@@ -826,16 +856,16 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <!-- ══ SCREEN: RANKING ════════════════════════════ -->
 <div class="screen" id="screen-ranking">
   <div class="topbar">
-    <button class="tb-back" onclick="goScreen('screen-home')">← VOLTAR</button>
+    <button class="tb-back" onclick="goScreen(&#39;screen-home&#39;)">← VOLTAR</button>
     <div class="tb-logo">RANKING</div>
     <div style="width:60px"></div>
   </div>
   <div class="ranking-wrap fade-in">
     <div class="rank-tabs">
-      <button class="rank-tab active" onclick="loadRanking('geral',this)">GERAL</button>
-      <button class="rank-tab" onclick="loadRanking('diario',this)">HOJE</button>
-      <button class="rank-tab" onclick="loadRanking('semanal',this)">SEMANA</button>
-      <button class="rank-tab" onclick="loadRanking('mensal',this)">MÊS</button>
+      <button class="rank-tab active" onclick="loadRanking(&#39;geral&#39;,this)">GERAL</button>
+      <button class="rank-tab" onclick="loadRanking(&#39;diario&#39;,this)">HOJE</button>
+      <button class="rank-tab" onclick="loadRanking(&#39;semanal&#39;,this)">SEMANA</button>
+      <button class="rank-tab" onclick="loadRanking(&#39;mensal&#39;,this)">MÊS</button>
       <button class="rank-tab" onclick="loadRankingWordle(this)">🔤 WORDLE</button>
     </div>
     <div class="rank-list" id="rankList">
@@ -847,7 +877,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <!-- ══ SCREEN: PROFILE ════════════════════════════ -->
 <div class="screen" id="screen-profile">
   <div class="topbar">
-    <button class="tb-back" onclick="goScreen('screen-home')">← VOLTAR</button>
+    <button class="tb-back" onclick="goScreen(&#39;screen-home&#39;)">← VOLTAR</button>
     <div class="tb-logo">PERFIL</div>
     <div id="logoutBtn" style="font-size:11px;color:var(--txt3);cursor:pointer;letter-spacing:1px" onclick="logout()">SAIR</div>
   </div>
@@ -857,7 +887,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <!-- ══ SCREEN: ADMIN ══════════════════════════════ -->
 <div class="screen" id="screen-admin">
   <div class="topbar">
-    <button class="tb-back" onclick="goScreen('screen-profile')">← VOLTAR</button>
+    <button class="tb-back" onclick="goScreen(&#39;screen-profile&#39;)">← VOLTAR</button>
     <div class="tb-logo" style="color:var(--red)">⚙️ ADMIN</div>
     <div style="width:60px"></div>
   </div>
@@ -867,8 +897,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div id="adminLock" style="text-align:center;padding:40px 0">
       <div style="font-size:48px;margin-bottom:16px">🔐</div>
       <div style="font-family:var(--font-t);font-size:24px;letter-spacing:2px;margin-bottom:20px">ÁREA RESTRITA</div>
-      <input id="adminPass" type="password" placeholder="Senha de administrador"
-        style="width:100%;padding:12px 16px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:14px;border-radius:2px;outline:none;margin-bottom:12px;font-family:var(--font-b)">
+      <input id="adminPass" type="password" placeholder="Senha de administrador" style="width:100%;padding:12px 16px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:14px;border-radius:2px;outline:none;margin-bottom:12px;font-family:var(--font-b)">
       <button onclick="unlockAdmin()" style="width:100%;padding:13px;background:var(--red);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;border-radius:2px;font-family:var(--font-b)">ENTRAR</button>
     </div>
 
@@ -888,18 +917,17 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div style="background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);padding:16px;border-radius:3px;margin-bottom:10px">
         <div style="font-family:var(--font-u);font-size:15px;font-weight:600;margin-bottom:6px">Limpar por período</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button onclick="adminClearType('diario')" style="flex:1;padding:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);font-size:11px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">Hoje</button>
-          <button onclick="adminClearType('semanal')" style="flex:1;padding:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);font-size:11px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">Semana</button>
-          <button onclick="adminClearType('mensal')" style="flex:1;padding:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);font-size:11px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">Mês</button>
-          <button onclick="adminClearType('geral')" style="flex:1;padding:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);font-size:11px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">Geral</button>
+          <button onclick="adminClearType(&#39;diario&#39;)" style="flex:1;padding:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);font-size:11px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">Hoje</button>
+          <button onclick="adminClearType(&#39;semanal&#39;)" style="flex:1;padding:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);font-size:11px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">Semana</button>
+          <button onclick="adminClearType(&#39;mensal&#39;)" style="flex:1;padding:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);font-size:11px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">Mês</button>
+          <button onclick="adminClearType(&#39;geral&#39;)" style="flex:1;padding:9px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);font-size:11px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">Geral</button>
         </div>
       </div>
 
       <!-- REMOVER USUÁRIO ESPECÍFICO -->
       <div style="background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:3px;margin-bottom:10px">
         <div style="font-family:var(--font-u);font-size:15px;font-weight:600;margin-bottom:6px">Remover usuário do ranking</div>
-        <input id="adminNickInput" type="text" placeholder="Digite o nickname exato..."
-          style="width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:13px;border-radius:2px;outline:none;margin-bottom:10px;font-family:var(--font-b)">
+        <input id="adminNickInput" type="text" placeholder="Digite o nickname exato..." style="width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:13px;border-radius:2px;outline:none;margin-bottom:10px;font-family:var(--font-b)">
         <button onclick="adminRemoveUser()" style="width:100%;padding:10px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:12px;letter-spacing:1px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">REMOVER</button>
       </div>
 
@@ -907,8 +935,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div style="background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:3px;margin-bottom:10px">
         <div style="font-family:var(--font-u);font-size:15px;font-weight:600;margin-bottom:6px">Liberar nickname travado</div>
         <div style="font-size:12px;color:var(--txt3);margin-bottom:10px">Use se um nick estiver reservado mas o usuário não existe mais.</div>
-        <input id="adminNickFree" type="text" placeholder="Nickname para liberar..."
-          style="width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:13px;border-radius:2px;outline:none;margin-bottom:10px;font-family:var(--font-b)">
+        <input id="adminNickFree" type="text" placeholder="Nickname para liberar..." style="width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:13px;border-radius:2px;outline:none;margin-bottom:10px;font-family:var(--font-b)">
         <button onclick="adminFreeNick()" style="width:100%;padding:10px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:12px;letter-spacing:1px;cursor:pointer;border-radius:2px;font-family:var(--font-b)">LIBERAR</button>
       </div>
 
@@ -940,7 +967,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <!-- ══ SCREEN: WORDLE ════════════════════════════ -->
 <div class="screen" id="screen-wordle">
   <div class="topbar">
-    <button class="tb-back" onclick="goScreen('screen-home')">← VOLTAR</button>
+    <button class="tb-back" onclick="goScreen(&#39;screen-home&#39;)">← VOLTAR</button>
     <div class="tb-logo"><span>SPFC</span> WORDLE</div>
     <div style="width:60px"></div>
   </div>
@@ -948,19 +975,19 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </div>
 
 <nav class="bottom-nav">
-  <button class="bnav-btn" onclick="window.location.href='index.html'">
+  <button class="bnav-btn" onclick="window.location.href=&#39;index.html&#39;">
     <span class="bnav-icon">📅</span>HOJE
   </button>
-  <button class="bnav-btn active" onclick="goScreen('screen-home')">
+  <button class="bnav-btn active" onclick="goScreen(&#39;screen-home&#39;)">
     <span class="bnav-icon">🎮</span>QUIZ
   </button>
-  <button class="bnav-btn" onclick="goScreen('screen-ranking')">
+  <button class="bnav-btn" onclick="goScreen(&#39;screen-ranking&#39;)">
     <span class="bnav-icon">🏅</span>RANKING
   </button>
   <button class="bnav-btn" id="bnav-wordle" onclick="goScreenWordle()">
     <span class="bnav-icon">🔤</span>WORDLE
   </button>
-  <button class="bnav-btn" onclick="goScreen('screen-profile')">
+  <button class="bnav-btn" onclick="goScreen(&#39;screen-profile&#39;)">
     <span class="bnav-icon">👤</span>PERFIL
   </button>
 </nav>
@@ -2859,9 +2886,6 @@ const WORDLE_COLS = [
   {k:'jogos',    l:'Jogos'},
   {k:'gols',     l:'Gols'},
   {k:'titulos',  l:'Títulos'},
-  {k:'selecao',  l:'Seleção'},
-  {k:'revelado', l:'Revelado'},
-  {k:'idolo',    l:'Ídolo'},
 ];
 
 const WORDLE_DB = [
@@ -3017,7 +3041,10 @@ function saveWordleState() {
 }
 
 function wrdColWidth() {
-  return `110px repeat(${WORDLE_COLS.length}, minmax(50px, 1fr))`;
+  const isMobile = window.innerWidth <= 480;
+  const nameCol = isMobile ? '85px' : '110px';
+  const cellMin = isMobile ? '42px' : '50px';
+  return `${nameCol} repeat(${WORDLE_COLS.length}, minmax(${cellMin}, 1fr))`;
 }
 
 function wrdCellVal(k, val) {
@@ -3253,5 +3280,6 @@ function init() {
 
 init();
 </script>
-</body>
-</html>
+
+
+</body></html>
