@@ -3595,11 +3595,38 @@ function useHelper(type) {
   }
 
   if (type === 'skip') {
-    clearInterval(countdownTimer);
-    toast('⏭️ Pergunta pulada!', 'Próxima questão...');
+    // Ajuda da Torcida — mostra votação simulada favorecendo a resposta correta
+    const q = STATE.currentQ;
+    const opts = document.querySelectorAll('.q-opt');
+    const total = 100;
+    // Distribui: correta fica entre 45-65%, restante dividido entre erradas
+    const correctPct = 45 + Math.floor(Math.random() * 21);
+    const wrongTotal = total - correctPct;
+    const wrongPcts = [];
+    let remaining = wrongTotal;
+    for (let i = 0; i < 2; i++) {
+      const p = i === 1 ? remaining : Math.floor(Math.random() * (remaining - (2 - i)));
+      wrongPcts.push(p);
+      remaining -= p;
+    }
+    wrongPcts.push(remaining);
+    let wrongIdx = 0;
+    opts.forEach(btn => {
+      const orig = parseInt(btn.dataset.orig);
+      const pct = orig === q.c ? correctPct : wrongPcts[wrongIdx++];
+      const bar = document.createElement('div');
+      bar.style.cssText = `position:absolute;bottom:0;left:0;height:3px;width:${pct}%;background:${orig === q.c ? 'var(--green)' : 'rgba(255,255,255,.2)'};border-radius:0 0 14px 14px;transition:width .6s ease`;
+      const label = document.createElement('span');
+      label.style.cssText = `position:absolute;top:6px;right:8px;font-size:10px;color:${orig === q.c ? 'var(--green)' : 'var(--txt3)'};font-weight:700`;
+      label.textContent = pct + '%';
+      btn.style.position = 'relative';
+      btn.style.overflow = 'hidden';
+      btn.appendChild(bar);
+      btn.appendChild(label);
+    });
     document.getElementById('helper2').classList.add('used');
     document.getElementById('helper2').disabled = true;
-    setTimeout(() => advanceQuestion(), 800);
+    toast('👥 Torcida votou!', `${correctPct}% da torcida escolheu a mais votada`);
   }
 
   if (type === 'hint') {
