@@ -2066,6 +2066,18 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </svg>
   </button>
 
+  <button class="bnav-btn" id="nav-wondler" onclick="goScreenWordle()">
+    <div class="bnav-icon-wrap">
+      <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+        <rect x="14" y="14" width="7" height="7" rx="1"/>
+      </svg>
+    </div>
+    <span>WONDLER</span>
+  </button>
+
   <button class="bnav-btn" id="nav-ranking" onclick="goScreen('screen-ranking')">
     <div class="bnav-icon-wrap">
       <svg viewBox="0 0 24 24" stroke="currentColor">
@@ -2076,15 +2088,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <span>RANKING</span>
   </button>
 
-  <button class="bnav-btn" id="nav-perfil" onclick="goScreen('screen-profile')">
-    <div class="bnav-icon-wrap">
-      <svg viewBox="0 0 24 24" stroke="currentColor">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
-      </svg>
-    </div>
-    <span>PERFIL</span>
-  </button>
 </nav>
 
 <script>
@@ -3521,99 +3524,79 @@ async function loadRanking(type, btn) {
   list.innerHTML = '<div class="rank-loading">Carregando...</div>';
 
   if (!window.FB) {
-    list.innerHTML = '<div class="rank-empty">Conectando ao servidor...</div>';
+    // Aguarda Firebase e tenta de novo
+    window.addEventListener('firebase-ready', () => loadRanking(type, btn), { once: true });
     return;
   }
 
-  const {db, collection, query, where, orderBy, limit, getDocs} = window.FB;
+  const {db, collection, query, where, limit, getDocs} = window.FB;
 
   try {
     const now = new Date();
     const dateKey = now.toISOString().slice(0,10);
-    const weekKey = `${now.getFullYear()}-W${String(Math.ceil((now - new Date(now.getFullYear(),0,1)) / 86400000 / 7)).padStart(2,"0")}`;
+    const weekKey = `${now.getFullYear()}-W${String(Math.ceil((now - new Date(now.getFullYear(),0,1)) / 86400000 / 7)).padStart(2,'0')}`;
     const monthKey = now.toISOString().slice(0,7);
 
-    // Busca top 10 para exibir
-    let q10;
+    // Busca sem orderBy (evita índice composto) — ordena no cliente
+    let q;
     if (type === 'geral') {
-      q10 = query(collection(db,'ranking'), where('type','==','geral'), orderBy('score','desc'), limit(10));
+      q = query(collection(db,'ranking'), where('type','==','geral'), limit(200));
     } else if (type === 'diario') {
-      q10 = query(collection(db,'ranking'), where('type','==','diario'), where('dateKey','==',dateKey), orderBy('score','desc'), limit(10));
+      q = query(collection(db,'ranking'), where('type','==','diario'), where('dateKey','==',dateKey), limit(200));
     } else if (type === 'semanal') {
-      q10 = query(collection(db,'ranking'), where('type','==','semanal'), where('weekKey','==',weekKey), orderBy('score','desc'), limit(10));
+      q = query(collection(db,'ranking'), where('type','==','semanal'), where('weekKey','==',weekKey), limit(200));
     } else {
-      q10 = query(collection(db,'ranking'), where('type','==','mensal'), where('monthKey','==',monthKey), orderBy('score','desc'), limit(10));
+      q = query(collection(db,'ranking'), where('type','==','mensal'), where('monthKey','==',monthKey), limit(200));
     }
 
-    const snap = await getDocs(q10);
-    const docs = [];
-    snap.forEach(d => docs.push(d.data()));
+    const snap = await getDocs(q);
+    let all = [];
+    snap.forEach(d => all.push(d.data()));
 
-    if (!docs.length) {
+    // Ordena no cliente pelo score
+    all.sort((a, b) => (b.score||0) - (a.score||0));
+
+    // Top 10
+    const top10 = all.slice(0, 10);
+
+    if (!top10.length) {
       list.innerHTML = '<div class="rank-empty">Nenhuma pontuação ainda. Seja o primeiro!</div>';
       return;
     }
 
     const myUid = STATE.user?.uid;
-    const myInTop = docs.findIndex(d => d.uid === myUid);
 
-    let html = docs.map((d, i) => {
-      const pos = i + 1;
+    const renderItem = (d, pos, isMe) => {
       const posClass = pos === 1 ? 'top1' : pos === 2 ? 'top2' : pos === 3 ? 'top3' : '';
-      const isMe = myUid && d.uid === myUid;
       return `
         <div class="rank-item${isMe?' me':''}">
           <div class="rank-pos ${posClass}">${pos}</div>
-          ${d.avatar ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:3px"></div>`}
+          ${d.avatar ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
           <div class="rank-info">
             <div class="rank-name">${d.name || 'Torcedor'}${isMe?' (você)':''} ${d.streak>2?'🔥'.repeat(Math.min(3,Math.floor(d.streak/3))):''}</div>
             <div class="rank-detail">Nível ${d.level || 1} · ${d.streak||0} dias seguidos</div>
           </div>
           <div class="rank-pts">${(d.score||0).toLocaleString('pt-BR')}</div>
         </div>`;
-    }).join('');
+    };
 
-    // Se o jogador está logado e fora do top 10, busca sua posição real
-    if (myUid && myInTop === -1) {
-      try {
-        let qAll;
-        if (type === 'geral') {
-          qAll = query(collection(db,'ranking'), where('type','==','geral'), orderBy('score','desc'));
-        } else if (type === 'diario') {
-          qAll = query(collection(db,'ranking'), where('type','==','diario'), where('dateKey','==',dateKey), orderBy('score','desc'));
-        } else if (type === 'semanal') {
-          qAll = query(collection(db,'ranking'), where('type','==','semanal'), where('weekKey','==',weekKey), orderBy('score','desc'));
-        } else {
-          qAll = query(collection(db,'ranking'), where('type','==','mensal'), where('monthKey','==',monthKey), orderBy('score','desc'));
-        }
-        const snapAll = await getDocs(qAll);
-        let myPos = -1, myData = null;
-        let idx = 0;
-        snapAll.forEach(d => {
-          idx++;
-          if (d.data().uid === myUid) { myPos = idx; myData = d.data(); }
-        });
+    let html = top10.map((d, i) => renderItem(d, i + 1, myUid && d.uid === myUid)).join('');
 
-        if (myPos > 0 && myData) {
-          html += `
-            <div style="text-align:center;padding:8px 0;color:var(--txt3);font-size:11px;letter-spacing:2px">• • •</div>
-            <div class="rank-item me">
-              <div class="rank-pos">${myPos}</div>
-              ${myData.avatar ? `<img class="rank-avatar-mini" src="${myData.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:3px"></div>`}
-              <div class="rank-info">
-                <div class="rank-name">${myData.name || 'Torcedor'} (você)</div>
-                <div class="rank-detail">Nível ${myData.level || 1} · ${myData.streak||0} dias seguidos</div>
-              </div>
-              <div class="rank-pts">${(myData.score||0).toLocaleString('pt-BR')}</div>
-            </div>`;
-        }
-      } catch(e) {}
+    // Se o jogador está logado e fora do top 10, mostra sua posição
+    if (myUid) {
+      const myPos = all.findIndex(d => d.uid === myUid);
+      if (myPos >= 10) {
+        const myData = all[myPos];
+        html += `
+          <div style="text-align:center;padding:8px 0;color:var(--txt3);font-size:11px;letter-spacing:2px">• • •</div>
+          ${renderItem(myData, myPos + 1, true)}`;
+      }
     }
 
     list.innerHTML = html;
   } catch(e) {
-    list.innerHTML = '<div class="rank-empty">Erro ao carregar. Verifique o Firebase.</div>';
-    console.warn(e);
+    list.innerHTML = '<div class="rank-empty">Erro ao carregar ranking.</div>';
+    console.warn('Ranking error:', e);
   }
 }
 
@@ -3920,8 +3903,8 @@ function goScreen(id) {
   const navMap = {
     'screen-home': 'nav-quiz',
     'screen-ranking': 'nav-ranking',
-    'screen-profile': 'nav-perfil',
-    'screen-desafios': 'nav-desafios'
+    'screen-desafios': 'nav-desafios',
+    'screen-wordle': 'nav-wondler'
   };
   const activeNav = navMap[id];
   if (activeNav) {
@@ -4657,23 +4640,23 @@ async function loadHomeRanking() {
     const now = new Date();
     const weekKey = `${now.getFullYear()}-W${String(Math.ceil((now - new Date(now.getFullYear(),0,1)) / 86400000 / 7)).padStart(2,'0')}`;
 
-    const q = query(collection(db,'ranking'), where('type','==','semanal'), where('weekKey','==',weekKey), orderBy('score','desc'), limit(3));
+    // Sem orderBy para evitar índice composto — ordena no cliente
+    const q = query(collection(db,'ranking'), where('type','==','semanal'), where('weekKey','==',weekKey), limit(100));
     const snap = await getDocs(q);
 
     if (!snap.empty) {
-      const realData = [];
-      let idx = 1;
-      snap.forEach(d => {
-        const data = d.data();
-        realData.push({
-          pos: idx++,
-          name: data.name || 'Torcedor',
-          pts: data.score || 0,
-          avatar: data.avatar || null
-        });
-      });
-      if (realData.length > 0) {
-        renderHomeRankingList(realData);
+      const all = [];
+      snap.forEach(d => all.push(d.data()));
+      // Ordena no cliente
+      all.sort((a, b) => (b.score||0) - (a.score||0));
+      const top3 = all.slice(0, 3).map((data, i) => ({
+        pos: i + 1,
+        name: data.name || 'Torcedor',
+        pts: data.score || 0,
+        avatar: data.avatar || null
+      }));
+      if (top3.length > 0) {
+        renderHomeRankingList(top3);
         return;
       }
     }
