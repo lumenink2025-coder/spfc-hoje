@@ -105,21 +105,55 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .lives-timer{font-size:11px;color:var(--txt3);letter-spacing:2px;text-align:center;margin-top:-12px;margin-bottom:16px}
 
 /* ══ LOGIN SCREEN ═════════════════════════════════ */
-.login-wrap{width:100%;max-width:380px;padding:40px 20px;text-align:center}
-.login-icon{font-size:64px;margin-bottom:20px}
-.login-title{font-family:var(--font-t);font-size:36px;letter-spacing:2px;margin-bottom:8px}
-.login-sub{font-size:13px;color:var(--txt2);line-height:1.6;margin-bottom:32px}
-.btn-google{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:14px 24px;background:#fff;color:#333;border:none;border-radius:3px;font-size:14px;font-weight:600;cursor:pointer;transition:.2s;margin-bottom:12px}
-.btn-google:hover{background:#f0f0f0;transform:scale(1.01)}
-.btn-google img{width:20px;height:20px}
-.login-divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--txt3);font-size:12px}
-.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--border2)}
-.login-input{width:100%;padding:12px 16px;background:var(--bg3);border:1px solid var(--border2);border-radius:3px;color:var(--txt);font-size:14px;font-family:var(--font-b);margin-bottom:10px;outline:none;transition:.2s}
-.login-input:focus{border-color:var(--red)}
-.login-input::placeholder{color:var(--txt3)}
-.btn-email{width:100%;padding:13px;background:var(--red);color:#fff;border:none;border-radius:3px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:.2s}
-.btn-email:hover{background:var(--red2)}
-.login-skip{font-size:12px;color:var(--txt3);cursor:pointer;text-decoration:underline;margin-top:8px;display:inline-block}
+#screen-login{background:radial-gradient(ellipse 200% 60% at 20% 30%,rgba(180,0,0,.55) 0%,transparent 55%),radial-gradient(ellipse 200% 60% at 80% 70%,rgba(120,0,0,.4) 0%,transparent 55%),#060606;justify-content:flex-start;padding-bottom:40px}
+.login-wrap{width:100%;max-width:420px;padding:0 20px 20px;text-align:center}
+/* Hero */
+.login-hero{width:100%;padding:48px 20px 24px;display:flex;flex-direction:column;align-items:center;position:relative}
+.login-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 100% 80% at 50% 0%,rgba(204,0,0,.2),transparent 70%);pointer-events:none}
+.login-badge{width:110px;height:110px;margin:0 auto 16px;position:relative}
+.login-badge-img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 32px rgba(204,0,0,.5))}
+.login-quiz-title{font-family:var(--font-t);font-size:clamp(52px,16vw,72px);letter-spacing:4px;line-height:.85;background:linear-gradient(180deg,#fff 30%,rgba(200,200,200,.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:2px}
+.login-tricolor{font-family:var(--font-u);font-size:14px;letter-spacing:10px;color:var(--gold);margin-bottom:10px;font-weight:600}
+.login-tagline{font-size:14px;color:var(--txt2);line-height:1.5;margin-bottom:0}
+.login-tagline strong{color:var(--gold)}
+/* Card */
+.login-card{width:100%;background:rgba(10,10,10,.85);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:22px 20px 20px;margin-bottom:12px}
+.login-card-header{font-size:10px;letter-spacing:4px;color:var(--txt3);text-align:center;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.login-card-header::before,.login-card-header::after{content:'';flex:1;height:1px;background:rgba(204,0,0,.3)}
+.login-card-header span{color:var(--red);font-weight:700}
+/* Buttons */
+.login-btn{width:100%;padding:16px 20px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px;margin-bottom:10px;letter-spacing:.3px;border:1px solid transparent}
+.login-btn-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.login-btn-text{flex:1;text-align:left}
+.login-btn-arrow{font-size:16px;opacity:.6}
+.login-btn-email{background:var(--red);color:#fff;border-color:rgba(255,80,80,.3);box-shadow:0 4px 20px rgba(204,0,0,.4)}
+.login-btn-email:hover{background:var(--red2);transform:translateY(-1px);box-shadow:0 8px 28px rgba(204,0,0,.5)}
+.login-btn-email .login-btn-icon{background:rgba(0,0,0,.2)}
+.login-btn-google{background:rgba(255,255,255,.06);color:var(--txt);border-color:rgba(255,255,255,.12)}
+.login-btn-google:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);transform:translateY(-1px)}
+.login-btn-guest{background:rgba(255,255,255,.04);color:var(--txt2);border-color:rgba(255,255,255,.08)}
+.login-btn-guest:hover{background:rgba(255,255,255,.08);color:var(--txt);transform:translateY(-1px)}
+/* Features */
+.login-features{width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.login-feat{background:rgba(10,10,10,.7);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 8px;text-align:center}
+.login-feat-icon{font-size:22px;margin-bottom:6px;color:var(--gold)}
+.login-feat-title{font-size:9px;letter-spacing:2px;color:var(--txt);font-weight:700;text-transform:uppercase;margin-bottom:3px}
+.login-feat-sub{font-size:9px;color:var(--txt3);line-height:1.4}
+.login-footer-bar{width:100%;display:flex;align-items:center;gap:12px;padding:0 4px}
+.login-footer-bar::before,.login-footer-bar::after{content:'';flex:1;height:1px;background:rgba(204,0,0,.4)}
+.login-footer-brand{font-size:10px;letter-spacing:4px;color:var(--txt3);white-space:nowrap}
+/* Compat */
+.login-divider{display:none}
+.login-field{position:relative;margin-bottom:12px}
+.login-field-label{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--txt3);letter-spacing:1px;pointer-events:none;transition:all .2s;font-family:var(--font-u)}
+.login-input{width:100%;padding:20px 16px 8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:var(--txt);font-size:15px;font-family:var(--font-b);outline:none;transition:all .2s}
+.login-input:focus{border-color:rgba(204,0,0,.6);background:rgba(204,0,0,.06);box-shadow:0 0 0 3px rgba(204,0,0,.1)}
+.login-input:focus + .login-field-label,.login-input:not(:placeholder-shown) + .login-field-label{top:10px;font-size:9px;letter-spacing:2px;color:var(--red)}
+.login-input::placeholder{color:transparent}
+.btn-email{display:none}
+.btn-google{display:none}
+.login-links{display:flex;justify-content:space-between;margin-top:6px;padding:0 2px}
+.login-skip{font-size:12px;color:var(--txt3);cursor:pointer;transition:.2s;letter-spacing:.3px}
 .login-skip:hover{color:var(--txt)}
 
 /* ══ AVATAR SCREEN ════════════════════════════════ */
@@ -141,54 +175,97 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 /* ══ QUIZ SCREEN — REDESIGN ═══════════════════════ */
 
-/* Game BG gradient */
-#screen-quiz{background:radial-gradient(ellipse 120% 60% at 50% 0%,rgba(180,0,0,.25) 0%,transparent 65%),var(--bg)}
+/* Game BG */
+#screen-quiz{background:linear-gradient(180deg,#0a0505 0%,#050505 100%);overflow-y:auto}
 
-/* Top bar */
-.quiz-header{width:100%;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,8,8,.95);border-bottom:1px solid rgba(204,0,0,.2);flex-shrink:0;backdrop-filter:blur(8px)}
-.quiz-level-badge{font-family:var(--font-t);font-size:13px;color:var(--gold);letter-spacing:3px;background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.3);padding:4px 12px;border-radius:20px}
-.quiz-lives-mini{display:flex;gap:3px}
-.life-mini{font-size:18px;transition:.3s;filter:drop-shadow(0 0 4px rgba(255,50,50,.6))}
-.life-mini.lost{opacity:.15;filter:grayscale(1) drop-shadow(none)}
-.quiz-score-badge{font-family:var(--font-t);font-size:20px;color:#fff;background:rgba(204,0,0,.2);border:1px solid rgba(204,0,0,.4);padding:3px 12px;border-radius:20px}
+/* ── TOP HEADER ── */
+.quiz-header{width:100%;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,5,.98);border-bottom:1px solid rgba(204,0,0,.25);flex-shrink:0;gap:8px}
+.quiz-header-left{display:flex;align-items:center;gap:6px}
+.quiz-lives-mini{display:flex;align-items:center;gap:2px}
+.life-mini-heart{font-size:16px;transition:.3s;filter:drop-shadow(0 0 4px rgba(255,50,50,.7))}
+.life-mini-heart.lost{opacity:.15;filter:grayscale(1)}
+.quiz-lives-label{font-size:9px;letter-spacing:2px;color:var(--txt3);font-family:var(--font-u)}
+.quiz-header-center{display:flex;flex-direction:column;align-items:center}
+.quiz-header-logo{width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(204,0,0,.4))}
+.quiz-header-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.quiz-ranking-badge{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:1px;color:var(--gold)}
+.quiz-ranking-pos{font-family:var(--font-t);font-size:16px;color:var(--gold)}
+.quiz-ranking-total{font-size:9px;color:var(--txt3)}
 
-/* PROGRESS */
-.level-progress{width:100%;padding:8px 14px 10px;background:rgba(8,8,8,.8)}
+/* ── PERGUNTA / TIMER INFO BAR ── */
+.quiz-info-bar{width:100%;padding:8px 14px 6px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,5,.7)}
+.quiz-q-counter{font-size:11px;color:var(--txt3);letter-spacing:1px}
+.quiz-q-counter strong{font-family:var(--font-t);font-size:18px;color:var(--red)}
+.quiz-prize{font-size:11px;color:var(--txt3);letter-spacing:1px;text-align:right}
+.quiz-prize strong{font-family:var(--font-t);font-size:16px;color:var(--gold)}
+
+/* ── CIRCULAR TIMER ── */
+.countdown-wrap{width:100%;padding:6px 14px 4px;display:flex;align-items:center;justify-content:center}
+.timer-ring-wrap{position:relative;width:80px;height:80px;flex-shrink:0}
+.timer-ring-svg{width:80px;height:80px;transform:rotate(-90deg)}
+.timer-ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:6}
+.timer-ring-fill{fill:none;stroke:#22c55e;stroke-width:6;stroke-linecap:round;stroke-dasharray:207;stroke-dashoffset:0;transition:stroke-dashoffset .9s linear,stroke .5s}
+.timer-ring-fill.danger{stroke:#ef4444}
+.timer-ring-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.timer-num-val{font-family:var(--font-t);font-size:28px;color:#fff;line-height:1}
+.timer-num-label{font-size:7px;letter-spacing:2px;color:var(--txt3)}
+/* keep hidden bar for JS compat */
+.countdown-bar{display:none}
+.countdown-fill{display:none}
+.countdown-num{display:none}
+
+/* ── PROGRESS BAR ── */
+.level-progress{width:100%;padding:4px 14px 6px;background:transparent}
 .lp-steps{display:flex;gap:3px}
-.lp-step{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:3px;transition:.4s}
+.lp-step{flex:1;height:3px;background:rgba(255,255,255,.06);border-radius:3px;transition:.4s}
 .lp-step.done{background:var(--green);box-shadow:0 0 6px rgba(34,197,94,.5)}
-.lp-step.current{background:var(--gold);animation:pulse-bar .8s ease-in-out infinite;box-shadow:0 0 8px rgba(200,168,75,.6)}
-@keyframes pulse-bar{0%,100%{opacity:1}50%{opacity:.4}}
+.lp-step.current{background:var(--gold);animation:pulse-bar .8s ease-in-out infinite}
+@keyframes pulse-bar{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* COUNTDOWN */
-.countdown-wrap{width:100%;padding:10px 14px 0;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.countdown-bar{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.05)}
-.countdown-fill{height:100%;background:linear-gradient(90deg,var(--green),#86efac);border-radius:4px;transition:width .1s linear}
-.countdown-fill.danger{background:linear-gradient(90deg,#ef4444,#fca5a5)}
-.countdown-num{font-family:var(--font-t);font-size:26px;color:var(--green);width:30px;text-align:right;line-height:1;text-shadow:0 0 12px rgba(34,197,94,.6)}
-.countdown-num.danger{color:#ef4444;text-shadow:0 0 12px rgba(239,68,68,.8)}
+/* ── HELPERS — Quem quer ser milionário style ── */
+.helpers-row{width:100%;padding:0 12px 8px;display:flex;gap:6px}
+.helper-btn{flex:1;padding:8px 4px 10px;background:rgba(20,20,20,.9);border:1px solid rgba(255,255,255,.1);border-radius:12px;font-size:9px;color:var(--txt2);cursor:pointer;text-align:center;transition:all .2s;font-family:var(--font-b);letter-spacing:.5px;position:relative}
+.helper-btn:hover:not(:disabled){border-color:rgba(200,168,75,.5);color:var(--gold);background:rgba(200,168,75,.08);box-shadow:0 0 14px rgba(200,168,75,.15)}
+.helper-btn:disabled,.helper-btn.used{opacity:.2;cursor:not-allowed}
+.helper-btn .helper-icon{font-size:22px;display:block;margin-bottom:4px}
+.helper-badge{position:absolute;top:-6px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 
-/* QUESTION AREA */
-.quiz-q-wrap{width:100%;padding:16px 14px 8px}
-.quiz-category{font-size:9px;letter-spacing:4px;color:rgba(200,168,75,.7);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.quiz-category::before{content:'';width:16px;height:1px;background:rgba(200,168,75,.4)}
-.quiz-question-card{background:linear-gradient(135deg,rgba(204,0,0,.12) 0%,rgba(30,10,10,.8) 100%);border:1px solid rgba(204,0,0,.25);border-radius:12px;padding:18px 16px;position:relative;overflow:hidden}
-.quiz-question-card::before{content:'?';position:absolute;right:-8px;top:-12px;font-family:var(--font-t);font-size:120px;color:rgba(204,0,0,.06);line-height:1;pointer-events:none}
-.quiz-question{font-family:var(--font-u);font-size:clamp(16px,4.2vw,21px);font-weight:400;color:var(--txt);line-height:1.45}
+/* ── QUESTION CARD with stadium bg ── */
+.quiz-q-wrap{width:100%;padding:8px 12px 6px}
+.quiz-question-card{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.1);position:relative;min-height:120px;display:flex;flex-direction:column}
+.quiz-question-stadium{position:absolute;inset:0;background:url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Estadio_Cicero_Pompeu_de_Toledo.jpg/800px-Estadio_Cicero_Pompeu_de_Toledo.jpg') center/cover no-repeat;filter:grayscale(80%) brightness(.35)}
+.quiz-question-inner{position:relative;z-index:2;padding:14px 16px 16px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.quiz-category{font-size:10px;letter-spacing:3px;color:var(--gold);background:rgba(0,0,0,.5);border:1px solid rgba(200,168,75,.3);border-radius:20px;padding:3px 12px;display:inline-flex;align-items:center;gap:5px}
+.quiz-question{font-family:var(--font-u);font-size:clamp(15px,4vw,20px);font-weight:600;color:#fff;line-height:1.5;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.8)}
 
-/* OPTIONS GRID 2x2 */
-.quiz-options{width:100%;padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.q-opt{width:100%;padding:0;background:transparent;border:none;cursor:pointer;text-align:left;transition:transform .15s;font-family:var(--font-b);position:relative;border-radius:10px;overflow:hidden}
-.q-opt:active:not(:disabled){transform:scale(.96)}
+/* ── OPTIONS — vertical list ── */
+.quiz-options{width:100%;padding:6px 12px 4px;display:flex;flex-direction:column;gap:8px}
+.q-opt{width:100%;padding:0;background:transparent;border:none;cursor:pointer;text-align:left;transition:transform .12s;font-family:var(--font-b);border-radius:14px}
+.q-opt:active:not(:disabled){transform:scale(.98)}
 .q-opt:disabled{cursor:default}
-.q-opt-inner{display:flex;align-items:center;gap:10px;padding:12px 13px;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;transition:all .2s;height:100%;min-height:54px}
-.q-opt:hover:not(:disabled) .q-opt-inner{background:rgba(204,0,0,.12);border-color:rgba(204,0,0,.5);box-shadow:0 0 16px rgba(204,0,0,.2)}
-.q-opt-letter{font-family:var(--font-t);font-size:15px;color:var(--red);flex-shrink:0;width:24px;height:24px;background:rgba(204,0,0,.15);border-radius:6px;display:flex;align-items:center;justify-content:center;line-height:1;border:1px solid rgba(204,0,0,.3)}
-.q-opt-text{font-size:13px;color:var(--txt);line-height:1.3;flex:1}
-.q-opt.correct .q-opt-inner{background:rgba(34,197,94,.15)!important;border-color:var(--green)!important;box-shadow:0 0 20px rgba(34,197,94,.3)!important}
-.q-opt.correct .q-opt-letter{background:rgba(34,197,94,.2);border-color:var(--green);color:var(--green)}
-.q-opt.wrong .q-opt-inner{background:rgba(239,68,68,.15)!important;border-color:#ef4444!important;box-shadow:0 0 20px rgba(239,68,68,.3)!important}
-.q-opt.wrong .q-opt-letter{background:rgba(239,68,68,.2);border-color:#ef4444;color:#ef4444}
+.q-opt-inner{display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(18,18,18,.95);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;transition:all .18s}
+.q-opt:hover:not(:disabled) .q-opt-inner{background:rgba(204,0,0,.15);border-color:rgba(204,0,0,.6);box-shadow:0 0 18px rgba(204,0,0,.2);transform:translateX(4px)}
+.q-opt-letter{font-family:var(--font-t);font-size:16px;color:#fff;flex-shrink:0;width:34px;height:34px;background:rgba(40,40,40,1);border:1.5px solid rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1}
+.q-opt-text{font-size:15px;color:var(--txt);line-height:1.3;flex:1;font-weight:500}
+.q-opt.selected .q-opt-inner{background:rgba(204,0,0,.3);border-color:var(--red);box-shadow:0 0 20px rgba(204,0,0,.4)}
+.q-opt.selected .q-opt-letter{background:var(--red);border-color:var(--red)}
+.q-opt.correct .q-opt-inner{background:rgba(34,197,94,.18)!important;border-color:#22c55e!important;box-shadow:0 0 20px rgba(34,197,94,.4)!important}
+.q-opt.correct .q-opt-letter{background:#22c55e;border-color:#22c55e;color:#fff}
+.q-opt.wrong .q-opt-inner{background:rgba(239,68,68,.18)!important;border-color:#ef4444!important;box-shadow:0 0 20px rgba(239,68,68,.35)!important}
+.q-opt.wrong .q-opt-letter{background:#ef4444;border-color:#ef4444;color:#fff}
+
+/* ── BOTTOM BAR ── */
+.quiz-bottom-bar{width:100%;padding:8px 12px 12px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.06);margin-top:auto;flex-shrink:0}
+.quiz-bottom-btn{padding:10px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;font-size:12px;color:var(--txt2);cursor:pointer;display:flex;align-items:center;gap:6px;letter-spacing:1px;font-family:var(--font-u);transition:all .2s}
+.quiz-bottom-btn:hover{background:rgba(255,255,255,.1);color:var(--txt)}
+.quiz-bottom-btn.danger{border-color:rgba(204,0,0,.3);color:rgba(204,0,0,.7)}
+.quiz-bottom-btn.danger:hover{background:rgba(204,0,0,.12);color:var(--red)}
+.quiz-bottom-player{display:flex;align-items:center;gap:8px}
+.quiz-player-shield{width:32px;height:32px;object-fit:contain}
+.quiz-player-info{}
+.quiz-player-label{font-size:8px;letter-spacing:2px;color:var(--txt3)}
+.quiz-player-level{font-size:13px;font-weight:700;color:var(--txt)}
+.quiz-player-xp{font-size:9px;color:var(--txt3)}
 
 /* COMBO */
 .combo-display{position:fixed;top:80px;right:14px;z-index:500;opacity:0;transition:opacity .3s;pointer-events:none}
@@ -206,14 +283,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 /* SCORE POPUP */
 .score-popup{position:fixed;font-family:var(--font-t);font-size:28px;color:var(--gold);pointer-events:none;z-index:800;animation:floatup .8s ease forwards;text-shadow:0 0 12px rgba(200,168,75,.8)}
 @keyframes floatup{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-60px)}}
-
-/* HELPERS */
-.helpers-row{width:100%;padding:0 14px 8px;display:flex;gap:6px}
-.helper-btn{flex:1;padding:10px 6px;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;font-size:10px;color:var(--txt2);cursor:pointer;text-align:center;transition:.2s;font-family:var(--font-b);letter-spacing:.5px}
-.helper-btn:hover:not(:disabled){border-color:rgba(200,168,75,.5);color:var(--gold);background:rgba(200,168,75,.08);box-shadow:0 0 12px rgba(200,168,75,.15)}
-.helper-btn:disabled{opacity:.25;cursor:not-allowed}
-.helper-btn .helper-icon{font-size:20px;display:block;margin-bottom:3px}
-.helper-btn.used{opacity:.15;cursor:not-allowed}
 
 /* ══ LEVEL UP SCREEN ══════════════════════════════ */
 .levelup-wrap{width:100%;max-width:380px;padding:40px 20px;text-align:center}
@@ -449,26 +518,95 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 <!-- ══ SCREEN: LOGIN ══════════════════════════════ -->
 <div class="screen" id="screen-login">
-  <div class="topbar">
-    <button class="tb-back" onclick="goScreen('screen-home')">← VOLTAR</button>
-    <div class="tb-logo"><span>SPFC</span> QUIZ</div>
-    <div style="width:60px"></div>
+  <!-- Hero -->
+  <div class="login-hero">
+    <div class="login-badge">
+      <img class="login-badge-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Coat_of_arms_of_S%C3%A3o_Paulo_FC.svg/200px-Coat_of_arms_of_S%C3%A3o_Paulo_FC.svg.png" alt="SPFC">
+    </div>
+    <div class="login-quiz-title">QUIZ</div>
+    <div class="login-tricolor">T R I C O L O R</div>
+    <div class="login-tagline">Mostre que você é um<br><strong>verdadeiro torcedor!</strong></div>
   </div>
+
   <div class="login-wrap fade-in">
-    <div class="login-icon">🔐</div>
-    <div class="login-title">ENTRAR</div>
-    <div class="login-sub">Faça login para salvar seu progresso, subir no ranking e ganhar conquistas.</div>
-    <button class="btn-google" onclick="loginGoogle()">
-      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-      Entrar com Google
-    </button>
-    <div class="login-divider">ou</div>
-    <input class="login-input" id="emailInput" type="email" placeholder="seu@email.com">
-    <input class="login-input" id="passInput" type="password" placeholder="Senha">
-    <button class="btn-email" onclick="loginEmail()">ENTRAR COM EMAIL</button>
-    <button class="btn-secondary" onclick="registerEmail()" style="max-width:100%">CRIAR CONTA</button>
-    <div class="login-skip" onclick="forgotPassword()" style="margin-top:4px">Esqueci minha senha</div>
-    <div class="login-skip" onclick="playAsGuest()">Jogar sem login (progresso local)</div>
+    <!-- Login card -->
+    <div class="login-card">
+      <div class="login-card-header"><span>FAÇA LOGIN</span> PARA CONTINUAR</div>
+
+      <!-- Email button (opens inline form) -->
+      <button class="login-btn login-btn-email" onclick="toggleEmailForm()">
+        <div class="login-btn-icon">✉️</div>
+        <span class="login-btn-text">Entrar com e-mail</span>
+        <span class="login-btn-arrow">›</span>
+      </button>
+
+      <!-- Inline email form (hidden by default) -->
+      <div id="emailFormInline" style="display:none;margin-bottom:10px">
+        <div class="login-field">
+          <input class="login-input" id="emailInput" type="email" placeholder="email" autocomplete="email">
+          <span class="login-field-label">Email</span>
+        </div>
+        <div class="login-field">
+          <input class="login-input" id="passInput" type="password" placeholder="senha" autocomplete="current-password">
+          <span class="login-field-label">Senha</span>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:4px">
+          <button onclick="loginEmail()" style="flex:1;padding:12px;background:var(--red);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;letter-spacing:1px">ENTRAR</button>
+          <button onclick="registerEmail()" style="flex:1;padding:12px;background:rgba(255,255,255,.06);color:var(--txt);border:1px solid rgba(255,255,255,.12);border-radius:10px;font-size:13px;cursor:pointer">CRIAR CONTA</button>
+        </div>
+        <div style="text-align:center">
+          <span class="login-skip" onclick="forgotPassword()">Esqueci minha senha</span>
+        </div>
+      </div>
+
+      <div style="text-align:center;font-size:11px;color:var(--txt3);letter-spacing:2px;margin:4px 0 10px">OU</div>
+
+      <!-- Google -->
+      <button class="login-btn login-btn-google" onclick="loginGoogle()">
+        <div class="login-btn-icon">
+          <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        </div>
+        <span class="login-btn-text">Continuar com Google</span>
+        <span class="login-btn-arrow">›</span>
+      </button>
+
+      <!-- Guest -->
+      <button class="login-btn login-btn-guest" onclick="playAsGuest()">
+        <div class="login-btn-icon">👤</div>
+        <span class="login-btn-text">Entrar como visitante</span>
+        <span class="login-btn-arrow">›</span>
+      </button>
+    </div>
+
+    <!-- Features -->
+    <div class="login-features">
+      <div class="login-feat">
+        <div class="login-feat-icon">🏆</div>
+        <div class="login-feat-title">RANKING</div>
+        <div class="login-feat-sub">Compita com outros torcedores</div>
+      </div>
+      <div class="login-feat">
+        <div class="login-feat-icon">👑</div>
+        <div class="login-feat-title">CONQUISTAS</div>
+        <div class="login-feat-sub">Desbloqueie troféus e recompensas</div>
+      </div>
+      <div class="login-feat">
+        <div class="login-feat-icon">⚡</div>
+        <div class="login-feat-title">DESAFIOS</div>
+        <div class="login-feat-sub">Teste seus conhecimentos</div>
+      </div>
+    </div>
+
+    <!-- Criar conta link -->
+    <div style="text-align:center;margin-bottom:16px">
+      <span style="font-size:13px;color:var(--txt3)">Ainda não tem uma conta? </span>
+      <span onclick="registerEmail()" style="font-size:13px;color:var(--red);cursor:pointer;font-weight:700;letter-spacing:1px">CRIAR CONTA ›</span>
+    </div>
+
+    <!-- Footer bar -->
+    <div class="login-footer-bar">
+      <span class="login-footer-brand">S Ã O &nbsp; P A U L O &nbsp; F C</span>
+    </div>
   </div>
 </div>
 
@@ -514,37 +652,98 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 <!-- ══ SCREEN: QUIZ ═══════════════════════════════ -->
 <div class="screen" id="screen-quiz">
+
+  <!-- TOP HEADER: Vidas | Logo | Ranking -->
   <div class="quiz-header">
-    <div class="quiz-level-badge" id="quizLevelBadge">NÍVEL 1</div>
-    <div class="quiz-lives-mini" id="quizLivesMini"></div>
-    <div class="quiz-score-badge" id="quizScoreBadge">0 pts</div>
+    <div class="quiz-header-left">
+      <div class="quiz-lives-mini" id="quizLivesMini"></div>
+    </div>
+    <div class="quiz-header-center">
+      <img class="quiz-header-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Coat_of_arms_of_S%C3%A3o_Paulo_FC.svg/200px-Coat_of_arms_of_S%C3%A3o_Paulo_FC.svg.png" alt="SPFC">
+    </div>
+    <div class="quiz-header-right">
+      <div class="quiz-ranking-badge">🏆 <span>RANKING</span></div>
+      <div style="display:flex;align-items:baseline;gap:3px">
+        <span class="quiz-ranking-pos" id="quizScoreBadge">0</span>
+        <span class="quiz-ranking-total">pts</span>
+      </div>
+    </div>
   </div>
+
+  <!-- PERGUNTA X/Y | PRÊMIO -->
+  <div class="quiz-info-bar">
+    <div class="quiz-q-counter">PERGUNTA <strong id="quizQNum">1</strong> / <span id="quizQTotal">8</span></div>
+    <div class="quiz-prize">NÍVEL <strong id="quizLevelBadge">1</strong></div>
+  </div>
+
+  <!-- PROGRESS -->
   <div class="level-progress">
     <div class="lp-steps" id="lpSteps"></div>
   </div>
+
+  <!-- TIMER CIRCULAR -->
   <div class="countdown-wrap">
-    <div style="font-size:9px;letter-spacing:3px;color:var(--txt3)">TEMPO</div>
-    <div class="countdown-bar"><div class="countdown-fill" id="countdownFill"></div></div>
-    <div class="countdown-num" id="countdownNum">30</div>
-  </div>
-  <div class="quiz-q-wrap fade-in">
-    <div class="quiz-category" id="qCategory"></div>
-    <div class="quiz-question-card">
-      <div class="quiz-question" id="qText"></div>
+    <div class="timer-ring-wrap">
+      <svg class="timer-ring-svg" viewBox="0 0 80 80">
+        <circle class="timer-ring-bg" cx="40" cy="40" r="33"/>
+        <circle class="timer-ring-fill" id="countdownFill" cx="40" cy="40" r="33"/>
+      </svg>
+      <div class="timer-ring-num">
+        <span class="timer-num-val" id="countdownNum">30</span>
+        <span class="timer-num-label">SEG</span>
+      </div>
     </div>
+    <!-- hidden for JS compat -->
+    <div class="countdown-bar" style="display:none"><div id="_cdFillHidden"></div></div>
   </div>
-  <div class="quiz-options" id="qOptions"></div>
+
+  <!-- HELPERS -->
   <div class="helpers-row">
     <button class="helper-btn" id="helper1" onclick="useHelper('eliminate')">
-      <span class="helper-icon">✂️</span>Eliminar 2
+      <span class="helper-icon">50:50</span>
+      <span class="helper-badge">2</span>
+      ELIMINAR 2
     </button>
     <button class="helper-btn" id="helper2" onclick="useHelper('skip')">
-      <span class="helper-icon">⏭️</span>Pular
+      <span class="helper-icon">👥</span>
+      <span class="helper-badge">1</span>
+      AJUDA DA TORCIDA
     </button>
     <button class="helper-btn" id="helper3" onclick="useHelper('hint')">
-      <span class="helper-icon">💡</span>Dica
+      <span class="helper-icon">📞</span>
+      <span class="helper-badge">1</span>
+      LIGAR P/ AMIGO
     </button>
   </div>
+
+  <!-- QUESTION CARD with stadium background -->
+  <div class="quiz-q-wrap fade-in">
+    <div class="quiz-question-card">
+      <div class="quiz-question-stadium"></div>
+      <div class="quiz-question-inner">
+        <div class="quiz-category" id="qCategory">HISTÓRIA TRICOLOR</div>
+        <div class="quiz-question" id="qText"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTIONS — vertical list -->
+  <div class="quiz-options" id="qOptions"></div>
+
+  <!-- BOTTOM BAR -->
+  <div class="quiz-bottom-bar">
+    <button class="quiz-bottom-btn" onclick="useHelper('skip')" id="quizBtnPular">⏭ PULAR</button>
+    <div class="quiz-bottom-player">
+      <img class="quiz-player-shield" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Coat_of_arms_of_S%C3%A3o_Paulo_FC.svg/200px-Coat_of_arms_of_S%C3%A3o_Paulo_FC.svg.png" alt="">
+      <div class="quiz-player-info">
+        <div class="quiz-player-label">TORCEDOR</div>
+        <div class="quiz-player-level" id="quizPlayerLevel">NÍVEL 1</div>
+        <div class="quiz-player-xp" id="quizPlayerXP">0 / 1.000 XP</div>
+      </div>
+    </div>
+    <button class="quiz-bottom-btn danger" onclick="confirmQuit()">DESISTIR ↩</button>
+  </div>
+
 </div>
 
 <!-- FEEDBACK OVERLAY -->
@@ -1001,9 +1200,14 @@ function getTimeToNextLife() {
 function renderLives(containerId) {
   const el = document.getElementById(containerId);
   if (!el) return;
-  el.innerHTML = Array.from({length: MAX_LIVES}, (_,i) =>
-    `<span class="life${i >= STATE.lives ? ' lost' : ''}">❤️</span>`
+  const hearts = Array.from({length: MAX_LIVES}, (_,i) =>
+    `<span class="life${i >= STATE.lives ? ' lost' : ''} life-mini-heart">❤️</span>`
   ).join('');
+  if (containerId === 'quizLivesMini') {
+    el.innerHTML = hearts + `<span class="quiz-lives-label" style="margin-left:5px">${STATE.lives} VIDAS</span>`;
+  } else {
+    el.innerHTML = hearts;
+  }
 }
 
 function startLivesTimer() {
@@ -1512,6 +1716,11 @@ async function loadUserData(user) {
   } catch(e) {}
 }
 
+function toggleEmailForm() {
+  const form = document.getElementById('emailFormInline');
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+
 async function loginGoogle() {
   if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
   const {auth, provider, signInWithPopup} = window.FB;
@@ -1639,6 +1848,13 @@ function shuffle(arr) {
 
 let levelQuestions = [];
 
+function confirmQuit() {
+  if (confirm('Deseja realmente desistir? Seu progresso neste nível será perdido.')) {
+    clearInterval(countdownTimer);
+    goScreen('screen-home');
+  }
+}
+
 function startGame() {
   checkLivesRegen();
   if (STATE.lives <= 0) {
@@ -1662,8 +1878,17 @@ function renderQuestion() {
   STATE.currentQ = q;
 
   // Header
-  document.getElementById('quizLevelBadge').textContent = `NÍVEL ${STATE.level} — ${levelInfo.name}`;
-  document.getElementById('quizScoreBadge').textContent = `${STATE.score} pts`;
+  const qNumEl = document.getElementById('quizQNum');
+  const qTotEl = document.getElementById('quizQTotal');
+  const levelBadgeEl = document.getElementById('quizLevelBadge');
+  const playerLvlEl = document.getElementById('quizPlayerLevel');
+  const playerXpEl = document.getElementById('quizPlayerXP');
+  if (qNumEl) qNumEl.textContent = STATE.questionIdx + 1;
+  if (qTotEl) qTotEl.textContent = STATE.level === 6 ? 1 : QUESTIONS_PER_LEVEL;
+  if (levelBadgeEl) levelBadgeEl.textContent = `${STATE.level} — ${levelInfo.name}`;
+  document.getElementById('quizScoreBadge').textContent = STATE.score.toLocaleString('pt-BR');
+  if (playerLvlEl) playerLvlEl.textContent = `NÍVEL ${STATE.userData?.level || 1}`;
+  if (playerXpEl) { const xp = STATE.userData?.xp || 0; const next = (STATE.userData?.level || 1) * 1000; playerXpEl.textContent = `${xp.toLocaleString('pt-BR')} / ${next.toLocaleString('pt-BR')} XP`; }
   renderLives('quizLivesMini');
 
   // Progress steps
@@ -1722,11 +1947,13 @@ function startCountdown(seconds) {
 
 function updateCountdownUI() {
   const levelInfo = LEVELS_INFO[STATE.level - 1];
-  const pct = (STATE.timeLeft / levelInfo.time) * 100;
+  const pct = (STATE.timeLeft / levelInfo.time);
   const fill = document.getElementById('countdownFill');
   const num = document.getElementById('countdownNum');
-  if (fill) {
-    fill.style.width = pct + '%';
+  // Circular timer (circumference of r=33 circle = 2*PI*33 ≈ 207.3)
+  if (fill && fill.tagName === 'circle') {
+    const circ = 207.3;
+    fill.style.strokeDashoffset = circ * (1 - pct);
     fill.classList.toggle('danger', STATE.timeLeft <= 8);
   }
   if (num) {
@@ -2132,18 +2359,19 @@ async function loadRanking(type, btn) {
     const weekKey = `${now.getFullYear()}-W${String(Math.ceil((now - new Date(now.getFullYear(),0,1)) / 86400000 / 7)).padStart(2,"0")}`;
     const monthKey = now.toISOString().slice(0,7);
 
-    let q;
+    // Busca top 10 para exibir
+    let q10;
     if (type === 'geral') {
-      q = query(collection(db,'ranking'), where('type','==','geral'), orderBy('score','desc'), limit(20));
+      q10 = query(collection(db,'ranking'), where('type','==','geral'), orderBy('score','desc'), limit(10));
     } else if (type === 'diario') {
-      q = query(collection(db,'ranking'), where('type','==','diario'), where('dateKey','==',dateKey), orderBy('score','desc'), limit(20));
+      q10 = query(collection(db,'ranking'), where('type','==','diario'), where('dateKey','==',dateKey), orderBy('score','desc'), limit(10));
     } else if (type === 'semanal') {
-      q = query(collection(db,'ranking'), where('type','==','semanal'), where('weekKey','==',weekKey), orderBy('score','desc'), limit(20));
+      q10 = query(collection(db,'ranking'), where('type','==','semanal'), where('weekKey','==',weekKey), orderBy('score','desc'), limit(10));
     } else {
-      q = query(collection(db,'ranking'), where('type','==','mensal'), where('monthKey','==',monthKey), orderBy('score','desc'), limit(20));
+      q10 = query(collection(db,'ranking'), where('type','==','mensal'), where('monthKey','==',monthKey), orderBy('score','desc'), limit(10));
     }
 
-    const snap = await getDocs(q);
+    const snap = await getDocs(q10);
     const docs = [];
     snap.forEach(d => docs.push(d.data()));
 
@@ -2153,7 +2381,9 @@ async function loadRanking(type, btn) {
     }
 
     const myUid = STATE.user?.uid;
-    list.innerHTML = docs.map((d,i) => {
+    const myInTop = docs.findIndex(d => d.uid === myUid);
+
+    let html = docs.map((d, i) => {
       const pos = i + 1;
       const posClass = pos === 1 ? 'top1' : pos === 2 ? 'top2' : pos === 3 ? 'top3' : '';
       const isMe = myUid && d.uid === myUid;
@@ -2168,6 +2398,45 @@ async function loadRanking(type, btn) {
           <div class="rank-pts">${(d.score||0).toLocaleString('pt-BR')}</div>
         </div>`;
     }).join('');
+
+    // Se o jogador está logado e fora do top 10, busca sua posição real
+    if (myUid && myInTop === -1) {
+      try {
+        let qAll;
+        if (type === 'geral') {
+          qAll = query(collection(db,'ranking'), where('type','==','geral'), orderBy('score','desc'));
+        } else if (type === 'diario') {
+          qAll = query(collection(db,'ranking'), where('type','==','diario'), where('dateKey','==',dateKey), orderBy('score','desc'));
+        } else if (type === 'semanal') {
+          qAll = query(collection(db,'ranking'), where('type','==','semanal'), where('weekKey','==',weekKey), orderBy('score','desc'));
+        } else {
+          qAll = query(collection(db,'ranking'), where('type','==','mensal'), where('monthKey','==',monthKey), orderBy('score','desc'));
+        }
+        const snapAll = await getDocs(qAll);
+        let myPos = -1, myData = null;
+        let idx = 0;
+        snapAll.forEach(d => {
+          idx++;
+          if (d.data().uid === myUid) { myPos = idx; myData = d.data(); }
+        });
+
+        if (myPos > 0 && myData) {
+          html += `
+            <div style="text-align:center;padding:8px 0;color:var(--txt3);font-size:11px;letter-spacing:2px">• • •</div>
+            <div class="rank-item me">
+              <div class="rank-pos">${myPos}</div>
+              ${myData.avatar ? `<img class="rank-avatar-mini" src="${myData.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:3px"></div>`}
+              <div class="rank-info">
+                <div class="rank-name">${myData.name || 'Torcedor'} (você)</div>
+                <div class="rank-detail">Nível ${myData.level || 1} · ${myData.streak||0} dias seguidos</div>
+              </div>
+              <div class="rank-pts">${(myData.score||0).toLocaleString('pt-BR')}</div>
+            </div>`;
+        }
+      } catch(e) {}
+    }
+
+    list.innerHTML = html;
   } catch(e) {
     list.innerHTML = '<div class="rank-empty">Erro ao carregar. Verifique o Firebase.</div>';
     console.warn(e);
@@ -2202,8 +2471,7 @@ async function loadRankingWordle(btn) {
     });
 
     const docs = Object.values(byUid)
-      .sort((a, b) => b.streak - a.streak || a.tries - b.tries)
-      .slice(0, 20);
+      .sort((a, b) => b.streak - a.streak || a.tries - b.tries);
 
     if (!docs.length) {
       list.innerHTML = '<div class="rank-empty">Nenhum registro ainda. Jogue o Wordle hoje!</div>';
@@ -2211,11 +2479,15 @@ async function loadRankingWordle(btn) {
     }
 
     const myUid = window.FB.auth.currentUser?.uid || STATE.user?.uid;
-    list.innerHTML = `
+    const top10 = docs.slice(0, 10);
+    const myInTop = top10.findIndex(d => d.uid === myUid);
+    const myFullPos = myUid ? docs.findIndex(d => d.uid === myUid) : -1;
+
+    let html = `
       <div style="font-size:10px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase;padding:8px 4px 12px;text-align:center">
         🔤 RANKING POR SEQUÊNCIA CONSECUTIVA
       </div>
-      ${docs.map((d, i) => {
+      ${top10.map((d, i) => {
         const pos = i + 1;
         const posClass = pos === 1 ? 'top1' : pos === 2 ? 'top2' : pos === 3 ? 'top3' : '';
         const isMe = myUid && d.uid === myUid;
@@ -2234,6 +2506,28 @@ async function loadRankingWordle(btn) {
             </div>
           </div>`;
       }).join('')}`;
+
+    // Jogador fora do top 10
+    if (myUid && myInTop === -1 && myFullPos >= 0) {
+      const myData = docs[myFullPos];
+      const streakFire = myData.streak >= 30 ? '👑' : myData.streak >= 15 ? '💎' : myData.streak >= 7 ? '🔥🔥' : myData.streak >= 3 ? '🔥' : '';
+      html += `
+        <div style="text-align:center;padding:8px 0;color:var(--txt3);font-size:11px;letter-spacing:2px">• • •</div>
+        <div class="rank-item me">
+          <div class="rank-pos">${myFullPos + 1}</div>
+          ${myData.avatar ? `<img class="rank-avatar-mini" src="${myData.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
+          <div class="rank-info">
+            <div class="rank-name">${myData.name || 'Torcedor'} (você) ${streakFire}</div>
+            <div class="rank-detail">${myData.tries || '?'} tent. · Édição #${(myData.edition || 0) + 1}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div class="rank-pts">${myData.streak}</div>
+            <div style="font-size:9px;color:var(--txt3);letter-spacing:1px">dias seguidos</div>
+          </div>
+        </div>`;
+    }
+
+    list.innerHTML = html;
   } catch(e) {
     list.innerHTML = '<div class="rank-empty">Erro ao carregar. Verifique o Firebase.</div>';
     console.warn('Wordle ranking error:', e);
