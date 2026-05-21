@@ -2946,12 +2946,30 @@ function toggleEmailForm() {
 
 async function loginGoogle() {
   if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
-  const {auth, provider, signInWithRedirect} = window.FB;
+  const {auth, provider, signInWithPopup, signInWithRedirect} = window.FB;
   try {
-    await signInWithRedirect(auth, provider);
-    // Página será redirecionada — resultado tratado em handleRedirectResult()
+    // Tenta popup primeiro (melhor UX)
+    const result = await signInWithPopup(auth, provider);
+    await loadUserData(result.user);
+    toast('Bem-vindo! 🔴', 'Login realizado com sucesso');
+    goScreen('screen-home');
+    checkAvatarSetup();
   } catch(e) {
-    toast('Erro no login', e.message || 'Tente novamente');
+    // Popup bloqueado (Safari, Firefox strict, iframe) → tenta redirect
+    if (e.code === 'auth/popup-blocked' ||
+        e.code === 'auth/popup-closed-by-user' ||
+        e.message?.includes('storage') ||
+        e.message?.includes('cross-origin') ||
+        e.message?.includes('blocked')) {
+      try {
+        await signInWithRedirect(auth, provider);
+        // página vai recarregar — handleRedirectResult() pega o resultado
+      } catch(e2) {
+        toast('Erro no login', 'Tente pelo email ou habilite popups no navegador');
+      }
+    } else if (e.code !== 'auth/popup-closed-by-user') {
+      toast('Erro no login', e.message || 'Tente novamente');
+    }
   }
 }
 
@@ -2967,7 +2985,8 @@ async function handleRedirectResult() {
       checkAvatarSetup();
     }
   } catch(e) {
-    if (e.code !== 'auth/null-user') {
+    // Ignora erro de "nenhum redirect pendente"
+    if (e.code && e.code !== 'auth/null-user' && !e.message?.includes('storage')) {
       toast('Erro no login', e.message || 'Tente novamente');
     }
   }
