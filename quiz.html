@@ -1542,19 +1542,19 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="home-live-stats">
     <div class="home-live-item">
       <div class="home-live-icon">👥</div>
-      <div class="home-live-value" id="liveOnline">1.284</div>
+      <div class="home-live-value" id="liveOnline">0</div>
       <div class="home-live-label">TORCEDORES ONLINE</div>
     </div>
     <div class="home-live-divider"></div>
     <div class="home-live-item">
       <div class="home-live-icon">🔥</div>
-      <div class="home-live-value" id="liveStreak">58</div>
+      <div class="home-live-value" id="liveStreak">0</div>
       <div class="home-live-label">MAIOR SEQUÊNCIA</div>
     </div>
     <div class="home-live-divider"></div>
     <div class="home-live-item">
       <div class="home-live-icon">👑</div>
-      <div class="home-live-value" id="liveBest" style="font-size:14px;font-weight:600">JoãoSPFC</div>
+      <div class="home-live-value" id="liveBest" style="font-size:14px;font-weight:600">—</div>
       <div class="home-live-label">MELHOR JOGADOR HOJE</div>
     </div>
   </div>
@@ -2937,15 +2937,46 @@ async function logout() {
 }
 
 function renderHomeUser() {
+  // Cabeçalho home (avatar + nome)
+  const homeChip = document.getElementById('userChipHome');
+  const homeImg = document.getElementById('homeAvatarImg');
+  const homePlaceholder = document.getElementById('homeAvatarPlaceholder');
+
+  if (homeChip) {
+    if (STATE.user || STATE.guest) {
+      // Logado: mostra avatar do player
+      homeChip.onclick = () => goScreen('screen-profile');
+      if (homeImg && STATE.avatar?.dataUrl) {
+        homeImg.src = STATE.avatar.dataUrl;
+        homeImg.style.display = 'block';
+        if (homePlaceholder) homePlaceholder.style.display = 'none';
+      } else if (homePlaceholder) {
+        homePlaceholder.textContent = '👤';
+        homePlaceholder.style.display = 'block';
+        if (homeImg) homeImg.style.display = 'none';
+      }
+    } else {
+      // Não logado: mostra botão entrar
+      homeChip.onclick = () => goScreen('screen-login');
+      if (homePlaceholder) {
+        homePlaceholder.textContent = '👤';
+        homePlaceholder.style.display = 'block';
+      }
+      if (homeImg) homeImg.style.display = 'none';
+    }
+  }
+
+  // userChip (elemento antigo, se existir)
   const chip = document.getElementById('userChip');
-  if (!chip) return;
-  if (STATE.user || STATE.guest) {
-    const name = STATE.avatar?.name || STATE.user?.displayName || 'Visitante';
-    chip.textContent = name.split(' ')[0];
-    chip.onclick = () => goScreen('screen-profile');
-  } else {
-    chip.textContent = 'Entrar';
-    chip.onclick = () => goScreen('screen-login');
+  if (chip) {
+    if (STATE.user || STATE.guest) {
+      const name = STATE.avatar?.name || STATE.user?.displayName || 'Visitante';
+      chip.textContent = name.split(' ')[0];
+      chip.onclick = () => goScreen('screen-profile');
+    } else {
+      chip.textContent = 'Entrar';
+      chip.onclick = () => goScreen('screen-login');
+    }
   }
 }
 
@@ -3706,7 +3737,7 @@ function renderProfile() {
       <div>
         <div class="profile-name">${name}</div>
         <div class="profile-level">${lvlLabel}</div>
-        ${STATE.user ? `<div style="font-size:11px;color:var(--txt3);margin-top:4px">${STATE.user.email||''}</div>` : '<div style="font-size:11px;color:var(--txt3);margin-top:4px">Visitante</div>'}
+        ${STATE.user ? `<div style="font-size:11px;color:var(--txt3);margin-top:4px">${STATE.user.email||''}</div>` : '<div style="font-size:11px;color:var(--txt3);margin-top:4px">Visitante</div><button onclick="goScreen('screen-login')" style="margin-top:10px;padding:8px 16px;background:var(--red);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;letter-spacing:1px">🔴 ENTRAR PARA JOGAR</button>'}
       </div>
     </div>
     <div class="profile-stats">
@@ -4577,6 +4608,10 @@ function renderHomeXP() {
     }
   }
 
+  // Atualizar vidas na home
+  const livesEl = document.getElementById('homeStatLives');
+  if (livesEl) livesEl.textContent = STATE.lives;
+
   // Atualizar também no quiz
   const quizLevel = document.getElementById('quizPlayerLevel');
   const quizXP = document.getElementById('quizPlayerXP');
@@ -4868,19 +4903,53 @@ function initHomeExtras() {
   }
 }
 
-function updateLiveStats() {
-  // Simulação de dados ao vivo (pode ser substituído por Firebase Realtime)
+async function updateLiveStats() {
   const onlineEl = document.getElementById('liveOnline');
   const streakEl = document.getElementById('liveStreak');
   const bestEl = document.getElementById('liveBest');
 
-  if (onlineEl) {
-    const base = 1200 + Math.floor(Math.random() * 200);
-    onlineEl.textContent = base.toLocaleString('pt-BR');
+  // Busca dados reais do Firebase
+  if (window.FB && window.FB.db) {
+    try {
+      const {db, collection, query, orderBy, limit, getDocs, where} = window.FB;
+
+      // 1. Contar jogadores online (últimas 24h)
+      const yesterday = new Date(Date.now() - 24*60*60*1000).toISOString().slice(0,10);
+      const onlineQ = query(collection(db, 'ranking'), where('dateKey', '>=', yesterday), orderBy('dateKey', 'desc'));
+      const onlineSnap = await getDocs(onlineQ);
+      const uniquePlayers = new Set();
+      onlineSnap.forEach(d => uniquePlayers.add(d.data().uid));
+      if (onlineEl) onlineEl.textContent = uniquePlayers.size.toLocaleString('pt-BR');
+
+      // 2. Maior sequência (bestStreak)
+      const streakQ = query(collection(db, 'ranking'), where('type', '==', 'geral'), orderBy('bestStreak', 'desc'), limit(1));
+      const streakSnap = await getDocs(streakQ);
+      if (!streakSnap.empty && streakEl) {
+        const data = streakSnap.docs[0].data();
+        streakEl.textContent = (data.bestStreak || 0).toString();
+      }
+
+      // 3. Melhor jogador hoje
+      const today = new Date().toISOString().slice(0,10);
+      const bestQ = query(collection(db, 'ranking'), where('type', '==', 'diario'), where('dateKey', '==', today), orderBy('score', 'desc'), limit(1));
+      const bestSnap = await getDocs(bestQ);
+      if (!bestSnap.empty && bestEl) {
+        const data = bestSnap.docs[0].data();
+        bestEl.textContent = data.name || 'Torcedor';
+      } else if (bestEl) {
+        bestEl.textContent = '—';
+      }
+
+      return;
+    } catch(e) {
+      console.warn('Erro ao carregar live stats:', e);
+    }
   }
-  if (streakEl) {
-    streakEl.textContent = (50 + Math.floor(Math.random() * 15)).toString();
-  }
+
+  // Fallback: mostra dados do jogador local ou placeholders
+  if (onlineEl) onlineEl.textContent = '—';
+  if (streakEl) streakEl.textContent = STATE.bestStreak?.toString() || '0';
+  if (bestEl) bestEl.textContent = STATE.avatar?.name || '—';
 }
 
 // Atualizar o init original
