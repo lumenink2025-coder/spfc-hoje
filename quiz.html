@@ -504,56 +504,702 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   .wrd-ci{font-size:10px}
   .wrd-cell{padding:5px 2px;min-width:42px}
 }
+
+
+/* ═══════════════════════════════════════════════════
+   NOVA HOME — BASEADA NA IMAGEM DE REFERÊNCIA
+═══════════════════════════════════════════════════ */
+
+/* ── HERO BACKGROUND ── */
+.home-hero-bg {
+  width: 100%;
+  position: relative;
+  background: 
+    linear-gradient(180deg, rgba(8,0,0,0.3) 0%, rgba(8,0,0,0.85) 60%, var(--bg) 100%),
+    url('https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=1200&q=80') center top / cover no-repeat;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 50% at 50% 30%, rgba(204,0,0,0.25) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 70%, var(--bg) 100%);
+  pointer-events: none;
+}
+
+.home-hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 0 16px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── TOPBAR ── */
+.home-topbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 20px;
+}
+
+.home-tb-logo {
+  font-family: var(--font-t);
+  font-size: 16px;
+  letter-spacing: 3px;
+  color: var(--txt);
+}
+.home-tb-logo span { color: var(--red); }
+
+.home-tb-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.home-tb-bell {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+}
+.home-tb-bell::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 7px;
+  height: 7px;
+  background: var(--red);
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+}
+
+.home-tb-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.2);
+  cursor: pointer;
+  background: var(--bg3);
+}
+.home-tb-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── SHIELD + STARS ── */
+.home-shield-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.home-stars {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+.home-stars .star-gold { font-size: 18px; filter: drop-shadow(0 0 6px rgba(255,215,0,0.6)); }
+.home-stars .star-red { font-size: 14px; filter: drop-shadow(0 0 4px rgba(204,0,0,0.5)); }
+
+.home-shield {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(204,0,0,0.4));
+}
+
+/* ── TITLE ── */
+.home-title-group {
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.home-title-line1 {
+  font-family: var(--font-t);
+  font-size: clamp(36px, 10vw, 56px);
+  color: #fff;
+  line-height: 1;
+  letter-spacing: 2px;
+  font-style: italic;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+
+.home-title-line2 {
+  font-family: var(--font-t);
+  font-size: clamp(42px, 12vw, 68px);
+  color: var(--red);
+  line-height: 1;
+  letter-spacing: 3px;
+  font-style: italic;
+  text-shadow: 0 0 30px rgba(204,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.home-title-line3 {
+  font-family: var(--font-t);
+  font-size: clamp(30px, 9vw, 48px);
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: 2px;
+  font-style: italic;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+
+/* ── SUBTITLE ── */
+.home-subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  letter-spacing: 0.5px;
+}
+.home-subtitle span { color: var(--red); font-weight: 500; }
+
+/* ── CTA BUTTON ── */
+.home-cta-btn {
+  width: 100%;
+  max-width: 340px;
+  padding: 16px 24px;
+  background: linear-gradient(180deg, #e60000 0%, #b30000 100%);
+  border: 2px solid rgba(255,100,100,0.4);
+  border-radius: 14px;
+  color: #fff;
+  font-family: var(--font-t);
+  font-size: 18px;
+  letter-spacing: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 
+    0 0 20px rgba(204,0,0,0.4),
+    0 4px 15px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.home-cta-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s;
+}
+.home-cta-btn:hover::before {
+  transform: translateX(100%);
+}
+.home-cta-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 
+    0 0 30px rgba(204,0,0,0.6),
+    0 6px 20px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.home-cta-btn:active { transform: scale(0.98); }
+
+.home-cta-icon { font-size: 20px; }
+.home-cta-text { flex: 1; text-align: center; }
+.home-cta-arrow { font-size: 22px; opacity: 0.8; }
+
+/* ── STATS ROW ── */
+.home-stats-row {
+  display: flex;
+  gap: 8px;
+  padding: 16px 12px 12px;
+  justify-content: center;
+}
+
+.home-stat-card {
+  flex: 1;
+  max-width: 140px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-stat-icon {
+  font-size: 22px;
+  margin-bottom: 6px;
+  filter: drop-shadow(0 0 4px rgba(204,0,0,0.3));
+}
+
+.home-stat-num {
+  font-family: var(--font-t);
+  font-size: 28px;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.home-stat-label {
+  font-size: 10px;
+  color: var(--txt);
+  letter-spacing: 2px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.home-stat-sublabel {
+  font-size: 9px;
+  color: var(--txt3);
+  letter-spacing: 1px;
+  line-height: 1.4;
+}
+
+/* ── LIVE BAR ── */
+.home-live-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  margin-bottom: 8px;
+}
+
+.home-live-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--red);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--red);
+  animation: pulse-live 1.5s ease-in-out infinite;
+}
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.home-live-text {
+  font-size: 11px;
+  color: var(--red);
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+/* ── LIVE STATS ── */
+.home-live-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 12px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 12px;
+}
+
+.home-live-item {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.home-live-icon {
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.home-live-value {
+  font-family: var(--font-t);
+  font-size: 22px;
+  color: #fff;
+  line-height: 1;
+}
+
+.home-live-label {
+  font-size: 8px;
+  color: var(--txt3);
+  letter-spacing: 1.5px;
+  line-height: 1.3;
+}
+
+.home-live-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--border);
+}
+
+/* ── BOTTOM CARDS ── */
+.home-bottom-cards {
+  display: flex;
+  gap: 10px;
+  padding: 0 12px;
+  margin-bottom: 12px;
+}
+
+.home-card {
+  flex: 1;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-card-title {
+  font-family: var(--font-t);
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.home-card-subtitle {
+  font-size: 9px;
+  color: var(--txt3);
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+/* Ranking card */
+.home-ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex: 1;
+}
+
+.home-rank-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.home-rank-num {
+  font-family: var(--font-t);
+  font-size: 18px;
+  color: var(--txt3);
+  width: 16px;
+  text-align: center;
+}
+
+.home-rank-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border2);
+}
+
+.home-rank-name {
+  flex: 1;
+  font-size: 12px;
+  color: var(--txt);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.home-rank-pts {
+  font-family: var(--font-t);
+  font-size: 16px;
+  color: var(--red);
+}
+
+.home-card-btn {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--red);
+  border-radius: 8px;
+  color: var(--red);
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s;
+  font-family: var(--font-b);
+}
+.home-card-btn:hover {
+  background: rgba(204,0,0,0.1);
+}
+.home-card-btn span { font-size: 14px; }
+
+/* Mission card */
+.home-card-mission {
+  align-items: center;
+  text-align: center;
+}
+
+.home-mission-icon {
+  font-size: 36px;
+  margin: 8px 0;
+  filter: drop-shadow(0 0 8px rgba(204,0,0,0.3));
+}
+
+.home-mission-text {
+  font-size: 12px;
+  color: var(--txt2);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.home-mission-text span { color: var(--red); font-weight: 600; }
+
+.home-mission-progress {
+  width: 100%;
+}
+
+.home-mission-count {
+  font-size: 12px;
+  color: var(--txt3);
+  margin-bottom: 6px;
+  text-align: left;
+}
+
+.home-mission-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--bg3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.home-mission-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--red), #ff4444);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+
+/* ── ENTRANCE ANIMATIONS ── */
+.home-shield-wrap { animation: fadeInUp 0.6s ease both; }
+.home-title-group { animation: fadeInUp 0.6s ease 0.15s both; }
+.home-subtitle { animation: fadeInUp 0.6s ease 0.3s both; }
+.home-cta-btn { animation: fadeInUp 0.6s ease 0.45s both; }
+.home-stats-row { animation: fadeInUp 0.6s ease 0.6s both; }
+.home-live-bar { animation: fadeIn 0.5s ease 0.7s both; }
+.home-live-stats { animation: fadeInUp 0.5s ease 0.75s both; }
+.home-bottom-cards { animation: fadeInUp 0.5s ease 0.85s both; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── RANKING CARD ── */
+.home-card-ranking { justify-content: space-between; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 380px) {
+  .home-stats-row { padding: 12px 8px; gap: 6px; }
+  .home-stat-card { padding: 10px 6px; }
+  .home-stat-num { font-size: 22px; }
+  .home-bottom-cards { padding: 0 8px; gap: 8px; }
+  .home-live-stats { margin: 0 8px 12px; padding: 12px 8px; }
+  .home-live-value { font-size: 18px; }
+  .home-live-label { font-size: 7px; }
+}
+
 </style>
 </head>
 <body>
 
 <!-- ══ SCREEN: HOME ═══════════════════════════════ -->
 <div class="screen active" id="screen-home">
-  <div class="topbar">
-    <div class="tb-left">
-      <div class="tb-logo"><span>SPFC</span> QUIZ</div>
+
+  <!-- HERO BACKGROUND -->
+  <div class="home-hero-bg">
+    <div class="home-hero-overlay"></div>
+    <div class="home-hero-content">
+
+      <!-- TOPBAR -->
+      <div class="home-topbar">
+        <div class="home-tb-logo"><span>SPFC</span> QUIZ</div>
+        <div class="home-tb-right">
+          <div class="home-tb-bell" onclick="toggleMusic()" id="musicToggleHome">🔔</div>
+          <div class="home-tb-avatar" id="userChipHome" onclick="goScreen('screen-login')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg" alt="SPFC" id="homeAvatarImg" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/240px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
+          </div>
+        </div>
+      </div>
+
+      <!-- SHIELD + STARS -->
+      <div class="home-shield-wrap">
+        <div class="home-stars">
+          <span class="star-gold">⭐</span>
+          <span class="star-red">⭐</span>
+          <span class="star-red">⭐</span>
+          <span class="star-red">⭐</span>
+          <span class="star-gold">⭐</span>
+        </div>
+        <img class="home-shield" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg" alt="SPFC" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/240px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
+      </div>
+
+      <!-- TITLE -->
+      <div class="home-title-group">
+        <div class="home-title-line1">VOCÊ É</div>
+        <div class="home-title-line2">TRICOLOR</div>
+        <div class="home-title-line3">DE VERDADE?</div>
+      </div>
+
+      <!-- SUBTITLE -->
+      <div class="home-subtitle">
+        Prove seu conhecimento sobre<br>
+        <span>a história do São Paulo FC</span>
+      </div>
+
+      <!-- CTA BUTTON -->
+      <button class="home-cta-btn" onclick="startGame()">
+        <span class="home-cta-icon">⚡</span>
+        <span class="home-cta-text">COMEÇAR DESAFIO</span>
+        <span class="home-cta-arrow">›</span>
+      </button>
+
     </div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <div class="tb-music" id="musicToggle" onclick="toggleMusic()" title="Música">🔇</div>
-      <div id="userChip" style="font-size:12px;color:var(--txt2);cursor:pointer" onclick="goScreen(&#39;screen-login&#39;)">Entrar</div>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="home-stats-row">
+    <div class="home-stat-card">
+      <div class="home-stat-icon">❤️</div>
+      <div class="home-stat-num" id="homeStatLives">5</div>
+      <div class="home-stat-label">VIDAS</div>
+      <div class="home-stat-sublabel">SUAS CHANCES</div>
+    </div>
+    <div class="home-stat-card">
+      <div class="home-stat-icon">🏆</div>
+      <div class="home-stat-num" id="statPergs">180+</div>
+      <div class="home-stat-label">QUESTÕES</div>
+      <div class="home-stat-sublabel">RESPONDIDAS</div>
+    </div>
+    <div class="home-stat-card">
+      <div class="home-stat-icon">🔷</div>
+      <div class="home-stat-num">6</div>
+      <div class="home-stat-label">NÍVEL 6</div>
+      <div class="home-stat-sublabel">TORCEDOR<br>RUMO AO NÍVEL 7</div>
     </div>
   </div>
 
-  <div class="home-hero">
-    <div class="home-crown">🏆</div>
-    <div class="home-title">VOCÊ<br><em>SABE TUDO SOBRE O <br>TRICOLOR?</em></div>
-    <div class="home-sub">O quiz definitivo da história do São Paulo FC</div>
+  <!-- AO VIVO AGORA -->
+  <div class="home-live-bar">
+    <div class="home-live-dot"></div>
+    <div class="home-live-text">AO VIVO AGORA</div>
   </div>
 
-  <div style="padding:20px 20px 12px;width:100%;max-width:480px">
-
-    <!-- STREAK -->
-    <div id="streakBadge" style="display:flex;align-items:center;gap:4px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid #ff6b00;padding:12px 16px;border-radius:3px;margin-bottom:12px"><span style="font-size:20px">❄️</span><span style="color:var(--txt3);font-size:12px;letter-spacing:1px;margin-left:8px">Comece sua sequência hoje!</span></div>
-
-    <div class="lives-row" id="livesDisplay"><span class="life life-mini-heart">❤️</span><span class="life life-mini-heart">❤️</span><span class="life life-mini-heart">❤️</span><span class="life life-mini-heart">❤️</span><span class="life life-mini-heart">❤️</span></div>
-    <div class="lives-timer" id="livesTimer"></div>
-    <div class="home-stats">
-      <div class="hstat"><div class="hstat-n" id="statPergs">180+</div><div class="hstat-l">Perguntas</div></div>
-      <div class="hstat"><div class="hstat-n">6</div><div class="hstat-l">Níveis</div></div>
-      <div class="hstat"><div class="hstat-n">5</div><div class="hstat-l">Vidas</div></div>
+  <!-- LIVE STATS -->
+  <div class="home-live-stats">
+    <div class="home-live-item">
+      <div class="home-live-icon">👥</div>
+      <div class="home-live-value">1.284</div>
+      <div class="home-live-label">TORCEDORES ONLINE</div>
+    </div>
+    <div class="home-live-divider"></div>
+    <div class="home-live-item">
+      <div class="home-live-icon">🔥</div>
+      <div class="home-live-value">58</div>
+      <div class="home-live-label">MAIOR SEQUÊNCIA</div>
+    </div>
+    <div class="home-live-divider"></div>
+    <div class="home-live-item">
+      <div class="home-live-icon">👑</div>
+      <div class="home-live-value" style="font-size:14px;font-weight:600">JoãoSPFC</div>
+      <div class="home-live-label">MELHOR JOGADOR HOJE</div>
     </div>
   </div>
 
-  <div class="home-btns">
-    <button class="btn-primary" onclick="startGame()">▶ JOGAR AGORA</button>
-    <button class="btn-secondary" onclick="goScreenWordle()">🔤 WORDLE DIÁRIO</button>
-    <button class="btn-secondary" onclick="goScreen(&#39;screen-ranking&#39;)">🏅 RANKING GLOBAL</button>
-    <button class="btn-secondary" onclick="goScreen(&#39;screen-profile&#39;)">👤 MEU PERFIL</button>
+  <!-- BOTTOM CARDS -->
+  <div class="home-bottom-cards">
+    <!-- RANKING SEMANAL -->
+    <div class="home-card home-card-ranking">
+      <div class="home-card-title">RANKING SEMANAL</div>
+      <div class="home-card-subtitle">TOP 3 TORCEDORES</div>
+      <div class="home-ranking-list">
+        <div class="home-rank-item">
+          <span class="home-rank-num">1</span>
+          <img class="home-rank-avatar" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rai_arcph5.png" alt="">
+          <span class="home-rank-name">JoãoSPFC</span>
+          <span class="home-rank-pts">2.450</span>
+        </div>
+        <div class="home-rank-item">
+          <span class="home-rank-num">2</span>
+          <img class="home-rank-avatar" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luisfabiano_iabzdg.png" alt="">
+          <span class="home-rank-name">Dani Tricolor</span>
+          <span class="home-rank-pts">1.980</span>
+        </div>
+        <div class="home-rank-item">
+          <span class="home-rank-num">3</span>
+          <img class="home-rank-avatar" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/kaka_wjkphp.png" alt="">
+          <span class="home-rank-name">Legado92</span>
+          <span class="home-rank-pts">1.670</span>
+        </div>
+      </div>
+      <button class="home-card-btn" onclick="goScreen('screen-ranking')">
+        VER RANKING <span>›</span>
+      </button>
+    </div>
+
+    <!-- MISSÃO DIÁRIA -->
+    <div class="home-card home-card-mission">
+      <div class="home-card-title">MISSÃO DIÁRIA</div>
+      <div class="home-card-subtitle">DESAFIO DE HOJE</div>
+      <div class="home-mission-icon">🎯</div>
+      <div class="home-mission-text">
+        Responda 15 perguntas<br>e ganhe <span>500 XP</span>
+      </div>
+      <div class="home-mission-progress">
+        <div class="home-mission-count">07 / 15</div>
+        <div class="home-mission-bar">
+          <div class="home-mission-fill" style="width:46%"></div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- SPACER for bottom nav -->
+  <div style="height:20px"></div>
+
 </div>
 
+
 <!-- ══ SCREEN: LOGIN ══════════════════════════════ -->
+
 <div class="screen" id="screen-login">
   <!-- Hero -->
   <div class="login-hero">
     <div class="login-badge">
-      <img class="login-badge-img" src="./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
+      <img class="login-badge-img" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg" alt="SPFC" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/240px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
     </div>
     <div class="login-quiz-title">QUIZ</div>
     <div class="login-tricolor">T R I C O L O R</div>
@@ -689,7 +1335,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="quiz-lives-mini" id="quizLivesMini"></div>
     </div>
     <div class="quiz-header-center">
-      <img class="quiz-header-logo" src="./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
+      <img class="quiz-header-logo" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg" alt="SPFC" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/240px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
     </div>
     <div class="quiz-header-right">
       <div class="quiz-ranking-badge">🏆 <span>RANKING</span></div>
@@ -764,7 +1410,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="quiz-bottom-bar">
     <button class="quiz-bottom-btn" onclick="useHelper(&#39;skip&#39;)" id="quizBtnPular">⏭ PULAR</button>
     <div class="quiz-bottom-player">
-      <img class="quiz-player-shield" src="./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
+      <img class="quiz-player-shield" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg" alt="SPFC" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/240px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
       <div class="quiz-player-info">
         <div class="quiz-player-label">TORCEDOR</div>
         <div class="quiz-player-level" id="quizPlayerLevel">NÍVEL 1</div>
