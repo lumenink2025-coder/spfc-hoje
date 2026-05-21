@@ -727,6 +727,40 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .home-cta-btn:active { transform: scale(0.98); }
 
 .home-cta-icon { font-size: 20px; }
+
+/* Botão login abaixo do CTA */
+.home-login-btn {
+  width: 100%;
+  max-width: 340px;
+  padding: 12px 24px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  color: var(--txt2);
+  font-family: var(--font-u);
+  font-size: 13px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+}
+.home-login-btn:hover {
+  border-color: rgba(204,0,0,0.5);
+  color: #fff;
+  background: rgba(204,0,0,0.08);
+}
+.home-login-hint {
+  font-size: 10px;
+  color: var(--txt3);
+  letter-spacing: 1.5px;
+  text-align: center;
+  margin-top: 8px;
+  opacity: 0.7;
+}
 .home-cta-text { flex: 1; text-align: center; }
 .home-cta-arrow { font-size: 22px; opacity: 0.8; }
 
@@ -1507,6 +1541,14 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         <span class="home-cta-text">COMEÇAR DESAFIO</span>
         <span class="home-cta-arrow">›</span>
       </button>
+
+      <!-- LOGIN CTA — visível só quando não logado -->
+      <div id="homeLoginCta" style="display:none;width:100%;max-width:340px;flex-direction:column;align-items:center">
+        <button class="home-login-btn" onclick="goScreen('screen-login')">
+          <span>👤</span> FAZER LOGIN
+        </button>
+        <div class="home-login-hint">para participar do ranking precisa estar logado</div>
+      </div>
 
     </div>
   </div>
@@ -2980,6 +3022,12 @@ function renderHomeUser() {
       chip.textContent = 'Entrar';
       chip.onclick = () => goScreen('screen-login');
     }
+  }
+
+  // Mostra botão de login abaixo do CTA quando não logado
+  const loginCta = document.getElementById('homeLoginCta');
+  if (loginCta) {
+    loginCta.style.display = (STATE.user || STATE.guest) ? 'none' : 'flex';
   }
 }
 
@@ -4879,7 +4927,7 @@ function renderDesafios() {
         <span style="font-size:20px;color:var(--red)">›</span>
       </button>
     </div>
-  \`;
+  `;
 
   panel.innerHTML = html;
 }
