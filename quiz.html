@@ -63,71 +63,6 @@ window.dispatchEvent(new Event('firebase-ready'));
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--bg);height:100%}
 body{background:var(--bg);color:var(--txt);font-family:var(--font-b);min-height:100vh;overflow-x:hidden}
-  /* ════════════════════════════════════════
-  border:1px solid rgba(255,255,255,.12);
-}
-
-.q-opt-text{
-  font-size:18px;
-  font-weight:700;
-}
-
-/* BOTTOM NAV */
-.bottom-nav{
-  height:90px;
-
-  border-top:none;
-
-  background:
-    linear-gradient(180deg,
-      rgba(10,10,10,.92),
-      rgba(0,0,0,.98));
-
-  backdrop-filter:blur(30px);
-
-  box-shadow:
-    0 -10px 40px rgba(255,0,0,.12);
-}
-
-.bnav-btn{
-  font-size:11px;
-  gap:6px;
-}
-
-.bnav-icon{
-  font-size:28px;
-}
-
-.bnav-btn.active{
-  color:var(--primary);
-
-  text-shadow:0 0 12px rgba(255,0,0,.6);
-}
-
-/* MOBILE */
-@media(max-width:480px){
-
-  .home-title{
-    font-size:58px;
-  }
-
-  .btn-primary{
-    height:72px;
-    font-size:22px;
-  }
-
-  .hstat-n{
-    font-size:44px;
-  }
-
-  .quiz-question{
-    font-size:22px;
-  }
-
-  .q-opt-text{
-    font-size:16px;
-  }
-}
 
 /* scanlines */
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);pointer-events:none;z-index:9999}
@@ -572,23 +507,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </style>
 </head>
 <body>
-<div class="bg-smoke"></div>
 
-  .bg-smoke{
-  position:fixed;
-  inset:0;
-
-  background:
-    radial-gradient(circle at 70% 20%, rgba(255,0,0,.35), transparent 25%),
-    radial-gradient(circle at 20% 80%, rgba(255,0,0,.18), transparent 25%),
-    radial-gradient(circle at center, rgba(255,255,255,.03), transparent 45%);
-
-  filter:blur(40px);
-
-  pointer-events:none;
-
-  z-index:-1;
-}<!-- ══ SCREEN: HOME ═══════════════════════════════ -->
+<!-- ══ SCREEN: HOME ═══════════════════════════════ -->
 <div class="screen active" id="screen-home">
   <div class="topbar">
     <div class="tb-left">
@@ -621,9 +541,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   </div>
 
   <div class="home-btns">
-    <button class="btn-primary" onclick="startGame()">
-  ⚡ COMEÇAR DESAFIO
-</button>
+    <button class="btn-primary" onclick="startGame()">▶ JOGAR AGORA</button>
     <button class="btn-secondary" onclick="goScreenWordle()">🔤 WORDLE DIÁRIO</button>
     <button class="btn-secondary" onclick="goScreen(&#39;screen-ranking&#39;)">🏅 RANKING GLOBAL</button>
     <button class="btn-secondary" onclick="goScreen(&#39;screen-profile&#39;)">👤 MEU PERFIL</button>
