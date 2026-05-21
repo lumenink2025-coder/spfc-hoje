@@ -947,10 +947,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </div>
 
 <!-- ══ HINT MODAL ═════════════════════════════════ -->
-<div class="modal-bg" id="hintModal">
+<div class="modal-bg" id="hintModal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="modal-icon">💡</div>
-    <div class="modal-title">DICA HISTÓRICA</div>
+    <div class="modal-icon">📞</div>
+    <div class="modal-title">LIGAR P/ AMIGO</div>
     <div class="modal-text" id="hintText"></div>
     <button class="modal-close" onclick="closeModal()">ENTENDIDO</button>
   </div>
@@ -2234,7 +2234,7 @@ function goLevelUp() {
 function nextLevel() {
   STATE.level++;
   STATE.questionIdx = 0;
-  STATE.helpers = {eliminate:true, skip:true, hint:true};
+  // NÃO reseta helpers — eles persistem durante toda a partida
   levelQuestions = getQuestionsForLevel(STATE.level);
   goScreen('screen-quiz');
   renderQuestion();
@@ -2766,6 +2766,10 @@ async function adminFreeNick() {
    NAVIGATION
 ════════════════════════════════════════════════ */
 function goScreen(id) {
+  // Fecha o modal de dica se estiver aberto ao trocar de tela
+  const hintModal = document.getElementById('hintModal');
+  if (hintModal) hintModal.classList.remove('open');
+
   // Reset wordle nav highlight unless going to wordle
   if (id !== 'screen-wordle') {
     const wb = document.getElementById('bnav-wordle');
