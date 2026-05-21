@@ -1022,6 +1022,432 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   .home-live-label { font-size: 7px; }
 }
 
+
+
+/* ═══════════════════════════════════════════════════
+   BOTTOM NAV — DESIGN MODERNO 2026
+   Glassmorphism + SVG Icons + Micro-interactions
+═══════════════════════════════════════════════════ */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(12, 12, 14, 0.75);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 1000;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bottom-nav.hidden {
+  transform: translateY(100%);
+}
+
+.bnav-btn {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  font-family: var(--font-b);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  position: relative;
+  transition: color 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bnav-btn::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  width: 48px;
+  height: 32px;
+  background: linear-gradient(135deg, rgba(204, 0, 0, 0.15), rgba(204, 0, 0, 0.05));
+  border-radius: 16px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: -1;
+}
+
+.bnav-btn.active {
+  color: var(--red);
+}
+
+.bnav-btn.active::before {
+  transform: translateX(-50%) scale(1);
+}
+
+.bnav-btn:active {
+  transform: scale(0.92);
+}
+
+.bnav-icon-wrap {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.bnav-icon-wrap svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  transition: stroke 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bnav-btn.active .bnav-icon-wrap svg {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 6px rgba(204, 0, 0, 0.5));
+}
+
+/* Ripple effect on tap */
+.bnav-btn::after {
+  content: '';
+  position: absolute;
+  inset: 8px 4px;
+  border-radius: 16px;
+  background: radial-gradient(circle, rgba(204, 0, 0, 0.2) 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.bnav-btn:active::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Badge notification */
+.bnav-badge {
+  position: absolute;
+  top: -2px;
+  right: -6px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: var(--red);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(204, 0, 0, 0.4);
+  animation: badge-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes badge-pop {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Floating action button (center) */
+.bnav-fab {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--red), #8B0000);
+  border: 3px solid var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(204, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 10;
+}
+
+.bnav-fab:hover {
+  transform: translateX(-50%) scale(1.08);
+  box-shadow: 0 6px 28px rgba(204, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.bnav-fab:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+.bnav-fab svg {
+  width: 26px;
+  height: 26px;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* Glow animation for active */
+@keyframes nav-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(204, 0, 0, 0.3)); }
+  50% { filter: drop-shadow(0 0 8px rgba(204, 0, 0, 0.6)); }
+}
+
+.bnav-btn.active .bnav-icon-wrap {
+  animation: nav-glow 2s ease-in-out infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 360px) {
+  .bottom-nav { height: 56px; }
+  .bnav-btn { font-size: 9px; letter-spacing: 0.5px; }
+  .bnav-icon-wrap svg { width: 20px; height: 20px; }
+  .bnav-fab { width: 48px; height: 48px; top: -16px; }
+  .bnav-fab svg { width: 22px; height: 22px; }
+}
+
+@media (min-width: 768px) {
+  .bottom-nav {
+    max-width: 480px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 24px 24px 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: none;
+  }
+}
+
+
+
+/* ═══════════════════════════════════════════════════
+   TELA DE DESAFIOS — CSS COMPLETO
+═══════════════════════════════════════════════════ */
+
+#screen-desafios {
+  background: var(--bg);
+}
+
+.desafios-wrap {
+  width: 100%;
+  max-width: 480px;
+  padding: 16px;
+  margin: 0 auto;
+}
+
+.desafios-header {
+  background: linear-gradient(135deg, rgba(204,0,0,0.15), rgba(139,0,0,0.1));
+  border: 1px solid rgba(204,0,0,0.2);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.desafios-xp-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.desafios-xp-emoji {
+  font-size: 36px;
+}
+
+.desafios-xp-title {
+  font-family: var(--font-t);
+  font-size: 22px;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.desafios-xp-sub {
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+
+.desafios-xp-bar-wrap {
+  width: 100%;
+}
+
+.desafios-xp-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.desafios-xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  border-radius: 6px;
+  transition: width 0.6s ease;
+}
+
+.desafios-xp-text {
+  font-size: 11px;
+  color: var(--txt3);
+  text-align: right;
+  letter-spacing: 1px;
+}
+
+.desafios-section-title {
+  font-family: var(--font-t);
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: var(--txt);
+  margin: 24px 0 12px;
+  padding-left: 4px;
+}
+
+/* Missões */
+.desafios-missions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.desafios-mission-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.desafios-mission-card.completed {
+  border-color: rgba(34,197,94,0.3);
+  background: rgba(34,197,94,0.05);
+}
+
+.desafios-mission-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.desafios-mission-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--txt);
+  margin-bottom: 2px;
+}
+
+.desafios-mission-reward {
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+
+.desafios-mission-progress {
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.desafios-mission-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.desafios-mission-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--red), #ff4444);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.desafios-mission-count {
+  font-size: 10px;
+  color: var(--txt3);
+  text-align: right;
+  letter-spacing: 1px;
+}
+
+.desafios-mission-check {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Conquistas */
+.desafios-achievements {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.desafios-ach {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.desafios-ach.locked {
+  opacity: 0.4;
+  filter: grayscale(0.8);
+}
+
+.desafios-ach-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.desafios-ach-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.desafios-ach-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--txt);
+  margin-bottom: 2px;
+}
+
+.desafios-ach-desc {
+  font-size: 11px;
+  color: var(--txt3);
+}
+
 </style>
 </head>
 <body>
@@ -1516,6 +1942,19 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="profile-wrap fade-in" id="profileContent"></div>
 </div>
 
+<!-- ══ SCREEN: DESAFIOS ═══════════════════════════ -->
+<div class="screen" id="screen-desafios">
+  <div class="topbar">
+    <button class="tb-back" onclick="goScreen('screen-home')">← VOLTAR</button>
+    <div class="tb-logo">DESAFIOS</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="desafios-wrap fade-in" id="desafiosContent">
+    <div class="rank-loading">Carregando desafios...</div>
+  </div>
+</div>
+
+
 <!-- ══ SCREEN: ADMIN ══════════════════════════════ -->
 <div class="screen" id="screen-admin">
   <div class="topbar">
@@ -1606,21 +2045,55 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div id="wordle-panel" style="flex:1;overflow-y:auto"></div>
 </div>
 
-<nav class="bottom-nav">
-  <button class="bnav-btn" onclick="window.location.href=&#39;index.html&#39;">
-    <span class="bnav-icon">📅</span>HOJE
+<nav class="bottom-nav" id="bottomNav">
+  <button class="bnav-btn" id="nav-hoje" onclick="window.location.href='index.html'">
+    <div class="bnav-icon-wrap">
+      <svg viewBox="0 0 24 24" stroke="currentColor">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+    </div>
+    <span>HOJE</span>
   </button>
-  <button class="bnav-btn active" onclick="goScreen(&#39;screen-home&#39;)">
-    <span class="bnav-icon">🎮</span>QUIZ
+
+  <button class="bnav-btn" id="nav-desafios" onclick="goScreenDesafios()">
+    <div class="bnav-icon-wrap">
+      <svg viewBox="0 0 24 24" stroke="currentColor">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+        <path d="M2 17l10 5 10-5"/>
+        <path d="M2 12l10 5 10-5"/>
+      </svg>
+    </div>
+    <span>DESAFIOS</span>
   </button>
-  <button class="bnav-btn" onclick="goScreen(&#39;screen-ranking&#39;)">
-    <span class="bnav-icon">🏅</span>RANKING
+
+  <!-- FAB central -->
+  <button class="bnav-fab" onclick="startGame()" title="Jogar">
+    <svg viewBox="0 0 24 24">
+      <polygon points="5 3 19 12 5 21 5 3"/>
+    </svg>
   </button>
-  <button class="bnav-btn" id="bnav-wordle" onclick="goScreenWordle()">
-    <span class="bnav-icon">🔤</span>WORDLE
+
+  <button class="bnav-btn" id="nav-ranking" onclick="goScreen('screen-ranking')">
+    <div class="bnav-icon-wrap">
+      <svg viewBox="0 0 24 24" stroke="currentColor">
+        <circle cx="12" cy="8" r="7"/>
+        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+      </svg>
+    </div>
+    <span>RANKING</span>
   </button>
-  <button class="bnav-btn" onclick="goScreen(&#39;screen-profile&#39;)">
-    <span class="bnav-icon">👤</span>PERFIL
+
+  <button class="bnav-btn" id="nav-perfil" onclick="goScreen('screen-profile')">
+    <div class="bnav-icon-wrap">
+      <svg viewBox="0 0 24 24" stroke="currentColor">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </div>
+    <span>PERFIL</span>
   </button>
 </nav>
 
@@ -3402,11 +3875,20 @@ function goScreen(id) {
   const hintModal = document.getElementById('hintModal');
   if (hintModal) hintModal.classList.remove('open');
 
-  // Reset wordle nav highlight unless going to wordle
-  if (id !== 'screen-wordle') {
-    const wb = document.getElementById('bnav-wordle');
-    if (wb) wb.classList.remove('active');
+  // Atualizar bottom nav
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  const navMap = {
+    'screen-home': 'nav-quiz',
+    'screen-ranking': 'nav-ranking',
+    'screen-profile': 'nav-perfil',
+    'screen-desafios': 'nav-desafios'
+  };
+  const activeNav = navMap[id];
+  if (activeNav) {
+    const navBtn = document.getElementById(activeNav);
+    if (navBtn) navBtn.classList.add('active');
   }
+
   clearInterval(countdownTimer);
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -3886,10 +4368,6 @@ function showWrdResult() {
 
 function goScreenWordle() {
   goScreen('screen-wordle');
-  // Update bottom nav
-  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
-  const bnavWordle = document.getElementById('bnav-wordle');
-  if (bnavWordle) bnavWordle.classList.add('active');
   // Init wordle and load from Firebase
   if (!wordleInited || wordleState.todayKey !== getTodayKey()) {
     loadWordleFromFirebase().then(() => initWordle());
@@ -4097,6 +4575,286 @@ function renderHomeXP() {
     quizXP.textContent = `${currentXP.toLocaleString('pt-BR')} / ${info.nextXP.toLocaleString('pt-BR')} XP`;
   }
 }
+
+
+
+/* ═══════════════════════════════════════════════════
+   RANKING REAL NA HOME — Carrega do Firebase
+═══════════════════════════════════════════════════ */
+
+async function loadHomeRanking() {
+  const listEl = document.getElementById('homeRankingList');
+  if (!listEl) return;
+
+  // Dados mock como fallback imediato
+  const fallbackData = [
+    {pos:1, name:'JoãoSPFC', pts:2450, avatar:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rai_arcph5.png'},
+    {pos:2, name:'Dani Tricolor', pts:1980, avatar:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luisfabiano_iabzdg.png'},
+    {pos:3, name:'Legado92', pts:1670, avatar:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/kaka_wjkphp.png'},
+  ];
+  renderHomeRankingList(fallbackData);
+
+  // Tentar carregar do Firebase
+  if (!window.FB) return;
+  try {
+    const {db, collection, query, where, orderBy, limit, getDocs} = window.FB;
+    const now = new Date();
+    const weekKey = `${now.getFullYear()}-W${String(Math.ceil((now - new Date(now.getFullYear(),0,1)) / 86400000 / 7)).padStart(2,'0')}`;
+
+    const q = query(collection(db,'ranking'), where('type','==','semanal'), where('weekKey','==',weekKey), orderBy('score','desc'), limit(3));
+    const snap = await getDocs(q);
+
+    if (!snap.empty) {
+      const realData = [];
+      let idx = 1;
+      snap.forEach(d => {
+        const data = d.data();
+        realData.push({
+          pos: idx++,
+          name: data.name || 'Torcedor',
+          pts: data.score || 0,
+          avatar: data.avatar || null
+        });
+      });
+      if (realData.length > 0) {
+        renderHomeRankingList(realData);
+      }
+    }
+  } catch(e) {
+    console.warn('Erro ao carregar ranking semanal:', e);
+  }
+}
+
+function renderHomeRankingList(data) {
+  const listEl = document.getElementById('homeRankingList');
+  if (!listEl) return;
+
+  listEl.innerHTML = data.map(d => `
+    <div class="home-rank-item">
+      <span class="home-rank-num">${d.pos}</span>
+      ${d.avatar ? `<img class="home-rank-avatar" src="${d.avatar}" alt="" onerror="this.style.display='none'">` : `<div class="home-rank-avatar" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
+      <span class="home-rank-name">${escapeHtml(d.name)}</span>
+      <span class="home-rank-pts">${d.pts.toLocaleString('pt-BR')}</span>
+    </div>
+  `).join('');
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+/* ═══════════════════════════════════════════════════
+   SISTEMA DE MISSÕES DIÁRIAS FUNCIONAL
+═══════════════════════════════════════════════════ */
+
+const DAILY_MISSIONS = [
+  {id:'play5', label:'Jogue 5 partidas', target:5, xp:100},
+  {id:'win3', label:'Vença 3 partidas', target:3, xp:200},
+  {id:'streak7', label:'7 dias seguidos', target:7, xp:500},
+  {id:'score5000', label:'Marque 5000 pts', target:5000, xp:300},
+  {id:'correct20', label:'20 acertos', target:20, xp:150},
+];
+
+function getDailyMissions() {
+  const today = todayKey();
+  try {
+    const saved = JSON.parse(localStorage.getItem('spfc_missions') || '{}');
+    if (saved.date === today) return saved.missions || generateDailyMissions();
+  } catch(e) {}
+  return generateDailyMissions();
+}
+
+function generateDailyMissions() {
+  // Seleciona 3 missões aleatórias
+  const shuffled = [...DAILY_MISSIONS].sort(() => Math.random() - 0.5);
+  const selected = shuffled.slice(0, 3).map(m => ({...m, progress: 0, completed: false}));
+
+  const data = {date: todayKey(), missions: selected};
+  localStorage.setItem('spfc_missions', JSON.stringify(data));
+  return selected;
+}
+
+function updateMissionProgress(missionId, amount) {
+  const missions = getDailyMissions();
+  const mission = missions.find(m => m.id === missionId);
+  if (!mission || mission.completed) return;
+
+  mission.progress = Math.min(mission.progress + amount, mission.target);
+  if (mission.progress >= mission.target && !mission.completed) {
+    mission.completed = true;
+    addXP(mission.xp);
+    toast(`🎯 Missão completa!`, `+${mission.xp} XP — ${mission.label}`, 4000);
+  }
+
+  localStorage.setItem('spfc_missions', JSON.stringify({date: todayKey(), missions}));
+  renderHomeMissions();
+  renderDesafios();
+}
+
+function renderHomeMissions() {
+  const missions = getDailyMissions();
+  const totalTarget = missions.reduce((s, m) => s + m.target, 0);
+  const totalProgress = missions.reduce((s, m) => s + Math.min(m.progress, m.target), 0);
+
+  const countEl = document.getElementById('missionCount');
+  const fillEl = document.getElementById('missionFill');
+
+  if (countEl) countEl.textContent = `${String(totalProgress).padStart(2,'0')} / ${totalTarget}`;
+  if (fillEl) fillEl.style.width = `${Math.min((totalProgress / totalTarget) * 100, 100)}%`;
+}
+
+/* ═══════════════════════════════════════════════════
+   TELA DE DESAFIOS COMPLETA
+═══════════════════════════════════════════════════ */
+
+function goScreenDesafios() {
+  goScreen('screen-desafios');
+  renderDesafios();
+}
+
+function renderDesafios() {
+  const panel = document.getElementById('desafiosContent');
+  if (!panel) return;
+
+  const missions = getDailyMissions();
+  const info = getLevelInfo(STATE.userData?.xp || 0);
+
+  let html = `
+    <div class="desafios-header">
+      <div class="desafios-xp-badge">
+        <span class="desafios-xp-emoji">${info.emoji}</span>
+        <div>
+          <div class="desafios-xp-title">NÍVEL ${info.level}</div>
+          <div class="desafios-xp-sub">${info.title}</div>
+        </div>
+      </div>
+      <div class="desafios-xp-bar-wrap">
+        <div class="desafios-xp-bar">
+          <div class="desafios-xp-fill" style="width:${info.nextXP ? ((STATE.userData?.xp||0)/info.nextXP*100) : 100}%"></div>
+        </div>
+        <div class="desafios-xp-text">${(STATE.userData?.xp||0).toLocaleString('pt-BR')} / ${info.nextXP ? info.nextXP.toLocaleString('pt-BR') : 'MAX'} XP</div>
+      </div>
+    </div>
+
+    <div class="desafios-section-title">📅 MISSÕES DE HOJE</div>
+    <div class="desafios-missions">
+  `;
+
+  missions.forEach(m => {
+    const pct = Math.min((m.progress / m.target) * 100, 100);
+    html += `
+      <div class="desafios-mission-card${m.completed ? ' completed' : ''}">
+        <div class="desafios-mission-info">
+          <div class="desafios-mission-name">${m.label}</div>
+          <div class="desafios-mission-reward">+${m.xp} XP</div>
+        </div>
+        <div class="desafios-mission-progress">
+          <div class="desafios-mission-bar">
+            <div class="desafios-mission-fill" style="width:${pct}%"></div>
+          </div>
+          <div class="desafios-mission-count">${m.progress} / ${m.target}</div>
+        </div>
+        ${m.completed ? '<div class="desafios-mission-check">✓</div>' : ''}
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+
+  // Conquistas
+  html += `
+    <div class="desafios-section-title">🏆 CONQUISTAS</div>
+    <div class="desafios-achievements">
+      <div class="desafios-ach${(STATE.totalScore||0) > 0 ? '' : ' locked'}">
+        <span class="desafios-ach-icon">🎯</span>
+        <div class="desafios-ach-info">
+          <div class="desafios-ach-name">Primeiro Jogo</div>
+          <div class="desafios-ach-desc">Complete sua primeira partida</div>
+        </div>
+        ${(STATE.totalScore||0) > 0 ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
+      </div>
+      <div class="desafios-ach${(STATE.userData?.level||1) >= 10 ? '' : ' locked'}">
+        <span class="desafios-ach-icon">🔥</span>
+        <div class="desafios-ach-info">
+          <div class="desafios-ach-name">Veterano</div>
+          <div class="desafios-ach-desc">Alcance o nível 10</div>
+        </div>
+        ${(STATE.userData?.level||1) >= 10 ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
+      </div>
+      <div class="desafios-ach${(STATE.userData?.level||1) >= 50 ? '' : ' locked'}">
+        <span class="desafios-ach-icon">💎</span>
+        <div class="desafios-ach-info">
+          <div class="desafios-ach-name">Lenda Viva</div>
+          <div class="desafios-ach-desc">Alcance o nível 50</div>
+        </div>
+        ${(STATE.userData?.level||1) >= 50 ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
+      </div>
+      <div class="desafios-ach${(STATE.streak||0) >= 7 ? '' : ' locked'}">
+        <span class="desafios-ach-icon">⚡</span>
+        <div class="desafios-ach-info">
+          <div class="desafios-ach-name">Semana Perfeita</div>
+          <div class="desafios-ach-desc">7 dias seguidos jogando</div>
+        </div>
+        ${(STATE.streak||0) >= 7 ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
+      </div>
+      <div class="desafios-ach${(STATE.userData?.level||1) >= 100 ? '' : ' locked'}">
+        <span class="desafios-ach-icon">👑</span>
+        <div class="desafios-ach-info">
+          <div class="desafios-ach-name">DEUS DO SPFC</div>
+          <div class="desafios-ach-desc">Alcance o nível 100 — Nível Máximo!</div>
+        </div>
+        ${(STATE.userData?.level||1) >= 100 ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
+      </div>
+    </div>
+  `;
+
+  panel.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════════════
+   ATUALIZAR INIT PARA CARREGAR RANKING E MISSÕES
+═══════════════════════════════════════════════════ */
+
+function initHomeExtras() {
+  loadHomeRanking();
+  renderHomeMissions();
+  renderHomeXP();
+  updateLiveStats();
+}
+
+function updateLiveStats() {
+  // Simulação de dados ao vivo (pode ser substituído por Firebase Realtime)
+  const onlineEl = document.getElementById('liveOnline');
+  const streakEl = document.getElementById('liveStreak');
+  const bestEl = document.getElementById('liveBest');
+
+  if (onlineEl) {
+    const base = 1200 + Math.floor(Math.random() * 200);
+    onlineEl.textContent = base.toLocaleString('pt-BR');
+  }
+  if (streakEl) {
+    streakEl.textContent = (50 + Math.floor(Math.random() * 15)).toString();
+  }
+}
+
+// Atualizar o init original
+const _originalInit = init;
+init = function() {
+  loadState();
+  checkLivesRegen();
+  checkStreakOnLoad();
+  renderLives('livesDisplay');
+  renderStreakBadge();
+  startLivesTimer();
+  document.getElementById('statPergs').textContent = QUESTIONS.length + '+';
+  renderHomeUser();
+  initHomeExtras();
+  loadFirebaseQuestions();
+  loadWordleFromFirebase();
+};
+
 
 function init() {
   loadState();
