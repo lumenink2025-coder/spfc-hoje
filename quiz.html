@@ -1921,7 +1921,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="ga-correct" id="goCorrect"></div>
     </div>
     <button class="btn-primary" onclick="tryAgain()" id="btnTryAgain">TENTAR NOVAMENTE</button>
-    <button class="btn-secondary" onclick="goScreen(&#39;screen-home&#39;)" style="max-width:100%;margin-top:10px">VOLTAR AO INÍCIO</button>
+    <button class="btn-secondary" onclick="goScreen('screen-home')" style="max-width:100%;margin-top:10px">VOLTAR AO INÍCIO</button>
+    <button onclick="relatarErro()" style="background:transparent;border:none;color:var(--txt3);font-size:11px;cursor:pointer;letter-spacing:1px;font-family:var(--font-b);text-decoration:underline;text-underline-offset:3px;margin-top:16px">⚠️ Achou que a resposta estava errada? Relatar erro</button>
   </div>
 </div>
 
@@ -2070,6 +2071,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="modal-text" id="hintText"></div>
     <button class="modal-close" onclick="closeModal()">ENTENDIDO</button>
   </div>
+</div>
 
 <!-- ══ MODAL RELATAR ERRO ══════════════════════════ -->
 <div class="modal-bg" id="reportModal" onclick="if(event.target===this)closeReportModal()">
