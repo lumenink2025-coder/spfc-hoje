@@ -1725,7 +1725,8 @@ async function loginGoogle() {
   if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
   const {auth, provider, signInWithPopup} = window.FB;
   try {
-    await signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, provider);
+    await loadUserData(result.user);
     toast('Bem-vindo! 🔴', 'Login realizado com sucesso');
     goScreen('screen-home');
     checkAvatarSetup();
@@ -1745,7 +1746,8 @@ async function loginEmail() {
   if (!email || !pass) { toast('Preencha os campos', 'Email e senha são obrigatórios'); return; }
   const {auth, signInWithEmailAndPassword} = window.FB;
   try {
-    await signInWithEmailAndPassword(auth, email, pass);
+    const result = await signInWithEmailAndPassword(auth, email, pass);
+    await loadUserData(result.user);
     toast('Bem-vindo de volta! 🔴', 'Login realizado com sucesso');
     goScreen('screen-home');
     checkAvatarSetup();
