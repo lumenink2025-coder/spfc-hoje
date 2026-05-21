@@ -507,7 +507,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 
 /* ═══════════════════════════════════════════════════
-   NOVA HOME — BASEADA NA IMAGEM DE REFERÊNCIA
+   NOVA HOME — DESIGN BASEADO NA IMAGEM DE REFERÊNCIA
+   (Adicionado ao final do CSS original)
 ═══════════════════════════════════════════════════ */
 
 /* ── HERO BACKGROUND ── */
@@ -883,6 +884,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 }
 
 /* Ranking card */
+.home-card-ranking { justify-content: space-between; }
+
 .home-ranking-list {
   display: flex;
   flex-direction: column;
@@ -998,7 +1001,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   transition: width 0.5s ease;
 }
 
-
 /* ── ENTRANCE ANIMATIONS ── */
 .home-shield-wrap { animation: fadeInUp 0.6s ease both; }
 .home-title-group { animation: fadeInUp 0.6s ease 0.15s both; }
@@ -1008,18 +1010,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .home-live-bar { animation: fadeIn 0.5s ease 0.7s both; }
 .home-live-stats { animation: fadeInUp 0.5s ease 0.75s both; }
 .home-bottom-cards { animation: fadeInUp 0.5s ease 0.85s both; }
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* ── RANKING CARD ── */
-.home-card-ranking { justify-content: space-between; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 380px) {
@@ -1039,7 +1029,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <!-- ══ SCREEN: HOME ═══════════════════════════════ -->
 <div class="screen active" id="screen-home">
 
-  <!-- HERO BACKGROUND -->
+  <!-- ===== HERO SECTION (NOVO DESIGN) ===== -->
   <div class="home-hero-bg">
     <div class="home-hero-overlay"></div>
     <div class="home-hero-content">
@@ -1050,7 +1040,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         <div class="home-tb-right">
           <div class="home-tb-bell" onclick="toggleMusic()" id="musicToggleHome">🔔</div>
           <div class="home-tb-avatar" id="userChipHome" onclick="goScreen('screen-login')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg" alt="SPFC" id="homeAvatarImg" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/240px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" id="homeAvatarImg" onerror="this.src='./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png'">
           </div>
         </div>
       </div>
@@ -1064,7 +1054,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           <span class="star-red">⭐</span>
           <span class="star-gold">⭐</span>
         </div>
-        <img class="home-shield" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg" alt="SPFC" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/240px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
+        <img class="home-shield" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" onerror="this.src='./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png'">
       </div>
 
       <!-- TITLE -->
@@ -1090,7 +1080,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div>
   </div>
 
-  <!-- STATS ROW -->
+  <!-- ===== STATS ROW (NOVO DESIGN) ===== -->
   <div class="home-stats-row">
     <div class="home-stat-card">
       <div class="home-stat-icon">❤️</div>
@@ -1106,46 +1096,45 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div>
     <div class="home-stat-card">
       <div class="home-stat-icon">🔷</div>
-      <div class="home-stat-num">6</div>
-      <div class="home-stat-label">NÍVEL 6</div>
-      <div class="home-stat-sublabel">TORCEDOR<br>RUMO AO NÍVEL 7</div>
+      <div class="home-stat-num" id="homeStatLevel">6</div>
+      <div class="home-stat-label" id="homeStatLevelLabel">NÍVEL 6</div>
+      <div class="home-stat-sublabel" id="homeStatLevelSub">TORCEDOR<br>RUMO AO NÍVEL 7</div>
     </div>
   </div>
 
-  <!-- AO VIVO AGORA -->
+  <!-- ===== AO VIVO AGORA (NOVO DESIGN) ===== -->
   <div class="home-live-bar">
     <div class="home-live-dot"></div>
     <div class="home-live-text">AO VIVO AGORA</div>
   </div>
 
-  <!-- LIVE STATS -->
   <div class="home-live-stats">
     <div class="home-live-item">
       <div class="home-live-icon">👥</div>
-      <div class="home-live-value">1.284</div>
+      <div class="home-live-value" id="liveOnline">1.284</div>
       <div class="home-live-label">TORCEDORES ONLINE</div>
     </div>
     <div class="home-live-divider"></div>
     <div class="home-live-item">
       <div class="home-live-icon">🔥</div>
-      <div class="home-live-value">58</div>
+      <div class="home-live-value" id="liveStreak">58</div>
       <div class="home-live-label">MAIOR SEQUÊNCIA</div>
     </div>
     <div class="home-live-divider"></div>
     <div class="home-live-item">
       <div class="home-live-icon">👑</div>
-      <div class="home-live-value" style="font-size:14px;font-weight:600">JoãoSPFC</div>
+      <div class="home-live-value" id="liveBest" style="font-size:14px;font-weight:600">JoãoSPFC</div>
       <div class="home-live-label">MELHOR JOGADOR HOJE</div>
     </div>
   </div>
 
-  <!-- BOTTOM CARDS -->
+  <!-- ===== BOTTOM CARDS (NOVO DESIGN) ===== -->
   <div class="home-bottom-cards">
     <!-- RANKING SEMANAL -->
     <div class="home-card home-card-ranking">
       <div class="home-card-title">RANKING SEMANAL</div>
       <div class="home-card-subtitle">TOP 3 TORCEDORES</div>
-      <div class="home-ranking-list">
+      <div class="home-ranking-list" id="homeRankingList">
         <div class="home-rank-item">
           <span class="home-rank-num">1</span>
           <img class="home-rank-avatar" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rai_arcph5.png" alt="">
@@ -1179,9 +1168,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         Responda 15 perguntas<br>e ganhe <span>500 XP</span>
       </div>
       <div class="home-mission-progress">
-        <div class="home-mission-count">07 / 15</div>
+        <div class="home-mission-count" id="missionCount">07 / 15</div>
         <div class="home-mission-bar">
-          <div class="home-mission-fill" style="width:46%"></div>
+          <div class="home-mission-fill" id="missionFill" style="width:46%"></div>
         </div>
       </div>
     </div>
@@ -1191,15 +1180,12 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div style="height:20px"></div>
 
 </div>
-
-
 <!-- ══ SCREEN: LOGIN ══════════════════════════════ -->
-
 <div class="screen" id="screen-login">
   <!-- Hero -->
   <div class="login-hero">
     <div class="login-badge">
-      <img class="login-badge-img" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg" alt="SPFC" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/240px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
+      <img class="login-badge-img" src="./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
     </div>
     <div class="login-quiz-title">QUIZ</div>
     <div class="login-tricolor">T R I C O L O R</div>
@@ -1335,7 +1321,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="quiz-lives-mini" id="quizLivesMini"></div>
     </div>
     <div class="quiz-header-center">
-      <img class="quiz-header-logo" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg" alt="SPFC" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/240px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
+      <img class="quiz-header-logo" src="./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
     </div>
     <div class="quiz-header-right">
       <div class="quiz-ranking-badge">🏆 <span>RANKING</span></div>
@@ -1410,7 +1396,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="quiz-bottom-bar">
     <button class="quiz-bottom-btn" onclick="useHelper(&#39;skip&#39;)" id="quizBtnPular">⏭ PULAR</button>
     <div class="quiz-bottom-player">
-      <img class="quiz-player-shield" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg" alt="SPFC" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/240px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
+      <img class="quiz-player-shield" src="./quiz_files/261c59bf-ad90-417e-8ed2-99f6c8d087d1_vg9wjj.png" alt="SPFC">
       <div class="quiz-player-info">
         <div class="quiz-player-label">TORCEDOR</div>
         <div class="quiz-player-level" id="quizPlayerLevel">NÍVEL 1</div>
@@ -3915,6 +3901,203 @@ function goScreenWordle() {
 /* ════════════════════════════════════════════════
    INIT
 ════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════
+   SISTEMA DE XP / NÍVEIS — 100 Níveis com Títulos SPFC
+═══════════════════════════════════════════════════ */
+
+const XP_TITLES = [
+  // Níveis 1-10: Iniciante
+  {min:0,    title:'Torcedor de Arquibancada',     emoji:'👤'},
+  {min:100,  title:'Torcedor da Caldeira',         emoji:'🔥'},
+  {min:250,  title:'Sócio-Torcedor',               emoji:'🎫'},
+  {min:500,  title:'Fiel Tricolor',                emoji:'❤️'},
+  {min:800,  title:'Conhecedor da História',       emoji:'📚'},
+  {min:1200, title:'Membro da Torcida Organizada', emoji:'🥁'},
+  {min:1700, title:'Torcedor que Nunca Faltou',    emoji:'🏟️'},
+  {min:2300, title:'Historiador Tricolor',         emoji:'🎓'},
+  {min:3000, title:'Guardião do Morumbi',          emoji:'🛡️'},
+  {min:3800, title:'Lenda das Arquibancadas',     emoji:'⭐'},
+  // Níveis 11-20: Jogador
+  {min:4700,  title:'Garoto do Cotia',             emoji:'⚽'},
+  {min:5700,  title:'Revelação do Tricolor',       emoji:'💎'},
+  {min:6800,  title:'Jogador da Base',             emoji:'🏃'},
+  {min:8000,  title:'Reserva de Luxo',             emoji:'🪑'},
+  {min:9300,  title:'Titular Absoluto',            emoji:'👕'},
+  {min:10700, title:'Artilheiro do Paulistão',     emoji:'🎯'},
+  {min:12200, title:'Ídolo em Formação',           emoji:'🌟'},
+  {min:13800, title:'Craque do Brasileirão',       emoji:'🏆'},
+  {min:15500, title:'Estrela da Libertadores',     emoji:'⭐'},
+  {min:17300, title:'Ídolo do Morumbi',            emoji:'🎖️'},
+  // Níveis 21-30: Campeão
+  {min:19200, title:'Campeão Paulista',            emoji:'🏆'},
+  {min:21200, title:'Bicampeão Estadual',          emoji:'🏆🏆'},
+  {min:23300, title:'Tricampeão Paulista',         emoji:'🏆🏆🏆'},
+  {min:25500, title:'Campeão Brasileiro',          emoji:'🇧🇷'},
+  {min:27800, title:'Bicampeão Brasileiro',        emoji:'🇧🇷🇧🇷'},
+  {min:30200, title:'Tricampeão Brasileiro',       emoji:'🇧🇷🇧🇷🇧🇷'},
+  {min:32700, title:'Campeão da Copa do Brasil',   emoji:'🥇'},
+  {min:35300, title:'Campeão da Sul-Americana',    emoji:'🌎'},
+  {min:38000, title:'Campeão da Libertadores',     emoji:'⭐'},
+  {min:40800, title:'Bicampeão da Libertadores',   emoji:'⭐⭐'},
+  // Níveis 31-40: Mundial
+  {min:43700, title:'Campeão Mundial',             emoji:'🌍'},
+  {min:46700, title:'Bicampeão Mundial',           emoji:'🌍🌍'},
+  {min:49800, title:'Tricampeão Mundial',          emoji:'🌍🌍🌍'},
+  {min:53000, title:'Maior Campeão do Brasil',     emoji:'👑'},
+  {min:56300, title:'Gigante da América',          emoji:'🌎'},
+  {min:59700, title:'Rei dos Clássicos',           emoji:'👑'},
+  {min:63200, title:'Senhor do Morumbi',           emoji:'🏰'},
+  {min:66800, title:'Lenda Viva do Tricolor',      emoji:'✨'},
+  {min:70500, title:'Ídolo Eterno',                emoji:'🗿'},
+  {min:74300, title:'Mito Tricolor',                 emoji:'🔱'},
+  // Níveis 41-50: Era de Ouro
+  {min:78200, title:'Guerreiro de 92',             emoji:'⚔️'},
+  {min:82200, title:'Herói de 93',                 emoji:'🦸'},
+  {min:86300, title:'Campeão de 2005',             emoji:'🏅'},
+  {min:90500, title:'Campeão de 2023',             emoji:'🎉'},
+  {min:94800, title:'Filho de Telê Santana',       emoji:'🎩'},
+  {min:99200, title:'Discípulo de Rogério Ceni',   emoji:'🧤'},
+  {min:103700,title:'Herdeiro de Raí',             emoji:'🎖️'},
+  {min:108300,title:'Sucessor de Kaká',             emoji:'⚡'},
+  {min:113000,title:'Novo Cafu',                    emoji:'🏃'},
+  {min:117800,title:'Próximo Müller',               emoji:'🎯'},
+  // Níveis 51-60: Lendário
+  {min:122700,title:'Lenda do Morumbi',             emoji:'🏟️'},
+  {min:127700,title:'Ícone do São Paulo',           emoji:'🎭'},
+  {min:132800,title:'Monumento Tricolor',           emoji:'🗿'},
+  {min:138000,title:'Imortal do SPFC',             emoji:'♾️'},
+  {min:143300,title:'Deus do Futebol Paulista',     emoji:'⚡'},
+  {min:148700,title:'Guardião das Três Cores',     emoji:'🔴⚪⚫'},
+  {min:154200,title:'Mestre do Morumbi',            emoji:'🎓'},
+  {min:159800,title:'Rei do Futebol Brasileiro',   emoji:'👑'},
+  {min:165500,title:'Lenda Sul-Americana',          emoji:'🌎'},
+  {min:171300,title:'Gigante Mundial',              emoji:'🌍'},
+  // Níveis 61-70: Supremo
+  {min:177200,title:'Supremo Tricolor',             emoji:'🔱'},
+  {min:183200,title:'Soberano do Morumbi',          emoji:'👑'},
+  {min:189300,title:'Imperador do Futebol',         emoji:'🦁'},
+  {min:195500,title:'Titan do Brasileirão',         emoji:'⚔️'},
+  {min:201800,title:'Colosso da Libertadores',      emoji:'🏛️'},
+  {min:208200,title:'Deus do Mundial',              emoji:'🌟'},
+  {min:214700,title:'Ser Supremo Tricolor',         emoji:'✨'},
+  {min:221300,title:'Entidade do SPFC',             emoji:'👻'},
+  {min:228000,title:'Força da Natureza',            emoji:'🌪️'},
+  {min:234800,title:'Fenômeno Tricolor',            emoji:'🌠'},
+  // Níveis 71-80: Divino
+  {min:241700,title:'Semi-Deus do Morumbi',         emoji:'😇'},
+  {min:248700,title:'Divindade Tricolor',           emoji:'🙏'},
+  {min:255800,title:'Anjo Guardião do SPFC',        emoji:'👼'},
+  {min:263000,title:'Arcanjo das Três Cores',       emoji:'⚜️'},
+  {min:270300,title:'Serafim do Futebol',           emoji:'🔥'},
+  {min:277700,title:'Querubim Tricolor',            emoji:'💖'},
+  {min:285200,title:'Trono do Morumbi',             emoji:'🪑'},
+  {min:292800,title:'Olho que Tudo Vê',             emoji:'👁️'},
+  {min:300500,title:'Onisciente Tricolor',          emoji:'🧠'},
+  {min:308300,title:'Onipresente no Morumbi',       emoji:'👤'},
+  // Níveis 81-90: Cósmico
+  {min:316200,title:'Estrela do Tricolor',          emoji:'⭐'},
+  {min:324200,title:'Constelação SPFC',             emoji:'✨'},
+  {min:332300,title:'Galáxia Tricolor',             emoji:'🌌'},
+  {min:340500,title:'Universo São Paulino',        emoji:'🌌'},
+  {min:348800,title:'Buraco Negro do Rivais',       emoji:'🕳️'},
+  {min:357200,title:'Supernova Tricolor',           emoji:'💥'},
+  {min:365700,title:'Pulsar do Morumbi',            emoji:'📡'},
+  {min:374300,title:'Quasar do SPFC',               emoji:'🌟'},
+  {min:383000,title:'Big Bang Tricolor',            emoji:'💫'},
+  {min:391800,title:'Criador do Universo SPFC',     emoji:'🌌'},
+  // Níveis 91-100: Absoluto
+  {min:400700,title:'Eterno Tricolor',              emoji:'♾️'},
+  {min:409700,title:'Infinito São Paulino',         emoji:'∞'},
+  {min:418800,title:'Alma do SPFC',                 emoji:'👻'},
+  {min:428000,title:'Espírito do Morumbi',          emoji:'🕊️'},
+  {min:437300,title:'Essência Tricolor',            emoji:'💧'},
+  {min:446700,title:'Verdade Absoluta',             emoji:'📜'},
+  {min:456200,title:'Caminho do SPFC',              emoji:'🛤️'},
+  {min:465800,title:'Luz do Morumbi',               emoji:'💡'},
+  {min:475500,title:'Destino Tricolor',             emoji:'🔮'},
+  {min:485300,title:'DEUS DO SPFC — NÍVEL MÁXIMO', emoji:'👑👑👑'},
+];
+
+function getLevelInfo(xp) {
+  let level = 1;
+  let title = XP_TITLES[0].title;
+  let emoji = XP_TITLES[0].emoji;
+  let nextXP = XP_TITLES[1].min;
+
+  for (let i = XP_TITLES.length - 1; i >= 0; i--) {
+    if (xp >= XP_TITLES[i].min) {
+      level = i + 1;
+      title = XP_TITLES[i].title;
+      emoji = XP_TITLES[i].emoji;
+      nextXP = (i < XP_TITLES.length - 1) ? XP_TITLES[i + 1].min : null;
+      break;
+    }
+  }
+
+  return { level, title, emoji, nextXP };
+}
+
+function getXPForNextLevel(currentLevel) {
+  if (currentLevel >= XP_TITLES.length) return null;
+  return XP_TITLES[currentLevel].min;
+}
+
+// Atualizar estado com XP
+if (!STATE.userData) {
+  STATE.userData = { xp: 0, level: 1, totalXP: 0 };
+}
+
+function addXP(amount) {
+  if (!STATE.userData) STATE.userData = { xp: 0, level: 1, totalXP: 0 };
+  STATE.userData.xp += amount;
+  STATE.userData.totalXP += amount;
+
+  const info = getLevelInfo(STATE.userData.xp);
+  if (info.level > STATE.userData.level) {
+    STATE.userData.level = info.level;
+    // Notificação de level up
+    setTimeout(() => {
+      toast(
+        `${info.emoji} NÍVEL ${info.level}!`,
+        `Você evoluiu para: ${info.title}`,
+        4000
+      );
+      playLevelUp();
+    }, 500);
+  }
+
+  saveState();
+  return info;
+}
+
+function renderHomeXP() {
+  const info = getLevelInfo(STATE.userData?.xp || 0);
+  const elLevel = document.getElementById('homeStatLevel');
+  const elLabel = document.getElementById('homeStatLevelLabel');
+  const elSub = document.getElementById('homeStatLevelSub');
+
+  if (elLevel) elLevel.textContent = info.level;
+  if (elLabel) elLabel.textContent = `NÍVEL ${info.level}`;
+  if (elSub) {
+    if (info.nextXP) {
+      const remaining = info.nextXP - (STATE.userData?.xp || 0);
+      elSub.innerHTML = `${info.title}<br>${remaining.toLocaleString('pt-BR')} XP para o próximo`;
+    } else {
+      elSub.innerHTML = `${info.title}<br>🏆 NÍVEL MÁXIMO!`;
+    }
+  }
+
+  // Atualizar também no quiz
+  const quizLevel = document.getElementById('quizPlayerLevel');
+  const quizXP = document.getElementById('quizPlayerXP');
+  if (quizLevel) quizLevel.textContent = `NÍVEL ${info.level}`;
+  if (quizXP && info.nextXP) {
+    const currentXP = STATE.userData?.xp || 0;
+    quizXP.textContent = `${currentXP.toLocaleString('pt-BR')} / ${info.nextXP.toLocaleString('pt-BR')} XP`;
+  }
+}
+
 function init() {
   loadState();
   checkLivesRegen();
@@ -3924,6 +4107,7 @@ function init() {
   startLivesTimer();
   document.getElementById('statPergs').textContent = QUESTIONS.length + '+';
   renderHomeUser();
+  renderHomeXP();
   loadFirebaseQuestions(); // carrega do Firebase em paralelo
   loadWordleFromFirebase(); // carrega jogadores do Wordle
 }
