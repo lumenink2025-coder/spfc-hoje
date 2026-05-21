@@ -3737,7 +3737,7 @@ function renderProfile() {
       <div>
         <div class="profile-name">${name}</div>
         <div class="profile-level">${lvlLabel}</div>
-        ${STATE.user ? `<div style="font-size:11px;color:var(--txt3);margin-top:4px">${STATE.user.email||''}</div>` : '<div style="font-size:11px;color:var(--txt3);margin-top:4px">Visitante</div><button onclick="goScreen('screen-login')" style="margin-top:10px;padding:8px 16px;background:var(--red);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;letter-spacing:1px">🔴 ENTRAR PARA JOGAR</button>'}
+        ${STATE.user ? `<div style="font-size:11px;color:var(--txt3);margin-top:4px">${STATE.user.email||''}</div>` : `<div style="font-size:11px;color:var(--txt3);margin-top:4px">Visitante</div><button onclick="goScreen('screen-login')" style="margin-top:10px;padding:8px 16px;background:var(--red);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;letter-spacing:1px">🔴 ENTRAR PARA JOGAR</button>`}
       </div>
     </div>
     <div class="profile-stats">
