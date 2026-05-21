@@ -4568,10 +4568,13 @@ if (!STATE.userData) {
   STATE.userData = { xp: 0, level: 1, totalXP: 0 };
 }
 
+const XP_DIVISOR = 10; // Cada ponto de quiz = 0.1 XP — ajuste aqui para calibrar
+
 function addXP(amount) {
   if (!STATE.userData) STATE.userData = { xp: 0, level: 1, totalXP: 0 };
-  STATE.userData.xp += amount;
-  STATE.userData.totalXP += amount;
+  const xpGain = Math.max(1, Math.floor(amount / XP_DIVISOR));
+  STATE.userData.xp += xpGain;
+  STATE.userData.totalXP += xpGain;
 
   const info = getLevelInfo(STATE.userData.xp);
   if (info.level > STATE.userData.level) {
@@ -4880,6 +4883,21 @@ function renderDesafios() {
     </div>
   `;
 
+  // Botão Wondler
+  html += `
+    <div class="desafios-section-title">🔤 WONDLER DO DIA</div>
+    <div style="padding:0 0 8px">
+      <button onclick="goScreenWordle()" style="width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;text-align:left;">
+        <span style="font-size:32px">🔤</span>
+        <div style="flex:1">
+          <div style="font-family:var(--font-t);font-size:18px;color:var(--txt);letter-spacing:2px">WONDLER</div>
+          <div style="font-size:11px;color:var(--txt3);letter-spacing:1px;margin-top:2px">Adivinhe o jogador do SPFC de hoje</div>
+        </div>
+        <span style="font-size:20px;color:var(--red)">›</span>
+      </button>
+    </div>
+  \`;
+
   panel.innerHTML = html;
 }
 
@@ -4888,19 +4906,28 @@ function renderDesafios() {
 ═══════════════════════════════════════════════════ */
 
 function initHomeExtras() {
-  // Tenta carregar imediatamente (Firebase pode já estar pronto)
-  loadHomeRanking();
   renderHomeMissions();
   renderHomeXP();
-  updateLiveStats();
 
-  // Se Firebase ainda não está pronto, aguarda e recarrega
-  if (!window.FB) {
+  if (window.FB && window.FB.db) {
+    // Firebase já está pronto
+    loadHomeRanking();
+    updateLiveStats();
+  } else {
+    // Aguarda Firebase ficar pronto
     window.addEventListener('firebase-ready', function() {
-      console.log('Firebase pronto - recarregando ranking...');
+      console.log('Firebase pronto - carregando ranking e live stats...');
       loadHomeRanking();
+      updateLiveStats();
     }, { once: true });
   }
+
+  // Atualiza live stats a cada 60s
+  setInterval(function() {
+    if (document.getElementById('screen-home') && document.getElementById('screen-home').classList.contains('active')) {
+      updateLiveStats();
+    }
+  }, 60000);
 }
 
 async function updateLiveStats() {
@@ -4908,36 +4935,58 @@ async function updateLiveStats() {
   const streakEl = document.getElementById('liveStreak');
   const bestEl = document.getElementById('liveBest');
 
+  // Mostra dados locais imediatamente enquanto carrega
+  if (streakEl && !streakEl.dataset.loaded) {
+    streakEl.textContent = STATE.bestStreak?.toString() || '0';
+  }
+
   // Busca dados reais do Firebase
   if (window.FB && window.FB.db) {
     try {
       const {db, collection, query, orderBy, limit, getDocs, where} = window.FB;
 
-      // 1. Contar jogadores online (últimas 24h)
+      // 1. Contar jogadores online — query simples sem orderBy composto
       const yesterday = new Date(Date.now() - 24*60*60*1000).toISOString().slice(0,10);
-      const onlineQ = query(collection(db, 'ranking'), where('dateKey', '>=', yesterday), orderBy('dateKey', 'desc'));
+      const onlineQ = query(collection(db, 'ranking'), where('dateKey', '>=', yesterday), limit(200));
       const onlineSnap = await getDocs(onlineQ);
       const uniquePlayers = new Set();
       onlineSnap.forEach(d => uniquePlayers.add(d.data().uid));
       if (onlineEl) onlineEl.textContent = uniquePlayers.size.toLocaleString('pt-BR');
 
-      // 2. Maior sequência (bestStreak)
-      const streakQ = query(collection(db, 'ranking'), where('type', '==', 'geral'), orderBy('bestStreak', 'desc'), limit(1));
-      const streakSnap = await getDocs(streakQ);
-      if (!streakSnap.empty && streakEl) {
-        const data = streakSnap.docs[0].data();
-        streakEl.textContent = (data.bestStreak || 0).toString();
+      // 2. Maior sequência (bestStreak) — busca na coleção 'users' onde é salvo
+      try {
+        const streakQ = query(collection(db, 'users'), orderBy('bestStreak', 'desc'), limit(1));
+        const streakSnap = await getDocs(streakQ);
+        if (!streakSnap.empty && streakEl) {
+          streakEl.textContent = (streakSnap.docs[0].data().bestStreak || 0).toString();
+          streakEl.dataset.loaded = '1';
+        }
+      } catch(e2) {
+        console.warn('Streak query erro (crie índice em users.bestStreak desc):', e2.message);
+        // Mostra streak local como fallback
+        if (streakEl && !streakEl.dataset.loaded) {
+          streakEl.textContent = STATE.bestStreak?.toString() || '0';
+        }
       }
 
-      // 3. Melhor jogador hoje
+      // 3. Melhor jogador hoje — busca por dateKey e type, ordena no cliente
       const today = new Date().toISOString().slice(0,10);
-      const bestQ = query(collection(db, 'ranking'), where('type', '==', 'diario'), where('dateKey', '==', today), orderBy('score', 'desc'), limit(1));
-      const bestSnap = await getDocs(bestQ);
-      if (!bestSnap.empty && bestEl) {
-        const data = bestSnap.docs[0].data();
-        bestEl.textContent = data.name || 'Torcedor';
-      } else if (bestEl) {
-        bestEl.textContent = '—';
+      try {
+        const bestQ = query(collection(db, 'ranking'), where('dateKey', '==', today), where('type', '==', 'diario'), limit(50));
+        const bestSnap = await getDocs(bestQ);
+        if (!bestSnap.empty && bestEl) {
+          // Ordena no cliente pelo score
+          let best = null;
+          bestSnap.forEach(d => {
+            const data = d.data();
+            if (!best || data.score > best.score) best = data;
+          });
+          bestEl.textContent = best?.name || '—';
+        } else if (bestEl) {
+          bestEl.textContent = '—';
+        }
+      } catch(e3) {
+        if (bestEl) bestEl.textContent = STATE.avatar?.name || '—';
       }
 
       return;
@@ -4952,23 +5001,6 @@ async function updateLiveStats() {
   if (bestEl) bestEl.textContent = STATE.avatar?.name || '—';
 }
 
-// Atualizar o init original
-const _originalInit = init;
-init = function() {
-  loadState();
-  checkLivesRegen();
-  checkStreakOnLoad();
-  renderLives('livesDisplay');
-  renderStreakBadge();
-  startLivesTimer();
-  document.getElementById('statPergs').textContent = QUESTIONS.length + '+';
-  renderHomeUser();
-  initHomeExtras();
-  loadFirebaseQuestions();
-  loadWordleFromFirebase();
-};
-
-
 function init() {
   loadState();
   checkLivesRegen();
@@ -4979,9 +5011,9 @@ function init() {
   document.getElementById('statPergs').textContent = QUESTIONS.length + '+';
   renderHomeUser();
   renderHomeXP();
-  initHomeExtras(); // ← CARREGA RANKING REAL E MISSÕES NA HOME
-  loadFirebaseQuestions(); // carrega do Firebase em paralelo
-  loadWordleFromFirebase(); // carrega jogadores do Wordle
+  initHomeExtras(); // carrega ranking real, missões e live stats
+  loadFirebaseQuestions();
+  loadWordleFromFirebase();
 }
 
 init();
