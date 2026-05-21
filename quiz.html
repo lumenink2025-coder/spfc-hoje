@@ -1570,9 +1570,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div>
     <div class="home-stat-card">
       <div class="home-stat-icon">🔷</div>
-      <div class="home-stat-num" id="homeStatLevel">6</div>
-      <div class="home-stat-label" id="homeStatLevelLabel">NÍVEL 6</div>
-      <div class="home-stat-sublabel" id="homeStatLevelSub">TORCEDOR<br>RUMO AO NÍVEL 7</div>
+      <div class="home-stat-num" id="homeStatLevel">1</div>
+      <div class="home-stat-label" id="homeStatLevelLabel">NÍVEL</div>
+      <div class="home-stat-sublabel" id="homeStatLevelSub">—</div>
     </div>
   </div>
 
@@ -4644,13 +4644,13 @@ function renderHomeXP() {
   const elSub = document.getElementById('homeStatLevelSub');
 
   if (elLevel) elLevel.textContent = info.level;
-  if (elLabel) elLabel.textContent = `NÍVEL ${info.level}`;
+  if (elLabel) elLabel.textContent = info.title;  // título do nível (ex: "TORCEDOR DE ARQUIBANCADA")
   if (elSub) {
     if (info.nextXP) {
       const remaining = info.nextXP - (STATE.userData?.xp || 0);
-      elSub.innerHTML = `${info.title}<br>${remaining.toLocaleString('pt-BR')} XP para o próximo`;
+      elSub.innerHTML = `${remaining.toLocaleString('pt-BR')} XP para o próximo`;
     } else {
-      elSub.innerHTML = `${info.title}<br>🏆 NÍVEL MÁXIMO!`;
+      elSub.innerHTML = `🏆 NÍVEL MÁXIMO!`;
     }
   }
 
