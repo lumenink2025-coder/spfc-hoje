@@ -278,56 +278,60 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .nmc-error{padding:16px;text-align:center;font-size:11px;color:var(--txt3)}
 .nmc-score{font-family:var(--font-title);font-size:28px;color:#fff;letter-spacing:2px;text-align:center}
 
-/* ── BOTÃO PALPITÔMETRO ──────────────────────────── */
-.palp-wrap{width:100%;margin-top:10px}
+/* ── BOTÃO PALPITÔMETRO — estilo Quiz Tricolor ───── */
+.palp-wrap{width:100%;margin-top:12px}
+
+/* BASE — igual ao quiz-hero-btn */
 .palp-btn{
-  width:100%;padding:14px 18px;border-radius:10px;border:none;
-  font-family:var(--font-ui);font-size:13px;letter-spacing:2px;text-transform:uppercase;
-  cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;
-  transition:all .2s;position:relative;overflow:hidden;text-align:left;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  width:100%;padding:18px 20px;
+  background:linear-gradient(135deg,#CC0000 0%,#8B0000 100%);
+  border:none;border-radius:10px;cursor:pointer;overflow:hidden;position:relative;
+  box-shadow:0 8px 32px rgba(204,0,0,.45),0 2px 8px rgba(0,0,0,.4);
+  transition:transform .18s,box-shadow .18s;
+  animation:palpPulse 2.8s ease-in-out infinite;
+  text-align:left;
 }
-/* Estado 1 — Normal */
-.palp-btn.s-normal{
-  background:transparent;border:1px solid var(--border2);color:var(--txt3);
-}
-.palp-btn.s-normal:hover{border-color:rgba(204,0,0,.4);color:var(--txt)}
-/* Estado 2 — Pulsando (24h antes) */
-.palp-btn.s-pulse{
-  background:linear-gradient(135deg,var(--red) 0%,var(--red3) 100%);
-  color:#fff;border:none;
-  box-shadow:0 4px 20px rgba(204,0,0,.4);
-  animation:palpPulse 1.4s ease-in-out infinite;
-}
+.palp-btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(204,0,0,.65)}
+.palp-btn:active{transform:scale(.98)}
 @keyframes palpPulse{
-  0%,100%{box-shadow:0 4px 20px rgba(204,0,0,.4),0 0 0 0 rgba(204,0,0,.4)}
-  50%{box-shadow:0 4px 20px rgba(204,0,0,.4),0 0 0 8px rgba(204,0,0,0)}
+  0%,100%{box-shadow:0 8px 32px rgba(204,0,0,.45),0 2px 8px rgba(0,0,0,.4)}
+  50%{box-shadow:0 8px 52px rgba(204,0,0,.72),0 2px 8px rgba(0,0,0,.4)}
 }
-.palp-btn.s-pulse::before{
+.palp-btn::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.15) 50%,transparent 70%);
-  background-size:200%;animation:palpShimmer 1.8s linear infinite;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.12) 50%,transparent 70%);
+  background-size:200% 100%;animation:palpShimmer 2.4s linear infinite;
 }
 @keyframes palpShimmer{from{background-position:200% 0}to{background-position:-200% 0}}
-/* Estado 3 — Palpite enviado */
+.palp-btn-stripe{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#CC0000 33%,#fff 33%,#fff 66%,#111 66%)}
+
+.palp-btn-left{z-index:1}
+.palp-btn-eyebrow{font-family:var(--font-body);font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.6);text-transform:uppercase;margin-bottom:3px}
+.palp-btn-label{font-family:var(--font-title);font-size:26px;letter-spacing:3px;color:#fff;line-height:1}
+.palp-btn-sub{font-family:var(--font-body);font-size:10px;color:rgba(255,255,255,.65);letter-spacing:1px;margin-top:3px}
+.palp-btn-right{display:flex;align-items:center;gap:10px;z-index:1;flex-shrink:0}
+.palp-btn-icon{font-size:40px;animation:palpFloat 3s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4))}
+@keyframes palpFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.palp-btn-arrow{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0}
+
+/* Estados alternativos (enviado, resultado, fechado) */
 .palp-btn.s-sent{
-  background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);color:#22c55e;
+  background:linear-gradient(135deg,#166534 0%,#14532d 100%);
+  box-shadow:0 8px 32px rgba(34,197,94,.3),0 2px 8px rgba(0,0,0,.4);
+  animation:none;
 }
-/* Estado 4 — Ver resultado */
+.palp-btn.s-sent:hover{box-shadow:0 14px 40px rgba(34,197,94,.45)}
 .palp-btn.s-result{
-  background:rgba(200,168,75,.08);border:1px solid rgba(200,168,75,.3);color:var(--gold);
+  background:linear-gradient(135deg,#92400e 0%,#78350f 100%);
+  box-shadow:0 8px 32px rgba(200,168,75,.35),0 2px 8px rgba(0,0,0,.4);
   animation:palpPulse 1.8s ease-in-out infinite;
 }
-/* Estado 5 — Janela fechada */
 .palp-btn.s-closed{
-  background:transparent;border:1px solid var(--border);color:var(--txt3);
-  opacity:.5;cursor:not-allowed;
+  background:var(--bg2);border:1px solid var(--border2);
+  box-shadow:none;animation:none;cursor:not-allowed;opacity:.5;
 }
-.palp-btn-left{display:flex;align-items:center;gap:10px;z-index:1}
-.palp-btn-icon{font-size:18px;flex-shrink:0}
-.palp-btn-text{}
-.palp-btn-label{font-size:13px;font-weight:600;letter-spacing:1.5px}
-.palp-btn-sub{font-size:10px;opacity:.7;margin-top:2px;letter-spacing:.5px;font-family:var(--font-body)}
-.palp-btn-arrow{font-size:16px;opacity:.6;z-index:1;flex-shrink:0}
+.palp-btn.s-closed::before{display:none}
 
 </style>
 </head>
@@ -392,15 +396,17 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
     <!-- PALPITÔMETRO -->
     <div class="palp-wrap" id="palpWrap" style="display:none">
-      <button class="palp-btn s-normal" id="palpBtn" onclick="window.location.href='palpitometro.html'">
+      <button class="palp-btn" id="palpBtn" onclick="window.location.href='palpitometro.html'">
         <div class="palp-btn-left">
-          <span class="palp-btn-icon" id="palpBtnIcon">🎯</span>
-          <div class="palp-btn-text">
-            <div class="palp-btn-label" id="palpBtnLabel">PALPITÔMETRO</div>
-            <div class="palp-btn-sub" id="palpBtnSub">Dê seu palpite e dispute o ranking</div>
-          </div>
+          <div class="palp-btn-eyebrow" id="palpBtnEyebrow">SÃO PAULO FC</div>
+          <div class="palp-btn-label" id="palpBtnLabel">PALPITÔMETRO</div>
+          <div class="palp-btn-sub" id="palpBtnSub">Dê seu palpite e dispute o ranking</div>
         </div>
-        <span class="palp-btn-arrow" id="palpBtnArrow">→</span>
+        <div class="palp-btn-right">
+          <div class="palp-btn-icon" id="palpBtnIcon">🎯</div>
+          <div class="palp-btn-arrow" id="palpBtnArrow">▶</div>
+        </div>
+        <div class="palp-btn-stripe"></div>
       </button>
     </div>
 
@@ -1498,12 +1504,12 @@ async function saveTokenToFirestore(token) {
    PALPITÔMETRO — botão dinâmico abaixo do card
 ═══════════════════════════════════════════════════ */
 function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
-  const wrap = document.getElementById('palpWrap');
-  const btn  = document.getElementById('palpBtn');
-  const lbl  = document.getElementById('palpBtnLabel');
-  const sub  = document.getElementById('palpBtnSub');
-  const icon = document.getElementById('palpBtnIcon');
-  const arrow = document.getElementById('palpBtnArrow');
+  const wrap   = document.getElementById('palpWrap');
+  const btn    = document.getElementById('palpBtn');
+  const eyebrow= document.getElementById('palpBtnEyebrow');
+  const lbl    = document.getElementById('palpBtnLabel');
+  const sub    = document.getElementById('palpBtnSub');
+  const icon   = document.getElementById('palpBtnIcon');
   if (!wrap || !btn) return;
 
   wrap.style.display = 'block';
@@ -1514,53 +1520,43 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
   const janelaFechada   = !isFinished && diffMs > 0 && diffMs <= 3600000;
   const resultPeriod    = isFinished && hoursAfterGame <= 24;
 
-  // Cache local de palpite enviado (Firestore é a fonte de verdade no palpitometro.html)
   const storageKey = 'palp_sent_' + (matchId || matchDate.toISOString().slice(0,10));
   const jaPalpitou = localStorage.getItem(storageKey) === '1';
 
-  // Remove todos os estados
+  // Reset
   btn.className = 'palp-btn';
   btn.disabled = false;
+  btn.onclick = () => window.location.href = 'palpitometro.html';
+  if (eyebrow) eyebrow.textContent = 'SÃO PAULO FC';
 
   if (jaPalpitou && resultPeriod) {
-    // Estado 4 — ver resultado (24h após jogo)
     btn.classList.add('s-result');
     icon.textContent = '⭐';
-    lbl.textContent = 'VER RESULTADO DO PALPITE';
-    sub.textContent = 'O jogo terminou — veja seus pontos';
-    arrow.textContent = '→';
+    lbl.textContent = 'VER RESULTADO';
+    sub.textContent = 'Jogo encerrado — confira seus pontos';
   } else if (jaPalpitou) {
-    // Estado 3 — já enviou
     btn.classList.add('s-sent');
-    icon.textContent = '✓';
+    icon.textContent = '✅';
     lbl.textContent = 'PALPITE ENVIADO';
-    sub.textContent = 'Ver ranking e posição atual';
-    arrow.textContent = '→';
+    sub.textContent = 'Ver ranking e sua posição atual';
   } else if (janelaFechada) {
-    // Estado 5 — janela fechada
     btn.classList.add('s-closed');
     icon.textContent = '🔒';
     lbl.textContent = 'PALPITES ENCERRADOS';
     sub.textContent = 'Janela fecha 1h antes do jogo';
-    arrow.textContent = '';
     btn.disabled = true;
     btn.onclick = null;
   } else if (within24hBefore) {
-    // Estado 2 — urgência (24h antes)
-    btn.classList.add('s-pulse');
     icon.textContent = '🚨';
-    lbl.textContent = 'DÁ SEU PALPITE AGORA!';
+    lbl.textContent = 'DÁ SEU PALPITE!';
     const h = Math.floor(diffMs / 3600000);
     const m = Math.floor((diffMs % 3600000) / 60000);
-    sub.textContent = h > 0 ? `Fecha em ${h}h ${m}min` : `Fecha em ${m} minutos!`;
-    arrow.textContent = '→';
+    sub.textContent = h > 0 ? `Fecha em ${h}h ${m}min — não perca!` : `Fecha em ${m} minutos!`;
+    if (eyebrow) eyebrow.textContent = '🚨 URGENTE';
   } else {
-    // Estado 1 — normal
-    btn.classList.add('s-normal');
     icon.textContent = '🎯';
     lbl.textContent = 'PALPITÔMETRO';
     sub.textContent = 'Dê seu palpite e dispute o ranking';
-    arrow.textContent = '→';
   }
 }
 

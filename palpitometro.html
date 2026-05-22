@@ -66,6 +66,23 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .screen{display:none;min-height:100vh;flex-direction:column;align-items:center}
 .screen.active{display:flex}
 
+/* ── BOTÃO HERO ESTILO QUIZ ── */
+.palp-hero-btn{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;padding:18px 20px;background:linear-gradient(135deg,#CC0000 0%,#8B0000 100%);border:none;border-radius:10px;cursor:pointer;overflow:hidden;position:relative;box-shadow:0 8px 32px rgba(204,0,0,.45),0 2px 8px rgba(0,0,0,.4);transition:transform .18s,box-shadow .18s;animation:phbpulse 2.8s ease-in-out infinite;text-align:left;margin-bottom:0;text-decoration:none}
+.palp-hero-btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(204,0,0,.65)}
+.palp-hero-btn:active{transform:scale(.98)}
+@keyframes phbpulse{0%,100%{box-shadow:0 8px 32px rgba(204,0,0,.45),0 2px 8px rgba(0,0,0,.4)}50%{box-shadow:0 8px 52px rgba(204,0,0,.72),0 2px 8px rgba(0,0,0,.4)}}
+.palp-hero-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.12) 50%,transparent 70%);background-size:200% 100%;animation:phbshimmer 2.4s linear infinite}
+@keyframes phbshimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+.phb-left{z-index:1}
+.phb-eyebrow{font-family:var(--font-body);font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.6);text-transform:uppercase;margin-bottom:3px}
+.phb-title{font-family:var(--font-title);font-size:26px;letter-spacing:3px;color:#fff;line-height:1}
+.phb-sub{font-family:var(--font-body);font-size:10px;color:rgba(255,255,255,.65);letter-spacing:1px;margin-top:3px}
+.phb-right{display:flex;align-items:center;gap:10px;z-index:1;flex-shrink:0}
+.phb-icon{font-size:40px;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4))}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.phb-arrow{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0}
+.phb-stripe{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#CC0000 33%,#fff 33%,#fff 66%,#111 66%)}
+
 /* ── TOPBAR ── */
 .topbar{width:100%;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(10,10,10,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;flex-shrink:0}
 .tb-left{display:flex;align-items:center;gap:10px}
@@ -330,10 +347,23 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 ══════════════════════════════════════ -->
 <div class="screen active" id="screen-login">
   <div class="login-wrap fade-in">
+    <div style="padding:12px 0 0">
+      <button class="tb-back" onclick="window.location.href='index.html'" style="display:inline-flex;align-items:center;gap:6px">← VOLTAR AO APP</button>
+    </div>
     <div class="login-hero">
-      <span class="login-icon">🎯</span>
-      <div class="login-title">PALPITÔ<em>METRO</em></div>
-      <div class="login-sub">Mostre que você conhece o <strong style="color:var(--gold)">Tricolor</strong> melhor que ninguém</div>
+      <button class="palp-hero-btn" style="margin-bottom:20px;pointer-events:none">
+        <div class="phb-left">
+          <div class="phb-eyebrow">SÃO PAULO FC</div>
+          <div class="phb-title">PALPITÔMETRO</div>
+          <div class="phb-sub">Dispute o ranking com os torcedores</div>
+        </div>
+        <div class="phb-right">
+          <div class="phb-icon">🎯</div>
+          <div class="phb-arrow">▶</div>
+        </div>
+        <div class="phb-stripe"></div>
+      </button>
+      <div class="login-sub">Entre para dar seu palpite e disputar o <strong style="color:var(--gold)">ranking</strong></div>
     </div>
 
     <div class="login-pts-preview">
@@ -387,8 +417,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="tb-left">
-      <div class="tb-badge"></div>
-      <div class="tb-name"><span>PALPITÔ</span>METRO</div>
+      <button class="tb-back" onclick="window.location.href='index.html'">← VOLTAR</button>
     </div>
     <div class="tb-user" onclick="handleLogout()">
       <div class="tb-avatar" id="tbAvatar">?</div>
