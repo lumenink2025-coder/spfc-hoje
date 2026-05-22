@@ -4438,15 +4438,31 @@ function initWordle() {
   try {
     const saved = JSON.parse(localStorage.getItem('spfc_wordle') || '{}');
     if (saved.todayKey === todayKey) {
+      // Mesmo dia — restaura estado completo
       wordleState.guesses = saved.guesses || [];
       wordleState.won = saved.won || false;
       wordleState.dicas = saved.dicas || 0;
+      wordleState.streak = saved.streak || 0;
     } else {
+      // Novo dia — reseta o jogo
       wordleState.guesses = [];
       wordleState.won = false;
       wordleState.dicas = 0;
+      // Verifica se jogou ontem para manter streak
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayKey = yesterday.toISOString().slice(0, 10);
+      if (saved.lastWonKey === yesterdayKey) {
+        // Jogou e venceu ontem — mantém streak
+        wordleState.streak = saved.streak || 0;
+      } else if (saved.lastWonKey === todayKey) {
+        // Já venceu hoje (não deveria chegar aqui, mas segurança)
+        wordleState.streak = saved.streak || 0;
+      } else {
+        // Perdeu ou não jogou ontem — zera streak
+        wordleState.streak = 0;
+      }
     }
-    wordleState.streak = saved.streak || 0;
   } catch(e) {}
 
   // Sorteia jogador do dia pela data (mesmo para todos)
@@ -4469,6 +4485,7 @@ function saveWordleState() {
     won: wordleState.won,
     dicas: wordleState.dicas,
     streak: wordleState.streak,
+    lastWonKey: wordleState.won ? wordleState.todayKey : (JSON.parse(localStorage.getItem('spfc_wordle')||'{}').lastWonKey || null),
   }));
   // Salva no Firebase se logado e acabou de ganhar
   if (wordleState.won && window.FB) {
@@ -4478,16 +4495,34 @@ function saveWordleState() {
       const {db, doc, setDoc, serverTimestamp} = window.FB;
       const uid = currentUser.uid;
       const dateKey = wordleState.todayKey;
-      setDoc(doc(db, 'ranking_wordle', uid + '_' + dateKey), {
-        uid,
-        name: STATE.avatar?.name || currentUser.displayName || 'Torcedor',
-        avatar: STATE.avatar?.dataUrl || null,
-        streak: wordleState.streak,
-        bestStreak: wordleState.streak, // atualizado abaixo se for record
-        tries: wordleState.guesses.length,
-        edition: wordleState.edition,
-        dateKey,
-        updatedAt: serverTimestamp(),
+      // Buscar bestStreak atual para não sobrescrever com valor menor
+      const {getDoc} = window.FB;
+      getDoc(doc(db, 'ranking_wordle', uid + '_best')).then(snap => {
+        const oldBest = snap.exists() ? (snap.data().bestStreak || 0) : 0;
+        const newBest = Math.max(oldBest, wordleState.streak);
+        // Salva partida do dia
+        setDoc(doc(db, 'ranking_wordle', uid + '_' + dateKey), {
+          uid,
+          name: STATE.avatar?.name || currentUser.displayName || 'Torcedor',
+          avatar: STATE.avatar?.dataUrl || null,
+          streak: wordleState.streak,
+          bestStreak: newBest,
+          tries: wordleState.guesses.length,
+          edition: wordleState.edition,
+          dateKey,
+          lastWonKey: dateKey,
+          updatedAt: serverTimestamp(),
+        }).catch(() => {});
+        // Salva doc de melhor resultado geral
+        setDoc(doc(db, 'ranking_wordle', uid + '_best'), {
+          uid,
+          name: STATE.avatar?.name || currentUser.displayName || 'Torcedor',
+          avatar: STATE.avatar?.dataUrl || null,
+          streak: wordleState.streak,
+          bestStreak: newBest,
+          lastWonKey: dateKey,
+          updatedAt: serverTimestamp(),
+        }, { merge: true }).catch(() => {});
       }).catch(() => {});
     }
   }
@@ -4661,7 +4696,15 @@ function wrdGuess() {
   }
 
   if (isWin || wordleState.guesses.length >= 6) {
-    if (!isWin) wordleState.streak = 0;
+    if (!isWin) {
+      wordleState.streak = 0;
+      // Limpa lastWonKey para não manter streak indevido
+      try {
+        const s = JSON.parse(localStorage.getItem('spfc_wordle') || '{}');
+        s.lastWonKey = null;
+        localStorage.setItem('spfc_wordle', JSON.stringify(s));
+      } catch(e) {}
+    }
     saveWordleState();
     document.getElementById('wInputArea').style.display = 'none';
     document.getElementById('wTries').style.display = 'none';
