@@ -1,32 +1,69 @@
-// SPFC — Hoje na História | Service Worker v3.0
+// SPFC — Hoje na História | Service Worker v3.1
+// ⚠️ MUDE O CACHE_VERSION A CADA DEPLOY!
 
-const CACHE_NAME = 'spfc-hoje-v3';
+const CACHE_VERSION = "v3.1";  // ← ALTERE ISSO A CADA NOVO DEPLOY (ex: v3.2, v3.3...)
+const CACHE_NAME = `spfc-hoje-${CACHE_VERSION}`;
 const ASSETS = ['/', '/index.html', '/quiz.html', '/manifest.json'];
 
+// ── INSTALL ───────────────────────────────────────
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(ASSETS).catch(() => {}))
-      .then(() => self.skipWaiting())
+      .then(() => self.skipWaiting()) // ← Força ativação imediata, não espera fechar abas
   );
 });
 
+// ── ACTIVATE ────────────────────────────────────
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
       .then(keys => Promise.all(
-        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
+        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)) // ← Limpa TODOS caches antigos
       ))
-      .then(() => self.clients.claim())
+      .then(() => self.clients.claim()) // ← Assume controle imediato das abas abertas
   );
   scheduleDailyCheck();
 });
 
+// ── FETCH ─────────────────────────────────────────
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+
+  // NUNCA cacheia o próprio sw.js — sempre pega do servidor
+  if (e.request.url.includes('sw.js')) {
+    e.respondWith(fetch(e.request));
+    return;
+  }
+
+  // Para index.html: network-first (sempre pega versão mais nova)
+  if (e.request.mode === 'navigate' || e.request.destination === 'document') {
+    e.respondWith(
+      fetch(e.request)
+        .then(resp => {
+          if (resp && resp.status === 200) {
+            const clone = resp.clone();
+            caches.open(CACHE_NAME).then(c => c.put(e.request, clone));
+          }
+          return resp;
+        })
+        .catch(() => caches.match(e.request).then(cached => cached || caches.match('/index.html')))
+    );
+    return;
+  }
+
+  // Para assets estáticos: cache-first com fallback para network
   e.respondWith(
     caches.match(e.request).then(cached => {
-      if (cached) return cached;
+      if (cached) {
+        // Atualiza em background sem bloquear
+        fetch(e.request).then(resp => {
+          if (resp && resp.status === 200) {
+            caches.open(CACHE_NAME).then(c => c.put(e.request, resp.clone()));
+          }
+        }).catch(() => {});
+        return cached;
+      }
       return fetch(e.request).then(resp => {
         if (resp && resp.status === 200 && resp.type === 'basic') {
           const clone = resp.clone();
@@ -38,6 +75,7 @@ self.addEventListener('fetch', e => {
   );
 });
 
+// ── PUSH ──────────────────────────────────────────
 self.addEventListener('push', e => {
   let data = {};
   try { if (e.data) data = e.data.json(); } catch(_) {}
@@ -58,6 +96,7 @@ self.addEventListener('push', e => {
   );
 });
 
+// ── NOTIFICATION CLICK ────────────────────────────
 self.addEventListener('notificationclick', e => {
   e.notification.close();
   const url = e.action === 'quiz' ? '/quiz.html' : (e.notification.data && e.notification.data.url) || '/';
@@ -74,7 +113,7 @@ self.addEventListener('notificationclick', e => {
   );
 });
 
-// ── AGENDAMENTO DIÁRIO SEM SERVIDOR ──────────────
+// ── AGENDAMENTO DIÁRIO ────────────────────────────
 function getSecondsUntil8am() {
   const now = new Date();
   const next = new Date();
@@ -173,6 +212,7 @@ function fireDaily() {
   }).catch(function() {});
 }
 
+// ── MESSAGES ──────────────────────────────────────
 self.addEventListener('message', function(e) {
   if (!e.data) return;
   if (e.data.type === 'TEST_NOTIF') fireDaily();
