@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<!-- saved from url=(0044)# -->
+<!-- saved from url=(0044)file:///C:/Users/vitor/Downloads/quiz_1.html -->
 <html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#CC0000">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;&gt;&lt;text y=&#39;.9em&#39; font-size=&#39;90&#39;&gt;%F0%9F%8F%86&lt;/text&gt;&lt;/svg&gt;">
 <title>SPFC Quiz — Quem Quer Ser Torcedor Milionário?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="./quiz_files/css2" rel="stylesheet">
 
 <!-- ══ FIREBASE SDK ══ -->
 <script type="module">
@@ -1505,8 +1505,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         <div class="home-tb-logo"><span>SPFC</span> QUIZ</div>
         <div class="home-tb-right">
           <div class="home-tb-bell" onclick="toggleMusic()" id="musicToggleHome">🔔</div>
-          <div class="home-tb-avatar" id="userChipHome" onclick="goScreen('screen-login')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" id="homeAvatarImg" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
+          <div class="home-tb-avatar" id="userChipHome" onclick="goScreen(&#39;screen-login&#39;)">
+            <img src="./quiz_files/Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" id="homeAvatarImg" onerror="this.src=&#39;https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png&#39;" style="display: none;">
           </div>
         </div>
       </div>
@@ -1520,7 +1520,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           <span class="star-red">⭐</span>
           <span class="star-gold">⭐</span>
         </div>
-        <img class="home-shield" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png'">
+        <img class="home-shield" src="./quiz_files/Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" onerror="this.src=&#39;https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png&#39;">
       </div>
 
       <!-- TITLE -->
@@ -1544,8 +1544,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       </button>
 
       <!-- LOGIN CTA — visível só quando não logado -->
-      <div id="homeLoginCta" style="display:none;width:100%;max-width:340px;flex-direction:column;align-items:center">
-        <button class="home-login-btn" onclick="goScreen('screen-login')">
+      <div id="homeLoginCta" style="display: flex; width: 100%; max-width: 340px; flex-direction: column; align-items: center;">
+        <button class="home-login-btn" onclick="goScreen(&#39;screen-login&#39;)">
           <span>👤</span> FAZER LOGIN
         </button>
         <div class="home-login-hint">para participar do ranking precisa estar logado</div>
@@ -1571,8 +1571,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="home-stat-card">
       <div class="home-stat-icon">🔷</div>
       <div class="home-stat-num" id="homeStatLevel">1</div>
-      <div class="home-stat-label" id="homeStatLevelLabel">NÍVEL</div>
-      <div class="home-stat-sublabel" id="homeStatLevelSub">—</div>
+      <div class="home-stat-label" id="homeStatLevelLabel">Torcedor de Arquibancada</div>
+      <div class="home-stat-sublabel" id="homeStatLevelSub">100 XP para o próximo</div>
     </div>
   </div>
 
@@ -1585,19 +1585,19 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="home-live-stats">
     <div class="home-live-item">
       <div class="home-live-icon">👥</div>
-      <div class="home-live-value" id="liveOnline">0</div>
+      <div class="home-live-value" id="liveOnline">7</div>
       <div class="home-live-label">TORCEDORES ONLINE</div>
     </div>
     <div class="home-live-divider"></div>
     <div class="home-live-item">
       <div class="home-live-icon">🔥</div>
-      <div class="home-live-value" id="liveStreak">0</div>
+      <div class="home-live-value" id="liveStreak" data-loaded="1">0</div>
       <div class="home-live-label">MAIOR SEQUÊNCIA</div>
     </div>
     <div class="home-live-divider"></div>
     <div class="home-live-item">
       <div class="home-live-icon">👑</div>
-      <div class="home-live-value" id="liveBest" style="font-size:14px;font-weight:600">—</div>
+      <div class="home-live-value" id="liveBest" style="font-size:14px;font-weight:600">BlackRedWhite</div>
       <div class="home-live-label">MELHOR JOGADOR HOJE</div>
     </div>
   </div>
@@ -1609,11 +1609,28 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="home-card-title">RANKING SEMANAL</div>
       <div class="home-card-subtitle">TOP 3 TORCEDORES</div>
       <div class="home-ranking-list" id="homeRankingList">
-        <div class="home-rank-item" style="justify-content:center;padding:20px 0">
-          <span style="font-size:11px;color:var(--txt3);letter-spacing:2px">Carregando ranking...</span>
-        </div>
-      </div>
-      <button class="home-card-btn" onclick="goScreen('screen-ranking')">
+    <div class="home-rank-item">
+      <span class="home-rank-num">1</span>
+      <img class="home-rank-avatar" src="./quiz_files/juju_rw3xvq.png" alt="" onerror="this.style.display=&#39;none&#39;">
+      <span class="home-rank-name">BlackRedWhite</span>
+      <span class="home-rank-pts">29.256</span>
+    </div>
+  
+    <div class="home-rank-item">
+      <span class="home-rank-num">2</span>
+      <img class="home-rank-avatar" src="./quiz_files/sara_obqp7y.png" alt="" onerror="this.style.display=&#39;none&#39;">
+      <span class="home-rank-name">Astronauta633</span>
+      <span class="home-rank-pts">12.850</span>
+    </div>
+  
+    <div class="home-rank-item">
+      <span class="home-rank-num">3</span>
+      <img class="home-rank-avatar" src="./quiz_files/keanu_vronzk.png" alt="" onerror="this.style.display=&#39;none&#39;">
+      <span class="home-rank-name">QueAnoHorrivis</span>
+      <span class="home-rank-pts">9.780</span>
+    </div>
+  </div>
+      <button class="home-card-btn" onclick="goScreen(&#39;screen-ranking&#39;)">
         VER RANKING <span>›</span>
       </button>
     </div>
@@ -1627,9 +1644,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         Responda 15 perguntas<br>e ganhe <span>500 XP</span>
       </div>
       <div class="home-mission-progress">
-        <div class="home-mission-count" id="missionCount">07 / 15</div>
+        <div class="home-mission-count" id="missionCount">00 / 5008</div>
         <div class="home-mission-bar">
-          <div class="home-mission-fill" id="missionFill" style="width:46%"></div>
+          <div class="home-mission-fill" id="missionFill" style="width: 0%;"></div>
         </div>
       </div>
     </div>
@@ -1644,7 +1661,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- Hero -->
   <div class="login-hero">
     <div class="login-badge">
-      <img class="login-badge-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC">
+      <img class="login-badge-img" src="./quiz_files/Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC">
     </div>
     <div class="login-quiz-title">QUIZ</div>
     <div class="login-tricolor">T R I C O L O R</div>
@@ -1744,7 +1761,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="avatar-title">SEU AVATAR</div>
     <div class="avatar-sub">ESCOLHA SEU PERSONAGEM TRICOLOR</div>
     <div class="avatar-preview">
-      <img class="avatar-selected-img" id="avatarPreviewImg" src="#" alt="avatar" style="display:none">
+      <img class="avatar-selected-img" id="avatarPreviewImg" src="./quiz_files/quiz_1.html" alt="avatar" style="display:none">
       <div class="avatar-placeholder" id="avatarPlaceholder">👤</div>
     </div>
 
@@ -1780,7 +1797,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="quiz-lives-mini" id="quizLivesMini"></div>
     </div>
     <div class="quiz-header-center">
-      <img class="quiz-header-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC">
+      <img class="quiz-header-logo" src="./quiz_files/Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC">
     </div>
     <div class="quiz-header-right">
       <div class="quiz-ranking-badge">🏆 <span>RANKING</span></div>
@@ -1855,11 +1872,11 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="quiz-bottom-bar">
     <button class="quiz-bottom-btn" onclick="usePular()" id="quizBtnPular">⏭ PULAR</button>
     <div class="quiz-bottom-player">
-      <img class="quiz-player-shield" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC">
+      <img class="quiz-player-shield" src="./quiz_files/Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC">
       <div class="quiz-player-info">
         <div class="quiz-player-label">TORCEDOR</div>
         <div class="quiz-player-level" id="quizPlayerLevel">NÍVEL 1</div>
-        <div class="quiz-player-xp" id="quizPlayerXP">0 / 1.000 XP</div>
+        <div class="quiz-player-xp" id="quizPlayerXP">0 / 100 XP</div>
       </div>
     </div>
     <button class="quiz-bottom-btn danger" onclick="confirmQuit()">DESISTIR ↩</button>
@@ -1921,7 +1938,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="ga-correct" id="goCorrect"></div>
     </div>
     <button class="btn-primary" onclick="tryAgain()" id="btnTryAgain">TENTAR NOVAMENTE</button>
-    <button class="btn-secondary" onclick="goScreen('screen-home')" style="max-width:100%;margin-top:10px">VOLTAR AO INÍCIO</button>
+    <button class="btn-secondary" onclick="goScreen(&#39;screen-home&#39;)" style="max-width:100%;margin-top:10px">VOLTAR AO INÍCIO</button>
     <button onclick="relatarErro()" style="background:transparent;border:none;color:var(--txt3);font-size:11px;cursor:pointer;letter-spacing:1px;font-family:var(--font-b);text-decoration:underline;text-underline-offset:3px;margin-top:16px">⚠️ Achou que a resposta estava errada? Relatar erro</button>
   </div>
 </div>
@@ -1983,7 +2000,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <!-- ══ SCREEN: DESAFIOS ═══════════════════════════ -->
 <div class="screen" id="screen-desafios">
   <div class="topbar">
-    <button class="tb-back" onclick="goScreen('screen-home')">← VOLTAR</button>
+    <button class="tb-back" onclick="goScreen(&#39;screen-home&#39;)">← VOLTAR</button>
     <div class="tb-logo">DESAFIOS</div>
     <div style="width:60px"></div>
   </div>
@@ -2106,13 +2123,13 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </div>
 
 <nav class="bottom-nav" id="bottomNav">
-  <button class="bnav-btn" id="nav-hoje" onclick="window.location.href='index.html'">
+  <button class="bnav-btn" id="nav-hoje" onclick="window.location.href=&#39;index.html&#39;">
     <div class="bnav-icon-wrap">
       <svg viewBox="0 0 24 24" stroke="currentColor">
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-        <line x1="16" y1="2" x2="16" y2="6"/>
-        <line x1="8" y1="2" x2="8" y2="6"/>
-        <line x1="3" y1="10" x2="21" y2="10"/>
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
       </svg>
     </div>
     <span>HOJE</span>
@@ -2121,9 +2138,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <button class="bnav-btn" id="nav-desafios" onclick="goScreenDesafios()">
     <div class="bnav-icon-wrap">
       <svg viewBox="0 0 24 24" stroke="currentColor">
-        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-        <path d="M2 17l10 5 10-5"/>
-        <path d="M2 12l10 5 10-5"/>
+        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+        <path d="M2 17l10 5 10-5"></path>
+        <path d="M2 12l10 5 10-5"></path>
       </svg>
     </div>
     <span>DESAFIOS</span>
@@ -2132,27 +2149,27 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- FAB central -->
   <button class="bnav-fab" onclick="startGame()" title="Jogar">
     <svg viewBox="0 0 24 24">
-      <polygon points="5 3 19 12 5 21 5 3"/>
+      <polygon points="5 3 19 12 5 21 5 3"></polygon>
     </svg>
   </button>
 
   <button class="bnav-btn" id="nav-wondler" onclick="goScreenWordle()">
     <div class="bnav-icon-wrap">
       <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
-        <rect x="3" y="3" width="7" height="7" rx="1"/>
-        <rect x="14" y="3" width="7" height="7" rx="1"/>
-        <rect x="3" y="14" width="7" height="7" rx="1"/>
-        <rect x="14" y="14" width="7" height="7" rx="1"/>
+        <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+        <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+        <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+        <rect x="14" y="14" width="7" height="7" rx="1"></rect>
       </svg>
     </div>
     <span>WONDLER</span>
   </button>
 
-  <button class="bnav-btn" id="nav-ranking" onclick="goScreen('screen-ranking')">
+  <button class="bnav-btn" id="nav-ranking" onclick="goScreen(&#39;screen-ranking&#39;)">
     <div class="bnav-icon-wrap">
       <svg viewBox="0 0 24 24" stroke="currentColor">
-        <circle cx="12" cy="8" r="7"/>
-        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+        <circle cx="12" cy="8" r="7"></circle>
+        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
       </svg>
     </div>
     <span>RANKING</span>
@@ -3909,7 +3926,7 @@ async function loadRankingWordle(btn) {
             ${d.avatar ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
             <div class="rank-info">
               <div class="rank-name">${d.name || 'Torcedor'}${isMe ? ' (você)' : ''} ${streakFire}</div>
-              <div class="rank-detail">${d.tries || '?'} tent. · Édição #${(d.edition || 0) + 1}</div>
+              <div class="rank-detail">${d.tries != null ? d.tries : '—'} tent. · Édição #${(d.edition || 0) + 1}</div>
             </div>
             <div style="text-align:right;flex-shrink:0">
               <div class="rank-pts">${d.streak}</div>
@@ -3929,7 +3946,7 @@ async function loadRankingWordle(btn) {
           ${myData.avatar ? `<img class="rank-avatar-mini" src="${myData.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
           <div class="rank-info">
             <div class="rank-name">${myData.name || 'Torcedor'} (você) ${streakFire}</div>
-            <div class="rank-detail">${myData.tries || '?'} tent. · Édição #${(myData.edition || 0) + 1}</div>
+            <div class="rank-detail">${myData.tries != null ? myData.tries : '—'} tent. · Édição #${(myData.edition || 0) + 1}</div>
           </div>
           <div style="text-align:right;flex-shrink:0">
             <div class="rank-pts">${myData.streak}</div>
@@ -4520,6 +4537,8 @@ function saveWordleState() {
           avatar: STATE.avatar?.dataUrl || null,
           streak: wordleState.streak,
           bestStreak: newBest,
+          tries: wordleState.guesses.length,
+          edition: wordleState.edition,
           lastWonKey: dateKey,
           updatedAt: serverTimestamp(),
         }, { merge: true }).catch(() => {});
