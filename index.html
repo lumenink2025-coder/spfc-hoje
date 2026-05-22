@@ -1046,48 +1046,27 @@ async function registerSW() {
     swReg = await navigator.serviceWorker.register('sw.js');
     console.log('SW registrado:', swReg.scope);
 
-    // ── FORÇA UPDATE AUTOMÁTICO ─────────────────
-
-    // 1. Checa por atualização toda vez que a página carrega
+    // ── AUTO-UPDATE ─────────────────────────────
     swReg.update();
-
-    // 2. Detecta quando um NOVO SW está sendo instalado
     swReg.addEventListener('updatefound', () => {
       const newWorker = swReg.installing;
-      console.log('Novo SW detectado, estado:', newWorker.state);
-
       newWorker.addEventListener('statechange', () => {
-        console.log('SW mudou para:', newWorker.state);
-
-        // Se o novo SW está instalado E já existe um SW ativo (não é primeira instalação)
         if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
           console.log('Nova versão pronta! Recarregando...');
-
-          // Mostra toast para o usuário
-          toast('🔄 Atualizando...', 'Nova versão do app detectada. Recarregando!', 3000);
-
-          // Aguarda 1.5s e recarrega para ativar a nova versão
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
+          toast('🔄 Atualizando...', 'Nova versão detectada. Recarregando!', 3000);
+          setTimeout(() => window.location.reload(), 1500);
         }
       });
     });
-
-    // 3. Se já houver um SW waiting (usuário abriu app depois de update), força ativação
     if (swReg.waiting) {
-      console.log('SW em espera detectado. Forçando ativação...');
       swReg.waiting.postMessage({ type: 'SKIP_WAITING' });
     }
-
-    // 4. Monitora se um SW waiting aparece depois
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      console.log('Novo controller ativo. Recarregando...');
       window.location.reload();
     });
 
-    const sw = swReg.active || swReg.installing || swReg.waiting;
-    if (sw) sw.postMessage({ type: 'RESCHEDULE' });
+    // ── FIREBASE CLOUD MESSAGING ───────────────
+    await initFCM();
 
     return swReg;
   } catch(e) {
@@ -1367,6 +1346,84 @@ async function loadFirebaseEvents() {
 }
 
 
+
+
+// ── FIREBASE CLOUD MESSAGING ────────────────────
+let messaging = null;
+
+async function initFCM() {
+  try {
+    const { getMessaging, getToken, onMessage } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js");
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
+
+    const app = initializeApp({
+      apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
+      authDomain: "spfc-hoje-da329.firebaseapp.com",
+      projectId: "spfc-hoje-da329",
+      storageBucket: "spfc-hoje-da329.firebasestorage.app",
+      messagingSenderId: "116174859005",
+      appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
+    }, 'messaging-app');
+
+    messaging = getMessaging(app);
+
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+      console.warn('Notificações não permitidas');
+      return;
+    }
+
+    // ⚠️ SUBSTITUA PELA SUA VAPID KEY DO FIREBASE CONSOLE
+    const token = await getToken(messaging, {
+      vapidKey: 'BIX7Tngp3SidKiyuZedNiKDM62ItUwqqRAFpc-_MRyqLKKwrus5_Pz-TLxXPeIplTLbPpJR_XLFKp56KtYab-2w',
+      serviceWorkerRegistration: swReg
+    });
+
+    if (token) {
+      console.log('FCM Token:', token);
+      // Salva token no Firestore para envio posterior
+      saveTokenToFirestore(token);
+    }
+
+    // Listener para mensagens quando app está ABERTO
+    onMessage(messaging, (payload) => {
+      console.log('Mensagem recebida (app aberto):', payload);
+      toast('🔴 SPFC', payload.notification?.body || 'Nova notificação!', 5000);
+    });
+
+  } catch(e) {
+    console.warn('FCM init failed:', e);
+  }
+}
+
+async function saveTokenToFirestore(token) {
+  try {
+    const { getFirestore, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
+
+    const app = initializeApp({
+      apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
+      authDomain: "spfc-hoje-da329.firebaseapp.com",
+      projectId: "spfc-hoje-da329",
+      storageBucket: "spfc-hoje-da329.firebasestorage.app",
+      messagingSenderId: "116174859005",
+      appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
+    }, 'token-app');
+
+    const db = getFirestore(app);
+    // Gera ID único baseado no token (hash simples)
+    const tokenId = btoa(token).slice(0, 20).replace(/[^a-zA-Z0-9]/g, '');
+    await setDoc(doc(db, 'tokens', tokenId), {
+      token: token,
+      createdAt: new Date().toISOString(),
+      platform: navigator.platform,
+      userAgent: navigator.userAgent.slice(0, 100)
+    });
+    console.log('Token salvo no Firestore');
+  } catch(e) {
+    console.warn('Erro ao salvar token:', e);
+  }
+}
 
 function init(){
   renderHoje();
