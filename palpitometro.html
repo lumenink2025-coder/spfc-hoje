@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0050)file:///C:/Users/vitor/Downloads/palpitometro.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#CC0000">
 <title>Palpitômetro — SPFC</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./palpitometro_files/css2" rel="stylesheet">
 
 <!-- ══ FIREBASE SDK ══ -->
 <script type="module">
@@ -348,7 +348,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <div class="screen active" id="screen-login">
   <div class="login-wrap fade-in">
     <div style="padding:12px 0 0">
-      <button class="tb-back" onclick="window.location.href='index.html'" style="display:inline-flex;align-items:center;gap:6px">← VOLTAR AO APP</button>
+      <button class="tb-back" onclick="window.location.href=&#39;index.html&#39;" style="display:inline-flex;align-items:center;gap:6px">← VOLTAR AO APP</button>
     </div>
     <div class="login-hero">
       <button class="palp-hero-btn" style="margin-bottom:20px;pointer-events:none">
@@ -417,7 +417,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="tb-left">
-      <button class="tb-back" onclick="window.location.href='index.html'">← VOLTAR</button>
+      <button class="tb-back" onclick="window.location.href=&#39;index.html&#39;">← VOLTAR</button>
     </div>
     <div class="tb-user" onclick="handleLogout()">
       <div class="tb-avatar" id="tbAvatar">?</div>
@@ -446,10 +446,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
   <!-- TABS -->
   <div class="tabs" style="width:100%">
-    <button class="tab active" onclick="switchTab('palpite',this)">PALPITE</button>
-    <button class="tab" onclick="switchTab('ranking',this)">RANKING</button>
-    <button class="tab" onclick="switchTab('vergonha',this)">💀 MURAL</button>
-    <button class="tab" onclick="switchTab('regras',this)">REGRAS</button>
+    <button class="tab active" onclick="switchTab(&#39;palpite&#39;,this)">PALPITE</button>
+    <button class="tab" onclick="switchTab(&#39;ranking&#39;,this)">RANKING</button>
+    <button class="tab" onclick="switchTab(&#39;vergonha&#39;,this)">💀 MURAL</button>
+    <button class="tab" onclick="switchTab(&#39;regras&#39;,this)">REGRAS</button>
   </div>
 
   <!-- ══ PANEL: PALPITE ══ -->
@@ -464,10 +464,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- ══ PANEL: RANKING ══ -->
   <div class="tab-panel" id="panel-ranking" style="width:100%">
     <div class="rank-tabs">
-      <button class="rank-tab active" onclick="switchRankTab('geral',this)">GERAL</button>
-      <button class="rank-tab" onclick="switchRankTab('acertos',this)">MAIS ACERTOS</button>
-      <button class="rank-tab" onclick="switchRankTab('exato',this)">PLACAR EXATO</button>
-      <button class="rank-tab" onclick="switchRankTab('mes',this)">ESTE MÊS</button>
+      <button class="rank-tab active" onclick="switchRankTab(&#39;geral&#39;,this)">GERAL</button>
+      <button class="rank-tab" onclick="switchRankTab(&#39;acertos&#39;,this)">MAIS ACERTOS</button>
+      <button class="rank-tab" onclick="switchRankTab(&#39;exato&#39;,this)">PLACAR EXATO</button>
+      <button class="rank-tab" onclick="switchRankTab(&#39;mes&#39;,this)">ESTE MÊS</button>
     </div>
     <div id="rankingContent">
       <div class="loading-state"><div class="loading-spinner"></div></div>
@@ -773,6 +773,18 @@ async function loadMatchAndPalpite() {
     const matchId = ev.idEvent;
     await checkUserPalpite(matchId);
 
+    // Se jogo terminou, tenta processar pontos automaticamente
+    if (isFinished) {
+      await autoProcessarResultado(matchId, parseInt(spfcScore), parseInt(oppScore), isSPFCHome);
+      await checkUserPalpite(matchId); // recarrega palpite com pontos atualizados
+    }
+
+    // Se ao vivo, agenda verificação a cada 2 minutos
+    if (isLive) {
+      clearTimeout(window._liveTimer);
+      window._liveTimer = setTimeout(loadMatchAndPalpite, 120000);
+    }
+
     let formHtml = '';
 
     if (isFinished) {
@@ -828,6 +840,104 @@ async function loadMatchAndPalpite() {
   } catch(e) {
     area.innerHTML = '<div class="loading-state">Não foi possível carregar o jogo</div>';
     console.warn(e);
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   AUTO-PROCESSAMENTO DO RESULTADO VIA API
+   Roda quando o jogo termina — sem intervenção manual
+═══════════════════════════════════════════════════ */
+async function autoProcessarResultado(matchId, golsSpfc, golsOpp, isSPFCHome) {
+  const { db, doc, getDoc, setDoc, getDocs, collection,
+          query, where, updateDoc, increment, serverTimestamp, writeBatch } = window.FB;
+
+  try {
+    // 1. Verifica se já foi processado
+    const jogoRef = doc(db, 'jogos', String(matchId));
+    const jogoSnap = await getDoc(jogoRef);
+
+    if (jogoSnap.exists() && jogoSnap.data().processado === true) return; // já feito
+
+    // 2. Determina resultado
+    const resultado = golsSpfc > golsOpp ? 'vitoria' : golsSpfc === golsOpp ? 'empate' : 'derrota';
+    const ptsBase   = resultado === 'vitoria' ? 10 : resultado === 'empate' ? 5 : 0;
+
+    // 3. Salva/atualiza o jogo no Firestore
+    await setDoc(jogoRef, {
+      matchId: String(matchId),
+      golsSpfc,
+      golsOpp,
+      resultado,
+      processado: false, // vira true após calcular todos
+      processadoEm: serverTimestamp()
+    }, { merge: true });
+
+    // 4. Busca todos os palpites deste jogo
+    const q = query(
+      collection(db, 'palpites'),
+      where('matchId', '==', String(matchId))
+    );
+    const snaps = await getDocs(q);
+
+    if (snaps.empty) {
+      // Nenhum palpite — marca como processado e sai
+      await updateDoc(jogoRef, { processado: true });
+      return;
+    }
+
+    // Filtra só os ainda não pontuados (pontos === null ou undefined)
+    const pendentes = [];
+    pendentes.forEach(d => {
+      const p = d.data();
+      if (p.pontos === null || p.pontos === undefined) pendentes.push(d);
+    });
+
+    if (pendentes.length === 0) {
+      await updateDoc(jogoRef, { processado: true });
+      return;
+    }
+
+    // 5. Calcula e salva em batch
+    const batch = writeBatch(db);
+
+    snaps.forEach(d => {
+      const p = d.data();
+      const acertouResultado = p.resultado === resultado;
+      const acertouPlacar    = p.golsSpfc === golsSpfc && p.golsOpp === golsOpp;
+
+      let pontos = 0;
+      if (acertouResultado) pontos += ptsBase;
+      if (acertouPlacar)    pontos += 50;
+
+      // Atualiza o palpite com pontos
+      batch.update(d.ref, {
+        pontos,
+        placareExato: acertouPlacar,
+        resultado_final: resultado
+      });
+
+      // Atualiza ranking do usuário
+      const rankRef = doc(db, 'ranking', p.userId);
+      batch.update(rankRef, {
+        totalPontos:    increment(pontos),
+        totalPalpites:  increment(1),
+        totalAcertos:   increment(acertouResultado ? 1 : 0),
+        totalErros:     increment(acertouResultado ? 0 : 1),
+        placareExatos:  increment(acertouPlacar ? 1 : 0),
+        pontosMes:      increment(pontos)
+      });
+    });
+
+    // 6. Marca jogo como processado no mesmo batch
+    batch.update(jogoRef, { processado: true });
+
+    await batch.commit();
+    console.log(`✅ Palpitômetro: ${snaps.size} palpites processados para jogo ${matchId}`);
+
+  } catch(e) {
+    // Falha silenciosa — próximo usuário que abrir tenta de novo
+    console.warn('autoProcessarResultado:', e);
   }
 }
 
@@ -1011,7 +1121,7 @@ async function confirmarPalpite(matchId) {
   try {
     const palpiteData = {
       userId: currentUser.uid,
-      matchId,
+      matchId: String(matchId),
       resultado: selectedRes,
       golsSpfc: golSpfc,
       golsOpp: golOpp,
@@ -1249,5 +1359,6 @@ window.addEventListener('firebase-ready', () => {
   });
 });
 </script>
-</body>
-</html>
+
+
+</body></html>
