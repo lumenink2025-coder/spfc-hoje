@@ -1132,17 +1132,6 @@ async function registerSW() {
   try {
     const reg = await navigator.serviceWorker.register('sw.js');
     reg.update();
-    reg.addEventListener('updatefound', () => {
-      const newWorker = reg.installing;
-      newWorker.addEventListener('statechange', () => {
-        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-          toast('🔄 Atualizando...', 'Nova versão detectada. Recarregando!', 3000);
-          setTimeout(() => window.location.reload(), 1500);
-        }
-      });
-    });
-    if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-    navigator.serviceWorker.addEventListener('controllerchange', () => window.location.reload());
   } catch(e) {
     console.warn('SW registration failed:', e);
   }
