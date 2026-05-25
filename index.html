@@ -10,6 +10,23 @@
 <meta name="description" content="O que aconteceu hoje na história do São Paulo Futebol Clube">
 <title>SPFC — Hoje na História</title>
 <link rel="manifest" href="manifest.json">
+
+<!-- OneSignal Push Notifications -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "687e1968-e03a-4d09-9d6a-9c07bee9cc2d",
+      notifyButton: { enable: false }, // usamos nosso próprio botão 🔔
+      allowLocalhostAsSecureOrigin: true,
+    });
+    // Atualiza UI do botão após init
+    const permission = OneSignal.Notifications.permission;
+    updateNotifUI(permission);
+  });
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -1106,136 +1123,78 @@ function shareDay(){
   else navigator.clipboard.writeText(txt).then(()=>toast('Copiado!','Compartilhe com os amigos torcedores'));
 }
 
-// ── SISTEMA DE NOTIFICAÇÕES COMPLETO ──────────────
-let swReg = null; // guarda o registro do SW
+// ── SISTEMA DE NOTIFICAÇÕES — ONESIGNAL ───────────
 
 async function registerSW() {
+  // O OneSignal gerencia o próprio Service Worker (OneSignalSDKWorker.js)
+  // Mantemos apenas o auto-update do sw.js para cache/offline do app
   if (!('serviceWorker' in navigator)) return null;
-
   try {
-    // Registra o SW
-    swReg = await navigator.serviceWorker.register('sw.js');
-    console.log('SW registrado:', swReg.scope);
-
-    // ── AUTO-UPDATE ─────────────────────────────
-    swReg.update();
-    swReg.addEventListener('updatefound', () => {
-      const newWorker = swReg.installing;
+    const reg = await navigator.serviceWorker.register('sw.js');
+    reg.update();
+    reg.addEventListener('updatefound', () => {
+      const newWorker = reg.installing;
       newWorker.addEventListener('statechange', () => {
         if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-          console.log('Nova versão pronta! Recarregando...');
           toast('🔄 Atualizando...', 'Nova versão detectada. Recarregando!', 3000);
           setTimeout(() => window.location.reload(), 1500);
         }
       });
     });
-    if (swReg.waiting) {
-      swReg.waiting.postMessage({ type: 'SKIP_WAITING' });
-    }
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      window.location.reload();
-    });
-
-    // ── FIREBASE CLOUD MESSAGING ───────────────
-    await initFCM();
-
-    return swReg;
+    if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+    navigator.serviceWorker.addEventListener('controllerchange', () => window.location.reload());
   } catch(e) {
     console.warn('SW registration failed:', e);
-    return null;
   }
 }
 
 async function askNotif() {
-  // 1. Verifica suporte
-  if (!('Notification' in window)) {
-    toast('Não suportado 😔', 'Seu navegador não suporta notificações. Tente no Chrome ou Edge.');
-    return;
-  }
+  OneSignalDeferred.push(async function(OneSignal) {
+    const permission = OneSignal.Notifications.permission;
 
-  // 2. Se já permitido — mostra opções
-  if (Notification.permission === 'granted') {
-    toast('🔔 Notificações ativas!', 'Você já recebe o histórico diário do SPFC às 8h.');
-    // Botão de teste no toast — dispara notificação de teste
-    setTimeout(() => testNotif(), 1000);
-    return;
-  }
+    // Já inscrito
+    if (permission) {
+      toast('🔔 Notificações ativas!', 'Você já recebe notificações do SPFC. Viva o Tricolor!');
+      updateNotifUI(true);
+      return;
+    }
 
-  // 3. Se bloqueado
-  if (Notification.permission === 'denied') {
-    toast('Bloqueado ❌', 'Acesse as configurações do navegador → site → Notificações → Permitir.');
-    return;
-  }
+    // Bloqueado pelo navegador
+    if (Notification.permission === 'denied') {
+      toast('Bloqueado ❌', 'Acesse as configurações do navegador → site → Notificações → Permitir.');
+      return;
+    }
 
-  // 4. Pede permissão
-  toast('Aguarde...', 'Solicitando permissão de notificação');
-  const perm = await Notification.requestPermission();
+    // Pede permissão via OneSignal
+    toast('Aguarde...', 'Solicitando permissão de notificação...');
+    await OneSignal.Notifications.requestPermission();
 
-  if (perm === 'granted') {
-    // Atualiza ícone no topbar
-    const btn = document.querySelector('.tb-notif');
-    if (btn) { btn.textContent = '🔔'; btn.style.background = 'rgba(204,0,0,0.2)'; }
-
-    // Esconde barra de convite
-    const nb = document.getElementById('notifBar');
-    if (nb) nb.style.display = 'none';
-
-    toast('🔔 Ativado!', 'Você receberá o histórico do SPFC todos os dias às 8h!', 4000);
-
-    // Garante que o SW está registrado e agenda
-    if (!swReg) await registerSW();
-    const sw = swReg && (swReg.active || swReg.installing || swReg.waiting);
-    if (sw) sw.postMessage({ type: 'RESCHEDULE' });
-
-    // Dispara notificação de boas-vindas após 2s
-    setTimeout(() => testNotif(), 2000);
-
-  } else {
-    toast('Permissão negada', 'Sem as notificações você pode perder os momentos históricos de hoje!');
-  }
+    const granted = OneSignal.Notifications.permission;
+    if (granted) {
+      toast('🔔 Ativado!', 'Você receberá notificações do SPFC Hoje na História!', 4000);
+      updateNotifUI(true);
+    } else {
+      toast('Permissão negada', 'Sem notificações você pode perder os momentos históricos do SPFC!');
+      updateNotifUI(false);
+    }
+  });
 }
 
-async function testNotif() {
-  // Usa o SW para disparar — funciona mesmo com app em segundo plano
-  if (!swReg) await registerSW();
-
-  const sw = swReg && (swReg.active || swReg.installing || swReg.waiting);
-  if (sw && Notification.permission === 'granted') {
-    sw.postMessage({ type: 'TEST_NOTIF' });
-    return;
-  }
-
-  // Fallback: Notification API direta (só funciona com app aberto)
-  if (Notification.permission === 'granted') {
-    const evs = ev(TODAY_M, TODAY_D);
-    const body = evs.length
-      ? `${evs[0].e} ${evs[0].n}${evs[0].y ? ` (${evs[0].y})` : ''}. Abra para saber mais!`
-      : 'Hoje o São Paulo escreveu história. Venha reviver!';
-    try {
-      const n = new Notification('🔴 São Paulo FC — Hoje na História', {
-        body,
-        icon: 'icons/icon-192.png',
-        badge: 'icons/badge-72.png',
-        tag: 'spfc-teste'
-      });
-      n.onclick = () => window.focus();
-    } catch(e) {}
-  }
-}
-
-function updateNotifUI() {
+function updateNotifUI(granted) {
   const btn = document.querySelector('.tb-notif');
   if (!btn) return;
-  if (!('Notification' in window)) {
-    btn.style.display = 'none';
-    return;
+
+  // Se não passou argumento, tenta ler do navegador
+  if (granted === undefined) {
+    if (!('Notification' in window)) { btn.style.display = 'none'; return; }
+    granted = Notification.permission === 'granted';
   }
-  if (Notification.permission === 'granted') {
+
+  if (granted) {
     btn.textContent = '🔔';
     btn.style.background = 'rgba(204,0,0,0.2)';
     btn.style.borderColor = 'rgba(204,0,0,0.4)';
-    btn.title = 'Notificações ativas — clique para testar';
-    // Esconde barra de convite
+    btn.title = 'Notificações ativas!';
     const nb = document.getElementById('notifBar');
     if (nb) nb.style.display = 'none';
   } else if (Notification.permission === 'denied') {
@@ -1243,7 +1202,7 @@ function updateNotifUI() {
     btn.title = 'Notificações bloqueadas';
   } else {
     btn.textContent = '🔔';
-    btn.title = 'Ativar notificações diárias';
+    btn.title = 'Ativar notificações do SPFC';
   }
 }
 
@@ -1419,85 +1378,6 @@ async function loadFirebaseEvents() {
   }
 }
 
-
-
-
-// ── FIREBASE CLOUD MESSAGING ────────────────────
-let messaging = null;
-
-async function initFCM() {
-  try {
-    const { getMessaging, getToken, onMessage } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js");
-    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
-
-    const app = initializeApp({
-      apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
-      authDomain: "spfc-hoje-da329.firebaseapp.com",
-      projectId: "spfc-hoje-da329",
-      storageBucket: "spfc-hoje-da329.firebasestorage.app",
-      messagingSenderId: "116174859005",
-      appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
-    }, 'messaging-app');
-
-    messaging = getMessaging(app);
-
-    const permission = await Notification.requestPermission();
-    if (permission !== 'granted') {
-      console.warn('Notificações não permitidas');
-      return;
-    }
-
-    // ⚠️ SUBSTITUA PELA SUA VAPID KEY DO FIREBASE CONSOLE
-    const token = await getToken(messaging, {
-      vapidKey: 'BIX7Tngp3SidKiyuZedNiKDM62ItUwqqRAFpc-_MRyqLKKwrus5_Pz-TLxXPeIplTLbPpJR_XLFKp56KtYab-2w',
-      serviceWorkerRegistration: swReg
-    });
-
-    if (token) {
-      console.log('FCM Token:', token);
-      // Salva token no Firestore para envio posterior
-      saveTokenToFirestore(token);
-    }
-
-    // Listener para mensagens quando app está ABERTO
-    onMessage(messaging, (payload) => {
-      console.log('Mensagem recebida (app aberto):', payload);
-      toast('🔴 SPFC', payload.notification?.body || 'Nova notificação!', 5000);
-    });
-
-  } catch(e) {
-    console.warn('FCM init failed:', e);
-  }
-}
-
-async function saveTokenToFirestore(token) {
-  try {
-    const { getFirestore, doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
-
-    const app = initializeApp({
-      apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
-      authDomain: "spfc-hoje-da329.firebaseapp.com",
-      projectId: "spfc-hoje-da329",
-      storageBucket: "spfc-hoje-da329.firebasestorage.app",
-      messagingSenderId: "116174859005",
-      appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
-    }, 'token-app');
-
-    const db = getFirestore(app);
-    // Gera ID único baseado no token (hash simples)
-    const tokenId = btoa(token).slice(0, 20).replace(/[^a-zA-Z0-9]/g, '');
-    await setDoc(doc(db, 'tokens', tokenId), {
-      token: token,
-      createdAt: new Date().toISOString(),
-      platform: navigator.platform,
-      userAgent: navigator.userAgent.slice(0, 100)
-    });
-    console.log('Token salvo no Firestore');
-  } catch(e) {
-    console.warn('Erro ao salvar token:', e);
-  }
-}
 
 
 /* ═══════════════════════════════════════════════════
