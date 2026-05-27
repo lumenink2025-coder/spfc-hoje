@@ -567,46 +567,140 @@ async function doLogin(type) {
   }
 }
 
-async function submitEmail() {
-  const nick = document.getElementById('eNick').value.trim();
+// ── Tab switcher ──
+let _emailTab = 'login';
+function switchTab(tab) {
+  _emailTab = tab;
+  const isLogin = tab === 'login';
+  document.getElementById('tabLogin').style.background = isLogin ? '#CC0000' : 'transparent';
+  document.getElementById('tabLogin').style.color = isLogin ? '#fff' : '#666';
+  document.getElementById('tabCadastro').style.background = !isLogin ? '#CC0000' : 'transparent';
+  document.getElementById('tabCadastro').style.color = !isLogin ? '#fff' : '#666';
+  document.getElementById('nickField').style.display = isLogin ? 'none' : 'block';
+  document.getElementById('forgotRow').style.display = isLogin ? 'block' : 'none';
+  document.getElementById('eSubmitBtn').textContent = isLogin ? 'ENTRAR' : 'CRIAR CONTA';
+  document.getElementById('eError').style.display = 'none';
+}
+
+function closeEmailOverlay() {
+  document.getElementById('emailOverlay').style.display = 'none';
+  document.getElementById('eError').style.display = 'none';
+  document.getElementById('eNick').value = '';
+  document.getElementById('eEmail').value = '';
+  document.getElementById('ePass').value = '';
+}
+
+async function forgotEmailPassword() {
   const email = document.getElementById('eEmail').value.trim();
-  const pass = document.getElementById('ePass').value;
   const errEl = document.getElementById('eError');
+  if (!email) { errEl.textContent = 'Digite seu e-mail acima primeiro.'; errEl.style.display = 'block'; return; }
+  if (!window.FB_SPLASH) await new Promise(r => window.addEventListener('splash-auth-ready', r, {once:true}));
+  const { auth } = window.FB_SPLASH;
+  try {
+    const { sendPasswordResetEmail } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+    await sendPasswordResetEmail(auth, email);
+    errEl.style.color = '#22c55e';
+    errEl.textContent = 'Email de redefinição enviado! Verifique sua caixa.';
+    errEl.style.display = 'block';
+  } catch(e) {
+    errEl.style.color = '#ff7777';
+    errEl.textContent = 'Erro: ' + (e.code === 'auth/user-not-found' ? 'Email não cadastrado.' : e.message);
+    errEl.style.display = 'block';
+  }
+}
+
+async function submitEmail() {
+  const nick  = (document.getElementById('eNick')?.value || '').trim();
+  const email = document.getElementById('eEmail').value.trim();
+  const pass  = document.getElementById('ePass').value;
+  const errEl = document.getElementById('eError');
+  errEl.style.color = '#ff7777';
   errEl.style.display = 'none';
+
   if (!email || !pass) { errEl.textContent = 'Preencha e-mail e senha.'; errEl.style.display = 'block'; return; }
+
   if (!window.FB_SPLASH) {
     await new Promise(r => window.addEventListener('splash-auth-ready', r, {once:true}));
   }
   const { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword } = window.FB_SPLASH;
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-    // onAuthStateChanged vai chamar _goToApp
-  } catch(e) {
-    if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential') {
-      if (!nick) { errEl.textContent = 'Conta nova? Informe um apelido.'; errEl.style.display = 'block'; return; }
-      // Verifica se nickname já existe antes de criar a conta
-      try {
-        const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
-        const { getFirestore, collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-        const db = getFirestore(getApps().find(a => a.name === '[DEFAULT]'));
-        const nickSnap = await getDocs(query(collection(db, 'usuarios'), where('displayName', '==', nick)));
-        if (!nickSnap.empty) {
-          errEl.textContent = 'Este apelido já está em uso. Escolha outro.';
-          errEl.style.display = 'block';
-          return;
-        }
-      } catch(_) {}
-      try {
-        await createUserWithEmailAndPassword(auth, email, pass);
-        // onAuthStateChanged → _checkOnboarding → onboarding com avatar (nick pré-preenchido)
-        document.getElementById('onboardingNick').value = nick;
-        document.getElementById('emailOverlay').style.display = 'none';
-      } catch(e2) {
-        errEl.textContent = 'Erro: ' + e2.message; errEl.style.display = 'block';
-      }
-    } else {
-      errEl.textContent = 'Erro: ' + e.message; errEl.style.display = 'block';
+  const btn = document.getElementById('eSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  // ── LOGIN ──
+  if (_emailTab === 'login') {
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+      // onAuthStateChanged vai chamar _checkOnboarding → _goToApp
+    } catch(e) {
+      const msg = e.code === 'auth/invalid-credential' || e.code === 'auth/user-not-found'
+        ? 'Email ou senha incorretos.'
+        : e.code === 'auth/wrong-password' ? 'Senha incorreta.'
+        : e.code === 'auth/invalid-email'  ? 'Email inválido.'
+        : e.message;
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'ENTRAR';
     }
+    return;
+  }
+
+  // ── CADASTRO ──
+  if (nick.length < 2) {
+    errEl.textContent = 'Apelido precisa ter pelo menos 2 caracteres.';
+    errEl.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'CRIAR CONTA'; return;
+  }
+  if (pass.length < 6) {
+    errEl.textContent = 'Senha precisa ter pelo menos 6 caracteres.';
+    errEl.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'CRIAR CONTA'; return;
+  }
+
+  try {
+    const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+    const { getFirestore, doc, getDoc, setDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+    const db = getFirestore(getApps().find(a => a.name === '[DEFAULT]'));
+
+    // Verifica se o nickname já está em uso
+    const nickKey = nick.toLowerCase().replace(/\s+/g, '_');
+    const nickSnap = await getDoc(doc(db, 'nicknames', nickKey));
+    if (nickSnap.exists()) {
+      errEl.textContent = 'Este apelido já está em uso. Escolha outro.';
+      errEl.style.display = 'block';
+      btn.disabled = false; btn.textContent = 'CRIAR CONTA'; return;
+    }
+
+    // Cria conta
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    const uid = cred.user.uid;
+
+    // Reserva nickname
+    await setDoc(doc(db, 'nicknames', nickKey), { uid, displayName: nick, createdAt: serverTimestamp() });
+
+    // Perfil unificado — sem avatar ainda (onboarding vai pedir)
+    await setDoc(doc(db, 'usuarios', uid), {
+      uid, displayName: nick, email, avatarId: null, avatarUrl: null,
+      photoURL: '', createdAt: serverTimestamp()
+    });
+
+    // Ranking
+    await setDoc(doc(db, 'ranking', uid), {
+      displayName: nick, photoURL: '', totalPontos: 0, totalAcertos: 0,
+      totalErros: 0, totalPalpites: 0, placareExatos: 0, pontosMes: 0,
+      createdAt: serverTimestamp()
+    }, { merge: true });
+
+    // onAuthStateChanged vai chamar _checkOnboarding (que abre tela de avatar)
+  } catch(e) {
+    const msg = e.code === 'auth/email-already-in-use' ? 'Este e-mail já possui conta. Use a aba ENTRAR.'
+              : e.code === 'auth/invalid-email'         ? 'Email inválido.'
+              : e.code === 'auth/weak-password'         ? 'Senha muito fraca.'
+              : e.message;
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'CRIAR CONTA';
   }
 }
 
@@ -648,16 +742,74 @@ document.addEventListener('click', () => {
 
 
 <!-- Email Form Overlay -->
-<div id="emailOverlay" style="display:none;position:fixed;inset:0;z-index:200000;background:rgba(0,0,0,.92);align-items:center;justify-content:center;padding:24px">
-  <div style="width:100%;max-width:360px;background:#111;border:1px solid rgba(204,0,0,.3);border-radius:16px;padding:28px 24px">
-    <div style="font-family:'Bebas Neue',Impact,sans-serif;font-size:26px;letter-spacing:2px;color:#fff;margin-bottom:4px">ENTRAR COM <span style="color:#CC0000">EMAIL</span></div>
-    <div style="font-size:11px;color:#666;margin-bottom:20px">Conta nova? Basta preencher e criar automaticamente.</div>
-    <input id="eNick" type="text" placeholder="Apelido (para conta nova)" style="width:100%;padding:12px 14px;background:rgba(255,255,255,.05);border:1px solid #333;border-radius:10px;color:#F0EBE3;font-size:14px;font-family:'Inter',sans-serif;outline:none;margin-bottom:8px">
-    <input id="eEmail" type="email" placeholder="E-mail" style="width:100%;padding:12px 14px;background:rgba(255,255,255,.05);border:1px solid #333;border-radius:10px;color:#F0EBE3;font-size:14px;font-family:'Inter',sans-serif;outline:none;margin-bottom:8px">
-    <input id="ePass" type="password" placeholder="Senha" style="width:100%;padding:12px 14px;background:rgba(255,255,255,.05);border:1px solid #333;border-radius:10px;color:#F0EBE3;font-size:14px;font-family:'Inter',sans-serif;outline:none;margin-bottom:16px">
-    <div id="eError" style="font-size:12px;color:#ff7777;margin-bottom:12px;display:none"></div>
-    <button onclick="submitEmail()" style="width:100%;padding:14px;background:#CC0000;color:#fff;border:none;border-radius:10px;font-family:'Bebas Neue',Impact,sans-serif;font-size:20px;letter-spacing:2px;cursor:pointer;margin-bottom:10px">ENTRAR</button>
-    <button onclick="document.getElementById('emailOverlay').style.display='none'" style="width:100%;padding:10px;background:transparent;color:#666;border:1px solid #333;border-radius:10px;font-size:12px;cursor:pointer">Cancelar</button>
+<div id="emailOverlay" style="display:none;position:fixed;inset:0;z-index:200000;background:rgba(0,0,0,.93);align-items:center;justify-content:center;padding:20px;box-sizing:border-box">
+  <div style="width:100%;max-width:380px;background:#111;border:1px solid rgba(204,0,0,.35);border-radius:20px;padding:28px 24px;box-sizing:border-box">
+
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="font-family:'Bebas Neue',Impact,sans-serif;font-size:28px;letter-spacing:3px;color:#fff;line-height:1">
+        ENTRAR COM <span style="color:#CC0000">EMAIL</span>
+      </div>
+      <div style="font-size:11px;color:#555;margin-top:6px;letter-spacing:1px">Conta nova? Preencha o apelido para criar.</div>
+    </div>
+
+    <!-- Tabs: Login / Cadastro -->
+    <div style="display:flex;gap:4px;margin-bottom:20px;background:#0a0a0a;border-radius:10px;padding:4px">
+      <button id="tabLogin" onclick="switchTab('login')"
+        style="flex:1;padding:10px;border:none;border-radius:8px;font-family:'Bebas Neue',Impact,sans-serif;font-size:15px;letter-spacing:2px;cursor:pointer;transition:.2s;background:#CC0000;color:#fff">
+        ENTRAR
+      </button>
+      <button id="tabCadastro" onclick="switchTab('cadastro')"
+        style="flex:1;padding:10px;border:none;border-radius:8px;font-family:'Bebas Neue',Impact,sans-serif;font-size:15px;letter-spacing:2px;cursor:pointer;transition:.2s;background:transparent;color:#666">
+        CRIAR CONTA
+      </button>
+    </div>
+
+    <!-- Campo Apelido (só no cadastro) -->
+    <div id="nickField" style="display:none;margin-bottom:12px">
+      <div style="font-size:10px;letter-spacing:2px;color:#CC0000;margin-bottom:6px;font-family:'Bebas Neue',Impact,sans-serif;font-size:13px">Apelido</div>
+      <input id="eNick" type="text" maxlength="20" placeholder="Como quer ser chamado?"
+        style="width:100%;padding:13px 14px;background:rgba(255,255,255,.05);border:1.5px solid rgba(204,0,0,.3);border-radius:12px;color:#F0EBE3;font-size:15px;font-family:'Inter',sans-serif;outline:none;transition:.2s;box-sizing:border-box"
+        oninput="this.style.borderColor=this.value.length>1?'rgba(204,0,0,.7)':'rgba(204,0,0,.3)'">
+      <div style="font-size:10px;color:#444;margin-top:5px;padding-left:2px">Aparece no ranking — único por usuário</div>
+    </div>
+
+    <!-- Email -->
+    <div style="margin-bottom:12px">
+      <div style="font-size:13px;letter-spacing:2px;color:#CC0000;margin-bottom:6px;font-family:'Bebas Neue',Impact,sans-serif">E-mail</div>
+      <input id="eEmail" type="email" placeholder="seu@email.com"
+        style="width:100%;padding:13px 14px;background:rgba(255,255,255,.05);border:1.5px solid #2a2a2a;border-radius:12px;color:#F0EBE3;font-size:15px;font-family:'Inter',sans-serif;outline:none;transition:.2s;box-sizing:border-box"
+        onfocus="this.style.borderColor='rgba(204,0,0,.5)'" onblur="this.style.borderColor='#2a2a2a'">
+    </div>
+
+    <!-- Senha -->
+    <div style="margin-bottom:20px">
+      <div style="font-size:13px;letter-spacing:2px;color:#CC0000;margin-bottom:6px;font-family:'Bebas Neue',Impact,sans-serif">Senha</div>
+      <input id="ePass" type="password" placeholder="Mínimo 6 caracteres"
+        style="width:100%;padding:13px 14px;background:rgba(255,255,255,.05);border:1.5px solid #2a2a2a;border-radius:12px;color:#F0EBE3;font-size:15px;font-family:'Inter',sans-serif;outline:none;transition:.2s;box-sizing:border-box"
+        onfocus="this.style.borderColor='rgba(204,0,0,.5)'" onblur="this.style.borderColor='#2a2a2a'">
+    </div>
+
+    <!-- Erro -->
+    <div id="eError" style="display:none;font-size:12px;color:#ff7777;margin-bottom:14px;padding:10px 14px;background:rgba(204,0,0,.1);border:1px solid rgba(204,0,0,.2);border-radius:10px;text-align:center"></div>
+
+    <!-- Botão principal -->
+    <button id="eSubmitBtn" onclick="submitEmail()"
+      style="width:100%;padding:16px;background:linear-gradient(135deg,#CC0000,#8B0000);color:#fff;border:none;border-radius:12px;font-family:'Bebas Neue',Impact,sans-serif;font-size:22px;letter-spacing:3px;cursor:pointer;box-shadow:0 6px 24px rgba(204,0,0,.4);transition:.2s;margin-bottom:10px">
+      ENTRAR
+    </button>
+
+    <!-- Esqueci senha -->
+    <div id="forgotRow" style="text-align:center;margin-bottom:10px">
+      <button onclick="forgotEmailPassword()" style="background:transparent;border:none;color:#555;font-size:12px;cursor:pointer;letter-spacing:.5px;text-decoration:underline">
+        Esqueci minha senha
+      </button>
+    </div>
+
+    <!-- Cancelar -->
+    <button onclick="closeEmailOverlay()" style="width:100%;padding:11px;background:transparent;color:#555;border:1px solid #2a2a2a;border-radius:12px;font-size:12px;cursor:pointer;letter-spacing:1px;font-family:'Inter',sans-serif">
+      CANCELAR
+    </button>
   </div>
 </div>
 
@@ -820,24 +972,20 @@ async function saveProfile() {
   const user = window._currentUser;
   try {
     const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
-    const { getFirestore, doc, setDoc, serverTimestamp, collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+    const { getFirestore, doc, getDoc, setDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
     const db = getFirestore(getApps().find(a => a.name === '[DEFAULT]'));
 
     // Verifica se o nickname já está em uso por outro usuário
-    const nickQuery = query(
-      collection(db, 'usuarios'),
-      where('displayName', '==', nick)
-    );
-    const nickSnap = await getDocs(nickQuery);
-    const takenByOther = nickSnap.docs.some(d => d.id !== user.uid);
-    if (takenByOther) {
+    const nickKey = nick.toLowerCase().replace(/\s+/g, '_');
+    const nickSnap = await getDoc(doc(db, 'nicknames', nickKey));
+    if (nickSnap.exists() && nickSnap.data().uid !== user.uid) {
       errEl.textContent = 'Este apelido já está em uso. Escolha outro.';
       errEl.style.display = 'block';
       btn.textContent = 'ENTRAR NO SPFC HOJE';
       btn.disabled = false;
-      document.getElementById('onboardingNick').focus();
       return;
     }
+
     btn.textContent = 'SALVANDO...';
 
     const profile = {
@@ -849,6 +997,9 @@ async function saveProfile() {
       email:        user.email || '',
       createdAt:    serverTimestamp()
     };
+
+    // Reserva nickname
+    await setDoc(doc(db, 'nicknames', nickKey), { uid: user.uid, displayName: nick, createdAt: serverTimestamp() });
 
     // Perfil unificado
     await setDoc(doc(db, 'usuarios', user.uid), profile);

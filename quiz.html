@@ -1494,6 +1494,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </head>
 <body>
 
+<!-- SESSION OVERLAY -->
+<div id="sessionLoadOverlay" style="position:fixed;inset:0;z-index:99999;background:#080808;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px"><div style="font-size:48px;filter:drop-shadow(0 0 20px rgba(204,0,0,.5))">🔴</div><div style="font-family:Bebas Neue,Impact,sans-serif;font-size:22px;letter-spacing:4px;color:#CC0000">SPFC QUIZ</div><div style="width:48px;height:3px;background:linear-gradient(90deg,transparent,#CC0000,transparent);animation:sessBarAnim 1s ease-in-out infinite"></div><style>@keyframes sessBarAnim{0%,100%{opacity:.3;transform:scaleX(.4)}50%{opacity:1;transform:scaleX(1)}}</style></div>
+
 <!-- ══ SCREEN: HOME ═══════════════════════════════ -->
 <div class="screen active" id="screen-home">
 
@@ -1675,8 +1678,17 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="login-card">
       <div class="login-card-header"><span>FAÇA LOGIN</span> PARA CONTINUAR</div>
 
+      <!-- Botão principal: volta ao index (login centralizado) -->
+      <button class="login-btn login-btn-email" onclick="window.location.href='index.html'" style="background:linear-gradient(135deg,#CC0000,#8B0000);border-color:rgba(255,80,80,.3)">
+        <div class="login-btn-icon">🔴</div>
+        <span class="login-btn-text">Fazer login no SPFC Hoje</span>
+        <span class="login-btn-arrow">›</span>
+      </button>
+
+      <div style="text-align:center;font-size:11px;color:var(--txt3);letter-spacing:2px;margin:4px 0 10px">OU ENTRE DIRETAMENTE</div>
+
       <!-- Email button (opens inline form) -->
-      <button class="login-btn login-btn-email" onclick="toggleEmailForm()">
+      <button class="login-btn" onclick="toggleEmailForm()" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);color:var(--txt)">
         <div class="login-btn-icon">✉️</div>
         <span class="login-btn-text">Entrar com e-mail</span>
         <span class="login-btn-arrow">›</span>
@@ -1700,8 +1712,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           <span class="login-skip" onclick="forgotPassword()">Esqueci minha senha</span>
         </div>
       </div>
-
-      <div style="text-align:center;font-size:11px;color:var(--txt3);letter-spacing:2px;margin:4px 0 10px">OU</div>
 
       <!-- Google -->
       <button class="login-btn login-btn-google" onclick="loginGoogle()">
@@ -2931,11 +2941,27 @@ function saveAvatar() {
 ════════════════════════════════════════════════ */
 window.addEventListener('firebase-ready', () => {
   const {auth, onAuthStateChanged} = window.FB;
+
+  // Mostra overlay de carregamento de sessão enquanto o Firebase resolve
+  const sessionOverlay = document.getElementById('sessionLoadOverlay');
+
   onAuthStateChanged(auth, async (user) => {
     STATE.user = user;
     if (user) {
+      // Usuário já logado (vindo do index.html ou sessão anterior)
       await loadUserData(user);
       renderHomeUser();
+      // Se estava na tela de login, vai direto para home
+      const loginScreen = document.getElementById('screen-login');
+      if (loginScreen && loginScreen.classList.contains('active')) {
+        goScreen('screen-home');
+      }
+    }
+    // Remove overlay de sessão após resolver
+    if (sessionOverlay) {
+      sessionOverlay.style.opacity = '0';
+      sessionOverlay.style.transition = 'opacity .4s';
+      setTimeout(() => { sessionOverlay.style.display = 'none'; }, 400);
     }
   });
   handleRedirectResult(); // trata retorno do login Google por redirect

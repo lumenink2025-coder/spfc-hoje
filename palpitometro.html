@@ -336,6 +336,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </head>
 <body>
 
+<!-- SESSION OVERLAY -->
+<div id="sessionLoadOverlay" style="position:fixed;inset:0;z-index:99999;background:#0A0A0A;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px"><div style="font-size:48px;filter:drop-shadow(0 0 20px rgba(204,0,0,.5))">🔴</div><div style="font-family:Bebas Neue,Impact,sans-serif;font-size:22px;letter-spacing:4px;color:#CC0000">PALPITOMETRO</div><div style="width:48px;height:3px;background:linear-gradient(90deg,transparent,#CC0000,transparent);animation:sessBarAnim 1s ease-in-out infinite"></div><style>@keyframes sessBarAnim{0%,100%{opacity:.3;transform:scaleX(.4)}50%{opacity:1;transform:scaleX(1)}}</style></div>
+
 <!-- TOAST -->
 <div class="toast" id="toast">
   <div class="toast-t" id="toastT"></div>
@@ -345,10 +348,13 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <!-- ══════════════════════════════════════
      SCREEN: LOGIN
 ══════════════════════════════════════ -->
+<!-- ══════════════════════════════════════
+     SCREEN: LOGIN — Redireciona ao index.html
+══════════════════════════════════════ -->
 <div class="screen active" id="screen-login">
   <div class="login-wrap fade-in">
     <div style="padding:12px 0 0">
-      <button class="tb-back" onclick="window.location.href=&#39;index.html&#39;" style="display:inline-flex;align-items:center;gap:6px">← VOLTAR AO APP</button>
+      <button class="tb-back" onclick="window.location.href='index.html'" style="display:inline-flex;align-items:center;gap:6px">← VOLTAR AO APP</button>
     </div>
     <div class="login-hero">
       <button class="palp-hero-btn" style="margin-bottom:20px;pointer-events:none">
@@ -381,28 +387,29 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       </div>
     </div>
 
-    <div class="login-card">
-      <div class="login-divider"><span>ENTRAR</span></div>
+    <div class="login-card" style="text-align:center">
+      <div style="font-size:32px;margin-bottom:12px">🔐</div>
+      <div style="font-family:var(--font-title);font-size:22px;letter-spacing:3px;color:#fff;margin-bottom:8px">FAÇA LOGIN PARA PALPITAR</div>
+      <div style="font-size:12px;color:var(--txt3);margin-bottom:24px;line-height:1.6">O login é único para todo o SPFC Hoje.<br>Faça login na tela inicial e volte aqui.</div>
 
-      <button class="login-btn btn-google" onclick="loginGoogle()">
-        <div class="login-btn-icon">G</div>
-        <div class="login-btn-text">Continuar com Google</div>
-        <span>→</span>
+      <button onclick="window.location.href='index.html'"
+        style="width:100%;padding:16px;background:linear-gradient(135deg,#CC0000,#8B0000);color:#fff;border:none;border-radius:12px;font-family:var(--font-title);font-size:22px;letter-spacing:3px;cursor:pointer;box-shadow:0 6px 24px rgba(204,0,0,.4);margin-bottom:12px">
+        IR PARA O LOGIN
       </button>
 
-      <button class="login-btn btn-email-create" onclick="toggleEmailForm()">
-        <div class="login-btn-icon">✉</div>
-        <div class="login-btn-text">Entrar com e-mail</div>
-        <span>→</span>
+      <!-- Fallback: login direto via email (para quem abre palpitometro.html diretamente) -->
+      <button onclick="toggleEmailForm()"
+        style="width:100%;padding:12px;background:transparent;color:var(--txt3);border:1px solid var(--border2);border-radius:12px;font-size:12px;cursor:pointer;letter-spacing:1px">
+        ou entrar diretamente com e-mail
       </button>
 
-      <div id="emailForm">
-        <div class="login-input-group" style="margin-top:12px">
-          <input type="text" id="emailNick" class="login-input" placeholder="Apelido (aparece no ranking)" maxlength="20">
-          <input type="email" id="emailInput" class="login-input" placeholder="E-mail">
-          <input type="password" id="passwordInput" class="login-input" placeholder="Senha (mín. 6 caracteres)">
-        </div>
-        <button class="login-submit" onclick="loginEmail()">ENTRAR / CRIAR CONTA</button>
+      <div id="emailForm" style="display:none;margin-top:16px;text-align:left">
+        <div style="font-size:10px;letter-spacing:2px;color:var(--red);margin-bottom:8px;font-family:var(--font-title);font-size:13px">E-MAIL</div>
+        <input type="email" id="emailInput" class="login-input" placeholder="seu@email.com" style="margin-bottom:8px">
+        <div style="font-size:10px;letter-spacing:2px;color:var(--red);margin-bottom:8px;font-family:var(--font-title);font-size:13px">SENHA</div>
+        <input type="password" id="passwordInput" class="login-input" placeholder="Senha" style="margin-bottom:16px">
+        <input type="hidden" id="emailNick" value="">
+        <button class="login-submit" onclick="loginEmail()">ENTRAR</button>
         <div class="login-toggle" onclick="toggleEmailForm()">Cancelar</div>
       </div>
     </div>
@@ -1391,6 +1398,7 @@ async function loadVergonha() {
 ════════════════════════════════════════ */
 window.addEventListener('firebase-ready', () => {
   const { auth, onAuthStateChanged } = window.FB;
+  const sessionOverlay = document.getElementById('sessionLoadOverlay');
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -1402,6 +1410,12 @@ window.addEventListener('firebase-ready', () => {
     } else {
       currentUser = null;
       showScreen('screen-login');
+    }
+    // Remove overlay de sessão
+    if (sessionOverlay) {
+      sessionOverlay.style.opacity = '0';
+      sessionOverlay.style.transition = 'opacity .4s';
+      setTimeout(() => { sessionOverlay.style.display = 'none'; }, 400);
     }
   });
 });
