@@ -11,7 +11,7 @@
 
 <!-- ══ FIREBASE SDK ══ -->
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged,
   signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
@@ -33,7 +33,9 @@ const firebaseConfig = {
   };
 // ══════════════════════════════════════════════════
 
-const app = initializeApp(firebaseConfig);
+// Usa o app padrão para compartilhar auth com o splash/index
+const existingApps = (typeof getApps !== 'undefined' ? getApps() : []);
+const app = existingApps.find(a => a.name === '[DEFAULT]') || initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
@@ -2943,10 +2945,26 @@ async function loadUserData(user) {
   if (!window.FB) return;
   const {db, doc, getDoc} = window.FB;
   try {
+    // Lê perfil unificado (criado no onboarding)
+    const uSnap = await getDoc(doc(db, 'usuarios', user.uid));
+    if (uSnap.exists()) {
+      const uData = uSnap.data();
+      if (!STATE.avatar) STATE.avatar = {};
+      if (uData.displayName)  STATE.avatar.name    = uData.displayName;
+      if (uData.avatarUrl)    STATE.avatar.dataUrl = uData.avatarUrl;
+      if (uData.avatarId)     STATE.avatar.id      = uData.avatarId;
+      if (uData.photoURL && !uData.avatarUrl) STATE.avatar.dataUrl = uData.photoURL;
+      STATE.nicknameLocked = true;
+    }
+
     const snap = await getDoc(doc(db, 'users', user.uid));
     if (snap.exists()) {
       const data = snap.data();
-      if (data.avatar) STATE.avatar = data.avatar;
+      if (data.avatar) {
+        // Só sobrescreve se não tiver perfil unificado ou se for avatar de jogador (url Cloudinary)
+        if (!uSnap.exists()) STATE.avatar = data.avatar;
+        else if (data.avatar?.id) { STATE.avatar.id = data.avatar.id; selectedAvatarId = data.avatar.id; }
+      }
       if (data.avatar?.id) selectedAvatarId = data.avatar.id;
       if (data.lives !== undefined) STATE.lives = data.lives;
       if (data.totalScore !== undefined) STATE.totalScore = data.totalScore;
@@ -3117,10 +3135,10 @@ function renderHomeUser() {
 
   if (homeChip) {
     if (STATE.user || STATE.guest) {
-      // Logado: mostra avatar do player
       homeChip.onclick = () => goScreen('screen-profile');
-      if (homeImg && STATE.avatar?.dataUrl) {
-        homeImg.src = STATE.avatar.dataUrl;
+      // Avatar: prioridade emoji (perfil unificado) > imagem Cloudinary > foto Google > placeholder
+      if (homeImg && (STATE.avatar?.dataUrl || STATE.avatar?.photoURL)) {
+        homeImg.src = STATE.avatar.dataUrl || STATE.avatar.photoURL;
         homeImg.style.display = 'block';
         if (homePlaceholder) homePlaceholder.style.display = 'none';
       } else if (homePlaceholder) {
@@ -3129,7 +3147,6 @@ function renderHomeUser() {
         if (homeImg) homeImg.style.display = 'none';
       }
     } else {
-      // Não logado: mostra botão entrar
       homeChip.onclick = () => goScreen('screen-login');
       if (homePlaceholder) {
         homePlaceholder.textContent = '👤';
@@ -3842,7 +3859,9 @@ async function loadRanking(type, btn) {
       return `
         <div class="rank-item${isMe?' me':''}">
           <div class="rank-pos ${posClass}">${pos}</div>
-          ${d.avatar ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
+          ${d.avatar
+            ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">`
+            : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
           <div class="rank-info">
             <div class="rank-name">${d.name || 'Torcedor'}${isMe?' (você)':''} ${d.streak>2?'🔥'.repeat(Math.min(3,Math.floor(d.streak/3))):''}</div>
             <div class="rank-detail">Nível ${d.level || 1} · ${d.streak||0} dias seguidos</div>
@@ -3923,7 +3942,9 @@ async function loadRankingWordle(btn) {
         return `
           <div class="rank-item${isMe ? ' me' : ''}">
             <div class="rank-pos ${posClass}">${pos}</div>
-            ${d.avatar ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
+            ${d.avatar
+            ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">`
+            : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
             <div class="rank-info">
               <div class="rank-name">${d.name || 'Torcedor'}${isMe ? ' (você)' : ''} ${streakFire}</div>
               <div class="rank-detail">${d.tries != null ? d.tries : '—'} tent. · Édição #${(d.edition || 0) + 1}</div>

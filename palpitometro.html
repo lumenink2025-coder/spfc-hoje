@@ -685,7 +685,26 @@ async function loadUserStats() {
   const ref = doc(db, 'ranking', currentUser.uid);
   const snap = await getDoc(ref);
   if (!snap.exists()) return;
-  const data = snap.data();
+  let data = snap.data();
+
+  // Sincroniza com perfil unificado se ranking não tiver avatarUrl ainda
+  if (!data.avatarUrl) {
+    try {
+      const { doc: _doc, getDoc: _gd } = window.FB;
+      const uSnap = await _gd(_doc(db, 'usuarios', currentUser.uid));
+      if (uSnap.exists()) {
+        const ud = uSnap.data();
+        data = { ...data, ...ud };
+        // Salva no ranking para futuras leituras
+        const { updateDoc } = window.FB;
+        await updateDoc(_doc(db, 'ranking', currentUser.uid), {
+          displayName: ud.displayName || data.displayName,
+          avatarId:    ud.avatarId || null,
+          avatarUrl:   ud.avatarUrl || null
+        }).catch(() => {});
+      }
+    } catch(_) {}
+  }
 
   document.getElementById('usbName').textContent = data.displayName || currentUser.displayName || '—';
   document.getElementById('usbPts').textContent = data.totalPontos || 0;
@@ -694,7 +713,11 @@ async function loadUserStats() {
   const av = document.getElementById('usbAvatar');
   const tbAv = document.getElementById('tbAvatar');
   const name = data.displayName || '?';
-  if (data.photoURL) {
+  if (data.avatarUrl) {
+    const imgHtml = `<img src="${data.avatarUrl}" style="width:100%;height:100%;border-radius:50%;object-fit:cover">`;
+    av.innerHTML = imgHtml;
+    tbAv.innerHTML = imgHtml;
+  } else if (data.photoURL) {
     av.innerHTML = `<img src="${data.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover" onerror="this.parentElement.textContent='${initials(name)}'">`;
     tbAv.innerHTML = `<img src="${data.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover" onerror="this.parentElement.textContent='${initials(name)}'">`;
   } else {
