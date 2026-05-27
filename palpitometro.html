@@ -723,15 +723,39 @@ async function loadMatchAndPalpite() {
   area.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><br>Buscando próximo jogo...</div>';
 
   try {
-    const res = await fetch(`https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=${SPFC_ID}`);
-    const data = await res.json();
+    // Busca próximo jogo e último jogo em paralelo
+    const [resNext, resLast] = await Promise.all([
+      fetch(`https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=${SPFC_ID}`),
+      fetch(`https://www.thesportsdb.com/api/v1/json/3/eventslast.php?id=${SPFC_ID}`)
+    ]);
+    const [dataNext, dataLast] = await Promise.all([resNext.json(), resLast.json()]);
 
-    if (!data.events || !data.events.length) {
-      area.innerHTML = '<div class="loading-state">Nenhum jogo agendado no momento</div>';
-      return;
+    // Verifica se o último jogo terminou há menos de 24h (precisa processar pontos)
+    let ev = null;
+    let forceFinished = false;
+    if (dataLast.results && dataLast.results.length) {
+      const last = dataLast.results[0];
+      const lastDate = new Date(last.dateEvent + 'T' + (last.strTime || '00:00:00') + 'Z');
+      const horasDesdeJogo = (Date.now() - lastDate) / 3600000;
+      if (horasDesdeJogo < 24) {
+        // Jogo recente — pode ter terminado e saído do "next"
+        const lastSpfcScore = last.idHomeTeam == SPFC_ID ? last.intHomeScore : last.intAwayScore;
+        if (lastSpfcScore !== null && lastSpfcScore !== '') {
+          ev = last;
+          forceFinished = true;
+        }
+      }
     }
 
-    const ev = data.events[0];
+    // Se não há jogo recente encerrado, usa o próximo agendado
+    if (!ev) {
+      if (!dataNext.events || !dataNext.events.length) {
+        area.innerHTML = '<div class="loading-state">Nenhum jogo agendado no momento</div>';
+        return;
+      }
+      ev = dataNext.events[0];
+    }
+
     matchData = ev;
 
     const isSPFCHome = ev.idHomeTeam == SPFC_ID;
@@ -741,7 +765,7 @@ async function loadMatchAndPalpite() {
     const oppBadge  = isSPFCHome ? ev.strAwayTeamBadge : ev.strHomeTeamBadge;
     const spfcScore = isSPFCHome ? ev.intHomeScore : ev.intAwayScore;
     const oppScore  = isSPFCHome ? ev.intAwayScore : ev.intHomeScore;
-    const isFinished = spfcScore !== null && spfcScore !== '';
+    const isFinished = forceFinished || (spfcScore !== null && spfcScore !== '');
 
     const matchDate = new Date(`${ev.dateEvent}T${ev.strTime || '00:00:00'}Z`);
     const now = new Date();
