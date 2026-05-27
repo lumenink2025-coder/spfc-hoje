@@ -584,21 +584,23 @@ async function submitEmail() {
   } catch(e) {
     if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential') {
       if (!nick) { errEl.textContent = 'Conta nova? Informe um apelido.'; errEl.style.display = 'block'; return; }
+      // Verifica se nickname já existe antes de criar a conta
       try {
-        const cred = await createUserWithEmailAndPassword(auth, email, pass);
-        // Salva apelido no Firestore
-        try {
-          const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
-          const { getFirestore, doc, setDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-          const existingApp = getApps().find(a => a.name === '[DEFAULT]');
-          const db = getFirestore(existingApp);
-          await setDoc(doc(db, 'ranking', cred.user.uid), {
-            displayName: nick, photoURL: '', totalPontos: 0, totalAcertos: 0,
-            totalErros: 0, totalPalpites: 0, placareExatos: 0, pontosMes: 0,
-            createdAt: serverTimestamp()
-          }, { merge: true });
-        } catch(dbErr) { console.warn('Firestore nick save:', dbErr); }
-        // onAuthStateChanged vai chamar _goToApp
+        const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+        const { getFirestore, collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+        const db = getFirestore(getApps().find(a => a.name === '[DEFAULT]'));
+        const nickSnap = await getDocs(query(collection(db, 'usuarios'), where('displayName', '==', nick)));
+        if (!nickSnap.empty) {
+          errEl.textContent = 'Este apelido já está em uso. Escolha outro.';
+          errEl.style.display = 'block';
+          return;
+        }
+      } catch(_) {}
+      try {
+        await createUserWithEmailAndPassword(auth, email, pass);
+        // onAuthStateChanged → _checkOnboarding → onboarding com avatar (nick pré-preenchido)
+        document.getElementById('onboardingNick').value = nick;
+        document.getElementById('emailOverlay').style.display = 'none';
       } catch(e2) {
         errEl.textContent = 'Erro: ' + e2.message; errEl.style.display = 'block';
       }
@@ -812,14 +814,31 @@ async function saveProfile() {
   }
 
   const btn = document.getElementById('btnSaveProfile');
-  btn.textContent = 'SALVANDO...';
+  btn.textContent = 'VERIFICANDO...';
   btn.disabled = true;
 
   const user = window._currentUser;
   try {
     const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
-    const { getFirestore, doc, setDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+    const { getFirestore, doc, setDoc, serverTimestamp, collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
     const db = getFirestore(getApps().find(a => a.name === '[DEFAULT]'));
+
+    // Verifica se o nickname já está em uso por outro usuário
+    const nickQuery = query(
+      collection(db, 'usuarios'),
+      where('displayName', '==', nick)
+    );
+    const nickSnap = await getDocs(nickQuery);
+    const takenByOther = nickSnap.docs.some(d => d.id !== user.uid);
+    if (takenByOther) {
+      errEl.textContent = 'Este apelido já está em uso. Escolha outro.';
+      errEl.style.display = 'block';
+      btn.textContent = 'ENTRAR NO SPFC HOJE';
+      btn.disabled = false;
+      document.getElementById('onboardingNick').focus();
+      return;
+    }
+    btn.textContent = 'SALVANDO...';
 
     const profile = {
       uid:          user.uid,
