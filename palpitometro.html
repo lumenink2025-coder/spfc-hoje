@@ -888,7 +888,7 @@ async function autoProcessarResultado(matchId, golsSpfc, golsOpp, isSPFCHome) {
 
     // Filtra só os ainda não pontuados (pontos === null ou undefined)
     const pendentes = [];
-    pendentes.forEach(d => {
+    snaps.forEach(d => {
       const p = d.data();
       if (p.pontos === null || p.pontos === undefined) pendentes.push(d);
     });
@@ -901,7 +901,7 @@ async function autoProcessarResultado(matchId, golsSpfc, golsOpp, isSPFCHome) {
     // 5. Calcula e salva em batch
     const batch = writeBatch(db);
 
-    snaps.forEach(d => {
+    pendentes.forEach(d => {
       const p = d.data();
       const acertouResultado = p.resultado === resultado;
       const acertouPlacar    = p.golsSpfc === golsSpfc && p.golsOpp === golsOpp;
