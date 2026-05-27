@@ -28,7 +28,7 @@ const firebaseConfig = {
   appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
 };
 
-const app = initializeApp(firebaseConfig, 'palpitometro');
+const app = initializeApp(firebaseConfig); // app padrão — auth compartilhado
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
