@@ -11,7 +11,7 @@
 
 <!-- ══ FIREBASE SDK ══ -->
 <script type="module">
-import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged,
   signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
@@ -33,9 +33,7 @@ const firebaseConfig = {
   };
 // ══════════════════════════════════════════════════
 
-// Usa o app padrão para compartilhar auth com o splash/index
-const existingApps = (typeof getApps !== 'undefined' ? getApps() : []);
-const app = existingApps.find(a => a.name === '[DEFAULT]') || initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
@@ -1494,9 +1492,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </head>
 <body>
 
-<!-- SESSION OVERLAY -->
-<div id="sessionLoadOverlay" style="position:fixed;inset:0;z-index:99999;background:#080808;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px"><div style="font-size:48px;filter:drop-shadow(0 0 20px rgba(204,0,0,.5))">🔴</div><div style="font-family:Bebas Neue,Impact,sans-serif;font-size:22px;letter-spacing:4px;color:#CC0000">SPFC QUIZ</div><div style="width:48px;height:3px;background:linear-gradient(90deg,transparent,#CC0000,transparent);animation:sessBarAnim 1s ease-in-out infinite"></div><style>@keyframes sessBarAnim{0%,100%{opacity:.3;transform:scaleX(.4)}50%{opacity:1;transform:scaleX(1)}}</style></div>
-
 <!-- ══ SCREEN: HOME ═══════════════════════════════ -->
 <div class="screen active" id="screen-home">
 
@@ -1678,17 +1673,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="login-card">
       <div class="login-card-header"><span>FAÇA LOGIN</span> PARA CONTINUAR</div>
 
-      <!-- Botão principal: volta ao index (login centralizado) -->
-      <button class="login-btn login-btn-email" onclick="window.location.href='index.html'" style="background:linear-gradient(135deg,#CC0000,#8B0000);border-color:rgba(255,80,80,.3)">
-        <div class="login-btn-icon">🔴</div>
-        <span class="login-btn-text">Fazer login no SPFC Hoje</span>
-        <span class="login-btn-arrow">›</span>
-      </button>
-
-      <div style="text-align:center;font-size:11px;color:var(--txt3);letter-spacing:2px;margin:4px 0 10px">OU ENTRE DIRETAMENTE</div>
-
       <!-- Email button (opens inline form) -->
-      <button class="login-btn" onclick="toggleEmailForm()" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);color:var(--txt)">
+      <button class="login-btn login-btn-email" onclick="toggleEmailForm()">
         <div class="login-btn-icon">✉️</div>
         <span class="login-btn-text">Entrar com e-mail</span>
         <span class="login-btn-arrow">›</span>
@@ -1704,14 +1690,16 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           <input class="login-input" id="passInput" type="password" placeholder="senha" autocomplete="current-password">
           <span class="login-field-label">Senha</span>
         </div>
-        <div id="quizEmailErr" style="display:none;font-size:11px;color:#ff7777;margin-bottom:8px;padding:8px 10px;background:rgba(204,0,0,.1);border-radius:8px;text-align:center"></div>
         <div style="display:flex;gap:8px;margin-bottom:4px">
           <button onclick="loginEmail()" style="flex:1;padding:12px;background:var(--red);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;letter-spacing:1px">ENTRAR</button>
+          <button onclick="registerEmail()" style="flex:1;padding:12px;background:rgba(255,255,255,.06);color:var(--txt);border:1px solid rgba(255,255,255,.12);border-radius:10px;font-size:13px;cursor:pointer">CRIAR CONTA</button>
         </div>
         <div style="text-align:center">
           <span class="login-skip" onclick="forgotPassword()">Esqueci minha senha</span>
         </div>
       </div>
+
+      <div style="text-align:center;font-size:11px;color:var(--txt3);letter-spacing:2px;margin:4px 0 10px">OU</div>
 
       <!-- Google -->
       <button class="login-btn login-btn-google" onclick="loginGoogle()">
@@ -1752,7 +1740,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <!-- Criar conta link -->
     <div style="text-align:center;margin-bottom:16px">
       <span style="font-size:13px;color:var(--txt3)">Ainda não tem uma conta? </span>
-      <span onclick="window.location.href='index.html'" style="font-size:13px;color:var(--red);cursor:pointer;font-weight:700;letter-spacing:1px">CADASTRE-SE NO SPFC HOJE ›</span>
+      <span onclick="registerEmail()" style="font-size:13px;color:var(--red);cursor:pointer;font-weight:700;letter-spacing:1px">CRIAR CONTA ›</span>
     </div>
 
     <!-- Footer bar -->
@@ -2941,27 +2929,11 @@ function saveAvatar() {
 ════════════════════════════════════════════════ */
 window.addEventListener('firebase-ready', () => {
   const {auth, onAuthStateChanged} = window.FB;
-
-  // Mostra overlay de carregamento de sessão enquanto o Firebase resolve
-  const sessionOverlay = document.getElementById('sessionLoadOverlay');
-
   onAuthStateChanged(auth, async (user) => {
     STATE.user = user;
     if (user) {
-      // Usuário já logado (vindo do index.html ou sessão anterior)
       await loadUserData(user);
       renderHomeUser();
-      // Se estava na tela de login, vai direto para home
-      const loginScreen = document.getElementById('screen-login');
-      if (loginScreen && loginScreen.classList.contains('active')) {
-        goScreen('screen-home');
-      }
-    }
-    // Remove overlay de sessão após resolver
-    if (sessionOverlay) {
-      sessionOverlay.style.opacity = '0';
-      sessionOverlay.style.transition = 'opacity .4s';
-      setTimeout(() => { sessionOverlay.style.display = 'none'; }, 400);
     }
   });
   handleRedirectResult(); // trata retorno do login Google por redirect
@@ -2971,26 +2943,10 @@ async function loadUserData(user) {
   if (!window.FB) return;
   const {db, doc, getDoc} = window.FB;
   try {
-    // Lê perfil unificado (criado no onboarding)
-    const uSnap = await getDoc(doc(db, 'usuarios', user.uid));
-    if (uSnap.exists()) {
-      const uData = uSnap.data();
-      if (!STATE.avatar) STATE.avatar = {};
-      if (uData.displayName)  STATE.avatar.name    = uData.displayName;
-      if (uData.avatarUrl)    STATE.avatar.dataUrl = uData.avatarUrl;
-      if (uData.avatarId)     STATE.avatar.id      = uData.avatarId;
-      if (uData.photoURL && !uData.avatarUrl) STATE.avatar.dataUrl = uData.photoURL;
-      STATE.nicknameLocked = true;
-    }
-
     const snap = await getDoc(doc(db, 'users', user.uid));
     if (snap.exists()) {
       const data = snap.data();
-      if (data.avatar) {
-        // Só sobrescreve se não tiver perfil unificado ou se for avatar de jogador (url Cloudinary)
-        if (!uSnap.exists()) STATE.avatar = data.avatar;
-        else if (data.avatar?.id) { STATE.avatar.id = data.avatar.id; selectedAvatarId = data.avatar.id; }
-      }
+      if (data.avatar) STATE.avatar = data.avatar;
       if (data.avatar?.id) selectedAvatarId = data.avatar.id;
       if (data.lives !== undefined) STATE.lives = data.lives;
       if (data.totalScore !== undefined) STATE.totalScore = data.totalScore;
@@ -3084,9 +3040,7 @@ async function loginEmail() {
   if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
   const email = document.getElementById('emailInput').value.trim();
   const pass  = document.getElementById('passInput').value;
-  const errEl = document.getElementById('quizEmailErr');
-  errEl.style.display = 'none';
-  if (!email || !pass) { errEl.textContent = 'Preencha e-mail e senha.'; errEl.style.display = 'block'; return; }
+  if (!email || !pass) { toast('Preencha os campos', 'Email e senha são obrigatórios'); return; }
   const {auth, signInWithEmailAndPassword} = window.FB;
   try {
     const result = await signInWithEmailAndPassword(auth, email, pass);
@@ -3095,19 +3049,33 @@ async function loginEmail() {
     goScreen('screen-home');
     checkAvatarSetup();
   } catch(e) {
-    const msg = e.code === 'auth/user-not-found'     ? 'Usuário não encontrado. Cadastre-se na tela inicial.'
+    const msg = e.code === 'auth/user-not-found'     ? 'Usuário não encontrado'
               : e.code === 'auth/wrong-password'      ? 'Senha incorreta'
               : e.code === 'auth/invalid-email'       ? 'Email inválido'
-              : e.code === 'auth/invalid-credential'  ? 'Email ou senha incorretos. Sem conta? Cadastre-se no SPFC Hoje.'
+              : e.code === 'auth/invalid-credential'  ? 'Email ou senha incorretos'
               : e.message || 'Tente novamente';
-    errEl.textContent = msg;
-    errEl.style.display = 'block';
+    toast('Erro no login', msg);
   }
 }
 
 async function registerEmail() {
-  // Cadastro centralizado no index.html
-  window.location.href = 'index.html';
+  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
+  const email = document.getElementById('emailInput').value.trim();
+  const pass  = document.getElementById('passInput').value;
+  if (!email || !pass) { toast('Preencha os campos', 'Email e senha são obrigatórios'); return; }
+  if (pass.length < 6) { toast('Senha fraca', 'A senha deve ter pelo menos 6 caracteres'); return; }
+  const {auth, createUserWithEmailAndPassword} = window.FB;
+  try {
+    await createUserWithEmailAndPassword(auth, email, pass);
+    toast('Conta criada! 🎉', 'Bem-vindo ao SPFC Quiz');
+    goScreen('screen-avatar');
+  } catch(e) {
+    const msg = e.code === 'auth/email-already-in-use' ? 'Este email já está cadastrado'
+              : e.code === 'auth/invalid-email'         ? 'Email inválido'
+              : e.code === 'auth/weak-password'         ? 'Senha fraca (mín. 6 caracteres)'
+              : e.message || 'Tente novamente';
+    toast('Erro no cadastro', msg);
+  }
 }
 
 async function forgotPassword() {
@@ -3149,10 +3117,10 @@ function renderHomeUser() {
 
   if (homeChip) {
     if (STATE.user || STATE.guest) {
+      // Logado: mostra avatar do player
       homeChip.onclick = () => goScreen('screen-profile');
-      // Avatar: prioridade emoji (perfil unificado) > imagem Cloudinary > foto Google > placeholder
-      if (homeImg && (STATE.avatar?.dataUrl || STATE.avatar?.photoURL)) {
-        homeImg.src = STATE.avatar.dataUrl || STATE.avatar.photoURL;
+      if (homeImg && STATE.avatar?.dataUrl) {
+        homeImg.src = STATE.avatar.dataUrl;
         homeImg.style.display = 'block';
         if (homePlaceholder) homePlaceholder.style.display = 'none';
       } else if (homePlaceholder) {
@@ -3161,6 +3129,7 @@ function renderHomeUser() {
         if (homeImg) homeImg.style.display = 'none';
       }
     } else {
+      // Não logado: mostra botão entrar
       homeChip.onclick = () => goScreen('screen-login');
       if (homePlaceholder) {
         homePlaceholder.textContent = '👤';
@@ -3873,9 +3842,7 @@ async function loadRanking(type, btn) {
       return `
         <div class="rank-item${isMe?' me':''}">
           <div class="rank-pos ${posClass}">${pos}</div>
-          ${d.avatar
-            ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">`
-            : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
+          ${d.avatar ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
           <div class="rank-info">
             <div class="rank-name">${d.name || 'Torcedor'}${isMe?' (você)':''} ${d.streak>2?'🔥'.repeat(Math.min(3,Math.floor(d.streak/3))):''}</div>
             <div class="rank-detail">Nível ${d.level || 1} · ${d.streak||0} dias seguidos</div>
@@ -3956,9 +3923,7 @@ async function loadRankingWordle(btn) {
         return `
           <div class="rank-item${isMe ? ' me' : ''}">
             <div class="rank-pos ${posClass}">${pos}</div>
-            ${d.avatar
-            ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">`
-            : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
+            ${d.avatar ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
             <div class="rank-info">
               <div class="rank-name">${d.name || 'Torcedor'}${isMe ? ' (você)' : ''} ${streakFire}</div>
               <div class="rank-detail">${d.tries != null ? d.tries : '—'} tent. · Édição #${(d.edition || 0) + 1}</div>
