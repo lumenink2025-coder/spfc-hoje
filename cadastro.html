@@ -590,7 +590,7 @@ async function salvarPerfilFinal() {
     const usersRef   = doc(db, 'users',      user.uid);
 
     // Salva apelido na coleção 'nicknames' para garantir unicidade
-    const nickSnap = await getDoc(nickRef);
+    const nickSnap = await window.FB_CAD.getDoc(nickRef);
     if (nickSnap.exists() && nickSnap.data().uid !== user.uid) throw new Error('NICK_TAKEN');
     await setDoc(nickRef, { uid: user.uid, displayName: nick, createdAt: serverTimestamp() });
 
