@@ -194,16 +194,25 @@ onAuthStateChanged(auth, async user => {
   }
 });
 
-// Captura retorno do redirect Google
-getRedirectResult(auth).then(cred => {
-  if (!cred) return;
-  // onAuthStateChanged acima cuida do resto
-}).catch(e => {
-  if (e.code === 'auth/unauthorized-domain') {
-    showGlobalErr('Domínio não autorizado no Firebase. Adicione em Authentication > Settings.');
+// Captura retorno do redirect Google (mobile)
+(async () => {
+  try {
+    const cred = await getRedirectResult(auth);
+    if (cred) {
+      // Usuário voltou do Google com sucesso — onAuthStateChanged cuida do resto
+      showLoading('VERIFICANDO...');
+    }
+    // Se cred for null, não veio de redirect — não faz nada
+  } catch(e) {
+    hideLoading();
+    if (e.code === 'auth/unauthorized-domain') {
+      showGlobalErr('Domínio não autorizado no Firebase. Adicione em Authentication > Settings.');
+    } else if (e.code && e.code !== 'auth/null-user') {
+      showErr('s1Err', 'Erro ao autenticar: ' + (e.code || e.message));
+    }
     showStep(1);
   }
-});
+})();
 </script>
 </head>
 <body>
@@ -405,18 +414,17 @@ async function entrarGoogle() {
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-  // FIX Bug 2: não mostrar loading antes do popup — pode travar se bloqueado
+  // Sem loading antes de qualquer operação de auth — pode travar se popup bloqueado ou redirect voltar
   try {
     if (isMobile || isStandalone) {
-      showLoading('REDIRECIONANDO...');
       await signInWithRedirect(auth, provider);
+      // Página navega para o Google — onAuthStateChanged + getRedirectResult tratam o retorno
     } else {
       await signInWithPopup(auth, provider);
-      // Sucesso: onAuthStateChanged assume e mostra o loading
+      // Sucesso: onAuthStateChanged assume
     }
   } catch(e) {
     if (e.code === 'auth/popup-blocked') {
-      showLoading('REDIRECIONANDO...');
       await signInWithRedirect(auth, provider);
     } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
       showErr('s1Err', 'Erro: ' + (e.code || e.message));
