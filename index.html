@@ -485,7 +485,7 @@ html,body{
 <!-- Firebase Auth -->
 <script type="module">
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithPopup, GoogleAuthProvider,
+import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider,
          signInWithEmailAndPassword, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { getFirestore, doc, getDoc }
@@ -507,19 +507,11 @@ provider.setCustomParameters({ prompt: 'select_account' });
 
 // Expor loginGmail DENTRO do module para preservar o user gesture
 window.loginGmail = async function() {
-  const btn = document.querySelector('.btn-google');
-  if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
   try {
-    await signInWithPopup(auth, provider);
+    await signInWithRedirect(auth, provider);
   } catch(e) {
-    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
-    if (e.code === 'auth/popup-blocked') {
-      const el = document.getElementById('loginErr');
-      if (el) { el.textContent = '⚠️ Popup bloqueado. Desative o bloqueador de popups e tente novamente.'; el.style.display = 'block'; }
-    } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
-      const el = document.getElementById('loginErr');
-      if (el) { el.textContent = 'Erro: ' + (e.code || e.message); el.style.display = 'block'; }
-    }
+    const el = document.getElementById('loginErr');
+    if (el) { el.textContent = 'Erro ao abrir Google: ' + (e.code || e.message); el.style.display = 'block'; }
   }
 };
 
@@ -549,7 +541,18 @@ window.doLoginEmail = async function() {
   }
 };
 
-// getRedirectResult removido — usando apenas popup
+// Trata retorno do redirect Google
+(async () => {
+  try {
+    const cred = await getRedirectResult(auth);
+    // Se voltou do Google com sucesso, onAuthStateChanged cuida do resto
+  } catch(e) {
+    if (e.code && e.code !== 'auth/null-user') {
+      const el = document.getElementById('loginErr');
+      if (el) { el.textContent = 'Erro ao autenticar: ' + (e.code || e.message); el.style.display = 'block'; }
+    }
+  }
+})();
 
 let _indexHandled = false; // FIX: evita disparo duplo do onAuthStateChanged
 onAuthStateChanged(auth, async user => {
