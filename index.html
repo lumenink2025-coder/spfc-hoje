@@ -485,7 +485,7 @@ html,body{
 <!-- Firebase Auth -->
 <script type="module">
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider,
+import { getAuth, signInWithPopup, GoogleAuthProvider,
          signInWithEmailAndPassword, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { getFirestore, doc, getDoc }
@@ -514,7 +514,8 @@ window.loginGmail = async function() {
   } catch(e) {
     if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
     if (e.code === 'auth/popup-blocked') {
-      await signInWithRedirect(auth, provider);
+      const el = document.getElementById('loginErr');
+      if (el) { el.textContent = '⚠️ Popup bloqueado. Desative o bloqueador de popups e tente novamente.'; el.style.display = 'block'; }
     } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
       const el = document.getElementById('loginErr');
       if (el) { el.textContent = 'Erro: ' + (e.code || e.message); el.style.display = 'block'; }
@@ -548,14 +549,23 @@ window.doLoginEmail = async function() {
   }
 };
 
-getRedirectResult(auth).catch(() => {});
+// getRedirectResult removido — usando apenas popup
 
 onAuthStateChanged(auth, async user => {
   if (!user) return;
+  // Mostra loading imediatamente
+  var o = document.getElementById('transitionOverlay');
+  var t = document.getElementById('loadingText');
+  if (o) o.classList.add('active');
+  if (t) { t.classList.add('active'); t.textContent = 'VERIFICANDO...'; }
+
   try {
     const snap = await getDoc(doc(db, 'usuarios', user.uid));
     snap.exists() ? window.goToApp() : window.goTo('cadastro.html');
-  } catch(e) { window.goToApp(); }
+  } catch(e) { 
+    console.warn('Erro ao verificar perfil:', e);
+    window.goToApp(); 
+  }
 });
 </script>
 </head>
