@@ -191,12 +191,10 @@ onAuthStateChanged(auth, async user => {
   if (ol) ol.classList.add('active');
   if (lm) lm.textContent = 'VERIFICANDO PERFIL...';
   try {
-    const [snapUsuarios, snapUsers] = await Promise.all([
-      getDoc(doc(db, 'usuarios', user.uid)),
-      getDoc(doc(db, 'users',    user.uid))
-    ]);
-    var temPerfil = snapUsuarios.exists() ||
-                    (snapUsers.exists() && snapUsers.data().nicknameLocked);
+    // Inicializa UnifiedIdentity
+    window.identity = new UnifiedIdentity(db);
+    const userData = await identity.getUser(user.uid);
+    var temPerfil = userData && (userData.nicknameLocked || userData.displayName);
     if (temPerfil) {
       var origem = sessionStorage.getItem('_cadOrigem') || 'main.html';
       sessionStorage.removeItem('_cadOrigem');
@@ -214,6 +212,9 @@ onAuthStateChanged(auth, async user => {
   }
 });
 </script>
+
+<!-- Unified Identity -->
+<script src="js/unified-identity.js"></script>
 </head>
 <body>
 
@@ -588,24 +589,28 @@ async function salvarPerfilFinal() {
     const rankingRef = doc(db, 'ranking',    user.uid);
     const usersRef   = doc(db, 'users',      user.uid);
 
-    await runTransaction(db, async t => {
-      const nickSnap = await t.get(nickRef);
-      if (nickSnap.exists() && nickSnap.data().uid !== user.uid) throw new Error('NICK_TAKEN');
-      t.set(nickRef,    { uid: user.uid, displayName: nick, createdAt: serverTimestamp() });
-      t.set(usuarioRef, profile);
-      t.set(rankingRef, {
-        displayName: nick, avatarId: _selectedAvatar.id, avatarUrl: _selectedAvatar.url,
-        photoURL: user.photoURL || '',
-        totalPontos: 0, totalAcertos: 0, totalErros: 0,
-        totalPalpites: 0, placareExatos: 0, pontosMes: 0,
-        createdAt: serverTimestamp()
-      }, { merge: true });
-      t.set(usersRef, {
-        displayName: nick,
-        avatar: { id: _selectedAvatar.id, dataUrl: _selectedAvatar.url, name: nick },
-        nicknameLocked: true, lives: 5, totalScore: 0,
-        createdAt: serverTimestamp()
-      }, { merge: true });
+    // Salva apelido na coleção 'nicknames' para garantir unicidade
+    const nickSnap = await getDoc(nickRef);
+    if (nickSnap.exists() && nickSnap.data().uid !== user.uid) throw new Error('NICK_TAKEN');
+    await setDoc(nickRef, { uid: user.uid, displayName: nick, createdAt: serverTimestamp() });
+
+    // Salva perfil unificado via UnifiedIdentity
+    await identity.saveProfile(user.uid, {
+      displayName: nick,
+      name: nick,
+      avatar: _selectedAvatar.url,
+      avatarDataUrl: _selectedAvatar.url,
+      avatarId: _selectedAvatar.id,
+      nicknameLocked: true,
+      lives: 5,
+      email: user.email || '',
+      birthday: aniv,
+      totalPontos: 0,
+      totalAcertos: 0,
+      totalErros: 0,
+      totalPalpites: 0,
+      placareExatos: 0,
+      pontosMes: 0
     });
 
     hideLoading();
