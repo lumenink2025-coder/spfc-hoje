@@ -268,8 +268,9 @@ getRedirectResult(auth).then(cred => {
     <div class="cad-label"><span>✏️</span> Apelido</div>
     <input id="cadNick" class="cad-input" type="text" maxlength="20"
       placeholder="Como quer ser chamado?" autocomplete="off"
-      oninput="clearErr('nickErr')">
+      oninput="clearErr('nickErr'); checkNickLive(this.value)">
     <div id="nickErr" class="cad-input-err"></div>
+    <div id="nickLiveStatus" style="font-size:11px;margin-top:4px;min-height:16px"></div>
     <div class="cad-input-hint">Aparece no ranking do Palpitômetro e do Quiz. Único e imutável.</div>
   </div>
 
@@ -487,6 +488,45 @@ async function esqueceuSenha() {
   }
 }
 
+/* ══ VERIFICAÇÃO LIVE DO NICKNAME ══ */
+let _nickTimer = null;
+function checkNickLive(val) {
+  const status = document.getElementById('nickLiveStatus');
+  val = val.trim();
+  status.textContent = '';
+  clearTimeout(_nickTimer);
+
+  if (!val || val.length < 2) return;
+  if (!/^[a-zA-ZÀ-ú0-9_\- ]+$/.test(val)) {
+    status.style.color = '#ef4444';
+    status.textContent = '❌ Caracteres inválidos';
+    return;
+  }
+
+  status.style.color = '#888';
+  status.textContent = '⏳ Verificando...';
+
+  _nickTimer = setTimeout(async () => {
+    try {
+      if (!window.FB_CAD) return;
+      const { db, doc, getDoc } = window.FB_CAD;
+      const nickKey = val.toLowerCase().replace(/\s+/g, '_');
+      const snap = await getDoc(doc(db, 'nicknames', nickKey));
+      const isOwn = snap.exists() && window._cadUser && snap.data().uid === window._cadUser.uid;
+      if (!snap.exists() || isOwn) {
+        status.style.color = '#22c55e';
+        status.textContent = '✅ Disponível!';
+      } else {
+        status.style.color = '#ef4444';
+        status.textContent = '❌ Este apelido já está em uso — tente outro';
+      }
+    } catch(e) {
+      status.style.color = '#888';
+      status.textContent = '⚠️ Erro ao verificar';
+    }
+  }, 600);
+}
+
 /* ══ STEP 2: SALVAR PERFIL ══ */
 
 async function validarPerfil() {
@@ -501,7 +541,8 @@ async function validarPerfil() {
   } else {
     try {
       const { db, doc, getDoc } = window.FB_CAD;
-      const nickSnap = await getDoc(doc(db, 'nicknames', nick.toLowerCase()));
+      const nickKey = nick.toLowerCase().replace(/\s+/g, '_');
+      const nickSnap = await getDoc(doc(db, 'nicknames', nickKey));
       // Bloqueia se existe e não é do próprio usuário
       if (nickSnap.exists() && nickSnap.data().uid !== window._cadUser?.uid) {
         showErr('nickErr', 'Este apelido já está em uso. Escolha outro.'); ok = false;
@@ -547,7 +588,7 @@ async function salvarPerfilFinal() {
   };
 
   try {
-    const nickRef    = doc(db, 'nicknames',  nick.toLowerCase());
+    const nickRef    = doc(db, 'nicknames',  nick.toLowerCase().replace(/\s+/g, '_'));
     const usuarioRef = doc(db, 'usuarios',   user.uid);
     const rankingRef = doc(db, 'ranking',    user.uid);
     const usersRef   = doc(db, 'users',      user.uid);

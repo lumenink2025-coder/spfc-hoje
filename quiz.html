@@ -2845,7 +2845,7 @@ async function reserveNickname(name, uid) {
   // Reserva novo nick
   await setDoc(doc(db, 'nicknames', nickKey), {
     uid,
-    name,
+    displayName: name,
     reservedAt: new Date().toISOString()
   }).catch(()=>{});
 }
@@ -2907,7 +2907,8 @@ function saveAvatar() {
     const {db, doc, setDoc} = window.FB;
     const uid = STATE.user.uid;
 
-    if (!STATE.nicknameLocked) reserveNickname(name, uid);
+    // Sempre reserva/atualiza o nickname no Firestore (independente de ser primeiro save)
+    reserveNickname(name, uid);
 
     setDoc(doc(db, 'users', uid), {
       name,
