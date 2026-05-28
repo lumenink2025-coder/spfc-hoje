@@ -159,11 +159,11 @@ input[type="date"].cad-input{color-scheme:dark}
 .loading-msg{font-family:var(--font-title);font-size:20px;letter-spacing:3px;color:var(--txt2)}
 </style>
 
-<!-- ══ FIREBASE MODULE ══ -->
+<!-- ══ FIREBASE MODULE (CORRIGIDO) ══ -->
 <script type="module">
 import { initializeApp, getApps }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithRedirect, getRedirectResult,
+import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult,
          GoogleAuthProvider, createUserWithEmailAndPassword,
          signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
@@ -188,21 +188,31 @@ gProvider.setCustomParameters({ prompt: 'select_account' });
 /* Expõe tudo que o JS inline vai precisar */
 window.FB_CAD = {
   auth, db,
-  signInWithRedirect, getRedirectResult, gProvider,
+  signInWithPopup, signInWithRedirect, getRedirectResult, gProvider,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
   sendPasswordResetEmail,
   doc, setDoc, getDoc, serverTimestamp, runTransaction
 };
 
-/* ── Captura retorno do redirect Google ── */
+/* ── Captura retorno do redirect Google (com timeout) ── */
 (async () => {
   try {
-    const result = await getRedirectResult(auth);
-    if (result?.user) showLoading('VERIFICANDO...');
+    // Timeout de 5 segundos — se demorar mais, não há redirect pendente
+    const result = await Promise.race([
+      getRedirectResult(auth),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('REDIRECT_TIMEOUT')), 5000))
+    ]);
+
+    if (result?.user) {
+      showLoading('VERIFICANDO...');
+    }
   } catch(e) {
     hideLoading();
+    // Timeout = não há redirect pendente, ignora silenciosamente
+    if (e.message === 'REDIRECT_TIMEOUT') return;
+
     if (e.code === 'auth/unauthorized-domain') {
-      showS1Err('Domínio não autorizado no Firebase.');
+      showS1Err('Domínio não autorizado no Firebase. Adicione este domínio no console do Firebase → Authentication → Settings → Authorized domains.');
     } else if (e.code && e.code !== 'auth/null-user') {
       showS1Err('Erro ao autenticar: ' + (e.code || e.message));
     }
@@ -211,11 +221,14 @@ window.FB_CAD = {
 })();
 
 /* ── Auth state: usuário logado → verifica se já tem perfil ── */
-let _handled = false;
 onAuthStateChanged(auth, async user => {
-  if (!user) { hideLoading(); showStep(1); return; }
-  if (_handled) return;
-  _handled = true;
+  if (!user) { 
+    hideLoading(); 
+    showStep(1); 
+    return; 
+  }
+
+  // Sempre verifica — sem flag _handled que causava skips
   showLoading('VERIFICANDO...');
   try {
     const snap = await getDoc(doc(db, 'users', user.uid));
@@ -453,7 +466,7 @@ function showFieldOk(id, msg) {
 }
 
 /* ────────────────────────────────────────────
-   STEP 1 — AUTH
+   STEP 1 — AUTH (CORRIGIDO: signInWithPopup)
 ──────────────────────────────────────────── */
 function toggleEmailForm() {
   const f = document.getElementById('emailForm');
@@ -462,11 +475,36 @@ function toggleEmailForm() {
 }
 
 async function entrarGoogle() {
-  if (!window.FB_CAD) return;
+  if (!window.FB_CAD) {
+    showS1Err('Firebase ainda não carregou. Aguarde um instante e tente novamente.');
+    return;
+  }
+
+  showLoading('ABRINDO GOOGLE...');
+
   try {
-    await window.FB_CAD.signInWithRedirect(window.FB_CAD.auth, window.FB_CAD.gProvider);
+    // ✅ USA POPUP — resolve em 2-3 segundos, nunca trava 50s
+    const result = await window.FB_CAD.signInWithPopup(window.FB_CAD.auth, window.FB_CAD.gProvider);
+
+    // Sucesso imediato — o onAuthStateChanged vai capturar e redirecionar
+    if (result?.user) {
+      showLoading('VERIFICANDO PERFIL...');
+    }
   } catch(e) {
-    showS1Err('Erro ao abrir Google: ' + (e.code || e.message));
+    hideLoading();
+
+    const msgs = {
+      'auth/popup-blocked':         'Popup bloqueado pelo navegador. Permita popups para este site.',
+      'auth/popup-closed-by-user':  'Você fechou a janela do Google antes de completar o login.',
+      'auth/cancelled-popup-request':'Múltiplas tentativas de login. Aguarde e tente novamente.',
+      'auth/network-request-failed':'Sem conexão com a internet. Verifique sua rede.',
+      'auth/unauthorized-domain':   'Domínio não autorizado no Firebase Console.',
+      'auth/invalid-credential':    'Credencial inválida. Tente novamente.',
+    };
+
+    const msg = msgs[e.code] || 'Erro no login: ' + (e.code || e.message);
+    showS1Err(msg);
+    console.error('Firebase Auth Error:', e.code, e.message, e);
   }
 }
 
@@ -602,9 +640,6 @@ async function verificarNick(nick) {
 
 /* ────────────────────────────────────────────
    STEP 2 — SALVAR PERFIL
-   Coleções criadas:
-     users/{uid}         → perfil unificado (fonte de verdade para tudo)
-     nicknames/{nick}    → reserva de nick único
 ──────────────────────────────────────────── */
 async function salvarPerfil() {
   if (!window.FB_CAD) { document.getElementById('s2GlobalErr').textContent='Firebase não carregado.'; document.getElementById('s2GlobalErr').classList.add('show'); return; }
@@ -636,24 +671,6 @@ async function salvarPerfil() {
   const { db, doc, setDoc, serverTimestamp, runTransaction } = window.FB_CAD;
   const now = serverTimestamp();
 
-  /*
-   * Esquema unificado — users/{uid}
-   * Todos os módulos leem DAQUI.
-   *
-   * Campos do perfil base:
-   *   displayName, avatarId, avatarUrl, birthday, email, createdAt, updatedAt
-   *
-   * Campos do Quiz (preenchidos pelo quiz.html ao jogar):
-   *   xp, level, totalXP, lives, livesLastRegen,
-   *   streak, bestStreak, lastPlayedDate, wonToday,
-   *   quiz_score_geral, quiz_score_mensal, quiz_score_semanal, quiz_score_diario
-   *
-   * Campos do Palpitômetro (preenchidos pelo palpitometro.html):
-   *   totalPontos, totalAcertos, totalErros, totalPalpites, placareExatos, pontosMes
-   *
-   * Campos do Wordle (preenchidos pelo wordle):
-   *   wordle_streak, wordle_bestStreak, wordle_lastDate, wordle_totalAcertos
-   */
   const profile = {
     uid:         user.uid,
     displayName: nick,
@@ -661,15 +678,12 @@ async function salvarPerfil() {
     avatarUrl:   _selectedAvatar.url,
     email:       user.email || '',
     birthday:    aniv,
-    /* Quiz defaults */
     xp: 0, level: 1, totalXP: 0,
     lives: 5, livesLastRegen: null,
     streak: 0, bestStreak: 0, lastPlayedDate: null, wonToday: false,
     quiz_score_geral: 0, quiz_score_mensal: 0, quiz_score_semanal: 0, quiz_score_diario: 0,
-    /* Palpitômetro defaults */
     totalPontos: 0, totalAcertos: 0, totalErros: 0,
     totalPalpites: 0, placareExatos: 0, pontosMes: 0,
-    /* Wordle defaults */
     wordle_streak: 0, wordle_bestStreak: 0, wordle_lastDate: null, wordle_totalAcertos: 0,
     createdAt: now,
     updatedAt: now,
@@ -682,13 +696,10 @@ async function salvarPerfil() {
 
     await runTransaction(db, async t => {
       const nickSnap = await t.get(nickRef);
-      /* Bloqueia se nick existe e pertence a outro uid */
       if (nickSnap.exists() && nickSnap.data().uid !== user.uid) {
         throw new Error('NICK_TAKEN');
       }
-      /* Reserva o nick */
       t.set(nickRef, { uid: user.uid, displayName: nick, reservedAt: now });
-      /* Salva perfil completo */
       t.set(userRef, profile);
     });
 
