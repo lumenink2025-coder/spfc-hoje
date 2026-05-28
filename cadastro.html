@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -184,11 +185,21 @@ onAuthStateChanged(auth, async user => {
     });
     return;
   }
-  // Mostra loading enquanto checa perfil
+
+  // Usuário autenticado! Esconde qualquer loading anterior
   const ol = document.getElementById('loadingOverlay');
   const lm = document.getElementById('loadingMsg');
-  if (ol) ol.classList.add('active');
-  if (lm) lm.textContent = 'VERIFICANDO PERFIL...';
+
+  try {
+    // Checa AMBAS as coleções — quiz usa 'users', cadastro usa 'usuarios'
+    if (lm) lm.textContent = 'VERIFICANDO PERFIL...';
+    // Só mostra loading se ainda não estiver visível
+    if (ol && !ol.classList.contains('active')) ol.classList.add('active');
+
+    const [snapUsuarios, snapUsers] = await Promise.all([
+      getDoc(doc(db, 'usuarios', user.uid)),
+      getDoc(doc(db, 'users',    user.uid))
+    ]);
 
   try {
     // Checa AMBAS as coleções — quiz usa 'users', cadastro usa 'usuarios'
@@ -209,8 +220,10 @@ onAuthStateChanged(auth, async user => {
       else document.addEventListener('DOMContentLoaded', () => showStep(2));
     }
   } catch(e) {
+    console.warn('Erro ao verificar perfil:', e);
     if (ol) ol.classList.remove('active');
     window._cadUser = user;
+    // Mesmo com erro no Firestore, permite criar perfil
     if (typeof showStep === 'function') showStep(2);
     else document.addEventListener('DOMContentLoaded', () => showStep(2));
   }
@@ -265,7 +278,7 @@ onAuthStateChanged(auth, async user => {
       <input id="s1Senha" class="cad-input" type="password" placeholder="Senha (mín. 6 caracteres)" autocomplete="new-password">
       <div id="s1Err" class="global-err"></div>
       <button class="s1-submit" id="s1BtnCriar" onclick="criarContaEmail()">CRIAR CONTA</button>
-      <div class="s1-forgot" onclick="esqueceuSenha()">Já tenho conta — entrar com e-mail</div>
+      <div class="s1-forgot" onclick="esqueceuSenha()">🔑 Já tenho conta — entrar com e-mail/senha</div>
       <div class="s1-cancel" onclick="toggleEmailForm()">Cancelar</div>
     </div>
   </div>
@@ -412,7 +425,7 @@ function toggleEmailForm() {
 
 async function entrarGoogle() {
   if (!window.FB_CAD) return;
-  const { auth, provider, signInWithPopup } = window.FB_CAD;
+  const { auth, provider, signInWithPopup, signInWithEmailAndPassword } = window.FB_CAD;
 
   showLoading('ABRINDO GOOGLE...');
   try {
@@ -420,13 +433,39 @@ async function entrarGoogle() {
     // onAuthStateChanged cuida do resto
   } catch(e) {
     hideLoading();
-    if (e.code === 'auth/popup-blocked') {
+
+    // Conta já existe com credencial diferente (ex: criou com e-mail, agora tenta Google)
+    if (e.code === 'auth/account-exists-with-different-credential') {
+      const email = e.customData?.email || e.email;
+      if (email) {
+        showErr('s1Err', `⚠️ O e-mail ${email} já tem uma conta. Use "Entrar com e-mail" abaixo ou recupere sua senha.`);
+        // Preenche o e-mail no formulário para facilitar
+        document.getElementById('s1Email').value = email;
+        // Abre o formulário de e-mail automaticamente
+        const form = document.getElementById('emailForm');
+        if (!form.classList.contains('open')) toggleEmailForm();
+      } else {
+        showErr('s1Err', '⚠️ Este e-mail já tem uma conta com senha. Use "Entrar com e-mail" abaixo.');
+      }
+    } 
+    // E-mail já em uso (criação de conta)
+    else if (e.code === 'auth/email-already-in-use') {
+      showErr('s1Err', '⚠️ Este e-mail já tem uma conta. Clique em "Já tenho conta — entrar com e-mail".');
+    }
+    // Popup bloqueado
+    else if (e.code === 'auth/popup-blocked') {
       showErr('s1Err', '⚠️ Popup bloqueado. Desative o bloqueador de popups e tente novamente.');
-    } else if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
-      // Usuário fechou o popup — silencioso
-    } else if (e.code === 'auth/network-request-failed') {
+    } 
+    // Usuário fechou o popup
+    else if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
+      // Silencioso
+    } 
+    // Erro de rede
+    else if (e.code === 'auth/network-request-failed') {
       showErr('s1Err', 'Erro de conexão. Verifique sua internet e tente novamente.');
-    } else {
+    } 
+    // Erro genérico
+    else {
       showErr('s1Err', 'Erro ao entrar com Google: ' + (e.code || e.message));
     }
   }
@@ -444,16 +483,28 @@ async function criarContaEmail() {
 
   btn.textContent = 'AGUARDE...'; btn.disabled = true;
   showLoading('CRIANDO CONTA...');
+
+  // Timeout de segurança: se travar por mais de 15s, libera a tela
+  const safetyTimeout = setTimeout(() => {
+    hideLoading();
+    btn.textContent = 'CRIAR CONTA'; btn.disabled = false;
+    showErr('s1Err', '⏱️ A criação está demorando. Verifique sua conexão e tente novamente.');
+  }, 15000);
+
   try {
     await window.FB_CAD.createUserWithEmailAndPassword(window.FB_CAD.auth, email, senha);
-    // onAuthStateChanged dispara e vai para step 2
+    // onAuthStateChanged vai cuidar do resto — limpa o timeout
+    clearTimeout(safetyTimeout);
+    // Não esconde loading aqui, deixa onAuthStateChanged cuidar
   } catch(e) {
+    clearTimeout(safetyTimeout);
     hideLoading();
     btn.textContent = 'CRIAR CONTA'; btn.disabled = false;
     const msgs = {
-      'auth/email-already-in-use': 'Este e-mail já tem uma conta. Tente entrar.',
+      'auth/email-already-in-use': '⚠️ Este e-mail já tem uma conta. Use "Entrar com e-mail" abaixo.',
       'auth/invalid-email': 'E-mail inválido.',
-      'auth/weak-password': 'Senha muito fraca.',
+      'auth/weak-password': 'Senha muito fraca. Use pelo menos 6 caracteres.',
+      'auth/too-many-requests': 'Muitas tentativas. Aguarde alguns minutos.',
     };
     showErr('s1Err', msgs[e.code] || 'Erro: ' + (e.code || e.message));
   }
