@@ -54,12 +54,10 @@ class UnifiedIdentity {
     return fb.getDoc(ref);
   }
 
+  // NUNCA usa updateDoc — sempre usa setDoc com merge
   async _updateDoc(ref, data) {
     const fb = this._getFB();
-    if (fb.updateDoc) {
-      return fb.updateDoc(ref, data);
-    }
-    // Fallback: use setDoc with merge if updateDoc is not available
+    // Merge com dados existentes usando setDoc + merge
     return fb.setDoc(ref, data, { merge: true });
   }
 
@@ -105,7 +103,11 @@ class UnifiedIdentity {
 
   async _getDocs(q) {
     const fb = this._getFB();
-    return fb.getDocs(q);
+    if (fb.getDocs) {
+      return fb.getDocs(q);
+    }
+    // Fallback for cadastro which doesn't export getDocs
+    throw new Error('getDocs nao disponivel. Adicione getDocs ao window.FB ou window.FB_CAD.');
   }
 
   // ============================================
