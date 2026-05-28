@@ -397,20 +397,19 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         IR PARA O LOGIN
       </button>
 
-      <!-- Login rápido por e-mail (somente login, sem cadastro — cadastro é feito no index) -->
+      <!-- Fallback: login direto via email (para quem abre palpitometro.html diretamente) -->
       <button onclick="toggleEmailForm()"
         style="width:100%;padding:12px;background:transparent;color:var(--txt3);border:1px solid var(--border2);border-radius:12px;font-size:12px;cursor:pointer;letter-spacing:1px">
         ou entrar diretamente com e-mail
       </button>
 
       <div id="emailForm" style="display:none;margin-top:16px;text-align:left">
-        <div style="font-size:13px;letter-spacing:2px;color:var(--red);margin-bottom:8px;font-family:var(--font-title)">E-MAIL</div>
+        <div style="font-size:10px;letter-spacing:2px;color:var(--red);margin-bottom:8px;font-family:var(--font-title);font-size:13px">E-MAIL</div>
         <input type="email" id="emailInput" class="login-input" placeholder="seu@email.com" style="margin-bottom:8px">
-        <div style="font-size:13px;letter-spacing:2px;color:var(--red);margin-bottom:8px;font-family:var(--font-title)">SENHA</div>
-        <input type="password" id="passwordInput" class="login-input" placeholder="Senha" style="margin-bottom:8px">
-        <div id="emailFormErr" style="display:none;font-size:11px;color:#ff7777;margin-bottom:10px;padding:8px 10px;background:rgba(204,0,0,.1);border-radius:8px;text-align:center"></div>
+        <div style="font-size:10px;letter-spacing:2px;color:var(--red);margin-bottom:8px;font-family:var(--font-title);font-size:13px">SENHA</div>
+        <input type="password" id="passwordInput" class="login-input" placeholder="Senha" style="margin-bottom:16px">
+        <input type="hidden" id="emailNick" value="">
         <button class="login-submit" onclick="loginEmail()">ENTRAR</button>
-        <div style="font-size:11px;color:var(--txt3);text-align:center;margin-top:8px">Não tem conta? <span onclick="window.location.href='index.html'" style="color:var(--red);text-decoration:underline;cursor:pointer">Cadastre-se na tela inicial</span></div>
         <div class="login-toggle" onclick="toggleEmailForm()">Cancelar</div>
       </div>
     </div>
@@ -636,23 +635,25 @@ function toggleEmailForm() {
 }
 
 async function loginEmail() {
-  const { auth, signInWithEmailAndPassword } = window.FB;
+  const { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword } = window.FB;
+  const nick = document.getElementById('emailNick').value.trim();
   const email = document.getElementById('emailInput').value.trim();
   const pass = document.getElementById('passwordInput').value;
-  const errEl = document.getElementById('emailFormErr');
-  errEl.style.display = 'none';
-  if (!email || !pass) { errEl.textContent = 'Preencha e-mail e senha.'; errEl.style.display = 'block'; return; }
+  if (!email || !pass) return toast('Preencha e-mail e senha', '');
   try {
     await signInWithEmailAndPassword(auth, email, pass);
-    // onAuthStateChanged cuida do resto
   } catch(e) {
-    const msg = e.code === 'auth/invalid-credential' || e.code === 'auth/user-not-found'
-      ? 'E-mail ou senha incorretos. Sem conta? Cadastre-se na tela inicial.'
-      : e.code === 'auth/wrong-password' ? 'Senha incorreta.'
-      : e.code === 'auth/invalid-email'  ? 'E-mail inválido.'
-      : e.message;
-    errEl.textContent = msg;
-    errEl.style.display = 'block';
+    if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential') {
+      if (!nick) return toast('Informe um apelido', 'Ele vai aparecer no ranking');
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, pass);
+        await ensureUserDoc(cred.user, nick);
+      } catch(e2) {
+        toast('Erro ao criar conta', e2.message);
+      }
+    } else {
+      toast('Erro ao entrar', e.message);
+    }
   }
 }
 
