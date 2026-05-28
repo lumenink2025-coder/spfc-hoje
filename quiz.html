@@ -1704,9 +1704,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           <input class="login-input" id="passInput" type="password" placeholder="senha" autocomplete="current-password">
           <span class="login-field-label">Senha</span>
         </div>
+        <div id="quizEmailErr" style="display:none;font-size:11px;color:#ff7777;margin-bottom:8px;padding:8px 10px;background:rgba(204,0,0,.1);border-radius:8px;text-align:center"></div>
         <div style="display:flex;gap:8px;margin-bottom:4px">
           <button onclick="loginEmail()" style="flex:1;padding:12px;background:var(--red);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;letter-spacing:1px">ENTRAR</button>
-          <button onclick="registerEmail()" style="flex:1;padding:12px;background:rgba(255,255,255,.06);color:var(--txt);border:1px solid rgba(255,255,255,.12);border-radius:10px;font-size:13px;cursor:pointer">CRIAR CONTA</button>
         </div>
         <div style="text-align:center">
           <span class="login-skip" onclick="forgotPassword()">Esqueci minha senha</span>
@@ -1752,7 +1752,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <!-- Criar conta link -->
     <div style="text-align:center;margin-bottom:16px">
       <span style="font-size:13px;color:var(--txt3)">Ainda não tem uma conta? </span>
-      <span onclick="registerEmail()" style="font-size:13px;color:var(--red);cursor:pointer;font-weight:700;letter-spacing:1px">CRIAR CONTA ›</span>
+      <span onclick="window.location.href='index.html'" style="font-size:13px;color:var(--red);cursor:pointer;font-weight:700;letter-spacing:1px">CADASTRE-SE NO SPFC HOJE ›</span>
     </div>
 
     <!-- Footer bar -->
@@ -3084,7 +3084,9 @@ async function loginEmail() {
   if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
   const email = document.getElementById('emailInput').value.trim();
   const pass  = document.getElementById('passInput').value;
-  if (!email || !pass) { toast('Preencha os campos', 'Email e senha são obrigatórios'); return; }
+  const errEl = document.getElementById('quizEmailErr');
+  errEl.style.display = 'none';
+  if (!email || !pass) { errEl.textContent = 'Preencha e-mail e senha.'; errEl.style.display = 'block'; return; }
   const {auth, signInWithEmailAndPassword} = window.FB;
   try {
     const result = await signInWithEmailAndPassword(auth, email, pass);
@@ -3093,33 +3095,19 @@ async function loginEmail() {
     goScreen('screen-home');
     checkAvatarSetup();
   } catch(e) {
-    const msg = e.code === 'auth/user-not-found'     ? 'Usuário não encontrado'
+    const msg = e.code === 'auth/user-not-found'     ? 'Usuário não encontrado. Cadastre-se na tela inicial.'
               : e.code === 'auth/wrong-password'      ? 'Senha incorreta'
               : e.code === 'auth/invalid-email'       ? 'Email inválido'
-              : e.code === 'auth/invalid-credential'  ? 'Email ou senha incorretos'
+              : e.code === 'auth/invalid-credential'  ? 'Email ou senha incorretos. Sem conta? Cadastre-se no SPFC Hoje.'
               : e.message || 'Tente novamente';
-    toast('Erro no login', msg);
+    errEl.textContent = msg;
+    errEl.style.display = 'block';
   }
 }
 
 async function registerEmail() {
-  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
-  const email = document.getElementById('emailInput').value.trim();
-  const pass  = document.getElementById('passInput').value;
-  if (!email || !pass) { toast('Preencha os campos', 'Email e senha são obrigatórios'); return; }
-  if (pass.length < 6) { toast('Senha fraca', 'A senha deve ter pelo menos 6 caracteres'); return; }
-  const {auth, createUserWithEmailAndPassword} = window.FB;
-  try {
-    await createUserWithEmailAndPassword(auth, email, pass);
-    toast('Conta criada! 🎉', 'Bem-vindo ao SPFC Quiz');
-    goScreen('screen-avatar');
-  } catch(e) {
-    const msg = e.code === 'auth/email-already-in-use' ? 'Este email já está cadastrado'
-              : e.code === 'auth/invalid-email'         ? 'Email inválido'
-              : e.code === 'auth/weak-password'         ? 'Senha fraca (mín. 6 caracteres)'
-              : e.message || 'Tente novamente';
-    toast('Erro no cadastro', msg);
-  }
+  // Cadastro centralizado no index.html
+  window.location.href = 'index.html';
 }
 
 async function forgotPassword() {
