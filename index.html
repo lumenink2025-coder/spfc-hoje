@@ -507,8 +507,19 @@ const provider = new GoogleAuthProvider();
 window.FB_INDEX = { auth, db, provider, signInWithPopup, signInWithRedirect, getRedirectResult, signInWithEmailAndPassword };
 
 window.addEventListener('DOMContentLoaded', () => {
-  // Captura resultado do redirect do Google
-  getRedirectResult(auth).catch(() => {});
+  // Captura resultado do redirect do Google (login via mobile/redirect)
+  getRedirectResult(auth).then(() => {
+    // onAuthStateChanged cuida do redirecionamento após login bem-sucedido
+  }).catch(e => {
+    if (e && e.code && e.code !== 'auth/cancelled-popup-request') {
+      setTimeout(() => {
+        const el = document.getElementById('loginErr');
+        if (el) { el.textContent = 'Erro ao entrar com Google: ' + (e.code || e.message); el.style.display = 'block'; }
+        const modal = document.getElementById('loginModal');
+        if (modal) modal.classList.add('open');
+      }, 500);
+    }
+  });
 
   onAuthStateChanged(auth, async user => {
     if (!user) return;
@@ -683,12 +694,37 @@ async function loginGmail() {
   if (!window.FB_INDEX) { setTimeout(loginGmail, 100); return; }
   const btn = document.querySelector('.btn-google');
   if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
+
+  // Detecta ambientes onde popup costuma ser bloqueado
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  const useRedirect = isMobile || isStandalone;
+
+  if (useRedirect) {
+    try {
+      await window.FB_INDEX.signInWithRedirect(window.FB_INDEX.auth, window.FB_INDEX.provider);
+    } catch(e) {
+      if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+      if (e.code === 'auth/unauthorized-domain') {
+        showLoginErr('Domínio não autorizado no Firebase. Adicione em Authentication > Settings.');
+      } else {
+        showLoginErr('Erro: ' + (e.code || e.message));
+      }
+    }
+    return;
+  }
+
+  // Desktop: tenta popup, cai para redirect se bloqueado
   try {
     await window.FB_INDEX.signInWithPopup(window.FB_INDEX.auth, window.FB_INDEX.provider);
   } catch(e) {
     if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
     if (e.code === 'auth/popup-blocked') {
-      await window.FB_INDEX.signInWithRedirect(window.FB_INDEX.auth, window.FB_INDEX.provider);
+      try {
+        await window.FB_INDEX.signInWithRedirect(window.FB_INDEX.auth, window.FB_INDEX.provider);
+      } catch(e2) {
+        showLoginErr('Erro ao redirecionar: ' + (e2.code || e2.message));
+      }
     } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
       if (e.code === 'auth/unauthorized-domain') {
         showLoginErr('Domínio não autorizado no Firebase. Adicione em Authentication > Settings.');
