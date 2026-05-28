@@ -675,27 +675,18 @@ async function submitEmail() {
       btn.disabled = false; btn.textContent = 'CRIAR CONTA'; return;
     }
 
-    // Cria conta
+    // Guarda nick pendente para o onboarding pré-preencher
+    sessionStorage.setItem('spfc_pending_nick', nick);
+
+    // Cria conta Firebase Auth
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     const uid = cred.user.uid;
 
-    // Reserva nickname
+    // Reserva nickname imediatamente (evita duplicidade durante onboarding)
     await setDoc(doc(db, 'nicknames', nickKey), { uid, displayName: nick, createdAt: serverTimestamp() });
 
-    // Perfil unificado — sem avatar ainda (onboarding vai pedir)
-    await setDoc(doc(db, 'usuarios', uid), {
-      uid, displayName: nick, email, avatarId: null, avatarUrl: null,
-      photoURL: '', createdAt: serverTimestamp()
-    });
-
-    // Ranking
-    await setDoc(doc(db, 'ranking', uid), {
-      displayName: nick, photoURL: '', totalPontos: 0, totalAcertos: 0,
-      totalErros: 0, totalPalpites: 0, placareExatos: 0, pontosMes: 0,
-      createdAt: serverTimestamp()
-    }, { merge: true });
-
-    // onAuthStateChanged vai chamar _checkOnboarding (que abre tela de avatar)
+    // NÃO cria usuarios/{uid} aqui.
+    // onAuthStateChanged → _checkOnboarding: doc não existe → abre onboarding com avatares
   } catch(e) {
     const msg = e.code === 'auth/email-already-in-use' ? 'Este e-mail já possui conta. Use a aba ENTRAR.'
               : e.code === 'auth/invalid-email'         ? 'Email inválido.'
@@ -741,6 +732,69 @@ document.addEventListener('click', () => {
   gain.connect(audioCtx.destination);
   noise.start();
 }, {once: true});
+
+/* ══════════════════════════════════════════════
+   AVATARES — Cloudinary (mesmos do quiz)
+══════════════════════════════════════════════ */
+const AVATARS = [
+  {id:'rai',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rai_arcph5.png',         label:'Raí'},
+  {id:'luisfabiano', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luisfabiano_iabzdg.png', label:'Luís Fabiano'},
+  {id:'franca',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/franca_x5eggx.png',      label:'França'},
+  {id:'telesantana', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/telesantana_urocmb.png', label:'Telê Santana'},
+  {id:'juju',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/juju_rw3xvq.png',        label:'Juju'},
+  {id:'luciano',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luciano_jwalve.png',     label:'Luciano'},
+  {id:'rogerioceni', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rogerioceni_p1nx2r.jpg', label:'Rogério Ceni'},
+  {id:'kaka',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/kaka_wjkphp.png',        label:'Kaká'},
+  {id:'muricy',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/muricy_pssymw.png',      label:'Muricy'},
+  {id:'lugano',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/lugano_dlqqgg.png',      label:'Lugano'},
+  {id:'ederjofre',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/ederjofre_ria6ie.png',   label:'Éder Jofre'},
+  {id:'mulher1',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/mulher1_gwwpzo.png',     label:'Torcedora'},
+  {id:'serginhochulapa', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/serginhochulapa_kxetqb.png', label:'Serginho Chulapa'},
+  {id:'formiga',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/formiga_rvqxck.png',     label:'Formiga'},
+  {id:'leonidas',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/leonidas_xn4j6n.png',    label:'Leônidas'},
+  {id:'aloisiochulapa', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/aloisiochulapa_o0a8uo.png', label:'Aloísio Chulapa'},
+  {id:'seumadruga',  url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/seumadruga_znz9sd.png',  label:'Seu Madruga'},
+  {id:'sara',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/sara_obqp7y.png',        label:'Sara'},
+  {id:'mia',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/mia_uliddk.png',         label:'Mia'},
+  {id:'keanu',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/keanu_vronzk.png',       label:'Keanu'},
+  {id:'shalia',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/shalia_zr0gzd.png',      label:'Shalia'},
+  {id:'clotilde',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/clotilde_gfvo11.png',    label:'Clotilde'},
+  {id:'koreanman',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/koreanman_ln80il.png',   label:'Korean Man'},
+  {id:'callerius',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/callerius_qgnekt.png',   label:'Callerius'},
+  {id:'hunger',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/hunger_dztgdc.png',      label:'Hunger'},
+  {id:'chavito',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/chavito_qiz9zq.jpg',     label:'Chavito'},
+  {id:'ruiva',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/ruiva_ccyhqn.png',       label:'Ruiva'},
+  {id:'mulherrocker',url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/mulherrocker_h7ahs1.png',label:'Mulher Rocker'},
+  {id:'prada',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/prada_g012tx.jpg',       label:'Prada'},
+];
+
+let _selectedAvatar = null;
+
+function buildAvatarGrid() {
+  const grid = document.getElementById('avatarGrid');
+  if (!grid) return;
+  grid.innerHTML = AVATARS.map((av, i) => `
+    <div onclick="selectAvatar(${i})" data-i="${i}" title="${av.label}"
+      style="aspect-ratio:1;border-radius:50%;border:3px solid transparent;cursor:pointer;
+             overflow:hidden;transition:all .2s;box-shadow:0 4px 12px rgba(0,0,0,.5);background:#111">
+      <img src="${av.url}" alt="${av.label}"
+        style="width:100%;height:100%;object-fit:cover;display:block"
+        onerror="this.parentElement.style.opacity='.3'">
+    </div>
+  `).join('');
+  selectAvatar(0);
+}
+
+function selectAvatar(i) {
+  _selectedAvatar = AVATARS[i];
+  document.querySelectorAll('#avatarGrid > div').forEach((el, idx) => {
+    el.style.border     = idx === i ? '3px solid #fff'               : '3px solid transparent';
+    el.style.transform  = idx === i ? 'scale(1.12)'                  : 'scale(1)';
+    el.style.boxShadow  = idx === i
+      ? '0 0 0 3px rgba(204,0,0,.7), 0 4px 20px rgba(0,0,0,.6)'
+      : '0 4px 12px rgba(0,0,0,.5)';
+  });
+}
 </script>
 
 
@@ -838,7 +892,7 @@ document.addEventListener('click', () => {
         <input id="onboardingNick" type="text" maxlength="20" placeholder="Como quer ser chamado?" autocomplete="off"
           style="width:100%;padding:14px 16px;background:rgba(255,255,255,.05);border:2px solid rgba(204,0,0,.3);border-radius:12px;color:#F0EBE3;font-size:16px;font-family:'Inter',sans-serif;outline:none;transition:.2s"
           oninput="this.style.borderColor=this.value.length>1?'rgba(204,0,0,.8)':'rgba(204,0,0,.3)'">
-        <div style="font-size:10px;color:#444;margin-top:6px;padding-left:4px">Aparece no ranking do Palpitômetro e do Quiz</div>
+        <div id="onboardingNickHint" style="font-size:10px;color:#444;margin-top:6px;padding-left:4px">Aparece no ranking do Palpitômetro e do Quiz</div>
       </div>
 
       <!-- Avatar grid -->
@@ -861,85 +915,49 @@ document.addEventListener('click', () => {
 </div>
 
 
-<script>
-/* ══════════════════════════════════════════════
-   AVATARES — Cloudinary (mesmos do quiz)
-══════════════════════════════════════════════ */
-const AVATARS = [
-  {id:'rai',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rai_arcph5.png',         label:'Raí'},
-  {id:'luisfabiano', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luisfabiano_iabzdg.png', label:'Luís Fabiano'},
-  {id:'franca',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/franca_x5eggx.png',      label:'França'},
-  {id:'telesantana', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/telesantana_urocmb.png', label:'Telê Santana'},
-  {id:'juju',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/juju_rw3xvq.png',        label:'Juju'},
-  {id:'luciano',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luciano_jwalve.png',     label:'Luciano'},
-  {id:'rogerioceni', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rogerioceni_p1nx2r.jpg', label:'Rogério Ceni'},
-  {id:'kaka',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/kaka_wjkphp.png',        label:'Kaká'},
-  {id:'muricy',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/muricy_pssymw.png',      label:'Muricy'},
-  {id:'lugano',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/lugano_dlqqgg.png',      label:'Lugano'},
-  {id:'ederjofre',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/ederjofre_ria6ie.png',   label:'Éder Jofre'},
-  {id:'mulher1',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/mulher1_gwwpzo.png',     label:'Torcedora'},
-  {id:'serginhochulapa', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/serginhochulapa_kxetqb.png', label:'Serginho Chulapa'},
-  {id:'formiga',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/formiga_rvqxck.png',     label:'Formiga'},
-  {id:'leonidas',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/leonidas_xn4j6n.png',    label:'Leônidas'},
-  {id:'aloisiochulapa', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/aloisiochulapa_o0a8uo.png', label:'Aloísio Chulapa'},
-  {id:'seumadruga',  url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/seumadruga_znz9sd.png',  label:'Seu Madruga'},
-  {id:'sara',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/sara_obqp7y.png',        label:'Sara'},
-  {id:'mia',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/mia_uliddk.png',         label:'Mia'},
-  {id:'keanu',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/keanu_vronzk.png',       label:'Keanu'},
-  {id:'shalia',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/shalia_zr0gzd.png',      label:'Shalia'},
-  {id:'clotilde',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/clotilde_gfvo11.png',    label:'Clotilde'},
-  {id:'koreanman',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/koreanman_ln80il.png',   label:'Korean Man'},
-  {id:'callerius',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/callerius_qgnekt.png',   label:'Callerius'},
-  {id:'hunger',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/hunger_dztgdc.png',      label:'Hunger'},
-  {id:'chavito',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/chavito_qiz9zq.jpg',     label:'Chavito'},
-  {id:'ruiva',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/ruiva_ccyhqn.png',       label:'Ruiva'},
-  {id:'mulherrocker',url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/mulherrocker_h7ahs1.png',label:'Mulher Rocker'},
-  {id:'prada',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/prada_g012tx.jpg',       label:'Prada'},
-];
 
-let _selectedAvatar = null;
-
-function buildAvatarGrid() {
-  const grid = document.getElementById('avatarGrid');
-  if (!grid) return;
-  grid.innerHTML = AVATARS.map((av, i) => `
-    <div onclick="selectAvatar(${i})" data-i="${i}" title="${av.label}"
-      style="aspect-ratio:1;border-radius:50%;border:3px solid transparent;cursor:pointer;
-             overflow:hidden;transition:all .2s;box-shadow:0 4px 12px rgba(0,0,0,.5);background:#111">
-      <img src="${av.url}" alt="${av.label}"
-        style="width:100%;height:100%;object-fit:cover;display:block"
-        onerror="this.parentElement.style.opacity='.3'">
-    </div>
-  `).join('');
-  selectAvatar(0);
-}
-
-function selectAvatar(i) {
-  _selectedAvatar = AVATARS[i];
-  document.querySelectorAll('#avatarGrid > div').forEach((el, idx) => {
-    el.style.border     = idx === i ? '3px solid #fff'               : '3px solid transparent';
-    el.style.transform  = idx === i ? 'scale(1.12)'                  : 'scale(1)';
-    el.style.boxShadow  = idx === i
-      ? '0 0 0 3px rgba(204,0,0,.7), 0 4px 20px rgba(0,0,0,.6)'
-      : '0 4px 12px rgba(0,0,0,.5)';
-  });
-}
-
-/* ══════════════════════════════════════════════
-   VERIFICA ONBOARDING (1º acesso)
-══════════════════════════════════════════════ */
 window._checkOnboarding = async function(user) {
   try {
     const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
     const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
     const db = getFirestore(getApps().find(a => a.name === '[DEFAULT]'));
     const snap = await getDoc(doc(db, 'usuarios', user.uid));
-    if (snap.exists()) {
+
+    // Perfil completo = doc existe E tem avatarId escolhido
+    const profileComplete = snap.exists() && snap.data().avatarId;
+
+    if (profileComplete) {
       window._goToApp();
     } else {
+      // Fecha overlay de email se estiver aberto
+      const emailOverlay = document.getElementById('emailOverlay');
+      if (emailOverlay) emailOverlay.style.display = 'none';
+
       buildAvatarGrid();
       const nickInput = document.getElementById('onboardingNick');
-      if (nickInput && user.displayName) nickInput.value = user.displayName.split(' ')[0];
+      if (nickInput) {
+        // Prioridade: nick digitado no cadastro > displayName salvo > Google name > email prefix
+        const pendingNick = sessionStorage.getItem('spfc_pending_nick');
+        const googleName = user.displayName ? user.displayName.split(' ')[0] : '';
+        const emailPrefix = user.email ? user.email.split('@')[0] : '';
+        const savedName = snap.exists() ? (snap.data().displayName || '') : '';
+        nickInput.value = savedName || pendingNick || googleName || emailPrefix;
+
+        // Se o nick veio do cadastro email, bloqueia edição (já foi reservado e validado)
+        const nickHint = document.getElementById('onboardingNickHint');
+        if (pendingNick && !savedName) {
+          nickInput.readOnly = true;
+          nickInput.style.opacity = '0.7';
+          nickInput.style.borderColor = 'rgba(204,0,0,.8)';
+          if (nickHint) nickHint.innerHTML = '✓ Apelido reservado — agora escolha seu avatar';
+          if (nickHint) nickHint.style.color = '#CC0000';
+        } else {
+          nickInput.readOnly = false;
+          nickInput.style.opacity = '1';
+          if (nickHint) nickHint.textContent = 'Aparece no ranking do Palpitômetro e do Quiz';
+          if (nickHint) nickHint.style.color = '#444';
+        }
+      }
       document.getElementById('onboardingOverlay').style.display = 'block';
     }
   } catch(e) {
@@ -978,7 +996,7 @@ async function saveProfile() {
     const { getFirestore, doc, getDoc, setDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
     const db = getFirestore(getApps().find(a => a.name === '[DEFAULT]'));
 
-    // Verifica se o nickname já está em uso por outro usuário
+    // Verifica duplicidade de nickname — permite reusar o próprio nick já reservado
     const nickKey = nick.toLowerCase().replace(/\s+/g, '_');
     const nickSnap = await getDoc(doc(db, 'nicknames', nickKey));
     if (nickSnap.exists() && nickSnap.data().uid !== user.uid) {
@@ -988,6 +1006,7 @@ async function saveProfile() {
       btn.disabled = false;
       return;
     }
+    // Se o nick era o pendente do cadastro email, libera o campo (já reservado para este uid)
 
     btn.textContent = 'SALVANDO...';
 
@@ -1001,13 +1020,13 @@ async function saveProfile() {
       createdAt:    serverTimestamp()
     };
 
-    // Reserva nickname
+    // Reserva nickname (pode já estar reservado se veio do cadastro via email — setDoc faz upsert)
     await setDoc(doc(db, 'nicknames', nickKey), { uid: user.uid, displayName: nick, createdAt: serverTimestamp() });
 
-    // Perfil unificado
+    // Cria/atualiza perfil unificado (com avatar escolhido)
     await setDoc(doc(db, 'usuarios', user.uid), profile);
 
-    // Inicializa ranking do palpitômetro
+    // Inicializa/atualiza ranking do palpitômetro
     await setDoc(doc(db, 'ranking', user.uid), {
       displayName:  nick,
       avatarId:     _selectedAvatar.id,
@@ -1017,6 +1036,9 @@ async function saveProfile() {
       totalPalpites: 0, placareExatos: 0, pontosMes: 0,
       createdAt:    serverTimestamp()
     }, { merge: true });
+
+    // Limpa nick pendente da sessão
+    sessionStorage.removeItem('spfc_pending_nick');
 
     window._goToApp();
   } catch(e) {
