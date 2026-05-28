@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Entrar — SPFC Hoje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --red:#CC0000;--red2:#8B0000;
+  --bg:#060606;--bg2:#111;--bg3:#1a1a1a;
+  --txt:#F0EBE3;--txt2:#9a9a9a;--txt3:#555;
+  --gold:#C8A84B;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.14);
+  --green:#22c55e;
+  --font-title:'Bebas Neue',Impact,sans-serif;
+  --font-body:'Inter',sans-serif;
+}
+html,body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
+
+/* BG */
+.cad-bg{position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 120% 40% at 50% 0%,rgba(180,0,0,.22) 0%,transparent 60%),
+    radial-gradient(ellipse 80% 60% at 80% 100%,rgba(100,0,0,.12) 0%,transparent 60%),
+    var(--bg)}
+
+/* TOPBAR */
+.cad-top{position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;gap:12px;padding:14px 20px;
+  background:rgba(6,6,6,.88);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border)}
+.cad-back{background:none;border:1px solid var(--border2);border-radius:8px;
+  color:var(--txt2);font-size:12px;padding:7px 14px;cursor:pointer;
+  font-family:var(--font-body);letter-spacing:1px;transition:.2s}
+.cad-back:hover{border-color:rgba(204,0,0,.5);color:var(--txt)}
+.cad-top-title{font-family:var(--font-title);font-size:22px;letter-spacing:3px;color:#fff}
+.cad-top-title span{color:var(--red)}
+
+/* STEPS */
+.step{display:none;position:relative;z-index:1;
+  max-width:480px;margin:0 auto;padding:32px 20px 80px}
+.step.active{display:block}
+
+/* ─── STEP 1: AUTH ─── */
+.s1-hero{text-align:center;padding:20px 0 32px}
+.s1-shield{width:min(220px,58vw);height:auto;margin:0 auto 20px;display:block}
+.s1-icon{font-size:54px;margin-bottom:12px;display:block}
+.s1-title{font-family:var(--font-title);font-size:clamp(36px,10vw,54px);
+  letter-spacing:3px;line-height:.95;margin-bottom:10px}
+.s1-title em{color:var(--red);font-style:normal;display:block}
+.s1-sub{font-size:13px;color:var(--txt2);line-height:1.7}
+
+.s1-card{background:rgba(10,10,10,.85);border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;padding:24px 20px;margin-bottom:12px}
+.s1-divider{font-size:10px;letter-spacing:4px;color:var(--txt3);text-align:center;
+  margin:0 0 18px;display:flex;align-items:center;gap:10px}
+.s1-divider::before,.s1-divider::after{content:'';flex:1;height:1px;background:rgba(204,0,0,.2)}
+.s1-divider span{color:var(--red);font-weight:700}
+
+.s1-btn{width:100%;padding:16px 20px;border-radius:12px;font-size:15px;font-weight:600;
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px;
+  margin-bottom:10px;letter-spacing:.3px;border:1px solid transparent;background:none}
+.s1-btn:last-of-type{margin-bottom:0}
+.s1-btn-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;font-size:18px}
+.s1-btn-text{flex:1;text-align:left}
+.s1-btn-arrow{font-size:16px;opacity:.5}
+
+.s1-btn-google{background:rgba(255,255,255,.06);color:var(--txt);border-color:rgba(255,255,255,.12)}
+.s1-btn-google:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.28);transform:translateY(-1px)}
+.s1-btn-google .s1-btn-icon{background:rgba(255,255,255,.08)}
+
+.s1-btn-email{background:var(--red);color:#fff;border-color:rgba(255,80,80,.3);
+  box-shadow:0 4px 20px rgba(204,0,0,.35)}
+.s1-btn-email:hover{background:var(--red2);transform:translateY(-1px);box-shadow:0 8px 28px rgba(204,0,0,.5)}
+.s1-btn-email .s1-btn-icon{background:rgba(0,0,0,.2)}
+
+.email-form{margin-top:14px;display:none;flex-direction:column;gap:8px}
+.email-form.open{display:flex}
+.cad-input{width:100%;padding:13px 16px;
+  background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);
+  border-radius:12px;color:var(--txt);font-size:15px;font-family:var(--font-body);
+  outline:none;transition:.2s}
+.cad-input:focus{border-color:rgba(204,0,0,.6);background:rgba(255,255,255,.06)}
+.cad-input::placeholder{color:var(--txt3)}
+.cad-input.ok{border-color:rgba(34,197,94,.5)}
+.cad-input.err{border-color:rgba(255,80,80,.5)}
+
+.s1-submit{width:100%;padding:14px;background:var(--red);color:#fff;border:none;
+  border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:.2s;
+  font-family:var(--font-body);letter-spacing:.5px;margin-top:4px}
+.s1-submit:hover{background:var(--red2)}
+.s1-submit:disabled{opacity:.5;cursor:not-allowed}
+.s1-link{font-size:11px;color:var(--txt3);text-align:center;margin-top:6px;cursor:pointer;transition:.2s}
+.s1-link:hover{color:var(--gold)}
+
+.err-msg{font-size:12px;color:#ff7777;padding:10px 14px;background:rgba(204,0,0,.08);
+  border-radius:8px;display:none}
+.err-msg.show{display:block}
+
+.s1-footer{font-size:11px;color:var(--txt3);text-align:center;line-height:1.6;margin-top:12px}
+.s1-footer a{color:var(--gold);text-decoration:none}
+
+/* ─── STEP 2: PERFIL ─── */
+.s2-header{text-align:center;padding:8px 0 28px}
+.s2-title{font-family:var(--font-title);font-size:clamp(32px,9vw,48px);letter-spacing:3px;margin-bottom:8px}
+.s2-title em{color:var(--red);font-style:normal}
+.s2-sub{font-size:13px;color:var(--txt2);line-height:1.6}
+
+.cad-section{margin-bottom:28px}
+.cad-label{font-family:var(--font-title);font-size:15px;letter-spacing:3px;
+  color:var(--txt2);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.cad-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.cad-hint{font-size:11px;color:var(--txt3);margin-top:6px;padding-left:2px;letter-spacing:.3px;line-height:1.5}
+.cad-field-err{font-size:11px;color:#ff7777;margin-top:5px;padding-left:2px;display:none}
+.cad-field-ok{font-size:11px;color:var(--green);margin-top:5px;padding-left:2px;display:none}
+
+/* nick status */
+.nick-wrap{position:relative}
+.nick-status{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none}
+
+/* avatar grid */
+.avatar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(min-width:380px){.avatar-grid{grid-template-columns:repeat(5,1fr)}}
+.av-item{aspect-ratio:1;border-radius:50%;overflow:hidden;cursor:pointer;
+  border:3px solid transparent;transition:all .18s;background:#111;
+  box-shadow:0 2px 8px rgba(0,0,0,.5)}
+.av-item:hover{transform:scale(1.06);border-color:rgba(255,255,255,.3)}
+.av-item.selected{border-color:#fff!important;transform:scale(1.1)!important;
+  box-shadow:0 0 0 3px rgba(204,0,0,.6),0 4px 20px rgba(0,0,0,.6)!important}
+.av-item img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+
+/* birthday */
+input[type="date"].cad-input{color-scheme:dark}
+
+/* submit */
+.btn-submit{width:100%;padding:18px;
+  background:linear-gradient(135deg,var(--red),var(--red2));
+  color:#fff;border:none;border-radius:14px;
+  font-family:var(--font-title);font-size:26px;letter-spacing:3px;
+  cursor:pointer;transition:all .2s;box-shadow:0 8px 32px rgba(204,0,0,.4)}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(204,0,0,.55)}
+.btn-submit:disabled{background:rgba(255,255,255,.06);color:var(--txt3);
+  box-shadow:none;transform:none;cursor:not-allowed}
+
+/* loading overlay */
+.loading-overlay{display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(6,6,6,.94);align-items:center;justify-content:center;
+  flex-direction:column;gap:16px}
+.loading-overlay.active{display:flex}
+.loading-spinner{width:48px;height:48px;border:3px solid rgba(204,0,0,.2);
+  border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-msg{font-family:var(--font-title);font-size:20px;letter-spacing:3px;color:var(--txt2)}
+</style>
+
+<!-- ══ FIREBASE MODULE (DEBUG VERSION) ══ -->
+<script type="module">
+console.log('[DEBUG] Iniciando módulo Firebase...');
+
+import { initializeApp, getApps }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getAuth, signInWithRedirect, getRedirectResult,
+         GoogleAuthProvider, createUserWithEmailAndPassword,
+         signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp, runTransaction }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+console.log('[DEBUG] Imports carregados com sucesso');
+
+const cfg = {
+  apiKey:            'AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY',
+  authDomain:        'spfc-hoje-da329.firebaseapp.com',
+  projectId:         'spfc-hoje-da329',
+  storageBucket:     'spfc-hoje-da329.firebasestorage.app',
+  messagingSenderId: '116174859005',
+  appId:             '1:116174859005:web:b1e54b040aef23c9c16c94'
+};
+
+console.log('[DEBUG] Config:', cfg);
+
+const app  = getApps().find(a => a.name === '[DEFAULT]') || initializeApp(cfg);
+console.log('[DEBUG] App inicializado:', app.name);
+
+const auth = getAuth(app);
+console.log('[DEBUG] Auth inicializado');
+
+const db   = getFirestore(app);
+console.log('[DEBUG] Firestore inicializado');
+
+const gProvider = new GoogleAuthProvider();
+gProvider.setCustomParameters({ prompt: 'select_account' });
+
+/* Expõe tudo que o JS inline vai precisar */
+window.FB_CAD = {
+  auth, db,
+  signInWithRedirect, getRedirectResult, gProvider,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  doc, setDoc, getDoc, serverTimestamp, runTransaction
+};
+console.log('[DEBUG] FB_CAD exposto no window');
+
+/* ── Captura retorno do redirect Google ── */
+(async () => {
+  console.log('[DEBUG] Verificando redirect result...');
+  try {
+    const result = await getRedirectResult(auth);
+    console.log('[DEBUG] Redirect result:', result);
+    if (result?.user) {
+      console.log('[DEBUG] Usuário do redirect:', result.user.uid);
+      showLoading('VERIFICANDO...');
+    } else {
+      console.log('[DEBUG] Nenhum redirect pendente');
+    }
+  } catch(e) {
+    console.error('[DEBUG] Erro no redirect:', e.code, e.message);
+    hideLoading();
+    if (e.code === 'auth/unauthorized-domain') {
+      showS1Err('Domínio não autorizado no Firebase. Adicione este domínio no console do Firebase.');
+    } else if (e.code && e.code !== 'auth/null-user') {
+      showS1Err('Erro ao autenticar: ' + (e.code || e.message));
+    }
+  }
+})();
+
+/* ── Auth state: usuário logado → verifica se já tem perfil ── */
+console.log('[DEBUG] Registrando onAuthStateChanged...');
+
+onAuthStateChanged(auth, async user => {
+  console.log('[DEBUG] onAuthStateChanged chamado! User:', user ? user.uid : 'null');
+
+  if (!user) { 
+    console.log('[DEBUG] Sem usuário, mostrando step 1');
+    hideLoading(); 
+    showStep(1); 
+    return; 
+  }
+
+  console.log('[DEBUG] Usuário logado:', user.uid, 'Email:', user.email);
+  showLoading('VERIFICANDO...');
+
+  try {
+    console.log('[DEBUG] Buscando perfil no Firestore...');
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    console.log('[DEBUG] Perfil existe?', snap.exists(), 'Dados:', snap.data());
+
+    if (snap.exists() && snap.data().displayName) {
+      console.log('[DEBUG] Perfil completo, redirecionando para main.html');
+      const dest = sessionStorage.getItem('_cadOrigem') || 'main.html';
+      sessionStorage.removeItem('_cadOrigem');
+      window.location.href = dest;
+    } else {
+      console.log('[DEBUG] Perfil incompleto, mostrando step 2');
+      window._cadUser = user;
+      hideLoading();
+      showStep(2);
+    }
+  } catch(e) {
+    console.error('[DEBUG] Erro ao buscar perfil:', e);
+    window._cadUser = user;
+    hideLoading();
+    showStep(2);
+  }
+});
+
+console.log('[DEBUG] Módulo Firebase finalizado');
+</script>
+</head>
+<body>
+
+<div class="cad-bg"></div>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-msg" id="loadingMsg">AGUARDE...</div>
+</div>
+
+<div class="cad-top">
+  <button class="cad-back" onclick="voltarStep()">← VOLTAR</button>
+  <div class="cad-top-title" id="topTitle">ENTRAR <span>/ CRIAR CONTA</span></div>
+</div>
+
+<!-- ══════════════════════════════════
+     STEP 1 — LOGIN / CADASTRO
+══════════════════════════════════ -->
+<div class="step active" id="step1">
+
+  <div class="s1-hero">
+    <img
+      src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779945135/c5a68f93-009e-465c-94a8-c6a5e8e54e79_xofudf.png"
+      alt="SPFC Hoje" class="s1-shield">
+    <div class="s1-sub">Entre com sua conta para competir no ranking.</div>
+  </div>
+
+  <!-- Google -->
+  <div class="s1-card">
+    <div class="s1-divider"><span>ACESSO</span></div>
+
+    <button class="s1-btn s1-btn-google" onclick="entrarGoogle()">
+      <div class="s1-btn-icon">
+        <svg width="18" height="18" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+      </div>
+      <div class="s1-btn-text">Continuar com Google</div>
+      <span class="s1-btn-arrow">→</span>
+    </button>
+
+    <!-- Email toggle -->
+    <button class="s1-btn s1-btn-email" onclick="toggleEmailForm()">
+      <div class="s1-btn-icon">✉</div>
+      <div class="s1-btn-text" id="emailBtnLabel">Entrar / Criar com e-mail</div>
+      <span class="s1-btn-arrow">→</span>
+    </button>
+
+    <div class="email-form" id="emailForm">
+      <input id="s1Email" class="cad-input" type="email" placeholder="E-mail" autocomplete="email">
+      <input id="s1Senha" class="cad-input" type="password" placeholder="Senha (mín. 6 caracteres)"
+        autocomplete="current-password" onkeydown="if(event.key==='Enter')submitEmail()">
+      <div id="s1Err" class="err-msg"></div>
+      <button class="s1-submit" id="s1BtnSubmit" onclick="submitEmail()">ENTRAR</button>
+      <div class="s1-link" onclick="criarComEmail()">Não tenho conta — criar agora</div>
+      <div class="s1-link" onclick="recuperarSenha()">Esqueci minha senha</div>
+      <div class="s1-link" onclick="toggleEmailForm()">Cancelar</div>
+    </div>
+
+    <div id="s1GlobalErr" class="err-msg" style="margin-top:10px"></div>
+  </div>
+
+  <div class="s1-footer">Ao entrar você concorda com os <a href="#">Termos</a> e <a href="#">Privacidade</a></div>
+</div>
+
+<!-- ══════════════════════════════════
+     STEP 2 — PERFIL (nick + avatar + aniversário)
+══════════════════════════════════ -->
+<div class="step" id="step2">
+
+  <div class="s2-header">
+    <div class="s2-title">SEU <em>PERFIL</em></div>
+    <div class="s2-sub">Escolha um apelido único e um avatar.<br>O apelido vai aparecer em todos os rankings.</div>
+  </div>
+
+  <!-- Nick -->
+  <div class="cad-section">
+    <div class="cad-label">✏️ Apelido</div>
+    <div class="nick-wrap">
+      <input id="cadNick" class="cad-input" type="text" maxlength="20"
+        placeholder="Como quer ser chamado?"
+        autocomplete="off" autocorrect="off" autocapitalize="off"
+        oninput="onNickInput()">
+      <span class="nick-status" id="nickStatus"></span>
+    </div>
+    <div id="nickErr" class="cad-field-err"></div>
+    <div id="nickOk"  class="cad-field-ok"></div>
+    <div class="cad-hint">Único e imutável. Aparece no Quiz, Wordle e Palpitômetro.</div>
+  </div>
+
+  <!-- Avatar -->
+  <div class="cad-section">
+    <div class="cad-label">🎭 Avatar</div>
+    <div class="avatar-grid" id="avatarGrid"></div>
+    <div id="avatarErr" class="cad-field-err" style="margin-top:10px"></div>
+  </div>
+
+  <!-- Aniversário -->
+  <div class="cad-section">
+    <div class="cad-label">🎂 Aniversário</div>
+    <input id="cadAniv" class="cad-input" type="date" oninput="clearFieldErr('anivErr')">
+    <div id="anivErr" class="cad-field-err"></div>
+    <div class="cad-hint">Usado para te parabenizar e futuros benefícios.</div>
+  </div>
+
+  <div id="s2GlobalErr" class="err-msg" style="margin-bottom:14px"></div>
+
+  <button id="btnCriar" class="btn-submit" onclick="salvarPerfil()">
+    ENTRAR NO SPFC HOJE
+  </button>
+</div>
+
+<!-- ══ AVATARES + LÓGICA (DEBUG) ══ -->
+<script>
+console.log('[DEBUG] Script inline iniciado');
+
+/* ────────────────────────────────────────────
+   AVATARES
+──────────────────────────────────────────── */
+const AVATARS = [
+  {id:'rai',            url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rai_arcph5.png',            label:'Raí'},
+  {id:'luisfabiano',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luisfabiano_iabzdg.png',    label:'Luís Fabiano'},
+  {id:'franca',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/franca_x5eggx.png',         label:'França'},
+  {id:'telesantana',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/telesantana_urocmb.png',    label:'Telê Santana'},
+  {id:'juju',          url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/juju_rw3xvq.png',           label:'Juju'},
+  {id:'luciano',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luciano_jwalve.png',        label:'Luciano'},
+  {id:'rogerioceni',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rogerioceni_p1nx2r.jpg',    label:'Rogério Ceni'},
+  {id:'kaka',          url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/kaka_wjkphp.png',           label:'Kaká'},
+  {id:'muricy',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/muricy_pssymw.png',         label:'Muricy'},
+  {id:'lugano',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/lugano_dlqqgg.png',         label:'Lugano'},
+  {id:'ederjofre',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/ederjofre_ria6ie.png',      label:'Éder Jofre'},
+  {id:'mulher1',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/mulher1_gwwpzo.png',        label:'Torcedora'},
+  {id:'serginhochulapa',url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/serginhochulapa_kxetqb.png',label:'Serginho Chulapa'},
+  {id:'formiga',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/formiga_rvqxck.png',        label:'Formiga'},
+  {id:'leonidas',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/leonidas_xn4j6n.png',       label:'Leônidas'},
+  {id:'aloisiochulapa',url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/aloisiochulapa_o0a8uo.png', label:'Aloísio Chulapa'},
+  {id:'seumadruga',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/seumadruga_znz9sd.png',     label:'Seu Madruga'},
+  {id:'sara',          url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/sara_obqp7y.png',           label:'Sara'},
+  {id:'mia',           url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/mia_uliddk.png',            label:'Mia'},
+  {id:'keanu',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/keanu_vronzk.png',          label:'Keanu'},
+  {id:'shalia',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/shalia_zr0gzd.png',         label:'Shalia'},
+  {id:'clotilde',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/clotilde_gfvo11.png',       label:'Clotilde'},
+  {id:'koreanman',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/koreanman_ln80il.png',      label:'Korean Man'},
+  {id:'callerius',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/callerius_qgnekt.png',      label:'Callerius'},
+  {id:'hunger',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/hunger_dztgdc.png',         label:'Hunger'},
+  {id:'chavito',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/chavito_qiz9zq.jpg',        label:'Chavito'},
+  {id:'ruiva',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/ruiva_ccyhqn.png',          label:'Ruiva'},
+  {id:'mulherrocker',  url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/mulherrocker_h7ahs1.png',   label:'Mulher Rocker'},
+  {id:'killb',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/killb_tenkhy.png',          label:'Kill B'},
+  {id:'koreaw',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/koreaw_i1kh7r.png',         label:'Korean W'},
+  {id:'chiquinha',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/chiquinha_gczqbm.png',      label:'Chiquinha'},
+  {id:'prada',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/prada_g012tx.jpg',          label:'Prada'},
+];
+
+let _selectedAvatar = null;
+
+/* Build grid */
+(function() {
+  console.log('[DEBUG] Construindo grid de avatares...');
+  const grid = document.getElementById('avatarGrid');
+  grid.innerHTML = AVATARS.map(av => `
+    <div class="av-item" id="av-${av.id}" onclick="selectAvatar('${av.id}')" title="${av.label}">
+      <img src="${av.url}" alt="${av.label}" loading="lazy">
+    </div>`).join('');
+  console.log('[DEBUG] Grid construído com', AVATARS.length, 'avatares');
+})();
+
+function selectAvatar(id) {
+  _selectedAvatar = AVATARS.find(a => a.id === id) || null;
+  document.querySelectorAll('.av-item').forEach(el => el.classList.remove('selected'));
+  document.getElementById('av-' + id)?.classList.add('selected');
+  clearFieldErr('avatarErr');
+}
+
+/* ────────────────────────────────────────────
+   UI HELPERS
+──────────────────────────────────────────── */
+function showStep(n) {
+  console.log('[DEBUG] showStep chamado:', n);
+  document.getElementById('step1').classList.toggle('active', n === 1);
+  document.getElementById('step2').classList.toggle('active', n === 2);
+  const t = document.getElementById('topTitle');
+  t.innerHTML = n === 1 ? 'ENTRAR <span>/ CRIAR CONTA</span>' : 'SEU <span>PERFIL</span>';
+}
+
+function voltarStep() {
+  if (document.getElementById('step2').classList.contains('active')) {
+    window.FB_CAD?.auth.signOut().catch(()=>{});
+  }
+  window.location.href = 'index.html';
+}
+
+function showLoading(msg) {
+  document.getElementById('loadingMsg').textContent = msg || 'AGUARDE...';
+  document.getElementById('loadingOverlay').classList.add('active');
+}
+function hideLoading() {
+  document.getElementById('loadingOverlay').classList.remove('active');
+}
+
+function showS1Err(msg) {
+  const el = document.getElementById('s1GlobalErr');
+  el.textContent = msg; el.classList.add('show');
+}
+function clearFieldErr(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+}
+function showFieldErr(id, msg) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = msg; el.style.display = 'block'; }
+}
+function showFieldOk(id, msg) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = msg; el.style.display = 'block'; }
+}
+
+/* ────────────────────────────────────────────
+   STEP 1 — AUTH (REDIRECT + DEBUG)
+──────────────────────────────────────────── */
+function toggleEmailForm() {
+  const f = document.getElementById('emailForm');
+  const open = f.classList.toggle('open');
+  if (open) setTimeout(() => document.getElementById('s1Email').focus(), 60);
+}
+
+async function entrarGoogle() {
+  console.log('[DEBUG] entrarGoogle chamado');
+  if (!window.FB_CAD) {
+    showS1Err('Firebase ainda não carregou. Aguarde um instante e tente novamente.');
+    return;
+  }
+
+  showLoading('REDIRECIONANDO PARA O GOOGLE...');
+
+  try {
+    console.log('[DEBUG] Chamando signInWithRedirect...');
+    await window.FB_CAD.signInWithRedirect(window.FB_CAD.auth, window.FB_CAD.gProvider);
+    console.log('[DEBUG] Redirect iniciado (página vai recarregar)');
+  } catch(e) {
+    console.error('[DEBUG] Erro no redirect:', e);
+    hideLoading();
+
+    const msgs = {
+      'auth/network-request-failed':'Sem conexão com a internet. Verifique sua rede.',
+      'auth/unauthorized-domain':   'Domínio não autorizado no Firebase Console.',
+      'auth/invalid-credential':    'Credencial inválida. Tente novamente.',
+    };
+
+    const msg = msgs[e.code] || 'Erro no login: ' + (e.code || e.message);
+    showS1Err(msg);
+  }
+}
+
+/* Login com e-mail existente */
+async function submitEmail() {
+  console.log('[DEBUG] submitEmail chamado');
+  if (!window.FB_CAD) {
+    console.error('[DEBUG] FB_CAD não disponível!');
+    return;
+  }
+
+  const email = document.getElementById('s1Email').value.trim();
+  const senha = document.getElementById('s1Senha').value;
+  const btn   = document.getElementById('s1BtnSubmit');
+  const errEl = document.getElementById('s1Err');
+  errEl.classList.remove('show');
+
+  console.log('[DEBUG] Email:', email, 'Senha length:', senha.length);
+
+  if (!email || !/\S+@\S+\.\S+/.test(email)) { 
+    errEl.textContent='E-mail inválido.'; 
+    errEl.classList.add('show'); 
+    return; 
+  }
+  if (senha.length < 6) { 
+    errEl.textContent='Senha precisa ter ao menos 6 caracteres.'; 
+    errEl.classList.add('show'); 
+    return; 
+  }
+
+  btn.textContent = 'AGUARDE...'; 
+  btn.disabled = true;
+  showLoading('ENTRANDO...');
+
+  try {
+    console.log('[DEBUG] Chamando signInWithEmailAndPassword...');
+    const result = await window.FB_CAD.signInWithEmailAndPassword(window.FB_CAD.auth, email, senha);
+    console.log('[DEBUG] Login bem-sucedido! User:', result.user.uid);
+    // onAuthStateChanged vai cuidar do redirecionamento
+  } catch(e) {
+    console.error('[DEBUG] Erro no login email:', e.code, e.message);
+    hideLoading();
+    btn.textContent = 'ENTRAR'; 
+    btn.disabled = false;
+    const msgs = {
+      'auth/user-not-found':    'E-mail não cadastrado.',
+      'auth/wrong-password':    'Senha incorreta.',
+      'auth/invalid-credential':'E-mail ou senha incorretos.',
+      'auth/invalid-email':     'E-mail inválido.',
+    };
+    errEl.textContent = msgs[e.code] || 'Erro: ' + (e.code || e.message);
+    errEl.classList.add('show');
+  }
+}
+
+/* Criar conta nova com e-mail */
+async function criarComEmail() {
+  console.log('[DEBUG] criarComEmail chamado');
+  if (!window.FB_CAD) {
+    console.error('[DEBUG] FB_CAD não disponível!');
+    return;
+  }
+
+  const email = document.getElementById('s1Email').value.trim();
+  const senha = document.getElementById('s1Senha').value;
+  const btn   = document.getElementById('s1BtnSubmit');
+  const errEl = document.getElementById('s1Err');
+  errEl.classList.remove('show');
+
+  console.log('[DEBUG] Email:', email, 'Senha length:', senha.length);
+
+  if (!email || !/\S+@\S+\.\S+/.test(email)) { 
+    errEl.textContent='E-mail inválido.'; 
+    errEl.classList.add('show'); 
+    return; 
+  }
+  if (senha.length < 6) { 
+    errEl.textContent='Senha precisa ter ao menos 6 caracteres.'; 
+    errEl.classList.add('show'); 
+    return; 
+  }
+
+  btn.textContent = 'CRIANDO...'; 
+  btn.disabled = true;
+  showLoading('CRIANDO CONTA...');
+
+  try {
+    console.log('[DEBUG] Chamando createUserWithEmailAndPassword...');
+    const result = await window.FB_CAD.createUserWithEmailAndPassword(window.FB_CAD.auth, email, senha);
+    console.log('[DEBUG] Conta criada! User:', result.user.uid);
+    // onAuthStateChanged vai levar para step 2
+  } catch(e) {
+    console.error('[DEBUG] Erro ao criar conta:', e.code, e.message);
+    hideLoading();
+    btn.textContent = 'ENTRAR'; 
+    btn.disabled = false;
+    const msgs = {
+      'auth/email-already-in-use':'Este e-mail já tem conta. Tente entrar.',
+      'auth/invalid-email':       'E-mail inválido.',
+      'auth/weak-password':       'Senha muito fraca.',
+    };
+    errEl.textContent = msgs[e.code] || 'Erro: ' + (e.code || e.message);
+    errEl.classList.add('show');
+  }
+}
+
+async function recuperarSenha() {
+  if (!window.FB_CAD) return;
+  const email = document.getElementById('s1Email').value.trim();
+  const errEl = document.getElementById('s1Err');
+  if (!email) { errEl.textContent='Digite seu e-mail primeiro.'; errEl.classList.add('show'); return; }
+  showLoading('ENVIANDO...');
+  try {
+    await window.FB_CAD.sendPasswordResetEmail(window.FB_CAD.auth, email);
+    hideLoading();
+    errEl.textContent = '✅ E-mail de recuperação enviado!';
+    errEl.classList.add('show');
+    errEl.style.color = 'var(--green)';
+  } catch(e) {
+    hideLoading();
+    errEl.textContent = 'Erro: ' + (e.code || e.message);
+    errEl.classList.add('show');
+  }
+}
+
+/* ────────────────────────────────────────────
+   STEP 2 — NICK: validação em tempo real
+──────────────────────────────────────────── */
+let _nickTimer = null;
+let _nickValid = false;
+
+function onNickInput() {
+  clearFieldErr('nickErr');
+  clearFieldErr('nickOk');
+  _nickValid = false;
+  const statusEl = document.getElementById('nickStatus');
+  statusEl.textContent = '';
+
+  const nick = document.getElementById('cadNick').value.trim();
+  if (nick.length < 2) return;
+
+  if (!/^[a-zA-ZÀ-ú0-9_\- ]+$/.test(nick)) {
+    showFieldErr('nickErr', 'Caracteres inválidos. Use letras, números, _ ou -');
+    return;
+  }
+
+  statusEl.textContent = '⏳';
+  clearTimeout(_nickTimer);
+  _nickTimer = setTimeout(() => verificarNick(nick), 600);
+}
+
+async function verificarNick(nick) {
+  if (!window.FB_CAD) return;
+  const statusEl = document.getElementById('nickStatus');
+  try {
+    const snap = await window.FB_CAD.getDoc(
+      window.FB_CAD.doc(window.FB_CAD.db, 'nicknames', nick.toLowerCase())
+    );
+    const uid = window._cadUser?.uid;
+    if (snap.exists() && snap.data().uid !== uid) {
+      statusEl.textContent = '❌';
+      showFieldErr('nickErr', 'Este apelido já está em uso. Escolha outro.');
+      _nickValid = false;
+    } else {
+      statusEl.textContent = '✅';
+      showFieldOk('nickOk', 'Apelido disponível!');
+      _nickValid = true;
+    }
+  } catch(e) {
+    statusEl.textContent = '';
+    _nickValid = true;
+  }
+}
+
+/* ────────────────────────────────────────────
+   STEP 2 — SALVAR PERFIL
+──────────────────────────────────────────── */
+async function salvarPerfil() {
+  console.log('[DEBUG] salvarPerfil chamado');
+  if (!window.FB_CAD) { 
+    document.getElementById('s2GlobalErr').textContent='Firebase não carregado.'; 
+    document.getElementById('s2GlobalErr').classList.add('show'); 
+    return; 
+  }
+
+  const user = window.FB_CAD.auth.currentUser || window._cadUser;
+  console.log('[DEBUG] Usuário atual:', user ? user.uid : 'null');
+
+  if (!user) { 
+    document.getElementById('s2GlobalErr').textContent='Sessão expirada. Recarregue a página.'; 
+    document.getElementById('s2GlobalErr').classList.add('show'); 
+    return; 
+  }
+
+  const btn = document.getElementById('btnCriar');
+  const s2Err = document.getElementById('s2GlobalErr');
+  s2Err.classList.remove('show');
+
+  const nick = document.getElementById('cadNick').value.trim();
+  const aniv = document.getElementById('cadAniv').value;
+  let ok = true;
+
+  if (nick.length < 2) { showFieldErr('nickErr','Apelido precisa ter pelo menos 2 letras.'); ok=false; }
+  else if (!/^[a-zA-ZÀ-ú0-9_\- ]+$/.test(nick)) { showFieldErr('nickErr','Caracteres inválidos.'); ok=false; }
+  else if (!_nickValid) { showFieldErr('nickErr','Verifique o apelido antes de continuar.'); ok=false; }
+
+  if (!_selectedAvatar) { showFieldErr('avatarErr','Escolha um avatar.'); ok=false; }
+  if (!aniv) { showFieldErr('anivErr','Informe seu aniversário.'); ok=false; }
+
+  if (!ok) return;
+
+  btn.textContent = 'SALVANDO...'; 
+  btn.disabled = true;
+  showLoading('CRIANDO PERFIL...');
+
+  const { db, doc, setDoc, serverTimestamp, runTransaction } = window.FB_CAD;
+  const now = serverTimestamp();
+
+  const profile = {
+    uid:         user.uid,
+    displayName: nick,
+    avatarId:    _selectedAvatar.id,
+    avatarUrl:   _selectedAvatar.url,
+    email:       user.email || '',
+    birthday:    aniv,
+    xp: 0, level: 1, totalXP: 0,
+    lives: 5, livesLastRegen: null,
+    streak: 0, bestStreak: 0, lastPlayedDate: null, wonToday: false,
+    quiz_score_geral: 0, quiz_score_mensal: 0, quiz_score_semanal: 0, quiz_score_diario: 0,
+    totalPontos: 0, totalAcertos: 0, totalErros: 0,
+    totalPalpites: 0, placareExatos: 0, pontosMes: 0,
+    wordle_streak: 0, wordle_bestStreak: 0, wordle_lastDate: null, wordle_totalAcertos: 0,
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  try {
+    console.log('[DEBUG] Iniciando transaction...');
+    const nickKey  = nick.toLowerCase();
+    const nickRef  = doc(db, 'nicknames', nickKey);
+    const userRef  = doc(db, 'users', user.uid);
+
+    await runTransaction(db, async t => {
+      const nickSnap = await t.get(nickRef);
+      if (nickSnap.exists() && nickSnap.data().uid !== user.uid) {
+        throw new Error('NICK_TAKEN');
+      }
+      t.set(nickRef, { uid: user.uid, displayName: nick, reservedAt: now });
+      t.set(userRef, profile);
+    });
+
+    console.log('[DEBUG] Perfil salvo com sucesso!');
+    hideLoading();
+    btn.textContent = 'BEM-VINDO! 🔴⚫⚪';
+
+    const dest = sessionStorage.getItem('_cadOrigem') || 'main.html';
+    sessionStorage.removeItem('_cadOrigem');
+    setTimeout(() => { window.location.href = dest; }, 900);
+
+  } catch(e) {
+    console.error('[DEBUG] Erro ao salvar perfil:', e);
+    hideLoading();
+    btn.textContent = 'ENTRAR NO SPFC HOJE'; 
+    btn.disabled = false;
+    if (e.message === 'NICK_TAKEN') {
+      showFieldErr('nickErr', 'Este apelido já está em uso. Escolha outro.');
+      document.getElementById('nickStatus').textContent = '❌';
+      _nickValid = false;
+    } else {
+      s2Err.textContent = 'Erro ao salvar: ' + (e.code || e.message);
+      s2Err.classList.add('show');
+    }
+  }
+}
+
+console.log('[DEBUG] Script inline finalizado');
+</script>
+</body>
+</html>
