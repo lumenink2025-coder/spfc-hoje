@@ -1,7 +1,7 @@
 // SPFC — Hoje na História | Service Worker v1.1.1.1
 // ⚠️ MUDE O CACHE_VERSION A CADA DEPLOY!
 
-const CACHE_VERSION = "v1.1.1.1.1.1.2.0.0.1";  // ← ALTERE ISSO A CADA NOVO DEPLOY
+const CACHE_VERSION = "v1.1.1.1.1.1.2.0.0.2";  // ← ALTERE ISSO A CADA NOVO DEPLOY
 const CACHE_NAME = `spfc-hoje-${CACHE_VERSION}`;
 const ASSETS = ['/', '/index.html', '/quiz.html', '/manifest.json'];
 
@@ -28,6 +28,8 @@ self.addEventListener('activate', e => {
 // ── FETCH ─────────────────────────────────────────
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  // Ignora schemes não cacheáveis (chrome-extension://, moz-extension://, etc.)
+  if (!e.request.url.startsWith('http://') && !e.request.url.startsWith('https://')) return;
   if (e.request.url.includes('sw.js')) {
     e.respondWith(fetch(e.request));
     return;
