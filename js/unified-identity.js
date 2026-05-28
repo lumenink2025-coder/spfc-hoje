@@ -5,7 +5,7 @@
 //
 // Substitui colecoes legadas:
 //   - usuarios  (cadastro)
-//   - ranking   (palpitometro)  
+//   - ranking   (palpitometro)
 //   - users     (quiz)
 //   - nicknames (quiz)
 //
@@ -22,70 +22,86 @@ class UnifiedIdentity {
     this.COLLECTION = 'users';
     this.cache = new Map();
     this._listeners = new Map();
+
+    // Auto-detecta qual objeto FB esta disponivel
+    this._fb = window.FB || window.FB_CAD || {};
+    if (!this._fb.doc) {
+      console.warn('UnifiedIdentity: window.FB ou window.FB_CAD nao encontrado. Certifique-se de carregar o modulo Firebase primeiro.');
+    }
   }
 
   // ============================================
-  // HELPERS (usam API modular)
+  // HELPERS (usam API modular via window.FB ou window.FB_CAD)
   // ============================================
+  _getFB() {
+    // Tenta window.FB primeiro (palpitometro, quiz), depois window.FB_CAD (cadastro)
+    return window.FB || window.FB_CAD || {};
+  }
+
   _doc(path, id) {
-    const { doc } = window.FB || {};
-    if (!doc) throw new Error('window.FB.doc nao disponivel');
-    return doc(this.db, path, id);
+    const fb = this._getFB();
+    if (!fb.doc) throw new Error('doc() nao disponivel. Verifique se Firebase esta carregado.');
+    return fb.doc(this.db, path, id);
   }
 
   _setDoc(ref, data, opts) {
-    const { setDoc } = window.FB || {};
-    return setDoc(ref, data, opts);
+    const fb = this._getFB();
+    return fb.setDoc(ref, data, opts);
   }
 
   _getDoc(ref) {
-    const { getDoc } = window.FB || {};
-    return getDoc(ref);
+    const fb = this._getFB();
+    return fb.getDoc(ref);
   }
 
   _updateDoc(ref, data) {
-    const { updateDoc } = window.FB || {};
-    return updateDoc(ref, data);
+    const fb = this._getFB();
+    return fb.updateDoc(ref, data);
   }
 
   _collection(path) {
-    const { collection } = window.FB || {};
-    return collection(this.db, path);
+    const fb = this._getFB();
+    return fb.collection(this.db, path);
   }
 
   _query(...args) {
-    const { query } = window.FB || {};
-    return query(...args);
+    const fb = this._getFB();
+    return fb.query(...args);
   }
 
   _orderBy(field, dir) {
-    const { orderBy } = window.FB || {};
-    return orderBy(field, dir);
+    const fb = this._getFB();
+    return fb.orderBy(field, dir);
   }
 
   _limit(n) {
-    const { limit } = window.FB || {};
-    return limit(n);
+    const fb = this._getFB();
+    return fb.limit(n);
   }
 
   _where(field, op, val) {
-    const { where } = window.FB || {};
-    return where(field, op, val);
+    const fb = this._getFB();
+    return fb.where(field, op, val);
   }
 
   _serverTimestamp() {
-    const { serverTimestamp } = window.FB || {};
-    return serverTimestamp();
+    const fb = this._getFB();
+    return fb.serverTimestamp();
   }
 
   _increment(n) {
-    const { increment } = window.FB || {};
-    return increment(n);
+    const fb = this._getFB();
+    return fb.increment(n);
   }
 
   _writeBatch() {
-    const { writeBatch } = window.FB || {};
-    return writeBatch(this.db);
+    const fb = this._getFB();
+    return fb.writeBatch(this.db);
+  }
+
+  async _getDocs(q) {
+    const fb = this._getFB();
+    return fb.getDocs(q);
   }
 
   // ============================================
@@ -98,8 +114,8 @@ class UnifiedIdentity {
       createdAt: null, updatedAt: null, lastLoginAt: null, isActive: true,
       nicknameLocked: false, lives: 3,
       xp: 0, level: 1, streak: 0, totalQuizPlayed: 0,
-      totalPontos: 0, totalAcertos: 0, pontosMes: 0,
-      totalErros: 0, totalPalpites: 0, placareExatos: 0,
+      totalPontos: 0, totalAcertos: 0, totalErros: 0,
+      totalPalpites: 0, placareExatos: 0, pontosMes: 0,
       apostas: [],
       migratedFrom: [], legacyCollections: []
     };
@@ -283,11 +299,6 @@ class UnifiedIdentity {
     } catch (e) { console.error('getRanking erro:', e); return []; }
   }
 
-  async _getDocs(q) {
-    const { getDocs } = window.FB || {};
-    return getDocs(q);
-  }
-
   // ============================================
   // 6. WRAPPERS DE COMPATIBILIDADE
   // ============================================
@@ -347,8 +358,8 @@ class UnifiedIdentity {
 
   onUserChange(uid, cb) {
     if (this._listeners.has(uid)) this._listeners.get(uid)();
-    const { onSnapshot } = window.FB || {};
-    const unsub = onSnapshot(this._doc(this.COLLECTION, uid), d => {
+    const fb = this._getFB();
+    const unsub = fb.onSnapshot(this._doc(this.COLLECTION, uid), d => {
       if (d.exists()) { this.cache.set(uid, d.data()); cb(d.data()); }
     });
     this._listeners.set(uid, unsub);
