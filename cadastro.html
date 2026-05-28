@@ -146,7 +146,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min-heig
 <!-- Firebase -->
 <script type="module">
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult,
+import { getAuth, signInWithPopup,
          GoogleAuthProvider, createUserWithEmailAndPassword,
          signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
@@ -168,44 +168,11 @@ const provider = new GoogleAuthProvider();
 
 window.FB_CAD = {
   auth, db, provider,
-  signInWithPopup, signInWithRedirect, getRedirectResult,
+  signInWithPopup,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
   sendPasswordResetEmail,
   doc, setDoc, getDoc, serverTimestamp, runTransaction
 };
-
-// Se estava voltando de um redirect Google, mostra loading imediatamente
-const wasRedirecting = sessionStorage.getItem('_googleRedirect');
-if (wasRedirecting) {
-  document.addEventListener('DOMContentLoaded', () => {
-    const ol = document.getElementById('loadingOverlay');
-    const msg = document.getElementById('loadingMsg');
-    if (ol) { ol.classList.add('active'); }
-    if (msg) { msg.textContent = 'VERIFICANDO CONTA...'; }
-  });
-}
-
-// Captura retorno do redirect Google — ANTES do onAuthStateChanged
-getRedirectResult(auth).then(cred => {
-  sessionStorage.removeItem('_googleRedirect');
-  // onAuthStateChanged abaixo cuida do resto
-}).catch(e => {
-  sessionStorage.removeItem('_googleRedirect');
-  document.addEventListener('DOMContentLoaded', () => {
-    const ol = document.getElementById('loadingOverlay');
-    if (ol) ol.classList.remove('active');
-    const errMap = {
-      'auth/unauthorized-domain': 'Domínio não autorizado. Contate o suporte.',
-      'auth/popup-blocked': 'Popup bloqueado. Tente novamente.',
-      'auth/cancelled-popup-request': null, // usuário cancelou, silencioso
-      'auth/popup-closed-by-user': null,
-    };
-    const msg = errMap[e.code];
-    if (msg === null) return; // erro silencioso
-    if (msg) { if (typeof showErr === 'function') showErr('s1Err', msg); }
-    else { if (typeof showErr === 'function') showErr('s1Err', 'Erro Google: ' + (e.code || e.message)); }
-  });
-});
 
 // Auth state — roda tanto após popup quanto após redirect
 onAuthStateChanged(auth, async user => {
@@ -445,24 +412,21 @@ function toggleEmailForm() {
 
 async function entrarGoogle() {
   if (!window.FB_CAD) return;
-  const { auth, provider, signInWithPopup, signInWithRedirect } = window.FB_CAD;
+  const { auth, provider, signInWithPopup } = window.FB_CAD;
 
   showLoading('ABRINDO GOOGLE...');
   try {
-    // Tenta popup primeiro em qualquer dispositivo
     await signInWithPopup(auth, provider);
     // onAuthStateChanged cuida do resto
   } catch(e) {
-    if (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment') {
-      // Popup bloqueado → usa redirect
-      showLoading('REDIRECIONANDO...');
-      sessionStorage.setItem('_googleRedirect', '1');
-      await signInWithRedirect(auth, provider);
+    hideLoading();
+    if (e.code === 'auth/popup-blocked') {
+      showErr('s1Err', '⚠️ Popup bloqueado. Desative o bloqueador de popups e tente novamente.');
     } else if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
       // Usuário fechou o popup — silencioso
-      hideLoading();
+    } else if (e.code === 'auth/network-request-failed') {
+      showErr('s1Err', 'Erro de conexão. Verifique sua internet e tente novamente.');
     } else {
-      hideLoading();
       showErr('s1Err', 'Erro ao entrar com Google: ' + (e.code || e.message));
     }
   }
