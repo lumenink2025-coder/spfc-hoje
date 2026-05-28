@@ -54,9 +54,13 @@ class UnifiedIdentity {
     return fb.getDoc(ref);
   }
 
-  _updateDoc(ref, data) {
+  async _updateDoc(ref, data) {
     const fb = this._getFB();
-    return fb.updateDoc(ref, data);
+    if (fb.updateDoc) {
+      return fb.updateDoc(ref, data);
+    }
+    // Fallback: use setDoc with merge if updateDoc is not available
+    return fb.setDoc(ref, data, { merge: true });
   }
 
   _collection(path) {
