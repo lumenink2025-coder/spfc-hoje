@@ -177,7 +177,7 @@ window.FB_CAD = {
 // Se usuário já logado: tem perfil → main.html, sem perfil → step 2
 let _cadHandled = false; // FIX Bug 1: evita dupla entrada no cadastro
 onAuthStateChanged(auth, async user => {
-  if (!user) return;
+  if (!user) { hideLoading(); return; }
   if (_cadHandled) return;
   _cadHandled = true;
   try {
@@ -418,23 +418,12 @@ async function entrarGoogle() {
   if (!window.FB_CAD) return;
   const { auth, provider, signInWithRedirect } = window.FB_CAD;
 
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-                   window.matchMedia('(display-mode: standalone)').matches ||
-                   window.navigator.standalone;
+  // Sempre usa redirect — mais confiável em GitHub Pages e qualquer ambiente
+  showLoading('ABRINDO GOOGLE...');
   try {
-    if (isMobile) {
-      // Mobile: redirect (popup não funciona bem em apps instalados)
-      await signInWithRedirect(auth, provider);
-    } else {
-      // Desktop: popup (mais rápido, COOP removido do vercel.json)
-      await signInWithPopup(auth, provider);
-    }
+    await signInWithRedirect(auth, provider);
   } catch(e) {
-    if (e.code === 'auth/popup-blocked') {
-      await signInWithRedirect(auth, provider);
-    } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
-      showErr('s1Err', 'Erro: ' + (e.code || e.message));
-    }
+    showErr('s1Err', 'Erro: ' + (e.code || e.message));
   }
 }
 
