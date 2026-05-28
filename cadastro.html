@@ -183,13 +183,19 @@ onAuthStateChanged(auth, async user => {
   try {
     const snap = await getDoc(doc(db, 'usuarios', user.uid));
     if (snap.exists()) {
-      window.location.href = 'main.html';
+      // Usuário já cadastrado — redireciona para onde veio (ou main.html)
+      const origem = sessionStorage.getItem('_cadOrigem') || 'main.html';
+      sessionStorage.removeItem('_cadOrigem');
+      window.location.href = origem;
     } else {
+      // Novo usuário — vai para step 2 (escolha de nick/avatar)
       window._cadUser = user;
+      hideLoading();
       showStep(2);
     }
   } catch(e) {
     window._cadUser = user;
+    hideLoading();
     showStep(2);
   }
 });
@@ -410,25 +416,14 @@ function toggleEmailForm() {
 
 async function entrarGoogle() {
   if (!window.FB_CAD) return;
-  const { auth, provider, signInWithPopup, signInWithRedirect } = window.FB_CAD;
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  const { auth, provider, signInWithRedirect } = window.FB_CAD;
 
-  // Sem loading antes de qualquer operação de auth — pode travar se popup bloqueado ou redirect voltar
+  // Usa sempre signInWithRedirect — signInWithPopup quebra com COOP headers do Vercel
   try {
-    if (isMobile || isStandalone) {
-      await signInWithRedirect(auth, provider);
-      // Página navega para o Google — onAuthStateChanged + getRedirectResult tratam o retorno
-    } else {
-      await signInWithPopup(auth, provider);
-      // Sucesso: onAuthStateChanged assume
-    }
+    await signInWithRedirect(auth, provider);
+    // Página navega para o Google — getRedirectResult trata o retorno
   } catch(e) {
-    if (e.code === 'auth/popup-blocked') {
-      await signInWithRedirect(auth, provider);
-    } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
-      showErr('s1Err', 'Erro: ' + (e.code || e.message));
-    }
+    showErr('s1Err', 'Erro ao abrir Google: ' + (e.code || e.message));
   }
 }
 
