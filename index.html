@@ -485,7 +485,7 @@ html,body{
 <!-- Firebase Auth -->
 <script type="module">
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithPopup, GoogleAuthProvider,
+import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider,
          signInWithEmailAndPassword, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { getFirestore, doc, getDoc }
@@ -504,9 +504,12 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-window.FB_INDEX = { auth, db, provider, signInWithPopup, signInWithEmailAndPassword };
+window.FB_INDEX = { auth, db, provider, signInWithPopup, signInWithRedirect, getRedirectResult, signInWithEmailAndPassword };
 
 window.addEventListener('DOMContentLoaded', () => {
+  // Captura resultado do redirect do Google
+  getRedirectResult(auth).catch(() => {});
+
   onAuthStateChanged(auth, async user => {
     if (!user) return;
     try {
@@ -679,9 +682,9 @@ function closeLogin() { document.getElementById('loginModal').classList.remove('
 async function loginGmail() {
   if (!window.FB_INDEX) { setTimeout(loginGmail, 100); return; }
   try {
-    await window.FB_INDEX.signInWithPopup(window.FB_INDEX.auth, window.FB_INDEX.provider);
+    await window.FB_INDEX.signInWithRedirect(window.FB_INDEX.auth, window.FB_INDEX.provider);
   } catch(e) {
-    if (e.code !== 'auth/popup-closed-by-user') showLoginErr('Erro ao entrar com Google.');
+    showLoginErr('Erro ao entrar com Google.');
   }
 }
 
