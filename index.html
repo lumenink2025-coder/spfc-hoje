@@ -371,44 +371,116 @@ html,body{
   .text-title{font-size:84px}
   .login-area{max-width:380px}
 }
+
+/* ══ BOTÕES PRINCIPAIS ══ */
+.splash-buttons{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px;margin:0 auto}
+
+.btn-login{
+  background:linear-gradient(135deg,#CC0000 0%,#8B0000 100%);
+  color:#fff;border:none;
+  box-shadow:0 8px 32px rgba(204,0,0,.5),0 0 0 1px rgba(255,255,255,.06) inset;
+}
+.btn-login:hover{
+  box-shadow:0 12px 40px rgba(204,0,0,.65),0 0 0 1px rgba(255,255,255,.1) inset;
+  transform:translateY(-2px);
+}
+
+.btn-cadastro{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+  border:1.5px solid rgba(255,255,255,.18)!important;
+}
+.btn-cadastro:hover{
+  background:rgba(255,255,255,.12);
+  border-color:rgba(255,255,255,.3)!important;
+  transform:translateY(-2px);
+}
+
+.btn-visitante{
+  background:transparent!important;
+  border:none!important;
+  color:rgba(255,255,255,.35)!important;
+  font-size:11px!important;
+  letter-spacing:2px!important;
+  padding:10px!important;
+  box-shadow:none!important;
+}
+.btn-visitante:hover{
+  color:rgba(255,255,255,.6)!important;
+  background:transparent!important;
+  transform:none!important;
+  box-shadow:none!important;
+}
+.btn-visitante::before{display:none!important}
+
+/* MODAL LOGIN */
+.login-modal{display:none;position:fixed;inset:0;z-index:300000;
+  background:rgba(0,0,0,.92);align-items:center;justify-content:center;padding:24px}
+.login-modal.open{display:flex}
+.login-box{width:100%;max-width:360px;background:#111;
+  border:1px solid rgba(204,0,0,.3);border-radius:20px;padding:32px 24px;position:relative}
+.login-close{position:absolute;top:14px;right:16px;background:none;
+  border:none;color:#555;font-size:20px;cursor:pointer;line-height:1}
+.login-close:hover{color:#fff}
+.login-title{font-family:'Bebas Neue',Impact,sans-serif;font-size:30px;
+  letter-spacing:3px;color:#fff;margin-bottom:4px}
+.login-sub{font-size:11px;color:#555;margin-bottom:24px}
+.login-input{width:100%;padding:13px 14px;background:rgba(255,255,255,.04);
+  border:1.5px solid #222;border-radius:10px;color:#F0EBE3;font-size:14px;
+  outline:none;transition:.2s;margin-bottom:8px;box-sizing:border-box}
+.login-input:focus{border-color:rgba(204,0,0,.5);background:rgba(255,255,255,.06)}
+.login-input::placeholder{color:#444}
+.login-err{display:none;font-size:12px;color:#ff7777;margin-bottom:12px;
+  padding:8px 12px;background:rgba(204,0,0,.08);border-radius:8px}
+.login-divider{display:flex;align-items:center;gap:10px;margin:14px 0}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:#222}
+.login-divider span{font-size:10px;color:#444;letter-spacing:2px}
+.btn-google{width:100%;padding:13px;background:rgba(255,255,255,.05);
+  border:1.5px solid #333;border-radius:10px;color:#F0EBE3;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-family:'Bebas Neue',Impact,sans-serif;font-size:17px;letter-spacing:2px;
+  transition:.2s;margin-bottom:6px}
+.btn-google:hover{border-color:rgba(204,0,0,.4);background:rgba(255,255,255,.08)}
+.btn-enter{width:100%;padding:14px;background:linear-gradient(135deg,#CC0000,#8B0000);
+  color:#fff;border:none;border-radius:10px;
+  font-family:'Bebas Neue',Impact,sans-serif;font-size:20px;letter-spacing:3px;
+  cursor:pointer;box-shadow:0 6px 24px rgba(204,0,0,.4);transition:.2s}
+.btn-enter:hover{transform:translateY(-1px);box-shadow:0 10px 32px rgba(204,0,0,.55)}
+.btn-enter:disabled{background:#222;color:#555;box-shadow:none;transform:none;cursor:not-allowed}
+.login-footer{text-align:center;margin-top:14px;font-size:11px;color:#444}
+.login-footer a{color:#CC0000;cursor:pointer;text-decoration:underline}
 </style>
 
 <!-- Firebase Auth -->
 <script type="module">
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, onAuthStateChanged }
+import { getAuth, signInWithPopup, GoogleAuthProvider,
+         signInWithEmailAndPassword, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getFirestore, doc, getDoc }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 const cfg = {
-  apiKey: 'AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY',
-  authDomain: 'spfc-hoje-da329.firebaseapp.com',
-  projectId: 'spfc-hoje-da329',
-  storageBucket: 'spfc-hoje-da329.firebasestorage.app',
-  messagingSenderId: '116174859005',
-  appId: '1:116174859005:web:b1e54b040aef23c9c16c94'
+  apiKey:'AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY',
+  authDomain:'spfc-hoje-da329.firebaseapp.com',
+  projectId:'spfc-hoje-da329',
+  storageBucket:'spfc-hoje-da329.firebasestorage.app',
+  messagingSenderId:'116174859005',
+  appId:'1:116174859005:web:b1e54b040aef23c9c16c94'
 };
-const app = getApps().find(a => a.name === '[DEFAULT]') || initializeApp(cfg);
+const app  = getApps().find(a=>a.name==='[DEFAULT]') || initializeApp(cfg);
 const auth = getAuth(app);
+const db   = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-window.FB_AUTH = { auth, provider, signInWithPopup, signInWithEmailAndPassword };
+window.FB_INDEX = { auth, db, provider, signInWithPopup, signInWithEmailAndPassword };
 
-// Se já logado, vai direto pro app
 window.addEventListener('DOMContentLoaded', () => {
   onAuthStateChanged(auth, async user => {
     if (!user) return;
-    // Checa se tem perfil criado
     try {
-      const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-      const db = getFirestore(app);
       const snap = await getDoc(doc(db, 'usuarios', user.uid));
-      if (snap.exists()) {
-        goToApp();
-      } else {
-        // Tem conta mas sem perfil — manda pro cadastro
-        sessionStorage.setItem('spfc_uid_pending', user.uid);
-        goTo('cadastro.html');
-      }
+      snap.exists() ? goToApp() : goTo('cadastro.html');
     } catch(e) { goToApp(); }
   });
 });
@@ -438,21 +510,16 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
     <div class="splash-sub">Competição entre torcedores — temporada 2025</div>
 
-    <!-- 3 BOTÕES -->
     <div class="splash-buttons">
-
       <button class="btn-spfc btn-login" onclick="openLogin()">
-        <span class="btn-icon">🔐</span> ENTRAR
+        🔐 &nbsp;ENTRAR
       </button>
-
       <button class="btn-spfc btn-cadastro" onclick="goTo('cadastro.html')">
-        <span class="btn-icon">⚡</span> CRIAR CONTA
+        ⚡ &nbsp;CRIAR CONTA
       </button>
-
       <button class="btn-spfc btn-visitante" onclick="entrarVisitante()">
         CONTINUAR COMO VISITANTE
       </button>
-
     </div>
   </div>
 
@@ -462,53 +529,27 @@ window.addEventListener('DOMContentLoaded', () => {
 </div>
 
 <!-- MODAL LOGIN -->
-<div id="loginModal" style="display:none;position:fixed;inset:0;z-index:300000;background:rgba(0,0,0,.92);
-  align-items:center;justify-content:center;padding:24px">
-  <div style="width:100%;max-width:360px;background:#111;border:1px solid rgba(204,0,0,.3);
-    border-radius:20px;padding:32px 24px;position:relative">
-    <button onclick="closeLogin()" style="position:absolute;top:14px;right:16px;background:none;
-      border:none;color:#555;font-size:20px;cursor:pointer">✕</button>
-    <div style="font-family:'Bebas Neue',Impact,sans-serif;font-size:30px;letter-spacing:3px;
-      color:#fff;margin-bottom:4px">ENTRAR</div>
-    <div style="font-size:11px;color:#555;margin-bottom:24px">Acesse sua conta existente</div>
+<div class="login-modal" id="loginModal">
+  <div class="login-box">
+    <button class="login-close" onclick="closeLogin()">✕</button>
+    <div class="login-title">ENTRAR</div>
+    <div class="login-sub">Acesse sua conta existente</div>
 
-    <!-- Gmail -->
-    <button onclick="loginGmail()" style="width:100%;padding:14px;background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.12);border-radius:12px;color:#F0EBE3;
-      font-family:'Bebas Neue',Impact,sans-serif;font-size:18px;letter-spacing:2px;
-      cursor:pointer;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px;
-      transition:.2s" onmouseover="this.style.borderColor='rgba(204,0,0,.5)'" onmouseout="this.style.borderColor='rgba(255,255,255,.12)'">
-      <img src="https://www.google.com/favicon.ico" style="width:18px;height:18px"> ENTRAR COM GMAIL
+    <button class="btn-google" onclick="loginGmail()">
+      <img src="https://www.google.com/favicon.ico" width="18" height="18"> ENTRAR COM GMAIL
     </button>
 
-    <!-- Divisor -->
-    <div style="display:flex;align-items:center;gap:12px;margin:16px 0">
-      <div style="flex:1;height:1px;background:rgba(255,255,255,.08)"></div>
-      <span style="font-size:10px;color:#444;letter-spacing:2px">OU</span>
-      <div style="flex:1;height:1px;background:rgba(255,255,255,.08)"></div>
-    </div>
+    <div class="login-divider"><span>OU</span></div>
 
-    <!-- Email/senha -->
-    <input id="loginEmail" type="email" placeholder="E-mail" autocomplete="email"
-      style="width:100%;padding:13px 14px;background:rgba(255,255,255,.04);border:1px solid #2a2a2a;
-      border-radius:10px;color:#F0EBE3;font-size:14px;outline:none;margin-bottom:8px;box-sizing:border-box"
-      onfocus="this.style.borderColor='rgba(204,0,0,.5)'" onblur="this.style.borderColor='#2a2a2a'">
-    <input id="loginSenha" type="password" placeholder="Senha" autocomplete="current-password"
-      style="width:100%;padding:13px 14px;background:rgba(255,255,255,.04);border:1px solid #2a2a2a;
-      border-radius:10px;color:#F0EBE3;font-size:14px;outline:none;margin-bottom:16px;box-sizing:border-box"
-      onfocus="this.style.borderColor='rgba(204,0,0,.5)'" onblur="this.style.borderColor='#2a2a2a'"
-      onkeydown="if(event.key==='Enter')loginEmail()">
-    <div id="loginErr" style="display:none;font-size:12px;color:#ff7777;margin-bottom:12px;
-      padding:8px 12px;background:rgba(204,0,0,.08);border-radius:8px"></div>
-    <button id="btnLoginEmail" onclick="loginEmail()"
-      style="width:100%;padding:15px;background:linear-gradient(135deg,#CC0000,#8B0000);
-      color:#fff;border:none;border-radius:12px;font-family:'Bebas Neue',Impact,sans-serif;
-      font-size:22px;letter-spacing:3px;cursor:pointer;box-shadow:0 6px 24px rgba(204,0,0,.4)">
-      ENTRAR
-    </button>
-    <div style="text-align:center;margin-top:14px;font-size:11px;color:#444">
-      Não tem conta? <span onclick="closeLogin();goTo('cadastro.html')"
-        style="color:#CC0000;cursor:pointer;text-decoration:underline">Criar conta</span>
+    <input id="loginEmail" class="login-input" type="email" placeholder="E-mail" autocomplete="email">
+    <input id="loginSenha" class="login-input" type="password" placeholder="Senha"
+      autocomplete="current-password" onkeydown="if(event.key==='Enter')doLoginEmail()">
+    <div id="loginErr" class="login-err"></div>
+
+    <button id="btnEntrar" class="btn-enter" onclick="doLoginEmail()">ENTRAR</button>
+
+    <div class="login-footer">
+      Não tem conta? <a onclick="closeLogin();goTo('cadastro.html')">Criar conta</a>
     </div>
   </div>
 </div>
@@ -586,87 +627,66 @@ parallaxLoop();
 // Transição animada e redireciona pro app
 
 
-/* ══ BOTÕES ══ */
-.btn-login   { background:linear-gradient(135deg,#CC0000,#8B0000);box-shadow:0 8px 32px rgba(204,0,0,.45) }
-.btn-cadastro{ background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.15)!important }
-.btn-visitante{ background:transparent;border:none!important;color:rgba(255,255,255,.35)!important;
-  font-size:12px!important;letter-spacing:2px;padding:10px!important;margin-top:4px }
-.btn-visitante:hover{ color:rgba(255,255,255,.6)!important;background:transparent!important }
-.btn-icon{ font-size:16px }
-
-</style>
-
 <script>
 function goTo(page) {
-  const overlay = document.getElementById('transitionOverlay');
-  const lt = document.getElementById('loadingText');
-  overlay.classList.add('active');
-  lt.classList.add('active');
-  lt.textContent = page === 'cadastro.html' ? 'CRIAR PERFIL...' : 'CARREGANDO...';
+  const o = document.getElementById('transitionOverlay');
+  const t = document.getElementById('loadingText');
+  o.classList.add('active'); t.classList.add('active');
+  t.textContent = page === 'cadastro.html' ? 'CRIAR PERFIL...' : 'CARREGANDO...';
   setTimeout(() => { window.location.href = page; }, 900);
 }
 
 function goToApp() {
-  const overlay = document.getElementById('transitionOverlay');
-  const lt = document.getElementById('loadingText');
-  overlay.classList.add('active');
-  lt.classList.add('active');
-  lt.textContent = 'BEM-VINDO AO MORUMBI';
+  const o = document.getElementById('transitionOverlay');
+  const t = document.getElementById('loadingText');
+  o.classList.add('active'); t.classList.add('active');
+  t.textContent = 'BEM-VINDO AO MORUMBI';
   setTimeout(() => { window.location.href = 'main.html'; }, 1400);
 }
 
-function openLogin() {
-  document.getElementById('loginModal').style.display = 'flex';
-  setTimeout(() => document.getElementById('loginEmail').focus(), 100);
-}
-function closeLogin() {
-  document.getElementById('loginModal').style.display = 'none';
-}
+function openLogin()  { document.getElementById('loginModal').classList.add('open'); }
+function closeLogin() { document.getElementById('loginModal').classList.remove('open'); }
 
 async function loginGmail() {
-  if (!window.FB_AUTH) return;
+  if (!window.FB_INDEX) { setTimeout(loginGmail, 100); return; }
   try {
-    await window.FB_AUTH.signInWithPopup(window.FB_AUTH.auth, window.FB_AUTH.provider);
-    // onAuthStateChanged cuida do redirect
+    await window.FB_INDEX.signInWithPopup(window.FB_INDEX.auth, window.FB_INDEX.provider);
   } catch(e) {
-    if (e.code !== 'auth/popup-closed-by-user') {
-      document.getElementById('loginErr').textContent = 'Erro ao entrar com Google.';
-      document.getElementById('loginErr').style.display = 'block';
-    }
+    if (e.code !== 'auth/popup-closed-by-user') showLoginErr('Erro ao entrar com Google.');
   }
 }
 
-async function loginEmail() {
+async function doLoginEmail() {
+  if (!window.FB_INDEX) { setTimeout(doLoginEmail, 100); return; }
   const email = document.getElementById('loginEmail').value.trim();
   const senha = document.getElementById('loginSenha').value;
-  const err = document.getElementById('loginErr');
-  const btn = document.getElementById('btnLoginEmail');
-  err.style.display = 'none';
-  if (!email || !senha) { err.textContent = 'Preencha e-mail e senha.'; err.style.display='block'; return; }
+  const btn   = document.getElementById('btnEntrar');
+  hideLoginErr();
+  if (!email || !senha) { showLoginErr('Preencha e-mail e senha.'); return; }
   btn.textContent = 'ENTRANDO...'; btn.disabled = true;
   try {
-    await window.FB_AUTH.signInWithEmailAndPassword(window.FB_AUTH.auth, email, senha);
-    // onAuthStateChanged cuida do redirect
+    await window.FB_INDEX.signInWithEmailAndPassword(window.FB_INDEX.auth, email, senha);
   } catch(e) {
-    const msgs = {
-      'auth/user-not-found': 'E-mail não cadastrado.',
-      'auth/wrong-password': 'Senha incorreta.',
-      'auth/invalid-credential': 'E-mail ou senha incorretos.',
-      'auth/too-many-requests': 'Muitas tentativas. Aguarde.',
+    const m = {
+      'auth/user-not-found':'E-mail não cadastrado.',
+      'auth/wrong-password':'Senha incorreta.',
+      'auth/invalid-credential':'E-mail ou senha incorretos.',
+      'auth/too-many-requests':'Muitas tentativas. Aguarde.',
     };
-    err.textContent = msgs[e.code] || 'Erro ao entrar. Tente novamente.';
-    err.style.display = 'block';
+    showLoginErr(m[e.code] || 'Erro ao entrar.');
     btn.textContent = 'ENTRAR'; btn.disabled = false;
   }
 }
 
+function showLoginErr(msg) {
+  const el = document.getElementById('loginErr');
+  el.textContent = msg; el.style.display = 'block';
+}
+function hideLoginErr() { document.getElementById('loginErr').style.display = 'none'; }
+
 function entrarVisitante() {
-  localStorage.setItem('spfc_visitante', '1');
-  const overlay = document.getElementById('transitionOverlay');
-  const lt = document.getElementById('loadingText');
-  overlay.classList.add('active'); lt.classList.add('active');
-  lt.textContent = 'MODO VISITANTE...';
-  setTimeout(() => { window.location.href = 'main.html'; }, 900);
+  localStorage.setItem('spfc_visitante','1');
+  goTo('main.html');
 }
 </script>
 </body></html>
