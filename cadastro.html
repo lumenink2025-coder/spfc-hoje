@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -175,25 +174,23 @@ window.FB_CAD = {
   doc, setDoc, getDoc, serverTimestamp, runTransaction
 };
 
-// Auth state — roda tanto após popup quanto após redirect
+
+
+// Auth state — roda após autenticação (popup ou e-mail)
 onAuthStateChanged(auth, async user => {
   if (!user) {
-    // Garante que loading some se não há usuário
-    document.addEventListener('DOMContentLoaded', () => {
-      const ol = document.getElementById('loadingOverlay');
+    document.addEventListener('DOMContentLoaded', function() {
+      var ol = document.getElementById('loadingOverlay');
       if (ol) ol.classList.remove('active');
     });
     return;
   }
 
-  // Usuário autenticado! Esconde qualquer loading anterior
-  const ol = document.getElementById('loadingOverlay');
-  const lm = document.getElementById('loadingMsg');
+  var ol = document.getElementById('loadingOverlay');
+  var lm = document.getElementById('loadingMsg');
 
   try {
-    // Checa AMBAS as coleções — quiz usa 'users', cadastro usa 'usuarios'
     if (lm) lm.textContent = 'VERIFICANDO PERFIL...';
-    // Só mostra loading se ainda não estiver visível
     if (ol && !ol.classList.contains('active')) ol.classList.add('active');
 
     const [snapUsuarios, snapUsers] = await Promise.all([
@@ -201,31 +198,25 @@ onAuthStateChanged(auth, async user => {
       getDoc(doc(db, 'users',    user.uid))
     ]);
 
-  try {
-    // Checa AMBAS as coleções — quiz usa 'users', cadastro usa 'usuarios'
-    const [snapUsuarios, snapUsers] = await Promise.all([
-      getDoc(doc(db, 'usuarios', user.uid)),
-      getDoc(doc(db, 'users',    user.uid))
-    ]);
-    const temPerfil = snapUsuarios.exists() ||
-                      (snapUsers.exists() && snapUsers.data().nicknameLocked);
+    var temPerfil = snapUsuarios.exists() ||
+                    (snapUsers.exists() && snapUsers.data().nicknameLocked);
+
     if (temPerfil) {
-      const origem = sessionStorage.getItem('_cadOrigem') || 'main.html';
+      var origem = sessionStorage.getItem('_cadOrigem') || 'main.html';
       sessionStorage.removeItem('_cadOrigem');
       window.location.href = origem;
     } else {
       if (ol) ol.classList.remove('active');
       window._cadUser = user;
       if (typeof showStep === 'function') showStep(2);
-      else document.addEventListener('DOMContentLoaded', () => showStep(2));
+      else document.addEventListener('DOMContentLoaded', function() { showStep(2); });
     }
   } catch(e) {
     console.warn('Erro ao verificar perfil:', e);
     if (ol) ol.classList.remove('active');
     window._cadUser = user;
-    // Mesmo com erro no Firestore, permite criar perfil
     if (typeof showStep === 'function') showStep(2);
-    else document.addEventListener('DOMContentLoaded', () => showStep(2));
+    else document.addEventListener('DOMContentLoaded', function() { showStep(2); });
   }
 });
 </script>
@@ -425,7 +416,7 @@ function toggleEmailForm() {
 
 async function entrarGoogle() {
   if (!window.FB_CAD) return;
-  const { auth, provider, signInWithPopup, signInWithEmailAndPassword } = window.FB_CAD;
+  const { auth, provider, signInWithPopup } = window.FB_CAD;
 
   showLoading('ABRINDO GOOGLE...');
   try {
@@ -433,39 +424,23 @@ async function entrarGoogle() {
     // onAuthStateChanged cuida do resto
   } catch(e) {
     hideLoading();
-
-    // Conta já existe com credencial diferente (ex: criou com e-mail, agora tenta Google)
     if (e.code === 'auth/account-exists-with-different-credential') {
       const email = e.customData?.email || e.email;
       if (email) {
-        showErr('s1Err', `⚠️ O e-mail ${email} já tem uma conta. Use "Entrar com e-mail" abaixo ou recupere sua senha.`);
-        // Preenche o e-mail no formulário para facilitar
+        showErr('s1Err', '⚠️ O e-mail ' + email + ' já tem uma conta. Use "Entrar com e-mail" abaixo.');
         document.getElementById('s1Email').value = email;
-        // Abre o formulário de e-mail automaticamente
         const form = document.getElementById('emailForm');
         if (!form.classList.contains('open')) toggleEmailForm();
       } else {
         showErr('s1Err', '⚠️ Este e-mail já tem uma conta com senha. Use "Entrar com e-mail" abaixo.');
       }
-    } 
-    // E-mail já em uso (criação de conta)
-    else if (e.code === 'auth/email-already-in-use') {
-      showErr('s1Err', '⚠️ Este e-mail já tem uma conta. Clique em "Já tenho conta — entrar com e-mail".');
-    }
-    // Popup bloqueado
-    else if (e.code === 'auth/popup-blocked') {
+    } else if (e.code === 'auth/popup-blocked') {
       showErr('s1Err', '⚠️ Popup bloqueado. Desative o bloqueador de popups e tente novamente.');
-    } 
-    // Usuário fechou o popup
-    else if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
+    } else if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
       // Silencioso
-    } 
-    // Erro de rede
-    else if (e.code === 'auth/network-request-failed') {
+    } else if (e.code === 'auth/network-request-failed') {
       showErr('s1Err', 'Erro de conexão. Verifique sua internet e tente novamente.');
-    } 
-    // Erro genérico
-    else {
+    } else {
       showErr('s1Err', 'Erro ao entrar com Google: ' + (e.code || e.message));
     }
   }
@@ -485,7 +460,7 @@ async function criarContaEmail() {
   showLoading('CRIANDO CONTA...');
 
   // Timeout de segurança: se travar por mais de 15s, libera a tela
-  const safetyTimeout = setTimeout(() => {
+  const safetyTimeout = setTimeout(function() {
     hideLoading();
     btn.textContent = 'CRIAR CONTA'; btn.disabled = false;
     showErr('s1Err', '⏱️ A criação está demorando. Verifique sua conexão e tente novamente.');
@@ -493,9 +468,8 @@ async function criarContaEmail() {
 
   try {
     await window.FB_CAD.createUserWithEmailAndPassword(window.FB_CAD.auth, email, senha);
-    // onAuthStateChanged vai cuidar do resto — limpa o timeout
     clearTimeout(safetyTimeout);
-    // Não esconde loading aqui, deixa onAuthStateChanged cuidar
+    // onAuthStateChanged vai cuidar do resto
   } catch(e) {
     clearTimeout(safetyTimeout);
     hideLoading();
