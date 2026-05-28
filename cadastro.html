@@ -174,33 +174,24 @@ window.FB_CAD = {
   doc, setDoc, getDoc, serverTimestamp, runTransaction
 };
 
-
-
 // Auth state — roda após autenticação (popup ou e-mail)
 onAuthStateChanged(auth, async user => {
   if (!user) {
-    document.addEventListener('DOMContentLoaded', function() {
-      var ol = document.getElementById('loadingOverlay');
-      if (ol) ol.classList.remove('active');
-    });
+    var ol = document.getElementById('loadingOverlay');
+    if (ol) ol.classList.remove('active');
     return;
   }
-
   var ol = document.getElementById('loadingOverlay');
   var lm = document.getElementById('loadingMsg');
-
+  if (ol) ol.classList.add('active');
+  if (lm) lm.textContent = 'VERIFICANDO PERFIL...';
   try {
-    if (lm) lm.textContent = 'VERIFICANDO PERFIL...';
-    if (ol && !ol.classList.contains('active')) ol.classList.add('active');
-
     const [snapUsuarios, snapUsers] = await Promise.all([
       getDoc(doc(db, 'usuarios', user.uid)),
       getDoc(doc(db, 'users',    user.uid))
     ]);
-
     var temPerfil = snapUsuarios.exists() ||
                     (snapUsers.exists() && snapUsers.data().nicknameLocked);
-
     if (temPerfil) {
       var origem = sessionStorage.getItem('_cadOrigem') || 'main.html';
       sessionStorage.removeItem('_cadOrigem');
@@ -208,15 +199,13 @@ onAuthStateChanged(auth, async user => {
     } else {
       if (ol) ol.classList.remove('active');
       window._cadUser = user;
-      if (typeof showStep === 'function') showStep(2);
-      else document.addEventListener('DOMContentLoaded', function() { showStep(2); });
+      showStep(2);
     }
   } catch(e) {
     console.warn('Erro ao verificar perfil:', e);
     if (ol) ol.classList.remove('active');
     window._cadUser = user;
-    if (typeof showStep === 'function') showStep(2);
-    else document.addEventListener('DOMContentLoaded', function() { showStep(2); });
+    showStep(2);
   }
 });
 </script>
@@ -269,7 +258,7 @@ onAuthStateChanged(auth, async user => {
       <input id="s1Senha" class="cad-input" type="password" placeholder="Senha (mín. 6 caracteres)" autocomplete="new-password">
       <div id="s1Err" class="global-err"></div>
       <button class="s1-submit" id="s1BtnCriar" onclick="criarContaEmail()">CRIAR CONTA</button>
-      <div class="s1-forgot" onclick="esqueceuSenha()">🔑 Já tenho conta — entrar com e-mail/senha</div>
+      <div class="s1-forgot" onclick="esqueceuSenha()">Já tenho conta — entrar com e-mail</div>
       <div class="s1-cancel" onclick="toggleEmailForm()">Cancelar</div>
     </div>
   </div>
@@ -421,64 +410,61 @@ async function entrarGoogle() {
   showLoading('ABRINDO GOOGLE...');
   try {
     await signInWithPopup(auth, provider);
-    // onAuthStateChanged cuida do resto
   } catch(e) {
     hideLoading();
     if (e.code === 'auth/account-exists-with-different-credential') {
-      const email = e.customData?.email || e.email;
+      var email = e.customData && e.customData.email ? e.customData.email : (e.email || '');
       if (email) {
-        showErr('s1Err', '⚠️ O e-mail ' + email + ' já tem uma conta. Use "Entrar com e-mail" abaixo.');
+        showErr('s1Err', '⚠️ Este e-mail já tem uma conta. Use "Entrar com e-mail" abaixo.');
         document.getElementById('s1Email').value = email;
-        const form = document.getElementById('emailForm');
+        var form = document.getElementById('emailForm');
         if (!form.classList.contains('open')) toggleEmailForm();
       } else {
-        showErr('s1Err', '⚠️ Este e-mail já tem uma conta com senha. Use "Entrar com e-mail" abaixo.');
+        showErr('s1Err', '⚠️ Este e-mail já tem uma conta. Use "Entrar com e-mail" abaixo.');
       }
     } else if (e.code === 'auth/popup-blocked') {
       showErr('s1Err', '⚠️ Popup bloqueado. Desative o bloqueador de popups e tente novamente.');
     } else if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
-      // Silencioso
+      // silencioso
     } else if (e.code === 'auth/network-request-failed') {
-      showErr('s1Err', 'Erro de conexão. Verifique sua internet e tente novamente.');
+      showErr('s1Err', 'Erro de conexão. Verifique sua internet.');
     } else {
-      showErr('s1Err', 'Erro ao entrar com Google: ' + (e.code || e.message));
+      showErr('s1Err', 'Erro: ' + (e.code || e.message));
     }
   }
 }
 
 async function criarContaEmail() {
   if (!window.FB_CAD) return;
-  const email = document.getElementById('s1Email').value.trim();
-  const senha = document.getElementById('s1Senha').value;
-  const btn = document.getElementById('s1BtnCriar');
+  var email = document.getElementById('s1Email').value.trim();
+  var senha = document.getElementById('s1Senha').value;
+  var btn = document.getElementById('s1BtnCriar');
   clearErr('s1Err');
 
-  if (!email || !/\S+@\S+\.\S+/.test(email)) { showErr('s1Err', 'E-mail inválido.'); return; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr('s1Err', 'E-mail inválido.'); return; }
   if (senha.length < 6) { showErr('s1Err', 'Senha precisa ter pelo menos 6 caracteres.'); return; }
 
   btn.textContent = 'AGUARDE...'; btn.disabled = true;
   showLoading('CRIANDO CONTA...');
 
-  // Timeout de segurança: se travar por mais de 15s, libera a tela
-  const safetyTimeout = setTimeout(function() {
+  var safetyTimeout = setTimeout(function() {
     hideLoading();
     btn.textContent = 'CRIAR CONTA'; btn.disabled = false;
-    showErr('s1Err', '⏱️ A criação está demorando. Verifique sua conexão e tente novamente.');
-  }, 15000);
+    showErr('s1Err', '⏱️ Demorou demais. Verifique sua conexão e tente novamente.');
+  }, 12000);
 
   try {
     await window.FB_CAD.createUserWithEmailAndPassword(window.FB_CAD.auth, email, senha);
     clearTimeout(safetyTimeout);
-    // onAuthStateChanged vai cuidar do resto
   } catch(e) {
     clearTimeout(safetyTimeout);
     hideLoading();
     btn.textContent = 'CRIAR CONTA'; btn.disabled = false;
-    const msgs = {
+    var msgs = {
       'auth/email-already-in-use': '⚠️ Este e-mail já tem uma conta. Use "Entrar com e-mail" abaixo.',
       'auth/invalid-email': 'E-mail inválido.',
-      'auth/weak-password': 'Senha muito fraca. Use pelo menos 6 caracteres.',
-      'auth/too-many-requests': 'Muitas tentativas. Aguarde alguns minutos.',
+      'auth/weak-password': 'Senha muito fraca.',
+      'auth/too-many-requests': 'Muitas tentativas. Aguarde um minuto.',
     };
     showErr('s1Err', msgs[e.code] || 'Erro: ' + (e.code || e.message));
   }
