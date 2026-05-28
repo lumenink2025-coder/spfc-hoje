@@ -243,7 +243,7 @@ onAuthStateChanged(auth, async user => {
     <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png"
       alt="São Paulo FC" class="s1-shield" onerror="this.style.display='none';document.getElementById('s1FallbackIcon').style.display='block'">
     <span id="s1FallbackIcon" class="s1-icon" style="display:none">🔴</span>
-    <div class="s1-title">SÃO PAULO<em>FC HOJE</em></div>
+    <div class="s1-title">SPFC<em>HOJE</em></div>
     <div class="s1-sub">Crie sua conta para acessar o Quiz,<br>Palpitômetro e ranking de torcedores.</div>
   </div>
 
@@ -418,12 +418,23 @@ async function entrarGoogle() {
   if (!window.FB_CAD) return;
   const { auth, provider, signInWithRedirect } = window.FB_CAD;
 
-  // Usa sempre signInWithRedirect — signInWithPopup quebra com COOP headers do Vercel
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+                   window.matchMedia('(display-mode: standalone)').matches ||
+                   window.navigator.standalone;
   try {
-    await signInWithRedirect(auth, provider);
-    // Página navega para o Google — getRedirectResult trata o retorno
+    if (isMobile) {
+      // Mobile: redirect (popup não funciona bem em apps instalados)
+      await signInWithRedirect(auth, provider);
+    } else {
+      // Desktop: popup (mais rápido, COOP removido do vercel.json)
+      await signInWithPopup(auth, provider);
+    }
   } catch(e) {
-    showErr('s1Err', 'Erro ao abrir Google: ' + (e.code || e.message));
+    if (e.code === 'auth/popup-blocked') {
+      await signInWithRedirect(auth, provider);
+    } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+      showErr('s1Err', 'Erro: ' + (e.code || e.message));
+    }
   }
 }
 
