@@ -2845,22 +2845,22 @@ function saveAvatar() {
     dataUrl: av.url,
   };
 
-  // Bloqueia nickname permanentemente após primeiro save
-  STATE.nicknameLocked = true;
-
   // Registra data de troca de avatar (só se realmente trocou ou é o primeiro)
   if (avatarChanged || isFirstSave) {
     STATE.avatarLastChanged = new Date().toISOString();
   }
-
-  saveState();
 
   // Salva no Firebase
   if (STATE.user && window.FB) {
     const {db, doc, setDoc} = window.FB;
     const uid = STATE.user.uid;
 
+    // FIX: reserveNickname precisa ser chamado ANTES de setar nicknameLocked = true
+    // (antes estava depois, quando nicknameLocked já era true — nunca executava)
     if (!STATE.nicknameLocked) reserveNickname(name, uid);
+
+    // Bloqueia nickname permanentemente após primeiro save
+    STATE.nicknameLocked = true;
 
     setDoc(doc(db, 'users', uid), {
       name,
