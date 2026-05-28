@@ -117,7 +117,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider,
          createUserWithEmailAndPassword, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { getFirestore, doc, setDoc, getDoc, collection,
-         query, where, getDocs, serverTimestamp }
+         query, where, getDocs, serverTimestamp, runTransaction }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 const cfg = {
@@ -135,7 +135,7 @@ const provider = new GoogleAuthProvider();
 
 window.FB_CAD = { auth, db, provider, signInWithPopup,
   createUserWithEmailAndPassword, doc, setDoc, getDoc,
-  collection, query, where, getDocs, serverTimestamp };
+  collection, query, where, getDocs, serverTimestamp, runTransaction };
 
 // Se já logado e tem perfil → vai pro app
 onAuthStateChanged(auth, async user => {
@@ -312,12 +312,20 @@ async function validarFormulario() {
   if (nick.length < 2) {
     showErr('nickErr', 'Apelido precisa ter pelo menos 2 letras.'); ok = false;
   } else {
-    // Unicidade
+    // Unicidade — usa coleção 'nicknames' (doc ID = nick.toLowerCase())
+    // mais confiável que query por campo, sem depender de índice
     try {
-      const { collection, query, where, getDocs, db } = window.FB_CAD;
-      const snap = await getDocs(query(collection(db, 'usuarios'), where('displayName', '==', nick)));
-      if (!snap.empty) { showErr('nickErr', 'Este apelido já está em uso.'); ok = false; }
-    } catch(e) {}
+      const { db, doc, getDoc } = window.FB_CAD;
+      const nickSnap = await getDoc(doc(db, 'nicknames', nick.toLowerCase()));
+      if (nickSnap.exists()) {
+        showErr('nickErr', 'Este apelido já está em uso. Escolha outro.');
+        ok = false;
+      }
+    } catch(e) {
+      // Se falhar a checagem, bloqueia por segurança
+      showErr('nickErr', 'Erro ao verificar apelido. Tente novamente.');
+      ok = false;
+    }
   }
 
   if (!aniv) { showErr('anivErr', 'Informe sua data de aniversário.'); ok = false; }
@@ -351,41 +359,39 @@ async function salvarPerfil(user) {
     createdAt:   serverTimestamp()
   };
 
-  // Salva nas 3 coleções de uma vez
-  await Promise.all([
-    // Perfil unificado
-    setDoc(doc(db, 'usuarios', user.uid), profile),
+  // Salva com transaction para garantir unicidade do nick
+  const { runTransaction } = window.FB_CAD;
+  const nickRef    = doc(db, 'nicknames', nick.toLowerCase());
+  const usuarioRef = doc(db, 'usuarios', user.uid);
+  const rankingRef = doc(db, 'ranking', user.uid);
+  const usersRef   = doc(db, 'users', user.uid);
 
-    // Ranking palpitômetro
-    setDoc(doc(db, 'ranking', user.uid), {
-      displayName:  nick,
-      avatarId:     _selectedAvatar.id,
-      avatarUrl:    _selectedAvatar.url,
-      photoURL:     user.photoURL || '',
-      totalPontos:  0, totalAcertos: 0, totalErros: 0,
-      totalPalpites:0, placareExatos: 0, pontosMes: 0,
-      createdAt:    serverTimestamp()
-    }, { merge: true }),
+  await runTransaction(db, async (t) => {
+    const nickSnap = await t.get(nickRef);
+    if (nickSnap.exists() && nickSnap.data().uid !== user.uid) {
+      throw new Error('NICK_TAKEN');
+    }
 
-    // Quiz users
-    setDoc(doc(db, 'users', user.uid), {
+    t.set(nickRef, { uid: user.uid, displayName: nick, createdAt: serverTimestamp() });
+    t.set(usuarioRef, profile);
+    t.set(rankingRef, {
       displayName:   nick,
-      avatar: {
-        id:      _selectedAvatar.id,
-        dataUrl: _selectedAvatar.url,
-        name:    nick
-      },
+      avatarId:      _selectedAvatar.id,
+      avatarUrl:     _selectedAvatar.url,
+      photoURL:      user.photoURL || '',
+      totalPontos:   0, totalAcertos: 0, totalErros: 0,
+      totalPalpites: 0, placareExatos: 0, pontosMes: 0,
+      createdAt:     serverTimestamp()
+    }, { merge: true });
+    t.set(usersRef, {
+      displayName:    nick,
+      avatar: { id: _selectedAvatar.id, dataUrl: _selectedAvatar.url, name: nick },
       nicknameLocked: true,
       lives:          5,
       totalScore:     0,
       createdAt:      serverTimestamp()
-    }, { merge: true }),
-
-    // Nicknames (índice de unicidade do quiz)
-    setDoc(doc(db, 'nicknames', nick.toLowerCase()), {
-      uid: user.uid, displayName: nick, createdAt: serverTimestamp()
-    })
-  ]);
+    }, { merge: true });
+  });
 }
 
 /* CRIAR CONTA EMAIL */
@@ -428,8 +434,13 @@ async function criarConta() {
       'auth/invalid-email': 'E-mail inválido.',
     };
     const errEl = document.getElementById('globalErr');
-    errEl.textContent = msgs[e.code] || 'Erro: ' + e.message;
-    errEl.style.display = 'block';
+    if (e.message === 'NICK_TAKEN') {
+      const nickErr = document.getElementById('nickErr');
+      if (nickErr) { nickErr.textContent = 'Este apelido já está em uso. Escolha outro.'; nickErr.style.display = 'block'; }
+    } else {
+      errEl.textContent = msgs[e.code] || 'Erro: ' + e.message;
+      errEl.style.display = 'block';
+    }
     btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false;
   }
 }
@@ -461,8 +472,13 @@ async function cadastrarGmail() {
       btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false; return;
     }
     const errEl = document.getElementById('globalErr');
-    errEl.textContent = 'Erro ao entrar com Google. Tente novamente.';
-    errEl.style.display = 'block';
+    if (e.message === 'NICK_TAKEN') {
+      const nickErr = document.getElementById('nickErr');
+      if (nickErr) { nickErr.textContent = 'Este apelido já está em uso. Escolha outro.'; nickErr.style.display = 'block'; }
+    } else {
+      errEl.textContent = 'Erro ao entrar com Google: ' + (e.code || e.message);
+      errEl.style.display = 'block';
+    }
     btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false;
   }
 }
