@@ -175,8 +175,11 @@ window.FB_CAD = {
 };
 
 // Se usuário já logado: tem perfil → main.html, sem perfil → step 2
+let _cadHandled = false; // FIX Bug 1: evita dupla entrada no cadastro
 onAuthStateChanged(auth, async user => {
   if (!user) return;
+  if (_cadHandled) return;
+  _cadHandled = true;
   try {
     const snap = await getDoc(doc(db, 'usuarios', user.uid));
     if (snap.exists()) {
@@ -402,17 +405,16 @@ async function entrarGoogle() {
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-  showLoading('ABRINDO GOOGLE...');
+  // FIX Bug 2: não mostrar loading antes do popup — pode travar se bloqueado
   try {
     if (isMobile || isStandalone) {
+      showLoading('REDIRECIONANDO...');
       await signInWithRedirect(auth, provider);
-      // página recarrega — onAuthStateChanged cuida do resto
     } else {
       await signInWithPopup(auth, provider);
-      // onAuthStateChanged dispara automaticamente
+      // Sucesso: onAuthStateChanged assume e mostra o loading
     }
   } catch(e) {
-    hideLoading();
     if (e.code === 'auth/popup-blocked') {
       showLoading('REDIRECIONANDO...');
       await signInWithRedirect(auth, provider);
@@ -517,9 +519,15 @@ async function validarPerfil() {
 }
 
 async function salvarPerfilFinal() {
-  if (!window.FB_CAD || !window._cadUser) {
-    showGlobalErr('Sessão expirada. Recarregue a página.'); return;
+  if (!window.FB_CAD) {
+    showGlobalErr('Firebase não carregado. Recarregue a página.'); return;
   }
+  // FIX Bug 3: usar auth.currentUser direto (sempre confiável)
+  const authUser = window.FB_CAD.auth.currentUser;
+  if (!authUser) {
+    showGlobalErr('Sessão expirada. Feche e abra a página novamente.'); return;
+  }
+  window._cadUser = authUser;
   const btn = document.getElementById('btnCriar');
   clearErr('globalErr');
   btn.textContent = 'VERIFICANDO...'; btn.disabled = true;
