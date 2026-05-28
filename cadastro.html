@@ -584,18 +584,29 @@ async function salvarPerfilFinal() {
   };
 
   try {
-    const nickRef    = doc(db, 'nicknames',  nick.toLowerCase());
-    const usuarioRef = doc(db, 'usuarios',   user.uid);
-    const rankingRef = doc(db, 'ranking',    user.uid);
-    const usersRef   = doc(db, 'users',      user.uid);
+    console.log('=== SALVAR PERFIL ===');
+    console.log('User UID:', user?.uid);
+    console.log('Nick:', nick);
+    console.log('Avatar:', _selectedAvatar?.id);
+    console.log('window.identity:', !!window.identity);
+    console.log('window.FB_CAD:', !!window.FB_CAD);
+
+    const nickRef = window.FB_CAD.doc(window.FB_CAD.db, 'nicknames', nick.toLowerCase());
 
     // Salva apelido na coleção 'nicknames' para garantir unicidade
+    console.log('Verificando nickname...');
     const nickSnap = await window.FB_CAD.getDoc(nickRef);
+    console.log('Nick exists:', nickSnap.exists());
+
     if (nickSnap.exists() && nickSnap.data().uid !== user.uid) throw new Error('NICK_TAKEN');
-    await setDoc(nickRef, { uid: user.uid, displayName: nick, createdAt: serverTimestamp() });
+
+    console.log('Salvando nickname...');
+    await window.FB_CAD.setDoc(nickRef, { uid: user.uid, displayName: nick, createdAt: window.FB_CAD.serverTimestamp() });
+    console.log('Nickname OK');
 
     // Salva perfil unificado via UnifiedIdentity
-    await identity.saveProfile(user.uid, {
+    console.log('Chamando identity.saveProfile...');
+    const saveResult = await window.identity.saveProfile(user.uid, {
       displayName: nick,
       name: nick,
       avatar: _selectedAvatar.url,
@@ -613,6 +624,12 @@ async function salvarPerfilFinal() {
       pontosMes: 0
     });
 
+    console.log('saveProfile result:', saveResult);
+    if (!saveResult || !saveResult.success) {
+        throw new Error('saveProfile falhou: ' + (saveResult?.error || 'unknown'));
+    }
+    console.log('Perfil salvo com sucesso!');
+
     hideLoading();
     btn.textContent = 'BEM-VINDO! 🔴';
 
@@ -622,6 +639,8 @@ async function salvarPerfilFinal() {
     setTimeout(() => { window.location.href = origem; }, 800);
 
   } catch(e) {
+    console.error('=== ERRO EM SALVAR PERFIL ===');
+    console.error(e);
     hideLoading();
     btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false;
     if (e.message === 'NICK_TAKEN') {
