@@ -111,55 +111,23 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .lives-timer{font-size:11px;color:var(--txt3);letter-spacing:2px;text-align:center;margin-top:-12px;margin-bottom:16px}
 
 /* ══ LOGIN SCREEN ═════════════════════════════════ */
-#screen-login{background:radial-gradient(ellipse 200% 60% at 20% 30%,rgba(180,0,0,.55) 0%,transparent 55%),radial-gradient(ellipse 200% 60% at 80% 70%,rgba(120,0,0,.4) 0%,transparent 55%),#060606;justify-content:flex-start;padding-bottom:40px}
-.login-wrap{width:100%;max-width:420px;padding:0 20px 20px;text-align:center}
 /* Hero */
-.login-hero{width:100%;padding:48px 20px 24px;display:flex;flex-direction:column;align-items:center;position:relative}
 .login-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 100% 80% at 50% 0%,rgba(204,0,0,.2),transparent 70%);pointer-events:none}
-.login-badge{width:110px;height:110px;margin:0 auto 16px;position:relative}
-.login-badge-img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 32px rgba(204,0,0,.5))}
-.login-quiz-title{font-family:var(--font-t);font-size:clamp(52px,16vw,72px);letter-spacing:4px;line-height:.85;background:linear-gradient(180deg,#fff 30%,rgba(200,200,200,.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:2px}
-.login-tricolor{font-family:var(--font-u);font-size:14px;letter-spacing:10px;color:var(--gold);margin-bottom:10px;font-weight:600}
-.login-tagline{font-size:14px;color:var(--txt2);line-height:1.5;margin-bottom:0}
 .login-tagline strong{color:var(--gold)}
 /* Card */
-.login-card{width:100%;background:rgba(10,10,10,.85);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:22px 20px 20px;margin-bottom:12px}
-.login-card-header{font-size:10px;letter-spacing:4px;color:var(--txt3);text-align:center;margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .login-card-header::before,.login-card-header::after{content:'';flex:1;height:1px;background:rgba(204,0,0,.3)}
 .login-card-header span{color:var(--red);font-weight:700}
 /* Buttons */
-.login-btn{width:100%;padding:16px 20px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px;margin-bottom:10px;letter-spacing:.3px;border:1px solid transparent}
-.login-btn-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
-.login-btn-text{flex:1;text-align:left}
-.login-btn-arrow{font-size:16px;opacity:.6}
-.login-btn-email{background:var(--red);color:#fff;border-color:rgba(255,80,80,.3);box-shadow:0 4px 20px rgba(204,0,0,.4)}
 .login-btn-email:hover{background:var(--red2);transform:translateY(-1px);box-shadow:0 8px 28px rgba(204,0,0,.5)}
-.login-btn-email .login-btn-icon{background:rgba(0,0,0,.2)}
-.login-btn-google{background:rgba(255,255,255,.06);color:var(--txt);border-color:rgba(255,255,255,.12)}
-.login-btn-google:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);transform:translateY(-1px)}
-.login-btn-guest{background:rgba(255,255,255,.04);color:var(--txt2);border-color:rgba(255,255,255,.08)}
+.login-btn-email .login-btn-google:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);transform:translateY(-1px)}
 .login-btn-guest:hover{background:rgba(255,255,255,.08);color:var(--txt);transform:translateY(-1px)}
 /* Features */
-.login-features{width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
-.login-feat{background:rgba(10,10,10,.7);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 8px;text-align:center}
-.login-feat-icon{font-size:22px;margin-bottom:6px;color:var(--gold)}
-.login-feat-title{font-size:9px;letter-spacing:2px;color:var(--txt);font-weight:700;text-transform:uppercase;margin-bottom:3px}
-.login-feat-sub{font-size:9px;color:var(--txt3);line-height:1.4}
-.login-footer-bar{width:100%;display:flex;align-items:center;gap:12px;padding:0 4px}
 .login-footer-bar::before,.login-footer-bar::after{content:'';flex:1;height:1px;background:rgba(204,0,0,.4)}
-.login-footer-brand{font-size:10px;letter-spacing:4px;color:var(--txt3);white-space:nowrap}
 /* Compat */
-.login-divider{display:none}
-.login-field{position:relative;margin-bottom:12px}
-.login-field-label{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--txt3);letter-spacing:1px;pointer-events:none;transition:all .2s;font-family:var(--font-u)}
-.login-input{width:100%;padding:20px 16px 8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:var(--txt);font-size:15px;font-family:var(--font-b);outline:none;transition:all .2s}
 .login-input:focus{border-color:rgba(204,0,0,.6);background:rgba(204,0,0,.06);box-shadow:0 0 0 3px rgba(204,0,0,.1)}
-.login-input:focus + .login-field-label,.login-input:not(:placeholder-shown) + .login-field-label{top:10px;font-size:9px;letter-spacing:2px;color:var(--red)}
-.login-input::placeholder{color:transparent}
+.login-input:focus + .login-field-label,.login-input:not(:placeholder-shown) + .login-input::placeholder{color:transparent}
 .btn-email{display:none}
 .btn-google{display:none}
-.login-links{display:flex;justify-content:space-between;margin-top:6px;padding:0 2px}
-.login-skip{font-size:12px;color:var(--txt3);cursor:pointer;transition:.2s;letter-spacing:.3px}
 .login-skip:hover{color:var(--txt)}
 
 /* ══ AVATAR SCREEN ════════════════════════════════ */
@@ -730,30 +698,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .home-cta-icon { font-size: 20px; }
 
 /* Botão login abaixo do CTA */
-.home-login-btn {
-  width: 100%;
-  max-width: 340px;
-  padding: 12px 24px;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 10px;
-  color: var(--txt2);
-  font-family: var(--font-u);
-  font-size: 13px;
-  letter-spacing: 2px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  margin-top: 10px;
-}
-.home-login-btn:hover {
-  border-color: rgba(204,0,0,0.5);
-  color: #fff;
-  background: rgba(204,0,0,0.08);
-}
+
+
 .home-login-hint {
   font-size: 10px;
   color: var(--txt3);
@@ -1505,7 +1451,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         <div class="home-tb-logo"><span>SPFC</span> QUIZ</div>
         <div class="home-tb-right">
           <div class="home-tb-bell" onclick="toggleMusic()" id="musicToggleHome">🔔</div>
-          <div class="home-tb-avatar" id="userChipHome" onclick="goScreen(&#39;screen-login&#39;)">
+          <div class="home-tb-avatar" id="userChipHome" onclick="irParaCadastro()">
             <img src="./quiz_files/Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" id="homeAvatarImg" onerror="this.src=&#39;https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png&#39;" style="display: none;">
           </div>
         </div>
@@ -1545,9 +1491,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
       <!-- LOGIN CTA — visível só quando não logado -->
       <div id="homeLoginCta" style="display: flex; width: 100%; max-width: 340px; flex-direction: column; align-items: center;">
-        <button class="home-login-btn" onclick="goScreen(&#39;screen-login&#39;)">
-          <span>👤</span> FAZER LOGIN
-        </button>
+        
         <div class="home-login-hint">para participar do ranking precisa estar logado</div>
       </div>
 
@@ -1656,53 +1600,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div style="height:20px"></div>
 
 </div>
-<!-- ══ SCREEN: LOGIN ══════════════════════════════ -->
-<div class="screen" id="screen-login">
-  <!-- Hero -->
-  <div class="login-hero">
-    <div class="login-badge">
-      <img class="login-badge-img" src="./quiz_files/Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC">
-    </div>
-    <div class="login-quiz-title">QUIZ</div>
-    <div class="login-tricolor">T R I C O L O R</div>
-    <div class="login-tagline">Mostre que você é um<br><strong>verdadeiro torcedor!</strong></div>
-  </div>
-
-  <div class="login-wrap fade-in">
-    <div class="login-card" style="text-align:center;padding:28px 20px">
-      <div style="font-size:36px;margin-bottom:12px">🔐</div>
-      <div style="font-family:var(--font-t);font-size:20px;letter-spacing:3px;color:#fff;margin-bottom:8px">ENTRE PARA JOGAR</div>
-      <div style="font-size:12px;color:var(--txt3);margin-bottom:24px;line-height:1.7">Login unificado para Quiz,<br>Palpitômetro e ranking.</div>
-      <button onclick="irParaCadastro()"
-        style="width:100%;padding:16px;background:linear-gradient(135deg,var(--red),#8B0000);color:#fff;border:none;border-radius:12px;font-family:var(--font-t);font-size:22px;letter-spacing:3px;cursor:pointer;box-shadow:0 6px 24px rgba(204,0,0,.4);margin-bottom:12px">
-        CRIAR CONTA / ENTRAR
-      </button>
-      <button class="login-btn login-btn-guest" onclick="playAsGuest()" style="width:100%">
-        <div class="login-btn-icon">👤</div>
-        <span class="login-btn-text">Continuar como visitante</span>
-        <span class="login-btn-arrow">›</span>
-      </button>
-    </div>
-
-    <div class="login-features">
-      <div class="login-feat"><div class="login-feat-icon">🏆</div><div class="login-feat-title">RANKING</div><div class="login-feat-sub">Compita com outros torcedores</div></div>
-      <div class="login-feat"><div class="login-feat-icon">👑</div><div class="login-feat-title">CONQUISTAS</div><div class="login-feat-sub">Desbloqueie troféus e recompensas</div></div>
-      <div class="login-feat"><div class="login-feat-icon">⚡</div><div class="login-feat-title">DESAFIOS</div><div class="login-feat-sub">Teste seus conhecimentos</div></div>
-    </div>
-  </div>
-</div>
-    <div style="text-align:center;margin-bottom:16px">
-      <span style="font-size:13px;color:var(--txt3)">Ainda não tem uma conta? </span>
-      <span onclick="registerEmail()" style="font-size:13px;color:var(--red);cursor:pointer;font-weight:700;letter-spacing:1px">CRIAR CONTA ›</span>
-    </div>
-
-    <!-- Footer bar -->
-    <div class="login-footer-bar">
-      <span class="login-footer-brand">M A G A Z I N E &nbsp; T R I C O L O R</span>
-    </div>
-  </div>
-</div>
-
 <!-- ══ SCREEN: AVATAR ════════════════════════════ -->
 <div class="screen" id="screen-avatar">
   <div class="topbar">
@@ -2133,103 +2030,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <script>
 'use strict';
 
-/* ════════════════════════════════════════════════
-   BANCO DE PERGUNTAS — 300+ questões sobre SPFC
-   Níveis: 1=Fácil 2=Médio 3=Difícil 4=Expert 5=Lendário 6=Final
-════════════════════════════════════════════════ */
-const QUESTIONS = [
-// ─── NÍVEL 1 — FÁCIL ──────────────────────────
-{l:1,q:'Em que ano o São Paulo Futebol Clube foi fundado?',o:['1930','1920','1935','1940'],c:0,h:'O SPFC nasceu na cidade de São Paulo no início dos anos 30.'},
-{l:1,q:'Qual é o apelido do estádio do São Paulo?',o:['Morumbi','Pacaembu','Arena SPFC','Palestra'],c:0,h:'O estádio foi inaugurado em 1960 e é o maior de propriedade privada do mundo.'},
-{l:1,q:'Qual é a data de fundação do São Paulo FC?',o:['25 de janeiro de 1930','7 de setembro de 1930','25 de março de 1930','1º de maio de 1930'],c:0,h:'A data coincide com o aniversário da cidade de São Paulo.'},
-{l:1,q:'Quantos Mundiais de Clubes o São Paulo conquistou?',o:['3','2','1','4'],c:0,h:'O SPFC é o maior campeão mundial do Brasil.'},
-{l:1,q:'Qual jogador é considerado o maior ídolo da história do São Paulo?',o:['Rogério Ceni','Raí','Cafu','Müller'],c:0,h:'Ele foi goleiro e artilheiro ao mesmo tempo.'},
-{l:1,q:'Quantas Copas Libertadores o São Paulo conquistou?',o:['3','2','1','4'],c:0,h:'O clube conquistou o torneio nos anos 90 e 2000.'},
-{l:1,q:'Qual foi o primeiro título mundial do São Paulo?',o:['1992','1993','2005','1991'],c:0,h:'O SPFC venceu o Barcelona nesta final histórica.'},
-{l:1,q:'Qual é o nome oficial do estádio do São Paulo?',o:['Cícero Pompeu de Toledo','Pacaembu','Olímpico','Morumbi'],c:0,h:'O nome homenageia um ex-presidente do clube.'},
-{l:1,q:'Qual a cor que NUNCA aparece no uniforme do São Paulo?',o:['Verde','Azul','Amarelo','Roxo'],c:0,h:'O tricolor paulista é vermelho, branco e preto.'},
-{l:1,q:'Quantos Campeonatos Brasileiros o São Paulo já conquistou?',o:['6','4','8','3'],c:0,h:'O Tri consecutivo foi em 2006, 2007 e 2008.'},
-{l:1,q:'Qual técnico levou o São Paulo à conquista da Libertadores em 1992 e 1993?',o:['Telê Santana','Muricy Ramalho','Vanderlei Luxemburgo','Paulo Autuori'],c:0,h:'Um dos maiores treinadores da história do futebol brasileiro.'},
-{l:1,q:'Rogério Ceni é conhecido por marcar gols sendo goleiro. Quantos gols ele marcou?',o:['131','89','150','72'],c:0,h:'A maioria de cobranças de falta e pênaltis.'},
-{l:1,q:'Qual ídolo do São Paulo ganhou a Bola de Ouro FIFA em 2007?',o:['Kaká','Ronaldinho','Cafu','Raí'],c:0,h:'Ele saiu das categorias de base do SPFC.'},
-{l:1,q:'Em que cidade fica o Estádio do Morumbi?',o:['São Paulo','Santos','Campinas','Guarulhos'],c:0,h:'Capital do estado de São Paulo.'},
-{l:1,q:'Qual lateral do São Paulo foi bicampeão mundial com a Seleção Brasileira?',o:['Cafu','Zé Maria','Cicinho','Bellini'],c:0,h:'Ele jogou na Copa de 1994 e 2002.'},
-
-// ─── NÍVEL 2 — MÉDIO ──────────────────────────
-{l:2,q:'Em que ano o São Paulo conquistou o Campeonato Brasileiro pela primeira vez?',o:['1986','1991','1977','1992'],c:0,h:'Foi o primeiro título nacional do clube.'},
-{l:2,q:'O São Paulo venceu o MUNDIAL de 1992 contra qual time?',o:['Barcelona','Milan','Ajax','Juventus'],c:0,h:'O adversário era o grande clube espanhol de Johan Cruyff.'},
-{l:2,q:'Qual foi o adversário do São Paulo na final da Libertadores de 1993?',o:['Universidad de Chile','Boca Juniors','Nacional','Peñarol'],c:0,h:'Time chileno foi a vítima do título inaugural.'},
-{l:2,q:'O São Paulo venceu o Mundial de 2005 contra qual time inglês?',o:['Liverpool','Manchester United','Chelsea','Arsenal'],c:0,h:'Os Reds de Liverpool foram os adversários.'},
-{l:2,q:'Quantas partidas Rogério Ceni jogou pelo São Paulo?',o:['1.237','987','1.100','1.500'],c:0,h:'Um recorde mundial de jogos pela mesma equipe.'},
-{l:2,q:'Em que ano o Estádio do Morumbi foi inaugurado?',o:['1960','1955','1965','1970'],c:0,h:'A inauguração foi em 1º de outubro.'},
-{l:2,q:'Qual treinador levou o São Paulo ao tricampeonato brasileiro (2006-2007-2008)?',o:['Muricy Ramalho','Telê Santana','Emerson Leão','Ricardo Gomes'],c:0,h:'Ele voltou ao clube em 2023 e ganhou a Copa do Brasil.'},
-{l:2,q:'O São Paulo conquistou a Copa do Brasil pela primeira vez em que ano?',o:['2023','2012','2015','2018'],c:0,h:'A final foi contra o Flamengo.'},
-{l:2,q:'Qual jogador uruguaio foi capitão e ídolo do São Paulo nos anos 2000?',o:['Diego Lugano','Forlan','Recoba','Suárez'],c:0,h:'Zagueiro querido que defendeu o clube por uma década.'},
-{l:2,q:'O São Paulo venceu o Mundial de 1993 contra qual time?',o:['Milan','Barcelona','Parma','Ajax'],c:0,h:'O time italiano de Capello foi derrotado.'},
-{l:2,q:'Qual a posição de Rogério Ceni em campo?',o:['Goleiro','Zagueiro','Meia','Lateral'],c:0,h:'Único goleiro artilheiro da história do futebol.'},
-{l:2,q:'Kaká foi revelado pelo São Paulo. Em que ano estreou pelo clube?',o:['2001','1999','2003','2000'],c:0,h:'Ele fez sua estreia quando era ainda muito jovem.'},
-{l:2,q:'Qual lateral direito do São Paulo se destacou no Tricampeonato da Libertadores?',o:['Cafu','Zé Maria','Cicinho','Junior'],c:0,h:'Um dos maiores laterais de todos os tempos.'},
-{l:2,q:'Raí foi capitão do São Paulo e irmão de qual famoso jogador?',o:['Sócrates','Zico','Bebeto','Romário'],c:0,h:'Seu irmão era ídolo do Corinthians e do Brasil.'},
-{l:2,q:'O São Paulo venceu o Campeonato Paulista de 2021 em que fase?',o:['Final','Semifinal','Quartas','Grupo'],c:0,h:'O título foi conquistado no mata-mata.'},
-
-// ─── NÍVEL 3 — DIFÍCIL ────────────────────────
-{l:3,q:'Qual foi o placar da final do Mundial de 1992 entre São Paulo e Barcelona?',o:['2x1','1x0','3x2','2x0'],c:0,h:'Foi uma final equilibrada, mas o SPFC levou a melhor.'},
-{l:3,q:'Em qual cidade foi disputado o Mundial de 2005 onde o São Paulo venceu o Liverpool?',o:['Yokohama','Tóquio','Dubai','Abu Dhabi'],c:0,h:'A final foi disputada no Japão.'},
-{l:3,q:'Qual foi a maior goleada do São Paulo na era moderna?',o:['10x0 no Botafogo-PB','12x1 no Jabaquara','11x0 no Inter-SP','9x0 na Port. Santista'],c:0,h:'Foi na Copa do Brasil em 2001.'},
-{l:3,q:'Arthur Friedenreich recebeu qual apelido histórico?',o:['O Tigre','O Leão','O Touro','O Falcão'],c:0,h:'O nome fazia referência à sua bravura e força.'},
-{l:3,q:'Em que ano Rogério Ceni fez sua estreia pelo São Paulo?',o:['1993','1990','1992','1991'],c:0,h:'Ele estreou ainda muito jovem no começo dos anos 90.'},
-{l:3,q:'O São Paulo marcou 12 gols em um único jogo em 1945 contra qual time?',o:['Jabaquara','Santos','Corinthians','Portuguesa'],c:0,h:'Foi em agosto de 1945, uma das maiores goleadas da história.'},
-{l:3,q:'Casemiro foi revelado pelo São Paulo. Em que ano ele estreou profissionalmente?',o:['2010','2008','2012','2011'],c:0,h:'Ele era um jovem de 17 anos quando estreou.'},
-{l:3,q:'O São Paulo conquistou a Libertadores de 2005 derrotando qual time brasileiro na final?',o:['Athletico Paranaense','Flamengo','Santos','Internacional'],c:0,h:'O rival era um time paranaense.'},
-{l:3,q:'Qual centroavante do São Paulo ficou conhecido como "O Fabuloso"?',o:['Luís Fabiano','Careca','Grafite','Müller'],c:0,h:'Nasceu em novembro de 1980.'},
-{l:3,q:'Em que data o Estádio do Morumbi foi inaugurado?',o:['1º de outubro de 1960','15 de agosto de 1960','25 de janeiro de 1960','7 de setembro de 1960'],c:0,h:'A data foi em outubro, no início do campeonato paulista.'},
-{l:3,q:'Telê Santana nasceu em que estado brasileiro?',o:['Minas Gerais','São Paulo','Rio de Janeiro','Bahia'],c:0,h:'O técnico era mineiro de nascimento.'},
-{l:3,q:'O São Paulo ganhou a Copa Sul-Americana em qual ano?',o:['2012','2015','2008','2018'],c:0,h:'O adversário na final foi um time argentino.'},
-{l:3,q:'Qual foi o placar da final do Mundial de 1993 entre São Paulo e Milan?',o:['3x2','2x1','1x0','2x0'],c:0,h:'Foi uma partida com muitos gols.'},
-{l:3,q:'Em que ano Cafu foi revelado pelo São Paulo?',o:['1989','1987','1991','1985'],c:0,h:'Ele estreou ainda na era dos títulos paulistas.'},
-{l:3,q:'Qual jogador do São Paulo ganhou o Bola de Ouro em 2007 e veio das categorias de base?',o:['Kaká','Thiago Silva','Oscar','Casemiro'],c:0,h:'Ele jogou pelo São Paulo antes de ir para a Europa.'},
-
-// ─── NÍVEL 4 — EXPERT ─────────────────────────
-{l:4,q:'Em que ano Rogério Ceni fez seu primeiro gol de falta pelo São Paulo?',o:['1997','1995','1999','2001'],c:0,h:'Ele demorou alguns anos após a estreia para marcar seu primeiro gol de falta.'},
-{l:4,q:'Qual técnico comandou o São Paulo no título da Libertadores de 2005?',o:['Paulo Autuori','Telê Santana','Muricy Ramalho','Levir Culpi'],c:0,h:'Um técnico diferente de Telê Santana foi o responsável.'},
-{l:4,q:'Qual foi o placar da maior goleada do São Paulo no Campeonato Paulista histórico?',o:['12x1','11x0','10x0','9x1'],c:0,h:'Aconteceu duas vezes com placar de 12x1 em anos diferentes.'},
-{l:4,q:'Raí é irmão de qual ex-jogador do Corinthians?',o:['Sócrates','Wladimir','Biro-Biro','Zenon'],c:0,h:'Seu irmão era doutor em medicina além de jogador.'},
-{l:4,q:'Em qual cidade Arthur Friedenreich nasceu?',o:['São Paulo','Santos','Campinas','Ribeirão Preto'],c:0,h:'Ele nasceu na capital paulista no século XIX.'},
-{l:4,q:'Diego Lugano é de qual país?',o:['Uruguai','Argentina','Paraguai','Chile'],c:0,h:'O país tem fronteira com o Brasil no sul.'},
-{l:4,q:'Qual foi o adversário do São Paulo na final da Copa do Brasil de 2023?',o:['Flamengo','Palmeiras','Corinthians','Grêmio'],c:0,h:'Um grande rival carioca.'},
-{l:4,q:'Em que mês e ano Cafu nasceu?',o:['Junho de 1970','Março de 1972','Setembro de 1968','Janeiro de 1971'],c:0,h:'Ele nasceu em Itaquera, São Paulo.'},
-{l:4,q:'Qual atacante uruguaio jogou pelo São Paulo nos anos 70?',o:['Pedro Rocha','Forlán','Recoba','Cavani'],c:0,h:'Ele foi despedido pelo clube em fevereiro de 1978.'},
-{l:4,q:'Müller fez sua estreia pelo São Paulo em que ano?',o:['1984','1982','1986','1980'],c:0,h:'Ele estreou em novembro desse ano.'},
-{l:4,q:'Qual foi o placar histórico do São Paulo sobre o Inter-SP em julho de 1932?',o:['11x0','12x0','10x0','9x0'],c:0,h:'Uma das maiores goleadas absolutas da história do clube.'},
-{l:4,q:'Em que ano o São Paulo conquistou o Campeonato Brasileiro de 1977?',o:['Março de 1977','Dezembro de 1977','Setembro de 1977','Janeiro de 1978'],c:0,h:'O título foi confirmado no início do mês 3 de 1977 — confira o calendário.'},
-{l:4,q:'Qual zagueiro histórico do São Paulo nasceu em 14 de fevereiro de 1931?',o:['De Sordi','Bellini','Luizinho','Bauer'],c:0,h:'Um pilar da defesa tricolor nos anos 50 e 60.'},
-{l:4,q:'Em que ano Toninho Cerezo estreou pelo São Paulo?',o:['1992','1990','1988','1994'],c:0,h:'O grande volante chegou ao clube no início dos anos 90.'},
-{l:4,q:'Qual foi a goleada do São Paulo sobre o Santos em junho de 1944?',o:['9x1','8x0','7x1','10x2'],c:0,h:'Uma das maiores goleadas nos clássicos paulistas da história.'},
-
-// ─── NÍVEL 5 — LENDÁRIO ───────────────────────
-{l:5,q:'Em que dia exato foi fundado o São Paulo Futebol Clube?',o:['25 de janeiro de 1930','25 de janeiro de 1935','1 de fevereiro de 1930','10 de março de 1930'],c:0,h:'A data coincide com o aniversário da cidade de São Paulo, em 1930.'},
-{l:5,q:'Arthur Friedenreich nasceu em que data?',o:['18 de julho de 1892','25 de março de 1890','1 de outubro de 1895','15 de agosto de 1893'],c:0,h:'O Tigre nasceu no século XIX em São Paulo.'},
-{l:5,q:'Quantos títulos Rogério Ceni conquistou com a camisa do São Paulo?',o:['17','14','20','12'],c:0,h:'Entre 1992 e 2015, uma coleção histórica.'},
-{l:5,q:'Em que data exata o Morumbi foi inaugurado?',o:['1º de outubro de 1960','15 de setembro de 1960','3 de novembro de 1960','20 de agosto de 1960'],c:0,h:'Primeiro dia do mês de outubro do ano 1960.'},
-{l:5,q:'O São Paulo marcou 12 gols no Sírio em que data de 1933?',o:['27 de agosto','15 de julho','3 de setembro','10 de outubro'],c:0,h:'Foi no mês de agosto de 1933.'},
-{l:5,q:'Telê Santana nasceu em que data?',o:['26 de julho de 1931','15 de março de 1933','1 de outubro de 1929','25 de maio de 1932'],c:0,h:'O treinador nasceu em julho de 1931.'},
-{l:5,q:'Casemiro estreou profissionalmente pelo São Paulo em que data?',o:['26 de julho de 2010','15 de março de 2011','1 de janeiro de 2010','10 de agosto de 2011'],c:0,h:'Foi em julho, mês do aniversário de Telê Santana.'},
-{l:5,q:'Qual foi o placar exato da goleada do São Paulo sobre o Santos em 1944?',o:['9x1','10x1','8x0','7x0'],c:0,h:'Aconteceu em junho de 1944, no Campeonato Paulista.'},
-{l:5,q:'O São Paulo ganhou a Libertadores em 1993 derrotando o Universidad de Chile. Qual foi o placar agregado?',o:['5x2','4x1','6x3','3x0'],c:0,h:'O SPFC venceu nos dois jogos da final.'},
-{l:5,q:'Em que ano Müller nasceu?',o:['1966','1968','1964','1970'],c:0,h:'Ele nasceu em 31 de janeiro.'},
-{l:5,q:'Qual foi a data exata da estreia de Rogério Ceni pelo São Paulo?',o:['17 de junho de 1993','5 de março de 1993','10 de agosto de 1990','22 de janeiro de 1992'],c:0,h:'Foi em junho de 1993, mesmo ano do primeiro título da Libertadores.'},
-{l:5,q:'De Sordi completou seu último jogo pelo São Paulo em que ano?',o:['1965','1963','1967','1969'],c:0,h:'Ele se despediu em maio desse ano.'},
-{l:5,q:'Qual foi o placar exato na final do Mundial de 2005 contra o Liverpool?',o:['1x0','2x1','2x0','3x1'],c:0,h:'Um único gol decidiu o título.'},
-{l:5,q:'Em que data o São Paulo fez 10x0 no Botafogo-PB?',o:['28 de março de 2001','15 de setembro de 2000','10 de abril de 2002','22 de junho de 2001'],c:0,h:'Foi em março de 2001, na Copa do Brasil.'},
-{l:5,q:'Qual foi a goleada histórica do São Paulo sobre o Jabaquara em julho de 1945?',o:['12x1','11x0','10x2','9x1'],c:0,h:'Aconteceu em 8 de julho, uma das maiores goleadas da história.'},
-
-// ─── NÍVEL 6 — FINAL (1 pergunta) ─────────────
-{l:6,q:'Considerando todos os títulos, qual é a data mais importante da história do São Paulo Futebol Clube?',o:['25 de janeiro de 1930 — Fundação do clube','22 de dezembro de 1992 — 1º Mundial','26 de maio de 1993 — 1ª Libertadores','19 de dezembro de 2005 — 3º Mundial'],c:0,h:'Sem a fundação em 25 de janeiro de 1930, nada mais existiria. É a data mãe de todas as conquistas.'},
-{l:6,q:'Qual jogador resumiu em uma carreira tudo que o São Paulo representa: lealdade, história e superação?',o:['Rogério Ceni — 1.237 jogos e 131 gols como goleiro','Raí — capitão do tricampeonato','Telê Santana — técnico dos Mundiais','Cafu — bicampeão mundial com a Seleção'],c:0,h:'1.237 jogos, 131 gols, 17 títulos, tudo pelo mesmo clube. Uma história impossível de superar.'},
-{l:6,q:'O São Paulo é o único clube da América do Sul com 3 títulos mundiais. Qual a ordem cronológica correta?',o:['1992, 1993 e 2005','1991, 1993 e 2005','1992, 1994 e 2005','1993, 1995 e 2005'],c:0,h:'O SPFC conquistou os títulos mundiais em três décadas diferentes.'},
-{l:6,q:'Qual é o número exato de gols que Rogério Ceni marcou pelo São Paulo ao longo de sua carreira?',o:['131','129','135','127'],c:0,h:'Um recorde mundial absoluto para um goleiro.'},
-{l:6,q:'Qual a sequência correta dos eventos históricos do São Paulo?',o:['Fundação 1930 → Morumbi 1960 → Brasileiro 1986 → Libertadores 1992 → Mundial 1992','Fundação 1925 → Morumbi 1955 → Brasileiro 1986 → Libertadores 1992 → Mundial 1992','Fundação 1930 → Morumbi 1960 → Brasileiro 1991 → Libertadores 1992 → Mundial 1993','Fundação 1930 → Morumbi 1965 → Brasileiro 1986 → Libertadores 1993 → Mundial 1992'],c:0,h:'A história começa em 25 de janeiro de 1930 e o Morumbi foi inaugurado em 1960.'},
-];
+/* Perguntas carregadas do Firestore via loadFirebaseQuestions() */
+let QUESTIONS = [];
 
 const LEVELS_INFO = [
   {n:1,name:'FÁCIL',emoji:'⚽',time:30,pts:100,bonus:50},
@@ -2966,9 +2768,8 @@ async function handleRedirectResult() {
 }
 
 function playAsGuest() {
-  STATE.guest = true;
-  toast('Modo visitante', 'Progresso salvo localmente apenas');
-  goScreen('screen-home');
+  // Modo visitante removido — redireciona para login unificado
+  irParaCadastro();
 }
 
 async function logout() {
@@ -2979,8 +2780,9 @@ async function logout() {
   STATE.user = null;
   STATE.guest = false;
   renderHomeUser();
-  goScreen('screen-home');
-  toast('Até logo!', 'Logout realizado');
+  // Após logout, redireciona para login unificado
+  sessionStorage.setItem('_cadOrigem', 'quiz.html');
+  window.location.href = 'cadastro.html';
 }
 
 function renderHomeUser() {
@@ -3004,7 +2806,7 @@ function renderHomeUser() {
       }
     } else {
       // Não logado: mostra botão entrar
-      homeChip.onclick = () => goScreen('screen-login');
+      homeChip.onclick = () => irParaCadastro();
       if (homePlaceholder) {
         homePlaceholder.textContent = '👤';
         homePlaceholder.style.display = 'block';
@@ -3022,7 +2824,7 @@ function renderHomeUser() {
       chip.onclick = () => goScreen('screen-profile');
     } else {
       chip.textContent = 'Entrar';
-      chip.onclick = () => goScreen('screen-login');
+      chip.onclick = () => irParaCadastro();
     }
   }
 
@@ -3865,7 +3667,7 @@ function renderProfile() {
       <div>
         <div class="profile-name">${name}</div>
         <div class="profile-level">${lvlLabel}</div>
-        ${STATE.user ? `<div style="font-size:11px;color:var(--txt3);margin-top:4px">${STATE.user.email||''}</div>` : `<div style="font-size:11px;color:var(--txt3);margin-top:4px">Visitante</div><button onclick="goScreen('screen-login')" style="margin-top:10px;padding:8px 16px;background:var(--red);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;letter-spacing:1px">🔴 ENTRAR PARA JOGAR</button>`}
+        ${STATE.user ? `<div style="font-size:11px;color:var(--txt3);margin-top:4px">${STATE.user.email||''}</div>` : `<div style="font-size:11px;color:var(--txt3);margin-top:4px">Visitante</div><button onclick="irParaCadastro()" style="margin-top:10px;padding:8px 16px;background:var(--red);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;letter-spacing:1px">🔴 ENTRAR PARA JOGAR</button>`}
       </div>
     </div>
     <div class="profile-stats">
@@ -4146,7 +3948,7 @@ function toast(title, body, dur=3000) {
 
 /* ═══════════════════════════════════════════════════
    FIREBASE PERGUNTAS — carrega do Firestore
-   Usa QUESTIONS local como fallback
+   Fonte única: as perguntas vivem só no Firestore (gerenciadas pelo admin)
 ═══════════════════════════════════════════════════ */
 async function loadFirebaseQuestions() {
   try {
@@ -4165,12 +3967,16 @@ async function loadFirebaseQuestions() {
 
     const db = getFirestore(app);
     const snap = await getDocs(collection(db, 'perguntas'));
-    if (snap.empty) return;
+
+    if (snap.empty) {
+      console.warn('Firestore: coleção "perguntas" está vazia.');
+      showQuizOfflineMsg('Nenhuma pergunta encontrada. Adicione perguntas pelo painel admin.');
+      return;
+    }
 
     const firebaseQs = [];
     snap.forEach(d => firebaseQs.push({ id: d.id, ...d.data() }));
 
-    // Substitui QUESTIONS pelo banco do Firebase
     QUESTIONS.length = 0;
     firebaseQs.forEach(q => QUESTIONS.push(q));
 
@@ -4179,8 +3985,22 @@ async function loadFirebaseQuestions() {
     if (el) el.textContent = QUESTIONS.length + '+';
     console.log(`✅ Firebase: ${QUESTIONS.length} perguntas carregadas`);
   } catch(e) {
-    console.warn('Firebase perguntas offline, usando local:', e.message);
+    console.warn('Firebase perguntas offline:', e.message);
+    showQuizOfflineMsg('Sem conexão com o servidor. Verifique sua internet e tente novamente.');
   }
+}
+
+function showQuizOfflineMsg(msg) {
+  // Mostra erro amigável na tela home do quiz em vez de travar silenciosamente
+  const el = document.getElementById('statPergs');
+  if (el) el.textContent = '—';
+  const startBtn = document.querySelector('[onclick*="goScreen(\'screen-level\')"]');
+  if (startBtn) {
+    startBtn.disabled = true;
+    startBtn.title = msg;
+    startBtn.style.opacity = '0.5';
+  }
+  toast('⚠️ Erro', msg, 5000);
 }
 
 

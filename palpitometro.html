@@ -67,7 +67,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .screen.active{display:flex}
 
 /* ── BOTÃO HERO ESTILO QUIZ ── */
-.palp-hero-btn{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;padding:18px 20px;background:linear-gradient(135deg,#CC0000 0%,#8B0000 100%);border:none;border-radius:10px;cursor:pointer;overflow:hidden;position:relative;box-shadow:0 8px 32px rgba(204,0,0,.45),0 2px 8px rgba(0,0,0,.4);transition:transform .18s,box-shadow .18s;animation:phbpulse 2.8s ease-in-out infinite;text-align:left;margin-bottom:0;text-decoration:none}
 .palp-hero-btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(204,0,0,.65)}
 .palp-hero-btn:active{transform:scale(.98)}
 @keyframes phbpulse{0%,100%{box-shadow:0 8px 32px rgba(204,0,0,.45),0 2px 8px rgba(0,0,0,.4)}50%{box-shadow:0 8px 52px rgba(204,0,0,.72),0 2px 8px rgba(0,0,0,.4)}}
@@ -96,40 +95,19 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .tb-username{font-size:12px;color:var(--txt2);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* ── LOGIN SCREEN ── */
-#screen-login{background:radial-gradient(ellipse 180% 50% at 50% 0%,rgba(180,0,0,.4) 0%,transparent 60%),var(--bg);padding-bottom:40px}
-.login-wrap{width:100%;max-width:400px;padding:0 20px 20px}
-.login-hero{padding:52px 0 32px;text-align:center}
-.login-icon{font-size:64px;margin-bottom:16px;display:block;filter:drop-shadow(0 0 24px rgba(204,0,0,.5))}
-.login-title{font-family:var(--font-title);font-size:clamp(40px,12vw,64px);letter-spacing:3px;line-height:.9;margin-bottom:6px}
 .login-title em{color:var(--red);font-style:normal;display:block}
-.login-sub{font-size:13px;color:var(--txt2);line-height:1.6}
-.login-card{background:rgba(10,10,10,.8);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:24px 20px;margin:24px 0 12px}
-.login-divider{font-size:10px;letter-spacing:3px;color:var(--txt3);text-align:center;margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:rgba(204,0,0,.25)}
 .login-divider span{color:var(--red)}
-.login-btn{width:100%;padding:15px 20px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;margin-bottom:10px;border:1px solid transparent;letter-spacing:.3px}
-.login-btn-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.login-btn-text{flex:1;text-align:left}
 .btn-google{background:rgba(255,255,255,.06);color:var(--txt);border-color:rgba(255,255,255,.12)}
 .btn-google:hover{background:rgba(255,255,255,.1);transform:translateY(-1px)}
-.btn-google .login-btn-icon{background:rgba(255,255,255,.08)}
-.btn-email-create{background:var(--red);color:#fff;box-shadow:0 4px 20px rgba(204,0,0,.35)}
+.btn-google .btn-email-create{background:var(--red);color:#fff;box-shadow:0 4px 20px rgba(204,0,0,.35)}
 .btn-email-create:hover{background:var(--red2);transform:translateY(-1px);box-shadow:0 8px 28px rgba(204,0,0,.5)}
-.btn-email-create .login-btn-icon{background:rgba(0,0,0,.2)}
-.login-input-group{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
-.login-input{width:100%;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:10px;color:var(--txt);font-size:14px;font-family:var(--font-body);outline:none;transition:.2s}
-.login-input:focus{border-color:rgba(204,0,0,.5);background:rgba(255,255,255,.06)}
+.btn-email-create .login-input:focus{border-color:rgba(204,0,0,.5);background:rgba(255,255,255,.06)}
 .login-input::placeholder{color:var(--txt3)}
-.login-submit{width:100%;padding:14px;background:var(--red);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:.2s;font-family:var(--font-body)}
 .login-submit:hover{background:var(--red2)}
-.login-toggle{font-size:12px;color:var(--txt3);text-align:center;margin-top:8px;cursor:pointer}
 .login-toggle span{color:var(--gold);text-decoration:underline}
 #emailForm{display:none}
-.login-pts-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
-.pts-prev{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 8px;text-align:center}
-.pts-prev-val{font-family:var(--font-title);font-size:28px;color:var(--red);line-height:1}
 .pts-prev-val.gold{color:var(--gold)}
-.pts-prev-lbl{font-size:10px;color:var(--txt3);letter-spacing:1px;margin-top:3px;line-height:1.4}
 
 /* ── MAIN SCREEN ── */
 #screen-main{align-items:stretch;padding-bottom:80px}
@@ -179,7 +157,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .mc-chip-red{border-color:rgba(204,0,0,.3);color:#ff7777;background:rgba(204,0,0,.08)}
 
 /* PALPITE FORM */
-.palpite-form{margin-top:20px}
 .pf-section{margin-bottom:18px}
 .pf-label{font-size:10px;letter-spacing:2.5px;color:var(--txt3);text-transform:uppercase;margin-bottom:10px;font-family:var(--font-ui)}
 .resultado-opts{display:flex;gap:8px}
@@ -215,7 +192,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .btn-confirmar:disabled::before{display:none}
 
 /* PALPITE JÁ ENVIADO */
-.palpite-enviado{background:var(--bg2);border:1px solid rgba(34,197,94,.3);border-radius:12px;padding:20px;text-align:center;margin-top:16px}
 .pe-icon{font-size:36px;margin-bottom:10px}
 .pe-title{font-family:var(--font-title);font-size:24px;color:var(--green);letter-spacing:2px;margin-bottom:6px}
 .pe-detail{font-size:13px;color:var(--txt2);line-height:1.6}
@@ -340,48 +316,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <div class="toast" id="toast">
   <div class="toast-t" id="toastT"></div>
   <div class="toast-b" id="toastB"></div>
-</div>
-
-<!-- ══════════════════════════════════════
-     SCREEN: LOGIN
-══════════════════════════════════════ -->
-<div class="screen active" id="screen-login">
-  <div class="login-wrap fade-in">
-    <div style="padding:12px 0 0">
-      <button class="tb-back" onclick="window.location.href='index.html'" style="display:inline-flex;align-items:center;gap:6px">← VOLTAR AO APP</button>
-    </div>
-    <div class="login-hero">
-      <button class="palp-hero-btn" style="margin-bottom:20px;pointer-events:none">
-        <div class="phb-left">
-          <div class="phb-eyebrow">SÃO PAULO FC</div>
-          <div class="phb-title">PALPITÔMETRO</div>
-          <div class="phb-sub">Dispute o ranking com os torcedores</div>
-        </div>
-        <div class="phb-right">
-          <div class="phb-icon">🎯</div>
-          <div class="phb-arrow">▶</div>
-        </div>
-        <div class="phb-stripe"></div>
-      </button>
-      <div class="login-sub">Entre para dar seu palpite e disputar o <strong style="color:var(--gold)">ranking</strong></div>
-    </div>
-
-    <div class="login-pts-preview">
-      <div class="pts-prev"><div class="pts-prev-val">10</div><div class="pts-prev-lbl">pts Vitória</div></div>
-      <div class="pts-prev"><div class="pts-prev-val">5</div><div class="pts-prev-lbl">pts Empate</div></div>
-      <div class="pts-prev"><div class="pts-prev-val gold">+50</div><div class="pts-prev-lbl">bônus Placar exato</div></div>
-    </div>
-
-    <div class="login-card" style="text-align:center;padding:28px 20px">
-      <div style="font-size:36px;margin-bottom:12px">🔐</div>
-      <div style="font-family:var(--font-title);font-size:20px;letter-spacing:3px;color:#fff;margin-bottom:8px">ENTRE PARA PALPITAR</div>
-      <div style="font-size:12px;color:var(--txt3);margin-bottom:24px;line-height:1.7">O login é unificado para todo o SPFC Hoje.<br>Crie sua conta ou entre uma única vez.</div>
-      <button onclick="irParaCadastro()"
-        style="width:100%;padding:16px;background:linear-gradient(135deg,#CC0000,#8B0000);color:#fff;border:none;border-radius:12px;font-family:var(--font-title);font-size:22px;letter-spacing:3px;cursor:pointer;box-shadow:0 6px 24px rgba(204,0,0,.4)">
-        CRIAR CONTA / ENTRAR
-      </button>
-    </div>
-  </div>
 </div>
 
 <!-- ══════════════════════════════════════
@@ -601,6 +535,7 @@ async function loginEmail()  { irParaCadastro(); }
 async function handleLogout() {
   if (!confirm('Sair do Palpitômetro?')) return;
   await window.FB.auth.signOut();
+  // onAuthStateChanged detecta o logout e redireciona para cadastro automaticamente
 }
 
 /* ════════════════════════════════════════

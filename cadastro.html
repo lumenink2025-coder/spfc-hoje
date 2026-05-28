@@ -146,7 +146,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min-heig
 <!-- Firebase -->
 <script type="module">
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithPopup,
+import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult,
          GoogleAuthProvider, createUserWithEmailAndPassword,
          signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
@@ -168,53 +168,40 @@ const provider = new GoogleAuthProvider();
 
 window.FB_CAD = {
   auth, db, provider,
-  signInWithPopup,
+  signInWithPopup, signInWithRedirect, getRedirectResult,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
   sendPasswordResetEmail,
   doc, setDoc, getDoc, serverTimestamp, runTransaction
 };
 
-// Auth state — roda após autenticação (popup ou e-mail)
-let _cadHandled = false; // FIX Bug 1: evita dupla entrada na tela de cadastro
+// Se usuário já logado: tem perfil → main.html, sem perfil → step 2
 onAuthStateChanged(auth, async user => {
-  if (!user) {
-    var ol = document.getElementById('loadingOverlay');
-    if (ol) ol.classList.remove('active');
-    return;
-  }
-  // FIX Bug 1: se já tratou este usuário nesta sessão, ignora
-  if (_cadHandled) return;
-  _cadHandled = true;
-
-  var ol = document.getElementById('loadingOverlay');
-  var lm = document.getElementById('loadingMsg');
-  if (ol) ol.classList.add('active');
-  if (lm) lm.textContent = 'VERIFICANDO PERFIL...';
+  if (!user) return;
   try {
-    // Inicializa UnifiedIdentity
-    window.identity = new UnifiedIdentity(db);
-    const userData = await identity.getUser(user.uid);
-    var temPerfil = userData && (userData.nicknameLocked || userData.displayName);
-    if (temPerfil) {
-      var origem = sessionStorage.getItem('_cadOrigem') || 'main.html';
-      sessionStorage.removeItem('_cadOrigem');
-      window.location.href = origem;
+    const snap = await getDoc(doc(db, 'usuarios', user.uid));
+    if (snap.exists()) {
+      window.location.href = 'main.html';
     } else {
-      if (ol) ol.classList.remove('active');
       window._cadUser = user;
       showStep(2);
     }
   } catch(e) {
-    console.warn('Erro ao verificar perfil:', e);
-    if (ol) ol.classList.remove('active');
     window._cadUser = user;
     showStep(2);
   }
 });
-</script>
 
-<!-- Unified Identity -->
-<script src="js/unified-identity.js"></script>
+// Captura retorno do redirect Google
+getRedirectResult(auth).then(cred => {
+  if (!cred) return;
+  // onAuthStateChanged acima cuida do resto
+}).catch(e => {
+  if (e.code === 'auth/unauthorized-domain') {
+    showGlobalErr('Domínio não autorizado no Firebase. Adicione em Authentication > Settings.');
+    showStep(1);
+  }
+});
+</script>
 </head>
 <body>
 
@@ -411,32 +398,25 @@ function toggleEmailForm() {
 
 async function entrarGoogle() {
   if (!window.FB_CAD) return;
-  const { auth, provider, signInWithPopup } = window.FB_CAD;
+  const { auth, provider, signInWithPopup, signInWithRedirect } = window.FB_CAD;
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-  // FIX Bug 2: NÃO mostrar loading antes do popup — o popup pode ser bloqueado
-  // ou o usuário pode fechar. O loading só aparece após confirmação no onAuthStateChanged.
+  showLoading('ABRINDO GOOGLE...');
   try {
-    await signInWithPopup(auth, provider);
-    // Sucesso: onAuthStateChanged assume e mostra o loading
-  } catch(e) {
-    // FIX Bug 2: não precisa de hideLoading aqui pois não chamamos showLoading antes do popup
-    if (e.code === 'auth/account-exists-with-different-credential') {
-      var email = e.customData && e.customData.email ? e.customData.email : (e.email || '');
-      if (email) {
-        showErr('s1Err', '⚠️ Este e-mail já tem uma conta. Use "Entrar com e-mail" abaixo.');
-        document.getElementById('s1Email').value = email;
-        var form = document.getElementById('emailForm');
-        if (!form.classList.contains('open')) toggleEmailForm();
-      } else {
-        showErr('s1Err', '⚠️ Este e-mail já tem uma conta. Use "Entrar com e-mail" abaixo.');
-      }
-    } else if (e.code === 'auth/popup-blocked') {
-      showErr('s1Err', '⚠️ Popup bloqueado. Desative o bloqueador de popups e tente novamente.');
-    } else if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
-      // silencioso
-    } else if (e.code === 'auth/network-request-failed') {
-      showErr('s1Err', 'Erro de conexão. Verifique sua internet.');
+    if (isMobile || isStandalone) {
+      await signInWithRedirect(auth, provider);
+      // página recarrega — onAuthStateChanged cuida do resto
     } else {
+      await signInWithPopup(auth, provider);
+      // onAuthStateChanged dispara automaticamente
+    }
+  } catch(e) {
+    hideLoading();
+    if (e.code === 'auth/popup-blocked') {
+      showLoading('REDIRECIONANDO...');
+      await signInWithRedirect(auth, provider);
+    } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
       showErr('s1Err', 'Erro: ' + (e.code || e.message));
     }
   }
@@ -444,35 +424,26 @@ async function entrarGoogle() {
 
 async function criarContaEmail() {
   if (!window.FB_CAD) return;
-  var email = document.getElementById('s1Email').value.trim();
-  var senha = document.getElementById('s1Senha').value;
-  var btn = document.getElementById('s1BtnCriar');
+  const email = document.getElementById('s1Email').value.trim();
+  const senha = document.getElementById('s1Senha').value;
+  const btn = document.getElementById('s1BtnCriar');
   clearErr('s1Err');
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr('s1Err', 'E-mail inválido.'); return; }
+  if (!email || !/\S+@\S+\.\S+/.test(email)) { showErr('s1Err', 'E-mail inválido.'); return; }
   if (senha.length < 6) { showErr('s1Err', 'Senha precisa ter pelo menos 6 caracteres.'); return; }
 
   btn.textContent = 'AGUARDE...'; btn.disabled = true;
   showLoading('CRIANDO CONTA...');
-
-  var safetyTimeout = setTimeout(function() {
-    hideLoading();
-    btn.textContent = 'CRIAR CONTA'; btn.disabled = false;
-    showErr('s1Err', '⏱️ Demorou demais. Verifique sua conexão e tente novamente.');
-  }, 12000);
-
   try {
     await window.FB_CAD.createUserWithEmailAndPassword(window.FB_CAD.auth, email, senha);
-    clearTimeout(safetyTimeout);
+    // onAuthStateChanged dispara e vai para step 2
   } catch(e) {
-    clearTimeout(safetyTimeout);
     hideLoading();
     btn.textContent = 'CRIAR CONTA'; btn.disabled = false;
-    var msgs = {
-      'auth/email-already-in-use': '⚠️ Este e-mail já tem uma conta. Use "Entrar com e-mail" abaixo.',
+    const msgs = {
+      'auth/email-already-in-use': 'Este e-mail já tem uma conta. Tente entrar.',
       'auth/invalid-email': 'E-mail inválido.',
       'auth/weak-password': 'Senha muito fraca.',
-      'auth/too-many-requests': 'Muitas tentativas. Aguarde um minuto.',
     };
     showErr('s1Err', msgs[e.code] || 'Erro: ' + (e.code || e.message));
   }
@@ -546,17 +517,9 @@ async function validarPerfil() {
 }
 
 async function salvarPerfilFinal() {
-  if (!window.FB_CAD) {
-    showGlobalErr('Firebase não carregado. Recarregue a página.'); return;
+  if (!window.FB_CAD || !window._cadUser) {
+    showGlobalErr('Sessão expirada. Recarregue a página.'); return;
   }
-  // FIX Bug 3: re-ler o usuário atual do Firebase, não só do window._cadUser
-  const authUser = window.FB_CAD.auth.currentUser;
-  if (!authUser) {
-    showGlobalErr('Sessão expirada. Feche e abra a página novamente.'); return;
-  }
-  // Sincroniza _cadUser com o usuário real
-  window._cadUser = authUser;
-
   const btn = document.getElementById('btnCriar');
   clearErr('globalErr');
   btn.textContent = 'VERIFICANDO...'; btn.disabled = true;
@@ -584,51 +547,30 @@ async function salvarPerfilFinal() {
   };
 
   try {
-    console.log('=== SALVAR PERFIL ===');
-    console.log('User UID:', user?.uid);
-    console.log('Nick:', nick);
-    console.log('Avatar:', _selectedAvatar?.id);
-    console.log('window.identity:', !!window.identity);
-    console.log('window.FB_CAD:', !!window.FB_CAD);
+    const nickRef    = doc(db, 'nicknames',  nick.toLowerCase());
+    const usuarioRef = doc(db, 'usuarios',   user.uid);
+    const rankingRef = doc(db, 'ranking',    user.uid);
+    const usersRef   = doc(db, 'users',      user.uid);
 
-    const nickRef = window.FB_CAD.doc(window.FB_CAD.db, 'nicknames', nick.toLowerCase());
-
-    // Salva apelido na coleção 'nicknames' para garantir unicidade
-    console.log('Verificando nickname...');
-    const nickSnap = await window.FB_CAD.getDoc(nickRef);
-    console.log('Nick exists:', nickSnap.exists());
-
-    if (nickSnap.exists() && nickSnap.data().uid !== user.uid) throw new Error('NICK_TAKEN');
-
-    console.log('Salvando nickname...');
-    await window.FB_CAD.setDoc(nickRef, { uid: user.uid, displayName: nick, createdAt: window.FB_CAD.serverTimestamp() });
-    console.log('Nickname OK');
-
-    // Salva perfil unificado via UnifiedIdentity
-    console.log('Chamando identity.saveProfile...');
-    const saveResult = await window.identity.saveProfile(user.uid, {
-      displayName: nick,
-      name: nick,
-      avatar: _selectedAvatar.url,
-      avatarDataUrl: _selectedAvatar.url,
-      avatarId: _selectedAvatar.id,
-      nicknameLocked: true,
-      lives: 5,
-      email: user.email || '',
-      birthday: aniv,
-      totalPontos: 0,
-      totalAcertos: 0,
-      totalErros: 0,
-      totalPalpites: 0,
-      placareExatos: 0,
-      pontosMes: 0
+    await runTransaction(db, async t => {
+      const nickSnap = await t.get(nickRef);
+      if (nickSnap.exists() && nickSnap.data().uid !== user.uid) throw new Error('NICK_TAKEN');
+      t.set(nickRef,    { uid: user.uid, displayName: nick, createdAt: serverTimestamp() });
+      t.set(usuarioRef, profile);
+      t.set(rankingRef, {
+        displayName: nick, avatarId: _selectedAvatar.id, avatarUrl: _selectedAvatar.url,
+        photoURL: user.photoURL || '',
+        totalPontos: 0, totalAcertos: 0, totalErros: 0,
+        totalPalpites: 0, placareExatos: 0, pontosMes: 0,
+        createdAt: serverTimestamp()
+      }, { merge: true });
+      t.set(usersRef, {
+        displayName: nick,
+        avatar: { id: _selectedAvatar.id, dataUrl: _selectedAvatar.url, name: nick },
+        nicknameLocked: true, lives: 5, totalScore: 0,
+        createdAt: serverTimestamp()
+      }, { merge: true });
     });
-
-    console.log('saveProfile result:', saveResult);
-    if (!saveResult || !saveResult.success) {
-        throw new Error('saveProfile falhou: ' + (saveResult?.error || 'unknown'));
-    }
-    console.log('Perfil salvo com sucesso!');
 
     hideLoading();
     btn.textContent = 'BEM-VINDO! 🔴';
@@ -639,21 +581,12 @@ async function salvarPerfilFinal() {
     setTimeout(() => { window.location.href = origem; }, 800);
 
   } catch(e) {
-    console.error('=== ERRO EM SALVAR PERFIL ===');
-    console.error(e);
     hideLoading();
     btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false;
     if (e.message === 'NICK_TAKEN') {
       showErr('nickErr', 'Este apelido já está em uso. Escolha outro.');
-      document.getElementById('cadNick').focus();
-    } else if (e.code === 'permission-denied') {
-      showErr('globalErr', 'Permissão negada. Verifique se está logado e tente novamente.');
-    } else if (e.code === 'unavailable' || e.code === 'network-request-failed') {
-      showErr('globalErr', '⚠️ Sem conexão. Verifique sua internet e tente novamente.');
     } else {
-      // FIX Bug 3: log completo no console para debug + mensagem amigável
-      console.error('Erro ao salvar perfil:', e);
-      showErr('globalErr', 'Erro ao salvar: ' + (e.code || e.message || 'desconhecido'));
+      showErr('globalErr', 'Erro ao salvar: ' + (e.code || e.message));
     }
   }
 }
