@@ -639,7 +639,7 @@ onAuthStateChanged(auth, async user => {
     <button id="btnEntrar" class="btn-enter" onclick="doLoginEmail()">ENTRAR</button>
 
     <div class="login-footer">
-      Não tem conta? <a onclick="closeLogin();goTo('cadastro.html')">Criar conta</a>
+      Não tem conta? <a onclick="goTo('cadastro.html')">Criar conta</a>
     </div>
   </div>
 </div>
@@ -732,8 +732,8 @@ function goToApp() {
   setTimeout(() => { window.location.href = 'main.html'; }, 1400);
 }
 
-function openLogin()  { document.getElementById('loginModal').classList.add('open'); }
-function closeLogin() { document.getElementById('loginModal').classList.remove('open'); }
+function openLogin()  { window.location.href = 'cadastro.html'; }
+function closeLogin() {}
 
 // loginGmail definido no module Firebase acima
 
