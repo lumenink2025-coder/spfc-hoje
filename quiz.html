@@ -1669,75 +1669,28 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   </div>
 
   <div class="login-wrap fade-in">
-    <!-- Login card -->
-    <div class="login-card">
-      <div class="login-card-header"><span>FAÇA LOGIN</span> PARA CONTINUAR</div>
-
-      <!-- Email button (opens inline form) -->
-      <button class="login-btn login-btn-email" onclick="toggleEmailForm()">
-        <div class="login-btn-icon">✉️</div>
-        <span class="login-btn-text">Entrar com e-mail</span>
-        <span class="login-btn-arrow">›</span>
+    <div class="login-card" style="text-align:center;padding:28px 20px">
+      <div style="font-size:36px;margin-bottom:12px">🔐</div>
+      <div style="font-family:var(--font-t);font-size:20px;letter-spacing:3px;color:#fff;margin-bottom:8px">ENTRE PARA JOGAR</div>
+      <div style="font-size:12px;color:var(--txt3);margin-bottom:24px;line-height:1.7">Login unificado para Quiz,<br>Palpitômetro e ranking.</div>
+      <button onclick="irParaCadastro()"
+        style="width:100%;padding:16px;background:linear-gradient(135deg,var(--red),#8B0000);color:#fff;border:none;border-radius:12px;font-family:var(--font-t);font-size:22px;letter-spacing:3px;cursor:pointer;box-shadow:0 6px 24px rgba(204,0,0,.4);margin-bottom:12px">
+        CRIAR CONTA / ENTRAR
       </button>
-
-      <!-- Inline email form (hidden by default) -->
-      <div id="emailFormInline" style="display:none;margin-bottom:10px">
-        <div class="login-field">
-          <input class="login-input" id="emailInput" type="email" placeholder="email" autocomplete="email">
-          <span class="login-field-label">Email</span>
-        </div>
-        <div class="login-field">
-          <input class="login-input" id="passInput" type="password" placeholder="senha" autocomplete="current-password">
-          <span class="login-field-label">Senha</span>
-        </div>
-        <div style="display:flex;gap:8px;margin-bottom:4px">
-          <button onclick="loginEmail()" style="flex:1;padding:12px;background:var(--red);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;letter-spacing:1px">ENTRAR</button>
-          <button onclick="registerEmail()" style="flex:1;padding:12px;background:rgba(255,255,255,.06);color:var(--txt);border:1px solid rgba(255,255,255,.12);border-radius:10px;font-size:13px;cursor:pointer">CRIAR CONTA</button>
-        </div>
-        <div style="text-align:center">
-          <span class="login-skip" onclick="forgotPassword()">Esqueci minha senha</span>
-        </div>
-      </div>
-
-      <div style="text-align:center;font-size:11px;color:var(--txt3);letter-spacing:2px;margin:4px 0 10px">OU</div>
-
-      <!-- Google -->
-      <button class="login-btn login-btn-google" onclick="loginGoogle()">
-        <div class="login-btn-icon">
-          <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path></svg>
-        </div>
-        <span class="login-btn-text">Continuar com Google</span>
-        <span class="login-btn-arrow">›</span>
-      </button>
-
-      <!-- Guest -->
-      <button class="login-btn login-btn-guest" onclick="playAsGuest()">
+      <button class="login-btn login-btn-guest" onclick="playAsGuest()" style="width:100%">
         <div class="login-btn-icon">👤</div>
-        <span class="login-btn-text">Entrar como visitante</span>
+        <span class="login-btn-text">Continuar como visitante</span>
         <span class="login-btn-arrow">›</span>
       </button>
     </div>
 
-    <!-- Features -->
     <div class="login-features">
-      <div class="login-feat">
-        <div class="login-feat-icon">🏆</div>
-        <div class="login-feat-title">RANKING</div>
-        <div class="login-feat-sub">Compita com outros torcedores</div>
-      </div>
-      <div class="login-feat">
-        <div class="login-feat-icon">👑</div>
-        <div class="login-feat-title">CONQUISTAS</div>
-        <div class="login-feat-sub">Desbloqueie troféus e recompensas</div>
-      </div>
-      <div class="login-feat">
-        <div class="login-feat-icon">⚡</div>
-        <div class="login-feat-title">DESAFIOS</div>
-        <div class="login-feat-sub">Teste seus conhecimentos</div>
-      </div>
+      <div class="login-feat"><div class="login-feat-icon">🏆</div><div class="login-feat-title">RANKING</div><div class="login-feat-sub">Compita com outros torcedores</div></div>
+      <div class="login-feat"><div class="login-feat-icon">👑</div><div class="login-feat-title">CONQUISTAS</div><div class="login-feat-sub">Desbloqueie troféus e recompensas</div></div>
+      <div class="login-feat"><div class="login-feat-icon">⚡</div><div class="login-feat-title">DESAFIOS</div><div class="login-feat-sub">Teste seus conhecimentos</div></div>
     </div>
-
-    <!-- Criar conta link -->
+  </div>
+</div>
     <div style="text-align:center;margin-bottom:16px">
       <span style="font-size:13px;color:var(--txt3)">Ainda não tem uma conta? </span>
       <span onclick="registerEmail()" style="font-size:13px;color:var(--red);cursor:pointer;font-weight:700;letter-spacing:1px">CRIAR CONTA ›</span>
@@ -2845,7 +2798,7 @@ async function reserveNickname(name, uid) {
   // Reserva novo nick
   await setDoc(doc(db, 'nicknames', nickKey), {
     uid,
-    displayName: name,
+    name,
     reservedAt: new Date().toISOString()
   }).catch(()=>{});
 }
@@ -2907,26 +2860,13 @@ function saveAvatar() {
     const {db, doc, setDoc} = window.FB;
     const uid = STATE.user.uid;
 
-    // Sempre reserva/atualiza o nickname (corrige bug onde nunca era chamado)
-    reserveNickname(name, uid);
+    if (!STATE.nicknameLocked) reserveNickname(name, uid);
 
-    // Salva em 'users' (formato quiz)
     setDoc(doc(db, 'users', uid), {
       name,
       avatar: STATE.avatar,
       nicknameLocked: STATE.nicknameLocked,
       avatarLastChanged: STATE.avatarLastChanged,
-      updatedAt: new Date().toISOString()
-    }, {merge: true}).catch(()=>{});
-
-    // Salva também em 'usuarios' (formato unificado — impede re-cadastro no cadastro.html)
-    setDoc(doc(db, 'usuarios', uid), {
-      uid,
-      displayName: name,
-      avatarId: STATE.avatar.id,
-      avatarUrl: STATE.avatar.dataUrl,
-      photoURL: STATE.user.photoURL || '',
-      email: STATE.user.email || '',
       updatedAt: new Date().toISOString()
     }, {merge: true}).catch(()=>{});
   }
@@ -2996,39 +2936,17 @@ async function loadUserData(user) {
   } catch(e) { console.warn('loadUserData erro:', e); }
 }
 
-function toggleEmailForm() {
-  const form = document.getElementById('emailFormInline');
-  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+function irParaCadastro() {
+  sessionStorage.setItem('_cadOrigem', 'quiz.html');
+  window.location.href = 'cadastro.html';
 }
 
-async function loginGoogle() {
-  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
-  const {auth, provider, signInWithPopup, signInWithRedirect} = window.FB;
-  try {
-    // Tenta popup primeiro (melhor UX)
-    const result = await signInWithPopup(auth, provider);
-    await loadUserData(result.user);
-    toast('Bem-vindo! 🔴', 'Login realizado com sucesso');
-    goScreen('screen-home');
-    checkAvatarSetup();
-  } catch(e) {
-    // Popup bloqueado (Safari, Firefox strict, iframe) → tenta redirect
-    if (e.code === 'auth/popup-blocked' ||
-        e.code === 'auth/popup-closed-by-user' ||
-        e.message?.includes('storage') ||
-        e.message?.includes('cross-origin') ||
-        e.message?.includes('blocked')) {
-      try {
-        await signInWithRedirect(auth, provider);
-        // página vai recarregar — handleRedirectResult() pega o resultado
-      } catch(e2) {
-        toast('Erro no login', 'Tente pelo email ou habilite popups no navegador');
-      }
-    } else if (e.code !== 'auth/popup-closed-by-user') {
-      toast('Erro no login', e.message || 'Tente novamente');
-    }
-  }
-}
+// Login unificado — redireciona para cadastro.html
+function toggleEmailForm() { irParaCadastro(); }
+async function loginGoogle()   { irParaCadastro(); }
+async function loginEmail()    { irParaCadastro(); }
+async function registerEmail() { irParaCadastro(); }
+async function forgotPassword(){ irParaCadastro(); }
 
 async function handleRedirectResult() {
   if (!window.FB) return;
@@ -3037,70 +2955,13 @@ async function handleRedirectResult() {
     const result = await getRedirectResult(auth);
     if (result && result.user) {
       await loadUserData(result.user);
-      toast('Bem-vindo! 🔴', 'Login realizado com sucesso');
       goScreen('screen-home');
       checkAvatarSetup();
     }
   } catch(e) {
-    // Ignora erro de "nenhum redirect pendente"
     if (e.code && e.code !== 'auth/null-user' && !e.message?.includes('storage')) {
-      toast('Erro no login', e.message || 'Tente novamente');
+      console.warn('Redirect result error:', e.code);
     }
-  }
-}
-
-async function loginEmail() {
-  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
-  const email = document.getElementById('emailInput').value.trim();
-  const pass  = document.getElementById('passInput').value;
-  if (!email || !pass) { toast('Preencha os campos', 'Email e senha são obrigatórios'); return; }
-  const {auth, signInWithEmailAndPassword} = window.FB;
-  try {
-    const result = await signInWithEmailAndPassword(auth, email, pass);
-    await loadUserData(result.user);
-    toast('Bem-vindo de volta! 🔴', 'Login realizado com sucesso');
-    goScreen('screen-home');
-    checkAvatarSetup();
-  } catch(e) {
-    const msg = e.code === 'auth/user-not-found'     ? 'Usuário não encontrado'
-              : e.code === 'auth/wrong-password'      ? 'Senha incorreta'
-              : e.code === 'auth/invalid-email'       ? 'Email inválido'
-              : e.code === 'auth/invalid-credential'  ? 'Email ou senha incorretos'
-              : e.message || 'Tente novamente';
-    toast('Erro no login', msg);
-  }
-}
-
-async function registerEmail() {
-  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
-  const email = document.getElementById('emailInput').value.trim();
-  const pass  = document.getElementById('passInput').value;
-  if (!email || !pass) { toast('Preencha os campos', 'Email e senha são obrigatórios'); return; }
-  if (pass.length < 6) { toast('Senha fraca', 'A senha deve ter pelo menos 6 caracteres'); return; }
-  const {auth, createUserWithEmailAndPassword} = window.FB;
-  try {
-    await createUserWithEmailAndPassword(auth, email, pass);
-    toast('Conta criada! 🎉', 'Bem-vindo ao SPFC Quiz');
-    goScreen('screen-avatar');
-  } catch(e) {
-    const msg = e.code === 'auth/email-already-in-use' ? 'Este email já está cadastrado'
-              : e.code === 'auth/invalid-email'         ? 'Email inválido'
-              : e.code === 'auth/weak-password'         ? 'Senha fraca (mín. 6 caracteres)'
-              : e.message || 'Tente novamente';
-    toast('Erro no cadastro', msg);
-  }
-}
-
-async function forgotPassword() {
-  if (!window.FB) { toast('Firebase não configurado','Configure as chaves no quiz.html'); return; }
-  const email = document.getElementById('emailInput').value.trim();
-  if (!email) { toast('Digite seu email', 'Preencha o campo de email primeiro'); return; }
-  const {auth, sendPasswordResetEmail} = window.FB;
-  try {
-    await sendPasswordResetEmail(auth, email);
-    toast('Email enviado! 📧', 'Verifique sua caixa de entrada');
-  } catch(e) {
-    toast('Erro', e.message || 'Verifique o email digitado');
   }
 }
 

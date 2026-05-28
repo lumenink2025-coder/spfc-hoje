@@ -348,7 +348,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <div class="screen active" id="screen-login">
   <div class="login-wrap fade-in">
     <div style="padding:12px 0 0">
-      <button class="tb-back" onclick="window.location.href=&#39;index.html&#39;" style="display:inline-flex;align-items:center;gap:6px">← VOLTAR AO APP</button>
+      <button class="tb-back" onclick="window.location.href='index.html'" style="display:inline-flex;align-items:center;gap:6px">← VOLTAR AO APP</button>
     </div>
     <div class="login-hero">
       <button class="palp-hero-btn" style="margin-bottom:20px;pointer-events:none">
@@ -367,44 +367,19 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div>
 
     <div class="login-pts-preview">
-      <div class="pts-prev">
-        <div class="pts-prev-val">10</div>
-        <div class="pts-prev-lbl">pts Vitória</div>
-      </div>
-      <div class="pts-prev">
-        <div class="pts-prev-val">5</div>
-        <div class="pts-prev-lbl">pts Empate</div>
-      </div>
-      <div class="pts-prev">
-        <div class="pts-prev-val gold">+50</div>
-        <div class="pts-prev-lbl">bônus Placar exato</div>
-      </div>
+      <div class="pts-prev"><div class="pts-prev-val">10</div><div class="pts-prev-lbl">pts Vitória</div></div>
+      <div class="pts-prev"><div class="pts-prev-val">5</div><div class="pts-prev-lbl">pts Empate</div></div>
+      <div class="pts-prev"><div class="pts-prev-val gold">+50</div><div class="pts-prev-lbl">bônus Placar exato</div></div>
     </div>
 
-    <div class="login-card">
-      <div class="login-divider"><span>ENTRAR</span></div>
-
-      <button class="login-btn btn-google" onclick="loginGoogle()">
-        <div class="login-btn-icon">G</div>
-        <div class="login-btn-text">Continuar com Google</div>
-        <span>→</span>
+    <div class="login-card" style="text-align:center;padding:28px 20px">
+      <div style="font-size:36px;margin-bottom:12px">🔐</div>
+      <div style="font-family:var(--font-title);font-size:20px;letter-spacing:3px;color:#fff;margin-bottom:8px">ENTRE PARA PALPITAR</div>
+      <div style="font-size:12px;color:var(--txt3);margin-bottom:24px;line-height:1.7">O login é unificado para todo o SPFC Hoje.<br>Crie sua conta ou entre uma única vez.</div>
+      <button onclick="irParaCadastro()"
+        style="width:100%;padding:16px;background:linear-gradient(135deg,#CC0000,#8B0000);color:#fff;border:none;border-radius:12px;font-family:var(--font-title);font-size:22px;letter-spacing:3px;cursor:pointer;box-shadow:0 6px 24px rgba(204,0,0,.4)">
+        CRIAR CONTA / ENTRAR
       </button>
-
-      <button class="login-btn btn-email-create" onclick="toggleEmailForm()">
-        <div class="login-btn-icon">✉</div>
-        <div class="login-btn-text">Entrar com e-mail</div>
-        <span>→</span>
-      </button>
-
-      <div id="emailForm">
-        <div class="login-input-group" style="margin-top:12px">
-          <input type="text" id="emailNick" class="login-input" placeholder="Apelido (aparece no ranking)" maxlength="20">
-          <input type="email" id="emailInput" class="login-input" placeholder="E-mail">
-          <input type="password" id="passwordInput" class="login-input" placeholder="Senha (mín. 6 caracteres)">
-        </div>
-        <button class="login-submit" onclick="loginEmail()">ENTRAR / CRIAR CONTA</button>
-        <div class="login-toggle" onclick="toggleEmailForm()">Cancelar</div>
-      </div>
     </div>
   </div>
 </div>
@@ -613,42 +588,15 @@ function showScreen(id) {
   document.getElementById(id).classList.add('active');
 }
 
-async function loginGoogle() {
-  const { auth, provider, signInWithPopup } = window.FB;
-  try {
-    await signInWithPopup(auth, provider);
-  } catch(e) {
-    toast('Erro ao entrar', e.message);
-  }
+function irParaCadastro() {
+  sessionStorage.setItem('_cadOrigem', 'palpitometro.html');
+  window.location.href = 'cadastro.html';
 }
 
-function toggleEmailForm() {
-  const f = document.getElementById('emailForm');
-  f.style.display = f.style.display === 'none' ? 'block' : 'none';
-}
+function toggleEmailForm() {} // mantido para não quebrar refs antigas
 
-async function loginEmail() {
-  const { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword } = window.FB;
-  const nick = document.getElementById('emailNick').value.trim();
-  const email = document.getElementById('emailInput').value.trim();
-  const pass = document.getElementById('passwordInput').value;
-  if (!email || !pass) return toast('Preencha e-mail e senha', '');
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-  } catch(e) {
-    if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential') {
-      if (!nick) return toast('Informe um apelido', 'Ele vai aparecer no ranking');
-      try {
-        const cred = await createUserWithEmailAndPassword(auth, email, pass);
-        await ensureUserDoc(cred.user, nick);
-      } catch(e2) {
-        toast('Erro ao criar conta', e2.message);
-      }
-    } else {
-      toast('Erro ao entrar', e.message);
-    }
-  }
-}
+async function loginGoogle() { irParaCadastro(); }
+async function loginEmail()  { irParaCadastro(); }
 
 async function handleLogout() {
   if (!confirm('Sair do Palpitômetro?')) return;
@@ -656,28 +604,48 @@ async function handleLogout() {
 }
 
 /* ════════════════════════════════════════
-   USER DOC
+   USER DOC — lê de 'usuarios' (padrão unificado) com fallback para 'ranking'
 ════════════════════════════════════════ */
-async function ensureUserDoc(user, nickOverride) {
+async function ensureUserDoc(user) {
   const { db, doc, getDoc, setDoc, serverTimestamp } = window.FB;
-  const ref = doc(db, 'ranking', user.uid);
-  const snap = await getDoc(ref);
-  if (!snap.exists()) {
-    const displayName = nickOverride || user.displayName || user.email.split('@')[0];
-    await setDoc(ref, {
-      displayName,
-      photoURL: user.photoURL || '',
-      totalPontos: 0,
-      totalAcertos: 0,
-      totalErros: 0,
-      totalPalpites: 0,
-      placareExatos: 0,
-      pontosMes: 0,
+
+  // Tenta ler perfil unificado primeiro
+  const usuarioSnap = await getDoc(doc(db, 'usuarios', user.uid)).catch(() => null);
+  const rankingRef  = doc(db, 'ranking', user.uid);
+  const rankSnap    = await getDoc(rankingRef).catch(() => null);
+
+  // Nome e avatar: prioridade → usuarios > ranking > displayName do auth
+  const displayName = usuarioSnap?.data()?.displayName
+    || rankSnap?.data()?.displayName
+    || user.displayName
+    || user.email?.split('@')[0]
+    || 'Torcedor';
+
+  const avatarUrl = usuarioSnap?.data()?.avatarUrl
+    || rankSnap?.data()?.avatarUrl
+    || user.photoURL
+    || '';
+
+  if (!rankSnap?.exists()) {
+    // Cria doc no ranking se não existe
+    await setDoc(rankingRef, {
+      displayName, photoURL: avatarUrl,
+      totalPontos: 0, totalAcertos: 0, totalErros: 0,
+      totalPalpites: 0, placareExatos: 0, pontosMes: 0,
       createdAt: serverTimestamp()
     });
-    return { displayName, totalPontos: 0, totalAcertos: 0, totalErros: 0, totalPalpites: 0, placareExatos: 0, pontosMes: 0 };
+    return { displayName, photoURL: avatarUrl, totalPontos: 0, totalAcertos: 0, totalErros: 0, totalPalpites: 0, placareExatos: 0, pontosMes: 0 };
   }
-  return snap.data();
+
+  // Sincroniza nome/avatar do usuarios → ranking se divergirem
+  if (usuarioSnap?.exists()) {
+    const rData = rankSnap.data();
+    if (rData.displayName !== displayName || rData.photoURL !== avatarUrl) {
+      await setDoc(rankingRef, { displayName, photoURL: avatarUrl }, { merge: true }).catch(() => {});
+    }
+  }
+
+  return rankSnap.data();
 }
 
 async function loadUserStats() {
@@ -1349,12 +1317,14 @@ window.addEventListener('firebase-ready', () => {
     if (user) {
       currentUser = user;
       showScreen('screen-main');
-      const userData = await ensureUserDoc(user);
+      await ensureUserDoc(user);
       await loadUserStats();
       await loadMatchAndPalpite();
     } else {
       currentUser = null;
-      showScreen('screen-login');
+      // Redireciona para cadastro (login unificado) em vez de mostrar login próprio
+      sessionStorage.setItem('_cadOrigem', 'palpitometro.html');
+      window.location.href = 'cadastro.html';
     }
   });
 });
