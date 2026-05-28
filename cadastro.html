@@ -19,19 +19,16 @@
   --font-title:'Bebas Neue',Impact,sans-serif;
   --font-body:'Inter',sans-serif;
 }
-body{background:var(--bg);color:var(--txt);font-family:var(--font-body);
-  min-height:100vh;overflow-x:hidden}
+body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
 
-/* BG */
 .cad-bg{position:fixed;inset:0;z-index:0;
-  background:radial-gradient(ellipse 120% 40% at 50% 0%, rgba(180,0,0,.25) 0%, transparent 60%),
-             radial-gradient(ellipse 80% 60% at 80% 100%, rgba(100,0,0,.15) 0%, transparent 60%),
+  background:radial-gradient(ellipse 120% 40% at 50% 0%,rgba(180,0,0,.25) 0%,transparent 60%),
+             radial-gradient(ellipse 80% 60% at 80% 100%,rgba(100,0,0,.15) 0%,transparent 60%),
              var(--bg)}
 
 /* TOPBAR */
 .cad-top{position:sticky;top:0;z-index:100;
-  display:flex;align-items:center;gap:12px;
-  padding:14px 20px;
+  display:flex;align-items:center;gap:12px;padding:14px 20px;
   background:rgba(6,6,6,.85);backdrop-filter:blur(12px);
   border-bottom:1px solid var(--border)}
 .cad-back{background:none;border:1px solid var(--border2);border-radius:8px;
@@ -41,29 +38,77 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);
 .cad-top-title{font-family:var(--font-title);font-size:22px;letter-spacing:3px;color:#fff}
 .cad-top-title span{color:var(--red)}
 
-/* MAIN */
-.cad-main{position:relative;z-index:1;
-  max-width:480px;margin:0 auto;padding:24px 20px 80px}
+/* STEPS */
+.step{display:none;position:relative;z-index:1;
+  max-width:480px;margin:0 auto;padding:32px 20px 80px}
+.step.active{display:block}
 
-/* SECTION */
+/* STEP 1 — MÉTODO */
+.s1-hero{text-align:center;padding:20px 0 32px}
+.s1-shield{width:min(110px,28vw);height:auto;margin:0 auto 16px;display:block;
+  filter:drop-shadow(0 0 28px rgba(204,0,0,.45))}
+.s1-icon{font-size:56px;margin-bottom:12px;display:block;
+  filter:drop-shadow(0 0 24px rgba(204,0,0,.4))}
+.s1-title{font-family:var(--font-title);font-size:clamp(36px,10vw,54px);
+  letter-spacing:3px;line-height:.95;margin-bottom:8px}
+.s1-title em{color:var(--red);font-style:normal;display:block}
+.s1-sub{font-size:13px;color:var(--txt2);line-height:1.6}
+
+.s1-card{background:rgba(10,10,10,.8);border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;padding:24px 20px;margin-bottom:12px}
+.s1-divider{font-size:10px;letter-spacing:4px;color:var(--txt3);text-align:center;
+  margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.s1-divider::before,.s1-divider::after{content:'';flex:1;height:1px;background:rgba(204,0,0,.25)}
+.s1-divider span{color:var(--red);font-weight:700}
+
+.s1-btn{width:100%;padding:16px 20px;border-radius:12px;font-size:15px;font-weight:600;
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px;
+  margin-bottom:10px;letter-spacing:.3px;border:1px solid transparent;background:none}
+.s1-btn:last-child{margin-bottom:0}
+.s1-btn-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;font-size:18px}
+.s1-btn-text{flex:1;text-align:left}
+.s1-btn-arrow{font-size:16px;opacity:.6}
+.s1-btn-google{background:rgba(255,255,255,.06);color:var(--txt);
+  border-color:rgba(255,255,255,.12)}
+.s1-btn-google:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);
+  transform:translateY(-1px)}
+.s1-btn-google .s1-btn-icon{background:rgba(255,255,255,.08)}
+.s1-btn-email{background:var(--red);color:#fff;border-color:rgba(255,80,80,.3);
+  box-shadow:0 4px 20px rgba(204,0,0,.4)}
+.s1-btn-email:hover{background:var(--red2);transform:translateY(-1px);
+  box-shadow:0 8px 28px rgba(204,0,0,.5)}
+.s1-btn-email .s1-btn-icon{background:rgba(0,0,0,.2)}
+
+.s1-email-form{margin-top:14px;display:none;flex-direction:column;gap:8px}
+.s1-email-form.open{display:flex}
+.cad-input{width:100%;padding:13px 16px;
+  background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);
+  border-radius:12px;color:var(--txt);font-size:15px;font-family:var(--font-body);
+  outline:none;transition:.2s}
+.cad-input:focus{border-color:rgba(204,0,0,.6);background:rgba(255,255,255,.06)}
+.cad-input::placeholder{color:var(--txt3)}
+.s1-submit{width:100%;padding:14px;background:var(--red);color:#fff;border:none;
+  border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:.2s;
+  font-family:var(--font-body);letter-spacing:.5px;margin-top:4px}
+.s1-submit:hover{background:var(--red2)}
+.s1-submit:disabled{opacity:.5;cursor:not-allowed}
+.s1-forgot{font-size:11px;color:var(--txt3);text-align:center;margin-top:8px;cursor:pointer}
+.s1-forgot:hover{color:var(--gold)}
+.s1-cancel{font-size:11px;color:var(--txt3);text-align:center;margin-top:4px;cursor:pointer}
+.s1-cancel:hover{color:var(--txt2)}
+.s1-footer{font-size:11px;color:var(--txt3);text-align:center;line-height:1.5}
+
+/* STEP 2 — PERFIL */
 .cad-section{margin-bottom:28px}
 .cad-label{font-family:var(--font-title);font-size:16px;letter-spacing:3px;
   color:var(--txt2);text-transform:uppercase;margin-bottom:12px;
   display:flex;align-items:center;gap:10px}
 .cad-label span{font-size:20px}
 .cad-label::after{content:'';flex:1;height:1px;background:var(--border)}
-
-/* INPUTS */
-.cad-input{width:100%;padding:14px 16px;
-  background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);
-  border-radius:12px;color:var(--txt);font-size:15px;font-family:var(--font-body);
-  outline:none;transition:.2s}
-.cad-input:focus{border-color:rgba(204,0,0,.6);background:rgba(255,255,255,.06)}
-.cad-input::placeholder{color:var(--txt3)}
 .cad-input-hint{font-size:11px;color:var(--txt3);margin-top:6px;padding-left:4px;letter-spacing:.3px}
 .cad-input-err{font-size:11px;color:#ff7777;margin-top:6px;padding-left:4px;display:none}
 
-/* AVATAR GRID */
 .avatar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 @media(min-width:400px){.avatar-grid{grid-template-columns:repeat(5,1fr)}}
 .av-item{aspect-ratio:1;border-radius:50%;overflow:hidden;cursor:pointer;
@@ -73,52 +118,39 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);
 .av-item.selected{border-color:#fff!important;transform:scale(1.1)!important;
   box-shadow:0 0 0 3px rgba(204,0,0,.6),0 4px 20px rgba(0,0,0,.6)!important}
 .av-item img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
-.av-item.premium{position:relative;opacity:.45;cursor:not-allowed}
-.av-item.premium::after{content:'🔒';position:absolute;inset:0;display:flex;
-  align-items:center;justify-content:center;font-size:18px;
-  background:rgba(0,0,0,.5);border-radius:50%}
 
-/* METHOD TABS */
-.method-tabs{display:flex;gap:8px;margin-bottom:20px}
-.method-tab{flex:1;padding:12px;text-align:center;border-radius:10px;cursor:pointer;
-  border:1.5px solid var(--border);color:var(--txt2);font-family:var(--font-body);
-  font-size:13px;transition:.2s;background:rgba(255,255,255,.02)}
-.method-tab.active{border-color:rgba(204,0,0,.6);color:var(--txt);
-  background:rgba(204,0,0,.08)}
-
-/* GMAIL BTN */
-.btn-gmail{width:100%;padding:14px;
-  background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);
-  border-radius:12px;color:var(--txt);font-family:var(--font-title);
-  font-size:18px;letter-spacing:2px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:10px;transition:.2s}
-.btn-gmail:hover{border-color:rgba(204,0,0,.5);background:rgba(255,255,255,.08)}
-
-/* SUBMIT */
 .btn-submit{width:100%;padding:18px;
   background:linear-gradient(135deg,var(--red),var(--red2));
   color:#fff;border:none;border-radius:14px;
   font-family:var(--font-title);font-size:26px;letter-spacing:3px;
-  cursor:pointer;transition:all .2s;
-  box-shadow:0 8px 32px rgba(204,0,0,.4)}
+  cursor:pointer;transition:all .2s;box-shadow:0 8px 32px rgba(204,0,0,.4)}
 .btn-submit:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(204,0,0,.55)}
 .btn-submit:disabled{background:rgba(255,255,255,.06);color:var(--txt3);
   box-shadow:none;transform:none;cursor:not-allowed}
 
-/* GLOBAL ERROR */
 .global-err{display:none;padding:12px 16px;background:rgba(204,0,0,.1);
   border:1px solid rgba(204,0,0,.3);border-radius:10px;
   font-size:13px;color:#ff8888;margin-bottom:16px;text-align:center}
+
+/* Loading overlay */
+.loading-overlay{display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(6,6,6,.92);align-items:center;justify-content:center;
+  flex-direction:column;gap:16px}
+.loading-overlay.active{display:flex}
+.loading-spinner{width:48px;height:48px;border:3px solid rgba(204,0,0,.2);
+  border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-msg{font-family:var(--font-title);font-size:20px;letter-spacing:3px;color:var(--txt2)}
 </style>
 
 <!-- Firebase -->
 <script type="module">
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult,
-         GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged }
+         GoogleAuthProvider, createUserWithEmailAndPassword,
+         signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import { getFirestore, doc, setDoc, getDoc, collection,
-         query, where, getDocs, serverTimestamp, runTransaction }
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp, runTransaction }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 const cfg = {
@@ -134,65 +166,39 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-window.FB_CAD = { auth, db, provider, signInWithPopup, signInWithRedirect, getRedirectResult,
-  createUserWithEmailAndPassword, doc, setDoc, getDoc,
-  collection, query, where, getDocs, serverTimestamp, runTransaction };
+window.FB_CAD = {
+  auth, db, provider,
+  signInWithPopup, signInWithRedirect, getRedirectResult,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  doc, setDoc, getDoc, serverTimestamp, runTransaction
+};
 
-// Se já logado e tem perfil → vai pro app
+// Se usuário já logado: tem perfil → main.html, sem perfil → step 2
 onAuthStateChanged(auth, async user => {
   if (!user) return;
   try {
     const snap = await getDoc(doc(db, 'usuarios', user.uid));
-    if (snap.exists()) { window.location.href = 'main.html'; return; }
-    // Tem conta mas sem perfil: pré-preenche email
-    const emailField = document.getElementById('cadEmail');
-    if (emailField && user.email) emailField.value = user.email;
-    window._pendingUser = user;
-  } catch(e) {}
+    if (snap.exists()) {
+      window.location.href = 'main.html';
+    } else {
+      window._cadUser = user;
+      showStep(2);
+    }
+  } catch(e) {
+    window._cadUser = user;
+    showStep(2);
+  }
 });
 
-// Captura retorno do redirect do Google (PWA/mobile)
-getRedirectResult(auth).then(async cred => {
-  if (!cred) return; // Não veio de um redirect
-  const user = cred.user;
-  window._pendingUser = user;
-
-  // Restaura estado salvo antes do redirect
-  const saved = JSON.parse(sessionStorage.getItem('_cadRedirectState') || 'null');
-  sessionStorage.removeItem('_cadRedirectState');
-
-  if (saved) {
-    const nickEl = document.getElementById('cadNick');
-    const anivEl = document.getElementById('cadAniv');
-    if (nickEl) nickEl.value = saved.nick || '';
-    if (anivEl) anivEl.value = saved.aniv || '';
-    if (saved.avatarId) setTimeout(() => selectAvatar(saved.avatarId), 300);
-  }
-
-  // Valida e salva perfil
-  const btn = document.getElementById('btnCriar');
-  const ok = await validarFormulario();
-  if (!ok) { return; }
-
-  btn.textContent = 'SALVANDO PERFIL...'; btn.disabled = true;
-  try {
-    await salvarPerfil(user);
-    btn.textContent = 'BEM-VINDO! 🔴';
-    setTimeout(() => { window.location.href = 'main.html'; }, 800);
-  } catch(e) {
-    const errEl = document.getElementById('globalErr');
-    if (e.message === 'NICK_TAKEN') {
-      showErr('nickErr', 'Este apelido já está em uso. Escolha outro.');
-    } else {
-      errEl.textContent = 'Erro ao salvar perfil: ' + (e.code || e.message);
-      errEl.style.display = 'block';
-    }
-    btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false;
-  }
+// Captura retorno do redirect Google
+getRedirectResult(auth).then(cred => {
+  if (!cred) return;
+  // onAuthStateChanged acima cuida do resto
 }).catch(e => {
   if (e.code === 'auth/unauthorized-domain') {
-    const errEl = document.getElementById('globalErr');
-    if (errEl) { errEl.textContent = 'Domínio não autorizado no Firebase. Adicione em Authentication > Settings.'; errEl.style.display = 'block'; }
+    showGlobalErr('Domínio não autorizado no Firebase. Adicione em Authentication > Settings.');
+    showStep(1);
   }
 });
 </script>
@@ -201,14 +207,63 @@ getRedirectResult(auth).then(async cred => {
 
 <div class="cad-bg"></div>
 
-<div class="cad-top">
-  <button class="cad-back" onclick="window.location.href='index.html'">← VOLTAR</button>
-  <div class="cad-top-title">CRIAR <span>CONTA</span></div>
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-msg" id="loadingMsg">AGUARDE...</div>
 </div>
 
-<div class="cad-main">
+<div class="cad-top">
+  <button class="cad-back" id="btnVoltar" onclick="voltarStep()">← VOLTAR</button>
+  <div class="cad-top-title" id="topTitle">CRIAR <span>CONTA</span></div>
+</div>
 
-  <!-- NICKNAME -->
+<!-- ══════════════════════
+     STEP 1 — MÉTODO DE ACESSO
+══════════════════════ -->
+<div class="step active" id="step1">
+  <div class="s1-hero">
+    <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png"
+      alt="São Paulo FC" class="s1-shield" onerror="this.style.display='none';document.getElementById('s1FallbackIcon').style.display='block'">
+    <span id="s1FallbackIcon" class="s1-icon" style="display:none">🔴</span>
+    <div class="s1-title">SÃO PAULO<em>FC HOJE</em></div>
+    <div class="s1-sub">Crie sua conta para acessar o Quiz,<br>Palpitômetro e ranking de torcedores.</div>
+  </div>
+
+  <div class="s1-card">
+    <div class="s1-divider"><span>CRIAR CONTA</span></div>
+
+    <button class="s1-btn s1-btn-google" onclick="entrarGoogle()">
+      <div class="s1-btn-icon">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      </div>
+      <div class="s1-btn-text">Continuar com Google</div>
+      <span class="s1-btn-arrow">→</span>
+    </button>
+
+    <button class="s1-btn s1-btn-email" onclick="toggleEmailForm()">
+      <div class="s1-btn-icon">✉</div>
+      <div class="s1-btn-text">Criar conta com e-mail</div>
+      <span class="s1-btn-arrow">→</span>
+    </button>
+
+    <div class="s1-email-form" id="emailForm">
+      <input id="s1Email" class="cad-input" type="email" placeholder="E-mail" autocomplete="email">
+      <input id="s1Senha" class="cad-input" type="password" placeholder="Senha (mín. 6 caracteres)" autocomplete="new-password">
+      <div id="s1Err" class="global-err"></div>
+      <button class="s1-submit" id="s1BtnCriar" onclick="criarContaEmail()">CRIAR CONTA</button>
+      <div class="s1-forgot" onclick="esqueceuSenha()">Já tenho conta — entrar com e-mail</div>
+      <div class="s1-cancel" onclick="toggleEmailForm()">Cancelar</div>
+    </div>
+  </div>
+
+  <div class="s1-footer">Ao criar conta você concorda com os <a href="#" style="color:var(--gold)">Termos</a> e <a href="#" style="color:var(--gold)">Privacidade</a></div>
+</div>
+
+<!-- ══════════════════════
+     STEP 2 — PERFIL
+══════════════════════ -->
+<div class="step" id="step2">
+
   <div class="cad-section">
     <div class="cad-label"><span>✏️</span> Apelido</div>
     <input id="cadNick" class="cad-input" type="text" maxlength="20"
@@ -218,7 +273,6 @@ getRedirectResult(auth).then(async cred => {
     <div class="cad-input-hint">Aparece no ranking do Palpitômetro e do Quiz. Único e imutável.</div>
   </div>
 
-  <!-- ANIVERSÁRIO -->
   <div class="cad-section">
     <div class="cad-label"><span>🎂</span> Aniversário</div>
     <input id="cadAniv" class="cad-input" type="date"
@@ -227,102 +281,65 @@ getRedirectResult(auth).then(async cred => {
     <div class="cad-input-hint">Usado para parabenizar você e futuros benefícios.</div>
   </div>
 
-  <!-- AVATAR -->
   <div class="cad-section">
     <div class="cad-label"><span>🎭</span> Avatar</div>
     <div class="avatar-grid" id="avatarGrid"></div>
     <div id="avatarErr" class="cad-input-err" style="margin-top:10px"></div>
   </div>
 
-  <!-- MÉTODO -->
-  <div class="cad-section">
-    <div class="cad-label"><span>🔑</span> Acesso</div>
-
-    <div class="method-tabs">
-      <div class="method-tab active" id="tabEmail" onclick="switchTab('email')">📧 E-mail</div>
-      <div class="method-tab" id="tabGmail" onclick="switchTab('gmail')">🔴 Gmail</div>
-    </div>
-
-    <!-- EMAIL FIELDS -->
-    <div id="panelEmail">
-      <input id="cadEmail" class="cad-input" type="email" placeholder="E-mail"
-        autocomplete="email" style="margin-bottom:10px" oninput="clearErr('emailErr')">
-      <div id="emailErr" class="cad-input-err" style="margin-bottom:8px"></div>
-      <input id="cadSenha" class="cad-input" type="password" placeholder="Senha (mín. 6 caracteres)"
-        autocomplete="new-password" oninput="clearErr('senhaErr')">
-      <div id="senhaErr" class="cad-input-err"></div>
-    </div>
-
-    <!-- GMAIL -->
-    <div id="panelGmail" style="display:none">
-      <button class="btn-gmail" onclick="cadastrarGmail()">
-        <img src="https://www.google.com/favicon.ico" style="width:20px;height:20px">
-        CADASTRAR COM GMAIL
-      </button>
-      <div style="font-size:11px;color:var(--txt3);margin-top:8px;text-align:center">
-        Usaremos sua conta Google. Nenhuma senha necessária.
-      </div>
-    </div>
-  </div>
-
-  <!-- ERRO GLOBAL -->
   <div id="globalErr" class="global-err"></div>
 
-  <!-- BOTÃO -->
-  <button id="btnCriar" class="btn-submit" onclick="criarConta()">
+  <button id="btnCriar" class="btn-submit" onclick="salvarPerfilFinal()">
     ENTRAR NO SPFC HOJE
   </button>
-
 </div>
 
 <script>
-/* ══ AVATARES (32) ══ */
+/* ══ AVATARES ══ */
 const AVATARS = [
-  {id:'rai',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rai_arcph5.png',         label:'Raí'},
-  {id:'luisfabiano', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luisfabiano_iabzdg.png', label:'Luís Fabiano'},
-  {id:'franca',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/franca_x5eggx.png',      label:'França'},
-  {id:'telesantana', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/telesantana_urocmb.png', label:'Telê Santana'},
-  {id:'juju',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/juju_rw3xvq.png',        label:'Juju'},
-  {id:'luciano',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luciano_jwalve.png',     label:'Luciano'},
-  {id:'rogerioceni', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rogerioceni_p1nx2r.jpg', label:'Rogério Ceni'},
-  {id:'kaka',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/kaka_wjkphp.png',        label:'Kaká'},
-  {id:'muricy',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/muricy_pssymw.png',      label:'Muricy'},
-  {id:'lugano',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/lugano_dlqqgg.png',      label:'Lugano'},
-  {id:'ederjofre',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/ederjofre_ria6ie.png',   label:'Éder Jofre'},
-  {id:'mulher1',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/mulher1_gwwpzo.png',     label:'Torcedora'},
+  {id:'rai',            url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rai_arcph5.png',            label:'Raí'},
+  {id:'luisfabiano',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luisfabiano_iabzdg.png',    label:'Luís Fabiano'},
+  {id:'franca',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/franca_x5eggx.png',         label:'França'},
+  {id:'telesantana',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/telesantana_urocmb.png',    label:'Telê Santana'},
+  {id:'juju',           url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/juju_rw3xvq.png',           label:'Juju'},
+  {id:'luciano',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/luciano_jwalve.png',        label:'Luciano'},
+  {id:'rogerioceni',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/rogerioceni_p1nx2r.jpg',    label:'Rogério Ceni'},
+  {id:'kaka',           url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/kaka_wjkphp.png',           label:'Kaká'},
+  {id:'muricy',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900798/muricy_pssymw.png',         label:'Muricy'},
+  {id:'lugano',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/lugano_dlqqgg.png',         label:'Lugano'},
+  {id:'ederjofre',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/ederjofre_ria6ie.png',      label:'Éder Jofre'},
+  {id:'mulher1',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/mulher1_gwwpzo.png',        label:'Torcedora'},
   {id:'serginhochulapa',url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/serginhochulapa_kxetqb.png',label:'Serginho Chulapa'},
-  {id:'formiga',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/formiga_rvqxck.png',     label:'Formiga'},
-  {id:'leonidas',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/leonidas_xn4j6n.png',    label:'Leônidas'},
-  {id:'aloisiochulapa',url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/aloisiochulapa_o0a8uo.png',label:'Aloísio Chulapa'},
-  {id:'seumadruga',  url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/seumadruga_znz9sd.png',  label:'Seu Madruga'},
-  {id:'sara',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/sara_obqp7y.png',        label:'Sara'},
-  {id:'mia',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/mia_uliddk.png',         label:'Mia'},
-  {id:'keanu',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/keanu_vronzk.png',       label:'Keanu'},
-  {id:'shalia',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/shalia_zr0gzd.png',      label:'Shalia'},
-  {id:'clotilde',    url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/clotilde_gfvo11.png',    label:'Clotilde'},
-  {id:'koreanman',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/koreanman_ln80il.png',   label:'Korean Man'},
-  {id:'callerius',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/callerius_qgnekt.png',   label:'Callerius'},
-  {id:'hunger',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/hunger_dztgdc.png',      label:'Hunger'},
-  {id:'chavito',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/chavito_qiz9zq.jpg',     label:'Chavito'},
-  {id:'ruiva',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/ruiva_ccyhqn.png',       label:'Ruiva'},
-  {id:'mulherrocker',url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/mulherrocker_h7ahs1.png',label:'Mulher Rocker'},
-  {id:'killb',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/killb_tenkhy.png',       label:'Kill B'},
-  {id:'koreaw',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/koreaw_i1kh7r.png',      label:'Korean W'},
-  {id:'chiquinha',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/chiquinha_gczqbm.png',   label:'Chiquinha'},
-  {id:'prada',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/prada_g012tx.jpg',       label:'Prada'},
+  {id:'formiga',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900797/formiga_rvqxck.png',        label:'Formiga'},
+  {id:'leonidas',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/leonidas_xn4j6n.png',       label:'Leônidas'},
+  {id:'aloisiochulapa', url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/aloisiochulapa_o0a8uo.png', label:'Aloísio Chulapa'},
+  {id:'seumadruga',     url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/seumadruga_znz9sd.png',     label:'Seu Madruga'},
+  {id:'sara',           url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/sara_obqp7y.png',           label:'Sara'},
+  {id:'mia',            url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/mia_uliddk.png',            label:'Mia'},
+  {id:'keanu',          url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/keanu_vronzk.png',          label:'Keanu'},
+  {id:'shalia',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900796/shalia_zr0gzd.png',         label:'Shalia'},
+  {id:'clotilde',       url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/clotilde_gfvo11.png',       label:'Clotilde'},
+  {id:'koreanman',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/koreanman_ln80il.png',      label:'Korean Man'},
+  {id:'callerius',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/callerius_qgnekt.png',      label:'Callerius'},
+  {id:'hunger',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/hunger_dztgdc.png',         label:'Hunger'},
+  {id:'chavito',        url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900795/chavito_qiz9zq.jpg',        label:'Chavito'},
+  {id:'ruiva',          url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/ruiva_ccyhqn.png',          label:'Ruiva'},
+  {id:'mulherrocker',   url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/mulherrocker_h7ahs1.png',   label:'Mulher Rocker'},
+  {id:'killb',          url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/killb_tenkhy.png',          label:'Kill B'},
+  {id:'koreaw',         url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/koreaw_i1kh7r.png',         label:'Korean W'},
+  {id:'chiquinha',      url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/chiquinha_gczqbm.png',      label:'Chiquinha'},
+  {id:'prada',          url:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1778900794/prada_g012tx.jpg',          label:'Prada'},
 ];
 
 let _selectedAvatar = null;
-let _activeTab = 'email';
 
-/* BUILD GRID */
-(function buildGrid() {
+/* Build avatar grid */
+(function() {
   const grid = document.getElementById('avatarGrid');
-  grid.innerHTML = AVATARS.map((av, i) => `
+  grid.innerHTML = AVATARS.map(av => `
     <div class="av-item" id="av-${av.id}" onclick="selectAvatar('${av.id}')" title="${av.label}">
       <img src="${av.url}" alt="${av.label}" loading="lazy">
-    </div>
-  `).join('');
+    </div>`).join('');
 })();
 
 function selectAvatar(id) {
@@ -332,12 +349,30 @@ function selectAvatar(id) {
   clearErr('avatarErr');
 }
 
-function switchTab(tab) {
-  _activeTab = tab;
-  document.getElementById('tabEmail').classList.toggle('active', tab === 'email');
-  document.getElementById('tabGmail').classList.toggle('active', tab === 'gmail');
-  document.getElementById('panelEmail').style.display = tab === 'email' ? 'block' : 'none';
-  document.getElementById('panelGmail').style.display = tab === 'gmail' ? 'block' : 'none';
+/* UI helpers */
+function showStep(n) {
+  document.getElementById('step1').classList.toggle('active', n === 1);
+  document.getElementById('step2').classList.toggle('active', n === 2);
+  const title = document.getElementById('topTitle');
+  title.innerHTML = n === 1 ? 'CRIAR <span>CONTA</span>' : 'SEU <span>PERFIL</span>';
+}
+
+function voltarStep() {
+  if (document.getElementById('step2').classList.contains('active')) {
+    // No step 2, voltar faz logout e vai para index
+    if (window.FB_CAD) window.FB_CAD.auth.signOut().catch(()=>{});
+    window.location.href = 'index.html';
+  } else {
+    window.location.href = 'index.html';
+  }
+}
+
+function showLoading(msg) {
+  document.getElementById('loadingMsg').textContent = msg || 'AGUARDE...';
+  document.getElementById('loadingOverlay').classList.add('active');
+}
+function hideLoading() {
+  document.getElementById('loadingOverlay').classList.remove('active');
 }
 
 function clearErr(id) {
@@ -348,51 +383,157 @@ function showErr(id, msg) {
   const el = document.getElementById(id);
   if (el) { el.textContent = msg; el.style.display = 'block'; }
 }
+function showGlobalErr(msg) {
+  showErr('globalErr', msg);
+  showErr('s1Err', msg);
+}
 
-/* VALIDAÇÃO */
-async function validarFormulario() {
+function toggleEmailForm() {
+  const f = document.getElementById('emailForm');
+  const open = f.classList.toggle('open');
+  if (open) setTimeout(() => document.getElementById('s1Email').focus(), 50);
+}
+
+/* ══ STEP 1: AUTENTICAÇÃO ══ */
+
+async function entrarGoogle() {
+  if (!window.FB_CAD) return;
+  const { auth, provider, signInWithPopup, signInWithRedirect } = window.FB_CAD;
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+  showLoading('ABRINDO GOOGLE...');
+  try {
+    if (isMobile || isStandalone) {
+      await signInWithRedirect(auth, provider);
+      // página recarrega — onAuthStateChanged cuida do resto
+    } else {
+      await signInWithPopup(auth, provider);
+      // onAuthStateChanged dispara automaticamente
+    }
+  } catch(e) {
+    hideLoading();
+    if (e.code === 'auth/popup-blocked') {
+      showLoading('REDIRECIONANDO...');
+      await signInWithRedirect(auth, provider);
+    } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+      showErr('s1Err', 'Erro: ' + (e.code || e.message));
+    }
+  }
+}
+
+async function criarContaEmail() {
+  if (!window.FB_CAD) return;
+  const email = document.getElementById('s1Email').value.trim();
+  const senha = document.getElementById('s1Senha').value;
+  const btn = document.getElementById('s1BtnCriar');
+  clearErr('s1Err');
+
+  if (!email || !/\S+@\S+\.\S+/.test(email)) { showErr('s1Err', 'E-mail inválido.'); return; }
+  if (senha.length < 6) { showErr('s1Err', 'Senha precisa ter pelo menos 6 caracteres.'); return; }
+
+  btn.textContent = 'AGUARDE...'; btn.disabled = true;
+  showLoading('CRIANDO CONTA...');
+  try {
+    await window.FB_CAD.createUserWithEmailAndPassword(window.FB_CAD.auth, email, senha);
+    // onAuthStateChanged dispara e vai para step 2
+  } catch(e) {
+    hideLoading();
+    btn.textContent = 'CRIAR CONTA'; btn.disabled = false;
+    const msgs = {
+      'auth/email-already-in-use': 'Este e-mail já tem uma conta. Tente entrar.',
+      'auth/invalid-email': 'E-mail inválido.',
+      'auth/weak-password': 'Senha muito fraca.',
+    };
+    showErr('s1Err', msgs[e.code] || 'Erro: ' + (e.code || e.message));
+  }
+}
+
+async function esqueceuSenha() {
+  if (!window.FB_CAD) return;
+  const email = document.getElementById('s1Email').value.trim();
+
+  // Tenta entrar primeiro (login de conta existente)
+  const senha = document.getElementById('s1Senha').value;
+  if (email && senha) {
+    const btn = document.getElementById('s1BtnCriar');
+    btn.textContent = 'ENTRANDO...'; btn.disabled = true;
+    showLoading('ENTRANDO...');
+    try {
+      await window.FB_CAD.signInWithEmailAndPassword(window.FB_CAD.auth, email, senha);
+      return; // onAuthStateChanged cuida do resto
+    } catch(e) {
+      hideLoading();
+      btn.textContent = 'CRIAR CONTA'; btn.disabled = false;
+      const msgs = {
+        'auth/user-not-found': 'E-mail não cadastrado.',
+        'auth/wrong-password': 'Senha incorreta.',
+        'auth/invalid-credential': 'E-mail ou senha incorretos.',
+      };
+      showErr('s1Err', msgs[e.code] || 'Erro: ' + (e.code || e.message));
+      return;
+    }
+  }
+
+  if (!email) { showErr('s1Err', 'Digite seu e-mail para recuperar a senha.'); return; }
+  showLoading('ENVIANDO E-MAIL...');
+  try {
+    await window.FB_CAD.sendPasswordResetEmail(window.FB_CAD.auth, email);
+    hideLoading();
+    showErr('s1Err', '✅ E-mail de recuperação enviado!');
+  } catch(e) {
+    hideLoading();
+    showErr('s1Err', 'Erro ao enviar e-mail: ' + (e.code || e.message));
+  }
+}
+
+/* ══ STEP 2: SALVAR PERFIL ══ */
+
+async function validarPerfil() {
   let ok = true;
   const nick = document.getElementById('cadNick').value.trim();
   const aniv = document.getElementById('cadAniv').value;
 
   if (nick.length < 2) {
     showErr('nickErr', 'Apelido precisa ter pelo menos 2 letras.'); ok = false;
+  } else if (!/^[a-zA-ZÀ-ú0-9_\- ]+$/.test(nick)) {
+    showErr('nickErr', 'Apelido contém caracteres inválidos.'); ok = false;
   } else {
-    // Unicidade — usa coleção 'nicknames' (doc ID = nick.toLowerCase())
-    // mais confiável que query por campo, sem depender de índice
     try {
       const { db, doc, getDoc } = window.FB_CAD;
       const nickSnap = await getDoc(doc(db, 'nicknames', nick.toLowerCase()));
-      if (nickSnap.exists()) {
-        showErr('nickErr', 'Este apelido já está em uso. Escolha outro.');
-        ok = false;
+      // Bloqueia se existe e não é do próprio usuário
+      if (nickSnap.exists() && nickSnap.data().uid !== window._cadUser?.uid) {
+        showErr('nickErr', 'Este apelido já está em uso. Escolha outro.'); ok = false;
       }
     } catch(e) {
-      // Se falhar a checagem, bloqueia por segurança
-      showErr('nickErr', 'Erro ao verificar apelido. Tente novamente.');
-      ok = false;
+      // Se falhar a checagem, bloqueia por segurança — não deixa passar na dúvida
+      showErr('nickErr', 'Erro ao verificar apelido. Verifique sua conexão e tente novamente.'); ok = false;
     }
   }
-
   if (!aniv) { showErr('anivErr', 'Informe sua data de aniversário.'); ok = false; }
-
   if (!_selectedAvatar) { showErr('avatarErr', 'Escolha um avatar.'); ok = false; }
-
-  if (_activeTab === 'email') {
-    const email = document.getElementById('cadEmail').value.trim();
-    const senha = document.getElementById('cadSenha').value;
-    if (!email || !/\S+@\S+\.\S+/.test(email)) { showErr('emailErr', 'E-mail inválido.'); ok = false; }
-    if (senha.length < 6) { showErr('senhaErr', 'Senha precisa ter pelo menos 6 caracteres.'); ok = false; }
-  }
-
   return ok;
 }
 
-/* SALVAR PERFIL NO FIRESTORE */
-async function salvarPerfil(user) {
-  const { db, doc, setDoc, serverTimestamp } = window.FB_CAD;
+async function salvarPerfilFinal() {
+  if (!window.FB_CAD || !window._cadUser) {
+    showGlobalErr('Sessão expirada. Recarregue a página.'); return;
+  }
+  const btn = document.getElementById('btnCriar');
+  clearErr('globalErr');
+  btn.textContent = 'VERIFICANDO...'; btn.disabled = true;
+
+  const ok = await validarPerfil();
+  if (!ok) { btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false; return; }
+
+  btn.textContent = 'SALVANDO...';
+  showLoading('SALVANDO PERFIL...');
+
+  const user = window._cadUser;
   const nick = document.getElementById('cadNick').value.trim();
   const aniv = document.getElementById('cadAniv').value;
+  const { db, doc, setDoc, serverTimestamp, runTransaction } = window.FB_CAD;
 
   const profile = {
     uid:         user.uid,
@@ -405,156 +546,48 @@ async function salvarPerfil(user) {
     createdAt:   serverTimestamp()
   };
 
-  // Salva com transaction para garantir unicidade do nick
-  const { runTransaction } = window.FB_CAD;
-  const nickRef    = doc(db, 'nicknames', nick.toLowerCase());
-  const usuarioRef = doc(db, 'usuarios', user.uid);
-  const rankingRef = doc(db, 'ranking', user.uid);
-  const usersRef   = doc(db, 'users', user.uid);
-
-  await runTransaction(db, async (t) => {
-    const nickSnap = await t.get(nickRef);
-    if (nickSnap.exists() && nickSnap.data().uid !== user.uid) {
-      throw new Error('NICK_TAKEN');
-    }
-
-    t.set(nickRef, { uid: user.uid, displayName: nick, createdAt: serverTimestamp() });
-    t.set(usuarioRef, profile);
-    t.set(rankingRef, {
-      displayName:   nick,
-      avatarId:      _selectedAvatar.id,
-      avatarUrl:     _selectedAvatar.url,
-      photoURL:      user.photoURL || '',
-      totalPontos:   0, totalAcertos: 0, totalErros: 0,
-      totalPalpites: 0, placareExatos: 0, pontosMes: 0,
-      createdAt:     serverTimestamp()
-    }, { merge: true });
-    t.set(usersRef, {
-      displayName:    nick,
-      avatar: { id: _selectedAvatar.id, dataUrl: _selectedAvatar.url, name: nick },
-      nicknameLocked: true,
-      lives:          5,
-      totalScore:     0,
-      createdAt:      serverTimestamp()
-    }, { merge: true });
-  });
-}
-
-/* CRIAR CONTA EMAIL */
-async function criarConta() {
-  if (_activeTab === 'gmail') { await cadastrarGmail(); return; }
-
-  const btn = document.getElementById('btnCriar');
-  document.getElementById('globalErr').style.display = 'none';
-
-  btn.textContent = 'VERIFICANDO...'; btn.disabled = true;
-
-  const ok = await validarFormulario();
-  if (!ok) { btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false; return; }
-
-  btn.textContent = 'CRIANDO CONTA...';
-  const email = document.getElementById('cadEmail').value.trim();
-  const senha = document.getElementById('cadSenha').value;
-
   try {
-    let user;
-    if (window._pendingUser) {
-      // Já autenticado via Google, só salva perfil
-      user = window._pendingUser;
-    } else {
-      const cred = await window.FB_CAD.createUserWithEmailAndPassword(
-        window.FB_CAD.auth, email, senha);
-      user = cred.user;
-    }
+    const nickRef    = doc(db, 'nicknames',  nick.toLowerCase());
+    const usuarioRef = doc(db, 'usuarios',   user.uid);
+    const rankingRef = doc(db, 'ranking',    user.uid);
+    const usersRef   = doc(db, 'users',      user.uid);
 
-    btn.textContent = 'SALVANDO PERFIL...';
-    await salvarPerfil(user);
+    await runTransaction(db, async t => {
+      const nickSnap = await t.get(nickRef);
+      if (nickSnap.exists() && nickSnap.data().uid !== user.uid) throw new Error('NICK_TAKEN');
+      t.set(nickRef,    { uid: user.uid, displayName: nick, createdAt: serverTimestamp() });
+      t.set(usuarioRef, profile);
+      t.set(rankingRef, {
+        displayName: nick, avatarId: _selectedAvatar.id, avatarUrl: _selectedAvatar.url,
+        photoURL: user.photoURL || '',
+        totalPontos: 0, totalAcertos: 0, totalErros: 0,
+        totalPalpites: 0, placareExatos: 0, pontosMes: 0,
+        createdAt: serverTimestamp()
+      }, { merge: true });
+      t.set(usersRef, {
+        displayName: nick,
+        avatar: { id: _selectedAvatar.id, dataUrl: _selectedAvatar.url, name: nick },
+        nicknameLocked: true, lives: 5, totalScore: 0,
+        createdAt: serverTimestamp()
+      }, { merge: true });
+    });
 
+    hideLoading();
     btn.textContent = 'BEM-VINDO! 🔴';
-    setTimeout(() => { window.location.href = 'main.html'; }, 800);
+
+    // Redireciona para onde veio (quiz, palpitometro ou main)
+    const origem = sessionStorage.getItem('_cadOrigem') || 'main.html';
+    sessionStorage.removeItem('_cadOrigem');
+    setTimeout(() => { window.location.href = origem; }, 800);
 
   } catch(e) {
-    const msgs = {
-      'auth/email-already-in-use': 'Este e-mail já tem uma conta. Use "ENTRAR".',
-      'auth/weak-password': 'Senha muito fraca.',
-      'auth/invalid-email': 'E-mail inválido.',
-    };
-    const errEl = document.getElementById('globalErr');
-    if (e.message === 'NICK_TAKEN') {
-      const nickErr = document.getElementById('nickErr');
-      if (nickErr) { nickErr.textContent = 'Este apelido já está em uso. Escolha outro.'; nickErr.style.display = 'block'; }
-    } else {
-      errEl.textContent = msgs[e.code] || 'Erro: ' + e.message;
-      errEl.style.display = 'block';
-    }
+    hideLoading();
     btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false;
-  }
-}
-
-/* CADASTRAR COM GMAIL */
-async function cadastrarGmail() {
-  const btn = document.getElementById('btnCriar');
-  document.getElementById('globalErr').style.display = 'none';
-
-  btn.textContent = 'VERIFICANDO...'; btn.disabled = true;
-
-  const ok = await validarFormulario();
-  if (!ok) { btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false; return; }
-
-  // Detecta mobile ou PWA instalado
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-  if (isMobile || isStandalone) {
-    // Salva estado do formulário antes do redirect (a página vai recarregar)
-    const nick = document.getElementById('cadNick').value.trim();
-    const aniv = document.getElementById('cadAniv').value;
-    sessionStorage.setItem('_cadRedirectState', JSON.stringify({
-      nick,
-      aniv,
-      avatarId: _selectedAvatar?.id || null
-    }));
-    btn.textContent = 'REDIRECIONANDO...';
-    await window.FB_CAD.signInWithRedirect(window.FB_CAD.auth, window.FB_CAD.provider);
-    return;
-  }
-
-  // Desktop: tenta popup, cai para redirect se bloqueado
-  btn.textContent = 'ABRINDO GOOGLE...';
-  try {
-    const cred = await window.FB_CAD.signInWithPopup(
-      window.FB_CAD.auth, window.FB_CAD.provider);
-    const user = cred.user;
-
-    btn.textContent = 'SALVANDO PERFIL...';
-    await salvarPerfil(user);
-
-    btn.textContent = 'BEM-VINDO! 🔴';
-    setTimeout(() => { window.location.href = 'main.html'; }, 800);
-
-  } catch(e) {
-    if (e.code === 'auth/popup-blocked') {
-      // Fallback para redirect
-      const nick = document.getElementById('cadNick').value.trim();
-      const aniv = document.getElementById('cadAniv').value;
-      sessionStorage.setItem('_cadRedirectState', JSON.stringify({
-        nick, aniv, avatarId: _selectedAvatar?.id || null
-      }));
-      btn.textContent = 'REDIRECIONANDO...';
-      await window.FB_CAD.signInWithRedirect(window.FB_CAD.auth, window.FB_CAD.provider);
-      return;
-    }
-    if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
-      btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false; return;
-    }
-    const errEl = document.getElementById('globalErr');
     if (e.message === 'NICK_TAKEN') {
       showErr('nickErr', 'Este apelido já está em uso. Escolha outro.');
     } else {
-      errEl.textContent = 'Erro ao entrar com Google: ' + (e.code || e.message);
-      errEl.style.display = 'block';
+      showErr('globalErr', 'Erro ao salvar: ' + (e.code || e.message));
     }
-    btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false;
   }
 }
 </script>
