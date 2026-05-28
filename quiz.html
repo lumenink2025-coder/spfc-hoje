@@ -2907,14 +2907,26 @@ function saveAvatar() {
     const {db, doc, setDoc} = window.FB;
     const uid = STATE.user.uid;
 
-    // Sempre reserva/atualiza o nickname no Firestore (independente de ser primeiro save)
+    // Sempre reserva/atualiza o nickname (corrige bug onde nunca era chamado)
     reserveNickname(name, uid);
 
+    // Salva em 'users' (formato quiz)
     setDoc(doc(db, 'users', uid), {
       name,
       avatar: STATE.avatar,
       nicknameLocked: STATE.nicknameLocked,
       avatarLastChanged: STATE.avatarLastChanged,
+      updatedAt: new Date().toISOString()
+    }, {merge: true}).catch(()=>{});
+
+    // Salva também em 'usuarios' (formato unificado — impede re-cadastro no cadastro.html)
+    setDoc(doc(db, 'usuarios', uid), {
+      uid,
+      displayName: name,
+      avatarId: STATE.avatar.id,
+      avatarUrl: STATE.avatar.dataUrl,
+      photoURL: STATE.user.photoURL || '',
+      email: STATE.user.email || '',
       updatedAt: new Date().toISOString()
     }, {merge: true}).catch(()=>{});
   }

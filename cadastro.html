@@ -174,31 +174,78 @@ window.FB_CAD = {
   doc, setDoc, getDoc, serverTimestamp, runTransaction
 };
 
-// Se usuário já logado: tem perfil → main.html, sem perfil → step 2
-onAuthStateChanged(auth, async user => {
-  if (!user) return;
-  try {
-    const snap = await getDoc(doc(db, 'usuarios', user.uid));
-    if (snap.exists()) {
-      window.location.href = 'main.html';
-    } else {
-      window._cadUser = user;
-      showStep(2);
-    }
-  } catch(e) {
-    window._cadUser = user;
-    showStep(2);
-  }
+// Se estava voltando de um redirect Google, mostra loading imediatamente
+const wasRedirecting = sessionStorage.getItem('_googleRedirect');
+if (wasRedirecting) {
+  document.addEventListener('DOMContentLoaded', () => {
+    const ol = document.getElementById('loadingOverlay');
+    const msg = document.getElementById('loadingMsg');
+    if (ol) { ol.classList.add('active'); }
+    if (msg) { msg.textContent = 'VERIFICANDO CONTA...'; }
+  });
+}
+
+// Captura retorno do redirect Google — ANTES do onAuthStateChanged
+getRedirectResult(auth).then(cred => {
+  sessionStorage.removeItem('_googleRedirect');
+  // onAuthStateChanged abaixo cuida do resto
+}).catch(e => {
+  sessionStorage.removeItem('_googleRedirect');
+  document.addEventListener('DOMContentLoaded', () => {
+    const ol = document.getElementById('loadingOverlay');
+    if (ol) ol.classList.remove('active');
+    const errMap = {
+      'auth/unauthorized-domain': 'Domínio não autorizado. Contate o suporte.',
+      'auth/popup-blocked': 'Popup bloqueado. Tente novamente.',
+      'auth/cancelled-popup-request': null, // usuário cancelou, silencioso
+      'auth/popup-closed-by-user': null,
+    };
+    const msg = errMap[e.code];
+    if (msg === null) return; // erro silencioso
+    if (msg) { if (typeof showErr === 'function') showErr('s1Err', msg); }
+    else { if (typeof showErr === 'function') showErr('s1Err', 'Erro Google: ' + (e.code || e.message)); }
+  });
 });
 
-// Captura retorno do redirect Google
-getRedirectResult(auth).then(cred => {
-  if (!cred) return;
-  // onAuthStateChanged acima cuida do resto
-}).catch(e => {
-  if (e.code === 'auth/unauthorized-domain') {
-    showGlobalErr('Domínio não autorizado no Firebase. Adicione em Authentication > Settings.');
-    showStep(1);
+// Auth state — roda tanto após popup quanto após redirect
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    // Garante que loading some se não há usuário
+    document.addEventListener('DOMContentLoaded', () => {
+      const ol = document.getElementById('loadingOverlay');
+      if (ol) ol.classList.remove('active');
+    });
+    return;
+  }
+  // Mostra loading enquanto checa perfil
+  const ol = document.getElementById('loadingOverlay');
+  const lm = document.getElementById('loadingMsg');
+  if (ol) ol.classList.add('active');
+  if (lm) lm.textContent = 'VERIFICANDO PERFIL...';
+
+  try {
+    // Checa AMBAS as coleções — quiz usa 'users', cadastro usa 'usuarios'
+    const [snapUsuarios, snapUsers] = await Promise.all([
+      getDoc(doc(db, 'usuarios', user.uid)),
+      getDoc(doc(db, 'users',    user.uid))
+    ]);
+    const temPerfil = snapUsuarios.exists() ||
+                      (snapUsers.exists() && snapUsers.data().nicknameLocked);
+    if (temPerfil) {
+      const origem = sessionStorage.getItem('_cadOrigem') || 'main.html';
+      sessionStorage.removeItem('_cadOrigem');
+      window.location.href = origem;
+    } else {
+      if (ol) ol.classList.remove('active');
+      window._cadUser = user;
+      if (typeof showStep === 'function') showStep(2);
+      else document.addEventListener('DOMContentLoaded', () => showStep(2));
+    }
+  } catch(e) {
+    if (ol) ol.classList.remove('active');
+    window._cadUser = user;
+    if (typeof showStep === 'function') showStep(2);
+    else document.addEventListener('DOMContentLoaded', () => showStep(2));
   }
 });
 </script>
@@ -268,9 +315,8 @@ getRedirectResult(auth).then(cred => {
     <div class="cad-label"><span>✏️</span> Apelido</div>
     <input id="cadNick" class="cad-input" type="text" maxlength="20"
       placeholder="Como quer ser chamado?" autocomplete="off"
-      oninput="clearErr('nickErr'); checkNickLive(this.value)">
+      oninput="clearErr('nickErr')">
     <div id="nickErr" class="cad-input-err"></div>
-    <div id="nickLiveStatus" style="font-size:11px;margin-top:4px;min-height:16px"></div>
     <div class="cad-input-hint">Aparece no ranking do Palpitômetro e do Quiz. Único e imutável.</div>
   </div>
 
@@ -400,25 +446,24 @@ function toggleEmailForm() {
 async function entrarGoogle() {
   if (!window.FB_CAD) return;
   const { auth, provider, signInWithPopup, signInWithRedirect } = window.FB_CAD;
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
   showLoading('ABRINDO GOOGLE...');
   try {
-    if (isMobile || isStandalone) {
-      await signInWithRedirect(auth, provider);
-      // página recarrega — onAuthStateChanged cuida do resto
-    } else {
-      await signInWithPopup(auth, provider);
-      // onAuthStateChanged dispara automaticamente
-    }
+    // Tenta popup primeiro em qualquer dispositivo
+    await signInWithPopup(auth, provider);
+    // onAuthStateChanged cuida do resto
   } catch(e) {
-    hideLoading();
-    if (e.code === 'auth/popup-blocked') {
+    if (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment') {
+      // Popup bloqueado → usa redirect
       showLoading('REDIRECIONANDO...');
+      sessionStorage.setItem('_googleRedirect', '1');
       await signInWithRedirect(auth, provider);
-    } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
-      showErr('s1Err', 'Erro: ' + (e.code || e.message));
+    } else if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
+      // Usuário fechou o popup — silencioso
+      hideLoading();
+    } else {
+      hideLoading();
+      showErr('s1Err', 'Erro ao entrar com Google: ' + (e.code || e.message));
     }
   }
 }
@@ -488,45 +533,6 @@ async function esqueceuSenha() {
   }
 }
 
-/* ══ VERIFICAÇÃO LIVE DO NICKNAME ══ */
-let _nickTimer = null;
-function checkNickLive(val) {
-  const status = document.getElementById('nickLiveStatus');
-  val = val.trim();
-  status.textContent = '';
-  clearTimeout(_nickTimer);
-
-  if (!val || val.length < 2) return;
-  if (!/^[a-zA-ZÀ-ú0-9_\- ]+$/.test(val)) {
-    status.style.color = '#ef4444';
-    status.textContent = '❌ Caracteres inválidos';
-    return;
-  }
-
-  status.style.color = '#888';
-  status.textContent = '⏳ Verificando...';
-
-  _nickTimer = setTimeout(async () => {
-    try {
-      if (!window.FB_CAD) return;
-      const { db, doc, getDoc } = window.FB_CAD;
-      const nickKey = val.toLowerCase().replace(/\s+/g, '_');
-      const snap = await getDoc(doc(db, 'nicknames', nickKey));
-      const isOwn = snap.exists() && window._cadUser && snap.data().uid === window._cadUser.uid;
-      if (!snap.exists() || isOwn) {
-        status.style.color = '#22c55e';
-        status.textContent = '✅ Disponível!';
-      } else {
-        status.style.color = '#ef4444';
-        status.textContent = '❌ Este apelido já está em uso — tente outro';
-      }
-    } catch(e) {
-      status.style.color = '#888';
-      status.textContent = '⚠️ Erro ao verificar';
-    }
-  }, 600);
-}
-
 /* ══ STEP 2: SALVAR PERFIL ══ */
 
 async function validarPerfil() {
@@ -541,8 +547,7 @@ async function validarPerfil() {
   } else {
     try {
       const { db, doc, getDoc } = window.FB_CAD;
-      const nickKey = nick.toLowerCase().replace(/\s+/g, '_');
-      const nickSnap = await getDoc(doc(db, 'nicknames', nickKey));
+      const nickSnap = await getDoc(doc(db, 'nicknames', nick.toLowerCase()));
       // Bloqueia se existe e não é do próprio usuário
       if (nickSnap.exists() && nickSnap.data().uid !== window._cadUser?.uid) {
         showErr('nickErr', 'Este apelido já está em uso. Escolha outro.'); ok = false;
@@ -588,7 +593,7 @@ async function salvarPerfilFinal() {
   };
 
   try {
-    const nickRef    = doc(db, 'nicknames',  nick.toLowerCase().replace(/\s+/g, '_'));
+    const nickRef    = doc(db, 'nicknames',  nick.toLowerCase());
     const usuarioRef = doc(db, 'usuarios',   user.uid);
     const rankingRef = doc(db, 'ranking',    user.uid);
     const usersRef   = doc(db, 'users',      user.uid);
