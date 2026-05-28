@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Criar Conta — SPFC Hoje</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -113,8 +114,8 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);
 <!-- Firebase -->
 <script type="module">
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithPopup, GoogleAuthProvider,
-         createUserWithEmailAndPassword, onAuthStateChanged }
+import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult,
+         GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { getFirestore, doc, setDoc, getDoc, collection,
          query, where, getDocs, serverTimestamp, runTransaction }
@@ -133,7 +134,7 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-window.FB_CAD = { auth, db, provider, signInWithPopup,
+window.FB_CAD = { auth, db, provider, signInWithPopup, signInWithRedirect, getRedirectResult,
   createUserWithEmailAndPassword, doc, setDoc, getDoc,
   collection, query, where, getDocs, serverTimestamp, runTransaction };
 
@@ -148,6 +149,51 @@ onAuthStateChanged(auth, async user => {
     if (emailField && user.email) emailField.value = user.email;
     window._pendingUser = user;
   } catch(e) {}
+});
+
+// Captura retorno do redirect do Google (PWA/mobile)
+getRedirectResult(auth).then(async cred => {
+  if (!cred) return; // Não veio de um redirect
+  const user = cred.user;
+  window._pendingUser = user;
+
+  // Restaura estado salvo antes do redirect
+  const saved = JSON.parse(sessionStorage.getItem('_cadRedirectState') || 'null');
+  sessionStorage.removeItem('_cadRedirectState');
+
+  if (saved) {
+    const nickEl = document.getElementById('cadNick');
+    const anivEl = document.getElementById('cadAniv');
+    if (nickEl) nickEl.value = saved.nick || '';
+    if (anivEl) anivEl.value = saved.aniv || '';
+    if (saved.avatarId) setTimeout(() => selectAvatar(saved.avatarId), 300);
+  }
+
+  // Valida e salva perfil
+  const btn = document.getElementById('btnCriar');
+  const ok = await validarFormulario();
+  if (!ok) { return; }
+
+  btn.textContent = 'SALVANDO PERFIL...'; btn.disabled = true;
+  try {
+    await salvarPerfil(user);
+    btn.textContent = 'BEM-VINDO! 🔴';
+    setTimeout(() => { window.location.href = 'main.html'; }, 800);
+  } catch(e) {
+    const errEl = document.getElementById('globalErr');
+    if (e.message === 'NICK_TAKEN') {
+      showErr('nickErr', 'Este apelido já está em uso. Escolha outro.');
+    } else {
+      errEl.textContent = 'Erro ao salvar perfil: ' + (e.code || e.message);
+      errEl.style.display = 'block';
+    }
+    btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false;
+  }
+}).catch(e => {
+  if (e.code === 'auth/unauthorized-domain') {
+    const errEl = document.getElementById('globalErr');
+    if (errEl) { errEl.textContent = 'Domínio não autorizado no Firebase. Adicione em Authentication > Settings.'; errEl.style.display = 'block'; }
+  }
 });
 </script>
 </head>
@@ -455,6 +501,25 @@ async function cadastrarGmail() {
   const ok = await validarFormulario();
   if (!ok) { btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false; return; }
 
+  // Detecta mobile ou PWA instalado
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+  if (isMobile || isStandalone) {
+    // Salva estado do formulário antes do redirect (a página vai recarregar)
+    const nick = document.getElementById('cadNick').value.trim();
+    const aniv = document.getElementById('cadAniv').value;
+    sessionStorage.setItem('_cadRedirectState', JSON.stringify({
+      nick,
+      aniv,
+      avatarId: _selectedAvatar?.id || null
+    }));
+    btn.textContent = 'REDIRECIONANDO...';
+    await window.FB_CAD.signInWithRedirect(window.FB_CAD.auth, window.FB_CAD.provider);
+    return;
+  }
+
+  // Desktop: tenta popup, cai para redirect se bloqueado
   btn.textContent = 'ABRINDO GOOGLE...';
   try {
     const cred = await window.FB_CAD.signInWithPopup(
@@ -468,13 +533,23 @@ async function cadastrarGmail() {
     setTimeout(() => { window.location.href = 'main.html'; }, 800);
 
   } catch(e) {
-    if (e.code === 'auth/popup-closed-by-user') {
+    if (e.code === 'auth/popup-blocked') {
+      // Fallback para redirect
+      const nick = document.getElementById('cadNick').value.trim();
+      const aniv = document.getElementById('cadAniv').value;
+      sessionStorage.setItem('_cadRedirectState', JSON.stringify({
+        nick, aniv, avatarId: _selectedAvatar?.id || null
+      }));
+      btn.textContent = 'REDIRECIONANDO...';
+      await window.FB_CAD.signInWithRedirect(window.FB_CAD.auth, window.FB_CAD.provider);
+      return;
+    }
+    if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
       btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false; return;
     }
     const errEl = document.getElementById('globalErr');
     if (e.message === 'NICK_TAKEN') {
-      const nickErr = document.getElementById('nickErr');
-      if (nickErr) { nickErr.textContent = 'Este apelido já está em uso. Escolha outro.'; nickErr.style.display = 'block'; }
+      showErr('nickErr', 'Este apelido já está em uso. Escolha outro.');
     } else {
       errEl.textContent = 'Erro ao entrar com Google: ' + (e.code || e.message);
       errEl.style.display = 'block';
