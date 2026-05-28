@@ -197,7 +197,6 @@ window.FB_CAD = {
 /* ── Captura retorno do redirect Google (com timeout) ── */
 (async () => {
   try {
-    // Timeout de 5 segundos — se demorar mais, não há redirect pendente
     const result = await Promise.race([
       getRedirectResult(auth),
       new Promise((_, reject) => setTimeout(() => reject(new Error('REDIRECT_TIMEOUT')), 5000))
@@ -208,11 +207,10 @@ window.FB_CAD = {
     }
   } catch(e) {
     hideLoading();
-    // Timeout = não há redirect pendente, ignora silenciosamente
     if (e.message === 'REDIRECT_TIMEOUT') return;
 
     if (e.code === 'auth/unauthorized-domain') {
-      showS1Err('Domínio não autorizado no Firebase. Adicione este domínio no console do Firebase → Authentication → Settings → Authorized domains.');
+      showS1Err('Domínio não autorizado no Firebase. Adicione este domínio no console do Firebase.');
     } else if (e.code && e.code !== 'auth/null-user') {
       showS1Err('Erro ao autenticar: ' + (e.code || e.message));
     }
@@ -228,17 +226,14 @@ onAuthStateChanged(auth, async user => {
     return; 
   }
 
-  // Sempre verifica — sem flag _handled que causava skips
   showLoading('VERIFICANDO...');
   try {
     const snap = await getDoc(doc(db, 'users', user.uid));
     if (snap.exists() && snap.data().displayName) {
-      /* Perfil completo → redireciona */
       const dest = sessionStorage.getItem('_cadOrigem') || 'main.html';
       sessionStorage.removeItem('_cadOrigem');
       window.location.href = dest;
     } else {
-      /* Novo usuário ou perfil incompleto → step 2 */
       window._cadUser = user;
       hideLoading();
       showStep(2);
@@ -466,7 +461,7 @@ function showFieldOk(id, msg) {
 }
 
 /* ────────────────────────────────────────────
-   STEP 1 — AUTH (CORRIGIDO: signInWithPopup)
+   STEP 1 — AUTH (CORRIGIDO: popup com fallback)
 ──────────────────────────────────────────── */
 function toggleEmailForm() {
   const f = document.getElementById('emailForm');
@@ -483,18 +478,27 @@ async function entrarGoogle() {
   showLoading('ABRINDO GOOGLE...');
 
   try {
-    // ✅ USA POPUP — resolve em 2-3 segundos, nunca trava 50s
+    // ✅ Tenta popup primeiro — resolve em 2-3 segundos
     const result = await window.FB_CAD.signInWithPopup(window.FB_CAD.auth, window.FB_CAD.gProvider);
 
-    // Sucesso imediato — o onAuthStateChanged vai capturar e redirecionar
     if (result?.user) {
       showLoading('VERIFICANDO PERFIL...');
     }
   } catch(e) {
     hideLoading();
 
+    // Se popup foi bloqueado ou fechado, tenta redirect como fallback
+    if (e.code === 'auth/popup-blocked') {
+      showS1Err('Popup bloqueado. Redirecionando para login...');
+      try {
+        await window.FB_CAD.signInWithRedirect(window.FB_CAD.auth, window.FB_CAD.gProvider);
+      } catch(redirectErr) {
+        showS1Err('Erro no redirect: ' + (redirectErr.code || redirectErr.message));
+      }
+      return;
+    }
+
     const msgs = {
-      'auth/popup-blocked':         'Popup bloqueado pelo navegador. Permita popups para este site.',
       'auth/popup-closed-by-user':  'Você fechou a janela do Google antes de completar o login.',
       'auth/cancelled-popup-request':'Múltiplas tentativas de login. Aguarde e tente novamente.',
       'auth/network-request-failed':'Sem conexão com a internet. Verifique sua rede.',
@@ -524,7 +528,6 @@ async function submitEmail() {
   showLoading('ENTRANDO...');
   try {
     await window.FB_CAD.signInWithEmailAndPassword(window.FB_CAD.auth, email, senha);
-    // onAuthStateChanged cuida do redirecionamento
   } catch(e) {
     hideLoading();
     btn.textContent = 'ENTRAR'; btn.disabled = false;
@@ -555,7 +558,6 @@ async function criarComEmail() {
   showLoading('CRIANDO CONTA...');
   try {
     await window.FB_CAD.createUserWithEmailAndPassword(window.FB_CAD.auth, email, senha);
-    // onAuthStateChanged leva para step 2
   } catch(e) {
     hideLoading();
     btn.textContent = 'ENTRAR'; btn.disabled = false;
@@ -633,7 +635,6 @@ async function verificarNick(nick) {
     }
   } catch(e) {
     statusEl.textContent = '';
-    /* falha silenciosa — a transaction vai bloquear duplicata de qualquer forma */
     _nickValid = true;
   }
 }
@@ -651,7 +652,6 @@ async function salvarPerfil() {
   const s2Err = document.getElementById('s2GlobalErr');
   s2Err.classList.remove('show');
 
-  /* ── Validações ── */
   const nick = document.getElementById('cadNick').value.trim();
   const aniv = document.getElementById('cadAniv').value;
   let ok = true;
