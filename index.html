@@ -503,59 +503,20 @@ const app  = getApps().find(a=>a.name==='[DEFAULT]') || initializeApp(cfg);
 const auth = getAuth(app);
 const db   = getFirestore(app);
 const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
 
-// Expor loginGmail DENTRO do module para preservar o user gesture
-window.loginGmail = async function() {
-  const btn = document.querySelector('.btn-google');
-  if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
-  try {
-    await signInWithPopup(auth, provider);
-  } catch(e) {
-    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
-    if (e.code === 'auth/popup-blocked') {
-      await signInWithRedirect(auth, provider);
-    } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
-      const el = document.getElementById('loginErr');
-      if (el) { el.textContent = 'Erro: ' + (e.code || e.message); el.style.display = 'block'; }
-    }
-  }
-};
+window.FB_INDEX = { auth, db, provider, signInWithPopup, signInWithRedirect, getRedirectResult, signInWithEmailAndPassword };
 
-// Expor doLoginEmail DENTRO do module
-window.doLoginEmail = async function() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const senha = document.getElementById('loginSenha').value;
-  const btn   = document.getElementById('btnEntrar');
-  const errEl = document.getElementById('loginErr');
-  if (errEl) errEl.style.display = 'none';
-  if (!email || !senha) {
-    if (errEl) { errEl.textContent = 'Preencha e-mail e senha.'; errEl.style.display = 'block'; }
-    return;
-  }
-  btn.textContent = 'ENTRANDO...'; btn.disabled = true;
-  try {
-    await signInWithEmailAndPassword(auth, email, senha);
-  } catch(e) {
-    const m = {
-      'auth/user-not-found':'E-mail não cadastrado.',
-      'auth/wrong-password':'Senha incorreta.',
-      'auth/invalid-credential':'E-mail ou senha incorretos.',
-      'auth/too-many-requests':'Muitas tentativas. Aguarde.',
-    };
-    if (errEl) { errEl.textContent = m[e.code] || 'Erro ao entrar.'; errEl.style.display = 'block'; }
-    btn.textContent = 'ENTRAR'; btn.disabled = false;
-  }
-};
+window.addEventListener('DOMContentLoaded', () => {
+  // Captura resultado do redirect do Google
+  getRedirectResult(auth).catch(() => {});
 
-getRedirectResult(auth).catch(() => {});
-
-onAuthStateChanged(auth, async user => {
-  if (!user) return;
-  try {
-    const snap = await getDoc(doc(db, 'usuarios', user.uid));
-    snap.exists() ? window.goToApp() : window.goTo('cadastro.html');
-  } catch(e) { window.goToApp(); }
+  onAuthStateChanged(auth, async user => {
+    if (!user) return;
+    try {
+      const snap = await getDoc(doc(db, 'usuarios', user.uid));
+      snap.exists() ? goToApp() : goTo('cadastro.html');
+    } catch(e) { goToApp(); }
+  });
 });
 </script>
 </head>
@@ -718,9 +679,47 @@ function goToApp() {
 function openLogin()  { document.getElementById('loginModal').classList.add('open'); }
 function closeLogin() { document.getElementById('loginModal').classList.remove('open'); }
 
-// loginGmail definido no module Firebase acima
+async function loginGmail() {
+  if (!window.FB_INDEX) { setTimeout(loginGmail, 100); return; }
+  const btn = document.querySelector('.btn-google');
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
+  try {
+    await window.FB_INDEX.signInWithPopup(window.FB_INDEX.auth, window.FB_INDEX.provider);
+  } catch(e) {
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+    if (e.code === 'auth/popup-blocked') {
+      await window.FB_INDEX.signInWithRedirect(window.FB_INDEX.auth, window.FB_INDEX.provider);
+    } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+      if (e.code === 'auth/unauthorized-domain') {
+        showLoginErr('Domínio não autorizado no Firebase. Adicione em Authentication > Settings.');
+      } else {
+        showLoginErr('Erro: ' + (e.code || e.message));
+      }
+    }
+  }
+}
 
-// doLoginEmail definido no module Firebase acima
+async function doLoginEmail() {
+  if (!window.FB_INDEX) { setTimeout(doLoginEmail, 100); return; }
+  const email = document.getElementById('loginEmail').value.trim();
+  const senha = document.getElementById('loginSenha').value;
+  const btn   = document.getElementById('btnEntrar');
+  hideLoginErr();
+  if (!email || !senha) { showLoginErr('Preencha e-mail e senha.'); return; }
+  btn.textContent = 'ENTRANDO...'; btn.disabled = true;
+  try {
+    await window.FB_INDEX.signInWithEmailAndPassword(window.FB_INDEX.auth, email, senha);
+  } catch(e) {
+    const m = {
+      'auth/user-not-found':'E-mail não cadastrado.',
+      'auth/wrong-password':'Senha incorreta.',
+      'auth/invalid-credential':'E-mail ou senha incorretos.',
+      'auth/too-many-requests':'Muitas tentativas. Aguarde.',
+    };
+    showLoginErr(m[e.code] || 'Erro ao entrar.');
+    btn.textContent = 'ENTRAR'; btn.disabled = false;
+  }
+}
 
 function showLoginErr(msg) {
   const el = document.getElementById('loginErr');
