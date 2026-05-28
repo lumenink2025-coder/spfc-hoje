@@ -350,6 +350,431 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 }
 .palp-btn.s-closed::before{display:none}
 
+/* ════════════════════════════════════════════════════
+   NEW LAYOUT — SPFC PWA PREMIUM
+   Seções: Destaque · Line-up · 3 Cards · 3 Widgets
+════════════════════════════════════════════════════ */
+
+/* ── NOTIF BANNER ────────────────────────────────── */
+.notif-banner-slide{position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:rgba(10,10,10,.97);border-top:1px solid rgba(204,0,0,.3);
+  padding:12px 16px;display:none;align-items:center;gap:10px;
+  padding-bottom:calc(12px + env(safe-area-inset-bottom))}
+
+/* ── DESTAQUE DO DIA ─────────────────────────────── */
+.destaque-wrap{padding:16px 16px 0;position:relative;z-index:2}
+.destaque-card{
+  position:relative;overflow:hidden;border-radius:16px;
+  background:linear-gradient(145deg,#1a0000 0%,#110000 60%,#0d0d0d 100%);
+  border:1px solid rgba(204,0,0,.3);
+  min-height:200px;cursor:pointer;
+  box-shadow:0 8px 40px rgba(204,0,0,.2),0 2px 8px rgba(0,0,0,.6);
+  transition:transform .2s,box-shadow .2s
+}
+.destaque-card:active{transform:scale(.99)}
+.destaque-card:hover{box-shadow:0 12px 50px rgba(204,0,0,.3),0 2px 8px rgba(0,0,0,.6)}
+
+.destaque-bg-year{
+  position:absolute;right:-8px;bottom:-16px;
+  font-family:var(--font-title);font-size:clamp(100px,28vw,180px);
+  color:rgba(255,255,255,.035);line-height:1;
+  pointer-events:none;user-select:none;letter-spacing:-4px
+}
+.destaque-glow{
+  position:absolute;top:0;left:0;right:0;height:50%;
+  background:radial-gradient(ellipse 80% 100% at 30% 0%,rgba(204,0,0,.22) 0%,transparent 70%);
+  pointer-events:none
+}
+
+.destaque-inner{position:relative;z-index:2;padding:20px}
+.destaque-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.destaque-cat-pill{
+  font-family:var(--font-body);font-size:9px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  padding:4px 10px;border-radius:20px;
+  background:rgba(204,0,0,.2);border:1px solid rgba(204,0,0,.4);color:#ff6666
+}
+.destaque-cat-pill.gold{background:rgba(200,168,75,.15);border-color:rgba(200,168,75,.35);color:var(--gold2)}
+.destaque-cat-pill.blue{background:rgba(74,158,255,.12);border-color:rgba(74,158,255,.3);color:#7cb9ff}
+.destaque-cat-pill.green{background:rgba(127,255,106,.08);border-color:rgba(127,255,106,.25);color:#9eff8a}
+.destaque-cat-pill.orange{background:rgba(255,159,64,.1);border-color:rgba(255,159,64,.3);color:#ffb96a}
+
+.destaque-date{font-family:var(--font-body);font-size:10px;color:var(--txt3);letter-spacing:2px}
+
+.destaque-title{
+  font-family:var(--font-title);
+  font-size:clamp(28px,7vw,44px);
+  line-height:1.0;color:#fff;
+  margin-bottom:6px;letter-spacing:.5px
+}
+.destaque-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.5;margin-bottom:16px;max-width:280px}
+
+.destaque-footer{display:flex;align-items:center;justify-content:space-between}
+.destaque-stats{display:flex;gap:16px}
+.d-mini-stat{text-align:left}
+.d-mini-num{font-family:var(--font-title);font-size:22px;color:var(--red);line-height:1}
+.d-mini-label{font-size:9px;color:var(--txt3);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px}
+.destaque-expand-btn{
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(204,0,0,.15);border:1px solid rgba(204,0,0,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--red);flex-shrink:0;
+  transition:.2s
+}
+.destaque-card:hover .destaque-expand-btn{background:var(--red);color:#fff}
+
+/* stripes tricolores no bottom do destaque */
+.destaque-stripe{
+  position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#CC0000 33.3%,#fff 33.3% 66.6%,#1a1a1a 66.6%)
+}
+
+/* ── LINE-UP DO CALENDÁRIO ───────────────────────── */
+.lineup-section{padding:20px 0 0}
+.lineup-label{
+  font-family:var(--font-body);font-size:9px;font-weight:600;
+  letter-spacing:3px;color:var(--txt3);text-transform:uppercase;
+  padding:0 20px;margin-bottom:10px
+}
+.lineup-scroll{
+  display:flex;gap:6px;overflow-x:auto;padding:0 16px 2px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch
+}
+.lineup-scroll::-webkit-scrollbar{display:none}
+
+.lineup-day{
+  flex-shrink:0;display:flex;flex-direction:column;align-items:center;
+  gap:4px;padding:10px 8px;border-radius:12px;
+  border:1px solid var(--border);background:var(--bg2);
+  cursor:pointer;transition:.15s;min-width:48px;position:relative
+}
+.lineup-day.today{background:rgba(204,0,0,.15);border-color:rgba(204,0,0,.5)}
+.lineup-day.selected{background:var(--red);border-color:var(--red)}
+.lineup-day.has-titulo{border-color:rgba(200,168,75,.35)}
+.lineup-day:hover:not(.selected){border-color:rgba(204,0,0,.3);background:rgba(204,0,0,.08)}
+
+.lineup-wd{font-family:var(--font-body);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--txt3)}
+.lineup-day.selected .lineup-wd{color:rgba(255,255,255,.7)}
+.lineup-day.today:not(.selected) .lineup-wd{color:rgba(204,0,0,.8)}
+
+.lineup-num{font-family:var(--font-ui);font-size:17px;font-weight:600;color:var(--txt);line-height:1}
+.lineup-day.selected .lineup-num{color:#fff}
+.lineup-day.today:not(.selected) .lineup-num{color:var(--red)}
+
+.lineup-dot-row{display:flex;gap:2px;min-height:5px;align-items:center}
+.lineup-dot{width:4px;height:4px;border-radius:50%}
+
+/* ── SECTION TITLE NEW ───────────────────────────── */
+.sec-head-new{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 20px 12px
+}
+.sec-title-new{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-body);font-size:9px;font-weight:600;
+  letter-spacing:3px;color:var(--txt3);text-transform:uppercase
+}
+.sec-title-new::before{content:'';width:16px;height:1px;background:var(--red)}
+.sec-badge{
+  font-family:var(--font-title);font-size:16px;color:var(--red)
+}
+
+/* ── 3 EVENT CARDS — HORIZONTAL CAROUSEL ────────── */
+.day-cards-grid{
+  padding:0 16px 4px;
+  display:flex;gap:10px;
+  overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch
+}
+.day-cards-grid::-webkit-scrollbar{display:none}
+
+.day-ev-card{
+  flex-shrink:0;
+  width:clamp(220px,76vw,272px);
+  border-radius:14px;overflow:hidden;cursor:pointer;
+  scroll-snap-align:start;
+  display:flex;flex-direction:column;
+  position:relative;
+  border:1px solid var(--border2);
+  background:var(--bg2);
+  transition:transform .15s,box-shadow .2s
+}
+.day-ev-card:active{transform:scale(.97)}
+.day-ev-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.5)}
+
+.day-ev-card.cat-titulo,.day-ev-card.cat-fundacao,.day-ev-card.cat-mundial{box-shadow:inset 3px 0 0 var(--gold)}
+.day-ev-card.cat-vitoria{box-shadow:inset 3px 0 0 var(--red)}
+.day-ev-card.cat-aniversario{box-shadow:inset 3px 0 0 #4a9eff}
+.day-ev-card.cat-estreia{box-shadow:inset 3px 0 0 #7fff6a}
+.day-ev-card.cat-despedida{box-shadow:inset 3px 0 0 #ff9f40}
+.day-ev-card.cat-recorde{box-shadow:inset 3px 0 0 #bf5fff}
+
+/* THUMB */
+.dcard-thumb{width:100%;aspect-ratio:16/9;overflow:hidden;position:relative;flex-shrink:0}
+.dcard-thumb-fallback{
+  width:100%;height:100%;
+  background:linear-gradient(145deg,rgba(180,0,0,.72) 0%,rgba(100,0,0,.85) 100%);
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden
+}
+.dcard-thumb-fallback::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% 30%,rgba(255,255,255,.07) 0%,transparent 70%)}
+.dcard-thumb-fallback svg{width:52px;height:52px;opacity:.55;position:relative;z-index:1;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
+.dcard-thumb-fallback::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent,transparent 8px,rgba(255,255,255,.015) 8px,rgba(255,255,255,.015) 9px);pointer-events:none}
+.dcard-thumb img{width:100%;height:100%;object-fit:cover;object-position:center 20%;transition:transform .4s ease;display:block}
+.day-ev-card:hover .dcard-thumb img{transform:scale(1.04)}
+.dcard-next-badge{position:absolute;top:8px;right:8px;z-index:2;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;padding:3px 8px;border-radius:10px;background:rgba(10,10,10,.85);border:1px solid var(--border2);color:var(--txt2);backdrop-filter:blur(4px)}
+.dcard-cat-badge{position:absolute;bottom:8px;left:8px;z-index:2;font-size:8px;letter-spacing:2px;text-transform:uppercase;font-weight:600;padding:3px 8px;border-radius:10px;backdrop-filter:blur(6px)}
+.dcard-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;background:rgba(0,0,0,.25);opacity:0;transition:.2s}
+.day-ev-card:hover .dcard-play{opacity:1}
+.dcard-play-circle{width:36px;height:36px;border-radius:50%;background:rgba(204,0,0,.9);display:flex;align-items:center;justify-content:center;font-size:13px;padding-left:2px}
+
+/* BODY */
+.dcard-body{padding:12px 12px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
+.dcard-meta{display:flex;align-items:center;gap:6px}
+.dcard-year{font-family:var(--font-body);font-size:10px;font-weight:600;color:var(--red);letter-spacing:2px}
+.dcard-ago{font-size:10px;color:var(--txt3)}
+.dcard-title{font-family:var(--font-ui);font-size:14px;font-weight:600;color:var(--txt);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dcard-desc{font-size:11px;color:var(--txt2);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:1px}
+.dcard-footer{display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:8px}
+.dcard-media-chip{display:inline-flex;align-items:center;gap:3px;padding:3px 7px;border-radius:8px;font-size:9px;letter-spacing:1px;background:rgba(255,255,255,.04);border:1px solid var(--border2);color:var(--txt3)}
+.dcard-expand-hint{margin-left:auto;font-size:9px;color:var(--txt3);letter-spacing:1px;display:flex;align-items:center;gap:3px}
+
+/* DOTS */
+.dcard-dots{display:flex;justify-content:center;gap:5px;padding:8px 0 0}
+.dcard-dot{width:5px;height:5px;border-radius:50%;background:var(--border2);transition:background .2s,width .2s}
+.dcard-dot.active{background:var(--red);width:14px;border-radius:3px}
+
+.dec-from-next{display:none}
+
+/* ── 3 WIDGETS GRID ──────────────────────────────── */
+.widgets-grid{padding:0 16px 100px;display:flex;flex-direction:column;gap:10px}
+
+/* Widget base */
+.widget{
+  border-radius:14px;overflow:hidden;position:relative;
+  border:1px solid var(--border2);background:var(--bg2)
+}
+
+/* Widget: PRÓXIMO JOGO */
+.widget-jogo{background:linear-gradient(145deg,#0d0d14 0%,#0d0d0d 100%);border-color:rgba(74,158,255,.2)}
+.wj-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px 8px;border-bottom:1px solid rgba(255,255,255,.05)
+}
+.wj-label{font-family:var(--font-body);font-size:9px;letter-spacing:3px;color:#4a9eff;text-transform:uppercase;font-weight:600}
+.wj-comp{font-family:var(--font-body);font-size:9px;color:var(--txt3);letter-spacing:1px;text-transform:uppercase}
+.wj-body{padding:14px}
+.wj-teams{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.wj-team{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+.wj-logo{width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.wj-logo-ph{width:40px;height:40px;background:var(--bg3);border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:18px}
+.wj-team-name{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--txt);text-align:center;line-height:1.2}
+.wj-mid{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0}
+.wj-score{font-family:var(--font-title);font-size:28px;color:#fff;letter-spacing:2px}
+.wj-vs{font-family:var(--font-title);font-size:20px;color:var(--txt3)}
+.wj-chips{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+.wj-chip{
+  display:inline-flex;align-items:center;gap:3px;
+  padding:4px 9px;border-radius:20px;font-size:10px;color:var(--txt2);
+  background:rgba(255,255,255,.04);border:1px solid var(--border2);letter-spacing:.3px
+}
+.wj-chip.live{background:rgba(204,0,0,.15);border-color:rgba(204,0,0,.4);color:#ff7777}
+.wj-loading{padding:20px;text-align:center;font-size:11px;color:var(--txt3);letter-spacing:2px}
+.wj-stripe{height:3px;background:linear-gradient(90deg,#CC0000 33%,#fff 33% 66%,#111 66%)}
+
+/* Widget: PALPITÔMETRO */
+.widget-palp{
+  background:linear-gradient(135deg,#1a0000 0%,#100000 100%);
+  border-color:rgba(204,0,0,.25);cursor:pointer
+}
+.widget-palp:hover{border-color:rgba(204,0,0,.5)}
+.widget-palp::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.06) 50%,transparent 70%);
+  background-size:200% 100%;animation:wShimmer 3s linear infinite;pointer-events:none
+}
+@keyframes wShimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+
+.wp-inner{padding:18px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.wp-left{}
+.wp-eyebrow{font-family:var(--font-body);font-size:9px;letter-spacing:3px;color:rgba(255,100,100,.6);text-transform:uppercase;margin-bottom:4px}
+.wp-title{font-family:var(--font-title);font-size:30px;letter-spacing:3px;color:#fff;line-height:1}
+.wp-sub{font-family:var(--font-body);font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.5px;margin-top:4px}
+.wp-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.wp-icon{font-size:36px;animation:wpFloat 3s ease-in-out infinite}
+@keyframes wpFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.wp-arrow{width:30px;height:30px;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff}
+.wp-stripe{height:3px;background:linear-gradient(90deg,#CC0000 33%,#fff 33% 66%,#111 66%)}
+
+/* Estado: enviado */
+.widget-palp.s-sent{background:linear-gradient(135deg,#0a1f12 0%,#071510 100%);border-color:rgba(34,197,94,.2)}
+.widget-palp.s-sent .wp-eyebrow{color:rgba(34,197,94,.6)}
+.widget-palp.s-sent::before{display:none}
+/* Estado: fechado */
+.widget-palp.s-closed{opacity:.5;cursor:not-allowed}
+.widget-palp.s-closed::before{display:none}
+/* Estado: resultado */
+.widget-palp.s-result{background:linear-gradient(135deg,#1a1000 0%,#110d00 100%);border-color:rgba(200,168,75,.25);animation:wResultPulse 2s ease-in-out infinite}
+@keyframes wResultPulse{0%,100%{box-shadow:0 0 0 rgba(200,168,75,0)}50%{box-shadow:0 0 20px rgba(200,168,75,.2)}}
+
+/* Widget: QUIZ */
+.widget-quiz{
+  background:linear-gradient(135deg,#0d0a1a 0%,#0a0a0d 100%);
+  border-color:rgba(191,95,255,.2);cursor:pointer
+}
+.widget-quiz:hover{border-color:rgba(191,95,255,.4)}
+.wq-inner{padding:18px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.wq-left{}
+.wq-eyebrow{font-family:var(--font-body);font-size:9px;letter-spacing:3px;color:rgba(191,95,255,.7);text-transform:uppercase;margin-bottom:4px}
+.wq-title{font-family:var(--font-title);font-size:30px;letter-spacing:3px;color:#fff;line-height:1}
+.wq-sub{font-family:var(--font-body);font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.5px;margin-top:4px}
+.wq-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.wq-icon{font-size:36px;animation:wqSpin 4s ease-in-out infinite}
+@keyframes wqSpin{0%,80%,100%{transform:rotate(0deg)}10%{transform:rotate(-15deg)}20%{transform:rotate(15deg)}30%{transform:rotate(-10deg)}40%{transform:rotate(10deg)}50%{transform:rotate(0deg)}}
+.wq-arrow{width:30px;height:30px;background:rgba(191,95,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:#bf5fff}
+.wq-stripe{height:3px;background:linear-gradient(90deg,#bf5fff 0%,#4a9eff 50%,#CC0000 100%)}
+
+/* ── BOTTOM NAV (substituiu nav-tabs no Hoje) ─────── */
+.bottom-nav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  z-index:200;width:calc(100% - 32px);max-width:420px;
+  background:rgba(15,15,15,.96);backdrop-filter:blur(16px);
+  border:1px solid var(--border2);border-radius:20px 20px 0 0;
+  border-bottom:none;
+  display:flex;
+  padding-bottom:env(safe-area-inset-bottom)
+}
+.bn-tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  gap:4px;padding:10px 8px 12px;
+  font-family:var(--font-body);font-size:9px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3);
+  border:none;background:transparent;cursor:pointer;transition:.2s
+}
+.bn-icon{font-size:18px;line-height:1;filter:grayscale(1);transition:.2s}
+.bn-tab.active{color:var(--red)}
+.bn-tab.active .bn-icon{filter:grayscale(0)}
+.bn-tab:hover:not(.active){color:var(--txt)}
+
+/* hide old nav-tabs on panel-hoje */
+.nav-tabs{display:none}
+
+/* ── PANELS PADDING for bottom-nav ──────────────── */
+.panel{padding-bottom:120px}
+
+/* ── EVENT MODAL — BOTTOM SHEET ─────────────────── */
+.ev-modal{
+  display:flex;align-items:flex-end;justify-content:center;
+  position:fixed;inset:0;z-index:3000;
+  background:rgba(0,0,0,0);
+  visibility:hidden;pointer-events:none;
+  transition:background .3s, visibility 0s .38s
+}
+.ev-modal.open{
+  background:rgba(0,0,0,.78);backdrop-filter:blur(6px);
+  visibility:visible;pointer-events:all;
+  transition:background .3s, visibility 0s 0s
+}
+.ev-modal-sheet{
+  width:100%;max-width:480px;
+  background:var(--bg2);
+  border-radius:20px 20px 0 0;
+  border-top:1px solid var(--border2);
+  max-height:92dvh;
+  display:flex;flex-direction:column;
+  position:relative;
+  transform:translateY(100%);
+  transition:transform .35s cubic-bezier(.32,1,.32,1);
+  box-shadow:0 -8px 40px rgba(0,0,0,.6)
+}
+.ev-modal.open .ev-modal-sheet{
+  transform:translateY(0)
+}
+.ev-modal-handle{
+  width:36px;height:4px;border-radius:2px;
+  background:rgba(255,255,255,.18);
+  margin:12px auto 0;flex-shrink:0
+}
+.ev-modal-close{
+  position:absolute;top:10px;right:12px;
+  width:32px;height:32px;border-radius:50%;
+  border:1px solid var(--border2);
+  background:rgba(30,30,30,.9);
+  color:var(--txt2);font-size:14px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  z-index:10;line-height:1;padding:0
+}
+.ev-modal-close:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.ev-modal-scroll{
+  overflow-y:auto;flex:1;
+  padding:8px 0 env(safe-area-inset-bottom,20px);
+  scrollbar-width:none
+}
+.ev-modal-scroll::-webkit-scrollbar{display:none}
+
+/* thumb grande no topo do modal */
+.evm-thumb{
+  width:100%;aspect-ratio:16/9;overflow:hidden;
+  position:relative;flex-shrink:0
+}
+.evm-thumb img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block}
+.evm-thumb-fallback{
+  width:100%;height:100%;
+  background:linear-gradient(145deg,rgba(180,0,0,.75) 0%,rgba(80,0,0,.9) 100%);
+  display:flex;align-items:center;justify-content:center
+}
+.evm-thumb-fallback svg{width:64px;height:64px;opacity:.5}
+.evm-play-overlay{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.3)
+}
+.evm-play-btn{
+  width:56px;height:56px;border-radius:50%;
+  background:rgba(204,0,0,.9);border:3px solid rgba(255,255,255,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;padding-left:3px;cursor:pointer;
+  transition:.2s;box-shadow:0 4px 20px rgba(204,0,0,.5)
+}
+.evm-play-btn:hover{transform:scale(1.1);background:var(--red)}
+.evm-cat-pill{
+  position:absolute;bottom:10px;left:10px;
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700;
+  padding:4px 10px;border-radius:20px;backdrop-filter:blur(6px)
+}
+/* body do modal */
+.evm-body{padding:16px 18px 4px}
+.evm-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.evm-year{font-family:var(--font-body);font-size:11px;font-weight:700;color:var(--red);letter-spacing:3px}
+.evm-ago{font-size:11px;color:var(--txt3)}
+.evm-title{font-family:var(--font-title);font-size:clamp(26px,7vw,36px);color:#fff;line-height:1.05;margin-bottom:6px;letter-spacing:.5px}
+.evm-desc{font-size:13px;color:var(--txt2);line-height:1.55;margin-bottom:14px}
+.evm-ctx{font-size:13px;color:var(--txt2);line-height:1.6;margin-bottom:16px;border-left:2px solid var(--red);padding-left:12px}
+/* stats row */
+.evm-stats{display:flex;gap:0;border:1px solid var(--border2);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.evm-stat{flex:1;padding:12px 8px;text-align:center;border-right:1px solid var(--border2)}
+.evm-stat:last-child{border-right:none}
+.evm-stat-val{font-family:var(--font-title);font-size:24px;color:var(--red);line-height:1}
+.evm-stat-lbl{font-size:9px;color:var(--txt3);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+/* actions */
+.evm-actions{display:flex;gap:8px;padding:0 18px 20px}
+.evm-btn{
+  flex:1;padding:12px;border-radius:10px;
+  font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:1px;
+  cursor:pointer;border:none;transition:.15s;text-align:center
+}
+.evm-btn-primary{background:var(--red);color:#fff}
+.evm-btn-primary:hover{background:#e60000}
+.evm-btn-secondary{background:rgba(255,255,255,.06);color:var(--txt2);border:1px solid var(--border2)}
+.evm-btn-secondary:hover{background:rgba(255,255,255,.1);color:#fff}
+/* stripe tricolor bottom */
+.evm-stripe{height:3px;background:linear-gradient(90deg,#CC0000 33%,#fff 33% 66%,#111 66%);flex-shrink:0}
+
+.pop-in{animation:popIn .35s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes popIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+
+/* ── SKELETON LOADERS ────────────────────────────── */
+.skel{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg4) 50%,var(--bg3) 75%);background-size:200%;animation:skelAnim 1.4s linear infinite;border-radius:8px}
+@keyframes skelAnim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
 </style>
 </head>
 <body>
@@ -365,6 +790,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <span id="tbUserName" style="font-size:12px;color:var(--txt2);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--font-body)"></span>
       <div id="tbUserAvatar" onclick="handleLogout()" title="Sair" style="width:30px;height:30px;border-radius:50%;background:var(--bg3);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--red);cursor:pointer;overflow:hidden;font-family:var(--font-ui)"></div>
     </div>
+    <button class="tb-notif" onclick="askNotif()" title="Ativar notificações">🔔</button>
   </div>
 </header>
 
@@ -377,87 +803,124 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <button class="install-bar-btn" onclick="installPWA()">INSTALAR</button>
 </div>
 
-<!-- NOTIF BANNER -->
-<div id="notifBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:rgba(10,10,10,.97);border-top:1px solid rgba(204,0,0,.35);padding:12px 16px;display:none;align-items:center;gap:10px">
+<!-- NOTIF BANNER (novo estilo slide) -->
+<div id="notifBanner" class="notif-banner-slide">
   <span style="font-size:18px">🔔</span>
-  <span style="flex:1;font-size:12px;color:var(--txt2);font-family:var(--font-body)">Receba notificações do <strong style="color:var(--txt)">SPFC Hoje</strong> — resultados e momentos históricos</span>
-  <button onclick="askNotif();document.getElementById('notifBanner').style.display='none'" style="padding:7px 14px;background:var(--red);color:#fff;border:none;border-radius:6px;font-size:11px;font-family:var(--font-ui);letter-spacing:1px;cursor:pointer">ATIVAR</button>
-  <button onclick="document.getElementById('notifBanner').style.display='none'" style="padding:7px 10px;background:transparent;color:var(--txt3);border:1px solid var(--border2);border-radius:6px;font-size:11px;cursor:pointer">✕</button>
+  <span style="flex:1;font-size:12px;color:var(--txt2);font-family:var(--font-body)">Receba notificações do <strong style="color:var(--txt)">SPFC Hoje</strong></span>
+  <button onclick="askNotif();document.getElementById('notifBanner').style.display='none'" style="padding:7px 14px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:11px;font-family:var(--font-ui);letter-spacing:1px;cursor:pointer">ATIVAR</button>
+  <button onclick="document.getElementById('notifBanner').style.display='none'" style="padding:7px 10px;background:transparent;color:var(--txt3);border:1px solid var(--border2);border-radius:8px;font-size:11px;cursor:pointer">✕</button>
 </div>
 
-<!-- HERO -->
-<section class="hero" id="heroSection">
+<!-- HERO strip (mantido como referência do dia) -->
+<section class="hero" id="heroSection" style="min-height:auto;padding-bottom:0">
   <div class="hero-gradient"></div>
-  <div class="hero-ghost" id="heroGhost"></div>
-  <div class="hero-top">
+  <div class="hero-ghost" id="heroGhost" style="font-size:clamp(80px,22vw,160px)"></div>
+  <div class="hero-top" style="padding-bottom:20px">
     <div class="hero-date-tag">
       <span id="heroDateLabel">carregando...</span>
     </div>
-    <div class="hero-title">O QUE<br><em>ACONTECEU</em><br>HOJE</div>
-    <div class="hero-sub">na história do São Paulo Futebol Clube</div>
-    <div class="hero-count-row">
-      <div class="hero-count" id="heroCount">0</div>
+    <div class="hero-title" style="font-size:clamp(36px,10vw,64px);margin-bottom:4px">HOJE<br><em>NA HISTÓRIA</em></div>
+    <div class="hero-sub">São Paulo Futebol Clube</div>
+    <div class="hero-count-row" style="margin-bottom:0">
+      <div class="hero-count" id="heroCount" style="font-size:40px">0</div>
       <div class="hero-count-label">
         <strong id="heroCountLabel">eventos</strong>
         encontrados hoje
       </div>
     </div>
-    <!-- BOTÃO QUIZ EM DESTAQUE -->
-    <button class="quiz-hero-btn" onclick="window.location.href='quiz.html'">
-      <div class="qhb-left">
-        <div class="qhb-eyebrow">Teste seus conhecimentos</div>
-        <div class="qhb-title">QUIZ TRICOLOR</div>
-        <div class="qhb-sub">6 níveis · perguntas históricas · ranking global</div>
-      </div>
-      <div class="qhb-right">
-        <div class="qhb-ball">⚽</div>
-        <div class="qhb-arrow">▶</div>
-      </div>
-      <div class="qhb-stripe"></div>
-    </button>
-
-    <!-- PRÓXIMO JOGO -->
-    <div class="next-match-card" id="nextMatchCard">
-      <div class="nmc-loading">⏳ buscando próximo jogo...</div>
-    </div>
-
-    <!-- PALPITÔMETRO -->
-    <div class="palp-wrap" id="palpWrap" style="display:none">
-      <button class="palp-btn" id="palpBtn" onclick="window.location.href='palpitometro.html'">
-        <div class="palp-btn-left">
-          <div class="palp-btn-eyebrow" id="palpBtnEyebrow">SÃO PAULO FC</div>
-          <div class="palp-btn-label" id="palpBtnLabel">PALPITÔMETRO</div>
-          <div class="palp-btn-sub" id="palpBtnSub">Dê seu palpite e dispute o ranking</div>
-        </div>
-        <div class="palp-btn-right">
-          <div class="palp-btn-icon" id="palpBtnIcon">🎯</div>
-          <div class="palp-btn-arrow" id="palpBtnArrow">▶</div>
-        </div>
-        <div class="palp-btn-stripe"></div>
-      </button>
-    </div>
-
-    <div class="scroll-pill" onclick="scrollToContent()" style="margin-top:20px">
-      VER HISTÓRICO <span class="scroll-arrow">↓</span>
-    </div>
   </div>
 </section>
 
-<!-- NAV TABS -->
-<nav class="nav-tabs" id="navTabs">
+<!-- NAV TABS (mantido pra Calendário/Records/Goleadas, escondido no Hoje) -->
+<nav class="nav-tabs" id="navTabs" style="display:none">
   <button class="nav-tab active" onclick="showPanel('hoje',this)">HOJE</button>
   <button class="nav-tab" onclick="showPanel('calendario',this)">CALENDÁRIO</button>
   <button class="nav-tab" onclick="showPanel('records',this)">RECORDES</button>
   <button class="nav-tab" onclick="showPanel('goleadas',this)">GOLEADAS</button>
 </nav>
 
-<!-- PANEL: HOJE -->
+<!-- PANEL: HOJE (novo layout) -->
 <div class="panel active" id="panel-hoje">
-  <div class="sec-head">
-    <div class="sec-title">// eventos de hoje</div>
-    <div class="sec-count" id="secCount">0</div>
+
+  <!-- ① EVENTO EM DESTAQUE -->
+  <div class="destaque-wrap">
+    <div class="destaque-card pop-in" id="destaqueCard" onclick="openDestaqueModal()">
+      <div class="destaque-bg-year" id="destaqueBgYear"></div>
+      <div class="destaque-glow"></div>
+      <div class="destaque-inner">
+        <div class="destaque-eyebrow">
+          <span class="destaque-cat-pill" id="destaqueCatPill">DESTAQUE</span>
+          <span class="destaque-date" id="destaqueDate"></span>
+        </div>
+        <div class="destaque-title" id="destaqueTitle">Carregando...</div>
+        <div class="destaque-desc" id="destaqueDesc"></div>
+        <div class="destaque-footer">
+          <div class="destaque-stats" id="destaqueStats"></div>
+          <div class="destaque-expand-btn">▶</div>
+        </div>
+      </div>
+      <div class="destaque-stripe"></div>
+    </div>
   </div>
-  <div class="cards-list" id="todayList"></div>
+
+  <!-- ② LINE-UP DO CALENDÁRIO -->
+  <div class="lineup-section">
+    <div class="lineup-label">// agenda histórica</div>
+    <div class="lineup-scroll" id="lineupScroll"></div>
+  </div>
+
+  <!-- ③ 3 CARDS DO DIA -->
+  <div class="sec-head-new">
+    <div class="sec-title-new">eventos do dia</div>
+    <div class="sec-badge" id="secCount">0</div>
+  </div>
+  <div class="day-cards-grid" id="todayList"></div>
+  <div class="dcard-dots" id="dcardDots"></div>
+
+  <!-- ④ 3 WIDGETS -->
+  <div class="sec-head-new" style="padding-top:24px">
+    <div class="sec-title-new">área do torcedor</div>
+  </div>
+  <div class="widgets-grid">
+
+    <!-- PRÓXIMO JOGO -->
+    <div class="widget widget-jogo" id="nextMatchCard">
+      <div class="wj-loading">⏳ buscando próximo jogo...</div>
+    </div>
+
+    <!-- PALPITÔMETRO -->
+    <div class="widget widget-palp" id="palpWrap" style="display:none" onclick="window.location.href='palpitometro.html'">
+      <div class="wp-inner">
+        <div class="wp-left">
+          <div class="wp-eyebrow" id="palpBtnEyebrow">SÃO PAULO FC</div>
+          <div class="wp-title" id="palpBtnLabel">PALPITÔMETRO</div>
+          <div class="wp-sub" id="palpBtnSub">Dê seu palpite e dispute o ranking</div>
+        </div>
+        <div class="wp-right">
+          <div class="wp-icon" id="palpBtnIcon">🎯</div>
+          <div class="wp-arrow">▶</div>
+        </div>
+      </div>
+      <div class="wp-stripe"></div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="widget widget-quiz" onclick="window.location.href='quiz.html'">
+      <div class="wq-inner">
+        <div class="wq-left">
+          <div class="wq-eyebrow">Teste seus conhecimentos</div>
+          <div class="wq-title">QUIZ TRICOLOR</div>
+          <div class="wq-sub">6 níveis · ranking global · histórico</div>
+        </div>
+        <div class="wq-right">
+          <div class="wq-icon">🧩</div>
+          <div class="wq-arrow">▶</div>
+        </div>
+      </div>
+      <div class="wq-stripe"></div>
+    </div>
+
+  </div>
 </div>
 
 <!-- PANEL: CALENDÁRIO -->
@@ -487,7 +950,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="cards-list" id="goleadasList"></div>
 </div>
 
-
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLB(event)">
   <button class="lb-close" onclick="closeLB(event)">✕</button>
@@ -502,7 +964,38 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </div>
 
 <!-- SHARE FAB -->
-<button class="share-fab" onclick="shareDay()" title="Compartilhar">↗</button>
+<button class="share-fab" onclick="shareDay()" title="Compartilhar" style="bottom:80px">↗</button>
+
+<!-- MODAL DE EVENTO (bottom sheet) -->
+<div id="evModal" class="ev-modal" onclick="closeEvModal(event)">
+  <div class="ev-modal-sheet" id="evModalSheet">
+    <div class="ev-modal-handle"></div>
+    <button class="ev-modal-close" onclick="closeEvModal()">✕</button>
+    <div class="ev-modal-scroll" id="evModalScroll">
+      <div id="evModalContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="bn-tab active" id="bnHoje" onclick="switchTab('hoje',this)">
+    <span class="bn-icon">📅</span>
+    <span>Hoje</span>
+  </button>
+  <button class="bn-tab" id="bnCal" onclick="switchTab('calendario',this)">
+    <span class="bn-icon">🗓️</span>
+    <span>Calendário</span>
+  </button>
+  <button class="bn-tab" id="bnRec" onclick="switchTab('records',this)">
+    <span class="bn-icon">🏆</span>
+    <span>Recordes</span>
+  </button>
+  <button class="bn-tab" id="bnGol" onclick="switchTab('goleadas',this)">
+    <span class="bn-icon">⚽</span>
+    <span>Goleadas</span>
+  </button>
+</nav>
 
 <script>
 'use strict';
@@ -1221,10 +1714,10 @@ function installPWA(){if(!deferredPrompt)return;deferredPrompt.prompt();deferred
    INIT
 ═══════════════════════════════════════════════════ */
 /* ═══════════════════════════════════════════════════
-   PRÓXIMO JOGO — API-Football
+   PRÓXIMO JOGO — substituído por loadNextMatchNew abaixo
 ═══════════════════════════════════════════════════ */
-const SPFC_TSDB_ID = 134291; // TheSportsDB ID do São Paulo FC
-
+const SPFC_TSDB_ID = 134291;
+// Mantido como fallback — chamado via loadNextMatchNew
 async function loadNextMatch() {
   const card = document.getElementById('nextMatchCard');
   if (!card) return;
@@ -1374,6 +1867,11 @@ async function loadFirebaseEvents() {
     console.log(`✅ Firebase: ${snap.size} eventos carregados`);
   } catch(e) {
     console.warn('Firebase offline, usando DB local:', e.message);
+    // Re-renderiza com dados locais após o Firebase falhar
+    renderHoje();
+    // Debug: mostra quantos eventos tem hoje no DB local
+    const todayEvs = ev(TODAY_M, TODAY_D);
+    console.log(`📅 DB local — hoje (${TODAY_D}/${TODAY_M}): ${todayEvs.length} eventos`, todayEvs);
   }
 }
 
@@ -1439,19 +1937,7 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
   }
 }
 
-function init(){
-  renderHoje();
-  renderCalMonthNav();
-  renderCalGrid();
-  renderRecords();
-  renderGoleadas();
-  updateNotifUI();
-  registerSW();
-  loadNextMatch();
-  loadFirebaseEvents(); // carrega do Firebase em paralelo
-}
-
-init();
+// init() e loadNextMatch() foram substituídos pelas versões abaixo
 
 /* ═══════════════════════════════════════════════════
    FIREBASE AUTH — exibe usuário no topbar
@@ -1488,7 +1974,8 @@ init();
         }
       } else {
         const isVisitante = localStorage.getItem('spfc_visitante') === '1';
-        if (!isVisitante) {
+        const isLocal = location.protocol === 'file:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+        if (!isVisitante && !isLocal) {
           window.location.href = 'index.html';
         }
       }
@@ -1514,6 +2001,601 @@ setTimeout(() => {
     if (banner) banner.style.display = 'flex';
   }
 }, 6000);
+
+
+/* ═══════════════════════════════════════════════════
+   BOTTOM NAV — substitui showPanel
+═══════════════════════════════════════════════════ */
+function switchTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.bn-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Manter compatibilidade com showPanel original
+function showPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.bn-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  // Sync bottom nav
+  const map = { hoje: 'bnHoje', calendario: 'bnCal', records: 'bnRec', goleadas: 'bnGol' };
+  if (map[id]) { const b = document.getElementById(map[id]); if (b) b.classList.add('active'); }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ═══════════════════════════════════════════════════
+   DESTAQUE DO DIA
+═══════════════════════════════════════════════════ */
+const PRIORITY_ORDER = { fundacao: 0, mundial: 1, titulo: 2, recorde: 3, vitoria: 4, aniversario: 5, estreia: 6, despedida: 7 };
+
+const CAT_PILL_CLASS = {
+  vitoria: '', fundacao: 'gold', mundial: 'gold', titulo: 'gold',
+  aniversario: 'blue', estreia: 'green', despedida: 'orange', recorde: ''
+};
+
+function getDestaqueEvent(m, d) {
+  // tenta hoje, depois busca nos próximos 30 dias
+  for (let off = 0; off <= 30; off++) {
+    const nd = new Date(TODAY_Y, TODAY_M - 1, TODAY_D + off);
+    const events = ev(nd.getMonth() + 1, nd.getDate());
+    if (events && events.length) {
+      return [...events].sort((a, b) => (PRIORITY_ORDER[a.t] ?? 9) - (PRIORITY_ORDER[b.t] ?? 9))[0];
+    }
+  }
+  return null;
+}
+
+function renderDestaque() {
+  const card = document.getElementById('destaqueCard');
+  if (!card) return;
+  const best = getDestaqueEvent(TODAY_M, TODAY_D);
+  if (!best) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = '';
+
+  const pillClass = CAT_PILL_CLASS[best.t] || '';
+  const pill = document.getElementById('destaqueCatPill');
+  if (pill) { pill.className = 'destaque-cat-pill' + (pillClass ? ' ' + pillClass : ''); pill.textContent = CATS[best.t] || best.t.toUpperCase(); }
+  const dateEl = document.getElementById('destaqueDate');
+  if (dateEl) dateEl.textContent = best.y ? `${best.y} · ${yearsAgo(best.y)}` : '';
+  const bgYear = document.getElementById('destaqueBgYear');
+  if (bgYear) bgYear.textContent = best.y || '';
+  const titleEl = document.getElementById('destaqueTitle');
+  if (titleEl) titleEl.textContent = best.n || '';
+  const descEl = document.getElementById('destaqueDesc');
+  if (descEl) descEl.textContent = best.d || '';
+
+  const stats = best.stats ? best.stats.slice(0, 2) : [];
+  const statsEl = document.getElementById('destaqueStats');
+  if (statsEl) {
+    statsEl.innerHTML = stats.map(s =>
+      `<div class="d-mini-stat"><div class="d-mini-num">${s.v}</div><div class="d-mini-label">${s.l}</div></div>`
+    ).join('');
+  }
+
+  window._destaqueEv = best;
+}
+
+/* ═══════════════════════════════════════════════════
+   MODAL DE EVENTO — bottom sheet
+═══════════════════════════════════════════════════ */
+function openEvModal(evObj) {
+  if (!evObj) return;
+  window._activeModalEv = evObj;
+  const modal   = document.getElementById('evModal');
+  const content = document.getElementById('evModalContent');
+  const catLabel = CATS[evObj.t] || evObj.t.toUpperCase();
+  const catBg    = CAT_BADGE_BG[evObj.t] || 'rgba(204,0,0,.7)';
+  const hasImg   = !!evObj.image;
+  const hasVideo = !!evObj.video;
+  const ctx      = evObj.ctx || '';
+  const stats    = evObj.stats || [];
+
+  /* thumb */
+  let thumbHTML = '';
+  if (hasVideo) {
+    thumbHTML = `<div class="evm-thumb">
+      <img src="https://img.youtube.com/vi/${evObj.video}/hqdefault.jpg" alt="${evObj.n}">
+      <div class="evm-play-overlay">
+        <div class="evm-play-btn" onclick="evModalPlayVideo('${evObj.video}')">▶</div>
+      </div>
+      <div class="evm-cat-pill" style="background:${catBg}">${catLabel}</div>
+    </div>`;
+  } else if (hasImg) {
+    thumbHTML = `<div class="evm-thumb">
+      <img src="${CL_MODAL(evObj.image)}" alt="${evObj.n}" onerror="dcardImgErr(this)">
+      <div class="evm-cat-pill" style="background:${catBg}">${catLabel}</div>
+    </div>`;
+  } else {
+    thumbHTML = `<div class="evm-thumb">
+      <div class="evm-thumb-fallback">${SPFC_SHIELD_SVG}</div>
+      <div class="evm-cat-pill" style="background:${catBg}">${catLabel}</div>
+    </div>`;
+  }
+
+  /* stats */
+  const statsHTML = stats.length
+    ? `<div class="evm-stats">${stats.map(s =>
+        `<div class="evm-stat"><div class="evm-stat-val">${s.v}</div><div class="evm-stat-lbl">${s.l}</div></div>`
+      ).join('')}</div>` : '';
+
+  content.innerHTML = `
+    ${thumbHTML}
+    <div class="evm-body">
+      <div class="evm-meta">
+        <span class="evm-year">${evObj.y || '—'}</span>
+        <span class="evm-ago">${yearsAgo(evObj.y)}</span>
+      </div>
+      <div class="evm-title">${evObj.n}</div>
+      <div class="evm-desc">${evObj.d}</div>
+      ${ctx ? `<div class="evm-ctx">${ctx}</div>` : ''}
+      ${statsHTML}
+    </div>
+    <div class="evm-stripe"></div>
+    <div class="evm-actions">
+      <button class="evm-btn evm-btn-primary" onclick="shareEvent(event,'${evObj.n.replace(/'/g,"\\'")}',${evObj.y||0})">↗ COMPARTILHAR</button>
+      ${hasVideo ? `<button class="evm-btn evm-btn-secondary" onclick="evModalPlayVideo('${evObj.video}')">🎬 VER VÍDEO</button>` : ''}
+      ${hasImg && !hasVideo ? `<button class="evm-btn evm-btn-secondary" onclick="openLB(event,'${evObj.image}','${(evObj.imgCap||evObj.n).replace(/'/g,"\\'")}')">📷 VER FOTO</button>` : ''}
+    </div>
+  `;
+
+  // reset scroll position
+  const scrollEl = document.getElementById('evModalScroll');
+  if (scrollEl) scrollEl.scrollTop = 0;
+
+  // animate in — visibility system (no display toggling)
+  modal.classList.remove('open');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // swipe down to close
+  setupModalSwipe(document.getElementById('evModalSheet'));
+}
+
+function closeEvModal(e) {
+  // backdrop click: only close if the backdrop itself was clicked
+  if (e && e.target !== document.getElementById('evModal')) return;
+  const modal = document.getElementById('evModal');
+  const sheet = document.getElementById('evModalSheet');
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+  // reset any swipe transform after transition ends
+  if (sheet) setTimeout(() => { sheet.style.transform = ''; }, 380);
+}
+
+function evModalPlayVideo(videoId) {
+  const thumb = document.querySelector('#evModalContent .evm-thumb');
+  if (!thumb) return;
+  thumb.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="width:100%;height:100%;display:block"></iframe>`;
+}
+
+/* swipe down gesture to close modal */
+function setupModalSwipe(sheet) {
+  if (!sheet) return;
+  let startY = 0, moved = 0;
+  const onStart = e => { startY = (e.touches?.[0]||e).clientY; moved = 0; };
+  const onMove  = e => {
+    moved = (e.touches?.[0]||e).clientY - startY;
+    if (moved > 0) sheet.style.transform = `translateY(${moved}px)`;
+  };
+  const onEnd   = () => {
+    sheet.style.transform = '';
+    if (moved > 80) closeEvModal();
+    moved = 0;
+  };
+  sheet.addEventListener('touchstart', onStart, { passive: true });
+  sheet.addEventListener('touchmove',  onMove,  { passive: true });
+  sheet.addEventListener('touchend',   onEnd);
+}
+
+/* compat — openDestaqueModal agora chama openEvModal */
+function openDestaqueModal() { openEvModal(window._destaqueEv); }
+function closeDestaqueModal() { closeEvModal(); }
+
+
+/* ═══════════════════════════════════════════════════
+   LINE-UP DO CALENDÁRIO (7 dias a partir de hoje-3)
+═══════════════════════════════════════════════════ */
+function renderLineup() {
+  const scroll = document.getElementById('lineupScroll');
+  if (!scroll) return;
+
+  const WD_LABELS = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
+  const items = [];
+
+  for (let offset = -3; offset <= 10; offset++) {
+    const d = new Date(TODAY_Y, TODAY_M - 1, TODAY_D + offset);
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    const wd = WD_LABELS[d.getDay()];
+    const evs = ev(m, day);
+    const isToday = offset === 0;
+    const hasTit = evs.some(e => e.t === 'titulo' || e.t === 'mundial' || e.t === 'fundacao');
+    items.push({ m, day, wd, evs, isToday, hasTit, offset });
+  }
+
+  scroll.innerHTML = items.map(it => {
+    let cls = 'lineup-day';
+    if (it.isToday) cls += ' today selected';
+    if (it.hasTit) cls += ' has-titulo';
+    const dots = [...new Set(it.evs.map(e => e.t))].slice(0, 3).map(t =>
+      `<div class="lineup-dot" style="background:${CAT_COLORS[t] || '#CC0000'}"></div>`
+    ).join('');
+    return `<div class="${cls}" onclick="selectLineupDay(${it.m},${it.day},this)">
+      <div class="lineup-wd">${it.wd}</div>
+      <div class="lineup-num">${it.day}</div>
+      <div class="lineup-dot-row">${dots}</div>
+    </div>`;
+  }).join('');
+}
+
+let _lineupM = TODAY_M, _lineupD = TODAY_D;
+
+function selectLineupDay(m, d, el) {
+  document.querySelectorAll('.lineup-day').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
+  _lineupM = m;
+  _lineupD = d;
+  renderDayCards(m, d);
+  // Update section title
+  const badge = document.getElementById('secCount');
+  const evs = ev(m, d);
+  if (badge) badge.textContent = evs.length;
+}
+
+/* ═══════════════════════════════════════════════════
+   3 CARDS DO DIA (+ overflow próximos dias)
+═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   CLOUDINARY — smart crop automático
+   Converte qualquer URL do Cloudinary para usar
+   g_auto:subject (crop inteligente centrado no assunto)
+   com as dimensões ideais para cada contexto.
+═══════════════════════════════════════════════════ */
+function cloudinaryThumb(url, w, h) {
+  if (!url || !url.includes('cloudinary.com')) return url;
+  // g_auto funciona no free plan; g_auto:subject requer pago
+  const transform = `w_${w},h_${h},c_fill,g_auto,q_auto,f_auto`;
+  // evita duplicar transformações
+  if (url.includes('/upload/w_')) return url;
+  return url.replace(/\/upload\//, `/upload/${transform}/`);
+}
+
+/* Variantes por contexto:
+   - card thumb (carrossel): 800×450
+   - modal / evm-thumb:      960×540
+   - destaque bg (futuro):  1200×400
+*/
+const CL_CARD  = (u) => cloudinaryThumb(u, 800, 450);
+const CL_MODAL = (u) => cloudinaryThumb(u, 960, 540);
+const SPFC_SHIELD_SVG = `<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sg1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#dddddd" stop-opacity="0.7"/>
+    </linearGradient>
+  </defs>
+  <path d="M50 4 L96 20 L96 58 C96 84 72 104 50 116 C28 104 4 84 4 58 L4 20 Z" fill="url(#sg1)" opacity="0.15" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+  <path d="M50 12 L88 26 L88 58 C88 80 68 98 50 108 C32 98 12 80 12 58 L12 26 Z" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+  <rect x="20" y="38" width="60" height="5" rx="1" fill="rgba(255,255,255,0.7)"/>
+  <text x="50" y="72" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="28" fill="rgba(255,255,255,0.8)" letter-spacing="2">SPFC</text>
+  <text x="50" y="88" text-anchor="middle" font-family="'Inter',sans-serif" font-size="8" fill="rgba(255,255,255,0.5)" letter-spacing="3">1930</text>
+</svg>`;
+
+/* fallback chamado pelo onerror da img */
+function dcardImgErr(el) {
+  const wrap = el.parentElement;
+  if (!wrap) return;
+  // remove img, insert fallback div
+  el.remove();
+  const fb = document.createElement('div');
+  fb.className = 'dcard-thumb-fallback';
+  fb.innerHTML = SPFC_SHIELD_SVG;
+  wrap.insertBefore(fb, wrap.firstChild);
+}
+
+/* Mapa de cor de badge por categoria */
+const CAT_BADGE_BG = {
+  vitoria:    'rgba(204,0,0,.75)',
+  titulo:     'rgba(180,140,40,.75)',
+  mundial:    'rgba(180,140,40,.75)',
+  fundacao:   'rgba(180,140,40,.75)',
+  aniversario:'rgba(60,140,255,.75)',
+  estreia:    'rgba(60,200,80,.75)',
+  despedida:  'rgba(255,140,40,.75)',
+  recorde:    'rgba(160,60,255,.75)',
+};
+
+/* Guarda referência dos evObj para o modal */
+const _renderedDayEvs = {};
+
+function renderDayCards(m, d) {
+  const list = document.getElementById('todayList');
+  if (!list) return;
+
+  const PRI = { fundacao: 0, titulo: 1, mundial: 1, recorde: 1, vitoria: 2, aniversario: 3, estreia: 4, despedida: 5 };
+  let cards = [...(ev(m, d) || [])].sort((a, b) => (PRI[a.t] ?? 9) - (PRI[b.t] ?? 9))
+    .map(e => ({ ...e, fromNext: false, dayLabel: null }));
+
+  let offset = 1;
+  while (cards.length < 3 && offset <= 30) {
+    const nd = new Date(TODAY_Y, TODAY_M - 1, TODAY_D + offset);
+    const nm = nd.getMonth() + 1, nday = nd.getDate();
+    const nextEvs = [...(ev(nm, nday) || [])].sort((a, b) => (PRI[a.t] ?? 9) - (PRI[b.t] ?? 9));
+    nextEvs.forEach(e => {
+      if (cards.length < 3) {
+        const label = offset === 1 ? 'amanhã' : `${nday} ${(MONTHS_S||MONTHS)[nm - 1]}`;
+        cards.push({ ...e, fromNext: true, dayLabel: label });
+      }
+    });
+    offset++;
+  }
+
+  list.innerHTML = cards.map((e, i) => buildDayCard(e, i)).join('');
+
+  const dotsEl = document.getElementById('dcardDots');
+  if (dotsEl && cards.length > 1) {
+    dotsEl.innerHTML = cards.map((_, i) => `<div class="dcard-dot${i===0?' active':''}" data-i="${i}"></div>`).join('');
+    list.onscroll = () => {
+      const cardW = list.querySelector('.day-ev-card')?.offsetWidth || 240;
+      const idx = Math.round(list.scrollLeft / (cardW + 10));
+      dotsEl.querySelectorAll('.dcard-dot').forEach((dot, i) => dot.classList.toggle('active', i === idx));
+    };
+  } else if (dotsEl) {
+    dotsEl.innerHTML = '';
+  }
+}
+
+function buildDayCard(evObj) {
+  const id = 'dc_' + (cardIdSeq++);
+  _renderedDayEvs[id] = evObj; // store for modal
+
+  const hasImg   = !!evObj.image;
+  const hasVideo = !!evObj.video;
+  const ctx      = evObj.ctx || '';
+  const stats    = evObj.stats || [];
+  const hasDetail = !!(ctx || stats.length || hasVideo || hasImg);
+  const catLabel = CATS[evObj.t] || evObj.t.toUpperCase();
+  const catBg    = CAT_BADGE_BG[evObj.t] || 'rgba(204,0,0,.7)';
+  const nextBadge = evObj.fromNext && evObj.dayLabel
+    ? `<div class="dcard-next-badge">${evObj.dayLabel}</div>` : '';
+
+  let thumbHTML;
+  if (hasVideo && !hasImg) {
+    thumbHTML = `<div class="dcard-thumb">
+      <img src="https://img.youtube.com/vi/${evObj.video}/hqdefault.jpg" alt="${evObj.n}" loading="lazy">
+      <div class="dcard-play"><div class="dcard-play-circle">▶</div></div>
+      ${nextBadge}
+      <div class="dcard-cat-badge" style="background:${catBg}">${catLabel}</div>
+    </div>`;
+  } else if (hasImg) {
+    const imgSrc = CL_CARD(evObj.image);
+    thumbHTML = `<div class="dcard-thumb">
+      <img src="${imgSrc}" alt="${evObj.n}" loading="lazy" onerror="dcardImgErr(this)">
+      ${hasVideo ? `<div class="dcard-play"><div class="dcard-play-circle">▶</div></div>` : ''}
+      ${nextBadge}
+      <div class="dcard-cat-badge" style="background:${catBg}">${catLabel}</div>
+    </div>`;
+  } else {
+    thumbHTML = `<div class="dcard-thumb">
+      <div class="dcard-thumb-fallback">${SPFC_SHIELD_SVG}</div>
+      ${nextBadge}
+      <div class="dcard-cat-badge" style="background:${catBg}">${catLabel}</div>
+    </div>`;
+  }
+
+  const chips = [];
+  if (hasVideo) chips.push(`<span class="dcard-media-chip">🎬 vídeo</span>`);
+  if (hasImg)   chips.push(`<span class="dcard-media-chip">📷 foto</span>`);
+
+  return `<div class="day-ev-card cat-${evObj.t} pop-in" id="${id}" onclick="openDayCardModal('${id}')">
+    ${thumbHTML}
+    <div class="dcard-body">
+      <div class="dcard-meta">
+        <span class="dcard-year">${evObj.y || '—'}</span>
+        <span class="dcard-ago">${yearsAgo(evObj.y)}</span>
+      </div>
+      <div class="dcard-title">${evObj.n}</div>
+      <div class="dcard-desc">${evObj.d}</div>
+      <div class="dcard-footer">
+        ${chips.join('')}
+        ${hasDetail ? `<span class="dcard-expand-hint">ver mais ›</span>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function openDayCardModal(cardId) {
+  const evObj = _renderedDayEvs[cardId];
+  if (evObj) openEvModal(evObj);
+}
+
+/* ═══════════════════════════════════════════════════
+   OVERRIDE: updatePalpBtn — usa widget-palp
+═══════════════════════════════════════════════════ */
+function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
+  const wrap   = document.getElementById('palpWrap');
+  const eyebrow= document.getElementById('palpBtnEyebrow');
+  const lbl    = document.getElementById('palpBtnLabel');
+  const sub    = document.getElementById('palpBtnSub');
+  const icon   = document.getElementById('palpBtnIcon');
+  if (!wrap) return;
+  wrap.style.display = 'block';
+
+  const now = new Date();
+  const hoursAfterGame = isFinished ? (now - matchDate) / 3600000 : 0;
+  const within24hBefore = !isFinished && diffMs > 0 && diffMs <= 86400000;
+  const janelaFechada   = !isFinished && diffMs > 0 && diffMs <= 3600000;
+  const resultPeriod    = isFinished && hoursAfterGame <= 24;
+
+  const storageKey = 'palp_sent_' + (matchId || matchDate.toISOString().slice(0, 10));
+  const jaPalpitou = localStorage.getItem(storageKey) === '1';
+
+  // Reset classes
+  wrap.className = 'widget widget-palp';
+  wrap.onclick = () => window.location.href = 'palpitometro.html';
+  if (eyebrow) eyebrow.textContent = 'SÃO PAULO FC';
+
+  if (jaPalpitou && resultPeriod) {
+    wrap.classList.add('s-result');
+    if (icon) icon.textContent = '⭐';
+    if (lbl) lbl.textContent = 'VER RESULTADO';
+    if (sub) sub.textContent = 'Jogo encerrado — confira seus pontos';
+  } else if (jaPalpitou) {
+    wrap.classList.add('s-sent');
+    if (icon) icon.textContent = '✅';
+    if (lbl) lbl.textContent = 'PALPITE ENVIADO';
+    if (sub) sub.textContent = 'Ver ranking e sua posição atual';
+  } else if (janelaFechada) {
+    wrap.classList.add('s-closed');
+    if (icon) icon.textContent = '🔒';
+    if (lbl) lbl.textContent = 'PALPITES ENCERRADOS';
+    if (sub) sub.textContent = 'Janela fecha 1h antes do jogo';
+    wrap.onclick = null;
+  } else if (within24hBefore) {
+    if (icon) icon.textContent = '🚨';
+    if (lbl) lbl.textContent = 'DÁ SEU PALPITE!';
+    const h = Math.floor(diffMs / 3600000);
+    const mMin = Math.floor((diffMs % 3600000) / 60000);
+    if (sub) sub.textContent = h > 0 ? `Fecha em ${h}h ${mMin}min — não perca!` : `Fecha em ${mMin} minutos!`;
+    if (eyebrow) eyebrow.textContent = '🚨 URGENTE';
+  } else {
+    if (icon) icon.textContent = '🎯';
+    if (lbl) lbl.textContent = 'PALPITÔMETRO';
+    if (sub) sub.textContent = 'Dê seu palpite e dispute o ranking';
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   OVERRIDE: loadNextMatch — usa widget-jogo
+═══════════════════════════════════════════════════ */
+const SPFC_TSDB_ID_NEW = 134291;
+async function loadNextMatchNew() {
+  const card = document.getElementById('nextMatchCard');
+  if (!card) return;
+  try {
+    const res = await fetch(`https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=${SPFC_TSDB_ID_NEW}`);
+    const data = await res.json();
+    if (!data.events || !data.events.length) {
+      card.innerHTML = '<div class="wj-loading" style="padding:20px;text-align:center;font-size:11px;color:var(--txt3)">Nenhum jogo agendado no momento</div>';
+      return;
+    }
+    const evData = data.events[0];
+    const isSPFCHome = evData.idHomeTeam == SPFC_TSDB_ID_NEW;
+    const spfcName  = isSPFCHome ? evData.strHomeTeam : evData.strAwayTeam;
+    const oppName   = isSPFCHome ? evData.strAwayTeam : evData.strHomeTeam;
+    const spfcBadge = isSPFCHome ? evData.strHomeTeamBadge : evData.strAwayTeamBadge;
+    const oppBadge  = isSPFCHome ? evData.strAwayTeamBadge : evData.strHomeTeamBadge;
+    const spfcScore = isSPFCHome ? evData.intHomeScore : evData.intAwayScore;
+    const oppScore  = isSPFCHome ? evData.intAwayScore : evData.intHomeScore;
+
+    const matchDate = new Date(`${evData.dateEvent}T${evData.strTime || '00:00:00'}Z`);
+    const now2 = new Date();
+    const diffMs2 = matchDate - now2;
+    const diffDays2 = Math.floor(diffMs2 / 86400000);
+    const diffHours2 = Math.floor((diffMs2 % 86400000) / 3600000);
+    const diffMins2 = Math.floor((diffMs2 % 3600000) / 60000);
+
+    const isFinished2 = spfcScore !== null && spfcScore !== '';
+    const isToday2 = evData.dateEvent === now2.toISOString().slice(0, 10);
+    const isLive2 = isToday2 && !isFinished2 && diffMs2 < 0;
+
+    let countdown2 = '';
+    let chipLiveClass = '';
+    if (isLive2) { countdown2 = '🔴 AO VIVO'; chipLiveClass = 'live'; }
+    else if (isFinished2) { countdown2 = '✅ Encerrado'; }
+    else if (diffMs2 <= 0) { countdown2 = 'Em breve!'; chipLiveClass = 'live'; }
+    else if (diffDays2 === 0 && diffHours2 === 0) { countdown2 = `Em ${diffMins2} min`; chipLiveClass = 'live'; }
+    else if (diffDays2 === 0) { countdown2 = `Hoje em ${diffHours2}h`; }
+    else if (diffDays2 === 1) { countdown2 = 'Amanhã'; }
+    else { countdown2 = `Em ${diffDays2} dias`; }
+
+    const dateStr2 = matchDate.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' });
+    const timeStr2 = matchDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+    const scoreHtml2 = (isLive2 || isFinished2) && spfcScore !== null
+      ? `<div class="wj-score">${spfcScore} — ${oppScore}</div>` : '';
+
+    const headerLabel2 = isLive2 ? '🔴 Ao Vivo' : isFinished2 ? '✅ Encerrado' : '📅 Próximo Jogo';
+
+    card.innerHTML = `
+      <div class="wj-header">
+        <span class="wj-label">${headerLabel2}</span>
+        <span class="wj-comp">${evData.strLeague}</span>
+      </div>
+      <div class="wj-body">
+        <div class="wj-teams">
+          <div class="wj-team">
+            ${spfcBadge ? `<img class="wj-logo" src="${spfcBadge}" alt="${spfcName}" onerror="this.style.display='none'">` : `<div class="wj-logo-ph">🔴</div>`}
+            <div class="wj-team-name">${spfcName}</div>
+          </div>
+          <div class="wj-mid">${scoreHtml2 || `<div class="wj-vs">VS</div>`}</div>
+          <div class="wj-team">
+            ${oppBadge ? `<img class="wj-logo" src="${oppBadge}" alt="${oppName}" onerror="this.style.display='none'">` : `<div class="wj-logo-ph">⚽</div>`}
+            <div class="wj-team-name">${oppName}</div>
+          </div>
+        </div>
+        <div class="wj-chips">
+          <span class="wj-chip ${chipLiveClass}">${countdown2}</span>
+          <span class="wj-chip">📅 ${dateStr2}</span>
+          <span class="wj-chip">🕗 ${timeStr2}</span>
+          ${isSPFCHome ? '<span class="wj-chip">🏠 Casa</span>' : '<span class="wj-chip">✈️ Fora</span>'}
+          ${evData.strVenue ? `<span class="wj-chip">📍 ${evData.strVenue}</span>` : ''}
+        </div>
+      </div>
+      <div class="wj-stripe"></div>
+    `;
+
+    updatePalpBtn(matchDate, isFinished2, diffMs2, evData.idEvent);
+    if (isLive2) setTimeout(loadNextMatchNew, 60000);
+  } catch(err) {
+    card.innerHTML = '<div class="wj-loading" style="padding:16px;text-align:center;font-size:11px;color:var(--txt3)">Não foi possível carregar o próximo jogo</div>';
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   OVERRIDE renderHoje — chama novas funções
+═══════════════════════════════════════════════════ */
+function renderHoje() {
+  const events = ev(TODAY_M, TODAY_D);
+  document.getElementById('heroCount').textContent = events.length;
+  document.getElementById('heroCountLabel').textContent = events.length === 1 ? 'evento' : 'eventos';
+  document.getElementById('heroGhost').textContent = String(TODAY_D).padStart(2, '0');
+  document.getElementById('heroDateLabel').textContent = `${MONTHS[TODAY_M - 1].toUpperCase()} ${TODAY_D}, ${TODAY_Y}`;
+  const secBadge = document.getElementById('secCount');
+  if (secBadge) secBadge.textContent = events.length;
+
+  renderDestaque();
+  renderLineup();
+  renderDayCards(TODAY_M, TODAY_D);
+}
+
+/* ═══════════════════════════════════════════════════
+   OVERRIDE init — usa loadNextMatchNew
+═══════════════════════════════════════════════════ */
+function init() {
+  renderHoje();
+  renderCalMonthNav();
+  renderCalGrid();
+  renderRecords();
+  renderGoleadas();
+  updateNotifUI();
+  registerSW();
+  loadNextMatchNew();
+  loadFirebaseEvents();
+}
+
+init();
 
 </script>
 </body>
