@@ -356,10 +356,54 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 ════════════════════════════════════════════════════ */
 
 /* ── NOTIF BANNER ────────────────────────────────── */
-.notif-banner-slide{position:fixed;bottom:0;left:0;right:0;z-index:300;
-  background:rgba(10,10,10,.97);border-top:1px solid rgba(204,0,0,.3);
-  padding:12px 16px;display:none;align-items:center;gap:10px;
-  padding-bottom:calc(12px + env(safe-area-inset-bottom))}
+.notif-banner-slide{display:none} /* desativado — usando popup */
+
+/* ── POPUP NOTIFICAÇÃO ───────────────────────────── */
+.notif-popup-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:20px
+}
+.notif-popup-overlay.show{display:flex}
+.notif-popup{
+  background:linear-gradient(160deg,#1a0000 0%,#111 60%,#0d0d0d 100%);
+  border:1px solid rgba(204,0,0,.35);border-radius:20px;
+  padding:28px 24px 22px;max-width:340px;width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,.8),0 0 0 1px rgba(204,0,0,.1);
+  text-align:center;animation:popupIn .3s cubic-bezier(.34,1.56,.64,1)
+}
+@keyframes popupIn{from{opacity:0;transform:scale(.85) translateY(20px)}to{opacity:1;transform:none}}
+.notif-popup-icon{font-size:52px;margin-bottom:14px;display:block;animation:bellRing .6s ease .3s both}
+@keyframes bellRing{0%,100%{transform:rotate(0)}20%{transform:rotate(-15deg)}40%{transform:rotate(12deg)}60%{transform:rotate(-8deg)}80%{transform:rotate(5deg)}}
+.notif-popup-title{font-family:var(--font-title);font-size:26px;letter-spacing:2px;color:#fff;margin-bottom:8px}
+.notif-popup-desc{font-size:13px;color:var(--txt2);line-height:1.6;margin-bottom:22px}
+.notif-popup-desc strong{color:var(--gold)}
+.notif-popup-btns{display:flex;flex-direction:column;gap:10px}
+.notif-popup-yes{
+  padding:14px;border-radius:12px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--red),var(--red3));
+  color:#fff;font-family:var(--font-title);font-size:20px;letter-spacing:2px;
+  box-shadow:0 6px 24px rgba(204,0,0,.4);transition:.2s
+}
+.notif-popup-yes:hover{transform:translateY(-1px);box-shadow:0 10px 32px rgba(204,0,0,.55)}
+.notif-popup-no{
+  padding:10px;border-radius:10px;border:1px solid var(--border2);cursor:pointer;
+  background:transparent;color:var(--txt3);font-size:12px;font-family:var(--font-body);
+  letter-spacing:1px;transition:.2s
+}
+.notif-popup-no:hover{color:var(--txt);border-color:var(--border)}
+
+/* imagem de fundo do destaque */
+.destaque-img-bg{
+  position:absolute;inset:0;background-size:cover;background-position:center 20%;
+  opacity:0;transition:opacity .5s ease;border-radius:16px
+}
+.destaque-img-bg.loaded{opacity:.22}
+.destaque-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(10,0,0,.85) 0%,rgba(10,0,0,.5) 60%,rgba(0,0,0,.3) 100%);
+  border-radius:16px;pointer-events:none
+}
 
 /* ── DESTAQUE DO DIA ─────────────────────────────── */
 .destaque-wrap{padding:16px 16px 0;position:relative;z-index:2}
@@ -787,10 +831,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   </div>
   <div class="tb-right">
     <div id="tbUserArea" style="display:none;align-items:center;gap:8px">
-      <span id="tbUserName" style="font-size:12px;color:var(--txt2);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--font-body)"></span>
-      <div id="tbUserAvatar" onclick="handleLogout()" title="Sair" style="width:30px;height:30px;border-radius:50%;background:var(--bg3);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--red);cursor:pointer;overflow:hidden;font-family:var(--font-ui)"></div>
+      <div id="tbUserAvatar" onclick="handleLogout()" title="Sair" style="width:34px;height:34px;border-radius:50%;background:var(--bg3);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--red);cursor:pointer;overflow:hidden;font-family:var(--font-ui)"></div>
     </div>
-    <button class="tb-notif" onclick="askNotif()" title="Ativar notificações">🔔</button>
   </div>
 </header>
 
@@ -803,12 +845,19 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <button class="install-bar-btn" onclick="installPWA()">INSTALAR</button>
 </div>
 
-<!-- NOTIF BANNER (novo estilo slide) -->
-<div id="notifBanner" class="notif-banner-slide">
-  <span style="font-size:18px">🔔</span>
-  <span style="flex:1;font-size:12px;color:var(--txt2);font-family:var(--font-body)">Receba notificações do <strong style="color:var(--txt)">SPFC Hoje</strong></span>
-  <button onclick="askNotif();document.getElementById('notifBanner').style.display='none'" style="padding:7px 14px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:11px;font-family:var(--font-ui);letter-spacing:1px;cursor:pointer">ATIVAR</button>
-  <button onclick="document.getElementById('notifBanner').style.display='none'" style="padding:7px 10px;background:transparent;color:var(--txt3);border:1px solid var(--border2);border-radius:8px;font-size:11px;cursor:pointer">✕</button>
+<!-- POPUP NOTIFICAÇÕES -->
+<div id="notifPopup" class="notif-popup-overlay">
+  <div class="notif-popup">
+    <span class="notif-popup-icon">🔔</span>
+    <div class="notif-popup-title">FIQUE POR DENTRO</div>
+    <div class="notif-popup-desc">
+      Receba notificações com os <strong>momentos históricos</strong> do São Paulo FC todos os dias!
+    </div>
+    <div class="notif-popup-btns">
+      <button class="notif-popup-yes" onclick="acceptNotif()">QUERO RECEBER!</button>
+      <button class="notif-popup-no" onclick="dismissNotif()">Agora não</button>
+    </div>
+  </div>
 </div>
 
 <!-- HERO strip (mantido como referência do dia) -->
@@ -845,6 +894,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- ① EVENTO EM DESTAQUE -->
   <div class="destaque-wrap">
     <div class="destaque-card pop-in" id="destaqueCard" onclick="openDestaqueModal()">
+      <div class="destaque-img-bg" id="destaqueImgBg"></div>
+      <div class="destaque-img-overlay"></div>
       <div class="destaque-bg-year" id="destaqueBgYear"></div>
       <div class="destaque-glow"></div>
       <div class="destaque-inner">
@@ -1964,7 +2015,6 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
 
     onAuthStateChanged(auth, async user => {
       const area = document.getElementById('tbUserArea');
-      const nameEl = document.getElementById('tbUserName');
       const avatarEl = document.getElementById('tbUserAvatar');
       if (user) {
         area.style.display = 'flex';
@@ -1973,8 +2023,7 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
           const snap = await getDoc(doc(db, 'users', user.uid));
           if (snap.exists()) {
             const data = snap.data();
-            const name = data.displayName || user.email?.split('@')[0] || 'Torcedor';
-            nameEl.textContent = name.split(' ')[0];
+            const name = data.displayName || user.email?.split('@')[0] || 'T';
             const avatarUrl = data.avatarUrl || data.avatar?.url || data.avatar?.dataUrl || '';
             if (avatarUrl) {
               avatarEl.innerHTML = `<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
@@ -1982,15 +2031,11 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
               avatarEl.textContent = name[0].toUpperCase();
             }
           } else {
-            // Fallback: sem doc no Firestore
-            const name = user.email?.split('@')[0] || 'Torcedor';
-            nameEl.textContent = name.split(' ')[0];
+            const name = user.email?.split('@')[0] || 'T';
             avatarEl.textContent = name[0].toUpperCase();
           }
         } catch(e) {
-          const name = user.email?.split('@')[0] || 'Torcedor';
-          nameEl.textContent = name.split(' ')[0];
-          avatarEl.textContent = name[0].toUpperCase();
+          avatarEl.textContent = '?';
         }
       } else {
         const isVisitante = localStorage.getItem('spfc_visitante') === '1';
@@ -2013,14 +2058,26 @@ function handleLogout() {
   }
 }
 
-// Mostra banner de notificações após 6s se ainda não concedido
+// Mostra popup de notificação após 4s se ainda não decidiu
 setTimeout(() => {
   if (!('Notification' in window)) return;
-  if (Notification.permission === 'default') {
-    const banner = document.getElementById('notifBanner');
-    if (banner) banner.style.display = 'flex';
-  }
-}, 6000);
+  if (Notification.permission !== 'default') return;
+  if (localStorage.getItem('spfc_notif_dismissed')) return;
+  const popup = document.getElementById('notifPopup');
+  if (popup) popup.classList.add('show');
+}, 4000);
+
+function acceptNotif() {
+  const popup = document.getElementById('notifPopup');
+  if (popup) popup.classList.remove('show');
+  askNotif();
+}
+
+function dismissNotif() {
+  const popup = document.getElementById('notifPopup');
+  if (popup) popup.classList.remove('show');
+  localStorage.setItem('spfc_notif_dismissed', '1');
+}
 
 
 /* ═══════════════════════════════════════════════════
@@ -2069,10 +2126,29 @@ function getDestaqueEvent(m, d) {
   return null;
 }
 
-function renderDestaque() {
+async function renderDestaque() {
   const card = document.getElementById('destaqueCard');
   if (!card) return;
-  const best = getDestaqueEvent(TODAY_M, TODAY_D);
+
+  // Verifica se há destaque fixado no Firestore
+  let best = null;
+  try {
+    const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+    const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+    const cfg = { apiKey:'AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY', authDomain:'spfc-hoje-da329.firebaseapp.com', projectId:'spfc-hoje-da329', storageBucket:'spfc-hoje-da329.firebasestorage.app', messagingSenderId:'116174859005', appId:'1:116174859005:web:b1e54b040aef23c9c16c94' };
+    const app2 = getApps().find(a => a.name==='[DEFAULT]') || initializeApp(cfg);
+    const db2 = getFirestore(app2);
+    const snap = await getDoc(doc(db2, 'config', 'destaque'));
+    if (snap.exists() && snap.data().event) {
+      const pinned = snap.data().event;
+      // Normaliza campos (eventos do Firestore podem ter 'title' em vez de 'n')
+      best = { ...pinned, n: pinned.n || pinned.title || '', d: pinned.d || pinned.desc || '' };
+    }
+  } catch(e) { /* sem conexão, usa lógica local */ }
+
+  // Fallback: lógica automática por prioridade
+  if (!best) best = getDestaqueEvent(TODAY_M, TODAY_D);
+
   if (!best) {
     card.style.display = 'none';
     return;
@@ -2097,6 +2173,20 @@ function renderDestaque() {
     statsEl.innerHTML = stats.map(s =>
       `<div class="d-mini-stat"><div class="d-mini-num">${s.v}</div><div class="d-mini-label">${s.l}</div></div>`
     ).join('');
+  }
+
+  const imgBg = document.getElementById('destaqueImgBg');
+  if (imgBg) {
+    const imgUrl = best.image || (best.video ? `https://img.youtube.com/vi/${best.video}/hqdefault.jpg` : '');
+    if (imgUrl) {
+      imgBg.style.backgroundImage = `url('${imgUrl}')`;
+      const tmp = new Image();
+      tmp.onload = () => imgBg.classList.add('loaded');
+      tmp.src = imgUrl;
+    } else {
+      imgBg.style.backgroundImage = '';
+      imgBg.classList.remove('loaded');
+    }
   }
 
   window._destaqueEv = best;
@@ -2586,7 +2676,7 @@ async function loadNextMatchNew() {
 /* ═══════════════════════════════════════════════════
    OVERRIDE renderHoje — chama novas funções
 ═══════════════════════════════════════════════════ */
-function renderHoje() {
+async function renderHoje() {
   const events = ev(TODAY_M, TODAY_D);
   document.getElementById('heroCount').textContent = events.length;
   document.getElementById('heroCountLabel').textContent = events.length === 1 ? 'evento' : 'eventos';
@@ -2595,7 +2685,7 @@ function renderHoje() {
   const secBadge = document.getElementById('secCount');
   if (secBadge) secBadge.textContent = events.length;
 
-  renderDestaque();
+  await renderDestaque();
   renderLineup();
   renderDayCards(TODAY_M, TODAY_D);
 }
@@ -2603,7 +2693,7 @@ function renderHoje() {
 /* ═══════════════════════════════════════════════════
    OVERRIDE init — usa loadNextMatchNew
 ═══════════════════════════════════════════════════ */
-function init() {
+async function init() {
   renderHoje();
   renderCalMonthNav();
   renderCalGrid();
