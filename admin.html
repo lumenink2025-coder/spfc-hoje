@@ -124,6 +124,11 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 .nivel-tab.active{background:var(--red);border-color:var(--red);color:#fff}
 .q-count{font-size:11px;color:var(--txt3);letter-spacing:1px;margin-bottom:10px}
 </style>
+
+  <!-- Preload Firebase modules para reduzir tempo de login -->
+  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js">
+  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js">
+  <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js">
 </head>
 <body>
 
@@ -132,6 +137,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
   <div class="login-box">
     <div class="login-logo">SPFC</div>
     <div class="login-sub">PAINEL ADMIN</div>
+    <label for="loginPass" style="display:none">Senha de acesso</label>
     <input class="login-input" id="loginPass" type="password" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter')window._doLogin&&window._doLogin()">
     <button class="login-btn" onclick="window._doLogin&&window._doLogin()">ENTRAR</button>
     <div class="login-err" id="loginErr"></div>
@@ -523,7 +529,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, where, orderBy, writeBatch, updateDoc } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, signOut, inMemoryPersistence, setPersistence } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
@@ -537,6 +543,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+
+// Usa memória em vez de IndexedDB — evita lentidão no Chrome
+setPersistence(auth, inMemoryPersistence);
 
 // ── SENHA ADMIN ─────────────────────────────────────
 // Email do usuário admin criado no Firebase Authentication
@@ -554,13 +563,43 @@ document.addEventListener('DOMContentLoaded', () => {
 window._doLogin = window.doLogin = async function() {
   const pass = document.getElementById('loginPass').value;
   const errEl = document.getElementById('loginErr');
+  const btn = document.querySelector('.login-btn');
+
+  if (!pass) { errEl.textContent = 'Digite a senha'; return; }
+
+  // feedback visual imediato
+  btn.textContent = 'ENTRANDO...';
+  btn.disabled = true;
+  errEl.textContent = '';
+
   try {
-    await signInWithEmailAndPassword(auth, ADMIN_EMAIL, pass);
+    // timeout de 5s para não travar
+    const authPromise = signInWithEmailAndPassword(auth, ADMIN_EMAIL, pass);
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('timeout')), 5000)
+    );
+
+    await Promise.race([authPromise, timeout]);
+
+    // sucesso
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminScreen').style.display = 'block';
+
   } catch(e) {
-    errEl.textContent = 'Senha incorreta';
-    setTimeout(() => errEl.textContent = '', 2000);
+    btn.textContent = 'ENTRAR';
+    btn.disabled = false;
+
+    if (e.message === 'timeout') {
+      errEl.textContent = 'Servidor demorou — tente pelo Live Server (não file://)';
+    } else if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
+      errEl.textContent = 'Senha incorreta';
+    } else if (e.code === 'auth/user-not-found') {
+      errEl.textContent = 'Usuário não encontrado no Firebase';
+    } else {
+      errEl.textContent = `Erro: ${e.message}`;
+      console.error('Login error:', e);
+    }
+    setTimeout(() => errEl.textContent = '', 4000);
   }
 };
 
