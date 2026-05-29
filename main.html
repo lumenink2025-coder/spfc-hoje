@@ -1959,17 +1959,37 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
     const auth = getAuth(authApp);
     window._indexAuth = auth;
 
-    onAuthStateChanged(auth, user => {
+    const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+    const db = getFirestore(authApp);
+
+    onAuthStateChanged(auth, async user => {
       const area = document.getElementById('tbUserArea');
       const nameEl = document.getElementById('tbUserName');
       const avatarEl = document.getElementById('tbUserAvatar');
       if (user) {
         area.style.display = 'flex';
-        const name = user.displayName || user.email?.split('@')[0] || 'Torcedor';
-        nameEl.textContent = name.split(' ')[0];
-        if (user.photoURL) {
-          avatarEl.innerHTML = `<img src="${user.photoURL}" style="width:100%;height:100%;object-fit:cover">`;
-        } else {
+        // Busca perfil completo do Firestore (nickname + avatar do cadastro)
+        try {
+          const snap = await getDoc(doc(db, 'users', user.uid));
+          if (snap.exists()) {
+            const data = snap.data();
+            const name = data.displayName || user.email?.split('@')[0] || 'Torcedor';
+            nameEl.textContent = name.split(' ')[0];
+            const avatarUrl = data.avatarUrl || data.avatar?.url || data.avatar?.dataUrl || '';
+            if (avatarUrl) {
+              avatarEl.innerHTML = `<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+            } else {
+              avatarEl.textContent = name[0].toUpperCase();
+            }
+          } else {
+            // Fallback: sem doc no Firestore
+            const name = user.email?.split('@')[0] || 'Torcedor';
+            nameEl.textContent = name.split(' ')[0];
+            avatarEl.textContent = name[0].toUpperCase();
+          }
+        } catch(e) {
+          const name = user.email?.split('@')[0] || 'Torcedor';
+          nameEl.textContent = name.split(' ')[0];
           avatarEl.textContent = name[0].toUpperCase();
         }
       } else {
