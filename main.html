@@ -396,23 +396,23 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 /* imagem de fundo do destaque */
 .destaque-img-bg{
   position:absolute;inset:0;background-size:cover;background-position:center 20%;
-  opacity:0;transition:opacity .5s ease;border-radius:16px
+  opacity:0;transition:opacity .5s ease;border-radius:20px
 }
-.destaque-img-bg.loaded{opacity:.22}
+.destaque-img-bg.loaded{opacity:.32}
 .destaque-img-overlay{
   position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(10,0,0,.85) 0%,rgba(10,0,0,.5) 60%,rgba(0,0,0,.3) 100%);
-  border-radius:16px;pointer-events:none
+  background:linear-gradient(135deg,rgba(8,0,0,.9) 0%,rgba(8,0,0,.55) 50%,rgba(0,0,0,.25) 100%);
+  border-radius:20px;pointer-events:none
 }
 
 /* ── DESTAQUE DO DIA ─────────────────────────────── */
-.destaque-wrap{padding:16px 16px 0;position:relative;z-index:2}
+.destaque-wrap{padding:12px 16px 0;position:relative;z-index:2}
 .destaque-card{
-  position:relative;overflow:hidden;border-radius:16px;
+  position:relative;overflow:hidden;border-radius:20px;
   background:linear-gradient(145deg,#1a0000 0%,#110000 60%,#0d0d0d 100%);
-  border:1px solid rgba(204,0,0,.3);
-  min-height:200px;cursor:pointer;
-  box-shadow:0 8px 40px rgba(204,0,0,.2),0 2px 8px rgba(0,0,0,.6);
+  border:1px solid rgba(204,0,0,.35);
+  min-height:260px;cursor:pointer;
+  box-shadow:0 12px 48px rgba(204,0,0,.25),0 2px 8px rgba(0,0,0,.7);
   transition:transform .2s,box-shadow .2s
 }
 .destaque-card:active{transform:scale(.99)}
@@ -430,8 +430,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   pointer-events:none
 }
 
-.destaque-inner{position:relative;z-index:2;padding:20px}
-.destaque-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.destaque-inner{position:relative;z-index:2;padding:24px 22px 20px}
+.destaque-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .destaque-cat-pill{
   font-family:var(--font-body);font-size:9px;font-weight:600;
   letter-spacing:3px;text-transform:uppercase;
@@ -447,11 +447,12 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 .destaque-title{
   font-family:var(--font-title);
-  font-size:clamp(28px,7vw,44px);
-  line-height:1.0;color:#fff;
-  margin-bottom:6px;letter-spacing:.5px
+  font-size:clamp(34px,9vw,54px);
+  line-height:.95;color:#fff;
+  margin-bottom:10px;letter-spacing:.5px;
+  text-shadow:0 2px 20px rgba(0,0,0,.8)
 }
-.destaque-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.5;margin-bottom:16px;max-width:280px}
+.destaque-desc{font-size:13px;color:rgba(255,255,255,.65);line-height:1.5;margin-bottom:20px;max-width:290px}
 
 .destaque-footer{display:flex;align-items:center;justify-content:space-between}
 .destaque-stats{display:flex;gap:16px}
@@ -826,8 +827,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <!-- TOPBAR -->
 <header class="topbar">
   <div class="topbar-logo">
-    <div class="tb-badge"></div>
-    <div class="tb-name"><span>SÃO PAULO</span> FC</div>
+    <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779945135/c5a68f93-009e-465c-94a8-c6a5e8e54e79_xofudf.png" alt="SPFC" style="height:36px;width:auto">
   </div>
   <div class="tb-right">
     <div id="tbUserArea" style="display:none;align-items:center;gap:8px">
@@ -860,21 +860,24 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   </div>
 </div>
 
-<!-- HERO strip (mantido como referência do dia) -->
+<!-- HERO STRIP COMPACTO -->
 <section class="hero" id="heroSection" style="min-height:auto;padding-bottom:0">
-  <div class="hero-gradient"></div>
-  <div class="hero-ghost" id="heroGhost" style="font-size:clamp(80px,22vw,160px)"></div>
-  <div class="hero-top" style="padding-bottom:20px">
-    <div class="hero-date-tag">
-      <span id="heroDateLabel">carregando...</span>
+  <div class="hero-gradient" style="opacity:.5"></div>
+  <div class="hero-top" style="padding:14px 20px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="display:flex;flex-direction:column">
+        <div class="hero-title" style="font-size:clamp(20px,5.5vw,32px);margin-bottom:0;line-height:1">HOJE <em>NA HISTÓRIA</em></div>
+      </div>
     </div>
-    <div class="hero-title" style="font-size:clamp(36px,10vw,64px);margin-bottom:4px">HOJE<br><em>NA HISTÓRIA</em></div>
-    <div class="hero-sub">São Paulo Futebol Clube</div>
-    <div class="hero-count-row" style="margin-bottom:0">
-      <div class="hero-count" id="heroCount" style="font-size:40px">0</div>
-      <div class="hero-count-label">
-        <strong id="heroCountLabel">eventos</strong>
-        encontrados hoje
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+      <div class="hero-date-tag" style="margin-bottom:0;padding:4px 10px">
+        <span id="heroDateLabel" style="font-size:9px">carregando...</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(204,0,0,.12);border:1px solid rgba(204,0,0,.25);border-radius:2px;padding:5px 10px">
+        <div class="hero-count" id="heroCount" style="font-size:22px;line-height:1">0</div>
+        <div class="hero-count-label" style="font-size:9px;line-height:1.4">
+          <strong id="heroCountLabel" style="font-size:10px">eventos</strong><br>hoje
+        </div>
       </div>
     </div>
   </div>
@@ -1524,7 +1527,7 @@ function renderHoje(){
   const events=ev(TODAY_M,TODAY_D);
   document.getElementById('heroCount').textContent=events.length;
   document.getElementById('heroCountLabel').textContent=events.length===1?'evento':'eventos';
-  document.getElementById('heroGhost').textContent=String(TODAY_D).padStart(2,'0');
+  
   document.getElementById('heroDateLabel').textContent=`${MONTHS[TODAY_M-1].toUpperCase()} ${TODAY_D}, ${TODAY_Y}`;
   document.getElementById('secCount').textContent=events.length;
 
@@ -2680,7 +2683,7 @@ async function renderHoje() {
   const events = ev(TODAY_M, TODAY_D);
   document.getElementById('heroCount').textContent = events.length;
   document.getElementById('heroCountLabel').textContent = events.length === 1 ? 'evento' : 'eventos';
-  document.getElementById('heroGhost').textContent = String(TODAY_D).padStart(2, '0');
+  
   document.getElementById('heroDateLabel').textContent = `${MONTHS[TODAY_M - 1].toUpperCase()} ${TODAY_D}, ${TODAY_Y}`;
   const secBadge = document.getElementById('secCount');
   if (secBadge) secBadge.textContent = events.length;
