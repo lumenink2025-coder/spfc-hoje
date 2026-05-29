@@ -132,8 +132,8 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
   <div class="login-box">
     <div class="login-logo">SPFC</div>
     <div class="login-sub">PAINEL ADMIN</div>
-    <input class="login-input" id="loginPass" type="password" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()">ENTRAR</button>
+    <input class="login-input" id="loginPass" type="password" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter')window._doLogin&&window._doLogin()">
+    <button class="login-btn" onclick="window._doLogin&&window._doLogin()">ENTRAR</button>
     <div class="login-err" id="loginErr"></div>
   </div>
 </div>
@@ -539,7 +539,15 @@ const db = getFirestore(app);
 // ── SENHA ADMIN ─────────────────────────────────────
 const ADMIN_PASS = 'Spfc1930*';
 
-window.doLogin = function() {
+// ── BIND SEGURO DOS BOTÕES (module carrega async) ──
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.querySelector('.login-btn');
+  const inp = document.getElementById('loginPass');
+  if (btn) btn.onclick = () => window._doLogin && window._doLogin();
+  if (inp) inp.onkeydown = (e) => { if (e.key === 'Enter') window._doLogin && window._doLogin(); };
+});
+
+window._doLogin = window.doLogin = function() {
   const pass = document.getElementById('loginPass').value;
   if (pass === ADMIN_PASS) {
     document.getElementById('loginScreen').style.display = 'none';
