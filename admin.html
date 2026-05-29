@@ -523,6 +523,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, where, orderBy, writeBatch, updateDoc } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
@@ -535,9 +536,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 // ── SENHA ADMIN ─────────────────────────────────────
-const ADMIN_PASS = 'Spfc1930*';
+// Email do usuário admin criado no Firebase Authentication
+const ADMIN_EMAIL = 'admin@spfchoje.com'; // ← troque pelo email que criou
+const ADMIN_PASS  = 'Spfc1930*';          // ← senha do Firebase Auth
 
 // ── BIND SEGURO DOS BOTÕES (module carrega async) ──
 document.addEventListener('DOMContentLoaded', () => {
@@ -547,14 +551,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (inp) inp.onkeydown = (e) => { if (e.key === 'Enter') window._doLogin && window._doLogin(); };
 });
 
-window._doLogin = window.doLogin = function() {
+window._doLogin = window.doLogin = async function() {
   const pass = document.getElementById('loginPass').value;
-  if (pass === ADMIN_PASS) {
+  const errEl = document.getElementById('loginErr');
+  try {
+    await signInWithEmailAndPassword(auth, ADMIN_EMAIL, pass);
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminScreen').style.display = 'block';
-  } else {
-    document.getElementById('loginErr').textContent = 'Senha incorreta';
-    setTimeout(() => document.getElementById('loginErr').textContent = '', 2000);
+  } catch(e) {
+    errEl.textContent = 'Senha incorreta';
+    setTimeout(() => errEl.textContent = '', 2000);
   }
 };
 
