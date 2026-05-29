@@ -2701,8 +2701,20 @@ async function loadUserData(user) {
     const snap = await getDoc(doc(db, 'users', user.uid));
     if (snap.exists()) {
       const data = snap.data();
-      if (data.avatar) STATE.avatar = data.avatar;
-      if (data.avatar?.id) selectedAvatarId = data.avatar.id;
+      if (data.avatar) {
+        STATE.avatar = data.avatar;
+      } else if (data.displayName || data.avatarUrl) {
+        // Compatibilidade com perfis criados pelo cadastro.html
+        // que salva displayName/avatarUrl/avatarId em vez de avatar{}
+        STATE.avatar = {
+          name:    data.displayName || '',
+          url:     data.avatarUrl   || '',
+          dataUrl: data.avatarUrl   || '',
+          id:      data.avatarId    || '',
+        };
+      }
+      if (STATE.avatar?.id) selectedAvatarId = STATE.avatar.id;
+      if (!STATE.nicknameLocked && data.displayName) STATE.nicknameLocked = true;
       if (data.lives !== undefined) STATE.lives = data.lives;
       if (data.totalScore !== undefined) STATE.totalScore = data.totalScore;
       if (data.nicknameLocked !== undefined) STATE.nicknameLocked = data.nicknameLocked;
@@ -3408,9 +3420,25 @@ async function saveScoreToFirebase() {
   if (!currentUser) return;
   if (!STATE.user) STATE.user = currentUser;
 
-  const {db, doc, setDoc, serverTimestamp} = window.FB;
-  const name = STATE.avatar?.name || currentUser.displayName || 'Torcedor';
+  const {db, doc, setDoc, getDoc, serverTimestamp} = window.FB;
   const uid = currentUser.uid;
+
+  // Se STATE.avatar nao carregou ainda, busca do Firestore
+  if (!STATE.avatar?.name) {
+    try {
+      const uSnap = await getDoc(doc(db, 'users', uid));
+      if (uSnap.exists()) {
+        const d = uSnap.data();
+        STATE.avatar = d.avatar || {
+          name:    d.displayName || '',
+          url:     d.avatarUrl   || '',
+          dataUrl: d.avatarUrl   || '',
+          id:      d.avatarId    || '',
+        };
+      }
+    } catch(e) {}
+  }
+  const name = STATE.avatar?.name || 'Torcedor';
 
   try {
     const now = new Date();
