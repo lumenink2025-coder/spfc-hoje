@@ -216,38 +216,38 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .rank-tab:hover:not(.active){border-color:rgba(204,0,0,.4);color:var(--txt)}
 
 /* ── PODIUM IMAGE OVERLAY ── */
-.podium-img-wrap{position:relative;width:100%;max-width:480px;margin:0 auto 4px;aspect-ratio:4/3;overflow:hidden;border-radius:12px}
-.podium-img-wrap img.podium-bg{width:100%;height:100%;object-fit:cover;display:block}
+/* proporção real da arte: 576×1024 = 9:16 */
+.podium-img-wrap{position:relative;width:100%;max-width:480px;margin:0 auto 4px;border-radius:12px;overflow:hidden;background:#0a0a0a;aspect-ratio:576/1024}
+.podium-img-wrap img.podium-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
 .podium-overlay{position:absolute;inset:0;pointer-events:none}
 
-/* posições no ranking_bom: 2nd=left, 1st=center, 3rd=right */
 .po-slot{position:absolute;display:flex;flex-direction:column;align-items:center;gap:0}
-.po-avatar{width:13%;aspect-ratio:1;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.5);box-shadow:0 2px 8px rgba(0,0,0,.6);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:700;color:#fff;font-size:clamp(10px,2.5vw,14px)}
-.po-avatar img{width:100%;height:100%;object-fit:cover}
-.po-name{font-family:var(--font-ui);font-size:clamp(7px,2vw,11px);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8);text-align:center;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px;font-weight:600;letter-spacing:.5px}
-.po-pts{font-family:var(--font-title);font-size:clamp(9px,2.5vw,14px);color:var(--gold2);text-shadow:0 1px 4px rgba(0,0,0,.9);letter-spacing:1px}
+.po-avatar{width:16%;aspect-ratio:1;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.6);box-shadow:0 2px 8px rgba(0,0,0,.8);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:700;color:#fff;font-size:clamp(10px,3vw,15px)}
+.po-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.po-name{font-family:var(--font-ui);font-size:clamp(7px,2vw,11px);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.9);text-align:center;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px;font-weight:600;letter-spacing:.5px}
+.po-pts{font-family:var(--font-title);font-size:clamp(9px,2.5vw,13px);color:var(--gold2);text-shadow:0 1px 4px rgba(0,0,0,.9);letter-spacing:1px}
 
-/* 1st place — center top */
-.po-1st{left:50%;top:7%;transform:translateX(-50%)}
-/* 2nd place — left */
-.po-2nd{left:17%;top:20%}
-/* 3rd place — right */
-.po-3rd{right:17%;top:28%;transform:translateX(50%)}
+/* Posições calibradas para 576x1024 — podio no topo ~40%, tabela embaixo */
+.po-1st{left:50%;top:6%;transform:translateX(-50%)}
+.po-2nd{left:13%;top:16%}
+.po-3rd{right:13%;top:22%}
 
-/* rows 4–10 inside image — tabela na metade inferior da arte */
-.po-rows{position:absolute;left:4%;right:4%;bottom:2%;display:flex;flex-direction:column;gap:0}
-.po-row{display:flex;align-items:center;gap:4%;padding:1.2% 2%;background:rgba(0,0,0,.45);border-bottom:1px solid rgba(255,255,255,.06)}
-.po-row:first-child{border-radius:4px 4px 0 0}
-.po-row:last-child{border-radius:0 0 4px 4px;border-bottom:none}
-.po-row.me-row{background:rgba(204,0,0,.35)}
-.po-row-num{font-family:var(--font-title);font-size:clamp(10px,3vw,16px);color:var(--gold);width:6%;text-align:center;flex-shrink:0;line-height:1}
-.po-row-av{width:7%;aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--bg3);border:1px solid rgba(255,255,255,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:700;color:#fff;font-size:clamp(7px,2vw,10px)}
-.po-row-av img{width:100%;height:100%;object-fit:cover}
-.po-row-name{flex:1;font-family:var(--font-ui);font-size:clamp(8px,2.2vw,12px);color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;letter-spacing:.3px}
-.po-row-pts{font-family:var(--font-title);font-size:clamp(10px,2.8vw,15px);color:var(--gold2);flex-shrink:0;letter-spacing:.5px;text-align:right}
-.po-row-lbl{font-size:clamp(6px,1.5vw,8px);color:rgba(255,255,255,.4);letter-spacing:1px;text-align:right;line-height:1}
+/* rows 4-10 dentro da imagem */
+.po-rows{position:absolute;left:2%;right:2%;top:46%;display:flex;flex-direction:column;gap:0}
+.po-row{display:flex;align-items:center;gap:2%;padding:.9% 2%;background:transparent;border-bottom:1px solid rgba(255,255,255,.04)}
+.po-row:last-child{border-bottom:none}
+.po-row.me-row .po-row-name{color:var(--red2)}
+.po-row-num{font-family:var(--font-title);font-size:clamp(9px,2.5vw,14px);color:var(--gold);width:6%;text-align:center;flex-shrink:0;line-height:1}
+.po-row-av{width:7%;aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--bg3);border:1px solid rgba(255,255,255,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:700;color:#fff;font-size:clamp(6px,1.8vw,10px)}
+.po-row-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.po-row-name{flex:1;font-family:var(--font-ui);font-size:clamp(7px,2vw,11px);color:#e0dbd3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.po-row-pts{font-family:var(--font-title);font-size:clamp(9px,2.5vw,13px);color:var(--gold2);flex-shrink:0;text-align:right}
+.po-row-lbl{font-size:clamp(5px,1.3vw,7px);color:rgba(255,255,255,.35);letter-spacing:1px;text-align:right;line-height:1}
 
-/* ranking rows below podium (pos 11+) */
+/* vergonha — mesma proporção 576x1024 */
+.verg-img-wrap{position:relative;width:100%;max-width:480px;margin:0 auto 12px;border-radius:12px;overflow:hidden;background:#0a0a0a;aspect-ratio:576/1024}
+.verg-img-wrap img.verg-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
+.verg-overlay{position:absolute;inset:0;pointer-events:none}
 
 /* RANK LIST */
 .rank-list{display:flex;flex-direction:column;gap:0;margin-bottom:12px}
@@ -272,13 +272,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .vh-icon{font-size:28px}
 .vh-title{font-family:var(--font-title);font-size:28px;color:var(--red);letter-spacing:2px;line-height:1}
 .vh-sub{font-size:11px;color:var(--txt3);margin-top:2px}
-
-/* vergonha podium image overlay — same layout as ranking but with vergonha bg */
-.verg-img-wrap{position:relative;width:100%;max-width:480px;margin:0 auto 12px;aspect-ratio:4/3;overflow:hidden;border-radius:12px}
-.verg-img-wrap img.verg-bg{width:100%;height:100%;object-fit:cover;display:block}
-.verg-overlay{position:absolute;inset:0;pointer-events:none}
-/* reuse po-slot, po-avatar, po-name, po-pts classes for positioning */
-/* 1st (worst) center, 2nd left, 3rd right — same geometry */
 
 .vergonha-crown{background:rgba(204,0,0,.08);border:1px solid rgba(204,0,0,.2);border-radius:12px;padding:16px;margin-bottom:12px;text-align:center}
 .vc-title{font-size:10px;letter-spacing:3px;color:var(--red);text-transform:uppercase;margin-bottom:8px;font-family:var(--font-ui)}
