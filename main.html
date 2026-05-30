@@ -816,93 +816,452 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 .dec-from-next{display:none}
 
-/* ── 3 WIDGETS GRID ──────────────────────────────── */
-.widgets-grid{padding:0 16px 100px;display:flex;flex-direction:column;gap:10px}
+/* ══════════════════════════════════════════════════
+   HUB DO TORCEDOR — REDESIGN PREMIUM
+══════════════════════════════════════════════════ */
+
+/* ── WIDGETS GRID ──────────────────────────────── */
+.widgets-grid{padding:0 14px 110px;display:flex;flex-direction:column;gap:10px}
 
 /* Widget base */
 .widget{
-  border-radius:14px;overflow:hidden;position:relative;
+  border-radius:16px;overflow:hidden;position:relative;
   border:1px solid var(--border2);background:var(--bg2)
 }
 
-/* Widget: PRÓXIMO JOGO */
-.widget-jogo{background:linear-gradient(145deg,#0d0d14 0%,#0d0d0d 100%);border-color:rgba(74,158,255,.2)}
-.wj-header{
+/* ── CARD QUIZ PRINCIPAL (herói) ─────────────── */
+.widget-quiz-hero{
+  border-radius:18px;overflow:hidden;position:relative;
+  border:1px solid rgba(204,0,0,.3);
+  background:linear-gradient(150deg,#150000 0%,#0d0000 40%,#0a0a0a 100%);
+  cursor:pointer;
+  box-shadow:0 8px 40px rgba(204,0,0,.12),inset 0 1px 0 rgba(255,255,255,.06)
+}
+/* padrão geométrico de fundo */
+.widget-quiz-hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 80% 20%,rgba(204,0,0,.18) 0%,transparent 50%),
+    radial-gradient(circle at 10% 80%,rgba(200,168,75,.08) 0%,transparent 40%);
+  pointer-events:none
+}
+/* scan lines sutil */
+.widget-quiz-hero::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 5px,rgba(255,255,255,.013) 5px,rgba(255,255,255,.013) 6px);
+  pointer-events:none
+}
+.wqh-top{
+  position:relative;z-index:2;
+  padding:20px 20px 0
+}
+.wqh-badge-row{
   display:flex;align-items:center;justify-content:space-between;
-  padding:10px 14px 8px;border-bottom:1px solid rgba(255,255,255,.05)
+  margin-bottom:14px
 }
-.wj-label{font-family:var(--font-body);font-size:9px;letter-spacing:3px;color:#4a9eff;text-transform:uppercase;font-weight:600}
-.wj-comp{font-family:var(--font-body);font-size:9px;color:var(--txt3);letter-spacing:1px;text-transform:uppercase}
-.wj-body{padding:14px}
-.wj-teams{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
-.wj-team{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
-.wj-logo{width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
-.wj-logo-ph{width:40px;height:40px;background:var(--bg3);border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:18px}
-.wj-team-name{font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--txt);text-align:center;line-height:1.2}
-.wj-mid{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0}
-.wj-score{font-family:var(--font-title);font-size:28px;color:#fff;letter-spacing:2px}
-.wj-vs{font-family:var(--font-title);font-size:20px;color:var(--txt3)}
-.wj-chips{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
-.wj-chip{
-  display:inline-flex;align-items:center;gap:3px;
-  padding:4px 9px;border-radius:20px;font-size:10px;color:var(--txt2);
-  background:rgba(255,255,255,.04);border:1px solid var(--border2);letter-spacing:.3px
+.wqh-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(204,0,0,.15);border:1px solid rgba(204,0,0,.35);
+  border-radius:4px;padding:4px 10px;
+  font-family:var(--font-body);font-size:8px;font-weight:700;
+  letter-spacing:3px;color:#ff6666;text-transform:uppercase
 }
-.wj-chip.live{background:rgba(204,0,0,.15);border-color:rgba(204,0,0,.4);color:#ff7777}
-.wj-loading{padding:20px;text-align:center;font-size:11px;color:var(--txt3);letter-spacing:2px}
-.wj-stripe{height:3px;background:linear-gradient(90deg,#CC0000 33%,#fff 33% 66%,#111 66%)}
+.wqh-live-dot{
+  width:5px;height:5px;border-radius:50%;background:#ff4444;
+  animation:blink 1.2s ease-in-out infinite;flex-shrink:0
+}
+.wqh-rank-chip{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.2);
+  border-radius:20px;padding:4px 10px;
+  font-family:var(--font-body);font-size:9px;color:var(--gold);letter-spacing:1px
+}
+.wqh-rank-chip strong{font-family:var(--font-title);font-size:14px;color:var(--gold2)}
 
-/* Widget: PALPITÔMETRO */
-.widget-palp{
-  background:linear-gradient(135deg,#1a0000 0%,#100000 100%);
-  border-color:rgba(204,0,0,.25);cursor:pointer
+.wqh-title-block{margin-bottom:16px}
+.wqh-eyebrow{
+  font-family:var(--font-body);font-size:8px;font-weight:600;
+  letter-spacing:4px;color:rgba(255,255,255,.3);text-transform:uppercase;
+  margin-bottom:4px
 }
-.widget-palp:hover{border-color:rgba(204,0,0,.5)}
+.wqh-title{
+  font-family:var(--font-title);
+  font-size:clamp(38px,10vw,52px);
+  letter-spacing:2px;color:#fff;line-height:.95;
+  text-shadow:0 0 40px rgba(204,0,0,.5)
+}
+.wqh-title em{color:var(--red);font-style:normal}
+.wqh-sub{
+  font-family:var(--font-body);font-size:11px;
+  color:rgba(255,255,255,.4);letter-spacing:.3px;
+  margin-top:6px;line-height:1.4
+}
+
+/* stats row */
+.wqh-stats{
+  display:flex;gap:0;
+  border-top:1px solid rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  margin:0 0 0
+}
+.wqh-stat{
+  flex:1;padding:12px 10px;text-align:center;
+  border-right:1px solid rgba(255,255,255,.07);
+  position:relative;z-index:2
+}
+.wqh-stat:last-child{border-right:none}
+.wqh-stat-val{
+  font-family:var(--font-title);font-size:26px;
+  color:#fff;line-height:1
+}
+.wqh-stat-val.fire{color:#ff8c32}
+.wqh-stat-val.gold{color:var(--gold2)}
+.wqh-stat-label{
+  font-family:var(--font-body);font-size:8px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-top:2px
+}
+
+/* ranking ticker integrado */
+.wqh-ranking{
+  position:relative;z-index:2;
+  padding:10px 20px;
+  border-top:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;gap:10px;
+  background:rgba(0,0,0,.25)
+}
+.wqh-rank-label{
+  font-family:var(--font-body);font-size:8px;font-weight:600;
+  letter-spacing:3px;color:rgba(255,255,255,.25);
+  text-transform:uppercase;flex-shrink:0
+}
+.wqh-rank-tabs{
+  display:flex;gap:4px;flex-shrink:0
+}
+.wqh-rank-tab{
+  padding:3px 8px;border-radius:10px;
+  font-family:var(--font-body);font-size:8px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.3);border:1px solid transparent;
+  cursor:pointer;transition:.2s;background:none
+}
+.wqh-rank-tab.active{
+  background:rgba(204,0,0,.18);border-color:rgba(204,0,0,.3);
+  color:rgba(255,100,100,.9)
+}
+.wqh-rank-list{
+  flex:1;overflow:hidden;height:16px;position:relative
+}
+.wqh-rank-item{
+  position:absolute;top:0;left:0;right:0;
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--font-body);font-size:10px;color:rgba(255,255,255,.7);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:opacity .4s,transform .4s;
+  opacity:0;transform:translateY(8px)
+}
+.wqh-rank-item.visible{opacity:1;transform:none}
+.wqh-rank-item.exit{opacity:0;transform:translateY(-8px)}
+.wqh-rank-pos{
+  font-family:var(--font-title);font-size:14px;
+  width:16px;text-align:right;flex-shrink:0
+}
+.wqh-rank-pos.p1{color:var(--gold2)}
+.wqh-rank-pos.p2{color:#ccc}
+.wqh-rank-pos.p3{color:#c8865a}
+.wqh-rank-name{font-weight:500;color:rgba(255,255,255,.8)}
+.wqh-rank-pts{
+  margin-left:auto;font-family:var(--font-title);font-size:12px;
+  color:var(--red);flex-shrink:0
+}
+
+/* play bar */
+.wqh-play{
+  position:relative;z-index:2;
+  padding:14px 20px 18px;
+  display:flex;align-items:center;gap:12px
+}
+.wqh-play-btn{
+  flex:1;height:44px;border-radius:10px;
+  background:linear-gradient(135deg,var(--red) 0%,#e60000 100%);
+  border:none;cursor:pointer;
+  font-family:var(--font-ui);font-size:13px;font-weight:600;
+  letter-spacing:3px;color:#fff;text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .15s,box-shadow .15s;
+  box-shadow:0 4px 20px rgba(204,0,0,.4)
+}
+.wqh-play-btn:active{transform:scale(.97);box-shadow:0 2px 10px rgba(204,0,0,.3)}
+.wqh-play-icon{font-size:16px}
+.wqh-level-pill{
+  display:flex;flex-direction:column;align-items:center;
+  background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.2);
+  border-radius:10px;padding:7px 12px;flex-shrink:0
+}
+.wqh-level-val{font-family:var(--font-title);font-size:18px;color:var(--gold2);line-height:1}
+.wqh-level-lbl{font-size:7px;letter-spacing:2px;color:rgba(200,168,75,.5);text-transform:uppercase;margin-top:1px}
+
+/* XP progress bar */
+.wqh-xp{
+  position:relative;z-index:2;
+  padding:0 20px 16px;display:flex;flex-direction:column;gap:4px
+}
+.wqh-xp-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.wqh-xp-label{font-size:8px;letter-spacing:2px;color:rgba(255,255,255,.25);text-transform:uppercase}
+.wqh-xp-val{font-family:var(--font-title);font-size:12px;color:var(--gold);letter-spacing:1px}
+.wqh-xp-track{height:4px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.wqh-xp-fill{
+  height:100%;border-radius:99px;
+  background:linear-gradient(90deg,#8B6914,#C8A84B,#E2C97E);
+  transition:width 1s cubic-bezier(.4,0,.2,1)
+}
+
+/* stripe tricolor */
+.wqh-stripe{
+  height:3px;
+  background:linear-gradient(90deg,#CC0000 33.3%,#fff 33.3% 66.6%,#111 66.6%);
+  position:relative;z-index:2
+}
+
+/* ── LINHA 2: WORDLE + RANKINGS ──────────────── */
+.hub-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px
+}
+
+/* Card Wordle */
+.widget-wordle{
+  border-radius:16px;overflow:hidden;position:relative;
+  border:1px solid rgba(200,168,75,.2);
+  background:linear-gradient(145deg,#0d0a00 0%,#0a0a0a 100%);
+  cursor:pointer;min-height:160px;
+  display:flex;flex-direction:column
+}
+.widget-wordle:active{transform:scale(.98)}
+.ww-inner{padding:16px 14px;flex:1;display:flex;flex-direction:column;position:relative;z-index:2}
+.ww-eyebrow{
+  font-family:var(--font-body);font-size:7px;font-weight:700;
+  letter-spacing:3px;color:rgba(200,168,75,.55);
+  text-transform:uppercase;margin-bottom:8px
+}
+.ww-title{
+  font-family:var(--font-title);font-size:22px;
+  letter-spacing:1px;color:#fff;line-height:1;margin-bottom:4px
+}
+.ww-title em{color:var(--gold);font-style:normal}
+.ww-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:3px;
+  margin:10px 0;max-width:100px
+}
+.ww-cell{
+  aspect-ratio:1;border-radius:3px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-ui);font-size:9px;font-weight:700;
+  color:rgba(255,255,255,.6)
+}
+.ww-cell.hit{background:var(--red);border-color:var(--red);color:#fff}
+.ww-cell.near{background:rgba(200,168,75,.3);border-color:rgba(200,168,75,.5);color:var(--gold2)}
+.ww-status{margin-top:auto}
+.ww-streak{
+  display:flex;align-items:center;gap:4px;
+  font-family:var(--font-body);font-size:9px;color:rgba(255,165,60,.8);
+  margin-bottom:6px
+}
+.ww-streak strong{font-family:var(--font-title);font-size:16px;color:#ff8c32}
+.ww-play-btn{
+  width:100%;padding:7px;border-radius:7px;
+  background:rgba(200,168,75,.15);border:1px solid rgba(200,168,75,.25);
+  font-family:var(--font-ui);font-size:9px;font-weight:600;
+  letter-spacing:2px;color:var(--gold);text-transform:uppercase;
+  cursor:pointer;transition:.15s
+}
+.ww-play-btn:active{background:rgba(200,168,75,.25)}
+.ww-stripe{height:3px;background:linear-gradient(90deg,var(--gold) 0%,rgba(200,168,75,.2) 100%)}
+
+/* Card Rankings */
+.widget-rank{
+  border-radius:16px;overflow:hidden;position:relative;
+  border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(145deg,#111 0%,#0a0a0a 100%);
+  cursor:pointer;min-height:160px;
+  display:flex;flex-direction:column
+}
+.widget-rank:active{transform:scale(.98)}
+.wr-inner{padding:16px 14px;flex:1;display:flex;flex-direction:column;position:relative;z-index:2}
+.wr-eyebrow{
+  font-family:var(--font-body);font-size:7px;font-weight:700;
+  letter-spacing:3px;color:rgba(255,255,255,.3);
+  text-transform:uppercase;margin-bottom:8px
+}
+.wr-title{
+  font-family:var(--font-title);font-size:22px;
+  letter-spacing:1px;color:#fff;line-height:1;margin-bottom:10px
+}
+.wr-podium{display:flex;flex-direction:column;gap:5px;flex:1}
+.wr-entry{
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--font-body);font-size:10px;color:rgba(255,255,255,.6)
+}
+.wr-pos{
+  font-family:var(--font-title);font-size:13px;
+  width:14px;text-align:right;flex-shrink:0;color:rgba(255,255,255,.3)
+}
+.wr-pos.g{color:var(--gold2)}
+.wr-pos.s{color:#ccc}
+.wr-pos.b{color:#c8865a}
+.wr-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wr-pts{
+  font-family:var(--font-title);font-size:11px;color:var(--red);flex-shrink:0
+}
+.wr-my-pos{
+  margin-top:auto;
+  display:flex;align-items:center;gap:6px;
+  background:rgba(204,0,0,.1);border:1px solid rgba(204,0,0,.2);
+  border-radius:7px;padding:5px 8px;margin-top:8px
+}
+.wr-my-pos-num{font-family:var(--font-title);font-size:16px;color:var(--red)}
+.wr-my-pos-lbl{font-size:9px;color:rgba(255,255,255,.35);letter-spacing:1px}
+.wr-arrow{
+  margin-left:auto;font-size:11px;color:rgba(255,255,255,.25)
+}
+.wr-stripe{height:3px;background:linear-gradient(90deg,rgba(255,255,255,.15) 0%,rgba(204,0,0,.4) 50%,rgba(255,255,255,.15) 100%)}
+
+/* ── LINHA 3: PALPITÔMETRO + PRÓXIMO JOGO ─── */
+.hub-row-sm{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  align-items:stretch
+}
+/* Próximo Jogo compacto na linha 3 */
+.hub-row-sm .widget-jogo{
+  border-radius:16px;
+  border-color:rgba(255,255,255,.07);
+  min-height:120px;display:flex;flex-direction:column
+}
+.hub-row-sm .wj-header{padding:10px 10px 7px}
+.hub-row-sm .wj-body{padding:8px 10px}
+.hub-row-sm .wj-teams{gap:4px;margin-bottom:8px}
+.hub-row-sm .wj-logo{width:26px;height:26px}
+.hub-row-sm .wj-logo-ph{width:26px;height:26px;font-size:12px}
+.hub-row-sm .wj-team-name{font-size:9px}
+.hub-row-sm .wj-score{font-size:20px}
+.hub-row-sm .wj-vs{font-size:14px}
+.hub-row-sm .wj-chips{gap:3px;justify-content:flex-start}
+.hub-row-sm .wj-chip{font-size:8px;padding:2px 6px}
+.hub-row-sm .wj-loading{padding:16px 10px;font-size:9px}
+
+/* Card Palpitômetro pequeno */
+.widget-palp{
+  border-radius:16px;overflow:hidden;position:relative;
+  border:1px solid rgba(204,0,0,.2);
+  background:linear-gradient(135deg,#130000 0%,#0a0a0a 100%);
+  cursor:pointer;min-height:120px;
+  display:flex;flex-direction:column
+}
 .widget-palp::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.06) 50%,transparent 70%);
-  background-size:200% 100%;animation:wShimmer 3s linear infinite;pointer-events:none
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.04) 50%,transparent 70%);
+  background-size:200% 100%;animation:wShimmer 4s linear infinite;pointer-events:none
 }
 @keyframes wShimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+.widget-palp:active{transform:scale(.98)}
 
-.wp-inner{padding:18px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.wp-left{}
-.wp-eyebrow{font-family:var(--font-body);font-size:9px;letter-spacing:3px;color:rgba(255,100,100,.6);text-transform:uppercase;margin-bottom:4px}
-.wp-title{font-family:var(--font-title);font-size:30px;letter-spacing:3px;color:#fff;line-height:1}
-.wp-sub{font-family:var(--font-body);font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.5px;margin-top:4px}
-.wp-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.wp-icon{font-size:36px;animation:wpFloat 3s ease-in-out infinite}
-@keyframes wpFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-.wp-arrow{width:30px;height:30px;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff}
-.wp-stripe{height:3px;background:linear-gradient(90deg,#CC0000 33%,#fff 33% 66%,#111 66%)}
+.wp-inner{padding:16px 14px;flex:1;display:flex;flex-direction:column;position:relative;z-index:2}
+.wp-eyebrow{
+  font-family:var(--font-body);font-size:7px;font-weight:700;
+  letter-spacing:3px;color:rgba(255,100,100,.5);
+  text-transform:uppercase;margin-bottom:6px
+}
+.wp-title{
+  font-family:var(--font-title);font-size:20px;
+  letter-spacing:2px;color:#fff;line-height:1
+}
+.wp-sub{
+  font-family:var(--font-body);font-size:9px;
+  color:rgba(255,255,255,.35);margin-top:5px;letter-spacing:.3px;
+  line-height:1.35;flex:1
+}
+.wp-icon-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:10px
+}
+.wp-icon{font-size:22px}
+.wp-arrow-sm{
+  width:24px;height:24px;border-radius:50%;
+  background:rgba(204,0,0,.15);border:1px solid rgba(204,0,0,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:rgba(255,100,100,.7)
+}
+.wp-stripe{height:2px;background:linear-gradient(90deg,#CC0000 33%,#fff 33% 66%,#111 66%)}
 
 /* Estado: enviado */
-.widget-palp.s-sent{background:linear-gradient(135deg,#0a1f12 0%,#071510 100%);border-color:rgba(34,197,94,.2)}
+.widget-palp.s-sent{background:linear-gradient(135deg,#0a1a0e 0%,#0a0a0a 100%);border-color:rgba(34,197,94,.2)}
 .widget-palp.s-sent .wp-eyebrow{color:rgba(34,197,94,.6)}
 .widget-palp.s-sent::before{display:none}
 /* Estado: fechado */
 .widget-palp.s-closed{opacity:.5;cursor:not-allowed}
 .widget-palp.s-closed::before{display:none}
 /* Estado: resultado */
-.widget-palp.s-result{background:linear-gradient(135deg,#1a1000 0%,#110d00 100%);border-color:rgba(200,168,75,.25);animation:wResultPulse 2s ease-in-out infinite}
-@keyframes wResultPulse{0%,100%{box-shadow:0 0 0 rgba(200,168,75,0)}50%{box-shadow:0 0 20px rgba(200,168,75,.2)}}
+.widget-palp.s-result{border-color:rgba(200,168,75,.3);animation:wResultPulse 2.5s ease-in-out infinite}
+@keyframes wResultPulse{0%,100%{box-shadow:0 0 0 rgba(200,168,75,0)}50%{box-shadow:0 0 18px rgba(200,168,75,.18)}}
 
-/* Widget: QUIZ */
-.widget-quiz{
-  background:linear-gradient(135deg,#0d0a1a 0%,#0a0a0d 100%);
-  border-color:rgba(191,95,255,.2);cursor:pointer
+/* Card futuro / placeholder */
+.widget-future{
+  border-radius:16px;overflow:hidden;position:relative;
+  border:1px solid rgba(255,255,255,.05);
+  background:rgba(255,255,255,.02);
+  min-height:120px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:6px
 }
-.widget-quiz:hover{border-color:rgba(191,95,255,.4)}
-.wq-inner{padding:18px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.wq-left{}
-.wq-eyebrow{font-family:var(--font-body);font-size:9px;letter-spacing:3px;color:rgba(191,95,255,.7);text-transform:uppercase;margin-bottom:4px}
-.wq-title{font-family:var(--font-title);font-size:30px;letter-spacing:3px;color:#fff;line-height:1}
-.wq-sub{font-family:var(--font-body);font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.5px;margin-top:4px}
-.wq-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.wq-icon{font-size:36px;animation:wqSpin 4s ease-in-out infinite}
-@keyframes wqSpin{0%,80%,100%{transform:rotate(0deg)}10%{transform:rotate(-15deg)}20%{transform:rotate(15deg)}30%{transform:rotate(-10deg)}40%{transform:rotate(10deg)}50%{transform:rotate(0deg)}}
-.wq-arrow{width:30px;height:30px;background:rgba(191,95,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:#bf5fff}
-.wq-stripe{height:3px;background:linear-gradient(90deg,#bf5fff 0%,#4a9eff 50%,#CC0000 100%)}
+.wf-label{
+  font-family:var(--font-body);font-size:8px;font-weight:600;
+  letter-spacing:3px;color:rgba(255,255,255,.12);text-transform:uppercase
+}
+.wf-icon{font-size:24px;opacity:.18;filter:grayscale(1)}
+
+/* Widget: PRÓXIMO JOGO (mantido com ajustes) */
+.widget-jogo{background:linear-gradient(145deg,#0a0a0e 0%,#0a0a0a 100%);border-color:rgba(255,255,255,.08)}
+.wj-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px 8px;border-bottom:1px solid rgba(255,255,255,.04)
+}
+.wj-label{font-family:var(--font-body);font-size:8px;letter-spacing:3px;color:rgba(255,255,255,.3);text-transform:uppercase;font-weight:600}
+.wj-comp{font-family:var(--font-body);font-size:8px;color:var(--txt3);letter-spacing:1px;text-transform:uppercase}
+.wj-body{padding:12px 14px}
+.wj-teams{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.wj-team{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.wj-logo{width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.wj-logo-ph{width:36px;height:36px;background:var(--bg3);border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:16px}
+.wj-team-name{font-family:var(--font-ui);font-size:11px;font-weight:600;color:var(--txt);text-align:center;line-height:1.2}
+.wj-mid{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0}
+.wj-score{font-family:var(--font-title);font-size:26px;color:#fff;letter-spacing:2px}
+.wj-vs{font-family:var(--font-title);font-size:18px;color:var(--txt3)}
+.wj-chips{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+.wj-chip{
+  display:inline-flex;align-items:center;gap:3px;
+  padding:3px 8px;border-radius:20px;font-size:9px;color:var(--txt2);
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);letter-spacing:.3px
+}
+.wj-chip.live{background:rgba(204,0,0,.15);border-color:rgba(204,0,0,.4);color:#ff7777}
+.wj-loading{padding:20px;text-align:center;font-size:11px;color:var(--txt3);letter-spacing:2px}
+.wj-stripe{height:3px;background:linear-gradient(90deg,#CC0000 33%,#fff 33% 66%,#111 66%)}
+
+/* ── SECTION HEADER DO HUB ──────────────────── */
+.hub-section-head{
+  padding:22px 14px 10px;
+  display:flex;align-items:center;justify-content:space-between
+}
+.hub-section-label{
+  font-family:var(--font-body);font-size:8px;font-weight:700;
+  letter-spacing:4px;color:rgba(255,255,255,.2);text-transform:uppercase;
+  display:flex;align-items:center;gap:8px
+}
+.hub-section-label::before{content:'';width:12px;height:1px;background:var(--red);display:block}
+.hub-section-badge{
+  font-family:var(--font-title);font-size:10px;
+  color:rgba(204,0,0,.5);letter-spacing:2px
+}
 
 /* ── BOTTOM NAV (substituiu nav-tabs no Hoje) ─────── */
 .bottom-nav{
@@ -1251,51 +1610,162 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="day-cards-grid" id="todayList"></div>
   <div class="dcard-dots" id="dcardDots"></div>
 
-  <!-- ④ 3 WIDGETS -->
-  <div class="sec-head-new" style="padding-top:24px">
-    <div class="sec-title-new">área do torcedor</div>
+  <!-- ④ HUB DO TORCEDOR -->
+  <div class="hub-section-head" style="padding-top:28px">
+    <div class="hub-section-label">área do torcedor</div>
+    <div class="hub-section-badge">HUB</div>
   </div>
+
   <div class="widgets-grid">
 
-    <!-- PRÓXIMO JOGO -->
-    <div class="widget widget-jogo" id="nextMatchCard">
-      <div class="wj-loading">⏳ buscando próximo jogo...</div>
+    <!-- ══ CARD QUIZ HERÓI ══ -->
+    <div class="widget-quiz-hero" onclick="window.location.href='quiz.html'">
+      <div class="wqh-top">
+        <div class="wqh-badge-row">
+          <div class="wqh-badge">
+            <span class="wqh-live-dot"></span>
+            MODO PRINCIPAL
+          </div>
+          <div class="wqh-rank-chip">
+            <span>🏅</span>
+            <span>POSIÇÃO</span>
+            <strong id="quizUserRank">—</strong>
+          </div>
+        </div>
+        <div class="wqh-title-block">
+          <div class="wqh-eyebrow">São Paulo FC · Teste de conhecimento</div>
+          <div class="wqh-title">QUIZ <em>TRICOLOR</em></div>
+          <div class="wqh-sub">6 níveis de dificuldade · ranking global · histórico de conquistas</div>
+        </div>
+      </div>
+
+      <!-- stats -->
+      <div class="wqh-stats">
+        <div class="wqh-stat">
+          <div class="wqh-stat-val fire" id="quizStreakVal">0</div>
+          <div class="wqh-stat-label">Sequência 🔥</div>
+        </div>
+        <div class="wqh-stat">
+          <div class="wqh-stat-val" id="quizPtsVal">0</div>
+          <div class="wqh-stat-label">Pontos</div>
+        </div>
+        <div class="wqh-stat">
+          <div class="wqh-stat-val gold" id="quizTrophyVal">0</div>
+          <div class="wqh-stat-label">Troféus 🏆</div>
+        </div>
+      </div>
+
+      <!-- ranking ticker -->
+      <div class="wqh-ranking">
+        <div class="wqh-rank-label">TOP</div>
+        <div class="wqh-rank-tabs" id="rankTabs">
+          <button class="wqh-rank-tab active" data-period="diario" onclick="setRankPeriod('diario',this)">DIA</button>
+          <button class="wqh-rank-tab" data-period="semanal" onclick="setRankPeriod('semanal',this)">SEM</button>
+          <button class="wqh-rank-tab" data-period="mensal" onclick="setRankPeriod('mensal',this)">MÊS</button>
+          <button class="wqh-rank-tab" data-period="geral" onclick="setRankPeriod('geral',this)">GERAL</button>
+        </div>
+        <div class="wqh-rank-list" id="rankList">
+          <div class="wqh-rank-item visible" id="rankItemA">
+            <span class="wqh-rank-pos p1">1</span>
+            <span class="wqh-rank-name">—</span>
+            <span class="wqh-rank-pts">—</span>
+          </div>
+          <div class="wqh-rank-item" id="rankItemB">
+            <span class="wqh-rank-pos p2">2</span>
+            <span class="wqh-rank-name">—</span>
+            <span class="wqh-rank-pts">—</span>
+          </div>
+          <div class="wqh-rank-item" id="rankItemC">
+            <span class="wqh-rank-pos p3">3</span>
+            <span class="wqh-rank-name">—</span>
+            <span class="wqh-rank-pts">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- XP -->
+      <div class="wqh-xp">
+        <div class="wqh-xp-row">
+          <span class="wqh-xp-label">Progresso para próximo nível</span>
+          <span class="wqh-xp-val" id="quizXpLabel">0 / 100 XP</span>
+        </div>
+        <div class="wqh-xp-track">
+          <div class="wqh-xp-fill" id="quizXpFill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- play bar -->
+      <div class="wqh-play">
+        <button class="wqh-play-btn" onclick="event.stopPropagation();window.location.href='quiz.html'">
+          <span class="wqh-play-icon">▶</span> JOGAR AGORA
+        </button>
+        <div class="wqh-level-pill">
+          <div class="wqh-level-val" id="quizLevelVal">1</div>
+          <div class="wqh-level-lbl">NÍVEL</div>
+        </div>
+      </div>
+
+      <div class="wqh-stripe"></div>
     </div>
 
-    <!-- PALPITÔMETRO -->
-    <div class="widget widget-palp" id="palpWrap" style="display:none" onclick="window.location.href='palpitometro.html'">
-      <div class="wp-inner">
-        <div class="wp-left">
+    <!-- ══ LINHA 2: WORDLE + EM BREVE ══ -->
+    <div class="hub-row">
+
+      <!-- WORDLE TRICOLOR -->
+      <div class="widget-wordle" onclick="window.location.href='wordle.html'">
+        <div class="ww-inner">
+          <div class="ww-eyebrow">Jogo do dia</div>
+          <div class="ww-title">WORDLE <em>TRICOLOR</em></div>
+          <div class="ww-grid" id="wordlePreviewGrid">
+            <!-- preenchido por JS -->
+          </div>
+          <div class="ww-status">
+            <div class="ww-streak">
+              <span>🔥</span>
+              <strong id="wordleStreakNum">0</strong>
+              <span style="font-size:9px;color:rgba(255,255,255,.3)">dias</span>
+            </div>
+            <button class="ww-play-btn" onclick="event.stopPropagation();window.location.href='wordle.html'">
+              JOGAR HOJE
+            </button>
+          </div>
+        </div>
+        <div class="ww-stripe"></div>
+      </div>
+
+      <!-- EM BREVE -->
+      <div class="widget-future">
+        <div class="wf-icon">⚡</div>
+        <div class="wf-label">Em breve</div>
+      </div>
+
+    </div><!-- /hub-row -->
+
+    <!-- ══ LINHA 3: PALPITÔMETRO + PRÓXIMO JOGO ══ -->
+    <div class="hub-row-sm">
+
+      <!-- PALPITÔMETRO -->
+      <div class="widget widget-palp" id="palpWrap" style="display:none" onclick="window.location.href='palpitometro.html'">
+        <div class="wp-inner">
           <div class="wp-eyebrow" id="palpBtnEyebrow">SÃO PAULO FC</div>
           <div class="wp-title" id="palpBtnLabel">PALPITÔMETRO</div>
           <div class="wp-sub" id="palpBtnSub">Dê seu palpite e dispute o ranking</div>
+          <div class="wp-icon-row">
+            <span class="wp-icon" id="palpBtnIcon">🎯</span>
+            <div class="wp-arrow-sm">▶</div>
+          </div>
         </div>
-        <div class="wp-right">
-          <div class="wp-icon" id="palpBtnIcon">🎯</div>
-          <div class="wp-arrow">▶</div>
-        </div>
+        <div class="wp-stripe"></div>
       </div>
-      <div class="wp-stripe"></div>
-    </div>
 
-    <!-- QUIZ -->
-    <div class="widget widget-quiz" onclick="window.location.href='quiz.html'">
-      <div class="wq-inner">
-        <div class="wq-left">
-          <div class="wq-eyebrow">Teste seus conhecimentos</div>
-          <div class="wq-title">QUIZ TRICOLOR</div>
-          <div class="wq-sub">6 níveis · ranking global · histórico</div>
-        </div>
-        <div class="wq-right">
-          <div class="wq-icon">🧩</div>
-          <div class="wq-arrow">▶</div>
-        </div>
+      <!-- PRÓXIMO JOGO -->
+      <div class="widget widget-jogo" id="nextMatchCard">
+        <div class="wj-loading">⏳ buscando...</div>
       </div>
-      <div class="wq-stripe"></div>
-    </div>
 
-  </div>
-</div>
+    </div><!-- /hub-row-sm -->
+
+  </div><!-- /widgets-grid -->
 
 <!-- PANEL: CALENDÁRIO -->
 <div class="panel" id="panel-calendario">
@@ -3156,6 +3626,137 @@ async function init() {
 }
 
 init();
+
+/* ══════════════════════════════════════════════════
+   HUB DO TORCEDOR — LÓGICA
+══════════════════════════════════════════════════ */
+
+/* ── Dados mock de ranking (substituir por Firebase real) */
+const MOCK_RANKINGS = {
+  diario:[
+    {n:'Matheus S.',p:480},{n:'Fernanda R.',p:360},{n:'Lucas T.',p:290}
+  ],
+  semanal:[
+    {n:'Carlos M.',p:2140},{n:'Ana P.',p:1870},{n:'João V.',p:1650}
+  ],
+  mensal:[
+    {n:'Ricardo O.',p:8900},{n:'Camila L.',p:7400},{n:'Pedro H.',p:6800}
+  ],
+  geral:[
+    {n:'Torcedor01',p:42000},{n:'Tricolor99',p:38500},{n:'SPFCNação',p:35200}
+  ]
+};
+
+let currentRankPeriod = 'diario';
+let rankTickerIdx = 0;
+let rankTickerTimer = null;
+
+function setRankPeriod(period, btn){
+  currentRankPeriod = period;
+  document.querySelectorAll('.wqh-rank-tab').forEach(t=>t.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  rankTickerIdx = 0;
+  showRankItem(rankTickerIdx);
+  clearInterval(rankTickerTimer);
+  rankTickerTimer = setInterval(()=>{
+    rankTickerIdx = (rankTickerIdx + 1) % 3;
+    showRankItem(rankTickerIdx);
+  }, 2800);
+  // atualizar mini ranking também
+  updateMiniRanking(period);
+}
+
+function showRankItem(idx){
+  const items = document.querySelectorAll('.wqh-rank-item');
+  const data = MOCK_RANKINGS[currentRankPeriod];
+  if(!data||!items.length) return;
+  items.forEach(el=>{ el.classList.remove('visible'); el.classList.add('exit'); });
+  const el = items[idx];
+  if(!el) return;
+  const pos = idx+1;
+  el.querySelector('.wqh-rank-pos').textContent = pos;
+  el.querySelector('.wqh-rank-pos').className = 'wqh-rank-pos' + (pos===1?' p1':pos===2?' p2':' p3');
+  el.querySelector('.wqh-rank-name').textContent = data[idx]?.n || '—';
+  el.querySelector('.wqh-rank-pts').textContent = data[idx] ? data[idx].p+'pts' : '—';
+  setTimeout(()=>{ el.classList.remove('exit'); el.classList.add('visible'); }, 50);
+}
+
+function updateMiniRanking(period){
+  const data = MOCK_RANKINGS[period] || MOCK_RANKINGS.geral;
+  const ids = [['rm1','rm1p'],['rm2','rm2p'],['rm3','rm3p']];
+  ids.forEach(([nId,pId],i)=>{
+    const el = document.getElementById(nId);
+    const elp = document.getElementById(pId);
+    if(el) el.textContent = data[i]?.n || '—';
+    if(elp) elp.textContent = data[i] ? data[i].p+'pts' : '—';
+  });
+}
+
+/* ── Preenchimento do grid do Wordle (decorativo) */
+function buildWordlePreview(){
+  const grid = document.getElementById('wordlePreviewGrid');
+  if(!grid) return;
+  // Simula uma tentativa parcial: S P F C ? com hits e near
+  const letters = [
+    {l:'S',c:'hit'},{l:'P',c:'near'},{l:'F',c:''},{l:'C',c:'hit'},{l:'?',c:''}
+  ];
+  grid.innerHTML = letters.map(({l,c})=>`<div class="ww-cell ${c}">${l}</div>`).join('');
+}
+
+/* ── Preencher dados do usuário no hub (do Firebase / localStorage) */
+function fillHubUserData(){
+  // streak do quiz
+  const streakNum = parseInt(localStorage.getItem('quizStreak')||'0',10);
+  const el = document.getElementById('quizStreakVal');
+  if(el) el.textContent = streakNum;
+
+  // pontos
+  const pts = parseInt(localStorage.getItem('quizPts')||'0',10);
+  const elp = document.getElementById('quizPtsVal');
+  if(elp) elp.textContent = pts >= 1000 ? Math.round(pts/100)/10+'k' : pts;
+
+  // nível
+  const lvl = parseInt(localStorage.getItem('quizLevel')||'1',10);
+  const ell = document.getElementById('quizLevelVal');
+  if(ell) ell.textContent = lvl;
+
+  // xp
+  const xp = parseInt(localStorage.getItem('quizXP')||'0',10);
+  const xpNext = 100;
+  const pct = Math.min(100, Math.round((xp % xpNext) / xpNext * 100));
+  const elxp = document.getElementById('quizXpFill');
+  const elxpl = document.getElementById('quizXpLabel');
+  if(elxp) setTimeout(()=>elxp.style.width=pct+'%',300);
+  if(elxpl) elxpl.textContent = (xp%xpNext)+' / '+xpNext+' XP';
+
+  // troféus
+  const trophies = parseInt(localStorage.getItem('quizTrophies')||'0',10);
+  const elt = document.getElementById('quizTrophyVal');
+  if(elt) elt.textContent = trophies;
+
+  // streak wordle
+  const ws = parseInt(localStorage.getItem('wordleStreak')||'0',10);
+  const elws = document.getElementById('wordleStreakNum');
+  if(elws) elws.textContent = ws;
+
+  // rank do usuário
+  const myRank = localStorage.getItem('myQuizRank') || '—';
+  const elr = document.getElementById('quizUserRank');
+  if(elr) elr.textContent = myRank === '—' ? '—' : '#'+myRank;
+  const elmr = document.getElementById('myRankPos');
+  if(elmr) elmr.textContent = myRank === '—' ? '—' : '#'+myRank;
+}
+
+/* ── Inicializar hub ── */
+function initHub(){
+  buildWordlePreview();
+  fillHubUserData();
+  updateMiniRanking('diario');
+  setRankPeriod('diario', null);
+}
+
+// Aguardar DOM estar pronto
+setTimeout(initHub, 400);
 
 </script>
 </body>
