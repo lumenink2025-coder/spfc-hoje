@@ -48,6 +48,113 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min-heig
 /* ── SCANLINES ───────────────────────────────────── */
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);pointer-events:none;z-index:9999}
 
+/* ══ NEWS TICKER ═════════════════════════════════════
+   Faixa fixa logo abaixo da topbar, estilo TV esportiva
+══════════════════════════════════════════════════════ */
+.news-ticker{
+  position:fixed;
+  top:calc(64px + env(safe-area-inset-top));
+  left:0;right:0;
+  z-index:350;
+  height:32px;
+  background:#0d0000;
+  border-bottom:1px solid rgba(204,0,0,.22);
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.5)
+}
+
+/* TAG esquerda: "🔴 AO VIVO" ou "📰 NOTÍCIAS" */
+.ticker-tag{
+  flex-shrink:0;
+  display:flex;align-items:center;gap:5px;
+  padding:0 10px 0 12px;
+  height:100%;
+  background:var(--red);
+  font-family:var(--font-ui);
+  font-size:9px;font-weight:600;
+  letter-spacing:2px;
+  color:#fff;
+  text-transform:uppercase;
+  white-space:nowrap;
+  position:relative;
+  z-index:2
+}
+/* biseau direito da tag */
+.ticker-tag::after{
+  content:'';
+  position:absolute;right:-8px;top:0;bottom:0;
+  width:9px;
+  background:inherit;
+  clip-path:polygon(0 0,0 100%,100% 100%)
+}
+.ticker-tag-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:#fff;
+  animation:tickerBlink 1.2s ease-in-out infinite;
+  flex-shrink:0
+}
+@keyframes tickerBlink{0%,100%{opacity:1}50%{opacity:.15}}
+
+/* separador vertical */
+.ticker-sep{
+  width:1px;height:18px;
+  background:rgba(204,0,0,.3);
+  flex-shrink:0;margin:0 0 0 10px
+}
+
+/* trilha da animação */
+.ticker-track{
+  flex:1;
+  overflow:hidden;
+  height:100%;
+  position:relative;
+  cursor:pointer
+}
+.ticker-inner{
+  display:flex;
+  align-items:center;
+  height:100%;
+  white-space:nowrap;
+  /* largura definida por JS após medir o conteúdo */
+  will-change:transform;
+  animation:tickerScroll var(--ticker-duration,60s) linear infinite
+}
+.ticker-inner.paused{
+  animation-play-state:paused
+}
+@keyframes tickerScroll{
+  0%  {transform:translateX(0)}
+  100%{transform:translateX(var(--ticker-shift,-50%))}
+}
+
+/* cada manchete */
+.ticker-item{
+  display:inline-flex;align-items:center;gap:0;
+  padding:0 6px;
+  font-family:var(--font-ui);
+  font-size:11px;font-weight:300;
+  letter-spacing:.4px;
+  color:rgba(240,235,227,.82);
+  transition:color .2s
+}
+.ticker-item:hover{color:#fff}
+.ticker-item-sep{
+  display:inline-block;
+  margin:0 10px;
+  color:rgba(204,0,0,.55);
+  font-size:8px
+}
+
+/* estado de carregamento */
+.ticker-loading{
+  font-family:var(--font-ui);font-size:10px;
+  color:rgba(255,255,255,.3);letter-spacing:2px;
+  padding:0 16px;animation:pulse .9s ease-in-out infinite alternate
+}
+@keyframes pulse{from{opacity:.3}to{opacity:.7}}
+
 /* ══════════════════════════════════════════════════════
    TOP BAR — PREMIUM REDESIGN
 ══════════════════════════════════════════════════════ */
@@ -1564,7 +1671,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 }
 </style>
 </head>
-<body style="padding-top:calc(64px + env(safe-area-inset-top))">
+<body style="padding-top:calc(96px + env(safe-area-inset-top))">
 
 <!-- DRAWER OVERLAY -->
 <div class="tb-drawer-overlay" id="tbDrawerOverlay" onclick="closeDrawer()"></div>
@@ -1676,7 +1783,21 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 </header>
 
-<!-- INSTALL BANNER -->
+<!-- ══ NEWS TICKER ══════════════════════════════════ -->
+<div class="news-ticker" id="newsTicker">
+  <div class="ticker-tag" id="tickerTag">
+    <span class="ticker-tag-dot" id="tickerDot"></span>
+    <span id="tickerTagLabel">NOTÍCIAS</span>
+  </div>
+  <div class="ticker-sep"></div>
+  <div class="ticker-track" id="tickerTrack"
+       ontouchstart="pauseTicker()" ontouchend="resumeTicker()"
+       onmousedown="pauseTicker()" onmouseup="resumeTicker()">
+    <div class="ticker-inner" id="tickerInner">
+      <span class="ticker-loading" id="tickerLoading">Carregando notícias...</span>
+    </div>
+  </div>
+</div>
 <div class="install-bar" id="installBar">
   <div class="install-bar-text">
     <strong>Adicionar à tela inicial</strong>
@@ -4017,6 +4138,137 @@ function closeSobreBtn() {
 function closeSobre(e) {
   if (e.target === document.getElementById('sobreOverlay')) closeSobreBtn();
 }
+</script>
+
+<!-- ══ NEWS TICKER — SCRIPT ══════════════════════════ -->
+<script>
+(function(){
+  /* ── Configuração ─────────────────────────────── */
+  const PROXY   = 'https://api.rss2json.com/v1/api.json?rss_url=';
+  const FEEDS   = [
+    // Feed dedicado ao SPFC — Gazeta Esportiva
+    'https://www.gazetaesportiva.com/times/sao-paulo/feed/',
+    // Portal oficial do São Paulo FC
+    'https://saopaulofc.net/feed',
+    // SPFC Notícias — portal especializado
+    'https://spfcnoticias.com/feed',
+    // São Paulo Sempre — maior blog tricolor
+    'https://saopaulosempre.com.br/feed',
+    // Lance! — cobertura SPFC
+    'https://www.lance.com.br/sao-paulo/feed/',
+  ];
+  // feeds dedicados ao SPFC já filtram por clube; regex como segunda camada de segurança
+  const FILTER  = /s[aã]o paulo|spfc|tricolor|morumbi/i;
+  const PX_PER_SEC = 55;             // velocidade: pixels por segundo
+  const SEP     = ' ◆ ';             // separador entre manchetes
+  const FALLBACK = [
+    'São Paulo FC — Acompanhe todas as notícias do Tricolor aqui',
+    'SPFC Hoje: história, quiz, wordle e muito mais para o torcedor',
+    'Tricolor do Morumbi — Campeão Mundial'
+  ];
+
+  /* ── Elementos ────────────────────────────────── */
+  const inner   = document.getElementById('tickerInner');
+  const loading = document.getElementById('tickerLoading');
+  const tag     = document.getElementById('tickerTag');
+  const tagLbl  = document.getElementById('tickerTagLabel');
+  const dot     = document.getElementById('tickerDot');
+  let   headlines = [];
+  let   isLive  = false;
+
+  /* ── Busca um feed via proxy ──────────────────── */
+  async function fetchFeed(url){
+    try {
+      const r = await fetch(PROXY + encodeURIComponent(url), {signal: AbortSignal.timeout(6000)});
+      if(!r.ok) return [];
+      const d = await r.json();
+      if(d.status !== 'ok' || !Array.isArray(d.items)) return [];
+      return d.items
+        .filter(i => FILTER.test(i.title || ''))
+        .map(i => ({ title: (i.title||'').trim(), link: i.link||'#' }));
+    } catch { return []; }
+  }
+
+  /* ── Monta e anima o ticker ───────────────────── */
+  function buildTicker(items){
+    if(!items.length) items = FALLBACK.map(t=>({title:t,link:'#'}));
+
+    /* duplica para loop perfeito */
+    const full = [...items, ...items];
+
+    /* cria os spans */
+    inner.innerHTML = '';
+    full.forEach((item, idx) => {
+      if(idx > 0){
+        const sp = document.createElement('span');
+        sp.className = 'ticker-item-sep';
+        sp.textContent = SEP;
+        inner.appendChild(sp);
+      }
+      const a = document.createElement('span');
+      a.className = 'ticker-item';
+      a.textContent = item.title;
+      if(item.link && item.link !== '#'){
+        a.style.cursor = 'pointer';
+        a.addEventListener('click', e => {
+          e.stopPropagation();
+          window.open(item.link, '_blank', 'noopener');
+        });
+      }
+      inner.appendChild(a);
+    });
+
+    /* mede a largura da primeira metade (items originais) */
+    requestAnimationFrame(() => {
+      const totalW   = inner.scrollWidth;
+      const halfW    = totalW / 2;           // largura de um "ciclo"
+      const duration = Math.round(halfW / PX_PER_SEC);
+
+      inner.style.setProperty('--ticker-duration', duration + 's');
+      inner.style.setProperty('--ticker-shift', '-' + halfW + 'px');
+
+      /* reseta animação */
+      inner.style.animation = 'none';
+      inner.offsetHeight;   /* reflow forçado */
+      inner.style.animation = '';
+    });
+  }
+
+  /* ── Carrega todos os feeds em paralelo ───────── */
+  async function loadTicker(){
+    const results = await Promise.allSettled(FEEDS.map(fetchFeed));
+    headlines = results
+      .filter(r => r.status === 'fulfilled')
+      .flatMap(r => r.value);
+
+    /* detecta "ao vivo" se houver manchetes recentes (< 3h) */
+    const now = Date.now();
+    isLive = headlines.some(h => h.pubDate && (now - new Date(h.pubDate)) < 3*60*60*1000);
+
+    if(isLive){
+      tag.style.background = 'var(--red)';
+      tagLbl.textContent   = 'AO VIVO';
+      dot.style.display    = 'block';
+    } else {
+      tag.style.background = '#1a0000';
+      tag.style.borderRight = '1px solid rgba(204,0,0,.3)';
+      tagLbl.textContent   = 'NOTÍCIAS';
+      dot.style.display    = 'none';
+    }
+
+    buildTicker(headlines.length ? headlines : FALLBACK.map(t=>({title:t,link:'#'})));
+  }
+
+  /* ── Pause / resume no toque ──────────────────── */
+  window.pauseTicker  = () => inner.classList.add('paused');
+  window.resumeTicker = () => inner.classList.remove('paused');
+
+  /* ── Init ─────────────────────────────────────── */
+  loadTicker();
+
+  /* recarrega a cada 10 minutos */
+  setInterval(loadTicker, 10 * 60 * 1000);
+})();
 </script>
 
 </body>
