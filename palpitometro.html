@@ -658,15 +658,34 @@ async function loadMatchAndPalpite() {
   area.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><br>Buscando próximo jogo...</div>';
 
   try {
-    const res = await fetch(`https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=${SPFC_ID}`);
-    const data = await res.json();
+    // Busca próximo jogo E último jogo em paralelo
+    const [resNext, resLast] = await Promise.all([
+      fetch(`https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=${SPFC_ID}`),
+      fetch(`https://www.thesportsdb.com/api/v1/json/3/eventslast.php?id=${SPFC_ID}`)
+    ]);
+    const dataNext = await resNext.json();
+    const dataLast = await resLast.json();
 
-    if (!data.events || !data.events.length) {
+    // Processa último jogo encerrado se ainda não foi processado
+    if (dataLast.results) {
+      const last = dataLast.results[0];
+      if (last) {
+        const isSPFCHomeLast = last.idHomeTeam == SPFC_ID;
+        const spfcScoreLast  = isSPFCHomeLast ? last.intHomeScore : last.intAwayScore;
+        const oppScoreLast   = isSPFCHomeLast ? last.intAwayScore : last.intHomeScore;
+        if (spfcScoreLast !== null && spfcScoreLast !== '') {
+          // Checa se já foi processado antes de chamar (autoProcessar já verifica internamente)
+          await autoProcessarResultado(last.idEvent, parseInt(spfcScoreLast), parseInt(oppScoreLast), isSPFCHomeLast);
+        }
+      }
+    }
+
+    if (!dataNext.events || !dataNext.events.length) {
       area.innerHTML = '<div class="loading-state">Nenhum jogo agendado no momento</div>';
       return;
     }
 
-    const ev = data.events[0];
+    const ev = dataNext.events[0];
     matchData = ev;
 
     const isSPFCHome = ev.idHomeTeam == SPFC_ID;
@@ -707,12 +726,6 @@ async function loadMatchAndPalpite() {
     // Checar se já palpitou neste jogo
     const matchId = ev.idEvent;
     await checkUserPalpite(matchId);
-
-    // Se jogo terminou, tenta processar pontos automaticamente
-    if (isFinished) {
-      await autoProcessarResultado(matchId, parseInt(spfcScore), parseInt(oppScore), isSPFCHome);
-      await checkUserPalpite(matchId); // recarrega palpite com pontos atualizados
-    }
 
     // Se ao vivo, agenda verificação a cada 2 minutos
     if (isLive) {
