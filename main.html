@@ -187,7 +187,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .tb-notif:hover{background:var(--red);border-color:var(--red)}
 
 /* ── HERO ────────────────────────────────────────── */
-.hero{min-height:100svh;padding:calc(56px + env(safe-area-inset-top)) 0 0;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.hero{min-height:100svh;padding:0;display:flex;flex-direction:column;position:relative;overflow:hidden;z-index:1}
 .hero-gradient{position:absolute;inset:0;background:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(204,0,0,.18) 0%,transparent 65%),linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
 .hero-ghost{position:absolute;bottom:0;right:-20px;font-family:var(--font-title);font-size:clamp(120px,35vw,260px);color:rgba(255,255,255,.028);line-height:1;pointer-events:none;user-select:none;letter-spacing:-6px}
 
@@ -211,7 +211,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 @keyframes arrowbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
 
 /* ── NAV TABS ────────────────────────────────────── */
-.nav-tabs{position:sticky;top:calc(56px + env(safe-area-inset-top));z-index:150;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex}
+.nav-tabs{position:sticky;top:0;z-index:150;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex}
 .nav-tab{flex:1;padding:12px 8px;font-family:var(--font-ui);font-size:12px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);border:none;background:transparent;cursor:pointer;border-bottom:2px solid transparent;transition:.2s;text-align:center}
 .nav-tab.active{color:var(--red);border-bottom-color:var(--red)}
 .nav-tab:hover:not(.active){color:var(--txt)}
@@ -947,7 +947,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 </style>
 </head>
-<body>
+<body style="padding-top:calc(56px + env(safe-area-inset-top))"
 
 <!-- DRAWER OVERLAY -->
 <div class="tb-drawer-overlay" id="tbDrawerOverlay" onclick="closeDrawer()"></div>
@@ -1053,7 +1053,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </div>
 
 <!-- HERO STRIP COMPACTO -->
-<section class="hero" id="heroSection" style="min-height:auto;padding-bottom:0">
+<section class="hero" id="heroSection" style="min-height:auto;padding-top:0;padding-bottom:0;z-index:1">
   <div class="hero-gradient" style="opacity:.5"></div>
   <div class="hero-top" style="padding:14px 20px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px">
     <div style="display:flex;align-items:center;gap:10px">
