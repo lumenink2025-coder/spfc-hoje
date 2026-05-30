@@ -772,10 +772,10 @@ window.fixarDestaque = async function(evId, dateVal) {
     await Promise.all(batch);
     // Fixa o novo
     await updateDoc(doc(db, 'eventos', evId), { destaqueData: dateVal });
-    showToast('✅ Destaque fixado! Lembre de Publicar Eventos.', 'ok');
+    toast('✅ Destaque fixado! Lembre de Publicar Eventos.', 'ok');
     loadDestaqueTab();
   } catch(e) {
-    showToast('Erro: ' + e.message, 'err');
+    toast('Erro: ' + e.message, 'err');
   }
 };
 
@@ -783,10 +783,10 @@ window.clearDestaque = async function(evId) {
   if (!confirm('Remover o destaque? O app voltará à lógica automática.')) return;
   try {
     await updateDoc(doc(db, 'eventos', evId), { destaqueData: null });
-    showToast('🗑️ Destaque removido! Lembre de Publicar Eventos.', 'ok');
+    toast('🗑️ Destaque removido! Lembre de Publicar Eventos.', 'ok');
     loadDestaqueTab();
   } catch(e) {
-    showToast('Erro: ' + e.message, 'err');
+    toast('Erro: ' + e.message, 'err');
   }
 };
 
