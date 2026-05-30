@@ -216,42 +216,46 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .rank-tab:hover:not(.active){border-color:rgba(204,0,0,.4);color:var(--txt)}
 
 /* ── PODIUM IMAGE OVERLAY ── */
-/* proporção real da arte: 576×1024 = 9:16 */
-.podium-img-wrap{position:relative;width:100%;max-width:480px;margin:0 auto 4px;border-radius:12px;overflow:hidden;background:#0a0a0a;aspect-ratio:576/1024}
+/* proporção real: 941×1672 */
+.podium-img-wrap{position:relative;width:100%;max-width:480px;margin:0 auto 4px;border-radius:12px;overflow:hidden;background:#0a0a0a;aspect-ratio:941/1672}
 .podium-img-wrap img.podium-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
 .podium-overlay{position:absolute;inset:0;pointer-events:none}
 
-.po-slot{position:absolute;display:flex;flex-direction:column;align-items:center;gap:0}
-.po-avatar{width:16%;aspect-ratio:1;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.6);box-shadow:0 2px 8px rgba(0,0,0,.8);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:700;color:#fff;font-size:clamp(10px,3vw,15px)}
+/* pódio */
+.po-slot{position:absolute;display:flex;flex-direction:column;align-items:center}
+.po-avatar{border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.5);box-shadow:0 2px 10px rgba(0,0,0,.8);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:700;color:#fff}
 .po-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.po-name{font-family:var(--font-ui);font-size:clamp(7px,2vw,11px);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.9);text-align:center;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px;font-weight:600;letter-spacing:.5px}
-.po-pts{font-family:var(--font-title);font-size:clamp(9px,2.5vw,13px);color:var(--gold2);text-shadow:0 1px 4px rgba(0,0,0,.9);letter-spacing:1px}
+.po-name{font-family:var(--font-ui);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.9);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;background:rgba(0,0,0,.55);padding:1px 5px;border-radius:3px;font-size:clamp(6px,1.6vw,10px);max-width:90px;margin-top:2px}
+.po-pts{font-family:var(--font-title);color:var(--gold2);text-shadow:0 1px 4px rgba(0,0,0,.9);letter-spacing:1px;font-size:clamp(7px,1.8vw,11px)}
 
-/* Posições calibradas pela screenshot real */
-.po-1st{left:50%;top:25%;transform:translateX(-50%)}
-.po-2nd{left:14%;top:40%;transform:translateX(-50%)}
-.po-3rd{left:86%;top:40%;transform:translateX(-50%)}
+/* pixel-perfect: 1st=(472,256)r84 | 2nd=(244,352)r82 | 3rd=(714,354)r77  img=941x1672 */
+.po-1st{left:50.16%;top:15.31%;transform:translate(-50%,-50%)}
+.po-1st .po-avatar{width:17.85%;aspect-ratio:1;font-size:clamp(11px,3vw,16px)}
+.po-2nd{left:25.93%;top:21.05%;transform:translate(-50%,-50%)}
+.po-2nd .po-avatar{width:17.43%;aspect-ratio:1;font-size:clamp(10px,2.8vw,15px)}
+.po-3rd{left:75.88%;top:21.17%;transform:translate(-50%,-50%)}
+.po-3rd .po-avatar{width:16.37%;aspect-ratio:1;font-size:clamp(10px,2.8vw,15px)}
 
-/* rows 4-10 dentro da imagem — tabela começa a ~58% */
-.po-rows{position:absolute;left:2%;right:2%;top:58%;display:flex;flex-direction:column;gap:0}
-.po-row{display:flex;align-items:center;gap:2%;padding:.9% 2%;background:transparent;border-bottom:1px solid rgba(255,255,255,.04)}
-.po-row:last-child{border-bottom:none}
-.po-row.me-row .po-row-name{color:var(--red2)}
-.po-row-num{font-family:var(--font-title);font-size:clamp(9px,2.5vw,14px);color:var(--gold);width:6%;text-align:center;flex-shrink:0;line-height:1}
-.po-row-av{width:7%;aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--bg3);border:1px solid rgba(255,255,255,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:700;color:#fff;font-size:clamp(6px,1.8vw,10px)}
+/* tabela: top=31.10% row-h=4.49% — colunas em % de 941px */
+.po-rows{position:absolute;left:0;right:0;top:31.10%;display:flex;flex-direction:column}
+.po-row{position:relative;height:4.49%;box-sizing:border-box;overflow:hidden}
+.po-row.me-row{background:rgba(204,0,0,.18)}
+.po-row-num{position:absolute;left:3.19%;width:8.50%;top:50%;transform:translateY(-50%);text-align:center;font-family:var(--font-title);font-size:clamp(8px,2vw,13px);color:var(--gold);line-height:1}
+.po-row-av{position:absolute;left:14.88%;top:50%;transform:translate(-50%,-50%);width:5.31%;aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--bg3);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:700;color:#fff;font-size:clamp(5px,1.4vw,9px)}
 .po-row-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.po-row-name{flex:1;font-family:var(--font-ui);font-size:clamp(7px,2vw,11px);color:#e0dbd3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
-.po-row-pts{font-family:var(--font-title);font-size:clamp(9px,2.5vw,13px);color:var(--gold2);flex-shrink:0;text-align:right}
-.po-row-lbl{font-size:clamp(5px,1.3vw,7px);color:rgba(255,255,255,.35);letter-spacing:1px;text-align:right;line-height:1}
+.po-row-name{position:absolute;left:22%;width:27%;top:50%;transform:translateY(-50%);font-family:var(--font-ui);font-size:clamp(6px,1.6vw,10px);color:#e8e0d5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.po-row-palpites{position:absolute;left:51.01%;width:17%;top:50%;transform:translateY(-50%);text-align:center;font-family:var(--font-title);font-size:clamp(7px,1.8vw,11px);color:var(--txt2)}
+.po-row-exatos{position:absolute;left:68.01%;width:17%;top:50%;transform:translateY(-50%);text-align:center;font-family:var(--font-title);font-size:clamp(7px,1.8vw,11px);color:var(--gold)}
+.po-row-pts{position:absolute;left:85.02%;width:11.69%;top:50%;transform:translateY(-50%);text-align:center;font-family:var(--font-title);font-size:clamp(8px,2vw,13px);color:var(--gold2);font-weight:700}
 
-/* vergonha — proporção pode ser diferente, usar padding-top trick para ser seguro */
-.verg-img-wrap{position:relative;width:100%;max-width:480px;margin:0 auto 12px;border-radius:12px;overflow:hidden;background:#0a0a0a;aspect-ratio:576/1024}
+/* vergonha — mesma proporção por ora, coordenadas idênticas */
+.verg-img-wrap{position:relative;width:100%;max-width:480px;margin:0 auto 12px;border-radius:12px;overflow:hidden;background:#0a0a0a;aspect-ratio:941/1672}
 .verg-img-wrap img.verg-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
 .verg-overlay{position:absolute;inset:0;pointer-events:none}
-/* posições vergonha — mesmas da arte do ranking por ora */
-.verg-overlay .po-1st{left:50%;top:25%;transform:translateX(-50%)}
-.verg-overlay .po-2nd{left:14%;top:40%;transform:translateX(-50%)}
-.verg-overlay .po-3rd{left:86%;top:40%;transform:translateX(-50%)}
+.verg-overlay .po-1st{left:50.16%;top:15.31%;transform:translate(-50%,-50%)}
+.verg-overlay .po-2nd{left:25.93%;top:21.05%;transform:translate(-50%,-50%)}
+.verg-overlay .po-3rd{left:75.88%;top:21.17%;transform:translate(-50%,-50%)}
+
 
 /* RANK LIST */
 .rank-list{display:flex;flex-direction:column;gap:0;margin-bottom:12px}
@@ -1138,12 +1142,12 @@ async function loadRanking(type) {
         <div class="po-row ${isMe ? 'me-row' : ''}">
           <div class="po-row-num">${pos}</div>
           <div class="po-row-av">${av}</div>
-          <div class="po-row-name" style="${isMe ? 'color:var(--red2)' : ''}">${u.displayName.split(' ')[0]}</div>
-          <div style="text-align:right;flex-shrink:0">
-            <div class="po-row-pts">${u[field] || 0}</div>
-            <div class="po-row-lbl">${label.toUpperCase()}</div>
-          </div>
+          <div class="po-row-name" style="${isMe?'color:var(--red2)':''}">${u.displayName.split(' ')[0]}</div>
+          <div class="po-row-palpites">${u.totalPalpites||0}</div>
+          <div class="po-row-exatos">${u.placareExatos||0}</div>
+          <div class="po-row-pts">${u[field]||0}</div>
         </div>`;
+    });
     });
 
     let podiumHtml = `
@@ -1231,7 +1235,7 @@ async function loadVergonha() {
   const { db, collection, query, orderBy, limit, getDocs, where } = window.FB;
 
   try {
-    // Pega quem tem >= 5 palpites, ordena por totalErros desc
+    // Pega todos, ordena por totalErros desc
     const q = query(
       collection(db, 'ranking'),
       orderBy('totalErros', 'desc'),
@@ -1240,14 +1244,11 @@ async function loadVergonha() {
     const snap = await getDocs(q);
     const users = [];
     snap.forEach(d => {
-      const data = d.data();
-      if ((data.totalPalpites || 0) >= 5) {
-        users.push({ id: d.id, ...data });
-      }
+      users.push({ id: d.id, ...d.data() });
     });
 
     if (!users.length) {
-      container.innerHTML = '<div class="loading-state">Ninguém no mural ainda — precisam ao menos 5 palpites por usuário 😅</div>';
+      container.innerHTML = '<div class="loading-state">Ninguém no mural ainda 😅</div>';
       return;
     }
 
@@ -1283,11 +1284,10 @@ async function loadVergonha() {
         <div class="po-row ${isMe ? 'me-row' : ''}">
           <div class="po-row-num" style="color:#ff7777">${pos}</div>
           <div class="po-row-av">${av}</div>
-          <div class="po-row-name" style="${isMe ? 'color:var(--red2)' : ''}">${u.displayName.split(' ')[0]}</div>
-          <div style="text-align:right;flex-shrink:0">
-            <div class="po-row-pts" style="color:#ff7777">${u.totalErros || 0}</div>
-            <div class="po-row-lbl">ERROS</div>
-          </div>
+          <div class="po-row-name" style="${isMe?'color:var(--red2)':''}">${u.displayName.split(' ')[0]}</div>
+          <div class="po-row-palpites">${u.totalPalpites||0}</div>
+          <div class="po-row-exatos" style="color:#ff7777">${u.totalErros||0}</div>
+          <div class="po-row-pts" style="color:#ff7777">${u.totalErros||0}</div>
         </div>`;
     });
 
