@@ -3697,38 +3697,46 @@ function buildWordlePreview(){
 
 /* ── Dados do usuário ── */
 async function fillHubUserData(){
-  // localStorage (preenchido pelo quiz/wordle)
-  const streak = parseInt(localStorage.getItem('quizStreak')||'0',10);
-  const el = document.getElementById('quizStreakVal');
-  if(el) el.textContent = streak;
-
-  const lvl = parseInt(localStorage.getItem('quizLevel')||'1',10);
-  const ell = document.getElementById('quizLevelVal');
-  if(ell) ell.textContent = lvl;
-
-  const xp = parseInt(localStorage.getItem('quizXP')||'0',10);
-  const xpCap = 100, pct = Math.min(100,Math.round((xp%xpCap)/xpCap*100));
-  const elxp = document.getElementById('quizXpFill');
-  const elxpl = document.getElementById('quizXpLabel');
-  if(elxp) setTimeout(()=>elxp.style.width=pct+'%',300);
-  if(elxpl) elxpl.textContent = (xp%xpCap)+' / '+xpCap+' XP';
-
+  // streak do wordle (localStorage)
   const ws = parseInt(localStorage.getItem('wordleStreak')||'0',10);
   const elws = document.getElementById('wordleStreakNum');
   if(elws) elws.textContent = ws;
 
-  // Firebase: pontos e posição reais
-  const myData = await fetchMyRankPosition();
+  // streak de quiz completados (localStorage)
+  const streak = parseInt(localStorage.getItem('quizStreak')||'0',10);
+  const elS = document.getElementById('quizStreakVal');
+  if(elS) elS.textContent = streak;
+
+  // Firebase: totalScore → nível + XP (mesma lógica da topbar)
+  const myData = await fetchMyRankPosition(); // retorna {pos, score}
+  const totalScore = myData ? myData.score : 0;
+
+  // reusar getLevelInfo que já existe na página
+  const info = getLevelInfo(totalScore);
+
+  // nível no pill
+  const elL = document.getElementById('quizLevelVal');
+  if(elL) elL.textContent = info.level;
+
+  // pontos
   const elP = document.getElementById('quizPtsVal');
+  if(elP) elP.textContent = totalScore >= 1000 ? (totalScore/1000).toFixed(1)+'k' : totalScore;
+
+  // posição no ranking
   const elR = document.getElementById('quizRankPosVal');
-  if(myData){
-    if(elP) elP.textContent = myData.score>=1000 ? (myData.score/1000).toFixed(1)+'k' : myData.score;
-    if(elR) elR.textContent = '#'+myData.pos;
-  } else {
-    const pts = parseInt(localStorage.getItem('quizPts')||'0',10);
-    if(elP) elP.textContent = pts>=1000 ? (pts/1000).toFixed(1)+'k' : pts;
-    if(elR) elR.textContent = '—';
-  }
+  if(elR) elR.textContent = myData ? '#'+myData.pos : '—';
+
+  // barra de XP — progresso dentro do nível atual (igual à topbar)
+  const xpCurr = info.xpCurr;
+  const xpNext = info.xpNext || xpCurr;
+  const xpInLevel   = totalScore - xpCurr;
+  const xpForLevel  = xpNext - xpCurr;
+  const pct = xpForLevel > 0 ? Math.min(100, Math.round(xpInLevel / xpForLevel * 100)) : 100;
+
+  const elxp = document.getElementById('quizXpFill');
+  const elxpl = document.getElementById('quizXpLabel');
+  if(elxp) setTimeout(()=>elxp.style.width = pct+'%', 300);
+  if(elxpl) elxpl.textContent = xpInLevel.toLocaleString('pt-BR') + ' / ' + xpForLevel.toLocaleString('pt-BR') + ' XP';
 }
 
 /* ── Init hub ── */
