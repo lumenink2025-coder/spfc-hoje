@@ -560,11 +560,11 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 /* Estados alternativos (enviado, resultado, fechado) */
 .palp-btn.s-sent{
-  background:linear-gradient(135deg,#1a1a1a 0%,#111 100%);
-  box-shadow:0 8px 32px rgba(255,255,255,.06),0 2px 8px rgba(0,0,0,.4);
+  background:linear-gradient(135deg,#166534 0%,#14532d 100%);
+  box-shadow:0 8px 32px rgba(34,197,94,.3),0 2px 8px rgba(0,0,0,.4);
   animation:none;
 }
-.palp-btn.s-sent:hover{box-shadow:0 14px 40px rgba(255,255,255,.1)}
+.palp-btn.s-sent:hover{box-shadow:0 14px 40px rgba(34,197,94,.45)}
 .palp-btn.s-result{
   background:linear-gradient(135deg,#92400e 0%,#78350f 100%);
   box-shadow:0 8px 32px rgba(200,168,75,.35),0 2px 8px rgba(0,0,0,.4);
@@ -1027,8 +1027,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 /* Card Wordle */
 .widget-wordle{
   border-radius:16px;overflow:hidden;position:relative;
-  border:1px solid rgba(204,0,0,.25);
-  background:linear-gradient(145deg,#0d0000 0%,#0a0a0a 100%);
+  border:1px solid rgba(200,168,75,.2);
+  background:linear-gradient(145deg,#0d0a00 0%,#0a0a0a 100%);
   cursor:pointer;min-height:160px;touch-action:pan-y;
   display:flex;flex-direction:column
 }
@@ -1036,14 +1036,14 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .ww-inner{padding:16px 14px;flex:1;display:flex;flex-direction:column;position:relative;z-index:2}
 .ww-eyebrow{
   font-family:var(--font-body);font-size:7px;font-weight:700;
-  letter-spacing:3px;color:rgba(204,0,0,.6);
+  letter-spacing:3px;color:rgba(200,168,75,.55);
   text-transform:uppercase;margin-bottom:8px
 }
 .ww-title{
   font-family:var(--font-title);font-size:22px;
   letter-spacing:1px;color:#fff;line-height:1;margin-bottom:4px
 }
-.ww-title em{color:var(--red);font-style:normal}
+.ww-title em{color:var(--gold);font-style:normal}
 .ww-grid{
   display:grid;grid-template-columns:repeat(5,1fr);gap:3px;
   margin:10px 0;max-width:100px
@@ -1057,23 +1057,23 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   color:rgba(255,255,255,.6)
 }
 .ww-cell.hit{background:var(--red);border-color:var(--red);color:#fff}
-.ww-cell.near{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35);color:#fff}
+.ww-cell.near{background:rgba(200,168,75,.3);border-color:rgba(200,168,75,.5);color:var(--gold2)}
 .ww-status{margin-top:auto}
 .ww-streak{
   display:flex;align-items:center;gap:4px;
-  font-family:var(--font-body);font-size:9px;color:rgba(255,120,120,.8);
+  font-family:var(--font-body);font-size:9px;color:rgba(255,165,60,.8);
   margin-bottom:6px
 }
-.ww-streak strong{font-family:var(--font-title);font-size:16px;color:var(--red)}
+.ww-streak strong{font-family:var(--font-title);font-size:16px;color:#ff8c32}
 .ww-play-btn{
   width:100%;padding:7px;border-radius:7px;
-  background:rgba(204,0,0,.15);border:1px solid rgba(204,0,0,.3);
+  background:rgba(200,168,75,.15);border:1px solid rgba(200,168,75,.25);
   font-family:var(--font-ui);font-size:9px;font-weight:600;
-  letter-spacing:2px;color:rgba(255,80,80,.9);text-transform:uppercase;
+  letter-spacing:2px;color:var(--gold);text-transform:uppercase;
   cursor:pointer;transition:.15s
 }
-.ww-play-btn:active{background:rgba(204,0,0,.28)}
-.ww-stripe{height:3px;background:linear-gradient(90deg,#CC0000 33.3%,#fff 33.3% 66.6%,#111 66.6%)}
+.ww-play-btn:active{background:rgba(200,168,75,.25)}
+.ww-stripe{height:3px;background:linear-gradient(90deg,var(--gold) 0%,rgba(200,168,75,.2) 100%)}
 
 /* Card Rankings */
 .widget-rank{
@@ -1146,157 +1146,60 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .hub-row-sm .wj-chip{font-size:8px;padding:2px 6px}
 .hub-row-sm .wj-loading{padding:16px 10px;font-size:9px}
 
-/* ═══════════════════════════════════════════════
-   CARD PALPITÔMETRO — ARENA PROTOCOL
-   Visual premium gamer, idêntico ao sistema
-   do palpitometro.html
-═══════════════════════════════════════════════ */
+/* Card Palpitômetro pequeno */
 .widget-palp{
   border-radius:16px;overflow:hidden;position:relative;
-  border:1px solid rgba(196,30,58,.35);
-  background:linear-gradient(145deg,#100008 0%,#0c0008 50%,#080808 100%);
-  cursor:pointer;min-height:160px;touch-action:pan-y;
-  display:flex;flex-direction:column;
-  box-shadow:0 4px 24px rgba(196,30,58,.15), inset 0 1px 0 rgba(255,255,255,.04);
-  transition:transform .18s, box-shadow .18s;
+  border:1px solid rgba(204,0,0,.2);
+  background:linear-gradient(135deg,#130000 0%,#0a0a0a 100%);
+  cursor:pointer;min-height:120px;touch-action:pan-y;
+  display:flex;flex-direction:column
 }
-.widget-palp:active{transform:scale(.97)}
-.widget-palp:hover{box-shadow:0 8px 32px rgba(196,30,58,.28)}
-
-/* Glow radial de fundo */
-.widget-palp::after{
-  content:'';position:absolute;
-  top:-20px;left:50%;transform:translateX(-50%);
-  width:120px;height:80px;
-  background:radial-gradient(ellipse,rgba(196,30,58,.22) 0%,transparent 70%);
-  pointer-events:none;z-index:0
-}
-
-/* Shimmer premium */
 .widget-palp::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.055) 50%,transparent 70%);
-  background-size:300% 100%;
-  animation:wpShimmer 3s linear infinite;
-  pointer-events:none;z-index:1
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.04) 50%,transparent 70%);
+  background-size:200% 100%;animation:wShimmer 4s linear infinite;pointer-events:none
 }
-@keyframes wpShimmer{from{background-position:300% 0}to{background-position:-300% 0}}
+@keyframes wShimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+.widget-palp:active{transform:scale(.98)}
 
-/* Linha de scan na entrada */
-.widget-palp .wp-scan{
-  position:absolute;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(196,30,58,.6),transparent);
-  top:0;z-index:2;pointer-events:none;
-  animation:wpScan 4s ease-in-out infinite;
-}
-@keyframes wpScan{
-  0%,100%{top:0%;opacity:.8}
-  50%{top:100%;opacity:0}
-}
-
-.wp-inner{
-  padding:14px 14px 12px;flex:1;
-  display:flex;flex-direction:column;
-  position:relative;z-index:3
-}
-
-/* Eyebrow com dot pulsante */
+.wp-inner{padding:16px 14px;flex:1;display:flex;flex-direction:column;position:relative;z-index:2}
 .wp-eyebrow{
-  display:flex;align-items:center;gap:5px;
   font-family:var(--font-body);font-size:7px;font-weight:700;
-  letter-spacing:3px;color:rgba(196,30,58,.7);
-  text-transform:uppercase;margin-bottom:5px
+  letter-spacing:3px;color:rgba(255,100,100,.5);
+  text-transform:uppercase;margin-bottom:6px
 }
-.wp-eyebrow::before{
-  content:'';width:4px;height:4px;border-radius:50%;
-  background:var(--red);flex-shrink:0;
-  animation:wpDot 2s ease-in-out infinite;
-}
-@keyframes wpDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
-
-/* Título grande estilo display */
 .wp-title{
-  font-family:var(--font-title);font-size:22px;
-  letter-spacing:2px;color:#fff;line-height:1;
-  text-shadow:0 0 20px rgba(196,30,58,.3)
+  font-family:var(--font-title);font-size:20px;
+  letter-spacing:2px;color:#fff;line-height:1
 }
-.wp-title em{color:#CC0000;font-style:normal}
-
-/* Stats HUD — pontos e posição */
-.wp-stats{
-  display:flex;gap:8px;margin-top:8px;margin-bottom:auto
+.wp-sub{
+  font-family:var(--font-body);font-size:9px;
+  color:rgba(255,255,255,.35);margin-top:5px;letter-spacing:.3px;
+  line-height:1.35;flex:1
 }
-.wp-stat{
-  flex:1;background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:6px;padding:5px 6px;text-align:center
-}
-.wp-stat-val{
-  font-family:var(--font-title);font-size:16px;
-  color:#fff;line-height:1;letter-spacing:.5px
-}
-.wp-stat-val.red{color:#FF4455}
-.wp-stat-val.gold{color:#D4A520}
-.wp-stat-lbl{
-  font-family:var(--font-body);font-size:7px;
-  color:rgba(255,255,255,.3);letter-spacing:1.5px;
-  text-transform:uppercase;margin-top:1px
-}
-
-/* Rodapé: ícone + CTA */
-.wp-foot{
+.wp-icon-row{
   display:flex;align-items:center;justify-content:space-between;
   margin-top:10px
 }
-.wp-cta{
-  display:flex;align-items:center;gap:5px;
-  background:rgba(196,30,58,.18);border:1px solid rgba(196,30,58,.35);
-  border-radius:6px;padding:5px 9px;
-  font-family:var(--font-ui);font-size:8px;font-weight:600;
-  letter-spacing:2px;color:rgba(255,80,90,.9);text-transform:uppercase;
-  transition:background .15s
+.wp-icon{font-size:22px}
+.wp-arrow-sm{
+  width:24px;height:24px;border-radius:50%;
+  background:rgba(204,0,0,.15);border:1px solid rgba(204,0,0,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:rgba(255,100,100,.7)
 }
-.widget-palp:hover .wp-cta{background:rgba(196,30,58,.3)}
-.wp-cta-dot{width:5px;height:5px;border-radius:50%;background:#CC0000;
-  animation:wpDot 1.4s ease-in-out infinite}
+.wp-stripe{height:2px;background:linear-gradient(90deg,#CC0000 33%,#fff 33% 66%,#111 66%)}
 
-.wp-target{font-size:20px;animation:wpFloat 3s ease-in-out infinite;
-  filter:drop-shadow(0 2px 6px rgba(196,30,58,.5))}
-@keyframes wpFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-
-/* Stripe tricolor na base */
-.wp-stripe{
-  height:3px;flex-shrink:0;
-  background:linear-gradient(90deg,#CC0000 33.3%,#fff 33.3% 66.6%,#111 66.6%);
-  position:relative;z-index:3
-}
-
-/* ── ESTADOS ── */
-/* Enviado */
-.widget-palp.s-sent{
-  background:linear-gradient(145deg,#0e0e0e 0%,#0a0a0a 100%);
-  border-color:rgba(255,255,255,.18);
-  box-shadow:0 4px 20px rgba(0,0,0,.3)
-}
-.widget-palp.s-sent::after{background:radial-gradient(ellipse,rgba(255,255,255,.06) 0%,transparent 70%)}
-.widget-palp.s-sent .wp-eyebrow{color:rgba(255,255,255,.4)}
-.widget-palp.s-sent .wp-eyebrow::before{background:rgba(255,255,255,.5)}
-.widget-palp.s-sent .wp-cta{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.6)}
-.widget-palp.s-sent .wp-cta-dot{background:rgba(255,255,255,.5)}
+/* Estado: enviado */
+.widget-palp.s-sent{background:linear-gradient(135deg,#0a1a0e 0%,#0a0a0a 100%);border-color:rgba(34,197,94,.2)}
+.widget-palp.s-sent .wp-eyebrow{color:rgba(34,197,94,.6)}
 .widget-palp.s-sent::before{display:none}
-
-/* Fechado */
-.widget-palp.s-closed{opacity:.45;cursor:not-allowed;box-shadow:none}
-.widget-palp.s-closed::before,.widget-palp.s-closed::after{display:none}
-
-/* Resultado */
-.widget-palp.s-result{
-  border-color:rgba(200,168,75,.3);
-  box-shadow:0 4px 20px rgba(200,168,75,.1);
-  animation:wResultPulse 2.5s ease-in-out infinite
-}
-.widget-palp.s-result::after{background:radial-gradient(ellipse,rgba(200,168,75,.12) 0%,transparent 70%)}
-@keyframes wResultPulse{0%,100%{box-shadow:0 4px 20px rgba(200,168,75,.1)}50%{box-shadow:0 4px 28px rgba(200,168,75,.25)}}
+/* Estado: fechado */
+.widget-palp.s-closed{opacity:.5;cursor:not-allowed}
+.widget-palp.s-closed::before{display:none}
+/* Estado: resultado */
+.widget-palp.s-result{border-color:rgba(200,168,75,.3);animation:wResultPulse 2.5s ease-in-out infinite}
+@keyframes wResultPulse{0%,100%{box-shadow:0 0 0 rgba(200,168,75,0)}50%{box-shadow:0 0 18px rgba(200,168,75,.18)}}
 
 /* Card futuro / placeholder */
 .widget-future{
@@ -1498,6 +1401,167 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .skel{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg4) 50%,var(--bg3) 75%);background-size:200%;animation:skelAnim 1.4s linear infinite;border-radius:8px}
 @keyframes skelAnim{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
+/* ═══════════════════════════════════════════════
+   MODAL SOBRE — Ficha técnica do app
+═══════════════════════════════════════════════ */
+.sobre-overlay{
+  position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  opacity:0;visibility:hidden;
+  transition:opacity .28s, visibility .28s;
+  display:flex;align-items:flex-end;justify-content:center;
+  padding-bottom:env(safe-area-inset-bottom)
+}
+.sobre-overlay.show{opacity:1;visibility:visible}
+
+.sobre-sheet{
+  width:100%;max-width:480px;
+  background:linear-gradient(180deg,#130000 0%,#0d0d0d 100%);
+  border-radius:24px 24px 0 0;
+  border-top:1px solid rgba(204,0,0,.25);
+  padding:0 0 env(safe-area-inset-bottom);
+  transform:translateY(100%);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+  max-height:90vh;overflow-y:auto;
+  box-shadow:0 -8px 40px rgba(0,0,0,.7)
+}
+.sobre-overlay.show .sobre-sheet{transform:translateY(0)}
+
+/* Handle */
+.sobre-handle{
+  width:36px;height:4px;border-radius:99px;
+  background:rgba(255,255,255,.15);
+  margin:12px auto 0;
+}
+
+/* Header */
+.sobre-header{
+  padding:20px 24px 0;
+  display:flex;align-items:center;justify-content:space-between
+}
+.sobre-logo-wrap{display:flex;align-items:center;gap:12px}
+.sobre-logo{height:36px;width:auto;opacity:.95}
+.sobre-title-block{}
+.sobre-app-name{
+  font-family:var(--font-title);font-size:22px;
+  letter-spacing:3px;color:#fff;line-height:1
+}
+.sobre-app-name em{color:var(--red);font-style:normal}
+.sobre-version{
+  font-family:var(--font-body);font-size:9px;
+  color:rgba(255,255,255,.3);letter-spacing:2px;
+  text-transform:uppercase;margin-top:2px
+}
+.sobre-close{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:rgba(255,255,255,.5);
+  cursor:pointer;flex-shrink:0;
+  transition:background .15s
+}
+.sobre-close:active{background:rgba(204,0,0,.2)}
+
+/* Stripe tricolor */
+.sobre-stripe{
+  height:2px;margin:16px 24px 0;
+  background:linear-gradient(90deg,#CC0000 33.3%,#fff 33.3% 66.6%,#222 66.6%);
+  border-radius:1px
+}
+
+/* Seções */
+.sobre-body{padding:20px 24px 32px;display:flex;flex-direction:column;gap:20px}
+
+.sobre-section{}
+.sobre-section-label{
+  font-family:var(--font-body);font-size:8px;font-weight:700;
+  letter-spacing:3px;color:rgba(204,0,0,.6);
+  text-transform:uppercase;margin-bottom:10px;
+  display:flex;align-items:center;gap:8px
+}
+.sobre-section-label::after{
+  content:'';flex:1;height:1px;background:rgba(255,255,255,.06)
+}
+
+/* Card de ficha */
+.sobre-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;overflow:hidden
+}
+.sobre-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05)
+}
+.sobre-row:last-child{border-bottom:none}
+.sobre-row-label{
+  font-family:var(--font-body);font-size:11px;
+  color:rgba(255,255,255,.4);font-weight:500
+}
+.sobre-row-val{
+  font-family:var(--font-body);font-size:11px;
+  color:rgba(255,255,255,.85);font-weight:600;
+  text-align:right;max-width:60%
+}
+.sobre-row-val.red{color:var(--red)}
+.sobre-row-val.mono{font-family:var(--font-ui);letter-spacing:1px}
+
+/* Bloco de crédito destacado */
+.sobre-credit-card{
+  background:linear-gradient(135deg,rgba(204,0,0,.08) 0%,rgba(139,0,0,.05) 100%);
+  border:1px solid rgba(204,0,0,.2);
+  border-radius:12px;padding:14px 16px;
+  display:flex;align-items:center;gap:14px
+}
+.sobre-credit-icon{
+  font-size:28px;flex-shrink:0;
+  filter:drop-shadow(0 2px 6px rgba(204,0,0,.4))
+}
+.sobre-credit-info{}
+.sobre-credit-role{
+  font-family:var(--font-body);font-size:8px;font-weight:700;
+  letter-spacing:2.5px;color:rgba(204,0,0,.6);
+  text-transform:uppercase;margin-bottom:2px
+}
+.sobre-credit-name{
+  font-family:var(--font-title);font-size:20px;
+  letter-spacing:1px;color:#fff;line-height:1
+}
+.sobre-credit-sub{
+  font-family:var(--font-body);font-size:10px;
+  color:rgba(255,255,255,.35);margin-top:3px;line-height:1.4
+}
+
+/* Curadoria */
+.sobre-curadoria{
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;padding:14px 16px;
+  display:flex;align-items:flex-start;gap:12px
+}
+.sobre-curadoria-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.sobre-curadoria-role{
+  font-family:var(--font-body);font-size:8px;font-weight:700;
+  letter-spacing:2px;color:rgba(255,255,255,.3);
+  text-transform:uppercase;margin-bottom:2px
+}
+.sobre-curadoria-name{
+  font-family:var(--font-body);font-size:13px;
+  font-weight:600;color:rgba(255,255,255,.75)
+}
+.sobre-curadoria-desc{
+  font-size:10px;color:rgba(255,255,255,.3);
+  margin-top:3px;line-height:1.5
+}
+
+/* Rodapé do modal */
+.sobre-footer{
+  padding:0 24px 8px;text-align:center;
+  font-family:var(--font-body);font-size:9px;
+  color:rgba(255,255,255,.12);letter-spacing:1.5px;
+  text-transform:uppercase;line-height:1.8
+}
 </style>
 </head>
 <body style="padding-top:calc(64px + env(safe-area-inset-top))">
@@ -1531,9 +1595,13 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <button class="tb-drawer-item" onclick="closeDrawer();showTab2('calendario')">
       <span class="tb-drawer-item-icon">📅</span>Calendário
     </button>
+    <div class="tb-drawer-sep"></div>
+    <button class="tb-drawer-item" onclick="closeDrawer();openSobre()">
+      <span class="tb-drawer-item-icon">ℹ️</span>Sobre o App
+    </button>
   </div>
   <div class="tb-drawer-footer">
-    <div class="tb-drawer-version">SPFC HOJE • v1.0</div>
+    <div class="tb-drawer-version">SPFC HOJE · v1.0 · 2025</div>
   </div>
 </nav>
 
@@ -1754,6 +1822,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           </div>
         </div>
       </div>
+            <span class="wqh-rank-pts">—</span>
+          </div>
+        </div>
+      </div>
 
       <!-- XP -->
       <div class="wqh-xp">
@@ -1818,28 +1890,13 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
       <!-- PALPITÔMETRO -->
       <div class="widget widget-palp" id="palpWrap" style="display:none" onclick="window.location.href='palpitometro.html'">
-        <div class="wp-scan"></div>
         <div class="wp-inner">
           <div class="wp-eyebrow" id="palpBtnEyebrow">SÃO PAULO FC</div>
-          <div class="wp-title" id="palpBtnLabel">PALPI<em>TÔMETRO</em></div>
-
-          <div class="wp-stats">
-            <div class="wp-stat">
-              <div class="wp-stat-val red" id="wpPts">—</div>
-              <div class="wp-stat-lbl">Pts</div>
-            </div>
-            <div class="wp-stat">
-              <div class="wp-stat-val gold" id="wpPos">—</div>
-              <div class="wp-stat-lbl">Posição</div>
-            </div>
-          </div>
-
-          <div class="wp-foot">
-            <span class="wp-target" id="palpBtnIcon">🎯</span>
-            <div class="wp-cta">
-              <div class="wp-cta-dot"></div>
-              <span id="palpBtnSub">PALPITAR</span>
-            </div>
+          <div class="wp-title" id="palpBtnLabel">PALPITÔMETRO</div>
+          <div class="wp-sub" id="palpBtnSub">Dê seu palpite e dispute o ranking</div>
+          <div class="wp-icon-row">
+            <span class="wp-icon" id="palpBtnIcon">🎯</span>
+            <div class="wp-arrow-sm">▶</div>
           </div>
         </div>
         <div class="wp-stripe"></div>
@@ -2805,42 +2862,6 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
 
   wrap.style.display = 'flex';
 
-  // Carrega pts e posição do usuário no Firebase
-  (async () => {
-    try {
-      const {db, auth} = await getHubFB();
-      const user = auth.currentUser;
-      if (!user) return;
-      const {_col:col,_query:q,_orderBy:ob,_getDocs:gd} = db;
-      const { getDoc, doc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-      const snap = await getDoc(doc(db, 'ranking', user.uid));
-      if (snap.exists()) {
-        const d = snap.data();
-        const pts = d.totalPontos || 0;
-        const elPts = document.getElementById('wpPts');
-        const elPos = document.getElementById('wpPos');
-        if (elPts) {
-          // Anima contador de 0 até o valor
-          let start = 0;
-          const duration = 900;
-          const startT = performance.now();
-          const step = (now) => {
-            const t = Math.min((now - startT) / duration, 1);
-            const e = t < .5 ? 2*t*t : -1+(4-2*t)*t;
-            elPts.textContent = Math.round(start + (pts - start) * e);
-            if (t < 1) requestAnimationFrame(step);
-          };
-          requestAnimationFrame(step);
-        }
-        // Busca posição no ranking
-        const allSnap = await gd(q(col(db,'ranking'), ob('totalPontos','desc')));
-        let pos = 1;
-        allSnap.forEach(dd => { if(dd.id !== user.uid && (dd.data().totalPontos||0) > pts) pos++; });
-        if (elPos) elPos.textContent = '#' + pos;
-      }
-    } catch(e) { console.warn('wpStats', e); }
-  })();
-
   const now = new Date();
   const hoursAfterGame = isFinished ? (now - matchDate) / 3600000 : 0;
   const within24hBefore = !isFinished && diffMs > 0 && diffMs <= 86400000;
@@ -2858,30 +2879,30 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
   if (jaPalpitou && resultPeriod) {
     wrap.classList.add('s-result');
     if(icon) icon.textContent = '⭐';
-    if(lbl)  lbl.innerHTML = 'VER <em>RESULTADO</em>';
-    if(sub)  sub.textContent = 'RESULTADO';
+    if(lbl)  lbl.textContent = 'VER RESULTADO';
+    if(sub)  sub.textContent = 'Jogo encerrado — confira seus pontos';
   } else if (jaPalpitou) {
     wrap.classList.add('s-sent');
     if(icon) icon.textContent = '✅';
-    if(lbl)  lbl.innerHTML = 'PALPI<em>TÔMETRO</em>';
-    if(sub)  sub.textContent = 'ENVIADO';
+    if(lbl)  lbl.textContent = 'PALPITE ENVIADO';
+    if(sub)  sub.textContent = 'Ver ranking e sua posição atual';
   } else if (janelaFechada) {
     wrap.classList.add('s-closed');
     if(icon) icon.textContent = '🔒';
-    if(lbl)  lbl.innerHTML = 'PALPI<em>TÔMETRO</em>';
-    if(sub)  sub.textContent = 'FECHADO';
+    if(lbl)  lbl.textContent = 'PALPITES ENCERRADOS';
+    if(sub)  sub.textContent = 'Janela fecha 1h antes do jogo';
     wrap.onclick = null;
   } else if (within24hBefore) {
     if(icon) icon.textContent = '🚨';
-    if(lbl)  lbl.innerHTML = 'PALPI<em>TÔMETRO</em>';
+    if(lbl)  lbl.textContent = 'DÁ SEU PALPITE!';
     const h = Math.floor(diffMs / 3600000);
     const m = Math.floor((diffMs % 3600000) / 60000);
-    if(sub)  sub.textContent = h > 0 ? `FECHA EM ${h}H` : `${m}MIN!`;
+    if(sub)  sub.textContent = h > 0 ? `Fecha em ${h}h ${m}min — não perca!` : `Fecha em ${m} minutos!`;
     if(eyebrow) eyebrow.textContent = '🚨 URGENTE';
   } else {
     if(icon) icon.textContent = '🎯';
-    if(lbl)  lbl.innerHTML = 'PALPI<em>TÔMETRO</em>';
-    if(sub)  sub.textContent = 'PALPITAR';
+    if(lbl)  lbl.textContent = 'PALPITÔMETRO';
+    if(sub)  sub.textContent = 'Dê seu palpite e dispute o ranking';
   }
 }
 
@@ -3576,62 +3597,33 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
   wrap.onclick = () => window.location.href = 'palpitometro.html';
   if (eyebrow) eyebrow.textContent = 'SÃO PAULO FC';
 
-  wrap.style.display = 'block';
-
-  // Carrega pts e posição do Firebase
-  (async () => {
-    try {
-      const {db, auth} = await getHubFB();
-      const user = auth.currentUser;
-      if (!user) return;
-      const {_col:col,_query:q,_orderBy:ob,_getDocs:gd} = db;
-      const { getDoc, doc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-      const snap = await getDoc(doc(db, 'ranking', user.uid));
-      if (snap.exists()) {
-        const d = snap.data();
-        const pts = d.totalPontos || 0;
-        const elPts = document.getElementById('wpPts');
-        const elPos = document.getElementById('wpPos');
-        if (elPts) {
-          let s = 0; const dur = 900; const st = performance.now();
-          const step = (now) => { const t=Math.min((now-st)/dur,1),e=t<.5?2*t*t:-1+(4-2*t)*t; elPts.textContent=Math.round(s+(pts-s)*e); if(t<1)requestAnimationFrame(step); };
-          requestAnimationFrame(step);
-        }
-        const allSnap = await gd(q(col(db,'ranking'), ob('totalPontos','desc')));
-        let pos = 1;
-        allSnap.forEach(dd => { if(dd.id!==user.uid && (dd.data().totalPontos||0)>pts) pos++; });
-        if (elPos) elPos.textContent = '#' + pos;
-      }
-    } catch(e) {}
-  })();
-
   if (jaPalpitou && resultPeriod) {
     wrap.classList.add('s-result');
     if (icon) icon.textContent = '⭐';
-    if (lbl) lbl.innerHTML = 'VER <em>RESULTADO</em>';
-    if (sub) sub.textContent = 'RESULTADO';
+    if (lbl) lbl.textContent = 'VER RESULTADO';
+    if (sub) sub.textContent = 'Jogo encerrado — confira seus pontos';
   } else if (jaPalpitou) {
     wrap.classList.add('s-sent');
     if (icon) icon.textContent = '✅';
-    if (lbl) lbl.innerHTML = 'PALPI<em>TÔMETRO</em>';
-    if (sub) sub.textContent = 'ENVIADO';
+    if (lbl) lbl.textContent = 'PALPITE ENVIADO';
+    if (sub) sub.textContent = 'Ver ranking e sua posição atual';
   } else if (janelaFechada) {
     wrap.classList.add('s-closed');
     if (icon) icon.textContent = '🔒';
-    if (lbl) lbl.innerHTML = 'PALPI<em>TÔMETRO</em>';
-    if (sub) sub.textContent = 'FECHADO';
+    if (lbl) lbl.textContent = 'PALPITES ENCERRADOS';
+    if (sub) sub.textContent = 'Janela fecha 1h antes do jogo';
     wrap.onclick = null;
   } else if (within24hBefore) {
     if (icon) icon.textContent = '🚨';
-    if (lbl) lbl.innerHTML = 'PALPI<em>TÔMETRO</em>';
+    if (lbl) lbl.textContent = 'DÁ SEU PALPITE!';
     const h = Math.floor(diffMs / 3600000);
     const mMin = Math.floor((diffMs % 3600000) / 60000);
-    if (sub) sub.textContent = h > 0 ? `FECHA EM ${h}H` : `${mMin}MIN!`;
+    if (sub) sub.textContent = h > 0 ? `Fecha em ${h}h ${mMin}min — não perca!` : `Fecha em ${mMin} minutos!`;
     if (eyebrow) eyebrow.textContent = '🚨 URGENTE';
   } else {
     if (icon) icon.textContent = '🎯';
-    if (lbl) lbl.innerHTML = 'PALPI<em>TÔMETRO</em>';
-    if (sub) sub.textContent = 'PALPITAR';
+    if (lbl) lbl.textContent = 'PALPITÔMETRO';
+    if (sub) sub.textContent = 'Dê seu palpite e dispute o ranking';
   }
 }
 
@@ -3864,7 +3856,7 @@ function startRankAutoRotate(){
 function buildWordlePreview(){
   const grid = document.getElementById('wordlePreviewGrid');
   if(!grid) return;
-  const letters = [{l:'S',c:'hit'},{l:'P',c:'near'},{l:'F',c:''},{l:'C',c:'hit'},{l:'',c:''}];
+  const letters = [{l:'S',c:'hit'},{l:'P',c:'near'},{l:'F',c:''},{l:'C',c:'hit'},{l:'?',c:''}];
   grid.innerHTML = letters.map(({l,c})=>`<div class="ww-cell ${c}">${l}</div>`).join('');
 }
 
@@ -3929,6 +3921,108 @@ setTimeout(initHub, 500);
 
 
 </script>
+<!-- ══ MODAL SOBRE ══ -->
+<div class="sobre-overlay" id="sobreOverlay" onclick="closeSobre(event)">
+  <div class="sobre-sheet" id="sobreSheet">
+    <div class="sobre-handle"></div>
+
+    <div class="sobre-header">
+      <div class="sobre-logo-wrap">
+        <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779945135/c5a68f93-009e-465c-94a8-c6a5e8e54e79_xofudf.png" alt="SPFC" class="sobre-logo">
+        <div class="sobre-title-block">
+          <div class="sobre-app-name">SPFC <em>HOJE</em></div>
+          <div class="sobre-version">Versão 1.0 · 2025</div>
+        </div>
+      </div>
+      <div class="sobre-close" onclick="closeSobreBtn()">✕</div>
+    </div>
+
+    <div class="sobre-stripe"></div>
+
+    <div class="sobre-body">
+
+      <!-- Ficha Técnica -->
+      <div class="sobre-section">
+        <div class="sobre-section-label">Ficha Técnica</div>
+        <div class="sobre-card">
+          <div class="sobre-row">
+            <span class="sobre-row-label">Aplicativo</span>
+            <span class="sobre-row-val">SPFC Hoje</span>
+          </div>
+          <div class="sobre-row">
+            <span class="sobre-row-label">Versão</span>
+            <span class="sobre-row-val mono red">v1.0</span>
+          </div>
+          <div class="sobre-row">
+            <span class="sobre-row-label">Plataforma</span>
+            <span class="sobre-row-val">PWA · Android · iOS</span>
+          </div>
+          <div class="sobre-row">
+            <span class="sobre-row-label">Lançamento</span>
+            <span class="sobre-row-val">2025</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Produzido por -->
+      <div class="sobre-section">
+        <div class="sobre-section-label">Produzido por</div>
+        <div class="sobre-credit-card">
+          <div class="sobre-credit-icon">📰</div>
+          <div class="sobre-credit-info">
+            <div class="sobre-credit-role">Produção &amp; Desenvolvimento</div>
+            <div class="sobre-credit-name">MAGAZINE TRICOLOR</div>
+            <div class="sobre-credit-sub">Conteúdo, design e tecnologia<br>para a nação tricolor</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curadoria -->
+      <div class="sobre-section">
+        <div class="sobre-section-label">Fonte de Dados</div>
+        <div class="sobre-curadoria">
+          <div class="sobre-curadoria-icon">📋</div>
+          <div>
+            <div class="sobre-curadoria-role">Calendário Histórico SPFC 2025</div>
+            <div class="sobre-curadoria-name">Michael Serra</div>
+            <div class="sobre-curadoria-desc">Base de dados históricos utilizada como<br>referência para o acervo de datas e eventos do clube</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sobre o projeto -->
+      <div class="sobre-section">
+        <div class="sobre-section-label">Sobre o Projeto</div>
+        <div class="sobre-card">
+          <div class="sobre-row" style="flex-direction:column;align-items:flex-start;gap:6px">
+            <span class="sobre-row-label">Missão</span>
+            <span class="sobre-row-val" style="max-width:100%;text-align:left;line-height:1.6;color:rgba(255,255,255,.65);font-weight:400">O SPFC Hoje é um aplicativo independente dedicado ao torcedor do São Paulo FC. Reúne história, jogos, rankings e entretenimento num único lugar — feito por torcedor, para torcedor.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sobre-footer">
+      Não oficial · Conteúdo independente · Todos os direitos do clube pertencem ao São Paulo FC
+    </div>
+  </div>
+</div>
+
+<script>
+function openSobre() {
+  document.getElementById('sobreOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeSobreBtn() {
+  document.getElementById('sobreOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+function closeSobre(e) {
+  if (e.target === document.getElementById('sobreOverlay')) closeSobreBtn();
+}
+</script>
+
 </body>
 </html>
 
