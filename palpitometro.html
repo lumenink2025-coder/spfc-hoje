@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="pt-BR">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<meta name="theme-color" content="#CC0000">
+<meta name="theme-color" content="#C41E3A">
 <title>Palpitômetro — SPFC</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <!-- ══ FIREBASE SDK ══ -->
 <script type="module">
@@ -28,7 +30,6 @@ const firebaseConfig = {
   appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
 };
 
-// Reutiliza a instância [DEFAULT] se já existe (mesma sessão de auth do main)
 const existingApp = getApps().find(a => a.name === '[DEFAULT]');
 const app = existingApp || initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -43,317 +44,1485 @@ window.FB = {
   getDocs, where, serverTimestamp, increment, updateDoc, addDoc, writeBatch
 };
 
-// Usa setTimeout para garantir que o listener inline já foi registrado
 setTimeout(() => window.dispatchEvent(new Event('firebase-ready')), 0);
 </script>
 
 <style>
-/* ── TOKENS — idênticos ao index.html ── */
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{
-  --red:#CC0000;--red2:#FF2222;--red3:#8B0000;
-  --gold:#C8A84B;--gold2:#E2C97E;
-  --bg:#0A0A0A;--bg2:#111;--bg3:#191919;--bg4:#222;
-  --border:#2a2a2a;--border2:#333;
-  --txt:#F0EBE3;--txt2:#AAA;--txt3:#666;
-  --green:#22c55e;
-  --font-title:'Bebas Neue',Impact,sans-serif;
-  --font-ui:'Oswald',sans-serif;
-  --font-body:'Inter',sans-serif;
+/* ══════════════════════════════════════════════════
+   ARENA PROTOCOL — Design System
+   São Paulo FC · Palpitômetro
+   Typography: Barlow Condensed + DM Sans
+   Palette: Carvão · Carmesim · Cobre
+══════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  margin: 0; padding: 0; box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
-html{background:var(--bg);scroll-behavior:smooth}
-body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);pointer-events:none;z-index:9999}
+
+:root {
+  /* Cores primárias */
+  --crimson:      #C41E3A;
+  --crimson-dim:  #9A1830;
+  --crimson-glow: rgba(196,30,58,.22);
+  --crimson-soft: rgba(196,30,58,.1);
+
+  /* Cobre — acento premium */
+  --copper:       #B8860B;
+  --copper-light: #D4A520;
+  --copper-pale:  rgba(184,134,11,.15);
+
+  /* Neutros — Carvão */
+  --ink:    #08080A;
+  --ink2:   #0F0F13;
+  --ink3:   #161619;
+  --ink4:   #1E1E23;
+  --ink5:   #252529;
+
+  /* Bordas */
+  --edge:   #252529;
+  --edge2:  #2E2E34;
+  --edge3:  #3A3A42;
+
+  /* Texto */
+  --txt:    #EEEAF3;
+  --txt2:   #9B97A6;
+  --txt3:   #5C5966;
+  --txt4:   #3C3945;
+
+  /* Status */
+  --green:  #22B96E;
+  --amber:  #E09B2D;
+  --rust:   #D4522A;
+
+  /* Vergonha — paleta oxidada */
+  --shame-base:  #7A3B1E;
+  --shame-glow:  rgba(122,59,30,.25);
+  --shame-text:  #D4845A;
+  --shame-light: #E8A87C;
+
+  /* Tipografia */
+  --f-display: 'Barlow Condensed', sans-serif;
+  --f-body:    'DM Sans', sans-serif;
+  --f-mono:    'DM Mono', monospace;
+
+  /* Espaçamento */
+  --sp-xs: 4px;  --sp-sm: 8px;  --sp-md: 16px;
+  --sp-lg: 24px; --sp-xl: 32px; --sp-2xl: 48px;
+
+  /* Raios */
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px;
+
+  /* Sombras */
+  --shadow-sm:  0 2px 8px rgba(0,0,0,.4);
+  --shadow-md:  0 4px 24px rgba(0,0,0,.5);
+  --shadow-lg:  0 8px 40px rgba(0,0,0,.6);
+  --shadow-red: 0 4px 24px var(--crimson-glow);
+}
+
+html {
+  background: var(--ink);
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ink);
+  color: var(--txt);
+  font-family: var(--f-body);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Textura de grain sutil — sem gritar */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: .025;
+  pointer-events: none;
+  z-index: 9999;
+}
 
 /* ── SCREENS ── */
-.screen{display:none;min-height:100vh;flex-direction:column;align-items:center}
-.screen.active{display:flex}
-/* Mostra a tela principal imediatamente enquanto auth carrega */
-#screen-main{display:flex}
+.screen { display: none; min-height: 100vh; flex-direction: column; align-items: center; }
+.screen.active { display: flex; }
+#screen-main { display: flex; }
 
-/* ── BOTÃO HERO ESTILO QUIZ ── */
-.palp-hero-btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(204,0,0,.65)}
-.palp-hero-btn:active{transform:scale(.98)}
-@keyframes phbpulse{0%,100%{box-shadow:0 8px 32px rgba(204,0,0,.45),0 2px 8px rgba(0,0,0,.4)}50%{box-shadow:0 8px 52px rgba(204,0,0,.72),0 2px 8px rgba(0,0,0,.4)}}
-.palp-hero-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.12) 50%,transparent 70%);background-size:200% 100%;animation:phbshimmer 2.4s linear infinite}
-@keyframes phbshimmer{from{background-position:200% 0}to{background-position:-200% 0}}
-.phb-left{z-index:1}
-.phb-eyebrow{font-family:var(--font-body);font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.6);text-transform:uppercase;margin-bottom:3px}
-.phb-title{font-family:var(--font-title);font-size:26px;letter-spacing:3px;color:#fff;line-height:1}
-.phb-sub{font-family:var(--font-body);font-size:10px;color:rgba(255,255,255,.65);letter-spacing:1px;margin-top:3px}
-.phb-right{display:flex;align-items:center;gap:10px;z-index:1;flex-shrink:0}
-.phb-icon{font-size:40px;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4))}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.phb-arrow{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0}
-.phb-stripe{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#CC0000 33%,#fff 33%,#fff 66%,#111 66%)}
+/* ══════════════════════════════════════════════════
+   TOPBAR
+══════════════════════════════════════════════════ */
+.topbar {
+  width: 100%;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-md);
+  background: rgba(8,8,10,.92);
+  backdrop-filter: blur(16px) saturate(1.5);
+  border-bottom: 1px solid var(--edge);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  flex-shrink: 0;
+}
 
-/* ── TOPBAR ── */
-.topbar{width:100%;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(10,10,10,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;flex-shrink:0}
-.tb-left{display:flex;align-items:center;gap:10px}
-.tb-badge{width:28px;height:28px;border-radius:50%;background:conic-gradient(#CC0000 0deg 120deg,#fff 120deg 240deg,#111 240deg 360deg);border:2px solid var(--red);box-shadow:0 0 10px rgba(204,0,0,.4);flex-shrink:0}
-.tb-name{font-family:var(--font-title);font-size:16px;letter-spacing:2px}
-.tb-name span{color:var(--red)}
-.tb-back{background:transparent;border:1px solid var(--border2);color:var(--txt2);padding:5px 12px;font-size:11px;letter-spacing:1px;cursor:pointer;border-radius:2px;font-family:var(--font-body);transition:.2s}
-.tb-back:hover{border-color:var(--red);color:var(--txt)}
-.tb-user{display:flex;align-items:center;gap:8px;cursor:pointer}
-.tb-avatar{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);object-fit:cover;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--red);font-family:var(--font-ui)}
-.tb-username{font-size:12px;color:var(--txt2);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tb-wordmark {
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--txt);
+  line-height: 1;
+}
 
-/* ── LOGIN SCREEN ── */
-.login-title em{color:var(--red);font-style:normal;display:block}
-.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:rgba(204,0,0,.25)}
-.login-divider span{color:var(--red)}
-.btn-google{background:rgba(255,255,255,.06);color:var(--txt);border-color:rgba(255,255,255,.12)}
-.btn-google:hover{background:rgba(255,255,255,.1);transform:translateY(-1px)}
-.btn-google .btn-email-create{background:var(--red);color:#fff;box-shadow:0 4px 20px rgba(204,0,0,.35)}
-.btn-email-create:hover{background:var(--red2);transform:translateY(-1px);box-shadow:0 8px 28px rgba(204,0,0,.5)}
-.btn-email-create .login-input:focus{border-color:rgba(204,0,0,.5);background:rgba(255,255,255,.06)}
-.login-input::placeholder{color:var(--txt3)}
-.login-submit:hover{background:var(--red2)}
-.login-toggle span{color:var(--gold);text-decoration:underline}
-#emailForm{display:none}
-.pts-prev-val.gold{color:var(--gold)}
+.tb-wordmark em {
+  color: var(--crimson);
+  font-style: normal;
+}
 
-/* ── MAIN SCREEN ── */
-#screen-main{align-items:stretch;padding-bottom:80px}
-.main-hero{padding:28px 16px 0;background:radial-gradient(ellipse 120% 50% at 50% 0%,rgba(204,0,0,.15) 0%,transparent 70%);position:relative}
-.main-eyebrow{font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
-.main-eyebrow::before{content:'';width:20px;height:1px;background:var(--gold)}
-.main-title{font-family:var(--font-title);font-size:clamp(44px,12vw,72px);letter-spacing:2px;line-height:.9;margin-bottom:4px}
-.main-title em{color:var(--red);font-style:normal}
-.main-sub{font-size:12px;color:var(--txt2);letter-spacing:.5px;margin-bottom:20px}
+.tb-back-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  background: transparent;
+  border: 1px solid var(--edge2);
+  color: var(--txt3);
+  padding: 5px 10px;
+  font-family: var(--f-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: var(--r-sm);
+  transition: border-color .2s, color .2s;
+}
 
-/* USER STATUS BAR */
-.user-status-bar{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:20px}
-.usb-avatar{width:36px;height:36px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);object-fit:cover;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--red);font-family:var(--font-ui);flex-shrink:0}
-.usb-info{flex:1;min-width:0}
-.usb-name{font-size:13px;font-weight:500;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.usb-pts{font-size:11px;color:var(--txt3);margin-top:1px}
-.usb-pts span{color:var(--gold);font-weight:600}
-.usb-rank{text-align:right;flex-shrink:0}
-.usb-rank-num{font-family:var(--font-title);font-size:22px;color:var(--red);line-height:1}
-.usb-rank-lbl{font-size:9px;color:var(--txt3);letter-spacing:1px}
+.tb-back-btn:hover {
+  border-color: var(--edge3);
+  color: var(--txt2);
+}
 
-/* TABS */
-.tabs{display:flex;border-bottom:1px solid var(--border);padding:0 16px;gap:0;overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex-shrink:0;padding:12px 16px;font-family:var(--font-ui);font-size:11px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);border:none;background:transparent;cursor:pointer;border-bottom:2px solid transparent;transition:.2s;white-space:nowrap}
-.tab.active{color:var(--red);border-bottom-color:var(--red)}
-.tab:hover:not(.active){color:var(--txt)}
+.tb-user-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--r-md);
+  transition: background .2s;
+}
 
-/* PANELS */
-.tab-panel{display:none;padding:0 16px}
-.tab-panel.active{display:block}
+.tb-user-btn:hover { background: var(--ink3); }
 
-/* ── PAINEL: PALPITE ── */
-.match-card{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;overflow:hidden;margin:16px 0}
-.mc-header{padding:9px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.mc-label{font-size:9px;letter-spacing:3px;color:var(--txt3);text-transform:uppercase;font-family:var(--font-ui)}
-.mc-comp{font-size:9px;letter-spacing:1px;color:var(--gold);text-transform:uppercase}
-.mc-body{padding:20px 16px}
-.mc-teams{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:20px}
-.mc-team{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1}
-.mc-logo{width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.6))}
-.mc-logo-ph{width:52px;height:52px;background:var(--bg3);border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:24px}
-.mc-tname{font-family:var(--font-ui);font-size:14px;font-weight:600;color:var(--txt);text-align:center;line-height:1.2}
-.mc-vs{font-family:var(--font-title);font-size:28px;color:var(--txt3);flex-shrink:0;text-align:center}
-.mc-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:4px}
-.mc-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:20px;font-size:10px;color:var(--txt2)}
-.mc-chip-red{border-color:rgba(204,0,0,.3);color:#ff7777;background:rgba(204,0,0,.08)}
+.tb-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--ink4);
+  border: 1.5px solid var(--edge2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display);
+  font-size: 11px; font-weight: 700;
+  color: var(--crimson);
+  overflow: hidden;
+  flex-shrink: 0;
+}
 
-/* PALPITE FORM */
-.pf-section{margin-bottom:18px}
-.pf-label{font-size:10px;letter-spacing:2.5px;color:var(--txt3);text-transform:uppercase;margin-bottom:10px;font-family:var(--font-ui)}
-.resultado-opts{display:flex;gap:8px}
-.res-opt{flex:1;padding:12px 6px;text-align:center;border:1.5px solid var(--border2);border-radius:10px;font-size:12px;color:var(--txt3);cursor:pointer;background:transparent;transition:all .18s;font-family:var(--font-body)}
-.res-opt:hover{border-color:rgba(204,0,0,.4);color:var(--txt)}
-.res-opt.sel-win{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.08);font-weight:600}
-.res-opt.sel-draw{border-color:var(--gold);color:var(--gold);background:rgba(200,168,75,.08);font-weight:600}
-.res-opt.sel-loss{border-color:var(--border2);color:var(--txt2);background:rgba(255,255,255,.04);font-weight:500}
+.tb-username {
+  font-size: 12px;
+  color: var(--txt3);
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
 
-/* PLACAR INPUT */
-.placar-input{display:flex;align-items:center;justify-content:center;gap:12px}
-.pi-team{text-align:center;flex:1}
-.pi-team-name{font-size:10px;color:var(--txt3);margin-bottom:8px;letter-spacing:1px}
-.pi-controls{display:flex;align-items:center;gap:8px;justify-content:center}
-.pi-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);color:var(--txt2);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;line-height:1;font-family:var(--font-body)}
-.pi-btn:hover{border-color:var(--red);color:var(--txt)}
-.pi-val{font-family:var(--font-title);font-size:42px;color:var(--txt);min-width:44px;text-align:center;line-height:1}
-.pi-sep{font-family:var(--font-title);font-size:28px;color:var(--txt3)}
+/* ══════════════════════════════════════════════════
+   HERO — Cabeçalho Premium
+══════════════════════════════════════════════════ */
+#screen-main {
+  align-items: stretch;
+  padding-bottom: 80px;
+}
 
-/* BONUS BOX */
-.bonus-box{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(200,168,75,.07);border:1px solid rgba(200,168,75,.22);border-radius:10px;margin-bottom:18px}
-.bonus-icon{font-size:18px;flex-shrink:0}
-.bonus-text{font-size:12px;color:var(--gold2);line-height:1.5}
-.bonus-text strong{color:var(--gold)}
+.main-hero {
+  width: 100%;
+  padding: var(--sp-lg) var(--sp-md) var(--sp-md);
+  position: relative;
+  overflow: hidden;
+}
 
-/* CONFIRM BTN */
-.btn-confirmar{width:100%;padding:16px;background:linear-gradient(135deg,var(--red) 0%,var(--red3) 100%);color:#fff;border:none;border-radius:10px;font-family:var(--font-title);font-size:22px;letter-spacing:3px;cursor:pointer;transition:.2s;box-shadow:0 4px 20px rgba(204,0,0,.35);position:relative;overflow:hidden}
-.btn-confirmar::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.1) 50%,transparent 70%);background-size:200%;animation:shimmer 2s linear infinite}
-@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
-.btn-confirmar:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(204,0,0,.5)}
-.btn-confirmar:active{transform:scale(.98)}
-.btn-confirmar:disabled{background:var(--bg3);color:var(--txt3);cursor:not-allowed;box-shadow:none;transform:none}
-.btn-confirmar:disabled::before{display:none}
+/* Linha vermelha angular no topo */
+.main-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--crimson) 0%, transparent 100%);
+}
 
-/* PALPITE JÁ ENVIADO */
-.pe-icon{font-size:36px;margin-bottom:10px}
-.pe-title{font-family:var(--font-title);font-size:24px;color:var(--green);letter-spacing:2px;margin-bottom:6px}
-.pe-detail{font-size:13px;color:var(--txt2);line-height:1.6}
-.pe-placar{font-family:var(--font-title);font-size:32px;color:var(--txt);margin:10px 0 4px}
-.pe-pts{font-size:12px;color:var(--gold);letter-spacing:1px}
+.hero-label {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  margin-bottom: var(--sp-sm);
+}
 
-/* JANELA FECHADA */
-.janela-fechada{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;margin-top:16px}
-.jf-icon{font-size:32px;margin-bottom:8px}
-.jf-title{font-family:var(--font-ui);font-size:16px;color:var(--txt2);letter-spacing:2px;margin-bottom:4px}
-.jf-sub{font-size:12px;color:var(--txt3)}
+.hero-label-text {
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--copper);
+  text-transform: uppercase;
+}
 
-/* ── PAINEL: RANKING ── */
-.rank-tabs{display:flex;gap:6px;flex-wrap:wrap;padding:16px 0 12px}
-.rank-tab{padding:6px 14px;font-family:var(--font-ui);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;border:1px solid var(--border2);background:transparent;color:var(--txt3);cursor:pointer;border-radius:2px;transition:.2s}
-.rank-tab.active{background:var(--red);border-color:var(--red);color:#fff}
-.rank-tab:hover:not(.active){border-color:rgba(204,0,0,.4);color:var(--txt)}
+.hero-label-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--crimson);
+  animation: blink 2s ease-in-out infinite;
+}
 
-/* ── PODIUM IMAGE OVERLAY ── */
-/* proporção real: 941×1672 */
-.podium-img-wrap{position:relative;width:100%;max-width:480px;margin:0 auto 4px;border-radius:12px;overflow:hidden;background:#0a0a0a;aspect-ratio:941/1672}
-.podium-img-wrap img.podium-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
-.podium-overlay{position:absolute;inset:0;pointer-events:none}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .3; }
+}
 
-/* pódio — CORRIGIDO: position:absolute puro, sem flex */
-.po-slot{position:absolute}
-.po-avatar{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.5);box-shadow:0 2px 10px rgba(0,0,0,.8);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:700;color:#fff}
-.po-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.po-name{position:absolute;top:calc(50% + 60%);left:50%;transform:translateX(-50%);font-family:var(--font-ui);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.9);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;background:rgba(0,0,0,.55);padding:2px 6px;border-radius:3px;font-size:clamp(6px,1.6vw,10px);line-height:1.2;width:max-content;max-width:120px}
-.po-pts{position:absolute;top:calc(50% + 80%);left:50%;transform:translateX(-50%);font-family:var(--font-title);color:var(--gold2);text-shadow:0 1px 4px rgba(0,0,0,.9);letter-spacing:1px;font-size:clamp(7px,1.8vw,11px)}
+.hero-title {
+  font-family: var(--f-display);
+  font-size: clamp(48px, 14vw, 80px);
+  font-weight: 900;
+  line-height: .92;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: var(--sp-xs);
+}
 
-/* pixel-perfect: 1st=(472,256)r99 | 2nd=(244,352)r90 | 3rd=(714,354)r86  img=941x1672 */
-.po-1st{left:50.16%;top:15.31%}
-.po-1st .po-avatar{width:21.04%;aspect-ratio:1;font-size:clamp(11px,3vw,16px);border-color:var(--gold);box-shadow:0 0 15px rgba(200,168,75,.4)}
-.po-2nd{left:25.93%;top:21.05%}
-.po-2nd .po-avatar{width:19.13%;aspect-ratio:1;font-size:clamp(10px,2.8vw,15px);border-color:#C0C0C0;box-shadow:0 0 12px rgba(192,192,192,.3)}
-.po-3rd{left:75.88%;top:21.17%}
-.po-3rd .po-avatar{width:18.28%;aspect-ratio:1;font-size:clamp(10px,2.8vw,15px);border-color:#CD7F32;box-shadow:0 0 12px rgba(205,127,50,.3)}
+.hero-title em {
+  color: var(--crimson);
+  font-style: normal;
+  display: block;
+}
 
-/* tabela: top=31.10% row-h=4.49% — colunas em % de 941px */
-.po-rows{position:absolute;left:0;right:0;top:31.10%;display:flex;flex-direction:column}
-.po-row{position:relative;height:4.49%;box-sizing:border-box;overflow:hidden}
-.po-row.me-row{background:rgba(204,0,0,.18)}
-.po-row-num{position:absolute;left:3.19%;width:8.50%;top:50%;transform:translateY(-50%);text-align:center;font-family:var(--font-title);font-size:clamp(8px,2vw,13px);color:var(--gold);line-height:1}
-.po-row-av{position:absolute;left:14.88%;top:50%;transform:translate(-50%,-50%);width:5.31%;aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--bg3);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-weight:700;color:#fff;font-size:clamp(5px,1.4vw,9px)}
-.po-row-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.po-row-name{position:absolute;left:22%;width:27%;top:50%;transform:translateY(-50%);font-family:var(--font-ui);font-size:clamp(6px,1.6vw,10px);color:#e8e0d5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
-.po-row-palpites{position:absolute;left:51.01%;width:17%;top:50%;transform:translateY(-50%);text-align:center;font-family:var(--font-title);font-size:clamp(7px,1.8vw,11px);color:var(--txt2)}
-.po-row-exatos{position:absolute;left:68.01%;width:17%;top:50%;transform:translateY(-50%);text-align:center;font-family:var(--font-title);font-size:clamp(7px,1.8vw,11px);color:var(--gold)}
-.po-row-pts{position:absolute;left:85.02%;width:11.69%;top:50%;transform:translateY(-50%);text-align:center;font-family:var(--font-title);font-size:clamp(8px,2vw,13px);color:var(--gold2);font-weight:700}
+.hero-sub {
+  font-size: 11px;
+  color: var(--txt3);
+  letter-spacing: 1px;
+  font-weight: 400;
+  margin-bottom: var(--sp-md);
+  text-transform: uppercase;
+}
 
-/* TABELA MURAL: header y=360 h=40 | linhas y=400 h=58 (10x)  img=576x1024 */
-.verg-overlay .po-rows{top:35.16%}
-.verg-overlay .po-row{height:5.66%}
-.verg-overlay .po-row-num{left:2.60%;width:6.94%;color:#ff7777}
-.verg-overlay .po-row-av{left:12.15%;width:8.68%}
-.verg-overlay .po-row-name{left:19.10%;width:25.00%}
-.verg-overlay .po-row-palpites{left:46.88%;width:17.36%}
-.verg-overlay .po-row-exatos{left:64.24%;width:17.36%;color:#ff7777}
-.verg-overlay .po-row-pts{left:81.60%;width:15.28%;color:#ff6666}
-.verg-img-wrap{position:relative;width:100%;max-width:480px;margin:0 auto 12px;border-radius:12px;overflow:hidden;background:#0a0a0a;aspect-ratio:576/1024}
-.verg-img-wrap img.verg-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
-.verg-overlay{position:absolute;inset:0;pointer-events:none}
-/* MURAL: Ultimo=(288,166)r64 | 2º=(134,230)r56 | 3º=(440,228)r53  img=576x1024 */
-.verg-overlay .po-1st{left:50.00%;top:16.21%}
-.verg-overlay .po-1st .po-avatar{width:22.22%;border-color:var(--gold);box-shadow:0 0 15px rgba(200,168,75,.4)}
-.verg-overlay .po-1st .po-pts{color:#ff6666}
-.verg-overlay .po-2nd{left:23.26%;top:22.46%}
-.verg-overlay .po-2nd .po-avatar{width:19.44%;border-color:#C0C0C0;box-shadow:0 0 12px rgba(192,192,192,.3)}
-.verg-overlay .po-2nd .po-pts{color:#ff6666}
-.verg-overlay .po-3rd{left:76.39%;top:22.27%}
-.verg-overlay .po-3rd .po-avatar{width:18.40%;border-color:#CD7F32;box-shadow:0 0 12px rgba(205,127,50,.3)}
-.verg-overlay .po-3rd .po-pts{color:#ff6666}
+/* ── USER STATUS BAR ── */
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  background: var(--ink3);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-lg);
+  padding: 12px var(--sp-md);
+  position: relative;
+  overflow: hidden;
+}
 
+.user-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--crimson);
+  border-radius: 3px 0 0 3px;
+}
 
-/* RANK LIST */
-.rank-list{display:flex;flex-direction:column;gap:0;margin-bottom:12px}
-.rank-row{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:0;margin-top:-1px;transition:.15s}
-.rank-row:first-child{border-radius:8px 8px 0 0}
-.rank-row:last-child{border-radius:0 0 8px 8px}
-.rank-row.me{background:rgba(204,0,0,.07);border-color:rgba(204,0,0,.25)}
-.rank-row.me .rr-name{color:var(--red);font-weight:600}
-.rr-pos{font-family:var(--font-title);font-size:18px;color:var(--txt3);width:28px;text-align:center;flex-shrink:0}
-.rr-avatar{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-family:var(--font-ui);color:var(--txt);flex-shrink:0;overflow:hidden;object-fit:cover}
-.rr-info{flex:1;min-width:0}
-.rr-name{font-size:13px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.rr-sub{font-size:10px;color:var(--txt3);margin-top:1px}
-.rr-pts{text-align:right;flex-shrink:0}
-.rr-pts-val{font-family:var(--font-title);font-size:20px;color:var(--txt)}
-.rr-pts-lbl{font-size:9px;color:var(--txt3);letter-spacing:1px}
-.rr-exact{color:var(--gold);font-size:10px}
-.rr-streak{color:var(--green);font-size:10px}
+.uc-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--ink4);
+  border: 2px solid var(--edge2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display);
+  font-size: 14px; font-weight: 700;
+  color: var(--crimson);
+  overflow: hidden;
+  flex-shrink: 0;
+}
 
-/* ── MURAL DA VERGONHA ── */
-.vergonha-header{display:flex;align-items:center;gap:10px;padding:16px 0 12px}
-.vh-icon{font-size:28px}
-.vh-title{font-family:var(--font-title);font-size:28px;color:var(--red);letter-spacing:2px;line-height:1}
-.vh-sub{font-size:11px;color:var(--txt3);margin-top:2px}
+.uc-info { flex: 1; min-width: 0; }
 
-.vergonha-crown{background:rgba(204,0,0,.08);border:1px solid rgba(204,0,0,.2);border-radius:12px;padding:16px;margin-bottom:12px;text-align:center}
-.vc-title{font-size:10px;letter-spacing:3px;color:var(--red);text-transform:uppercase;margin-bottom:8px;font-family:var(--font-ui)}
-.vc-name{font-family:var(--font-title);font-size:32px;color:var(--txt);margin-bottom:2px}
-.vc-titulo{font-size:12px;color:var(--txt2);margin-bottom:6px}
-.vc-erros{font-family:var(--font-title);font-size:48px;color:var(--red);line-height:1}
-.vc-erros-lbl{font-size:10px;color:var(--txt3);letter-spacing:2px}
-.vergonha-list{display:flex;flex-direction:column;gap:0}
-.vg-row{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--bg2);border:1px solid rgba(204,0,0,.12);margin-top:-1px}
-.vg-row:first-child{border-radius:8px 8px 0 0}
-.vg-row:last-child{border-radius:0 0 8px 8px}
-.vg-row.me{background:rgba(204,0,0,.06);border-color:rgba(204,0,0,.3)}
-.vg-pos{font-size:18px;width:28px;text-align:center;flex-shrink:0}
-.vg-avatar{width:32px;height:32px;border-radius:50%;background:rgba(204,0,0,.1);border:1px solid rgba(204,0,0,.2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-family:var(--font-ui);color:var(--red);flex-shrink:0}
-.vg-info{flex:1;min-width:0}
-.vg-name{font-size:13px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.vg-sub{font-size:10px;color:var(--txt3);margin-top:1px}
-.vg-stat{text-align:right;flex-shrink:0}
-.vg-erros{font-family:var(--font-title);font-size:20px;color:var(--red)}
-.vg-erros-lbl{font-size:9px;color:var(--txt3);letter-spacing:1px}
+.uc-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--txt);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-/* ── PAINEL: COMO FUNCIONA ── */
-.rules-section{padding:20px 0}
-.rules-title{font-family:var(--font-title);font-size:28px;color:var(--red);letter-spacing:2px;margin-bottom:16px}
-.rule-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:8px;display:flex;gap:14px;align-items:flex-start}
-.rule-icon{font-size:24px;flex-shrink:0;margin-top:2px}
-.rule-info{}
-.rule-title{font-family:var(--font-ui);font-size:15px;font-weight:600;color:var(--txt);margin-bottom:4px;letter-spacing:.5px}
-.rule-desc{font-size:12px;color:var(--txt2);line-height:1.6}
-.pts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:16px 0}
-.pts-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
-.pts-val{font-family:var(--font-title);font-size:44px;line-height:1;margin-bottom:4px}
-.pts-val-win{color:var(--green)}
-.pts-val-draw{color:var(--gold)}
-.pts-val-loss{color:var(--txt3)}
-.pts-val-bonus{color:var(--gold)}
-.pts-lbl{font-size:11px;color:var(--txt2);line-height:1.4}
-.pts-sub{font-size:10px;color:var(--txt3);margin-top:2px}
+.uc-detail {
+  font-size: 11px;
+  color: var(--txt3);
+  margin-top: 1px;
+}
 
-/* ── TOAST ── */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg3);border:1px solid var(--red);border-left-width:3px;padding:12px 18px;max-width:320px;width:calc(100% - 32px);z-index:5000;border-radius:3px;transition:.35s cubic-bezier(.34,1.56,.64,1)}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast-t{font-family:var(--font-ui);font-size:14px;font-weight:600;color:var(--txt);margin-bottom:3px}
-.toast-b{font-size:11px;color:var(--txt2)}
+.uc-detail span { color: var(--copper-light); font-weight: 600; }
+
+.uc-rank { text-align: right; flex-shrink: 0; }
+
+.uc-rank-num {
+  font-family: var(--f-display);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--crimson);
+  line-height: 1;
+}
+
+.uc-rank-lbl {
+  font-size: 9px;
+  color: var(--txt4);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+/* ══════════════════════════════════════════════════
+   TABS — Navegação
+══════════════════════════════════════════════════ */
+.tabs-wrap {
+  width: 100%;
+  border-bottom: 1px solid var(--edge);
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--ink);
+  position: sticky;
+  top: 52px;
+  z-index: 100;
+}
+
+.tabs-wrap::-webkit-scrollbar { display: none; }
+
+.tab {
+  flex-shrink: 0;
+  padding: 14px var(--sp-md);
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--txt3);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color .2s, border-color .2s;
+  white-space: nowrap;
+}
+
+.tab:hover:not(.active) { color: var(--txt2); }
+
+.tab.active {
+  color: var(--txt);
+  border-bottom-color: var(--crimson);
+}
+
+/* ── TAB PANELS ── */
+.tab-panel { display: none; width: 100%; padding: 0 var(--sp-md); }
+.tab-panel.active { display: block; }
+
+/* ══════════════════════════════════════════════════
+   PALPITE PANEL
+══════════════════════════════════════════════════ */
+.match-card {
+  background: var(--ink3);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin: var(--sp-md) 0;
+}
+
+.mc-header {
+  padding: 9px var(--sp-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--edge);
+  background: var(--ink4);
+}
+
+.mc-status {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--txt3);
+}
+
+.mc-status.live { color: var(--crimson); }
+.mc-status.done { color: var(--green); }
+
+.mc-league {
+  font-size: 10px;
+  color: var(--copper);
+  letter-spacing: 1px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.mc-body { padding: var(--sp-lg) var(--sp-md); }
+
+.mc-teams {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-sm);
+  margin-bottom: var(--sp-lg);
+}
+
+.mc-team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-sm);
+  flex: 1;
+}
+
+.mc-logo {
+  width: 56px; height: 56px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.5));
+}
+
+.mc-logo-ph {
+  width: 56px; height: 56px;
+  background: var(--ink4);
+  border-radius: 50%;
+  border: 1px solid var(--edge2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+}
+
+.mc-tname {
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--txt);
+  text-align: center;
+  letter-spacing: .5px;
+  line-height: 1.2;
+}
+
+.mc-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-xs);
+  flex-shrink: 0;
+}
+
+.mc-score {
+  font-family: var(--f-display);
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--txt);
+  line-height: 1;
+}
+
+.mc-vs {
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--txt4);
+  letter-spacing: 2px;
+}
+
+.mc-tags {
+  display: flex;
+  gap: var(--sp-xs);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mc-tag {
+  padding: 3px 8px;
+  background: var(--ink5);
+  border: 1px solid var(--edge2);
+  border-radius: 20px;
+  font-size: 10px;
+  color: var(--txt3);
+  font-weight: 500;
+}
+
+.mc-tag.highlight { border-color: var(--crimson-glow); color: #ff8a8a; }
+
+/* ── PALPITE FORM ── */
+.palpite-form { margin-bottom: var(--sp-md); }
+
+.pf-section { margin-bottom: var(--sp-lg); }
+
+.pf-label {
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: var(--txt3);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-sm);
+}
+
+/* Opções de resultado */
+.resultado-opts {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--sp-sm);
+}
+
+.res-opt {
+  padding: 12px var(--sp-xs);
+  text-align: center;
+  border: 1.5px solid var(--edge2);
+  border-radius: var(--r-md);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--txt3);
+  cursor: pointer;
+  background: transparent;
+  transition: all .18s;
+  line-height: 1.3;
+  font-family: var(--f-display);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.res-opt:hover { border-color: var(--edge3); color: var(--txt2); }
+
+.res-opt.sel-win {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(34,185,110,.08);
+}
+
+.res-opt.sel-draw {
+  border-color: var(--copper);
+  color: var(--copper-light);
+  background: var(--copper-pale);
+}
+
+.res-opt.sel-loss {
+  border-color: var(--edge3);
+  color: var(--txt2);
+  background: var(--ink4);
+}
+
+/* Placar input */
+.placar-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-md);
+}
+
+.pi-team { text-align: center; flex: 1; }
+
+.pi-team-name {
+  font-size: 9px;
+  color: var(--txt3);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: var(--sp-sm);
+  font-weight: 600;
+}
+
+.pi-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  justify-content: center;
+}
+
+.pi-btn {
+  width: 36px; height: 36px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--edge2);
+  background: var(--ink4);
+  color: var(--txt2);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .15s, background .15s;
+  line-height: 1;
+  font-family: var(--f-mono);
+}
+
+.pi-btn:hover { border-color: var(--crimson); background: var(--crimson-soft); color: var(--txt); }
+
+.pi-val {
+  font-family: var(--f-display);
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--txt);
+  min-width: 44px;
+  text-align: center;
+  line-height: 1;
+}
+
+.pi-sep {
+  font-family: var(--f-display);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--txt4);
+}
+
+/* Bonus callout */
+.bonus-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-sm);
+  padding: var(--sp-sm) var(--sp-md);
+  background: var(--copper-pale);
+  border: 1px solid rgba(184,134,11,.25);
+  border-radius: var(--r-md);
+  margin-bottom: var(--sp-md);
+}
+
+.bonus-callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+.bonus-callout-text {
+  font-size: 12px;
+  color: var(--copper-light);
+  line-height: 1.5;
+}
+
+.bonus-callout-text strong { color: var(--copper); }
+
+/* Botão confirmar */
+.btn-confirmar {
+  width: 100%;
+  padding: 15px var(--sp-md);
+  background: var(--crimson);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-md);
+  font-family: var(--f-display);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  box-shadow: var(--shadow-red);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-confirmar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.08) 50%, transparent 65%);
+  background-size: 300% 100%;
+  animation: sheen 2.5s linear infinite;
+}
+
+@keyframes sheen {
+  from { background-position: 300% 0; }
+  to   { background-position: -300% 0; }
+}
+
+.btn-confirmar:hover:not(:disabled) {
+  background: #E02040;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px var(--crimson-glow);
+}
+
+.btn-confirmar:active:not(:disabled) { transform: scale(.99); }
+
+.btn-confirmar:disabled {
+  background: var(--ink4);
+  color: var(--txt4);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-confirmar:disabled::after { display: none; }
+
+/* Palpite enviado / resultado */
+.palpite-state {
+  background: var(--ink3);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-lg);
+  padding: var(--sp-xl) var(--sp-md);
+  text-align: center;
+  margin-bottom: var(--sp-md);
+}
+
+.ps-icon { font-size: 40px; margin-bottom: var(--sp-sm); }
+
+.ps-title {
+  font-family: var(--f-display);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: var(--sp-xs);
+  text-transform: uppercase;
+}
+
+.ps-score {
+  font-family: var(--f-display);
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--txt);
+  letter-spacing: 3px;
+  margin: var(--sp-sm) 0 var(--sp-xs);
+}
+
+.ps-detail { font-size: 13px; color: var(--txt2); line-height: 1.5; }
+.ps-pts { font-size: 12px; color: var(--copper-light); letter-spacing: .5px; margin-top: var(--sp-sm); font-weight: 600; }
+
+.janela-fechada {
+  background: var(--ink3);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-lg);
+  padding: var(--sp-xl) var(--sp-md);
+  text-align: center;
+  margin-top: var(--sp-md);
+}
+
+.jf-icon { font-size: 28px; margin-bottom: var(--sp-sm); }
+.jf-title {
+  font-family: var(--f-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--txt2);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-xs);
+}
+
+.jf-sub { font-size: 12px; color: var(--txt3); }
+
+/* ══════════════════════════════════════════════════
+   RANKING — Sub-tabs
+══════════════════════════════════════════════════ */
+.rank-subtabs {
+  display: flex;
+  gap: var(--sp-xs);
+  flex-wrap: wrap;
+  padding: var(--sp-md) 0 var(--sp-sm);
+}
+
+.rank-stab {
+  padding: 5px 12px;
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: 1px solid var(--edge2);
+  background: transparent;
+  color: var(--txt3);
+  cursor: pointer;
+  border-radius: var(--r-sm);
+  transition: all .18s;
+}
+
+.rank-stab.active {
+  background: var(--crimson);
+  border-color: var(--crimson);
+  color: #fff;
+}
+
+.rank-stab:hover:not(.active) {
+  border-color: var(--edge3);
+  color: var(--txt2);
+}
+
+/* ══════════════════════════════════════════════════
+   PÓDIO — Construído inteiramente em HTML/CSS
+   Sem dependência de imagem de fundo
+══════════════════════════════════════════════════ */
+.podium-section {
+  margin: var(--sp-sm) 0 var(--sp-md);
+  position: relative;
+}
+
+/* Linha decorativa de contexto acima */
+.podium-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  margin-bottom: var(--sp-md);
+}
+
+.podium-eyebrow-line {
+  flex: 1;
+  height: 1px;
+  background: var(--edge);
+}
+
+.podium-eyebrow-text {
+  font-family: var(--f-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--txt4);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Container do pódio */
+.podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--sp-sm);
+  padding: 0 var(--sp-sm);
+}
+
+/* Cada slot do pódio */
+.podium-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  max-width: 120px;
+}
+
+/* Avatar do pódio */
+.podium-avatar-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.podium-avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--ink4);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display);
+  font-weight: 700;
+  color: var(--txt);
+  border: 3px solid var(--edge2);
+  flex-shrink: 0;
+  transition: border-color .2s;
+}
+
+/* Tamanhos por posição */
+.podium-slot.p1 .podium-avatar { width: 76px; height: 76px; font-size: 22px; }
+.podium-slot.p2 .podium-avatar { width: 64px; height: 64px; font-size: 18px; }
+.podium-slot.p3 .podium-avatar { width: 60px; height: 60px; font-size: 17px; }
+
+/* Cores dos anéis de posição */
+.podium-slot.p1 .podium-avatar { border-color: var(--copper); box-shadow: 0 0 0 2px rgba(184,134,11,.2), var(--shadow-md); }
+.podium-slot.p2 .podium-avatar { border-color: #8A9BA8; box-shadow: 0 0 0 2px rgba(138,155,168,.15), var(--shadow-md); }
+.podium-slot.p3 .podium-avatar { border-color: #8C6240; box-shadow: 0 0 0 2px rgba(140,98,64,.15), var(--shadow-md); }
+
+/* Medalha de posição */
+.podium-medal {
+  position: absolute;
+  bottom: -4px;
+  right: calc(50% - 32px);
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 900;
+  border: 2px solid var(--ink);
+  z-index: 2;
+}
+
+.podium-slot.p1 .podium-medal { background: var(--copper); color: #fff; }
+.podium-slot.p2 .podium-medal { background: #6B7B88; color: #fff; }
+.podium-slot.p3 .podium-medal { background: #6B4C2A; color: #fff; }
+
+.podium-name {
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--txt);
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.podium-name.me { color: var(--crimson); }
+
+.podium-pts {
+  font-family: var(--f-display);
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1;
+}
+
+.podium-slot.p1 .podium-pts { font-size: 22px; color: var(--copper-light); }
+.podium-slot.p2 .podium-pts { color: #8A9BA8; }
+.podium-slot.p3 .podium-pts { color: #8C6240; }
+
+.podium-pts-lbl {
+  font-size: 9px;
+  color: var(--txt4);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: -2px;
+}
+
+/* Base do pódio — barras de altura */
+.podium-base {
+  width: 100%;
+  border-radius: var(--r-sm) var(--r-sm) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.podium-slot.p1 .podium-base { height: 52px; background: linear-gradient(180deg, rgba(184,134,11,.3) 0%, rgba(184,134,11,.12) 100%); border-top: 2px solid rgba(184,134,11,.5); }
+.podium-slot.p2 .podium-base { height: 36px; background: linear-gradient(180deg, rgba(138,155,168,.2) 0%, rgba(138,155,168,.07) 100%); border-top: 2px solid rgba(138,155,168,.3); }
+.podium-slot.p3 .podium-base { height: 24px; background: linear-gradient(180deg, rgba(140,98,64,.2) 0%, rgba(140,98,64,.07) 100%); border-top: 2px solid rgba(140,98,64,.3); }
+
+/* Número posição na base */
+.podium-base-num {
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 900;
+  opacity: .3;
+}
+
+/* Linha de chão do pódio */
+.podium-floor {
+  height: 1px;
+  background: var(--edge2);
+  margin: 0 var(--sp-sm);
+}
+
+/* ══════════════════════════════════════════════════
+   RANKING TABLE — 4 ao 10+
+══════════════════════════════════════════════════ */
+.rank-table {
+  margin-top: var(--sp-md);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.rank-table-header {
+  display: grid;
+  grid-template-columns: 32px 36px 1fr 56px;
+  gap: 0;
+  padding: 8px var(--sp-md);
+  background: var(--ink4);
+  border-bottom: 1px solid var(--edge);
+}
+
+.rth-cell {
+  font-family: var(--f-display);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--txt4);
+  text-transform: uppercase;
+}
+
+.rth-cell.right { text-align: right; }
+
+.rank-row {
+  display: grid;
+  grid-template-columns: 32px 36px 1fr 56px;
+  align-items: center;
+  gap: 0;
+  padding: 10px var(--sp-md);
+  background: var(--ink3);
+  border-bottom: 1px solid var(--edge);
+  transition: background .15s;
+}
+
+.rank-row:last-child { border-bottom: none; }
+.rank-row:hover { background: var(--ink4); }
+.rank-row.me { background: rgba(196,30,58,.06); }
+.rank-row.me:hover { background: rgba(196,30,58,.1); }
+
+.rr-pos {
+  font-family: var(--f-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--txt4);
+  text-align: center;
+}
+
+.rr-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--ink4);
+  border: 1.5px solid var(--edge2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--f-display);
+  color: var(--txt2);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.rr-info { padding: 0 var(--sp-sm); min-width: 0; }
+
+.rr-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--txt);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rr-name.me { color: var(--crimson); }
+
+.rr-sub {
+  font-size: 10px;
+  color: var(--txt3);
+  margin-top: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rr-pts { text-align: right; }
+
+.rr-pts-val {
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--txt);
+  line-height: 1;
+}
+
+.rr-pts-lbl {
+  font-size: 8px;
+  color: var(--txt4);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+/* ══════════════════════════════════════════════════
+   MURAL DA VERGONHA — Sala de Troféus Invertida
+   Paleta: âmbar oxidado / enferrujado
+   Conceito: "você ganhou um prêmio que não queria"
+══════════════════════════════════════════════════ */
+.vergonha-banner {
+  margin: var(--sp-md) 0 var(--sp-sm);
+  background: linear-gradient(135deg, rgba(122,59,30,.2) 0%, rgba(80,30,10,.1) 100%);
+  border: 1px solid rgba(122,59,30,.4);
+  border-radius: var(--r-lg);
+  padding: var(--sp-md);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Marca d'água sutil */
+.vergonha-banner::before {
+  content: '💀';
+  position: absolute;
+  right: -8px; top: -8px;
+  font-size: 80px;
+  opacity: .06;
+  pointer-events: none;
+}
+
+.vb-eyebrow {
+  font-family: var(--f-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--shame-text);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-xs);
+}
+
+.vb-title {
+  font-family: var(--f-display);
+  font-size: clamp(28px, 9vw, 40px);
+  font-weight: 900;
+  color: var(--shame-light);
+  letter-spacing: 1px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.vb-sub {
+  font-size: 11px;
+  color: var(--shame-text);
+  margin-top: var(--sp-xs);
+  opacity: .8;
+}
+
+/* Pódio da Vergonha */
+.shame-podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--sp-sm);
+  padding: 0 var(--sp-sm);
+  margin: var(--sp-md) 0;
+}
+
+.shame-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  max-width: 120px;
+}
+
+.shame-avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--ink4);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display);
+  font-weight: 700;
+  color: var(--shame-text);
+}
+
+.shame-slot.sp1 .shame-avatar { width: 76px; height: 76px; font-size: 22px; border: 3px solid var(--shame-base); box-shadow: 0 0 0 2px rgba(122,59,30,.25), var(--shadow-md); }
+.shame-slot.sp2 .shame-avatar { width: 64px; height: 64px; font-size: 18px; border: 3px solid #5C3820; }
+.shame-slot.sp3 .shame-avatar { width: 60px; height: 60px; font-size: 17px; border: 3px solid #4A2E16; }
+
+.shame-name {
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--shame-light);
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.shame-stat {
+  font-family: var(--f-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--shame-text);
+  text-align: center;
+  line-height: 1;
+}
+
+.shame-slot.sp1 .shame-stat { font-size: 22px; color: #E8704A; }
+
+.shame-stat-lbl {
+  font-size: 9px;
+  color: var(--txt4);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: -2px;
+}
+
+/* Bases da vergonha */
+.shame-base {
+  width: 100%;
+  border-radius: var(--r-sm) var(--r-sm) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shame-slot.sp1 .shame-base { height: 52px; background: linear-gradient(180deg, rgba(122,59,30,.35) 0%, rgba(122,59,30,.1) 100%); border-top: 2px solid rgba(122,59,30,.6); }
+.shame-slot.sp2 .shame-base { height: 36px; background: linear-gradient(180deg, rgba(92,56,32,.25) 0%, rgba(92,56,32,.08) 100%); border-top: 2px solid rgba(92,56,32,.4); }
+.shame-slot.sp3 .shame-base { height: 24px; background: linear-gradient(180deg, rgba(74,46,22,.25) 0%, rgba(74,46,22,.08) 100%); border-top: 2px solid rgba(74,46,22,.4); }
+
+/* Título do vencedor da vergonha */
+.shame-champion-card {
+  background: rgba(122,59,30,.12);
+  border: 1px solid rgba(122,59,30,.3);
+  border-radius: var(--r-md);
+  padding: var(--sp-sm) var(--sp-md);
+  margin-bottom: var(--sp-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-sm);
+}
+
+.scc-label {
+  font-size: 9px;
+  color: var(--shame-text);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.scc-titulo {
+  font-family: var(--f-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--shame-light);
+  letter-spacing: .5px;
+}
+
+.scc-erros {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.scc-erros-val {
+  font-family: var(--f-display);
+  font-size: 32px;
+  font-weight: 900;
+  color: #E8704A;
+  line-height: 1;
+}
+
+.scc-erros-lbl {
+  font-size: 9px;
+  color: var(--txt4);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* Tabela da Vergonha */
+.shame-table {
+  border: 1px solid rgba(122,59,30,.25);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin-bottom: var(--sp-md);
+}
+
+.shame-row {
+  display: grid;
+  grid-template-columns: 32px 36px 1fr 56px;
+  align-items: center;
+  gap: 0;
+  padding: 10px var(--sp-md);
+  background: rgba(122,59,30,.06);
+  border-bottom: 1px solid rgba(122,59,30,.12);
+  transition: background .15s;
+}
+
+.shame-row:last-child { border-bottom: none; }
+.shame-row:hover { background: rgba(122,59,30,.12); }
+.shame-row.me { background: rgba(196,30,58,.06); }
+
+.sr-pos {
+  font-size: 16px;
+  text-align: center;
+  color: var(--shame-text);
+  font-family: var(--f-display);
+  font-weight: 700;
+}
+
+.sr-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(122,59,30,.2);
+  border: 1.5px solid rgba(122,59,30,.35);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--f-display);
+  color: var(--shame-text);
+  overflow: hidden;
+}
+
+.sr-info { padding: 0 var(--sp-sm); min-width: 0; }
+.sr-name { font-size: 13px; font-weight: 600; color: var(--shame-light); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sr-name.me { color: var(--crimson); }
+.sr-sub { font-size: 10px; color: var(--txt3); margin-top: 1px; }
+
+.sr-stat { text-align: right; }
+.sr-val { font-family: var(--f-display); font-size: 20px; font-weight: 800; color: var(--shame-text); line-height: 1; }
+.sr-lbl { font-size: 8px; color: var(--txt4); letter-spacing: 1px; text-transform: uppercase; }
+
+/* ══════════════════════════════════════════════════
+   REGRAS
+══════════════════════════════════════════════════ */
+.rules-wrap { padding: var(--sp-md) 0; }
+
+.section-title {
+  font-family: var(--f-display);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--crimson);
+  text-transform: uppercase;
+  margin-bottom: var(--sp-md);
+}
+
+.pts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-sm);
+  margin-bottom: var(--sp-md);
+}
+
+.pts-card {
+  background: var(--ink3);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-md);
+  padding: var(--sp-md) var(--sp-sm);
+  text-align: center;
+}
+
+.pts-card-val {
+  font-family: var(--f-display);
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.pts-card-val.win { color: var(--green); }
+.pts-card-val.draw { color: var(--copper-light); }
+.pts-card-val.lose { color: var(--txt3); }
+.pts-card-val.bonus { color: var(--copper-light); }
+
+.pts-card-lbl { font-size: 11px; color: var(--txt2); line-height: 1.4; }
+.pts-card-sub { font-size: 10px; color: var(--txt3); margin-top: 2px; }
+
+.rule-item {
+  display: flex;
+  gap: var(--sp-md);
+  align-items: flex-start;
+  background: var(--ink3);
+  border: 1px solid var(--edge);
+  border-radius: var(--r-md);
+  padding: var(--sp-md);
+  margin-bottom: var(--sp-sm);
+}
+
+.ri-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+.ri-title { font-family: var(--f-display); font-size: 15px; font-weight: 700; color: var(--txt); margin-bottom: 4px; letter-spacing: .5px; }
+.ri-desc { font-size: 12px; color: var(--txt2); line-height: 1.6; }
+
+/* ══════════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════════ */
+.toast {
+  position: fixed;
+  bottom: var(--sp-lg);
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--ink3);
+  border: 1px solid var(--edge2);
+  border-left: 3px solid var(--crimson);
+  padding: var(--sp-sm) var(--sp-md);
+  max-width: 320px;
+  width: calc(100% - 32px);
+  z-index: 5000;
+  border-radius: var(--r-sm);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: var(--shadow-lg);
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast-title { font-family: var(--f-display); font-size: 14px; font-weight: 700; color: var(--txt); margin-bottom: 2px; letter-spacing: .5px; }
+.toast-body { font-size: 11px; color: var(--txt2); }
 
 /* ── LOADING ── */
-.loading-state{text-align:center;padding:40px 20px;font-size:12px;color:var(--txt3);letter-spacing:2px}
-.loading-spinner{display:inline-block;width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
-@keyframes spin{to{transform:rotate(360deg)}}
+.loading-state {
+  text-align: center;
+  padding: 40px var(--sp-md);
+  font-family: var(--f-display);
+  font-size: 12px;
+  color: var(--txt3);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
 
-/* ── ANIMATIONS ── */
-.fade-in{animation:fadein .4s ease both}
-@keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.pulse-red{animation:predglow 1.4s ease-in-out infinite}
-@keyframes predglow{0%,100%{box-shadow:0 0 0 0 rgba(204,0,0,.5)}50%{box-shadow:0 0 0 8px rgba(204,0,0,0)}}
+.loading-spinner {
+  display: inline-block;
+  width: 22px; height: 22px;
+  border: 2px solid var(--edge2);
+  border-top-color: var(--crimson);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  margin-bottom: var(--sp-sm);
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── ANIMAÇÕES ── */
+.fade-in { animation: fadeIn .4s ease both; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Entrada escalonada para itens da lista */
+.rank-row:nth-child(1), .shame-row:nth-child(1) { animation: fadeIn .3s .05s both; }
+.rank-row:nth-child(2), .shame-row:nth-child(2) { animation: fadeIn .3s .10s both; }
+.rank-row:nth-child(3), .shame-row:nth-child(3) { animation: fadeIn .3s .15s both; }
+.rank-row:nth-child(4), .shame-row:nth-child(4) { animation: fadeIn .3s .20s both; }
+.rank-row:nth-child(5), .shame-row:nth-child(5) { animation: fadeIn .3s .25s both; }
+.rank-row:nth-child(6), .shame-row:nth-child(6) { animation: fadeIn .3s .30s both; }
+.rank-row:nth-child(7), .shame-row:nth-child(7) { animation: fadeIn .3s .35s both; }
+
+/* ── DIVISOR ── */
+.section-divider {
+  height: 1px;
+  background: var(--edge);
+  margin: var(--sp-md) 0;
+}
+
+/* ── FOOTER CARD ── */
+.my-position-card {
+  margin-top: var(--sp-sm);
+  background: rgba(196,30,58,.06);
+  border: 1px solid rgba(196,30,58,.2);
+  border-radius: var(--r-md);
+  padding: var(--sp-sm) var(--sp-md);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+
+.mpc-label {
+  font-size: 10px;
+  color: var(--crimson);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: var(--f-display);
+  flex-shrink: 0;
+}
+
+.mpc-info { flex: 1; min-width: 0; }
+.mpc-name { font-size: 13px; font-weight: 600; color: var(--txt); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mpc-val { font-family: var(--f-display); font-size: 22px; font-weight: 800; color: var(--crimson); flex-shrink: 0; }
 
 /* ── RESPONSIVE ── */
-@media(min-width:480px){
-  .main-hero,.tabs,.tab-panel,.rank-tabs{padding-left:24px;padding-right:24px}
+@media (min-width: 480px) {
+  .tabs-wrap, .tab-panel, .rank-subtabs { padding-left: var(--sp-lg); padding-right: var(--sp-lg); }
+  .tab-panel { padding: 0 var(--sp-lg); }
+  .main-hero { padding: var(--sp-xl) var(--sp-lg) var(--sp-md); }
 }
 </style>
 </head>
@@ -361,8 +1530,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 <!-- TOAST -->
 <div class="toast" id="toast">
-  <div class="toast-t" id="toastT"></div>
-  <div class="toast-b" id="toastB"></div>
+  <div class="toast-title" id="toastT"></div>
+  <div class="toast-body" id="toastB"></div>
 </div>
 
 <!-- ══════════════════════════════════════
@@ -372,10 +1541,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
   <!-- TOPBAR -->
   <div class="topbar">
-    <div class="tb-left">
-      <button class="tb-back" onclick="window.location.href=&#39;index.html&#39;">← VOLTAR</button>
-    </div>
-    <div class="tb-user" onclick="handleLogout()">
+    <button class="tb-back-btn" onclick="window.location.href='index.html'">← Voltar</button>
+    <div class="tb-wordmark">PALPI<em>TÔMETRO</em></div>
+    <div class="tb-user-btn" onclick="handleLogout()">
       <div class="tb-avatar" id="tbAvatar">?</div>
       <div class="tb-username" id="tbUsername">sair</div>
     </div>
@@ -383,47 +1551,52 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
   <!-- HERO + USER STATUS -->
   <div class="main-hero" style="width:100%">
-    <div class="main-eyebrow">SPFC</div>
-    <div class="main-title">PALPI<em>TÔMETRO</em></div>
-    <div class="main-sub">Competição entre torcedores — temporada 2025</div>
+    <div class="hero-label">
+      <div class="hero-label-dot"></div>
+      <span class="hero-label-text">São Paulo FC · Temporada 2025</span>
+    </div>
+    <div class="hero-title">PALPI<em>TÔMETRO</em></div>
+    <div class="hero-sub">Competição de palpites entre torcedores</div>
 
-    <div class="user-status-bar" id="userStatusBar">
-      <div class="usb-avatar" id="usbAvatar">?</div>
-      <div class="usb-info">
-        <div class="usb-name" id="usbName">—</div>
-        <div class="usb-pts">Total: <span id="usbPts">0</span> pts &nbsp;·&nbsp; Acertos: <span id="usbAcertos">0</span></div>
+    <div class="user-card" id="userStatusBar">
+      <div class="uc-avatar" id="usbAvatar">?</div>
+      <div class="uc-info">
+        <div class="uc-name" id="usbName">—</div>
+        <div class="uc-detail">
+          <span id="usbPts">0</span> pts · <span id="usbAcertos">0</span> acertos
+        </div>
       </div>
-      <div class="usb-rank">
-        <div class="usb-rank-num" id="usbRank">#—</div>
-        <div class="usb-rank-lbl">POSIÇÃO</div>
+      <div class="uc-rank">
+        <div class="uc-rank-num" id="usbRank">#—</div>
+        <div class="uc-rank-lbl">Posição</div>
       </div>
     </div>
   </div>
 
   <!-- TABS -->
-  <div class="tabs" style="width:100%">
-    <button class="tab active" onclick="switchTab(&#39;palpite&#39;,this)">PALPITE</button>
-    <button class="tab" onclick="switchTab(&#39;ranking&#39;,this)">RANKING</button>
-    <button class="tab" onclick="switchTab(&#39;vergonha&#39;,this)">💀 MURAL</button>
-    <button class="tab" onclick="switchTab(&#39;regras&#39;,this)">REGRAS</button>
+  <div class="tabs-wrap">
+    <button class="tab active" onclick="switchTab('palpite',this)">Palpite</button>
+    <button class="tab" onclick="switchTab('ranking',this)">Ranking</button>
+    <button class="tab" onclick="switchTab('vergonha',this)">💀 Mural</button>
+    <button class="tab" onclick="switchTab('regras',this)">Regras</button>
   </div>
 
   <!-- ══ PANEL: PALPITE ══ -->
   <div class="tab-panel active" id="panel-palpite" style="width:100%">
-
     <div id="matchArea">
-      <div class="loading-state"><div class="loading-spinner"></div><br>Buscando próximo jogo...</div>
+      <div class="loading-state">
+        <div class="loading-spinner"></div><br>Buscando próximo jogo...
+      </div>
     </div>
-
   </div>
 
   <!-- ══ PANEL: RANKING ══ -->
   <div class="tab-panel" id="panel-ranking" style="width:100%">
-    <div class="rank-tabs">
-      <button class="rank-tab active" onclick="switchRankTab(&#39;geral&#39;,this)">GERAL</button>
-      <button class="rank-tab" onclick="switchRankTab(&#39;acertos&#39;,this)">MAIS ACERTOS</button>
-      <button class="rank-tab" onclick="switchRankTab(&#39;exato&#39;,this)">PLACAR EXATO</button>
-      <button class="rank-tab" onclick="switchRankTab(&#39;mes&#39;,this)">ESTE MÊS</button>
+    <div class="rank-subtabs">
+      <button class="rank-stab active" onclick="switchRankTab('geral',this)">Geral</button>
+      <button class="rank-stab" onclick="switchRankTab('acertos',this)">Acertos</button>
+      <button class="rank-stab" onclick="switchRankTab('exato',this)">Exato</button>
+      <button class="rank-stab" onclick="switchRankTab('mes',this)">Este Mês</button>
     </div>
     <div id="rankingContent">
       <div class="loading-state"><div class="loading-spinner"></div></div>
@@ -432,13 +1605,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
   <!-- ══ PANEL: VERGONHA ══ -->
   <div class="tab-panel" id="panel-vergonha" style="width:100%">
-    <div class="vergonha-header">
-      <span class="vh-icon">💀</span>
-      <div>
-        <div class="vh-title">MURAL DA VERGONHA</div>
-        <div class="vh-sub">Quem mais errou os palpites — temporada 2025</div>
-      </div>
-    </div>
     <div id="vergonhaContent">
       <div class="loading-state"><div class="loading-spinner"></div></div>
     </div>
@@ -446,69 +1612,70 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
   <!-- ══ PANEL: REGRAS ══ -->
   <div class="tab-panel" id="panel-regras" style="width:100%">
-    <div class="rules-section">
-      <div class="rules-title">COMO FUNCIONA</div>
+    <div class="rules-wrap">
+      <div class="section-title">Como Funciona</div>
 
       <div class="pts-grid">
         <div class="pts-card">
-          <div class="pts-val pts-val-win">10</div>
-          <div class="pts-lbl">Acertou a vitória do SPFC</div>
+          <div class="pts-card-val win">10</div>
+          <div class="pts-card-lbl">Acertou a vitória do SPFC</div>
         </div>
         <div class="pts-card">
-          <div class="pts-val pts-val-draw">5</div>
-          <div class="pts-lbl">Acertou o empate</div>
+          <div class="pts-card-val draw">5</div>
+          <div class="pts-card-lbl">Acertou o empate</div>
         </div>
         <div class="pts-card">
-          <div class="pts-val pts-val-loss">0</div>
-          <div class="pts-lbl">Errou o resultado ou acertou derrota</div>
+          <div class="pts-card-val lose">0</div>
+          <div class="pts-card-lbl">Errou o resultado</div>
         </div>
-        <div class="pts-card" style="border-color:rgba(200,168,75,.3)">
-          <div class="pts-val pts-val-bonus">+50</div>
-          <div class="pts-lbl">Bônus: acertou o placar exato</div>
-          <div class="pts-sub">Ex: SPFC 2×1 — você disse 2×1</div>
+        <div class="pts-card" style="border-color:rgba(184,134,11,.3)">
+          <div class="pts-card-val bonus">+50</div>
+          <div class="pts-card-lbl">Bônus: placar exato</div>
+          <div class="pts-card-sub">Ex: SPFC 2×1 → você disse 2×1</div>
         </div>
       </div>
 
-      <div class="rule-card">
-        <div class="rule-icon">⏰</div>
-        <div class="rule-info">
-          <div class="rule-title">Janela de palpites</div>
-          <div class="rule-desc">Palpites abertos até <strong style="color:var(--txt)">1 hora antes</strong> do jogo. Após isso, a janela trava automaticamente. Sem cancelamento depois de enviado.</div>
+      <div class="rule-item">
+        <div class="ri-icon">⏰</div>
+        <div>
+          <div class="ri-title">Janela de palpites</div>
+          <div class="ri-desc">Palpites abertos até <strong style="color:var(--txt)">1 hora antes</strong> do jogo. Após isso, a janela trava automaticamente. Sem cancelamento depois de enviado.</div>
         </div>
       </div>
-      <div class="rule-card">
-        <div class="rule-icon">📊</div>
-        <div class="rule-info">
-          <div class="rule-title">Quatro rankings</div>
-          <div class="rule-desc"><strong style="color:var(--txt)">Geral</strong> — pontos totais da temporada.<br><strong style="color:var(--txt)">Mais acertos</strong> — % de resultados certos.<br><strong style="color:var(--txt)">Placar exato</strong> — quem mais acertou o placar.<br><strong style="color:var(--txt)">Este mês</strong> — zera todo dia 1.</div>
+      <div class="rule-item">
+        <div class="ri-icon">📊</div>
+        <div>
+          <div class="ri-title">Quatro rankings</div>
+          <div class="ri-desc"><strong style="color:var(--txt)">Geral</strong> — pontos totais.<br><strong style="color:var(--txt)">Mais acertos</strong> — % de resultados certos.<br><strong style="color:var(--txt)">Placar exato</strong> — quem mais acertou o placar.<br><strong style="color:var(--txt)">Este mês</strong> — zera todo dia 1.</div>
         </div>
       </div>
-      <div class="rule-card">
-        <div class="rule-icon">💀</div>
-        <div class="rule-info">
-          <div class="rule-title">Mural da Vergonha</div>
-          <div class="rule-desc">O ranking de quem mais errou. Para aparecer no mural é preciso ter pelo menos <strong style="color:var(--txt)">5 palpites</strong> enviados na temporada.</div>
+      <div class="rule-item">
+        <div class="ri-icon">💀</div>
+        <div>
+          <div class="ri-title">Mural da Vergonha</div>
+          <div class="ri-desc">O ranking de quem mais errou. Para aparecer é preciso ter pelo menos <strong style="color:var(--txt)">5 palpites</strong> na temporada.</div>
         </div>
       </div>
-      <div class="rule-card">
-        <div class="rule-icon">🔔</div>
-        <div class="rule-info">
-          <div class="rule-title">Notificações</div>
-          <div class="rule-desc">Você receberá avisos <strong style="color:var(--txt)">24h antes</strong> do jogo, <strong style="color:var(--txt)">1h antes</strong> do fechamento e o <strong style="color:var(--txt)">resultado do seu palpite</strong> assim que o jogo terminar.</div>
+      <div class="rule-item">
+        <div class="ri-icon">🔔</div>
+        <div>
+          <div class="ri-title">Notificações</div>
+          <div class="ri-desc">Avisos <strong style="color:var(--txt)">24h antes</strong> do jogo, <strong style="color:var(--txt)">1h antes</strong> do fechamento e o <strong style="color:var(--txt)">resultado</strong> assim que o jogo terminar.</div>
         </div>
       </div>
     </div>
   </div>
 
-</div>
+</div><!-- /screen-main -->
 
 <script>
 'use strict';
 
-/* ════════════════════════════════════════
+/* ════════════════════════════════════════════
    ESTADO GLOBAL
-════════════════════════════════════════ */
+════════════════════════════════════════════ */
 const SPFC_ID = 134291;
+
 const TITULOS_VERGONHA = [
   'Oráculo às Avessas',
   'Mestre do Chute',
@@ -519,14 +1686,16 @@ const TITULOS_VERGONHA = [
   'Palpiteiro Profissional do Errado'
 ];
 
-let currentUser = null;
-let matchData = null;
-let userPalpite = null;
+let currentUser    = null;
+let matchData      = null;
+let userPalpite    = null;
 let currentRankTab = 'geral';
+let selectedRes    = null;
+let golSpfc = 0, golOpp = 0;
 
-/* ════════════════════════════════════════
+/* ════════════════════════════════════════════
    UTILS
-════════════════════════════════════════ */
+════════════════════════════════════════════ */
 function toast(title, body, dur = 3500) {
   document.getElementById('toastT').textContent = title;
   document.getElementById('toastB').textContent = body;
@@ -545,6 +1714,16 @@ function getWeekTitulo() {
   return TITULOS_VERGONHA[week % TITULOS_VERGONHA.length];
 }
 
+function makeAvatarImg(photoURL, displayName, size, extraStyle) {
+  if (photoURL) {
+    return `<img src="${photoURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.parentElement.textContent='${initials(displayName)}'">`;
+  }
+  return initials(displayName);
+}
+
+/* ════════════════════════════════════════════
+   NAVEGAÇÃO
+════════════════════════════════════════════ */
 function switchTab(id, btn) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -556,47 +1735,39 @@ function switchTab(id, btn) {
 
 function switchRankTab(type, btn) {
   currentRankTab = type;
-  document.querySelectorAll('.rank-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.rank-stab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   loadRanking(type);
 }
 
-/* ════════════════════════════════════════
-   AUTH
-════════════════════════════════════════ */
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
+/* ════════════════════════════════════════════
+   AUTH
+════════════════════════════════════════════ */
 function irParaCadastro() {
   sessionStorage.setItem('_cadOrigem', 'palpitometro.html');
   window.location.href = 'cadastro.html';
 }
 
-function toggleEmailForm() {} // mantido para não quebrar refs antigas
-
-async function loginGoogle() { irParaCadastro(); }
-async function loginEmail()  { irParaCadastro(); }
-
 async function handleLogout() {
   if (!confirm('Sair do Palpitômetro?')) return;
   await window.FB.auth.signOut();
-  // onAuthStateChanged detecta o logout e redireciona para cadastro automaticamente
 }
 
-/* ════════════════════════════════════════
-   USER DOC — lê de 'usuarios' (padrão unificado) com fallback para 'ranking'
-════════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   USER DOC
+════════════════════════════════════════════ */
 async function ensureUserDoc(user) {
   const { db, doc, getDoc, setDoc, serverTimestamp } = window.FB;
 
-  // Tenta ler perfil unificado primeiro
   const usuarioSnap = await getDoc(doc(db, 'users', user.uid)).catch(() => null);
   const rankingRef  = doc(db, 'ranking', user.uid);
   const rankSnap    = await getDoc(rankingRef).catch(() => null);
 
-  // Nome e avatar: prioridade → usuarios > ranking > displayName do auth
   const displayName = usuarioSnap?.data()?.displayName
     || rankSnap?.data()?.displayName
     || user.displayName
@@ -609,7 +1780,6 @@ async function ensureUserDoc(user) {
     || '';
 
   if (!rankSnap?.exists()) {
-    // Cria doc no ranking se não existe
     await setDoc(rankingRef, {
       displayName, photoURL: avatarUrl,
       totalPontos: 0, totalAcertos: 0, totalErros: 0,
@@ -619,7 +1789,6 @@ async function ensureUserDoc(user) {
     return { displayName, photoURL: avatarUrl, totalPontos: 0, totalAcertos: 0, totalErros: 0, totalPalpites: 0, placareExatos: 0, pontosMes: 0 };
   }
 
-  // Sincroniza nome/avatar do usuarios → ranking se divergirem
   if (usuarioSnap?.exists()) {
     const rData = rankSnap.data();
     if (rData.displayName !== displayName || rData.photoURL !== avatarUrl) {
@@ -632,30 +1801,31 @@ async function ensureUserDoc(user) {
 
 async function loadUserStats() {
   const { db, doc, getDoc } = window.FB;
-  const ref = doc(db, 'ranking', currentUser.uid);
+  const ref  = doc(db, 'ranking', currentUser.uid);
   const snap = await getDoc(ref);
   if (!snap.exists()) return;
   const data = snap.data();
 
-  document.getElementById('usbName').textContent = data.displayName || currentUser.displayName || '—';
-  document.getElementById('usbPts').textContent = data.totalPontos || 0;
+  const name = data.displayName || currentUser.displayName || '—';
+  document.getElementById('usbName').textContent = name;
+  document.getElementById('usbPts').textContent  = data.totalPontos || 0;
   document.getElementById('usbAcertos').textContent = data.totalAcertos || 0;
 
-  const av = document.getElementById('usbAvatar');
-  const tbAv = document.getElementById('tbAvatar');
-  const name = data.displayName || '?';
-  if (data.photoURL) {
-    av.innerHTML = `<img src="${data.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover" onerror="this.parentElement.textContent='${initials(name)}'">`;
-    tbAv.innerHTML = `<img src="${data.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover" onerror="this.parentElement.textContent='${initials(name)}'">`;
-  } else {
-    av.textContent = initials(name);
-    tbAv.textContent = initials(name);
-  }
-  document.getElementById('tbUsername').textContent = (data.displayName || '').split(' ')[0] || 'sair';
+  const setAvatar = (el, photoURL, dName) => {
+    if (photoURL) {
+      el.innerHTML = `<img src="${photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover" onerror="this.parentElement.textContent='${initials(dName)}'">`;
+    } else {
+      el.textContent = initials(dName);
+    }
+  };
 
-  // Calcular posição no ranking geral
+  setAvatar(document.getElementById('usbAvatar'), data.photoURL, name);
+  setAvatar(document.getElementById('tbAvatar'),  data.photoURL, name);
+  document.getElementById('tbUsername').textContent = name.split(' ')[0] || 'sair';
+
+  // Calcular posição
   const { collection, query, orderBy, getDocs } = window.FB;
-  const q = query(collection(db, 'ranking'), orderBy('totalPontos', 'desc'));
+  const q   = query(collection(db, 'ranking'), orderBy('totalPontos', 'desc'));
   const all = await getDocs(q);
   let pos = 1;
   all.forEach(d => {
@@ -665,15 +1835,14 @@ async function loadUserStats() {
   document.getElementById('usbRank').textContent = '#' + pos;
 }
 
-/* ════════════════════════════════════════
-   NEXT MATCH + PALPITE PANEL
-════════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   NEXT MATCH + PALPITE
+════════════════════════════════════════════ */
 async function loadMatchAndPalpite() {
   const area = document.getElementById('matchArea');
   area.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><br>Buscando próximo jogo...</div>';
 
   try {
-    // Busca próximo jogo E último jogo em paralelo
     const [resNext, resLast] = await Promise.all([
       fetch(`https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=${SPFC_ID}`),
       fetch(`https://www.thesportsdb.com/api/v1/json/3/eventslast.php?id=${SPFC_ID}`)
@@ -681,7 +1850,6 @@ async function loadMatchAndPalpite() {
     const dataNext = await resNext.json();
     const dataLast = await resLast.json();
 
-    // Processa último jogo encerrado se ainda não foi processado
     if (dataLast.results) {
       const last = dataLast.results[0];
       if (last) {
@@ -689,7 +1857,6 @@ async function loadMatchAndPalpite() {
         const spfcScoreLast  = isSPFCHomeLast ? last.intHomeScore : last.intAwayScore;
         const oppScoreLast   = isSPFCHomeLast ? last.intAwayScore : last.intHomeScore;
         if (spfcScoreLast !== null && spfcScoreLast !== '') {
-          // Checa se já foi processado antes de chamar (autoProcessar já verifica internamente)
           await autoProcessarResultado(last.idEvent, parseInt(spfcScoreLast), parseInt(oppScoreLast), isSPFCHomeLast);
         }
       }
@@ -704,60 +1871,57 @@ async function loadMatchAndPalpite() {
     matchData = ev;
 
     const isSPFCHome = ev.idHomeTeam == SPFC_ID;
-    const spfcName  = isSPFCHome ? ev.strHomeTeam : ev.strAwayTeam;
-    const oppName   = isSPFCHome ? ev.strAwayTeam : ev.strHomeTeam;
-    const spfcBadge = isSPFCHome ? ev.strHomeTeamBadge : ev.strAwayTeamBadge;
-    const oppBadge  = isSPFCHome ? ev.strAwayTeamBadge : ev.strHomeTeamBadge;
-    const spfcScore = isSPFCHome ? ev.intHomeScore : ev.intAwayScore;
-    const oppScore  = isSPFCHome ? ev.intAwayScore : ev.intHomeScore;
+    const spfcName   = isSPFCHome ? ev.strHomeTeam : ev.strAwayTeam;
+    const oppName    = isSPFCHome ? ev.strAwayTeam : ev.strHomeTeam;
+    const spfcBadge  = isSPFCHome ? ev.strHomeTeamBadge : ev.strAwayTeamBadge;
+    const oppBadge   = isSPFCHome ? ev.strAwayTeamBadge : ev.strHomeTeamBadge;
+    const spfcScore  = isSPFCHome ? ev.intHomeScore : ev.intAwayScore;
+    const oppScore   = isSPFCHome ? ev.intAwayScore : ev.intHomeScore;
     const isFinished = spfcScore !== null && spfcScore !== '';
 
-    const matchDate = new Date(`${ev.dateEvent}T${ev.strTime || '00:00:00'}Z`);
-    const now = new Date();
-    const diffMs = matchDate - now;
-    const diffDays = Math.floor(diffMs / 86400000);
-    const diffHours = Math.floor((diffMs % 86400000) / 3600000);
-    const diffMins = Math.floor((diffMs % 3600000) / 60000);
-    const isLive = !isFinished && diffMs < 0;
-    const janelaFechada = diffMs < 3600000; // menos de 1h = travado
+    const matchDate   = new Date(`${ev.dateEvent}T${ev.strTime || '00:00:00'}Z`);
+    const now         = new Date();
+    const diffMs      = matchDate - now;
+    const diffDays    = Math.floor(diffMs / 86400000);
+    const diffHours   = Math.floor((diffMs % 86400000) / 3600000);
+    const diffMins    = Math.floor((diffMs % 3600000) / 60000);
+    const isLive      = !isFinished && diffMs < 0;
+    const janelaFechada = diffMs < 3600000;
 
     let countdown = '';
-    if (isLive) countdown = '🔴 AO VIVO';
+    if (isLive)      countdown = '🔴 Ao Vivo';
     else if (isFinished) countdown = '✅ Encerrado';
-    else if (diffMs <= 0) countdown = 'Em breve!';
-    else if (diffDays === 0 && diffHours === 0) countdown = `Em ${diffMins} min`;
+    else if (diffMs <= 0) countdown = 'Em breve';
+    else if (diffDays === 0 && diffHours === 0) countdown = `Em ${diffMins}min`;
     else if (diffDays === 0) countdown = `Hoje em ${diffHours}h`;
     else if (diffDays === 1) countdown = 'Amanhã';
     else countdown = `Em ${diffDays} dias`;
 
-    const dateStr = matchDate.toLocaleDateString('pt-BR', { weekday:'short', day:'numeric', month:'short' });
-    const timeStr = matchDate.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+    const dateStr   = matchDate.toLocaleDateString('pt-BR', { weekday:'short', day:'numeric', month:'short' });
+    const timeStr   = matchDate.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
     const headerLabel = isLive ? '🔴 Ao Vivo' : isFinished ? '✅ Encerrado' : '📅 Próximo Jogo';
-    const chipClass = isLive ? 'mc-chip-red' : isFinished ? '' : 'mc-chip-red';
-    const scoreHtml = (isLive || isFinished) && spfcScore !== null
-      ? `<div style="font-family:var(--font-title);font-size:28px;color:#fff;letter-spacing:2px;text-align:center">${spfcScore} — ${oppScore}</div>`
-      : '';
+    const statusClass = isLive ? 'live' : isFinished ? 'done' : '';
 
-    // Checar se já palpitou neste jogo
+    const scoreHtml = (isLive || isFinished) && spfcScore !== null
+      ? `<div class="mc-score">${spfcScore} <span style="font-size:.6em;color:var(--txt3)">×</span> ${oppScore}</div>`
+      : `<div class="mc-vs">VS</div>`;
+
     const matchId = ev.idEvent;
     await checkUserPalpite(matchId);
 
-    // Se ao vivo, agenda verificação a cada 2 minutos
     if (isLive) {
       clearTimeout(window._liveTimer);
       window._liveTimer = setTimeout(loadMatchAndPalpite, 120000);
     }
 
     let formHtml = '';
-
     if (isFinished) {
-      // Mostrar resultado do palpite
       formHtml = buildResultadoHtml(userPalpite, spfcScore, oppScore, isSPFCHome);
     } else if (janelaFechada) {
       formHtml = `
         <div class="janela-fechada fade-in">
           <div class="jf-icon">🔒</div>
-          <div class="jf-title">PALPITES ENCERRADOS</div>
+          <div class="jf-title">Palpites Encerrados</div>
           <div class="jf-sub">A janela fecha 1h antes do jogo</div>
         </div>`;
     } else if (userPalpite) {
@@ -769,8 +1933,8 @@ async function loadMatchAndPalpite() {
     area.innerHTML = `
       <div class="match-card fade-in">
         <div class="mc-header">
-          <span class="mc-label">${headerLabel}</span>
-          <span class="mc-comp">${ev.strLeague || ''}</span>
+          <div class="mc-status ${statusClass}">${headerLabel}</div>
+          <div class="mc-league">${ev.strLeague || ''}</div>
         </div>
         <div class="mc-body">
           <div class="mc-teams">
@@ -778,24 +1942,23 @@ async function loadMatchAndPalpite() {
               ${spfcBadge ? `<img class="mc-logo" src="${spfcBadge}" alt="${spfcName}" onerror="this.outerHTML='<div class=mc-logo-ph>🔴</div>'">` : '<div class="mc-logo-ph">🔴</div>'}
               <div class="mc-tname">${spfcName}</div>
             </div>
-            <div class="mc-vs">${scoreHtml || 'VS'}</div>
+            <div class="mc-center">${scoreHtml}</div>
             <div class="mc-team">
               ${oppBadge ? `<img class="mc-logo" src="${oppBadge}" alt="${oppName}" onerror="this.outerHTML='<div class=mc-logo-ph>⚽</div>'">` : '<div class="mc-logo-ph">⚽</div>'}
               <div class="mc-tname">${oppName}</div>
             </div>
           </div>
-          <div class="mc-chips">
-            <span class="mc-chip ${chipClass}">${countdown}</span>
-            <span class="mc-chip">📅 ${dateStr}</span>
-            <span class="mc-chip">🕗 ${timeStr}</span>
-            <span class="mc-chip">${isSPFCHome ? '🏠 Casa' : '✈️ Fora'}</span>
+          <div class="mc-tags">
+            <span class="mc-tag ${isLive ? 'highlight' : ''}">${countdown}</span>
+            <span class="mc-tag">📅 ${dateStr}</span>
+            <span class="mc-tag">🕗 ${timeStr}</span>
+            <span class="mc-tag">${isSPFCHome ? '🏠 Casa' : '✈️ Fora'}</span>
           </div>
         </div>
       </div>
       ${formHtml}
     `;
 
-    // Bind form events
     if (!isFinished && !janelaFechada && !userPalpite) {
       bindFormEvents(spfcName, oppName, matchId);
     }
@@ -806,100 +1969,65 @@ async function loadMatchAndPalpite() {
   }
 }
 
-
-/* ═══════════════════════════════════════════════════
-   AUTO-PROCESSAMENTO DO RESULTADO VIA API
-   Roda quando o jogo termina — sem intervenção manual
-═══════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   AUTO-PROCESSAMENTO
+════════════════════════════════════════════ */
 async function autoProcessarResultado(matchId, golsSpfc, golsOpp, isSPFCHome) {
   const { db, doc, getDoc, setDoc, getDocs, collection,
           query, where, updateDoc, increment, serverTimestamp, writeBatch } = window.FB;
 
   try {
-    // 1. Verifica se já foi processado
-    const jogoRef = doc(db, 'palpitometroJogos', String(matchId));
+    const jogoRef  = doc(db, 'palpitometroJogos', String(matchId));
     const jogoSnap = await getDoc(jogoRef);
+    if (jogoSnap.exists() && jogoSnap.data().processado === true) return;
 
-    if (jogoSnap.exists() && jogoSnap.data().processado === true) return; // já feito
-
-    // 2. Determina resultado
     const resultado = golsSpfc > golsOpp ? 'vitoria' : golsSpfc === golsOpp ? 'empate' : 'derrota';
     const ptsBase   = resultado === 'vitoria' ? 10 : resultado === 'empate' ? 5 : 0;
 
-    // 3. Salva/atualiza o jogo no Firestore
     await setDoc(jogoRef, {
-      matchId: String(matchId),
-      golsSpfc,
-      golsOpp,
-      resultado,
-      processado: false, // vira true após calcular todos
-      processadoEm: serverTimestamp()
+      matchId: String(matchId), golsSpfc, golsOpp, resultado,
+      processado: false, processadoEm: serverTimestamp()
     }, { merge: true });
 
-    // 4. Busca todos os palpites deste jogo
-    const q = query(
-      collection(db, 'palpitometroPalpites'),
-      where('matchId', '==', String(matchId))
-    );
+    const q    = query(collection(db, 'palpitometroPalpites'), where('matchId', '==', String(matchId)));
     const snaps = await getDocs(q);
 
-    if (snaps.empty) {
-      // Nenhum palpite — marca como processado e sai
-      await updateDoc(jogoRef, { processado: true });
-      return;
-    }
+    if (snaps.empty) { await updateDoc(jogoRef, { processado: true }); return; }
 
-    // Filtra só os ainda não pontuados (pontos === null ou undefined)
     const pendentes = [];
     snaps.forEach(d => {
       const p = d.data();
       if (p.pontos === null || p.pontos === undefined) pendentes.push(d);
     });
 
-    if (pendentes.length === 0) {
-      await updateDoc(jogoRef, { processado: true });
-      return;
-    }
+    if (pendentes.length === 0) { await updateDoc(jogoRef, { processado: true }); return; }
 
-    // 5. Calcula e salva em batch
     const batch = writeBatch(db);
-
     pendentes.forEach(d => {
       const p = d.data();
       const acertouResultado = p.resultado === resultado;
       const acertouPlacar    = p.golsSpfc === golsSpfc && p.golsOpp === golsOpp;
-
       let pontos = 0;
       if (acertouResultado) pontos += ptsBase;
       if (acertouPlacar)    pontos += 50;
 
-      // Atualiza o palpite com pontos
-      batch.update(d.ref, {
-        pontos,
-        placareExato: acertouPlacar,
-        resultado_final: resultado
-      });
+      batch.update(d.ref, { pontos, placareExato: acertouPlacar, resultado_final: resultado });
 
-      // Atualiza ranking do usuário
       const rankRef = doc(db, 'ranking', p.userId);
       batch.update(rankRef, {
-        totalPontos:    increment(pontos),
-        totalPalpites:  increment(1),
-        totalAcertos:   increment(acertouResultado ? 1 : 0),
-        totalErros:     increment(acertouResultado ? 0 : 1),
-        placareExatos:  increment(acertouPlacar ? 1 : 0),
-        pontosMes:      increment(pontos)
+        totalPontos:   increment(pontos),
+        totalPalpites: increment(1),
+        totalAcertos:  increment(acertouResultado ? 1 : 0),
+        totalErros:    increment(acertouResultado ? 0 : 1),
+        placareExatos: increment(acertouPlacar ? 1 : 0),
+        pontosMes:     increment(pontos)
       });
     });
 
-    // 6. Marca jogo como processado no mesmo batch
     batch.update(jogoRef, { processado: true });
-
     await batch.commit();
-    console.log(`✅ Palpitômetro: ${snaps.size} palpites processados para jogo ${matchId}`);
 
   } catch(e) {
-    // Falha silenciosa — próximo usuário que abrir tenta de novo
     console.warn('autoProcessarResultado:', e);
   }
 }
@@ -908,26 +2036,29 @@ async function checkUserPalpite(matchId) {
   const { db, doc, getDoc } = window.FB;
   userPalpite = null;
   try {
-    const ref = doc(db, 'palpitometroPalpites', `${currentUser.uid}_${matchId}`);
+    const ref  = doc(db, 'palpitometroPalpites', `${currentUser.uid}_${matchId}`);
     const snap = await getDoc(ref);
     if (snap.exists()) userPalpite = snap.data();
   } catch(e) {}
 }
 
+/* ════════════════════════════════════════════
+   BUILD HTML — FORMULÁRIO DE PALPITE
+════════════════════════════════════════════ */
 function buildFormHtml(spfcName, oppName, matchId) {
   return `
     <div class="palpite-form fade-in">
       <div class="pf-section">
         <div class="pf-label">Resultado do jogo</div>
         <div class="resultado-opts">
-          <div class="res-opt" data-res="vitoria" onclick="selectRes(this,'vitoria')">🟢 Vitória SPFC</div>
-          <div class="res-opt" data-res="empate" onclick="selectRes(this,'empate')">🟡 Empate</div>
-          <div class="res-opt" data-res="derrota" onclick="selectRes(this,'derrota')">⚫ Derrota</div>
+          <div class="res-opt" data-res="vitoria" onclick="selectRes(this,'vitoria')">Vitória<br>SPFC</div>
+          <div class="res-opt" data-res="empate"  onclick="selectRes(this,'empate')">Empate</div>
+          <div class="res-opt" data-res="derrota" onclick="selectRes(this,'derrota')">Derrota</div>
         </div>
       </div>
 
       <div class="pf-section">
-        <div class="pf-label">Placar (opcional — vale bônus!)</div>
+        <div class="pf-label">Placar — opcional, vale bônus</div>
         <div class="placar-input">
           <div class="pi-team">
             <div class="pi-team-name">${spfcName.split(' ')[0].toUpperCase()}</div>
@@ -949,51 +2080,59 @@ function buildFormHtml(spfcName, oppName, matchId) {
         </div>
       </div>
 
-      <div class="bonus-box">
-        <div class="bonus-icon">⭐</div>
-        <div class="bonus-text">Acerte o <strong>placar exato</strong> e ganhe <strong>+50 pts</strong> de bônus além dos pontos do resultado!</div>
+      <div class="bonus-callout">
+        <div class="bonus-callout-icon">⭐</div>
+        <div class="bonus-callout-text">Acerte o <strong>placar exato</strong> e ganhe <strong>+50 pts</strong> de bônus além dos pontos do resultado.</div>
       </div>
 
       <button class="btn-confirmar" id="btnConfirmar" onclick="confirmarPalpite('${matchId}')" disabled>
-        SELECIONE O RESULTADO
+        Selecione o resultado
       </button>
     </div>
   `;
 }
 
 function buildEnviadoHtml(p) {
+  const resLabel = p.resultado === 'vitoria' ? '🟢 Vitória SPFC' : p.resultado === 'empate' ? '🟡 Empate' : '⚫ Derrota';
   return `
-    <div class="palpite-enviado fade-in">
-      <div class="pe-icon">✅</div>
-      <div class="pe-title">PALPITE ENVIADO</div>
-      <div class="pe-placar">${p.golsSpfc} × ${p.golsOpp}</div>
-      <div class="pe-detail">
-        Resultado: <strong style="color:var(--txt)">${p.resultado === 'vitoria' ? '🟢 Vitória SPFC' : p.resultado === 'empate' ? '🟡 Empate' : '⚫ Derrota'}</strong>
-      </div>
+    <div class="palpite-state fade-in" style="border-color:var(--edge2)">
+      <div class="ps-icon">✅</div>
+      <div class="ps-title" style="color:var(--green)">Palpite Enviado</div>
+      <div class="ps-score">${p.golsSpfc} × ${p.golsOpp}</div>
+      <div class="ps-detail">Resultado: <strong style="color:var(--txt)">${resLabel}</strong></div>
       ${p.pontos !== undefined && p.pontos !== null
-        ? `<div class="pe-pts" style="margin-top:8px">Você ganhou <strong>${p.pontos} pts</strong> ${p.placareExato ? '⭐ Placar exato!' : ''}</div>`
-        : `<div class="pe-pts" style="margin-top:8px;color:var(--txt3)">Aguardando resultado do jogo...</div>`
+        ? `<div class="ps-pts">+${p.pontos} pts ganhos ${p.placareExato ? '⭐ Placar exato!' : ''}</div>`
+        : `<div class="ps-pts" style="color:var(--txt3)">Aguardando resultado do jogo...</div>`
       }
     </div>
   `;
 }
 
-function buildResultadoHtml(palpite, spfcScore, oppScore, isSPFCHome) {
+function buildResultadoHtml(palpite, spfcScore, oppScore) {
   if (!palpite) {
-    return `<div class="janela-fechada fade-in"><div class="jf-icon">📊</div><div class="jf-title">JOGO ENCERRADO</div><div class="jf-sub">Você não enviou palpite para este jogo</div></div>`;
+    return `
+      <div class="janela-fechada fade-in">
+        <div class="jf-icon">📊</div>
+        <div class="jf-title">Jogo Encerrado</div>
+        <div class="jf-sub">Você não enviou palpite para este jogo</div>
+      </div>`;
   }
-  const acertouResultado = palpite.resultado === getResultado(parseInt(spfcScore), parseInt(oppScore));
-  const acertouPlacar = parseInt(palpite.golsSpfc) === parseInt(spfcScore) && parseInt(palpite.golsOpp) === parseInt(oppScore);
-  const pts = acertouPlacar ? (acertouResultado ? 60 : 50) : (acertouResultado ? (palpite.resultado === 'vitoria' ? 10 : palpite.resultado === 'empate' ? 5 : 0) : 0);
+  const resultado = getResultado(parseInt(spfcScore), parseInt(oppScore));
+  const acertouResultado = palpite.resultado === resultado;
+  const acertouPlacar    = parseInt(palpite.golsSpfc) === parseInt(spfcScore) && parseInt(palpite.golsOpp) === parseInt(oppScore);
+  const pts = acertouPlacar
+    ? (acertouResultado ? 60 : 50)
+    : (acertouResultado ? (palpite.resultado === 'vitoria' ? 10 : palpite.resultado === 'empate' ? 5 : 0) : 0);
+
   return `
-    <div class="palpite-enviado fade-in" style="border-color:${acertouResultado ? 'rgba(34,197,94,.3)' : 'rgba(204,0,0,.25)'}">
-      <div class="pe-icon">${acertouResultado ? (acertouPlacar ? '⭐' : '✅') : '❌'}</div>
-      <div class="pe-title" style="color:${acertouResultado ? 'var(--green)' : 'var(--red)'}">
-        ${acertouPlacar ? 'PLACAR EXATO!' : acertouResultado ? 'ACERTOU!' : 'ERROU!'}
+    <div class="palpite-state fade-in" style="border-color:${acertouResultado ? 'rgba(34,185,110,.3)' : 'rgba(196,30,58,.25)'}">
+      <div class="ps-icon">${acertouPlacar ? '⭐' : acertouResultado ? '✅' : '❌'}</div>
+      <div class="ps-title" style="color:${acertouResultado ? 'var(--green)' : 'var(--crimson)'}">
+        ${acertouPlacar ? 'Placar Exato!' : acertouResultado ? 'Acertou!' : 'Errou!'}
       </div>
-      <div class="pe-placar">${spfcScore} × ${oppScore}</div>
-      <div class="pe-detail">Seu palpite: ${palpite.golsSpfc} × ${palpite.golsOpp}</div>
-      <div class="pe-pts">${pts > 0 ? `+${pts} pts ganhos ${acertouPlacar ? '⭐' : ''}` : 'Sem pontos desta vez'}</div>
+      <div class="ps-score">${spfcScore} × ${oppScore}</div>
+      <div class="ps-detail">Seu palpite: ${palpite.golsSpfc} × ${palpite.golsOpp}</div>
+      <div class="ps-pts">${pts > 0 ? `+${pts} pts ${acertouPlacar ? '⭐' : ''}` : 'Sem pontos desta vez'}</div>
     </div>
   `;
 }
@@ -1004,12 +2143,9 @@ function getResultado(spfc, opp) {
   return 'derrota';
 }
 
-/* ════════════════════════════════════════
+/* ════════════════════════════════════════════
    FORM INTERACTIONS
-════════════════════════════════════════ */
-let selectedRes = null;
-let golSpfc = 0, golOpp = 0;
-
+════════════════════════════════════════════ */
 function selectRes(el, res) {
   document.querySelectorAll('.res-opt').forEach(o => o.className = 'res-opt');
   selectedRes = res;
@@ -1017,7 +2153,6 @@ function selectRes(el, res) {
   else if (res === 'empate') el.classList.add('sel-draw');
   else el.classList.add('sel-loss');
   updateConfirmBtn();
-  // Auto-sync: se o placar já indica um resultado diferente, atualiza
   syncPlacarToRes();
 }
 
@@ -1029,7 +2164,6 @@ function changeGol(team, delta) {
     golOpp = Math.max(0, golOpp + delta);
     document.getElementById('golOpp').textContent = golOpp;
   }
-  // Auto-sync resultado com placar
   const autoRes = golSpfc > golOpp ? 'vitoria' : golSpfc === golOpp ? 'empate' : 'derrota';
   const opts = document.querySelectorAll('.res-opt');
   opts.forEach(o => o.className = 'res-opt');
@@ -1063,10 +2197,10 @@ function updateConfirmBtn() {
   if (selectedRes) {
     btn.disabled = false;
     const ptsBase = selectedRes === 'vitoria' ? 10 : selectedRes === 'empate' ? 5 : 0;
-    btn.textContent = `CONFIRMAR PALPITE — ${ptsBase} pts + bônus`;
+    btn.textContent = `Confirmar Palpite — ${ptsBase} pts + bônus`;
   } else {
     btn.disabled = true;
-    btn.textContent = 'SELECIONE O RESULTADO';
+    btn.textContent = 'Selecione o resultado';
   }
 }
 
@@ -1079,32 +2213,25 @@ async function confirmarPalpite(matchId) {
   const { db, doc, setDoc, serverTimestamp, increment, updateDoc } = window.FB;
   const btn = document.getElementById('btnConfirmar');
   btn.disabled = true;
-  btn.textContent = 'ENVIANDO...';
+  btn.textContent = 'Enviando...';
 
   try {
     const palpiteData = {
       userId: currentUser.uid,
       matchId: String(matchId),
       resultado: selectedRes,
-      golsSpfc: golSpfc,
-      golsOpp: golOpp,
+      golsSpfc, golsOpp,
       pontos: null,
       placareExato: false,
       timestamp: serverTimestamp()
     };
 
-    // Salva o palpite
     await setDoc(doc(db, 'palpitometroPalpites', `${currentUser.uid}_${matchId}`), palpiteData);
-
-    // Incrementa totalPalpites no perfil do usuário
-    await updateDoc(doc(db, 'ranking', currentUser.uid), {
-      totalPalpites: increment(1)
-    });
+    await updateDoc(doc(db, 'ranking', currentUser.uid), { totalPalpites: increment(1) });
 
     userPalpite = palpiteData;
     toast('✅ Palpite enviado!', 'Boa sorte, torcedor!');
 
-    // Recarrega a área
     await loadMatchAndPalpite();
     await loadUserStats();
 
@@ -1115,9 +2242,9 @@ async function confirmarPalpite(matchId) {
   }
 }
 
-/* ════════════════════════════════════════
-   RANKINGS
-════════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   RANKING — Pódio CSS + Tabela
+════════════════════════════════════════════ */
 async function loadRanking(type) {
   const container = document.getElementById('rankingContent');
   container.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
@@ -1125,13 +2252,13 @@ async function loadRanking(type) {
   const { db, collection, query, orderBy, limit, getDocs } = window.FB;
   let field, label;
 
-  if (type === 'geral') { field = 'totalPontos'; label = 'pts'; }
+  if      (type === 'geral')   { field = 'totalPontos';  label = 'pts'; }
   else if (type === 'acertos') { field = 'totalAcertos'; label = 'acertos'; }
-  else if (type === 'exato') { field = 'placareExatos'; label = 'exatos'; }
-  else { field = 'pontosMes'; label = 'pts mês'; }
+  else if (type === 'exato')   { field = 'placareExatos'; label = 'exatos'; }
+  else                          { field = 'pontosMes';    label = 'pts mês'; }
 
   try {
-    const q = query(collection(db, 'ranking'), orderBy(field, 'desc'), limit(20));
+    const q    = query(collection(db, 'ranking'), orderBy(field, 'desc'), limit(20));
     const snap = await getDocs(q);
     const users = [];
     snap.forEach(d => users.push({ id: d.id, ...d.data() }));
@@ -1141,85 +2268,129 @@ async function loadRanking(type) {
       return;
     }
 
-    // Pódio top 3 — image overlay + rows 4–10 inside image
-    const top3 = users.slice(0, 3);
+    const top3     = users.slice(0, 3);
     const rows4to10 = users.slice(3, 10);
-    const rest = users.slice(10);
+    const rest     = users.slice(10);
 
-    function makeAvatarOverlay(u, label) {
-      const av = u.photoURL
-        ? `<img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML='${initials(u.displayName)}'">`
-        : initials(u.displayName);
+    /* ── Pódio CSS ── */
+    function makePodiumSlot(u, rank, slotClass) {
       const isMe = u.id === currentUser.uid;
+      const av   = makeAvatarImg(u.photoURL, u.displayName);
+      const medalNum = rank === '1st' ? '1' : rank === '2nd' ? '2' : '3';
+      const sub  = type === 'geral'
+        ? `${u.totalPalpites || 0} palpites`
+        : type === 'acertos'
+        ? `${u.totalPalpites || 0} jogos`
+        : type === 'exato'
+        ? `${u.totalPontos || 0} pts`
+        : `${u.totalAcertos || 0} acertos`;
+
       return `
-        <div class="po-slot po-${label}">
-          <div class="po-avatar" style="${isMe ? 'border-color:var(--red);box-shadow:0 0 10px rgba(204,0,0,.6)' : ''}">${av}</div>
-          <div class="po-name" style="${isMe ? 'color:var(--red)' : ''}">${u.displayName.split(' ')[0]}</div>
-          <div class="po-pts">${u[field] || 0} <span style="font-size:8px;opacity:.7">${label === '1st' ? '🥇' : label === '2nd' ? '🥈' : '🥉'}</span></div>
+        <div class="podium-slot ${slotClass}">
+          <div class="podium-avatar-wrap">
+            <div class="podium-avatar">${av}</div>
+            <div class="podium-medal">${medalNum}</div>
+          </div>
+          <div class="podium-name${isMe ? ' me' : ''}">${u.displayName.split(' ')[0]}</div>
+          <div class="podium-pts">${u[field] || 0}</div>
+          <div class="podium-pts-lbl">${label}</div>
+          <div class="podium-base"><span class="podium-base-num">${medalNum}</span></div>
         </div>`;
     }
 
-    let rowsHtml = '';
-    rows4to10.forEach((u, i) => {
-      const pos = i + 4;
-      const isMe = u.id === currentUser.uid;
-      const av = u.photoURL
-        ? `<img src="${u.photoURL}" onerror="this.outerHTML='${initials(u.displayName)}'">`
-        : initials(u.displayName);
-      rowsHtml += `
-        <div class="po-row ${isMe ? 'me-row' : ''}">
-          <div class="po-row-num">${pos}</div>
-          <div class="po-row-av">${av}</div>
-          <div class="po-row-name" style="${isMe?'color:var(--red2)':''}">${u.displayName.split(' ')[0]}</div>
-          <div class="po-row-palpites">${u.totalPalpites||0}</div>
-          <div class="po-row-exatos">${u.placareExatos||0}</div>
-          <div class="po-row-pts">${u[field]||0}</div>
-        </div>`;
-    });
-
-    let podiumHtml = `
-      <div class="podium-img-wrap">
-        <img class="podium-bg" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780030608/ranking_bom_nemw5e.png" alt="Ranking">
-        <div class="podium-overlay">
-          ${top3[0] ? makeAvatarOverlay(top3[0], '1st') : ''}
-          ${top3[1] ? makeAvatarOverlay(top3[1], '2nd') : ''}
-          ${top3[2] ? makeAvatarOverlay(top3[2], '3rd') : ''}
-          <div class="po-rows">${rowsHtml}</div>
+    /* Ordem: 2º · 1º · 3º — layout de pódio clássico */
+    const podiumHtml = `
+      <div class="podium-section fade-in">
+        <div class="podium-eyebrow">
+          <div class="podium-eyebrow-line"></div>
+          <div class="podium-eyebrow-text">Top 3 — ${label.toUpperCase()}</div>
+          <div class="podium-eyebrow-line"></div>
         </div>
+        <div class="podium">
+          ${top3[1] ? makePodiumSlot(top3[1], '2nd', 'p2') : '<div class="podium-slot p2"></div>'}
+          ${top3[0] ? makePodiumSlot(top3[0], '1st', 'p1') : '<div class="podium-slot p1"></div>'}
+          ${top3[2] ? makePodiumSlot(top3[2], '3rd', 'p3') : '<div class="podium-slot p3"></div>'}
+        </div>
+        <div class="podium-floor"></div>
       </div>`;
 
-    // Lista posições 11+ abaixo da imagem
-    let listHtml = rest.length ? '<div class="rank-list">' : '';
-    rest.forEach((u, i) => {
-      const pos = i + 11;
-      const isMe = u.id === currentUser.uid;
-      const sub = type === 'geral'
-        ? `${u.totalPalpites || 0} palpites · ${u.placareExatos || 0} exatos ⭐`
-        : type === 'acertos'
-        ? `${u.totalPalpites || 0} palpites · ${u.totalPontos || 0} pts total`
-        : type === 'exato'
-        ? `${u.totalAcertos || 0} acertos · ${u.totalPontos || 0} pts`
-        : `${u.totalAcertos || 0} acertos este mês`;
-      const av = u.photoURL
-        ? `<img src="${u.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover" onerror="this.parentElement.textContent='${initials(u.displayName)}'">`
-        : initials(u.displayName);
-      listHtml += `
-        <div class="rank-row ${isMe ? 'me' : ''}">
-          <div class="rr-pos">${pos}</div>
-          <div class="rr-avatar">${av}</div>
-          <div class="rr-info">
-            <div class="rr-name">${u.displayName}</div>
-            <div class="rr-sub">${sub}</div>
-          </div>
-          <div class="rr-pts">
-            <div class="rr-pts-val">${u[field] || 0}</div>
-            <div class="rr-pts-lbl">${label.toUpperCase()}</div>
-          </div>
-        </div>`;
-    });
-    if (rest.length) listHtml += '</div>';
+    /* ── Tabela 4–10 ── */
+    let tableHtml = '';
+    if (rows4to10.length) {
+      let rowsHtml = '';
+      rows4to10.forEach((u, i) => {
+        const pos  = i + 4;
+        const isMe = u.id === currentUser.uid;
+        const av   = makeAvatarImg(u.photoURL, u.displayName);
+        const sub  = type === 'geral'
+          ? `${u.totalPalpites || 0} palpites · ${u.placareExatos || 0} exatos`
+          : type === 'acertos'
+          ? `${u.totalPalpites || 0} jogos · ${u.totalPontos || 0} pts`
+          : type === 'exato'
+          ? `${u.totalAcertos || 0} acertos`
+          : `${u.totalAcertos || 0} acertos este mês`;
 
-    // Mostrar posição do usuário se não está no top 20
+        rowsHtml += `
+          <div class="rank-row${isMe ? ' me' : ''}">
+            <div class="rr-pos">${pos}</div>
+            <div class="rr-avatar">${av}</div>
+            <div class="rr-info">
+              <div class="rr-name${isMe ? ' me' : ''}">${u.displayName}</div>
+              <div class="rr-sub">${sub}</div>
+            </div>
+            <div class="rr-pts">
+              <div class="rr-pts-val">${u[field] || 0}</div>
+              <div class="rr-pts-lbl">${label}</div>
+            </div>
+          </div>`;
+      });
+
+      tableHtml = `
+        <div class="rank-table">
+          <div class="rank-table-header">
+            <div class="rth-cell">#</div>
+            <div class="rth-cell"></div>
+            <div class="rth-cell">Jogador</div>
+            <div class="rth-cell right">${label.toUpperCase()}</div>
+          </div>
+          ${rowsHtml}
+        </div>`;
+    }
+
+    /* ── 11+ ── */
+    let restHtml = '';
+    if (rest.length) {
+      let rows = '';
+      rest.forEach((u, i) => {
+        const pos  = i + 11;
+        const isMe = u.id === currentUser.uid;
+        const av   = makeAvatarImg(u.photoURL, u.displayName);
+        const sub  = type === 'geral'
+          ? `${u.totalPalpites || 0} palpites · ${u.placareExatos || 0} exatos`
+          : type === 'acertos'
+          ? `${u.totalPalpites || 0} jogos`
+          : type === 'exato'
+          ? `${u.totalAcertos || 0} acertos`
+          : `${u.totalAcertos || 0} acertos este mês`;
+
+        rows += `
+          <div class="rank-row${isMe ? ' me' : ''}">
+            <div class="rr-pos">${pos}</div>
+            <div class="rr-avatar">${av}</div>
+            <div class="rr-info">
+              <div class="rr-name${isMe ? ' me' : ''}">${u.displayName}</div>
+              <div class="rr-sub">${sub}</div>
+            </div>
+            <div class="rr-pts">
+              <div class="rr-pts-val">${u[field] || 0}</div>
+              <div class="rr-pts-lbl">${label}</div>
+            </div>
+          </div>`;
+      });
+      restHtml = `<div class="section-divider"></div><div class="rank-table">${rows}</div>`;
+    }
+
+    /* ── Usuário fora do top 20 ── */
     const myPos = users.findIndex(u => u.id === currentUser.uid);
     let meHtml = '';
     if (myPos === -1) {
@@ -1227,24 +2398,17 @@ async function loadRanking(type) {
       if (myData.exists()) {
         const d = myData.data();
         meHtml = `
-          <div style="margin-top:8px">
-            <div class="rank-row me" style="border-radius:8px">
-              <div class="rr-pos">—</div>
-              <div class="rr-avatar">${initials(d.displayName)}</div>
-              <div class="rr-info">
-                <div class="rr-name">${d.displayName} (você)</div>
-                <div class="rr-sub">Fora do top 20</div>
-              </div>
-              <div class="rr-pts">
-                <div class="rr-pts-val">${d[field] || 0}</div>
-                <div class="rr-pts-lbl">${label.toUpperCase()}</div>
-              </div>
+          <div class="my-position-card" style="margin-top:var(--sp-md)">
+            <div class="mpc-label">Você</div>
+            <div class="mpc-info">
+              <div class="mpc-name">${d.displayName} — fora do top 20</div>
             </div>
+            <div class="mpc-val">${d[field] || 0}</div>
           </div>`;
       }
     }
 
-    container.innerHTML = podiumHtml + listHtml + meHtml;
+    container.innerHTML = podiumHtml + tableHtml + restHtml + meHtml;
 
   } catch(e) {
     container.innerHTML = '<div class="loading-state">Erro ao carregar ranking</div>';
@@ -1252,110 +2416,136 @@ async function loadRanking(type) {
   }
 }
 
-/* ════════════════════════════════════════
+/* ════════════════════════════════════════════
    MURAL DA VERGONHA
-════════════════════════════════════════ */
+════════════════════════════════════════════ */
 async function loadVergonha() {
   const container = document.getElementById('vergonhaContent');
   container.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
 
-  const { db, collection, query, orderBy, limit, getDocs, where } = window.FB;
+  const { db, collection, query, orderBy, limit, getDocs } = window.FB;
 
   try {
-    // Pega todos, ordena por totalErros desc
-    const q = query(
-      collection(db, 'ranking'),
-      orderBy('totalErros', 'desc'),
-      limit(20)
-    );
+    const q    = query(collection(db, 'ranking'), orderBy('totalErros', 'desc'), limit(20));
     const snap = await getDocs(q);
     const users = [];
-    snap.forEach(d => {
-      users.push({ id: d.id, ...d.data() });
-    });
+    snap.forEach(d => users.push({ id: d.id, ...d.data() }));
 
     if (!users.length) {
       container.innerHTML = '<div class="loading-state">Ninguém no mural ainda 😅</div>';
       return;
     }
 
-    const titulo = getWeekTitulo();
-    const top = users[0];
+    const titulo  = getWeekTitulo();
+    const top3V   = users.slice(0, 3);
+    const rows4to10V = users.slice(3, 10);
+    const restV   = users.slice(10);
 
-    // top 3 para o pódio da vergonha
-    const vTop3 = users.slice(0, 3);
-    const vRows4to10 = users.slice(3, 10);
-    const vRest = users.slice(10);
+    /* ── Banner de identidade ── */
+    const bannerHtml = `
+      <div class="vergonha-banner fade-in">
+        <div class="vb-eyebrow">Temporada 2025</div>
+        <div class="vb-title">Mural da<br>Vergonha</div>
+        <div class="vb-sub">Os campeões do erro — quem mais chutou errado</div>
+      </div>`;
 
-    function makeVergAvatar(u, label) {
-      const av = u.photoURL
-        ? `<img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML='${initials(u.displayName)}'">`
-        : initials(u.displayName);
+    /* ── Campeão da vergonha ── */
+    const champHtml = top3V[0] ? `
+      <div class="shame-champion-card fade-in">
+        <div>
+          <div class="scc-label">${titulo}</div>
+          <div class="scc-titulo">${top3V[0].displayName.split(' ')[0]}</div>
+        </div>
+        <div class="scc-erros">
+          <div class="scc-erros-val">${top3V[0].totalErros || 0}</div>
+          <div class="scc-erros-lbl">erros</div>
+        </div>
+      </div>` : '';
+
+    /* ── Pódio da vergonha ── */
+    function makeShameSlot(u, slotClass, numLabel) {
+      if (!u) return `<div class="${slotClass}"></div>`;
       const isMe = u.id === currentUser.uid;
+      const av   = makeAvatarImg(u.photoURL, u.displayName);
       return `
-        <div class="po-slot po-${label}">
-          <div class="po-avatar" style="${isMe ? 'border-color:var(--red);box-shadow:0 0 10px rgba(204,0,0,.7)' : 'border-color:rgba(204,0,0,.4)'}">${av}</div>
-          <div class="po-name" style="${isMe ? 'color:var(--red)' : ''}">${u.displayName.split(' ')[0]}</div>
-          <div class="po-pts" style="color:#ff6666">${u.totalErros || 0} <span style="font-size:8px;opacity:.7">❌</span></div>
+        <div class="shame-slot ${slotClass}">
+          <div class="shame-avatar">${av}</div>
+          <div class="shame-name${isMe ? ' me' : ''}">${u.displayName.split(' ')[0]}</div>
+          <div class="shame-stat">${u.totalErros || 0}</div>
+          <div class="shame-stat-lbl">erros</div>
+          <div class="shame-base"></div>
         </div>`;
     }
 
-    let vRowsHtml = '';
-    vRows4to10.forEach((u, i) => {
-      const pos = i + 4;
-      const isMe = u.id === currentUser.uid;
-      const av = u.photoURL
-        ? `<img src="${u.photoURL}" onerror="this.outerHTML='${initials(u.displayName)}'">`
-        : initials(u.displayName);
-      vRowsHtml += `
-        <div class="po-row ${isMe ? 'me-row' : ''}">
-          <div class="po-row-num" style="color:#ff7777">${pos}</div>
-          <div class="po-row-av">${av}</div>
-          <div class="po-row-name" style="${isMe?'color:var(--red2)':''}">${u.displayName.split(' ')[0]}</div>
-          <div class="po-row-palpites">${u.totalPalpites||0}</div>
-          <div class="po-row-exatos" style="color:#ff7777">${u.totalErros||0}</div>
-          <div class="po-row-pts" style="color:#ff7777">${u.totalErros||0}</div>
-        </div>`;
-    });
+    const shameFloor = `
+      <div class="podium-floor" style="background:rgba(122,59,30,.25);margin:0 var(--sp-sm)"></div>`;
 
-    let html = `
-      <div class="verg-img-wrap">
-        <img class="verg-bg" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780030669/vergonah_ewkz7u.jpg" alt="Mural da Vergonha">
-        <div class="verg-overlay">
-          ${vTop3[0] ? makeVergAvatar(vTop3[0], '1st') : ''}
-          ${vTop3[1] ? makeVergAvatar(vTop3[1], '2nd') : ''}
-          ${vTop3[2] ? makeVergAvatar(vTop3[2], '3rd') : ''}
-          <div class="po-rows">${vRowsHtml}</div>
+    const shamePodiumHtml = `
+      <div style="margin:var(--sp-sm) 0 var(--sp-md)">
+        <div class="podium-eyebrow">
+          <div class="podium-eyebrow-line" style="background:rgba(122,59,30,.3)"></div>
+          <div class="podium-eyebrow-text" style="color:var(--shame-text)">Os 3 Piores</div>
+          <div class="podium-eyebrow-line" style="background:rgba(122,59,30,.3)"></div>
         </div>
+        <div class="shame-podium">
+          ${makeShameSlot(top3V[1], 'sp2', '2')}
+          ${makeShameSlot(top3V[0], 'sp1', '1')}
+          ${makeShameSlot(top3V[2], 'sp3', '3')}
+        </div>
+        ${shameFloor}
       </div>`;
 
-    // Posições 11+ abaixo da imagem
-    if (vRest.length) {
-      html += '<div class="vergonha-list">';
-      const emojis = ['🪦','😬','😅','😶','😐','🫠','😵','💀','🫤','😒'];
-      vRest.forEach((u, i) => {
+    /* ── Tabela 4–10 ── */
+    let shameTableHtml = '';
+    if (rows4to10V.length) {
+      let rows = '';
+      rows4to10V.forEach((u, i) => {
+        const pos  = i + 4;
         const isMe = u.id === currentUser.uid;
-        const av = u.photoURL
-          ? `<img src="${u.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover" onerror="this.parentElement.textContent='${initials(u.displayName)}'">`
-          : initials(u.displayName);
-        html += `
-          <div class="vg-row ${isMe ? 'me' : ''}">
-            <div class="vg-pos">${emojis[i] || (i + 11)}</div>
-            <div class="vg-avatar">${av}</div>
-            <div class="vg-info">
-              <div class="vg-name" style="${isMe ? 'color:var(--red)' : ''}">${u.displayName}</div>
-              <div class="vg-sub">${u.totalPalpites || 0} palpites · ${u.placareExatos || 0} exatos ⭐</div>
+        const av   = makeAvatarImg(u.photoURL, u.displayName);
+        rows += `
+          <div class="shame-row${isMe ? ' me' : ''}">
+            <div class="sr-pos">${pos}</div>
+            <div class="sr-avatar">${av}</div>
+            <div class="sr-info">
+              <div class="sr-name${isMe ? ' me' : ''}">${u.displayName}</div>
+              <div class="sr-sub">${u.totalPalpites || 0} palpites · ${u.placareExatos || 0} exatos</div>
             </div>
-            <div class="vg-stat">
-              <div class="vg-erros">${u.totalErros || 0}</div>
-              <div class="vg-erros-lbl">ERROS</div>
+            <div class="sr-stat">
+              <div class="sr-val">${u.totalErros || 0}</div>
+              <div class="sr-lbl">erros</div>
             </div>
           </div>`;
       });
-      html += '</div>';
+      shameTableHtml = `<div class="shame-table">${rows}</div>`;
     }
 
-    container.innerHTML = html;
+    /* ── 11+ com emojis ── */
+    const emojis = ['🪦','😬','😅','😶','😐','🫠','😵','💀','🫤','😒'];
+    let restVHtml = '';
+    if (restV.length) {
+      let rows = '';
+      restV.forEach((u, i) => {
+        const isMe = u.id === currentUser.uid;
+        const av   = makeAvatarImg(u.photoURL, u.displayName);
+        rows += `
+          <div class="shame-row${isMe ? ' me' : ''}">
+            <div class="sr-pos" style="font-size:16px">${emojis[i] || (i + 11)}</div>
+            <div class="sr-avatar">${av}</div>
+            <div class="sr-info">
+              <div class="sr-name${isMe ? ' me' : ''}">${u.displayName}</div>
+              <div class="sr-sub">${u.totalPalpites || 0} palpites</div>
+            </div>
+            <div class="sr-stat">
+              <div class="sr-val">${u.totalErros || 0}</div>
+              <div class="sr-lbl">erros</div>
+            </div>
+          </div>`;
+      });
+      restVHtml = `<div class="section-divider"></div><div class="shame-table">${rows}</div>`;
+    }
+
+    container.innerHTML = bannerHtml + champHtml + shamePodiumHtml + shameTableHtml + restVHtml;
 
   } catch(e) {
     container.innerHTML = '<div class="loading-state">Erro ao carregar o mural</div>';
@@ -1363,13 +2553,12 @@ async function loadVergonha() {
   }
 }
 
-/* ════════════════════════════════════════
-   FIREBASE AUTH LISTENER
-════════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   FIREBASE AUTH
+════════════════════════════════════════════ */
 function initAuth() {
   const { auth, onAuthStateChanged } = window.FB;
 
-  // Mostra loading spinner enquanto auth resolve
   const matchArea = document.getElementById('matchArea');
   if (matchArea) matchArea.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><br>Verificando sessão...</div>';
 
@@ -1382,7 +2571,6 @@ function initAuth() {
       await loadMatchAndPalpite();
     } else {
       currentUser = null;
-      // Evita loop: só redireciona se não veio do cadastro agora
       const origem = sessionStorage.getItem('_cadOrigem');
       if (origem !== 'palpitometro.html') {
         sessionStorage.setItem('_cadOrigem', 'palpitometro.html');
@@ -1392,8 +2580,6 @@ function initAuth() {
   });
 }
 
-// Se window.FB já está disponível quando o script roda, inicia direto
-// Caso contrário espera o evento (modules são async)
 if (window.FB) {
   initAuth();
 } else {
@@ -1401,5 +2587,5 @@ if (window.FB) {
 }
 </script>
 
-
-</body></html>
+</body>
+</html>
