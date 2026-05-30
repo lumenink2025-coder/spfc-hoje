@@ -1240,32 +1240,11 @@ body::before {
   padding: 0;
   position: relative;
   overflow: hidden;
-  min-height: 120px;
-  display: flex;
-  align-items: flex-end;
+  /* Proporção da imagem: ~5:1 landscape */
+  aspect-ratio: 5 / 1.4;
+  min-height: 88px;
 }
-/* Overlay gradiente do banner da geladeira */
-.vergonha-banner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(8,8,10,.88) 0%,
-    rgba(8,8,10,.65) 55%,
-    rgba(8,8,10,.30) 100%
-  );
-  border-radius: var(--r-lg);
-  pointer-events: none;
-  z-index: 0;
-}
-/* Texto do banner sobre a imagem */
-.vergonha-banner-inner {
-  position: relative;
-  z-index: 1;
-  padding: var(--sp-md);
-  width: 100%;
-}
+/* Sem overlay — imagem mostra título e subtítulo nativamente */
 
 .vb-eyebrow {
   font-family: var(--f-display);
@@ -2561,13 +2540,7 @@ async function loadVergonha() {
 
     /* ── Banner de identidade ── */
     const bannerHtml = `
-      <div class="vergonha-banner fade-in">
-        <div class="vergonha-banner-inner">
-          <div class="vb-eyebrow">Temporada 2025</div>
-          <div class="vb-title">Mural da<br>Vergonha</div>
-          <div class="vb-sub">Os campeões do erro — quem mais chutou errado</div>
-        </div>
-      </div>`;
+      <div class="vergonha-banner fade-in"></div>`;
 
     /* ── Campeão da vergonha ── */
     const champHtml = top3V[0] ? `
