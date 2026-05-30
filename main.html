@@ -4086,30 +4086,43 @@ async function fillHubUserData(){
   const elS = document.getElementById('quizStreakVal');
   if(elS) elS.textContent = streak;
 
-  // Firebase: totalScore → nível + XP (mesma lógica da topbar)
+  // Firebase: xp → nível + XP (mesma lógica da topbar)
   const myData = await fetchMyRankPosition(); // retorna {pos, score}
-  const totalScore = myData ? myData.score : 0;
+  
+  // Busca xp real do usuário (campo unificado)
+  let xpReal = 0;
+  try {
+    const authApp = window._indexAuth?.app || null;
+    if (authApp) {
+      const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+      const db2 = getFirestore(authApp);
+      const uid = window._indexAuth?.currentUser?.uid;
+      if (uid) {
+        const snap = await getDoc(doc(db2, 'users', uid));
+        if (snap.exists()) xpReal = snap.data().xp || snap.data().totalXP || 0;
+      }
+    }
+  } catch(e) {}
 
-  // reusar getLevelInfo que já existe na página
-  const info = getLevelInfo(totalScore);
+  const info = getLevelInfo(xpReal);
 
   // nível no pill
   const elL = document.getElementById('quizLevelVal');
   if(elL) elL.textContent = info.level;
 
-  // pontos
+  // pontos do ranking
   const elP = document.getElementById('quizPtsVal');
-  if(elP) elP.textContent = totalScore >= 1000 ? (totalScore/1000).toFixed(1)+'k' : totalScore;
+  if(elP) elP.textContent = (myData?.score || 0) >= 1000 ? ((myData?.score||0)/1000).toFixed(1)+'k' : (myData?.score || 0);
 
   // posição no ranking
   const elR = document.getElementById('quizRankPosVal');
   if(elR) elR.textContent = myData ? '#'+myData.pos : '—';
 
-  // barra de XP — progresso dentro do nível atual (igual à topbar)
-  const xpCurr = info.xpCurr;
-  const xpNext = info.xpNext || xpCurr;
-  const xpInLevel   = totalScore - xpCurr;
-  const xpForLevel  = xpNext - xpCurr;
+  // barra de XP — progresso dentro do nível atual
+  const xpCurr = XP_TITLES[info.level-1]?.min || 0;
+  const xpNext = info.nextXP || xpCurr;
+  const xpInLevel  = xpReal - xpCurr;
+  const xpForLevel = xpNext - xpCurr;
   const pct = xpForLevel > 0 ? Math.min(100, Math.round(xpInLevel / xpForLevel * 100)) : 100;
 
   const elxp = document.getElementById('quizXpFill');
