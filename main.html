@@ -48,139 +48,240 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min-heig
 /* ── SCANLINES ───────────────────────────────────── */
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);pointer-events:none;z-index:9999}
 
-/* ── TOP BAR ─────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════
+   TOP BAR — PREMIUM REDESIGN
+══════════════════════════════════════════════════════ */
 .topbar{
-  position:fixed;top:0;left:0;right:0;
-  z-index:400;
-  height:calc(56px + env(safe-area-inset-top));
+  position:fixed;top:0;left:0;right:0;z-index:400;
+  height:calc(64px + env(safe-area-inset-top));
   padding-top:env(safe-area-inset-top);
   display:flex;align-items:center;justify-content:space-between;
-  padding-left:16px;padding-right:16px;
-  background:linear-gradient(180deg,rgba(8,0,0,.98) 0%,rgba(10,10,10,.95) 100%);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(204,0,0,.18);
-  box-shadow:0 1px 0 rgba(204,0,0,.08),0 4px 24px rgba(0,0,0,.5)
+  padding-left:14px;padding-right:14px;gap:10px;
+  background:linear-gradient(180deg,rgba(6,0,0,1) 0%,rgba(10,10,10,.98) 100%);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(204,0,0,.15);
+  box-shadow:0 1px 0 rgba(204,0,0,.06),0 8px 32px rgba(0,0,0,.6)
 }
 
 /* ── HAMBURGER ───────────────────────────────────── */
 .tb-menu-btn{
-  width:38px;height:38px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:5px;
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-  border-radius:10px;cursor:pointer;transition:.2s;flex-shrink:0
+  width:42px;height:42px;flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;cursor:pointer;
+  transition:background .15s,transform .15s,border-color .15s;
+  -webkit-tap-highlight-color:transparent
 }
-.tb-menu-btn:active{transform:scale(.93);background:rgba(204,0,0,.15)}
-.tb-menu-bar{width:18px;height:2px;background:var(--txt);border-radius:2px;transition:.3s;transform-origin:center}
-.tb-menu-btn.open .tb-menu-bar:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.tb-menu-btn:active{transform:scale(.88);background:rgba(204,0,0,.2);border-color:rgba(204,0,0,.4)}
+.tb-menu-bar{width:16px;height:1.5px;background:var(--txt);border-radius:2px;transition:.28s cubic-bezier(.4,0,.2,1);transform-origin:center}
+.tb-menu-bar:nth-child(2){width:11px;align-self:flex-start;margin-left:2.5px}
+.tb-menu-btn.open .tb-menu-bar:nth-child(1){transform:translateY(6.5px) rotate(45deg);width:16px}
 .tb-menu-btn.open .tb-menu-bar:nth-child(2){opacity:0;transform:scaleX(0)}
-.tb-menu-btn.open .tb-menu-bar:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.tb-menu-btn.open .tb-menu-bar:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 
-/* ── MENU DRAWER ──────────────────────────────────── */
+/* ── DRAWER OVERLAY ──────────────────────────────── */
 .tb-drawer-overlay{
   position:fixed;inset:0;z-index:390;
-  background:rgba(0,0,0,.6);backdrop-filter:blur(4px);
+  background:rgba(0,0,0,.65);backdrop-filter:blur(5px);
   opacity:0;visibility:hidden;transition:.25s
 }
 .tb-drawer-overlay.show{opacity:1;visibility:visible}
+
+/* ── DRAWER ──────────────────────────────────────── */
 .tb-drawer{
   position:fixed;top:0;left:0;bottom:0;z-index:395;
-  width:min(280px,80vw);
-  background:linear-gradient(160deg,#0d0000 0%,#0a0a0a 100%);
-  border-right:1px solid rgba(204,0,0,.2);
-  transform:translateX(-100%);transition:.3s cubic-bezier(.4,0,.2,1);
+  width:min(290px,82vw);
+  background:linear-gradient(160deg,#0c0000 0%,#090909 100%);
+  border-right:1px solid rgba(204,0,0,.18);
+  transform:translateX(-100%);transition:.32s cubic-bezier(.4,0,.2,1);
   display:flex;flex-direction:column;
-  padding-top:calc(56px + env(safe-area-inset-top));
-  box-shadow:4px 0 40px rgba(0,0,0,.6)
+  padding-top:calc(64px + env(safe-area-inset-top));
+  box-shadow:6px 0 48px rgba(0,0,0,.7)
 }
 .tb-drawer.show{transform:translateX(0)}
 .tb-drawer-header{
-  padding:20px 20px 16px;
-  border-bottom:1px solid rgba(255,255,255,.06)
+  padding:22px 20px 18px;
+  border-bottom:1px solid rgba(255,255,255,.05)
 }
-.tb-drawer-logo{height:32px;width:auto;margin-bottom:10px}
-.tb-drawer-tagline{font-size:10px;color:var(--txt3);letter-spacing:3px;text-transform:uppercase}
-.tb-drawer-nav{flex:1;overflow-y:auto;padding:8px 0}
+.tb-drawer-logo{height:30px;width:auto;margin-bottom:8px;opacity:.9}
+.tb-drawer-tagline{font-size:9px;color:var(--txt3);letter-spacing:4px;text-transform:uppercase}
+.tb-drawer-nav{flex:1;overflow-y:auto;padding:6px 0}
 .tb-drawer-item{
   display:flex;align-items:center;gap:14px;
-  padding:13px 20px;cursor:pointer;
-  font-family:var(--font-ui);font-size:14px;letter-spacing:1.5px;
-  color:var(--txt2);text-transform:uppercase;border:none;background:none;
-  width:100%;text-align:left;transition:.15s;border-left:3px solid transparent
+  padding:14px 20px;cursor:pointer;
+  font-family:var(--font-ui);font-size:13px;letter-spacing:1.5px;
+  color:var(--txt2);text-transform:uppercase;
+  border:none;background:none;width:100%;text-align:left;
+  transition:.15s;border-left:3px solid transparent;
+  -webkit-tap-highlight-color:transparent
 }
-.tb-drawer-item:active{background:rgba(204,0,0,.1)}
-.tb-drawer-item.active-page{color:var(--red);border-left-color:var(--red);background:rgba(204,0,0,.07)}
-.tb-drawer-item-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0}
-.tb-drawer-sep{height:1px;background:rgba(255,255,255,.06);margin:8px 20px}
+.tb-drawer-item:active{background:rgba(204,0,0,.1);color:var(--txt)}
+.tb-drawer-item.active-page{color:var(--red);border-left-color:var(--red);background:rgba(204,0,0,.06)}
+.tb-drawer-item-icon{font-size:17px;width:22px;text-align:center;flex-shrink:0}
+.tb-drawer-sep{height:1px;background:rgba(255,255,255,.05);margin:6px 20px}
 .tb-drawer-footer{
   padding:16px 20px;padding-bottom:calc(16px + env(safe-area-inset-bottom));
-  border-top:1px solid rgba(255,255,255,.06)
+  border-top:1px solid rgba(255,255,255,.05)
 }
-.tb-drawer-version{font-size:10px;color:var(--txt3);letter-spacing:2px}
+.tb-drawer-version{font-size:9px;color:rgba(255,255,255,.2);letter-spacing:2px}
 
-/* ── LEVEL PILL (centro) ──────────────────────────── */
-.tb-level{
-  display:flex;flex-direction:column;align-items:center;gap:1px;
-  cursor:default;user-select:none
+/* ══ CENTRO — PLAYER CARD ════════════════════════════
+   Inspirado em sistemas de progressão de jogos:
+   nível em destaque, XP bar orgânica, streak integrado
+═══════════════════════════════════════════════════ */
+.tb-center{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px;
+  min-width:0
 }
-.tb-level-badge{
-  display:flex;align-items:center;gap:5px;
-  background:linear-gradient(135deg,rgba(200,168,75,.15) 0%,rgba(200,168,75,.06) 100%);
-  border:1px solid rgba(200,168,75,.3);border-radius:20px;
-  padding:4px 12px 4px 8px
+.tb-player-card{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 12px 5px 8px;
+  background:linear-gradient(135deg,rgba(200,168,75,.12) 0%,rgba(180,140,40,.05) 100%);
+  border:1px solid rgba(200,168,75,.22);
+  border-radius:24px;position:relative;overflow:hidden;
+  box-shadow:0 0 20px rgba(200,168,75,.06),inset 0 1px 0 rgba(255,255,255,.06)
 }
-.tb-level-star{font-size:13px;line-height:1}
-.tb-level-num{
-  font-family:var(--font-title);font-size:18px;line-height:1;
-  color:var(--gold2);letter-spacing:1px
+/* shimmer sutil no card */
+.tb-player-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.04) 50%,transparent 60%);
+  animation:tbShimmer 3s ease-in-out infinite
 }
-.tb-level-label{font-size:8px;color:var(--txt3);letter-spacing:2px;text-transform:uppercase}
-.tb-xp-bar-wrap{width:80px;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
-.tb-xp-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;transition:width .6s ease}
+@keyframes tbShimmer{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
 
-/* ── USER AREA (direita) ─────────────────────────── */
-.tb-user-btn{
-  display:flex;align-items:center;gap:7px;
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-  border-radius:22px;padding:3px 10px 3px 3px;
-  cursor:pointer;transition:.2s;position:relative;flex-shrink:0
-}
-.tb-user-btn:active{transform:scale(.96)}
-.tb-user-avatar{
-  width:32px;height:32px;border-radius:50%;
-  background:var(--bg3);border:2px solid rgba(204,0,0,.5);
+.tb-level-icon{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#C8A84B,#8B6914);
   display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:600;color:var(--red);overflow:hidden;
-  font-family:var(--font-ui);flex-shrink:0
+  font-size:12px;box-shadow:0 2px 8px rgba(200,168,75,.35)
 }
-.tb-user-name{
-  font-family:var(--font-ui);font-size:11px;letter-spacing:.5px;
-  color:var(--txt);white-space:nowrap;max-width:60px;
-  overflow:hidden;text-overflow:ellipsis
+.tb-level-info{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+.tb-level-label{
+  font-family:var(--font-body);font-size:8px;
+  color:rgba(200,168,75,.6);letter-spacing:2.5px;text-transform:uppercase;
+  line-height:1
 }
-.tb-user-chevron{font-size:9px;color:var(--txt3)}
+.tb-level-value{
+  font-family:var(--font-title);font-size:20px;line-height:1;
+  color:var(--gold2);letter-spacing:.5px
+}
 
-/* ── USER DROPDOWN ───────────────────────────────── */
+/* XP bar — abaixo do player card */
+.tb-xp-row{
+  display:flex;align-items:center;gap:6px;width:100%;max-width:160px
+}
+.tb-xp-bar-wrap{
+  flex:1;height:3px;
+  background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden
+}
+.tb-xp-bar{
+  height:100%;border-radius:99px;
+  background:linear-gradient(90deg,#8B6914,#C8A84B,#E2C97E);
+  transition:width .8s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 6px rgba(200,168,75,.4)
+}
+.tb-xp-pct{
+  font-family:var(--font-body);font-size:8px;
+  color:rgba(200,168,75,.5);letter-spacing:1px;white-space:nowrap
+}
+
+/* ── STREAK (integrado no centro, abaixo do XP) ── */
+.tb-streak{
+  display:none;align-items:center;gap:3px;
+  background:rgba(255,100,0,.1);border:1px solid rgba(255,100,0,.2);
+  border-radius:10px;padding:2px 7px;
+  font-family:var(--font-body);font-size:9px;
+  color:rgba(255,160,60,.9);letter-spacing:1px;
+  animation:streakPulse 2.5s ease-in-out infinite
+}
+.tb-streak.visible{display:flex}
+@keyframes streakPulse{0%,100%{opacity:1}50%{opacity:.7}}
+.tb-streak-num{font-family:var(--font-title);font-size:13px;color:#ff8c32;line-height:1}
+
+/* ══ DIREITA — USER PROFILE ══════════════════════════
+   Avatar como âncora visual, nome subordinado, chevron
+═══════════════════════════════════════════════════ */
+.tb-user-btn{
+  display:flex;align-items:center;gap:8px;flex-shrink:0;
+  background:none;border:none;cursor:pointer;padding:4px 0 4px 4px;
+  -webkit-tap-highlight-color:transparent;position:relative
+}
+.tb-user-btn:active .tb-user-avatar-wrap{transform:scale(.93)}
+.tb-user-avatar-wrap{
+  position:relative;transition:transform .15s;flex-shrink:0
+}
+.tb-user-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,#1a0000,#2a0a0a);
+  border:2px solid var(--red);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:var(--red);overflow:hidden;
+  font-family:var(--font-ui);
+  box-shadow:0 0 0 1px rgba(204,0,0,.2),0 4px 12px rgba(0,0,0,.4)
+}
+/* Anel de nível ao redor do avatar */
+.tb-avatar-ring{
+  position:absolute;inset:-3px;border-radius:50%;
+  background:conic-gradient(var(--gold) 0%,var(--gold) var(--ring-pct,0%),rgba(255,255,255,.06) var(--ring-pct,0%));
+  z-index:-1
+}
+.tb-user-meta{display:flex;flex-direction:column;align-items:flex-start;gap:1px}
+.tb-user-name{
+  font-family:var(--font-ui);font-size:12px;font-weight:400;
+  letter-spacing:.5px;color:var(--txt);
+  white-space:nowrap;max-width:58px;
+  overflow:hidden;text-overflow:ellipsis;line-height:1.2
+}
+.tb-user-sub{
+  font-size:9px;color:var(--txt3);letter-spacing:1.5px;
+  font-family:var(--font-body);line-height:1
+}
+.tb-chevron{
+  font-size:8px;color:rgba(255,255,255,.25);
+  margin-left:-4px;transition:transform .2s
+}
+.tb-user-btn[aria-expanded="true"] .tb-chevron{transform:rotate(180deg)}
+
+/* ── DROPDOWN ────────────────────────────────────── */
 .tb-user-drop{
-  position:fixed;top:calc(56px + env(safe-area-inset-top) + 6px);right:12px;
-  z-index:410;width:200px;
-  background:linear-gradient(160deg,#140000,#0f0f0f);
-  border:1px solid rgba(204,0,0,.25);border-radius:14px;
-  box-shadow:0 12px 40px rgba(0,0,0,.7);
+  position:fixed;top:calc(64px + env(safe-area-inset-top) + 8px);right:12px;
+  z-index:410;width:210px;
+  background:linear-gradient(160deg,#120000,#0f0f0f);
+  border:1px solid rgba(204,0,0,.2);border-radius:16px;
+  box-shadow:0 16px 48px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.04);
   overflow:hidden;
-  opacity:0;visibility:hidden;transform:translateY(-8px) scale(.97);
-  transition:.2s cubic-bezier(.34,1.56,.64,1)
+  opacity:0;visibility:hidden;transform:translateY(-6px) scale(.96);
+  transition:.22s cubic-bezier(.34,1.56,.64,1)
 }
 .tb-user-drop.show{opacity:1;visibility:visible;transform:none}
+/* mini perfil no topo do dropdown */
+.tb-drop-profile{
+  padding:14px 16px 12px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;gap:10px
+}
+.tb-drop-profile-avatar{
+  width:38px;height:38px;border-radius:50%;overflow:hidden;
+  border:2px solid var(--red);flex-shrink:0;
+  background:var(--bg3);display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:var(--red)
+}
+.tb-drop-profile-info{display:flex;flex-direction:column;gap:1px;min-width:0}
+.tb-drop-profile-name{font-family:var(--font-ui);font-size:13px;color:var(--txt);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-drop-profile-level{font-size:9px;color:var(--gold);letter-spacing:2px}
 .tb-drop-item{
   display:flex;align-items:center;gap:12px;
   padding:13px 16px;cursor:pointer;
   font-family:var(--font-body);font-size:13px;color:var(--txt2);
   border:none;background:none;width:100%;text-align:left;transition:.15s
 }
-.tb-drop-item:hover{background:rgba(255,255,255,.04);color:var(--txt)}
+.tb-drop-item:active{background:rgba(255,255,255,.04);color:var(--txt)}
 .tb-drop-item.danger{color:#ff6666}
-.tb-drop-item.danger:hover{background:rgba(204,0,0,.12)}
-.tb-drop-sep{height:1px;background:rgba(255,255,255,.06);margin:4px 0}
+.tb-drop-item.danger:active{background:rgba(204,0,0,.1)}
+.tb-drop-sep{height:1px;background:rgba(255,255,255,.05);margin:3px 0}
 .rec-dot{width:7px;height:7px;background:var(--red);border-radius:50%;animation:blink 1.4s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
 .tb-notif{width:32px;height:32px;background:var(--bg3);border:1px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:.2s}
@@ -947,7 +1048,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 </style>
 </head>
-<body style="padding-top:calc(56px + env(safe-area-inset-top))">
+<body style="padding-top:calc(64px + env(safe-area-inset-top))">
 
 <!-- DRAWER OVERLAY -->
 <div class="tb-drawer-overlay" id="tbDrawerOverlay" onclick="closeDrawer()"></div>
@@ -986,8 +1087,16 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 <!-- USER DROPDOWN -->
 <div class="tb-user-drop" id="tbUserDrop">
-  <button class="tb-drop-item" onclick="closeUserDrop();openPerfil()">
-    <span>👤</span> Perfil
+  <!-- mini perfil -->
+  <div class="tb-drop-profile">
+    <div class="tb-drop-profile-avatar" id="tbDropAvatar"></div>
+    <div class="tb-drop-profile-info">
+      <div class="tb-drop-profile-name" id="tbDropName">—</div>
+      <div class="tb-drop-profile-level" id="tbDropLevel">NÍVEL 1</div>
+    </div>
+  </div>
+  <button class="tb-drop-item" onclick="closeUserDrop()">
+    <span>👤</span> Meu Perfil
   </button>
   <button class="tb-drop-item" onclick="closeUserDrop();window.location.href='quiz.html'">
     <span>🏅</span> Conquistas
@@ -1000,32 +1109,50 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 <!-- TOPBAR -->
 <header class="topbar">
-  <!-- ESQUERDA: hamburger -->
+
+  <!-- ESQUERDA: hamburger premium -->
   <button class="tb-menu-btn" id="tbMenuBtn" onclick="toggleDrawer()" aria-label="Menu">
     <span class="tb-menu-bar"></span>
     <span class="tb-menu-bar"></span>
     <span class="tb-menu-bar"></span>
   </button>
 
-  <!-- CENTRO: nível do usuário -->
-  <div class="tb-level" id="tbLevel" style="display:none">
-    <div class="tb-level-badge">
-      <span class="tb-level-star">⭐</span>
-      <span class="tb-level-num" id="tbLevelNum">1</span>
+  <!-- CENTRO: player progression card -->
+  <div class="tb-center" id="tbLevel" style="display:none">
+    <div class="tb-player-card">
+      <div class="tb-level-icon" id="tbLevelIcon">⭐</div>
+      <div class="tb-level-info">
+        <span class="tb-level-label">NÍVEL</span>
+        <span class="tb-level-value" id="tbLevelNum">1</span>
+      </div>
     </div>
-    <div class="tb-xp-bar-wrap">
-      <div class="tb-xp-bar" id="tbXpBar" style="width:0%"></div>
+    <div class="tb-xp-row">
+      <div class="tb-xp-bar-wrap">
+        <div class="tb-xp-bar" id="tbXpBar" style="width:0%"></div>
+      </div>
+      <span class="tb-xp-pct" id="tbXpPct">0%</span>
+    </div>
+    <div class="tb-streak" id="tbStreak">
+      🔥 <span class="tb-streak-num" id="tbStreakNum">0</span>
     </div>
   </div>
 
-  <!-- DIREITA: avatar + nome -->
+  <!-- DIREITA: avatar + meta -->
   <div id="tbUserArea" style="display:none">
-    <button class="tb-user-btn" id="tbUserBtn" onclick="toggleUserDrop()">
-      <div class="tb-user-avatar" id="tbUserAvatar"></div>
-      <span class="tb-user-name" id="tbUserName">...</span>
-      <span class="tb-user-chevron">▾</span>
+    <button class="tb-user-btn" id="tbUserBtn"
+            onclick="toggleUserDrop()" aria-expanded="false">
+      <div class="tb-user-avatar-wrap">
+        <div class="tb-user-avatar" id="tbUserAvatar"></div>
+        <div class="tb-avatar-ring" id="tbAvatarRing"></div>
+      </div>
+      <div class="tb-user-meta">
+        <span class="tb-user-name" id="tbUserName">...</span>
+        <span class="tb-user-sub" id="tbUserSub">XP 0</span>
+      </div>
+      <span class="tb-chevron">▾</span>
     </button>
   </div>
+
 </header>
 
 <!-- INSTALL BANNER -->
@@ -2185,18 +2312,18 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
 
 // init() e loadNextMatch() foram substituídos pelas versões abaixo
 
-/* ═══════════════════════════════════════════════════
-   TOPBAR — menu, nível, usuário
-═══════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════
+   TOPBAR — drawer, nível, streak, usuário
+══════════════════════════════════════════════════════ */
 
 // ── Drawer ────────────────────────────────────────
 function toggleDrawer() {
   const btn = document.getElementById('tbMenuBtn');
   const drawer = document.getElementById('tbDrawer');
   const overlay = document.getElementById('tbDrawerOverlay');
-  btn.classList.toggle('open');
-  drawer.classList.toggle('show');
-  overlay.classList.toggle('show');
+  const open = drawer.classList.toggle('show');
+  btn.classList.toggle('open', open);
+  overlay.classList.toggle('show', open);
 }
 function closeDrawer() {
   document.getElementById('tbMenuBtn').classList.remove('open');
@@ -2204,111 +2331,170 @@ function closeDrawer() {
   document.getElementById('tbDrawerOverlay').classList.remove('show');
 }
 function showTab2(tab) {
-  const tabMap = { recordes: 2, goleadas: 3, calendario: 1 };
+  const map = { calendario:1, recordes:2, goleadas:3 };
   const tabs = document.querySelectorAll('.nav-tab');
-  if (tabs[tabMap[tab]]) tabs[tabMap[tab]].click();
+  if (tabs[map[tab]]) tabs[map[tab]].click();
 }
 
 // ── User Dropdown ─────────────────────────────────
 function toggleUserDrop() {
-  document.getElementById('tbUserDrop').classList.toggle('show');
+  const drop = document.getElementById('tbUserDrop');
+  const btn  = document.getElementById('tbUserBtn');
+  const open = drop.classList.toggle('show');
+  btn.setAttribute('aria-expanded', open);
 }
 function closeUserDrop() {
   document.getElementById('tbUserDrop').classList.remove('show');
+  document.getElementById('tbUserBtn').setAttribute('aria-expanded','false');
 }
 document.addEventListener('click', e => {
-  const btn = document.getElementById('tbUserBtn');
+  const btn  = document.getElementById('tbUserBtn');
   const drop = document.getElementById('tbUserDrop');
-  if (drop && !drop.contains(e.target) && btn && !btn.contains(e.target)) {
-    drop.classList.remove('show');
-  }
+  if (drop?.classList.contains('show') && !drop.contains(e.target) && !btn?.contains(e.target))
+    closeUserDrop();
 });
-function openPerfil() { /* placeholder — adicione navegação para perfil */ }
 
-// ── Level XP helper ───────────────────────────────
+// ── Level / XP ────────────────────────────────────
 const XP_PER_LEVEL = [0,100,250,450,700,1000,1400,1900,2500,3200,4000,5000,6200,7600,9200,11000,13200,15700,18500,21600,25000];
+const LEVEL_ICONS  = ['⭐','🌟','💫','🔥','⚡','🏅','🥈','🥇','🏆','👑','💎','🔱','⚜️','🎯','🎖️','🌈','🦁','🐯','🦅','🌙','☀️'];
+
 function getLevelInfo(totalScore) {
   let level = 1;
   for (let i = 1; i < XP_PER_LEVEL.length; i++) {
-    if (totalScore >= XP_PER_LEVEL[i]) level = i + 1; else break;
+    if ((totalScore||0) >= XP_PER_LEVEL[i]) level = i + 1; else break;
   }
   level = Math.min(level, XP_PER_LEVEL.length);
-  const xpCurr = XP_PER_LEVEL[level - 1] || 0;
-  const xpNext = XP_PER_LEVEL[level] || XP_PER_LEVEL[XP_PER_LEVEL.length - 1];
-  const pct = xpNext > xpCurr ? Math.round((totalScore - xpCurr) / (xpNext - xpCurr) * 100) : 100;
-  return { level, pct };
+  const xpCurr = XP_PER_LEVEL[level-1] || 0;
+  const xpNext = XP_PER_LEVEL[level]   || XP_PER_LEVEL[XP_PER_LEVEL.length-1];
+  const pct    = xpNext > xpCurr ? Math.round((totalScore - xpCurr) / (xpNext - xpCurr) * 100) : 100;
+  return { level, pct, xpNext, xpCurr, icon: LEVEL_ICONS[Math.min(level-1,LEVEL_ICONS.length-1)] };
 }
 
-function updateTopbarLevel(totalScore) {
-  const { level, pct } = getLevelInfo(totalScore || 0);
-  const el = document.getElementById('tbLevel');
-  const numEl = document.getElementById('tbLevelNum');
-  const bar = document.getElementById('tbXpBar');
-  if (el) el.style.display = 'flex';
-  if (numEl) numEl.textContent = `NÍVEL ${level}`;
-  if (bar) bar.style.width = pct + '%';
+function updateTopbarLevel(totalScore, streak) {
+  const { level, pct, icon } = getLevelInfo(totalScore || 0);
+
+  // Centro
+  const center  = document.getElementById('tbLevel');
+  const iconEl  = document.getElementById('tbLevelIcon');
+  const numEl   = document.getElementById('tbLevelNum');
+  const bar     = document.getElementById('tbXpBar');
+  const pctEl   = document.getElementById('tbXpPct');
+  const ringEl  = document.getElementById('tbAvatarRing');
+  const subEl   = document.getElementById('tbUserSub');
+  const dropLvl = document.getElementById('tbDropLevel');
+
+  if (center) center.style.display = 'flex';
+  if (iconEl) iconEl.textContent = icon;
+  if (numEl)  numEl.textContent  = level;
+  setTimeout(() => { if (bar) bar.style.width = pct + '%'; }, 80);
+  if (pctEl)  pctEl.textContent  = pct + '%';
+
+  // Anel do avatar proporcional ao XP do nível
+  if (ringEl) ringEl.style.setProperty('--ring-pct', pct + '%');
+
+  // Sub-info direita
+  if (subEl)  subEl.textContent  = `${totalScore || 0} XP`;
+  if (dropLvl) dropLvl.textContent = `NÍVEL ${level} • ${pct}%`;
+
+  // Streak
+  if (streak > 0) {
+    const streakEl  = document.getElementById('tbStreak');
+    const streakNum = document.getElementById('tbStreakNum');
+    if (streakEl)  streakEl.classList.add('visible');
+    if (streakNum) streakNum.textContent = streak;
+  }
+}
+
+// ── Streak helper — salva/lê da coleção 'streaks' ─
+async function loadOrUpdateStreak(db, doc, setDoc, uid) {
+  const today = new Date().toISOString().slice(0,10);
+  const ref   = doc(db, 'streaks', uid);
+  try {
+    const snap = await (await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js')).getDoc(ref);
+    if (snap.exists()) {
+      const d = snap.data();
+      const lastDate = d.lastDate || '';
+      const count    = d.count    || 0;
+      const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
+      if (lastDate === today)    return count;               // já jogou hoje
+      if (lastDate === yesterday){ // dia seguinte — incrementa
+        await setDoc(ref, { count: count+1, lastDate: today });
+        return count + 1;
+      }
+      // quebrou a sequência
+      await setDoc(ref, { count: 1, lastDate: today });
+      return 1;
+    } else {
+      await setDoc(ref, { count: 1, lastDate: today });
+      return 1;
+    }
+  } catch(e) { return 0; }
 }
 
 // ── Firebase Auth ─────────────────────────────────
 (async () => {
   try {
-    const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+    const { initializeApp, getApps }  = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
     const { getAuth, onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+    const { getFirestore, doc, getDoc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
     const cfg = {
-      apiKey: 'AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY',
-      authDomain: 'spfc-hoje-da329.firebaseapp.com',
-      projectId: 'spfc-hoje-da329',
-      storageBucket: 'spfc-hoje-da329.firebasestorage.app',
-      messagingSenderId: '116174859005',
-      appId: '1:116174859005:web:b1e54b040aef23c9c16c94'
+      apiKey:'AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY',
+      authDomain:'spfc-hoje-da329.firebaseapp.com',
+      projectId:'spfc-hoje-da329',
+      storageBucket:'spfc-hoje-da329.firebasestorage.app',
+      messagingSenderId:'116174859005',
+      appId:'1:116174859005:web:b1e54b040aef23c9c16c94'
     };
-    const authApp = getApps().find(a => a.name === '[DEFAULT]') || initializeApp(cfg);
-    const auth = getAuth(authApp);
+    const authApp = getApps().find(a=>a.name==='[DEFAULT]') || initializeApp(cfg);
+    const auth    = getAuth(authApp);
+    const db      = getFirestore(authApp);
     window._indexAuth = auth;
 
-    const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-    const db = getFirestore(authApp);
-
     onAuthStateChanged(auth, async user => {
-      const area = document.getElementById('tbUserArea');
+      const area     = document.getElementById('tbUserArea');
       const avatarEl = document.getElementById('tbUserAvatar');
-      const nameEl = document.getElementById('tbUserName');
+      const nameEl   = document.getElementById('tbUserName');
+      const dropAv   = document.getElementById('tbDropAvatar');
+      const dropNm   = document.getElementById('tbDropName');
 
       if (user) {
         area.style.display = 'block';
         try {
           const snap = await getDoc(doc(db, 'users', user.uid));
-          if (snap.exists()) {
-            const data = snap.data();
-            const name = data.displayName || user.email?.split('@')[0] || 'Torcedor';
-            const avatarUrl = data.avatarUrl || data.avatar?.url || data.avatar?.dataUrl || '';
-            // Nome abreviado (primeira palavra)
-            nameEl.textContent = name.split(' ')[0];
-            // Avatar
-            if (avatarUrl) {
-              avatarEl.innerHTML = `<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
-            } else {
-              avatarEl.textContent = name[0].toUpperCase();
-            }
-            // Nível
-            updateTopbarLevel(data.totalScore || 0);
-          } else {
-            const name = user.email?.split('@')[0] || 'Torcedor';
-            nameEl.textContent = name.split(' ')[0];
-            avatarEl.textContent = name[0].toUpperCase();
-            updateTopbarLevel(0);
-          }
+          const data = snap.exists() ? snap.data() : {};
+          const name       = data.displayName || user.email?.split('@')[0] || 'Torcedor';
+          const avatarUrl  = data.avatarUrl || data.avatar?.url || data.avatar?.dataUrl || '';
+          const totalScore = data.totalScore || 0;
+
+          // Nome
+          const firstName = name.split(' ')[0];
+          if (nameEl) nameEl.textContent = firstName;
+          if (dropNm) dropNm.textContent = name;
+
+          // Avatar
+          const avatarHTML = avatarUrl
+            ? `<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
+            : `<span>${firstName[0].toUpperCase()}</span>`;
+          if (avatarEl) avatarEl.innerHTML = avatarHTML;
+          if (dropAv)   dropAv.innerHTML   = avatarHTML;
+
+          // Streak (coleção separada)
+          const streak = await loadOrUpdateStreak(db, doc, setDoc, user.uid);
+
+          // Nível + XP + streak
+          updateTopbarLevel(totalScore, streak);
+
         } catch(e) {
-          nameEl.textContent = '?';
-          avatarEl.textContent = '?';
+          if (nameEl) nameEl.textContent = '?';
+          if (avatarEl) avatarEl.textContent = '?';
         }
       } else {
-        const isVisitante = localStorage.getItem('spfc_visitante') === '1';
-        const isLocal = location.protocol === 'file:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+        const isVisitante = localStorage.getItem('spfc_visitante')==='1';
+        const isLocal = location.protocol==='file:' || location.hostname==='localhost' || location.hostname==='127.0.0.1';
         if (!isVisitante && !isLocal) window.location.href = 'index.html';
       }
     });
-  } catch(e) { console.warn('Auth check:', e); }
+  } catch(e) { console.warn('Auth:', e); }
 })();
 
 function handleLogout() {
