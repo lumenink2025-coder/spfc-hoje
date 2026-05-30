@@ -2673,32 +2673,47 @@ async function loadNextMatch() {
 let DB_LOADED = false; // true quando Firebase carregou
 
 async function loadFirebaseEvents() {
-  // ── NOVO: busca JSON estático em vez do Firestore (zero leituras) ──
   try {
-    const res = await fetch('/data/eventos.json?v=' + Date.now());
-    if (!res.ok) throw new Error('JSON não encontrado');
-    const lista = await res.json();
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
+    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
 
-    if (!lista || lista.length === 0) return;
+    const app = initializeApp({
+      apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
+      authDomain: "spfc-hoje-da329.firebaseapp.com",
+      projectId: "spfc-hoje-da329",
+      storageBucket: "spfc-hoje-da329.firebasestorage.app",
+      messagingSenderId: "116174859005",
+      appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
+    }, 'calendar-app');
+
+    const db = getFirestore(app);
+    const snap = await getDocs(collection(db, 'eventos'));
+
+    if (snap.empty) return; // sem dados no Firebase, usa DB local
 
     // Reconstrói o DB no formato {mes: {dia: [eventos]}}
     const newDB = {};
-    lista.forEach(ev => {
+    snap.forEach(d => {
+      const ev = d.data();
       if (!newDB[ev.mes]) newDB[ev.mes] = {};
       if (!newDB[ev.mes][ev.dia]) newDB[ev.mes][ev.dia] = [];
       newDB[ev.mes][ev.dia].push(ev);
     });
 
+    // Substitui o DB local
     Object.keys(DB).forEach(k => delete DB[k]);
     Object.assign(DB, newDB);
     DB_LOADED = true;
 
+    // Re-renderiza com dados do Firebase
     renderHoje();
     renderCalGrid();
-    console.log(`✅ Eventos JSON: ${lista.length} eventos carregados`);
+    console.log(`✅ Firebase: ${snap.size} eventos carregados`);
   } catch(e) {
-    console.warn('JSON eventos não disponível, usando DB local:', e.message);
+    console.warn('Firebase offline, usando DB local:', e.message);
+    // Re-renderiza com dados locais após o Firebase falhar
     renderHoje();
+    // Debug: mostra quantos eventos tem hoje no DB local
     const todayEvs = ev(TODAY_M, TODAY_D);
     console.log(`📅 DB local — hoje (${TODAY_D}/${TODAY_M}): ${todayEvs.length} eventos`, todayEvs);
   }
