@@ -3034,21 +3034,17 @@ async function renderDestaque() {
   const card = document.getElementById('destaqueCard');
   if (!card) return;
 
-  // Verifica se há destaque fixado no Firestore
+  // Verifica se há destaque fixado no JSON (campo destaqueData = hoje)
   let best = null;
+  const todayStr = `${TODAY_M < 10 ? '0' : ''}${TODAY_M < 10 ? TODAY_M : TODAY_M}-${TODAY_D < 10 ? '0' : ''}${TODAY_D}`;
+  const todayFull = new Date().toISOString().slice(0,10);
+
   try {
-    const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-    const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
-    const cfg = { apiKey:'AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY', authDomain:'spfc-hoje-da329.firebaseapp.com', projectId:'spfc-hoje-da329', storageBucket:'spfc-hoje-da329.firebasestorage.app', messagingSenderId:'116174859005', appId:'1:116174859005:web:b1e54b040aef23c9c16c94' };
-    const app2 = getApps().find(a => a.name==='[DEFAULT]') || initializeApp(cfg);
-    const db2 = getFirestore(app2);
-    const snap = await getDoc(doc(db2, 'config', 'destaque'));
-    if (snap.exists() && snap.data().event) {
-      const pinned = snap.data().event;
-      // Normaliza campos (eventos do Firestore podem ter 'title' em vez de 'n')
-      best = { ...pinned, n: pinned.n || pinned.title || '', d: pinned.d || pinned.desc || '' };
-    }
-  } catch(e) { /* sem conexão, usa lógica local */ }
+    // Busca nos eventos já carregados no DB
+    const todayEvents = ev(TODAY_M, TODAY_D);
+    const fixado = todayEvents.find(e => e.destaqueData === todayFull);
+    if (fixado) best = fixado;
+  } catch(e) {}
 
   // Fallback: lógica automática por prioridade
   if (!best) best = getDestaqueEvent(TODAY_M, TODAY_D);

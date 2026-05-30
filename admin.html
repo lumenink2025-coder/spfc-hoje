@@ -672,37 +672,39 @@ window.showTab = function(tab, btn) {
 };
 
 // ── ABA DESTAQUE ──────────────────────────────────────
+// O destaque agora é salvo direto no Firestore em cada evento (campo destaqueData)
+// e propagado via eventos.json ao publicar. Zero leitura extra no app.
 
 window.loadDestaqueTab = async function() {
-  // Preenche data padrão com hoje
   const today = new Date().toISOString().slice(0,10);
   const dateInput = document.getElementById('destaqueDate');
   if (dateInput && !dateInput.value) dateInput.value = today;
 
-  // Carrega destaque atual do Firestore (usa db já autenticado do módulo)
+  // Mostra destaque atual buscando no Firestore pelo campo destaqueData = hoje
   const el = document.getElementById('destaqueAtualContent');
   try {
-    const snap = await getDoc(doc(db, 'config', 'destaque'));
-    if (snap.exists() && snap.data().event) {
-      const ev = snap.data().event;
-      const pinnedDate = snap.data().pinnedDate || '';
+    const todayStr = new Date().toISOString().slice(0,10);
+    const q = query(collection(db, 'eventos'), where('destaqueData', '==', todayStr));
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+      const ev = { id: snap.docs[0].id, ...snap.docs[0].data() };
       el.innerHTML = `
         <div style="display:flex;gap:16px;align-items:flex-start">
           ${ev.image ? `<img src="${ev.image}" style="width:80px;height:60px;object-fit:cover;border-radius:6px;flex-shrink:0">` : `<div style="width:80px;height:60px;background:var(--bg3);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">${ev.video ? '🎬' : '📅'}</div>`}
           <div>
             <div style="font-weight:600;color:var(--txt);font-size:15px;margin-bottom:4px">${ev.n || ev.title || '—'}</div>
             <div style="font-size:12px;color:var(--txt3);margin-bottom:4px">${ev.y || ''} · ${ev.t || ''}</div>
-            <div style="font-size:11px;color:var(--gold);letter-spacing:1px">📌 Fixado em ${pinnedDate}</div>
+            <div style="font-size:11px;color:var(--gold);letter-spacing:1px">📌 Fixado para ${todayStr}</div>
+            <button onclick="clearDestaque('${ev.id}')" style="margin-top:8px;padding:6px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);border-radius:6px;font-size:11px;cursor:pointer">🗑️ Remover destaque</button>
           </div>
         </div>`;
     } else {
-      el.innerHTML = `<span style="color:var(--txt3);font-style:italic">Nenhum evento fixado — o app usa a lógica automática</span>`;
+      el.innerHTML = `<span style="color:var(--txt3);font-style:italic">Nenhum evento fixado para hoje — o app usa a lógica automática</span>`;
     }
   } catch(e) {
     el.innerHTML = `<span style="color:#ff6666">Erro ao carregar: ${e.message}</span>`;
   }
 
-  // Busca eventos de hoje automaticamente
   buscarEventosDia('hoje');
 };
 
@@ -743,13 +745,13 @@ window.buscarEventosDia = async function(mode) {
     const catEmoji = { vitoria:'⚽', titulo:'🏆', aniversario:'🎂', estreia:'⭐', despedida:'👋', recorde:'📊', mundial:'🌍', fundacao:'🏛️' };
     listEl.innerHTML = `
       <div style="font-size:11px;letter-spacing:3px;color:var(--txt3);margin-bottom:12px">${events.length} EVENTO(S) EM ${d2}/${m}</div>
-      ${events.map((ev, i) => `
-        <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:16px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start">
+      ${events.map((ev) => `
+        <div style="background:var(--bg2);border:1px solid ${ev.destaqueData === dateVal ? 'var(--gold)' : 'var(--border2)'};border-radius:12px;padding:16px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start">
           ${ev.image ? `<img src="${ev.image}" style="width:70px;height:52px;object-fit:cover;border-radius:6px;flex-shrink:0">` : `<div style="width:70px;height:52px;background:var(--bg3);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${catEmoji[ev.t]||'📅'}</div>`}
           <div style="flex:1;min-width:0">
             <div style="font-weight:600;color:var(--txt);font-size:14px;margin-bottom:3px">${ev.n || ev.title || '—'}</div>
-            <div style="font-size:11px;color:var(--txt3);margin-bottom:10px">${ev.y || ''} · ${ev.t || ''}</div>
-            <button onclick='fixarDestaque(${JSON.stringify(ev).replace(/'/g,"&#39;")})' style="padding:8px 18px;background:var(--red);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:1px">📌 FIXAR COMO DESTAQUE</button>
+            <div style="font-size:11px;color:var(--txt3);margin-bottom:10px">${ev.y || ''} · ${ev.t || ''}${ev.destaqueData === dateVal ? ' &nbsp;⭐ DESTAQUE' : ''}</div>
+            <button onclick='fixarDestaque("${ev.id}", "${dateVal}")' style="padding:8px 18px;background:${ev.destaqueData === dateVal ? 'var(--gold)' : 'var(--red)'};color:#${ev.destaqueData === dateVal ? '000' : 'fff'};border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:1px">${ev.destaqueData === dateVal ? '⭐ JÁ É DESTAQUE' : '📌 FIXAR COMO DESTAQUE'}</button>
           </div>
         </div>
       `).join('')}`;
@@ -758,26 +760,30 @@ window.buscarEventosDia = async function(mode) {
   }
 };
 
-window.fixarDestaque = async function(evObj) {
+window.fixarDestaque = async function(evId, dateVal) {
   try {
-    const today = new Date().toLocaleDateString('pt-BR');
-    await setDoc(doc(db, 'config', 'destaque'), {
-      event: evObj,
-      pinnedDate: today,
-      pinnedAt: new Date().toISOString(),
+    // Remove destaque anterior dessa data
+    const q = query(collection(db, 'eventos'), where('destaqueData', '==', dateVal));
+    const snap = await getDocs(q);
+    const batch = [];
+    snap.forEach(d => {
+      if (d.id !== evId) batch.push(updateDoc(doc(db, 'eventos', d.id), { destaqueData: null }));
     });
-    showToast('✅ Destaque fixado!', 'ok');
+    await Promise.all(batch);
+    // Fixa o novo
+    await updateDoc(doc(db, 'eventos', evId), { destaqueData: dateVal });
+    showToast('✅ Destaque fixado! Lembre de Publicar Eventos.', 'ok');
     loadDestaqueTab();
   } catch(e) {
     showToast('Erro: ' + e.message, 'err');
   }
 };
 
-window.clearDestaque = async function() {
-  if (!confirm('Remover o destaque fixado? O app voltará à lógica automática.')) return;
+window.clearDestaque = async function(evId) {
+  if (!confirm('Remover o destaque? O app voltará à lógica automática.')) return;
   try {
-    await setDoc(doc(db, 'config', 'destaque'), { event: null, pinnedDate: null });
-    showToast('🗑️ Destaque removido', 'ok');
+    await updateDoc(doc(db, 'eventos', evId), { destaqueData: null });
+    showToast('🗑️ Destaque removido! Lembre de Publicar Eventos.', 'ok');
     loadDestaqueTab();
   } catch(e) {
     showToast('Erro: ' + e.message, 'err');
