@@ -3067,27 +3067,93 @@ document.addEventListener('click', e => {
     closeUserDrop();
 });
 
-// ── Level / XP ────────────────────────────────────
-const XP_PER_LEVEL = [0,100,250,450,700,1000,1400,1900,2500,3200,4000,5000,6200,7600,9200,11000,13200,15700,18500,21600,25000];
-const LEVEL_ICONS  = ['⭐','🌟','💫','🔥','⚡','🏅','🥈','🥇','🏆','👑','💎','🔱','⚜️','🎯','🎖️','🌈','🦁','🐯','🦅','🌙','☀️'];
+// ── Level / XP — mesma tabela do quiz ────────────
+const XP_TITLES = [
+  {min:0,    title:'Torcedor de Arquibancada',     emoji:'👤'},
+  {min:100,  title:'Torcedor da Caldeira',         emoji:'🔥'},
+  {min:250,  title:'Sócio-Torcedor',               emoji:'🎫'},
+  {min:500,  title:'Fiel Tricolor',                emoji:'❤️'},
+  {min:800,  title:'Conhecedor da História',       emoji:'📚'},
+  {min:1200, title:'Membro da Torcida Organizada', emoji:'🥁'},
+  {min:1700, title:'Torcedor que Nunca Faltou',    emoji:'🏟️'},
+  {min:2300, title:'Historiador Tricolor',         emoji:'🎓'},
+  {min:3000, title:'Guardião do Morumbi',          emoji:'🛡️'},
+  {min:3800, title:'Lenda das Arquibancadas',      emoji:'⭐'},
+  {min:4700, title:'Garoto do Cotia',              emoji:'⚽'},
+  {min:5700, title:'Revelação do Tricolor',        emoji:'💎'},
+  {min:6800, title:'Jogador da Base',              emoji:'🏃'},
+  {min:8000, title:'Reserva de Luxo',              emoji:'🪑'},
+  {min:9300, title:'Titular Absoluto',             emoji:'👕'},
+  {min:10700,title:'Artilheiro do Paulistão',      emoji:'🎯'},
+  {min:12200,title:'Ídolo em Formação',            emoji:'🌟'},
+  {min:13800,title:'Craque do Brasileirão',        emoji:'🏆'},
+  {min:15500,title:'Estrela da Libertadores',      emoji:'⭐'},
+  {min:17300,title:'Ídolo do Morumbi',             emoji:'🎖️'},
+  {min:19200,title:'Campeão Paulista',             emoji:'🏆'},
+  {min:21200,title:'Bicampeão Estadual',           emoji:'🏆🏆'},
+  {min:23300,title:'Tricampeão Paulista',          emoji:'🏆🏆🏆'},
+  {min:25500,title:'Campeão Brasileiro',           emoji:'🇧🇷'},
+  {min:27800,title:'Bicampeão Brasileiro',         emoji:'🇧🇷🇧🇷'},
+  {min:30200,title:'Tricampeão Brasileiro',        emoji:'🇧🇷🇧🇷🇧🇷'},
+  {min:32700,title:'Campeão da Copa do Brasil',    emoji:'🥇'},
+  {min:35300,title:'Campeão da Sul-Americana',     emoji:'🌎'},
+  {min:38000,title:'Campeão da Libertadores',      emoji:'⭐'},
+  {min:40800,title:'Bicampeão da Libertadores',    emoji:'⭐⭐'},
+  {min:43700,title:'Campeão Mundial',              emoji:'🌍'},
+  {min:46700,title:'Bicampeão Mundial',            emoji:'🌍🌍'},
+  {min:49800,title:'Tricampeão Mundial',           emoji:'🌍🌍🌍'},
+  {min:53000,title:'Maior Campeão do Brasil',      emoji:'👑'},
+  {min:56300,title:'Gigante da América',           emoji:'🌎'},
+  {min:59700,title:'Rei dos Clássicos',            emoji:'👑'},
+  {min:63200,title:'Senhor do Morumbi',            emoji:'🏰'},
+  {min:66800,title:'Lenda Viva do Tricolor',       emoji:'✨'},
+  {min:70500,title:'Ídolo Eterno',                 emoji:'🗿'},
+  {min:74300,title:'Mito Tricolor',                emoji:'🔱'},
+  {min:78200,title:'Guerreiro de 92',              emoji:'⚔️'},
+  {min:82200,title:'Herói de 93',                  emoji:'🦸'},
+  {min:86300,title:'Campeão de 2005',              emoji:'🏅'},
+  {min:90500,title:'Campeão de 2023',              emoji:'🎉'},
+  {min:94800,title:'Filho de Telê Santana',        emoji:'🎩'},
+  {min:99200,title:'Discípulo de Rogério Ceni',    emoji:'🧤'},
+  {min:103700,title:'Herdeiro de Raí',             emoji:'🎖️'},
+  {min:108300,title:'Sucessor de Kaká',            emoji:'⚡'},
+  {min:113000,title:'Novo Cafu',                   emoji:'🏃'},
+  {min:117800,title:'Próximo Müller',              emoji:'🎯'},
+  {min:122700,title:'Lenda do Morumbi',            emoji:'🏟️'},
+  {min:127700,title:'Ícone do São Paulo',          emoji:'🎭'},
+  {min:132800,title:'Monumento Tricolor',          emoji:'🗿'},
+  {min:138000,title:'Imortal do SPFC',             emoji:'♾️'},
+  {min:143300,title:'Deus do Futebol Paulista',    emoji:'⚡'},
+  {min:148700,title:'Guardião das Três Cores',     emoji:'🔴⚪⚫'},
+  {min:154200,title:'Mestre do Morumbi',           emoji:'🎓'},
+  {min:159800,title:'Rei do Futebol Brasileiro',   emoji:'👑'},
+  {min:165500,title:'Lenda Sul-Americana',         emoji:'🌎'},
+  {min:171300,title:'Gigante Mundial',             emoji:'🌍'},
+  {min:177200,title:'Supremo Tricolor',            emoji:'🔱'},
+  {min:183200,title:'Soberano do Morumbi',         emoji:'👑'},
+];
 
-function getLevelInfo(totalScore) {
-  let level = 1;
-  for (let i = 1; i < XP_PER_LEVEL.length; i++) {
-    if ((totalScore||0) >= XP_PER_LEVEL[i]) level = i + 1; else break;
+function getLevelInfo(xp) {
+  let level = 1, title = XP_TITLES[0].title, emoji = XP_TITLES[0].emoji;
+  let nextXP = XP_TITLES[1]?.min || null;
+  for (let i = XP_TITLES.length - 1; i >= 0; i--) {
+    if ((xp||0) >= XP_TITLES[i].min) {
+      level  = i + 1;
+      title  = XP_TITLES[i].title;
+      emoji  = XP_TITLES[i].emoji;
+      nextXP = i < XP_TITLES.length - 1 ? XP_TITLES[i+1].min : null;
+      break;
+    }
   }
-  level = Math.min(level, XP_PER_LEVEL.length);
-  const xpCurr = XP_PER_LEVEL[level-1] || 0;
-  const xpNext = XP_PER_LEVEL[level]   || XP_PER_LEVEL[XP_PER_LEVEL.length-1];
-  const pct    = xpNext > xpCurr ? Math.round((totalScore - xpCurr) / (xpNext - xpCurr) * 100) : 100;
-  return { level, pct, xpNext, xpCurr, icon: LEVEL_ICONS[Math.min(level-1,LEVEL_ICONS.length-1)] };
+  const xpCurr = XP_TITLES[level-1]?.min || 0;
+  const xpNext = nextXP || xpCurr;
+  const pct    = xpNext > xpCurr ? Math.round(((xp||0) - xpCurr) / (xpNext - xpCurr) * 100) : 100;
+  return { level, title, emoji, nextXP, pct };
 }
 
-function updateTopbarLevel(totalScore, streak) {
-  const { level, pct, icon } = getLevelInfo(totalScore || 0);
+function updateTopbarLevel(xp, streak) {
+  const { level, pct, emoji, title } = getLevelInfo(xp || 0);
 
-  // Centro
-  const center  = document.getElementById('tbLevel');
   const iconEl  = document.getElementById('tbLevelIcon');
   const numEl   = document.getElementById('tbLevelNum');
   const bar     = document.getElementById('tbXpBar');
@@ -3095,27 +3161,54 @@ function updateTopbarLevel(totalScore, streak) {
   const ringEl  = document.getElementById('tbAvatarRing');
   const subEl   = document.getElementById('tbUserSub');
   const dropLvl = document.getElementById('tbDropLevel');
+  const center  = document.getElementById('tbLevel');
 
   if (center) center.style.display = 'flex';
-  if (iconEl) iconEl.textContent = icon;
+  if (iconEl) iconEl.textContent = emoji;
   if (numEl)  numEl.textContent  = level;
   setTimeout(() => { if (bar) bar.style.width = pct + '%'; }, 80);
   if (pctEl)  pctEl.textContent  = pct + '%';
-
-  // Anel do avatar proporcional ao XP do nível
   if (ringEl) ringEl.style.setProperty('--ring-pct', pct + '%');
+  if (subEl)  subEl.textContent  = `${(xp||0).toLocaleString('pt-BR')} XP`;
+  if (dropLvl) dropLvl.textContent = `NÍVEL ${level} • ${title}`;
 
-  // Sub-info direita
-  if (subEl)  subEl.textContent  = `${totalScore || 0} XP`;
-  if (dropLvl) dropLvl.textContent = `NÍVEL ${level} • ${pct}%`;
-
-  // Streak
   if (streak > 0) {
     const streakEl  = document.getElementById('tbStreak');
     const streakNum = document.getElementById('tbStreakNum');
     if (streakEl)  streakEl.classList.add('visible');
     if (streakNum) streakNum.textContent = streak;
   }
+}
+
+// ── Bônus XP de Login Diário ──────────────────────
+async function grantLoginBonus(db, doc, getDoc, updateDoc, uid, loginStreak) {
+  const today = new Date().toISOString().slice(0,10);
+  const bonusRef = doc(db, 'users', uid);
+  try {
+    const snap = await getDoc(bonusRef);
+    const data = snap.exists() ? snap.data() : {};
+    if (data.lastLoginBonusDate === today) return 0; // já ganhou hoje
+
+    const xpBonus = 20 + (loginStreak * 5); // 20 base + 5 por dia de streak
+    const novoXP = (data.xp || 0) + xpBonus;
+
+    await updateDoc(bonusRef, {
+      xp: novoXP,
+      totalXP: (data.totalXP || 0) + xpBonus,
+      lastLoginBonusDate: today
+    });
+
+    // Toast de bônus
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;padding:10px 20px;border-radius:20px;font-weight:700;font-size:13px;z-index:9999;letter-spacing:1px';
+      div.textContent = `🎁 +${xpBonus} XP — Bônus de login diário!`;
+      document.body.appendChild(div);
+      setTimeout(() => div.remove(), 3000);
+    }, 1500);
+
+    return novoXP;
+  } catch(e) { return 0; }
 }
 
 // ── Streak helper — salva/lê da coleção 'streaks' ─
@@ -3149,7 +3242,7 @@ async function loadOrUpdateStreak(db, doc, setDoc, uid) {
   try {
     const { initializeApp, getApps }  = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
     const { getAuth, onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
-    const { getFirestore, doc, getDoc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+    const { getFirestore, doc, getDoc, setDoc, updateDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
     const cfg = {
       apiKey:'AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY',
       authDomain:'spfc-hoje-da329.firebaseapp.com',
@@ -3177,7 +3270,7 @@ async function loadOrUpdateStreak(db, doc, setDoc, uid) {
           const data = snap.exists() ? snap.data() : {};
           const name       = data.displayName || user.email?.split('@')[0] || 'Torcedor';
           const avatarUrl  = data.avatarUrl || data.avatar?.url || data.avatar?.dataUrl || '';
-          const totalScore = data.totalScore || 0;
+          const xp = data.xp || data.totalXP || 0;
 
           // Nome
           const firstName = name.split(' ')[0];
@@ -3191,11 +3284,15 @@ async function loadOrUpdateStreak(db, doc, setDoc, uid) {
           if (avatarEl) avatarEl.innerHTML = avatarHTML;
           if (dropAv)   dropAv.innerHTML   = avatarHTML;
 
-          // Streak (coleção separada)
+          // Streak de login (coleção separada)
           const streak = await loadOrUpdateStreak(db, doc, setDoc, user.uid);
 
+          // Bônus XP de login diário
+          const xpAposBonus = await grantLoginBonus(db, doc, getDoc, updateDoc, user.uid, streak);
+          const xpFinal = xpAposBonus > 0 ? xpAposBonus : xp;
+
           // Nível + XP + streak
-          updateTopbarLevel(totalScore, streak);
+          updateTopbarLevel(xpFinal, streak);
 
         } catch(e) {
           if (nameEl) nameEl.textContent = '?';

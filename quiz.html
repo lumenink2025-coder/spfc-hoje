@@ -3190,9 +3190,6 @@ function handleWrong(q) {
   playGameOver();
   saveScoreToFirebase();
   updateLivesInterval();
-  // Streak conta ao jogar (não só ao vencer)
-  updateStreak();
-  saveState();
   // Atualiza missão de partidas jogadas mesmo ao perder
   updateMissionProgress('play5', 1);
   updateMissionProgress('score5000', STATE.score);
@@ -4160,8 +4157,6 @@ function initWordle() {
         wordleState.streak = 0;
       }
     }
-    // Sempre carrega o bestStreak independente do dia
-    wordleState.bestStreak = Math.max(saved.bestStreak || 0, wordleState.streak);
   } catch(e) {}
 
   // Sorteia jogador do dia pela data (mesmo para todos)
@@ -4184,7 +4179,6 @@ function saveWordleState() {
     won: wordleState.won,
     dicas: wordleState.dicas,
     streak: wordleState.streak,
-    bestStreak: wordleState.bestStreak || 0,
     lastWonKey: wordleState.won ? wordleState.todayKey : (JSON.parse(localStorage.getItem('spfc_wordle')||'{}').lastWonKey || null),
   }));
   // Salva no Firebase se logado e acabou de ganhar
@@ -4225,6 +4219,10 @@ function saveWordleState() {
           lastWonKey: dateKey,
           updatedAt: serverTimestamp(),
         }, { merge: true }).catch(() => {});
+
+        // ── XP pelo Wordle — streak × 10 XP ──
+        const xpWordle = Math.min(wordleState.streak * 10, 200); // máx 200 XP
+        if (xpWordle > 0) addXP(xpWordle * XP_DIVISOR); // converte para pontos internos
       }).catch(() => {});
     }
   }
@@ -4279,7 +4277,6 @@ function renderWordle() {
       <div class="wrd-title">WORDLE</div>
       <div class="wrd-sub">${new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'long'})} · Édição #${wordleState.edition+1}</div>
       <div class="wrd-streak"><b>🔥${wordleState.streak}</b><span>STREAK</span></div>
-      <div class="wrd-streak" style="right:64px"><b>⭐${wordleState.bestStreak||0}</b><span>RECORDE</span></div>
     </div>
 
     <div class="wrd-hint">
@@ -4396,7 +4393,6 @@ function wrdGuess() {
   if (isWin) {
     wordleState.won = true;
     wordleState.streak++;
-    wordleState.bestStreak = Math.max(wordleState.bestStreak || 0, wordleState.streak);
   }
 
   if (isWin || wordleState.guesses.length >= 6) {
