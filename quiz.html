@@ -3979,41 +3979,25 @@ function toast(title, body, dur=3000) {
    Fonte única: as perguntas vivem só no Firestore (gerenciadas pelo admin)
 ═══════════════════════════════════════════════════ */
 async function loadFirebaseQuestions() {
+  // ── NOVO: busca JSON estático em vez do Firestore (zero leituras) ──
   try {
-    const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
-    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+    const res = await fetch('/data/perguntas.json?v=' + Date.now());
+    if (!res.ok) throw new Error('JSON não encontrado');
+    const lista = await res.json();
 
-    const existing = getApps().find(a => a.name === 'quiz-questions');
-    const app = existing || initializeApp({
-      apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
-      authDomain: "spfc-hoje-da329.firebaseapp.com",
-      projectId: "spfc-hoje-da329",
-      storageBucket: "spfc-hoje-da329.firebasestorage.app",
-      messagingSenderId: "116174859005",
-      appId: "1:116174859005:web:b1e54b040aef23c9c16c94"
-    }, 'quiz-questions');
-
-    const db = getFirestore(app);
-    const snap = await getDocs(collection(db, 'perguntas'));
-
-    if (snap.empty) {
-      console.warn('Firestore: coleção "perguntas" está vazia.');
+    if (!lista || lista.length === 0) {
       showQuizOfflineMsg('Nenhuma pergunta encontrada. Adicione perguntas pelo painel admin.');
       return;
     }
 
-    const firebaseQs = [];
-    snap.forEach(d => firebaseQs.push({ id: d.id, ...d.data() }));
-
     QUESTIONS.length = 0;
-    firebaseQs.forEach(q => QUESTIONS.push(q));
+    lista.forEach(q => QUESTIONS.push(q));
 
-    // Atualiza contador na home
     const el = document.getElementById('statPergs');
     if (el) el.textContent = QUESTIONS.length + '+';
-    console.log(`✅ Firebase: ${QUESTIONS.length} perguntas carregadas`);
+    console.log(`✅ Perguntas JSON: ${QUESTIONS.length} perguntas carregadas`);
   } catch(e) {
-    console.warn('Firebase perguntas offline:', e.message);
+    console.warn('JSON perguntas não disponível:', e.message);
     showQuizOfflineMsg('Sem conexão com o servidor. Verifique sua internet e tente novamente.');
   }
 }
@@ -4036,34 +4020,21 @@ function showQuizOfflineMsg(msg) {
    WORDLE — integrado ao quiz
 ════════════════════════════════════════════════ */
 async function loadWordleFromFirebase() {
+  // ── NOVO: busca JSON estático em vez do Firestore (zero leituras) ──
   try {
-    const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
-    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-    const existing = getApps().find(a => a.name === 'wordle-app');
-    const app = existing || initializeApp({
-      apiKey:"AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
-      authDomain:"spfc-hoje-da329.firebaseapp.com",
-      projectId:"spfc-hoje-da329",
-      storageBucket:"spfc-hoje-da329.firebasestorage.app",
-      messagingSenderId:"116174859005",
-      appId:"1:116174859005:web:b1e54b040aef23c9c16c94"
-    }, 'wordle-app');
-    const db = getFirestore(app);
-    const snap = await getDocs(collection(db, 'wordle_jogadores'));
-    if (snap.empty) return;
-    const jogadores = [];
-    snap.forEach(d => jogadores.push({id: d.id, ...d.data()}));
-    // Substitui o DB local
+    const res = await fetch('/data/wordle.json?v=' + Date.now());
+    if (!res.ok) throw new Error('JSON não encontrado');
+    const lista = await res.json();
+    if (!lista || lista.length === 0) return;
     WORDLE_DB.length = 0;
-    jogadores.forEach(j => WORDLE_DB.push(j));
-    console.log('✅ Wordle Firebase: ' + WORDLE_DB.length + ' jogadores');
-    // Re-renderiza se já estiver na tela
+    lista.forEach(j => WORDLE_DB.push(j));
+    console.log('✅ Wordle JSON: ' + WORDLE_DB.length + ' jogadores');
     if (document.getElementById('screen-wordle') && document.getElementById('screen-wordle').classList.contains('active')) {
       wordleInited = false;
       renderWordle();
     }
   } catch(e) {
-    console.warn('Wordle Firebase offline:', e.message);
+    console.warn('Wordle JSON não disponível, usando DB local:', e.message);
   }
 }
 
@@ -4136,34 +4107,21 @@ let wordleState = {
 let wordleInited = false;
 
 async function loadWordleFromFirebase() {
+  // ── NOVO: busca JSON estático em vez do Firestore (zero leituras) ──
   try {
-    const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
-    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-    const existing = getApps().find(a => a.name === 'wordle-app');
-    const app = existing || initializeApp({
-      apiKey:"AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
-      authDomain:"spfc-hoje-da329.firebaseapp.com",
-      projectId:"spfc-hoje-da329",
-      storageBucket:"spfc-hoje-da329.firebasestorage.app",
-      messagingSenderId:"116174859005",
-      appId:"1:116174859005:web:b1e54b040aef23c9c16c94"
-    }, 'wordle-app');
-    const db = getFirestore(app);
-    const snap = await getDocs(collection(db, 'wordle_jogadores'));
-    if (snap.empty) return;
-    const jogadores = [];
-    snap.forEach(d => jogadores.push({id: d.id, ...d.data()}));
-    // Substitui o DB local
+    const res = await fetch('/data/wordle.json?v=' + Date.now());
+    if (!res.ok) throw new Error('JSON não encontrado');
+    const lista = await res.json();
+    if (!lista || lista.length === 0) return;
     WORDLE_DB.length = 0;
-    jogadores.forEach(j => WORDLE_DB.push(j));
-    console.log('✅ Wordle Firebase: ' + WORDLE_DB.length + ' jogadores');
-    // Re-renderiza se já estiver na tela
-    if (document.getElementById('wordle-panel').classList.contains('active')) {
+    lista.forEach(j => WORDLE_DB.push(j));
+    console.log('✅ Wordle JSON: ' + WORDLE_DB.length + ' jogadores');
+    if (document.getElementById('wordle-panel') && document.getElementById('wordle-panel').classList.contains('active')) {
       wordleInited = false;
       initWordle();
     }
   } catch(e) {
-    console.warn('Wordle Firebase offline:', e.message);
+    console.warn('Wordle JSON não disponível, usando DB local:', e.message);
   }
 }
 

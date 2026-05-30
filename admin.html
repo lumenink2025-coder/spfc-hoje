@@ -261,6 +261,13 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
       <button class="submit-btn" id="submitBtn" onclick="submitEvent()" style="flex:1">💾 SALVAR EVENTO</button>
       <button class="submit-btn" onclick="cancelEditEvent()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);max-width:120px">✕ CANCELAR</button>
     </div>
+    <div style="margin-top:12px;padding:14px 16px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.25);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:#22c55e;letter-spacing:1px;margin-bottom:2px">📤 PUBLICAR EVENTOS</div>
+        <div style="font-size:11px;color:var(--txt3)">Gera o JSON e disponibiliza para o app. Faça isso após salvar alterações.</div>
+      </div>
+      <button onclick="publicarEventos()" style="padding:10px 18px;background:#22c55e;color:#000;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;letter-spacing:1px">PUBLICAR</button>
+    </div>
   </div>
 
   <!-- TAB: LISTA -->
@@ -345,6 +352,13 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
       <div style="display:flex;gap:8px;margin-top:8px">
         <button class="submit-btn" id="qSubmitBtn" onclick="submitPergunta()" style="flex:1">💾 SALVAR PERGUNTA</button>
         <button class="submit-btn" onclick="cancelEdit()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);max-width:120px">✕ CANCELAR</button>
+      </div>
+      <div style="margin-top:12px;padding:14px 16px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.25);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#22c55e;letter-spacing:1px;margin-bottom:2px">📤 PUBLICAR PERGUNTAS</div>
+          <div style="font-size:11px;color:var(--txt3)">Gera o JSON e disponibiliza para o app. Faça isso após salvar alterações.</div>
+        </div>
+        <button onclick="publicarPerguntas()" style="padding:10px 18px;background:#22c55e;color:#000;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;letter-spacing:1px">PUBLICAR</button>
       </div>
     </div>
 
@@ -464,6 +478,13 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
       <div style="display:flex;gap:8px;margin-top:8px">
         <button class="submit-btn" id="wSubmitBtn" onclick="submitWordle()" style="flex:1">💾 SALVAR JOGADOR</button>
         <button class="submit-btn" onclick="cancelEditWordle()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);max-width:120px">✕ CANCELAR</button>
+      </div>
+      <div style="margin-top:12px;padding:14px 16px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.25);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#22c55e;letter-spacing:1px;margin-bottom:2px">📤 PUBLICAR WORDLE</div>
+          <div style="font-size:11px;color:var(--txt3)">Gera o JSON e disponibiliza para o app. Faça isso após salvar alterações.</div>
+        </div>
+        <button onclick="publicarWordle()" style="padding:10px 18px;background:#22c55e;color:#000;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;letter-spacing:1px">PUBLICAR</button>
       </div>
     </div>
 
@@ -1591,6 +1612,89 @@ function toast(msg, type = 'ok') {
   setTimeout(() => el.classList.remove('show'), 3000);
 }
 window.toast = toast;
+
+// ══════════════════════════════════════════════════
+// PUBLICAR JSONs — busca dados do Firestore e faz
+// commit direto no GitHub via API. O Actions deploy
+// automaticamente após o commit.
+// ══════════════════════════════════════════════════
+
+const GH_TOKEN  = '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';
+const GH_REPO   = 'lumenink2025-coder/spfc-hoje';
+const GH_BRANCH = 'main';
+
+async function commitJSON(path, data, msg) {
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+  const apiUrl = `https://api.github.com/repos/${GH_REPO}/contents/${path}`;
+  const headers = {
+    'Authorization': `token ${GH_TOKEN}`,
+    'Content-Type': 'application/json'
+  };
+
+  // Pegar SHA atual do arquivo (necessário para atualizar)
+  let sha = null;
+  try {
+    const get = await fetch(apiUrl, { headers });
+    if (get.ok) {
+      const info = await get.json();
+      sha = info.sha;
+    }
+  } catch(e) {}
+
+  const body = { message: msg, content, branch: GH_BRANCH };
+  if (sha) body.sha = sha;
+
+  const res = await fetch(apiUrl, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(body)
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || res.status);
+  }
+  return await res.json();
+}
+
+window.publicarEventos = async function() {
+  toast('⏳ Publicando eventos...', 'ok');
+  try {
+    const snap = await getDocs(collection(db, 'eventos'));
+    const lista = [];
+    snap.forEach(d => lista.push({ id: d.id, ...d.data() }));
+    await commitJSON('data/eventos.json', lista, `📅 Publica eventos.json (${lista.length} eventos)`);
+    toast(`✅ ${lista.length} eventos publicados! Deploy iniciado.`, 'ok');
+  } catch(e) {
+    toast('❌ Erro: ' + e.message, 'err');
+  }
+};
+
+window.publicarPerguntas = async function() {
+  toast('⏳ Publicando perguntas...', 'ok');
+  try {
+    const snap = await getDocs(collection(db, 'perguntas'));
+    const lista = [];
+    snap.forEach(d => lista.push({ id: d.id, ...d.data() }));
+    await commitJSON('data/perguntas.json', lista, `❓ Publica perguntas.json (${lista.length} perguntas)`);
+    toast(`✅ ${lista.length} perguntas publicadas! Deploy iniciado.`, 'ok');
+  } catch(e) {
+    toast('❌ Erro: ' + e.message, 'err');
+  }
+};
+
+window.publicarWordle = async function() {
+  toast('⏳ Publicando wordle...', 'ok');
+  try {
+    const snap = await getDocs(collection(db, 'wordle_jogadores'));
+    const lista = [];
+    snap.forEach(d => lista.push({ id: d.id, ...d.data() }));
+    await commitJSON('data/wordle.json', lista, `🔤 Publica wordle.json (${lista.length} jogadores)`);
+    toast(`✅ ${lista.length} jogadores publicados! Deploy iniciado.`, 'ok');
+  } catch(e) {
+    toast('❌ Erro: ' + e.message, 'err');
+  }
+};
 </script>
 </body>
 </html>
