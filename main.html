@@ -834,7 +834,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   border-radius:18px;overflow:hidden;position:relative;
   border:1px solid rgba(204,0,0,.3);
   background:linear-gradient(150deg,#150000 0%,#0d0000 40%,#0a0a0a 100%);
-  cursor:pointer;
+  cursor:pointer;touch-action:pan-y;
   box-shadow:0 8px 40px rgba(204,0,0,.12),inset 0 1px 0 rgba(255,255,255,.06)
 }
 /* padrão geométrico de fundo */
@@ -925,23 +925,24 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 /* ranking ticker integrado */
 .wqh-ranking{
   position:relative;z-index:2;
-  padding:10px 20px;
+  padding:8px 14px;
   border-top:1px solid rgba(255,255,255,.05);
-  display:flex;align-items:center;gap:10px;
-  background:rgba(0,0,0,.25)
+  display:flex;align-items:center;gap:8px;
+  background:rgba(0,0,0,.25);
+  flex-wrap:nowrap;min-height:36px
 }
 .wqh-rank-label{
-  font-family:var(--font-body);font-size:8px;font-weight:600;
-  letter-spacing:3px;color:rgba(255,255,255,.25);
+  font-family:var(--font-body);font-size:7px;font-weight:600;
+  letter-spacing:2px;color:rgba(255,255,255,.25);
   text-transform:uppercase;flex-shrink:0
 }
 .wqh-rank-tabs{
-  display:flex;gap:4px;flex-shrink:0
+  display:flex;gap:3px;flex-shrink:0
 }
 .wqh-rank-tab{
-  padding:3px 8px;border-radius:10px;
-  font-family:var(--font-body);font-size:8px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;
+  padding:2px 6px;border-radius:8px;
+  font-family:var(--font-body);font-size:7px;font-weight:600;
+  letter-spacing:1px;text-transform:uppercase;
   color:rgba(255,255,255,.3);border:1px solid transparent;
   cursor:pointer;transition:.2s;background:none
 }
@@ -950,35 +951,45 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   color:rgba(255,100,100,.9)
 }
 .wqh-rank-list{
-  flex:1;overflow:hidden;height:16px;position:relative
+  flex:1;overflow:hidden;height:18px;position:relative;min-width:0
 }
 .wqh-rank-item{
   position:absolute;top:0;left:0;right:0;
-  display:flex;align-items:center;gap:6px;
+  display:flex;align-items:center;gap:5px;
   font-family:var(--font-body);font-size:10px;color:rgba(255,255,255,.7);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  transition:opacity .4s,transform .4s;
-  opacity:0;transform:translateY(8px)
+  white-space:nowrap;overflow:hidden;
+  transition:opacity .35s,transform .35s;
+  opacity:0;transform:translateY(6px)
 }
 .wqh-rank-item.visible{opacity:1;transform:none}
-.wqh-rank-item.exit{opacity:0;transform:translateY(-8px)}
-.wqh-rank-pos{
-  font-family:var(--font-title);font-size:14px;
-  width:16px;text-align:right;flex-shrink:0
-}
+.wqh-rank-item.exit{opacity:0;transform:translateY(-6px)}
+.wqh-rank-pos{font-size:13px;flex-shrink:0}
 .wqh-rank-pos.p1{color:var(--gold2)}
-.wqh-rank-pos.p2{color:#ccc}
-.wqh-rank-pos.p3{color:#c8865a}
-.wqh-rank-name{font-weight:500;color:rgba(255,255,255,.8)}
+.wqh-rank-name{font-weight:500;color:rgba(255,255,255,.8);overflow:hidden;text-overflow:ellipsis}
 .wqh-rank-pts{
-  margin-left:auto;font-family:var(--font-title);font-size:12px;
-  color:var(--red);flex-shrink:0
+  margin-left:auto;font-family:var(--font-title);font-size:11px;
+  color:var(--red);flex-shrink:0;padding-left:4px
+}
+
+/* XP progress bar — vem antes do play */
+.wqh-xp{
+  position:relative;z-index:2;
+  padding:10px 20px 8px;display:flex;flex-direction:column;gap:4px
+}
+.wqh-xp-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.wqh-xp-label{font-size:8px;letter-spacing:2px;color:rgba(255,255,255,.25);text-transform:uppercase}
+.wqh-xp-val{font-family:var(--font-title);font-size:12px;color:var(--gold);letter-spacing:1px}
+.wqh-xp-track{height:4px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.wqh-xp-fill{
+  height:100%;border-radius:99px;
+  background:linear-gradient(90deg,#8B6914,#C8A84B,#E2C97E);
+  transition:width 1s cubic-bezier(.4,0,.2,1)
 }
 
 /* play bar */
 .wqh-play{
   position:relative;z-index:2;
-  padding:14px 20px 18px;
+  padding:10px 20px 16px;
   display:flex;align-items:center;gap:12px
 }
 .wqh-play-btn{
@@ -1001,21 +1012,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .wqh-level-val{font-family:var(--font-title);font-size:18px;color:var(--gold2);line-height:1}
 .wqh-level-lbl{font-size:7px;letter-spacing:2px;color:rgba(200,168,75,.5);text-transform:uppercase;margin-top:1px}
 
-/* XP progress bar */
-.wqh-xp{
-  position:relative;z-index:2;
-  padding:0 20px 16px;display:flex;flex-direction:column;gap:4px
-}
-.wqh-xp-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.wqh-xp-label{font-size:8px;letter-spacing:2px;color:rgba(255,255,255,.25);text-transform:uppercase}
-.wqh-xp-val{font-family:var(--font-title);font-size:12px;color:var(--gold);letter-spacing:1px}
-.wqh-xp-track{height:4px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
-.wqh-xp-fill{
-  height:100%;border-radius:99px;
-  background:linear-gradient(90deg,#8B6914,#C8A84B,#E2C97E);
-  transition:width 1s cubic-bezier(.4,0,.2,1)
-}
-
 /* stripe tricolor */
 .wqh-stripe{
   height:3px;
@@ -1033,7 +1029,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   border-radius:16px;overflow:hidden;position:relative;
   border:1px solid rgba(200,168,75,.2);
   background:linear-gradient(145deg,#0d0a00 0%,#0a0a0a 100%);
-  cursor:pointer;min-height:160px;
+  cursor:pointer;min-height:160px;touch-action:pan-y;
   display:flex;flex-direction:column
 }
 .widget-wordle:active{transform:scale(.98)}
@@ -1155,7 +1151,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   border-radius:16px;overflow:hidden;position:relative;
   border:1px solid rgba(204,0,0,.2);
   background:linear-gradient(135deg,#130000 0%,#0a0a0a 100%);
-  cursor:pointer;min-height:120px;
+  cursor:pointer;min-height:120px;touch-action:pan-y;
   display:flex;flex-direction:column
 }
 .widget-palp::before{
@@ -2693,14 +2689,13 @@ async function loadFirebaseEvents() {
 ═══════════════════════════════════════════════════ */
 function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
   const wrap   = document.getElementById('palpWrap');
-  const btn    = document.getElementById('palpBtn');
   const eyebrow= document.getElementById('palpBtnEyebrow');
   const lbl    = document.getElementById('palpBtnLabel');
   const sub    = document.getElementById('palpBtnSub');
   const icon   = document.getElementById('palpBtnIcon');
-  if (!wrap || !btn) return;
+  if (!wrap) return;
 
-  wrap.style.display = 'block';
+  wrap.style.display = 'flex';
 
   const now = new Date();
   const hoursAfterGame = isFinished ? (now - matchDate) / 3600000 : 0;
@@ -2711,40 +2706,38 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
   const storageKey = 'palp_sent_' + (matchId || matchDate.toISOString().slice(0,10));
   const jaPalpitou = localStorage.getItem(storageKey) === '1';
 
-  // Reset
-  btn.className = 'palp-btn';
-  btn.disabled = false;
-  btn.onclick = () => window.location.href = 'palpitometro.html';
+  // Reset classes
+  wrap.classList.remove('s-sent','s-closed','s-result');
+  wrap.onclick = () => window.location.href = 'palpitometro.html';
   if (eyebrow) eyebrow.textContent = 'SÃO PAULO FC';
 
   if (jaPalpitou && resultPeriod) {
-    btn.classList.add('s-result');
-    icon.textContent = '⭐';
-    lbl.textContent = 'VER RESULTADO';
-    sub.textContent = 'Jogo encerrado — confira seus pontos';
+    wrap.classList.add('s-result');
+    if(icon) icon.textContent = '⭐';
+    if(lbl)  lbl.textContent = 'VER RESULTADO';
+    if(sub)  sub.textContent = 'Jogo encerrado — confira seus pontos';
   } else if (jaPalpitou) {
-    btn.classList.add('s-sent');
-    icon.textContent = '✅';
-    lbl.textContent = 'PALPITE ENVIADO';
-    sub.textContent = 'Ver ranking e sua posição atual';
+    wrap.classList.add('s-sent');
+    if(icon) icon.textContent = '✅';
+    if(lbl)  lbl.textContent = 'PALPITE ENVIADO';
+    if(sub)  sub.textContent = 'Ver ranking e sua posição atual';
   } else if (janelaFechada) {
-    btn.classList.add('s-closed');
-    icon.textContent = '🔒';
-    lbl.textContent = 'PALPITES ENCERRADOS';
-    sub.textContent = 'Janela fecha 1h antes do jogo';
-    btn.disabled = true;
-    btn.onclick = null;
+    wrap.classList.add('s-closed');
+    if(icon) icon.textContent = '🔒';
+    if(lbl)  lbl.textContent = 'PALPITES ENCERRADOS';
+    if(sub)  sub.textContent = 'Janela fecha 1h antes do jogo';
+    wrap.onclick = null;
   } else if (within24hBefore) {
-    icon.textContent = '🚨';
-    lbl.textContent = 'DÁ SEU PALPITE!';
+    if(icon) icon.textContent = '🚨';
+    if(lbl)  lbl.textContent = 'DÁ SEU PALPITE!';
     const h = Math.floor(diffMs / 3600000);
     const m = Math.floor((diffMs % 3600000) / 60000);
-    sub.textContent = h > 0 ? `Fecha em ${h}h ${m}min — não perca!` : `Fecha em ${m} minutos!`;
-    if (eyebrow) eyebrow.textContent = '🚨 URGENTE';
+    if(sub)  sub.textContent = h > 0 ? `Fecha em ${h}h ${m}min — não perca!` : `Fecha em ${m} minutos!`;
+    if(eyebrow) eyebrow.textContent = '🚨 URGENTE';
   } else {
-    icon.textContent = '🎯';
-    lbl.textContent = 'PALPITÔMETRO';
-    sub.textContent = 'Dê seu palpite e dispute o ranking';
+    if(icon) icon.textContent = '🎯';
+    if(lbl)  lbl.textContent = 'PALPITÔMETRO';
+    if(sub)  sub.textContent = 'Dê seu palpite e dispute o ranking';
   }
 }
 
