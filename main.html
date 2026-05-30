@@ -49,20 +49,145 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min-heig
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);pointer-events:none;z-index:9999}
 
 /* ── TOP BAR ─────────────────────────────────────── */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(10,10,10,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.topbar-logo{display:flex;align-items:center;gap:10px}
-.tb-badge{width:30px;height:30px;border-radius:50%;background:conic-gradient(#CC0000 0deg 120deg,#fff 120deg 240deg,#111 240deg 360deg);border:2px solid var(--red);box-shadow:0 0 10px rgba(204,0,0,.4)}
-.tb-name{font-family:var(--font-title);font-size:17px;letter-spacing:2px;color:var(--txt)}
-.tb-name span{color:var(--red)}
-.tb-right{display:flex;align-items:center;gap:8px}
-.tb-rec{display:flex;align-items:center;gap:5px;font-family:var(--font-body);font-size:9px;color:var(--red);letter-spacing:2px;text-transform:uppercase}
+.topbar{
+  position:fixed;top:0;left:0;right:0;
+  z-index:400;
+  height:calc(56px + env(safe-area-inset-top));
+  padding-top:env(safe-area-inset-top);
+  display:flex;align-items:center;justify-content:space-between;
+  padding-left:16px;padding-right:16px;
+  background:linear-gradient(180deg,rgba(8,0,0,.98) 0%,rgba(10,10,10,.95) 100%);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(204,0,0,.18);
+  box-shadow:0 1px 0 rgba(204,0,0,.08),0 4px 24px rgba(0,0,0,.5)
+}
+
+/* ── HAMBURGER ───────────────────────────────────── */
+.tb-menu-btn{
+  width:38px;height:38px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:5px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;cursor:pointer;transition:.2s;flex-shrink:0
+}
+.tb-menu-btn:active{transform:scale(.93);background:rgba(204,0,0,.15)}
+.tb-menu-bar{width:18px;height:2px;background:var(--txt);border-radius:2px;transition:.3s;transform-origin:center}
+.tb-menu-btn.open .tb-menu-bar:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.tb-menu-btn.open .tb-menu-bar:nth-child(2){opacity:0;transform:scaleX(0)}
+.tb-menu-btn.open .tb-menu-bar:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ── MENU DRAWER ──────────────────────────────────── */
+.tb-drawer-overlay{
+  position:fixed;inset:0;z-index:390;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(4px);
+  opacity:0;visibility:hidden;transition:.25s
+}
+.tb-drawer-overlay.show{opacity:1;visibility:visible}
+.tb-drawer{
+  position:fixed;top:0;left:0;bottom:0;z-index:395;
+  width:min(280px,80vw);
+  background:linear-gradient(160deg,#0d0000 0%,#0a0a0a 100%);
+  border-right:1px solid rgba(204,0,0,.2);
+  transform:translateX(-100%);transition:.3s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  padding-top:calc(56px + env(safe-area-inset-top));
+  box-shadow:4px 0 40px rgba(0,0,0,.6)
+}
+.tb-drawer.show{transform:translateX(0)}
+.tb-drawer-header{
+  padding:20px 20px 16px;
+  border-bottom:1px solid rgba(255,255,255,.06)
+}
+.tb-drawer-logo{height:32px;width:auto;margin-bottom:10px}
+.tb-drawer-tagline{font-size:10px;color:var(--txt3);letter-spacing:3px;text-transform:uppercase}
+.tb-drawer-nav{flex:1;overflow-y:auto;padding:8px 0}
+.tb-drawer-item{
+  display:flex;align-items:center;gap:14px;
+  padding:13px 20px;cursor:pointer;
+  font-family:var(--font-ui);font-size:14px;letter-spacing:1.5px;
+  color:var(--txt2);text-transform:uppercase;border:none;background:none;
+  width:100%;text-align:left;transition:.15s;border-left:3px solid transparent
+}
+.tb-drawer-item:active{background:rgba(204,0,0,.1)}
+.tb-drawer-item.active-page{color:var(--red);border-left-color:var(--red);background:rgba(204,0,0,.07)}
+.tb-drawer-item-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0}
+.tb-drawer-sep{height:1px;background:rgba(255,255,255,.06);margin:8px 20px}
+.tb-drawer-footer{
+  padding:16px 20px;padding-bottom:calc(16px + env(safe-area-inset-bottom));
+  border-top:1px solid rgba(255,255,255,.06)
+}
+.tb-drawer-version{font-size:10px;color:var(--txt3);letter-spacing:2px}
+
+/* ── LEVEL PILL (centro) ──────────────────────────── */
+.tb-level{
+  display:flex;flex-direction:column;align-items:center;gap:1px;
+  cursor:default;user-select:none
+}
+.tb-level-badge{
+  display:flex;align-items:center;gap:5px;
+  background:linear-gradient(135deg,rgba(200,168,75,.15) 0%,rgba(200,168,75,.06) 100%);
+  border:1px solid rgba(200,168,75,.3);border-radius:20px;
+  padding:4px 12px 4px 8px
+}
+.tb-level-star{font-size:13px;line-height:1}
+.tb-level-num{
+  font-family:var(--font-title);font-size:18px;line-height:1;
+  color:var(--gold2);letter-spacing:1px
+}
+.tb-level-label{font-size:8px;color:var(--txt3);letter-spacing:2px;text-transform:uppercase}
+.tb-xp-bar-wrap{width:80px;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.tb-xp-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;transition:width .6s ease}
+
+/* ── USER AREA (direita) ─────────────────────────── */
+.tb-user-btn{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;padding:3px 10px 3px 3px;
+  cursor:pointer;transition:.2s;position:relative;flex-shrink:0
+}
+.tb-user-btn:active{transform:scale(.96)}
+.tb-user-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--bg3);border:2px solid rgba(204,0,0,.5);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:600;color:var(--red);overflow:hidden;
+  font-family:var(--font-ui);flex-shrink:0
+}
+.tb-user-name{
+  font-family:var(--font-ui);font-size:11px;letter-spacing:.5px;
+  color:var(--txt);white-space:nowrap;max-width:60px;
+  overflow:hidden;text-overflow:ellipsis
+}
+.tb-user-chevron{font-size:9px;color:var(--txt3)}
+
+/* ── USER DROPDOWN ───────────────────────────────── */
+.tb-user-drop{
+  position:fixed;top:calc(56px + env(safe-area-inset-top) + 6px);right:12px;
+  z-index:410;width:200px;
+  background:linear-gradient(160deg,#140000,#0f0f0f);
+  border:1px solid rgba(204,0,0,.25);border-radius:14px;
+  box-shadow:0 12px 40px rgba(0,0,0,.7);
+  overflow:hidden;
+  opacity:0;visibility:hidden;transform:translateY(-8px) scale(.97);
+  transition:.2s cubic-bezier(.34,1.56,.64,1)
+}
+.tb-user-drop.show{opacity:1;visibility:visible;transform:none}
+.tb-drop-item{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 16px;cursor:pointer;
+  font-family:var(--font-body);font-size:13px;color:var(--txt2);
+  border:none;background:none;width:100%;text-align:left;transition:.15s
+}
+.tb-drop-item:hover{background:rgba(255,255,255,.04);color:var(--txt)}
+.tb-drop-item.danger{color:#ff6666}
+.tb-drop-item.danger:hover{background:rgba(204,0,0,.12)}
+.tb-drop-sep{height:1px;background:rgba(255,255,255,.06);margin:4px 0}
 .rec-dot{width:7px;height:7px;background:var(--red);border-radius:50%;animation:blink 1.4s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
 .tb-notif{width:32px;height:32px;background:var(--bg3);border:1px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:.2s}
 .tb-notif:hover{background:var(--red);border-color:var(--red)}
 
 /* ── HERO ────────────────────────────────────────── */
-.hero{min-height:100svh;padding:72px 0 0;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.hero{min-height:100svh;padding:calc(56px + env(safe-area-inset-top)) 0 0;display:flex;flex-direction:column;position:relative;overflow:hidden}
 .hero-gradient{position:absolute;inset:0;background:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(204,0,0,.18) 0%,transparent 65%),linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
 .hero-ghost{position:absolute;bottom:0;right:-20px;font-family:var(--font-title);font-size:clamp(120px,35vw,260px);color:rgba(255,255,255,.028);line-height:1;pointer-events:none;user-select:none;letter-spacing:-6px}
 
@@ -86,7 +211,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 @keyframes arrowbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
 
 /* ── NAV TABS ────────────────────────────────────── */
-.nav-tabs{position:sticky;top:56px;z-index:150;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex}
+.nav-tabs{position:sticky;top:calc(56px + env(safe-area-inset-top));z-index:150;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex}
 .nav-tab{flex:1;padding:12px 8px;font-family:var(--font-ui);font-size:12px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);border:none;background:transparent;cursor:pointer;border-bottom:2px solid transparent;transition:.2s;text-align:center}
 .nav-tab.active{color:var(--red);border-bottom-color:var(--red)}
 .nav-tab:hover:not(.active){color:var(--txt)}
@@ -824,15 +949,82 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </head>
 <body>
 
+<!-- DRAWER OVERLAY -->
+<div class="tb-drawer-overlay" id="tbDrawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- MENU DRAWER -->
+<nav class="tb-drawer" id="tbDrawer">
+  <div class="tb-drawer-header">
+    <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779945135/c5a68f93-009e-465c-94a8-c6a5e8e54e79_xofudf.png" alt="SPFC" class="tb-drawer-logo">
+    <div class="tb-drawer-tagline">SPFC Hoje</div>
+  </div>
+  <div class="tb-drawer-nav">
+    <button class="tb-drawer-item active-page" onclick="closeDrawer()">
+      <span class="tb-drawer-item-icon">🏠</span>Hoje
+    </button>
+    <button class="tb-drawer-item" onclick="closeDrawer();window.location.href='palpitometro.html'">
+      <span class="tb-drawer-item-icon">🎯</span>Palpitômetro
+    </button>
+    <button class="tb-drawer-item" onclick="closeDrawer();window.location.href='quiz.html'">
+      <span class="tb-drawer-item-icon">⚡</span>Quiz
+    </button>
+    <div class="tb-drawer-sep"></div>
+    <button class="tb-drawer-item" onclick="closeDrawer();showTab2('recordes')">
+      <span class="tb-drawer-item-icon">🏆</span>Recordes
+    </button>
+    <button class="tb-drawer-item" onclick="closeDrawer();showTab2('goleadas')">
+      <span class="tb-drawer-item-icon">⚽</span>Goleadas
+    </button>
+    <button class="tb-drawer-item" onclick="closeDrawer();showTab2('calendario')">
+      <span class="tb-drawer-item-icon">📅</span>Calendário
+    </button>
+  </div>
+  <div class="tb-drawer-footer">
+    <div class="tb-drawer-version">SPFC HOJE • v1.0</div>
+  </div>
+</nav>
+
+<!-- USER DROPDOWN -->
+<div class="tb-user-drop" id="tbUserDrop">
+  <button class="tb-drop-item" onclick="closeUserDrop();openPerfil()">
+    <span>👤</span> Perfil
+  </button>
+  <button class="tb-drop-item" onclick="closeUserDrop();window.location.href='quiz.html'">
+    <span>🏅</span> Conquistas
+  </button>
+  <div class="tb-drop-sep"></div>
+  <button class="tb-drop-item danger" onclick="closeUserDrop();handleLogout()">
+    <span>🚪</span> Sair
+  </button>
+</div>
+
 <!-- TOPBAR -->
 <header class="topbar">
-  <div class="topbar-logo">
-    <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779945135/c5a68f93-009e-465c-94a8-c6a5e8e54e79_xofudf.png" alt="SPFC" style="height:36px;width:auto">
-  </div>
-  <div class="tb-right">
-    <div id="tbUserArea" style="display:none;align-items:center;gap:8px">
-      <div id="tbUserAvatar" onclick="handleLogout()" title="Sair" style="width:34px;height:34px;border-radius:50%;background:var(--bg3);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--red);cursor:pointer;overflow:hidden;font-family:var(--font-ui)"></div>
+  <!-- ESQUERDA: hamburger -->
+  <button class="tb-menu-btn" id="tbMenuBtn" onclick="toggleDrawer()" aria-label="Menu">
+    <span class="tb-menu-bar"></span>
+    <span class="tb-menu-bar"></span>
+    <span class="tb-menu-bar"></span>
+  </button>
+
+  <!-- CENTRO: nível do usuário -->
+  <div class="tb-level" id="tbLevel" style="display:none">
+    <div class="tb-level-badge">
+      <span class="tb-level-star">⭐</span>
+      <span class="tb-level-num" id="tbLevelNum">1</span>
     </div>
+    <div class="tb-xp-bar-wrap">
+      <div class="tb-xp-bar" id="tbXpBar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- DIREITA: avatar + nome -->
+  <div id="tbUserArea" style="display:none">
+    <button class="tb-user-btn" id="tbUserBtn" onclick="toggleUserDrop()">
+      <div class="tb-user-avatar" id="tbUserAvatar"></div>
+      <span class="tb-user-name" id="tbUserName">...</span>
+      <span class="tb-user-chevron">▾</span>
+    </button>
   </div>
 </header>
 
@@ -1994,8 +2186,70 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
 // init() e loadNextMatch() foram substituídos pelas versões abaixo
 
 /* ═══════════════════════════════════════════════════
-   FIREBASE AUTH — exibe usuário no topbar
+   TOPBAR — menu, nível, usuário
 ═══════════════════════════════════════════════════ */
+
+// ── Drawer ────────────────────────────────────────
+function toggleDrawer() {
+  const btn = document.getElementById('tbMenuBtn');
+  const drawer = document.getElementById('tbDrawer');
+  const overlay = document.getElementById('tbDrawerOverlay');
+  btn.classList.toggle('open');
+  drawer.classList.toggle('show');
+  overlay.classList.toggle('show');
+}
+function closeDrawer() {
+  document.getElementById('tbMenuBtn').classList.remove('open');
+  document.getElementById('tbDrawer').classList.remove('show');
+  document.getElementById('tbDrawerOverlay').classList.remove('show');
+}
+function showTab2(tab) {
+  const tabMap = { recordes: 2, goleadas: 3, calendario: 1 };
+  const tabs = document.querySelectorAll('.nav-tab');
+  if (tabs[tabMap[tab]]) tabs[tabMap[tab]].click();
+}
+
+// ── User Dropdown ─────────────────────────────────
+function toggleUserDrop() {
+  document.getElementById('tbUserDrop').classList.toggle('show');
+}
+function closeUserDrop() {
+  document.getElementById('tbUserDrop').classList.remove('show');
+}
+document.addEventListener('click', e => {
+  const btn = document.getElementById('tbUserBtn');
+  const drop = document.getElementById('tbUserDrop');
+  if (drop && !drop.contains(e.target) && btn && !btn.contains(e.target)) {
+    drop.classList.remove('show');
+  }
+});
+function openPerfil() { /* placeholder — adicione navegação para perfil */ }
+
+// ── Level XP helper ───────────────────────────────
+const XP_PER_LEVEL = [0,100,250,450,700,1000,1400,1900,2500,3200,4000,5000,6200,7600,9200,11000,13200,15700,18500,21600,25000];
+function getLevelInfo(totalScore) {
+  let level = 1;
+  for (let i = 1; i < XP_PER_LEVEL.length; i++) {
+    if (totalScore >= XP_PER_LEVEL[i]) level = i + 1; else break;
+  }
+  level = Math.min(level, XP_PER_LEVEL.length);
+  const xpCurr = XP_PER_LEVEL[level - 1] || 0;
+  const xpNext = XP_PER_LEVEL[level] || XP_PER_LEVEL[XP_PER_LEVEL.length - 1];
+  const pct = xpNext > xpCurr ? Math.round((totalScore - xpCurr) / (xpNext - xpCurr) * 100) : 100;
+  return { level, pct };
+}
+
+function updateTopbarLevel(totalScore) {
+  const { level, pct } = getLevelInfo(totalScore || 0);
+  const el = document.getElementById('tbLevel');
+  const numEl = document.getElementById('tbLevelNum');
+  const bar = document.getElementById('tbXpBar');
+  if (el) el.style.display = 'flex';
+  if (numEl) numEl.textContent = `NÍVEL ${level}`;
+  if (bar) bar.style.width = pct + '%';
+}
+
+// ── Firebase Auth ─────────────────────────────────
 (async () => {
   try {
     const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
@@ -2008,8 +2262,7 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
       messagingSenderId: '116174859005',
       appId: '1:116174859005:web:b1e54b040aef23c9c16c94'
     };
-    const existingApp = getApps().find(a => a.name === '[DEFAULT]');
-    const authApp = existingApp || initializeApp(cfg);
+    const authApp = getApps().find(a => a.name === '[DEFAULT]') || initializeApp(cfg);
     const auth = getAuth(authApp);
     window._indexAuth = auth;
 
@@ -2019,33 +2272,40 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
     onAuthStateChanged(auth, async user => {
       const area = document.getElementById('tbUserArea');
       const avatarEl = document.getElementById('tbUserAvatar');
+      const nameEl = document.getElementById('tbUserName');
+
       if (user) {
-        area.style.display = 'flex';
-        // Busca perfil completo do Firestore (nickname + avatar do cadastro)
+        area.style.display = 'block';
         try {
           const snap = await getDoc(doc(db, 'users', user.uid));
           if (snap.exists()) {
             const data = snap.data();
-            const name = data.displayName || user.email?.split('@')[0] || 'T';
+            const name = data.displayName || user.email?.split('@')[0] || 'Torcedor';
             const avatarUrl = data.avatarUrl || data.avatar?.url || data.avatar?.dataUrl || '';
+            // Nome abreviado (primeira palavra)
+            nameEl.textContent = name.split(' ')[0];
+            // Avatar
             if (avatarUrl) {
               avatarEl.innerHTML = `<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
             } else {
               avatarEl.textContent = name[0].toUpperCase();
             }
+            // Nível
+            updateTopbarLevel(data.totalScore || 0);
           } else {
-            const name = user.email?.split('@')[0] || 'T';
+            const name = user.email?.split('@')[0] || 'Torcedor';
+            nameEl.textContent = name.split(' ')[0];
             avatarEl.textContent = name[0].toUpperCase();
+            updateTopbarLevel(0);
           }
         } catch(e) {
+          nameEl.textContent = '?';
           avatarEl.textContent = '?';
         }
       } else {
         const isVisitante = localStorage.getItem('spfc_visitante') === '1';
         const isLocal = location.protocol === 'file:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-        if (!isVisitante && !isLocal) {
-          window.location.href = 'index.html';
-        }
+        if (!isVisitante && !isLocal) window.location.href = 'index.html';
       }
     });
   } catch(e) { console.warn('Auth check:', e); }
