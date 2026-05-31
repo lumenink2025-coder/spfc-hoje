@@ -5043,6 +5043,19 @@ function init() {
 }
 
 init();
+
+// Abre direto na tela do Wondler se vier do deep-link #wondler
+if (window.location.hash === '#wondler') {
+  window.addEventListener('firebase-ready', function() {
+    goScreenWordle();
+  }, { once: true });
+  // fallback se Firebase já estava pronto
+  setTimeout(function() {
+    if (document.getElementById('screen-wordle') && !document.getElementById('screen-wordle').classList.contains('active')) {
+      goScreenWordle();
+    }
+  }, 800);
+}
 </script>
 
 
