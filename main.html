@@ -1131,56 +1131,118 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   display:grid;grid-template-columns:1fr 1fr;gap:10px
 }
 
-/* Card Wordle */
+/* Card Quem é esse Jogador — nível Riot Games */
 .widget-wordle{
   border-radius:16px;overflow:hidden;position:relative;
-  border:1px solid rgba(200,168,75,.2);
-  background:linear-gradient(145deg,#0d0a00 0%,#0a0a0a 100%);
+  border:1px solid rgba(204,0,0,.4);
+  background:#0a0000;
   cursor:pointer;min-height:160px;touch-action:pan-y;
-  display:flex;flex-direction:column
+  display:flex;flex-direction:column;
+  transition:transform .18s,box-shadow .18s;
+  box-shadow:0 4px 28px rgba(204,0,0,.2),inset 0 1px 0 rgba(255,255,255,.04)
 }
-.widget-wordle:active{transform:scale(.98)}
-.ww-inner{padding:16px 14px;flex:1;display:flex;flex-direction:column;position:relative;z-index:2}
+.widget-wordle:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(204,0,0,.35)}
+.widget-wordle:active{transform:scale(.97)}
+
+/* faixa diagonal de brilho */
+.widget-wordle::before{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(118deg,
+    transparent 30%,
+    rgba(204,0,0,.07) 45%,
+    rgba(255,60,60,.1) 50%,
+    rgba(204,0,0,.07) 55%,
+    transparent 70%
+  );
+  animation:wdShine 3.5s ease-in-out infinite
+}
+@keyframes wdShine{0%,100%{opacity:0;transform:translateX(-30px)}40%,60%{opacity:1;transform:translateX(30px)}}
+
+/* grade hexagonal decorativa no fundo */
+.widget-wordle::after{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(204,0,0,.06) 1px,transparent 1px);
+  background-size:18px 18px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%)
+}
+
+.ww-inner{padding:14px 14px 12px;flex:1;display:flex;flex-direction:column;position:relative;z-index:2}
+
 .ww-eyebrow{
   font-family:var(--font-body);font-size:7px;font-weight:700;
-  letter-spacing:3px;color:rgba(200,168,75,.55);
-  text-transform:uppercase;margin-bottom:8px
+  letter-spacing:3.5px;color:rgba(204,0,0,.8);
+  text-transform:uppercase;margin-bottom:6px;
+  display:flex;align-items:center;gap:6px
 }
+.ww-eyebrow::before{
+  content:'';width:10px;height:1px;
+  background:linear-gradient(90deg,var(--red),transparent);display:block
+}
+
 .ww-title{
-  font-family:var(--font-title);font-size:22px;
-  letter-spacing:1px;color:#fff;line-height:1;margin-bottom:4px
+  font-family:var(--font-title);font-size:20px;
+  letter-spacing:1px;color:#fff;line-height:1.05;margin-bottom:10px
 }
-.ww-title em{color:var(--gold);font-style:normal}
-.ww-grid{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:3px;
-  margin:10px 0;max-width:100px
+.ww-title em{
+  color:var(--red);font-style:normal;
+  text-shadow:0 0 20px rgba(204,0,0,.6)
 }
-.ww-cell{
-  aspect-ratio:1;border-radius:3px;
-  border:1px solid rgba(255,255,255,.1);
-  background:rgba(255,255,255,.04);
+
+/* silhueta mistério */
+.ww-mystery-wrap{
+  flex:1;display:flex;align-items:center;justify-content:flex-start;
+  gap:10px;margin:2px 0 10px
+}
+.ww-silhouette{
+  width:48px;height:48px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 40% 35%,rgba(204,0,0,.35),rgba(80,0,0,.2));
+  border:1.5px solid rgba(204,0,0,.5);
   display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-ui);font-size:9px;font-weight:700;
-  color:rgba(255,255,255,.6)
+  font-size:22px;
+  box-shadow:0 0 0 4px rgba(204,0,0,.08),0 0 20px rgba(204,0,0,.25);
+  animation:wdPulse 2.8s ease-in-out infinite
 }
-.ww-cell.hit{background:var(--red);border-color:var(--red);color:#fff}
-.ww-cell.near{background:rgba(200,168,75,.3);border-color:rgba(200,168,75,.5);color:var(--gold2)}
+@keyframes wdPulse{
+  0%,100%{box-shadow:0 0 0 4px rgba(204,0,0,.08),0 0 20px rgba(204,0,0,.2)}
+  50%{box-shadow:0 0 0 8px rgba(204,0,0,.0),0 0 30px rgba(204,0,0,.4)}
+}
+.ww-mystery-info{display:flex;flex-direction:column;gap:3px}
+.ww-mystery-tag{
+  font-family:var(--font-ui);font-size:8px;letter-spacing:2px;
+  color:rgba(255,255,255,.25);text-transform:uppercase
+}
+.ww-mystery-clue{
+  font-family:var(--font-ui);font-size:13px;font-weight:600;
+  color:rgba(255,255,255,.7);letter-spacing:.5px;
+  display:flex;gap:3px
+}
+.ww-mystery-clue span{
+  width:11px;height:3px;border-radius:2px;
+  background:rgba(204,0,0,.4);display:inline-block;margin-top:5px
+}
+
 .ww-status{margin-top:auto}
 .ww-streak{
   display:flex;align-items:center;gap:4px;
-  font-family:var(--font-body);font-size:9px;color:rgba(255,165,60,.8);
+  font-family:var(--font-body);font-size:9px;color:rgba(255,130,50,.7);
   margin-bottom:6px
 }
 .ww-streak strong{font-family:var(--font-title);font-size:16px;color:#ff8c32}
+
 .ww-play-btn{
-  width:100%;padding:7px;border-radius:7px;
-  background:rgba(200,168,75,.15);border:1px solid rgba(200,168,75,.25);
+  width:100%;padding:8px;border-radius:8px;
+  background:linear-gradient(135deg,rgba(204,0,0,.3) 0%,rgba(139,0,0,.2) 100%);
+  border:1px solid rgba(204,0,0,.5);
   font-family:var(--font-ui);font-size:9px;font-weight:600;
-  letter-spacing:2px;color:var(--gold);text-transform:uppercase;
-  cursor:pointer;transition:.15s
+  letter-spacing:2.5px;color:#ff4444;text-transform:uppercase;
+  cursor:pointer;transition:.15s;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05)
 }
-.ww-play-btn:active{background:rgba(200,168,75,.25)}
-.ww-stripe{height:3px;background:linear-gradient(90deg,var(--gold) 0%,rgba(200,168,75,.2) 100%)}
+.ww-play-btn:active{background:rgba(204,0,0,.45);color:#fff}
+.ww-stripe{
+  height:3px;flex-shrink:0;
+  background:linear-gradient(90deg,#CC0000 0%,#ff4444 40%,rgba(204,0,0,.1) 100%)
+}
 
 /* Card Rankings */
 .widget-rank{
@@ -1972,22 +2034,29 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <!-- ══ LINHA 2: WORDLE + EM BREVE ══ -->
     <div class="hub-row">
 
-      <!-- WORDLE TRICOLOR -->
+      <!-- QUEM É ESSE JOGADOR -->
       <div class="widget-wordle" onclick="window.location.href='wordle.html'">
         <div class="ww-inner">
-          <div class="ww-eyebrow">Jogo do dia</div>
-          <div class="ww-title">WORDLE <em>TRICOLOR</em></div>
-          <div class="ww-grid" id="wordlePreviewGrid">
-            <!-- preenchido por JS -->
+          <div class="ww-eyebrow">Desafio do dia</div>
+          <div class="ww-title">QUEM É ESSE <em>JOGADOR?</em></div>
+          <div class="ww-mystery-wrap">
+            <div class="ww-silhouette">🕵️</div>
+            <div class="ww-mystery-info">
+              <div class="ww-mystery-tag">Identidade oculta</div>
+              <div class="ww-mystery-clue">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="ww-mystery-tag" style="margin-top:2px">Jogador do SPFC</div>
+            </div>
           </div>
           <div class="ww-status">
             <div class="ww-streak">
               <span>🔥</span>
               <strong id="wordleStreakNum">0</strong>
-              <span style="font-size:9px;color:rgba(255,255,255,.3)">dias</span>
+              <span style="font-size:9px;color:rgba(255,255,255,.25)">dias</span>
             </div>
             <button class="ww-play-btn" onclick="event.stopPropagation();window.location.href='wordle.html'">
-              JOGAR HOJE
+              DESCOBRIR AGORA
             </button>
           </div>
         </div>
@@ -4277,27 +4346,16 @@ function closeSobre(e) {
 
   // Feeds confiáveis e ativos para SPFC
   const FEEDS = [
-    // Site oficial SPFC
     { url: 'https://www.saopaulofc.net/feed/', filter: false },
-    // SPFC.net — maior portal do torcedor
     { url: 'https://spfc.net/feed/', filter: false },
-    // SPFC Notícias
     { url: 'https://spfcnoticias.com/feed/', filter: false },
-    // São Paulo Sempre — blog referência
     { url: 'https://saopaulosempre.com.br/feed/', filter: false },
-    // Arquibancada Tricolor
     { url: 'https://arqtricolor.com/feed/', filter: false },
-    // São Paulo Blog
     { url: 'https://saopaulo.blog/feed/', filter: false },
-    // Gazeta Esportiva — feed dedicado SPFC
     { url: 'https://www.gazetaesportiva.com/times/sao-paulo/feed/', filter: false },
-    // ge.globo — tag São Paulo
     { url: 'https://ge.globo.com/rss/sao-paulo/', filter: false },
-    // Lance! — cobertura SPFC
     { url: 'https://www.lance.com.br/sao-paulo/feed/', filter: false },
-    // Trivela
     { url: 'https://trivela.com.br/feed/', filter: true },
-    // UOL Esporte
     { url: 'https://esporte.uol.com.br/futebol/campeonatos/brasileiro/rss.xml', filter: true },
   ];
 
