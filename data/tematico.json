@@ -1,0 +1,106 @@
+{
+  "2026-W22": {
+    "tema": "Libertadores",
+    "emoji": "⭐",
+    "imagem": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80",
+    "descricao": "As três conquistas épicas do SPFC na Copa Libertadores da América",
+    "perguntas": [
+      {
+        "q": "Em que ano o São Paulo venceu sua primeira Copa Libertadores?",
+        "o": ["1992", "1993", "1994", "1995"],
+        "c": 1,
+        "diff": 1
+      },
+      {
+        "q": "Quem marcou o gol do título na Libertadores de 1992 contra o Newell's Old Boys?",
+        "o": ["Cafu", "Raí", "Palhinha", "Müller"],
+        "c": 2,
+        "diff": 3
+      },
+      {
+        "q": "Contra qual time o São Paulo conquistou a Libertadores de 1993?",
+        "o": ["River Plate", "Olimpia", "Boca Juniors", "Universidad de Chile"],
+        "c": 1,
+        "diff": 2
+      },
+      {
+        "q": "Em qual cidade foi disputada a final da Libertadores de 1994 vencida pelo SPFC?",
+        "o": ["Buenos Aires", "Montevidéu", "Assunção", "Santiago"],
+        "c": 2,
+        "diff": 3
+      },
+      {
+        "q": "Quantas vezes o São Paulo FC venceu a Copa Libertadores da América?",
+        "o": ["1", "2", "3", "4"],
+        "c": 2,
+        "diff": 1
+      },
+      {
+        "q": "Qual técnico comandou o São Paulo nas três conquistas da Libertadores?",
+        "o": ["Tele Santana", "Muricy Ramalho", "Emerson Leão", "Zetti"],
+        "c": 0,
+        "diff": 2
+      },
+      {
+        "q": "Qual jogador é o maior artilheiro do São Paulo na história da Libertadores?",
+        "o": ["Müller", "Gilberto", "Careca", "Leonardo"],
+        "c": 0,
+        "diff": 4
+      },
+      {
+        "q": "O São Paulo venceu o Newell's Old Boys na final de 1992 com qual placar agregado?",
+        "o": ["2x1", "3x1", "1x0", "4x2"],
+        "c": 0,
+        "diff": 4
+      }
+    ]
+  },
+  "2026-W23": {
+    "tema": "Morumbi",
+    "emoji": "🏟️",
+    "imagem": "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=800&q=80",
+    "descricao": "A história e os segredos do Estádio Cícero Pompeu de Toledo",
+    "perguntas": [
+      {
+        "q": "Em que ano foi inaugurado o Estádio do Morumbi?",
+        "o": ["1960", "1965", "1970", "1975"],
+        "c": 1,
+        "diff": 2
+      },
+      {
+        "q": "Qual é o nome oficial completo do Estádio do Morumbi?",
+        "o": [
+          "Estádio Cícero Pompeu de Toledo",
+          "Estádio Mário Trindade",
+          "Estádio Laudo Natel",
+          "Estádio Paulo Machado de Carvalho"
+        ],
+        "c": 0,
+        "diff": 1
+      },
+      {
+        "q": "Qual foi o primeiro jogo oficial disputado no Morumbi?",
+        "o": [
+          "São Paulo x Santos",
+          "São Paulo x Flamengo",
+          "São Paulo x Palmeiras",
+          "São Paulo x Corinthians"
+        ],
+        "c": 0,
+        "diff": 3
+      },
+      {
+        "q": "Qual é a capacidade oficial atual do Estádio do Morumbi após reformas?",
+        "o": ["55.000", "67.052", "72.000", "80.000"],
+        "c": 1,
+        "diff": 2
+      },
+      {
+        "q": "Quem projetou arquitetonicamente o Estádio do Morumbi?",
+        "o": ["Oscar Niemeyer", "João Artacho Jurado", "Rino Levi", "Lúcio Costa"],
+        "c": 1,
+        "diff": 4
+      }
+    ]
+  }
+}
