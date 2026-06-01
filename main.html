@@ -3185,8 +3185,9 @@ async function grantLoginBonus(db, doc, getDoc, updateDoc, uid, loginStreak) {
   const today = new Date().toISOString().slice(0,10);
   const bonusRef = doc(db, 'users', uid);
   try {
-    const snap = await getDoc(bonusRef);
-    const data = snap.exists() ? snap.data() : {};
+    // Reutiliza cache do login — evita 1 leitura extra por sessão
+    const cached = window._cachedUserData;
+    const data = (cached && cached.uid === uid) ? cached.data : (await getDoc(bonusRef)).data?.() || {};
     if (data.lastLoginBonusDate === today) return 0; // já ganhou hoje
 
     const xpBonus = 20 + (loginStreak * 5); // 20 base + 5 por dia de streak
@@ -3197,6 +3198,12 @@ async function grantLoginBonus(db, doc, getDoc, updateDoc, uid, loginStreak) {
       totalXP: (data.totalXP || 0) + xpBonus,
       lastLoginBonusDate: today
     });
+    // Atualiza cache para refletir o novo XP
+    if (window._cachedUserData && window._cachedUserData.uid === uid) {
+      window._cachedUserData.data.xp = novoXP;
+      window._cachedUserData.data.totalXP = (data.totalXP || 0) + xpBonus;
+      window._cachedUserData.data.lastLoginBonusDate = today;
+    }
 
     // Toast de bônus
     setTimeout(() => {
@@ -3268,6 +3275,8 @@ async function loadOrUpdateStreak(db, doc, setDoc, uid) {
         try {
           const snap = await getDoc(doc(db, 'users', user.uid));
           const data = snap.exists() ? snap.data() : {};
+          // Cache global — evita releituras em grantLoginBonus e fillHubUserData
+          window._cachedUserData = { uid: user.uid, data, ts: Date.now() };
           const name       = data.displayName || user.email?.split('@')[0] || 'Torcedor';
           const avatarUrl  = data.avatarUrl || data.avatar?.url || data.avatar?.dataUrl || '';
           const xp = data.xp || data.totalXP || 0;
@@ -4087,16 +4096,19 @@ async function fillHubUserData(){
 
   // Firebase: xp → nível + XP (mesma lógica da topbar)
   const myData = await fetchMyRankPosition(); // retorna {pos, score}
-  
-  // Busca xp real do usuário (campo unificado)
+
+  // Reutiliza cache do login — evita 1 leitura extra por sessão
   let xpReal = 0;
   try {
-    const authApp = window._indexAuth?.app || null;
-    if (authApp) {
-      const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-      const db2 = getFirestore(authApp);
-      const uid = window._indexAuth?.currentUser?.uid;
-      if (uid) {
+    const uid = window._indexAuth?.currentUser?.uid;
+    const cached = window._cachedUserData;
+    if (cached && cached.uid === uid) {
+      xpReal = cached.data.xp || cached.data.totalXP || 0;
+    } else if (uid) {
+      const authApp = window._indexAuth?.app || null;
+      if (authApp) {
+        const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+        const db2 = getFirestore(authApp);
         const snap = await getDoc(doc(db2, 'users', uid));
         if (snap.exists()) xpReal = snap.data().xp || snap.data().totalXP || 0;
       }
