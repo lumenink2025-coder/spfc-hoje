@@ -1598,8 +1598,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
     <!-- SEXTA TEMÁTICA — full width, abaixo dos dois cards -->
     <div id="sextaTematicaCard" style="width:100%;border-radius:16px;overflow:hidden;position:relative;min-height:130px;border:1px solid rgba(200,168,75,.35);box-shadow:0 4px 24px rgba(139,0,0,.3)">
-      <!-- Overlay vermelho rubro -->
-      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(139,0,0,.92) 0%,rgba(80,0,0,.96) 100%)"></div>
+      <!-- Imagem de fundo do tema (preenchida via JS com data.imagem) -->
+      <div id="sextaTematicaBg" style="position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;"></div>
+      <!-- Overlay vermelho rubro (fica sobre a imagem) -->
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(100,0,0,.80) 0%,rgba(60,0,0,.88) 100%)"></div>
       <!-- Padrão decorativo sutil -->
       <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 80% 50%,rgba(200,168,75,.08) 0%,transparent 60%)"></div>
       <!-- Linha dourada no topo -->
