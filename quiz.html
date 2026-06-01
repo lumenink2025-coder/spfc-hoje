@@ -1598,10 +1598,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
     <!-- SEXTA TEMÁTICA — full width, abaixo dos dois cards -->
     <div id="sextaTematicaCard" style="width:100%;border-radius:16px;overflow:hidden;position:relative;min-height:130px;border:1px solid rgba(200,168,75,.35);box-shadow:0 4px 24px rgba(139,0,0,.3)">
-      <!-- Imagem de fundo do tema (preenchida via JS com data.imagem) -->
-      <div id="sextaTematicaBg" style="position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;transition:background-image .4s"></div>
-      <!-- Overlay vermelho rubro (sobre a imagem) -->
-      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(139,0,0,.82) 0%,rgba(80,0,0,.88) 100%)"></div>
+      <!-- Overlay vermelho rubro -->
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(139,0,0,.92) 0%,rgba(80,0,0,.96) 100%)"></div>
       <!-- Padrão decorativo sutil -->
       <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 80% 50%,rgba(200,168,75,.08) 0%,transparent 60%)"></div>
       <!-- Linha dourada no topo -->
@@ -5449,29 +5447,50 @@ const TEMATICO_GITHUB_URL = 'data/tematico.json'; // caminho relativo ao repo
 
 async function loadTematicoData() {
   const weekKey = getWeekKey();
+
+  function extractFromJson(json) {
+    if (!json) return null;
+    if (Array.isArray(json)) {
+      const byWeek = json.find(d => d.weekKey === weekKey);
+      if (byWeek) return byWeek;
+      return json[json.length - 1] || null;
+    }
+    if (json[weekKey]) return json[weekKey];
+    // Qualquer chave (ex: "SEMANA 1") — pega a mais recente
+    const keys = Object.keys(json).sort().reverse();
+    if (keys.length > 0) return json[keys[0]];
+    return null;
+  }
+
   try {
-    // Adiciona cache-buster semanal para não travar no cache do browser
     const url = `${TEMATICO_GITHUB_URL}?v=${weekKey}`;
     const resp = await fetch(url);
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
     const json = await resp.json();
-
-    // Suporta dois formatos:
-    // 1. Objeto indexado por weekKey: { "2025-W22": { ... } }
-    // 2. Array com campo weekKey: [ { weekKey: "2025-W22", ... } ]
-    let data = null;
-    if (Array.isArray(json)) {
-      data = json.find(d => d.weekKey === weekKey);
-    } else if (json[weekKey]) {
-      data = json[weekKey];
-    } else {
-      // Fallback: pega a entrada mais recente disponível
-      const keys = Object.keys(json).sort().reverse();
-      if (keys.length > 0) data = json[keys[0]];
-    }
-
+    const data = extractFromJson(json);
     if (data && data.perguntas?.length > 0) return { weekKey, ...data };
   } catch(e) { console.warn('Tematico JSON load error:', e); }
+
+  // ── Fallback inline: dados embutidos diretamente no HTML ──────────────────
+  // Edite aqui para atualizar o tema sem precisar de servidor externo.
+  const TEMATICO_INLINE = {
+    "SEMANA 1": {
+      "tema": "SPFC/COPA DO MUNDO",
+      "emoji": "\uD83D\uDD25",
+      "descricao": "A relação Tricolor e seleção brasileira",
+      "imagem": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780353488/4e28dfe7-13ac-4490-8298-8f3143224c69_uohump.png",
+      "perguntas": [
+        { "q": "Qual goleiro histórico do São Paulo nunca perdeu um jogo oficial como titular da Seleção (17 jogos, 16 vitórias e 1 empate)?", "o": ["GIlmar Rinaldi","Zetti","Rogério Ceni","Waldir Peres"], "c": 1, "diff": 4 },
+        { "q": "Em qual Copa o São Paulo teve o \"Trio de Ferro\" (Bauer, Rui e Noronha) como titulares absolutos da Seleção?", "o": ["1934","1950","1954","1986"], "c": 1, "diff": 2 },
+        { "q": "Qual técnico estrangeiro do São Paulo comandou a Seleção Brasileira em dois jogos oficiais (vitórias contra o Uruguai) em 1944?", "o": ["Jim Lopes","Joreca","José Poy","Béla Guttmann"], "c": 3, "diff": 4 },
+        { "q": "Qual jogador, enquanto atuava pelo São Paulo, marcou mais gols em uma única edição de Copa do Mundo (5 gols)?", "o": ["Serginho Chulapa","Luís Fabiano","Careca","Leônidas da Silva"], "c": 2, "diff": 4 },
+        { "q": "Qual jogador do São Paulo foi o único do clube a receber um vermelho direto em mata-mata de Copa do Mundo pela Seleção?", "o": ["Leonardo","Oscar","Cafu","Ronaldão"], "c": 0, "diff": 1 }
+      ]
+    }
+  };
+
+  const inlineData = extractFromJson(TEMATICO_INLINE);
+  if (inlineData && inlineData.perguntas?.length > 0) return { weekKey, ...inlineData };
   return null;
 }
 
