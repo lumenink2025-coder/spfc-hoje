@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#CC0000">
 <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;&gt;&lt;text y=&#39;.9em&#39; font-size=&#39;90&#39;&gt;%F0%9F%8F%86&lt;/text&gt;&lt;/svg&gt;">
-<title>SPFC Quiz — VocÊ sabe tudo sobre o Tricolor?</title>
+<title>SPFC Quiz — Quem Quer Ser Torcedor Milionário?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link href="./quiz_files/css2" rel="stylesheet">
 
@@ -365,6 +365,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .bnav-btn.active{color:var(--red)}
 .bnav-icon{font-size:20px}
 
+/* ══ WORDLE ═══════════════════════════════════════ */
 .wrd-wrap{max-width:480px;margin:0 auto;padding:12px 0}
 .wrd-hdr{text-align:center;padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:12px;position:relative}
 .wrd-badge{font-size:9px;letter-spacing:3px;color:var(--red);margin-bottom:2px}
@@ -443,6 +444,40 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .wrd-next{font-size:11px;color:var(--txt2);letter-spacing:1px}
 .wrd-next b{color:var(--red)}
 
+/* ══ WORDLE SCREEN ══ */
+.screen-wordle{}
+
+/* ══ WORDLE MOBILE FIX ══ */
+.wrd-wrap{
+  width:100%;
+  max-width:480px;
+  margin:0 auto;
+  padding:12px 10px;
+  overflow:hidden;
+  box-sizing:border-box;
+}
+.wrd-scroll{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  margin-bottom:10px;
+  padding-bottom:4px;
+  max-width:100%;
+}
+.wrd-col-hdr,
+.wrd-row{
+  min-width:0;
+}
+@media(max-width:480px){
+  .wrd-name{
+    font-size:10px;
+    padding:6px 6px;
+    max-width:90px;
+    min-width:80px;
+  }
+  .wrd-cv{font-size:8px}
+  .wrd-ci{font-size:10px}
+  .wrd-cell{padding:5px 2px;min-width:42px}
+}
 
 
 /* ═══════════════════════════════════════════════════
@@ -1448,10 +1483,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       </div>
 
       <!-- CTA BUTTON -->
-      <button class="home-cta-btn" onclick="startGame()">
+      <button class="home-cta-btn" id="homeCTABtn" onclick="startGame()">
         <span class="home-cta-icon">⚡</span>
-        <span class="home-cta-text">COMEÇAR DESAFIO</span>
-        <span class="home-cta-arrow">›</span>
+        <span class="home-cta-text" id="homeCTAText">COMEÇAR DESAFIO</span>
+        <span class="home-cta-arrow" id="homeCTAArrow">›</span>
       </button>
 
       <!-- LOGIN CTA — visível só quando não logado -->
@@ -1466,10 +1501,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- ===== STATS ROW (NOVO DESIGN) ===== -->
   <div class="home-stats-row">
     <div class="home-stat-card">
-      <div class="home-stat-icon">❤️</div>
-      <div class="home-stat-num" id="homeStatLives">5</div>
-      <div class="home-stat-label">VIDAS</div>
-      <div class="home-stat-sublabel">SUAS CHANCES</div>
+      <div class="home-stat-icon">⚽</div>
+      <div class="home-stat-num" id="homeStatLives">3</div>
+      <div class="home-stat-label">TENTATIVAS</div>
+      <div class="home-stat-sublabel" id="homeAttemptsLabel">RESTANTES HOJE</div>
     </div>
     <div class="home-stat-card">
       <div class="home-stat-icon">🏆</div>
@@ -1544,6 +1579,41 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       </button>
     </div>
 
+  </div><!-- fecha home-bottom-cards com ranking -->
+
+  <!-- ===== SEXTA TEMÁTICA CARD — entre ranking e missão ===== -->
+  <div id="sextaTematicaCard" style="display:none;margin:16px 12px;border-radius:16px;overflow:hidden;position:relative;min-height:160px;border:1px solid rgba(200,168,75,.35);box-shadow:0 4px 32px rgba(139,0,0,.35)">
+    <!-- Imagem de fundo (taça Libertadores) -->
+    <div id="sextaTematicaBg" style="position:absolute;inset:0;background-size:cover;background-position:center 30%;background-image:url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80')"></div>
+    <!-- Overlay vermelho rubro 70% -->
+    <div style="position:absolute;inset:0;background:linear-gradient(145deg,rgba(139,0,0,.75) 0%,rgba(100,0,0,.80) 60%,rgba(30,0,0,.90) 100%)"></div>
+    <!-- Linha dourada no topo -->
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
+    <!-- Conteúdo -->
+    <div style="position:relative;z-index:2;padding:18px 16px 16px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
+        <div>
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px">
+            <span id="sextaTematicaEmoji" style="font-size:18px">🔥</span>
+            <div style="font-family:var(--font-t);font-size:18px;letter-spacing:3px;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.6)">SEXTA TEMÁTICA</div>
+          </div>
+          <div id="sextaTematicaTheme" style="font-size:10px;color:rgba(255,255,255,.75);letter-spacing:2px;font-family:var(--font-u)">Carregando tema...</div>
+        </div>
+        <div style="background:var(--gold);color:#000;font-size:9px;font-weight:800;padding:4px 9px;border-radius:20px;letter-spacing:1.5px;white-space:nowrap;box-shadow:0 2px 8px rgba(200,168,75,.5)">1.5× SCORE</div>
+      </div>
+      <div id="sextaTematicaStatus" style="font-size:11px;color:rgba(255,255,255,.7);margin-bottom:14px;line-height:1.5;min-height:16px"></div>
+      <div style="display:flex;gap:12px;margin-bottom:14px">
+        <div style="font-size:10px;color:rgba(255,255,255,.6);letter-spacing:1px">❓ 5 PERGUNTAS</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);letter-spacing:1px">⚡ 1 CHANCE</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);letter-spacing:1px">🏅 BADGE EXCLUSIVA</div>
+      </div>
+      <button id="sextaTematicaBtn" onclick="goScreenTematico()" style="width:100%;background:var(--gold);color:#000;border:none;padding:12px;font-family:var(--font-t);font-size:16px;letter-spacing:2.5px;cursor:pointer;border-radius:10px;font-weight:700;box-shadow:0 3px 12px rgba(200,168,75,.4)">
+        ENTRAR NO DESAFIO →
+      </button>
+    </div>
+  </div>
+
+  <div class="home-bottom-cards"><!-- missão diária -->
     <!-- MISSÃO DIÁRIA -->
     <div class="home-card home-card-mission">
       <div class="home-card-title">MISSÃO DIÁRIA</div>
@@ -1561,10 +1631,82 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div>
   </div>
 
+
   <!-- SPACER for bottom nav -->
   <div style="height:20px"></div>
 
 </div>
+<!-- ══ SCREEN: TEMÁTICO ════════════════════════════ -->
+<div class="screen" id="screen-tematico">
+  <div class="topbar">
+    <button class="tb-back" onclick="confirmQuitTematico()">← SAIR</button>
+    <div class="tb-logo"><span>SPFC</span> SEXTA TEMÁTICA</div>
+    <div style="width:60px;display:flex;align-items:center;justify-content:flex-end">
+      <div id="tematicoLives" style="font-size:11px;color:var(--gold);letter-spacing:1px;font-family:var(--font-u)">1 CHANCE</div>
+    </div>
+  </div>
+  <div style="width:100%;padding:12px 16px 0;background:linear-gradient(180deg,rgba(200,168,75,.15) 0%,transparent 100%)">
+    <div style="text-align:center;padding:10px 0 6px">
+      <div id="tematicoThemeEmoji" style="font-size:36px;margin-bottom:4px">🔥</div>
+      <div id="tematicoThemeTitle" style="font-family:var(--font-t);font-size:20px;letter-spacing:3px;color:var(--gold)">TEMA DO MÊS</div>
+      <div style="font-size:10px;color:var(--txt3);letter-spacing:2px;margin-top:2px">DESAFIO ESPECIAL · SEXTA-FEIRA</div>
+    </div>
+    <div style="padding:8px 0 10px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+        <span id="tematicoQLabel" style="font-size:11px;color:var(--txt3);letter-spacing:1px">PERGUNTA <strong id="tematicoQNum" style="color:var(--gold);font-family:var(--font-t);font-size:16px">1</strong> / 5</span>
+        <span id="tematicoScore" style="font-size:11px;color:var(--gold);letter-spacing:1px;font-family:var(--font-t)">0 PTS</span>
+      </div>
+      <div style="display:flex;gap:4px" id="tematicoSteps">
+        <div id="tematicoStep0" style="flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:4px;transition:.4s"></div>
+        <div id="tematicoStep1" style="flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:4px;transition:.4s"></div>
+        <div id="tematicoStep2" style="flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:4px;transition:.4s"></div>
+        <div id="tematicoStep3" style="flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:4px;transition:.4s"></div>
+        <div id="tematicoStep4" style="flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:4px;transition:.4s"></div>
+      </div>
+    </div>
+  </div>
+  <div class="countdown-wrap" style="padding:4px 14px 2px">
+    <div class="timer-ring-wrap">
+      <svg class="timer-ring-svg" viewBox="0 0 80 80">
+        <circle class="timer-ring-bg" cx="40" cy="40" r="33"/>
+        <circle class="timer-ring-fill" id="tematicoTimerFill" cx="40" cy="40" r="33"/>
+      </svg>
+      <div class="timer-ring-num">
+        <span class="timer-num-val" id="tematicoTimerNum">20</span>
+        <span class="timer-num-label">SEG</span>
+      </div>
+    </div>
+  </div>
+  <div style="width:100%;padding:8px 12px 6px">
+    <div style="border-radius:14px;border:1px solid rgba(200,168,75,.25);background:rgba(200,168,75,.05);min-height:90px;display:flex;flex-direction:column;justify-content:center;padding:16px">
+      <div style="font-size:9px;letter-spacing:3px;color:var(--gold);font-family:var(--font-u);text-transform:uppercase;margin-bottom:8px">🔥 PERGUNTA TEMÁTICA</div>
+      <div id="tematicoQText" style="font-size:15px;font-weight:600;line-height:1.45;color:var(--txt)">Carregando...</div>
+    </div>
+  </div>
+  <div id="tematicoOptions" style="width:100%;padding:4px 12px 8px;display:flex;flex-direction:column;gap:8px"></div>
+  <div style="width:100%;padding:6px 12px 80px;text-align:center">
+    <div style="font-size:10px;color:var(--txt3);letter-spacing:1px">⚠️ Sem pulos · Sem ajudas · Sem segunda chance</div>
+  </div>
+</div>
+
+<!-- ══ SCREEN: RESULTADO TEMÁTICO ════════════════════ -->
+<div class="screen" id="screen-tematico-result">
+  <div class="topbar">
+    <div style="width:60px"></div>
+    <div class="tb-logo"><span>SPFC</span> RESULTADO</div>
+    <div style="width:60px"></div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px 100px;text-align:center">
+    <div id="tematicoResultEmoji" style="font-size:64px;margin-bottom:16px">🏆</div>
+    <div id="tematicoResultTitle" style="font-family:var(--font-t);font-size:32px;letter-spacing:3px;margin-bottom:8px">PARABÉNS!</div>
+    <div id="tematicoResultSub" style="font-size:13px;color:var(--txt2);margin-bottom:24px;line-height:1.5"></div>
+    <div id="tematicoResultBreakdown" style="width:100%;max-width:320px;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:16px;margin-bottom:20px;text-align:left"></div>
+    <div id="tematicoResultBadge" style="display:none;margin-bottom:20px"></div>
+    <button onclick="goScreen('screen-home')" style="width:100%;max-width:320px;background:var(--red);color:#fff;border:none;padding:14px;font-family:var(--font-t);font-size:18px;letter-spacing:3px;cursor:pointer;border-radius:8px;margin-bottom:10px">VOLTAR À HOME</button>
+    <button onclick="goScreen('screen-ranking')" style="width:100%;max-width:320px;background:transparent;color:var(--gold);border:1px solid rgba(200,168,75,.4);padding:12px;font-family:var(--font-u);font-size:13px;letter-spacing:2px;cursor:pointer;border-radius:8px">VER RANKING</button>
+  </div>
+</div>
+
 <!-- ══ SCREEN: AVATAR ════════════════════════════ -->
 <div class="screen" id="screen-avatar">
   <div class="topbar">
@@ -1768,7 +1910,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="victory-wrap fade-in" style="margin:auto">
     <div class="confetti-row">🔴⚪⚫🔴⚪⚫</div>
     <div class="victory-title">CAMPEÃO!</div>
-    <div class="victory-sub">VOCÊ SABE TUDO SOBRE O SPFC</div>
+    <div class="victory-sub">TORCEDOR MILIONÁRIO</div>
     <div class="victory-score" id="vicScore">0</div>
     <div class="victory-pts">PONTOS TOTAIS</div>
     <div class="trophy-row">
@@ -1794,6 +1936,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <button class="rank-tab" onclick="loadRanking(&#39;diario&#39;,this)">HOJE</button>
       <button class="rank-tab" onclick="loadRanking(&#39;semanal&#39;,this)">SEMANA</button>
       <button class="rank-tab" onclick="loadRanking(&#39;mensal&#39;,this)">MÊS</button>
+      <button class="rank-tab" onclick="loadRankingWordle(this)">🔤 WORDLE</button>
     </div>
     <div class="rank-list" id="rankList">
       <div class="rank-loading">Carregando ranking...</div>
@@ -1926,8 +2069,14 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 <!-- ══ BOTTOM NAV ═════════════════════════════════ -->
 
+<!-- ══ SCREEN: WORDLE ════════════════════════════ -->
+<div class="screen" id="screen-wordle">
+  <div class="topbar">
+    <button class="tb-back" onclick="goScreen(&#39;screen-home&#39;)">← VOLTAR</button>
+    <div class="tb-logo"><span>SPFC</span> WORDLE</div>
     <div style="width:60px"></div>
   </div>
+  <div id="wordle-panel" style="flex:1;overflow-y:auto"></div>
 </div>
 
 <nav class="bottom-nav" id="bottomNav">
@@ -1961,6 +2110,18 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </svg>
   </button>
 
+  <button class="bnav-btn" id="nav-wondler" onclick="goScreenWordle()">
+    <div class="bnav-icon-wrap">
+      <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+        <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+        <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+        <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+        <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+      </svg>
+    </div>
+    <span>WONDLER</span>
+  </button>
+
   <button class="bnav-btn" id="nav-ranking" onclick="goScreen(&#39;screen-ranking&#39;)">
     <div class="bnav-icon-wrap">
       <svg viewBox="0 0 24 24" stroke="currentColor">
@@ -1989,9 +2150,41 @@ const LEVELS_INFO = [
 ];
 
 const QUESTIONS_PER_LEVEL = 5;
-const MAX_LIVES = 5;
-const REGEN_TIME = 30 * 60 * 1000; // 30 min em ms
+const MAX_LIVES = 5; // mantido para compatibilidade de exibição
+const REGEN_TIME = 30 * 60 * 1000; // não usado no novo sistema
 const HELPERS = ['eliminate','skip','hint'];
+
+// ── SISTEMA DE TENTATIVAS DIÁRIAS ──
+const MAX_DAILY_ATTEMPTS = 3;
+
+function getDailyAttemptsKey() {
+  return 'spfc_daily_' + new Date().toISOString().slice(0,10);
+}
+
+function getDailyAttemptsUsed() {
+  try {
+    const key = getDailyAttemptsKey();
+    return parseInt(localStorage.getItem(key) || '0', 10);
+  } catch(e) { return 0; }
+}
+
+function incrementDailyAttempts() {
+  try {
+    const key = getDailyAttemptsKey();
+    const current = getDailyAttemptsUsed();
+    localStorage.setItem(key, current + 1);
+    // Limpa chaves de dias anteriores
+    Object.keys(localStorage).filter(k => k.startsWith('spfc_daily_') && k !== key).forEach(k => localStorage.removeItem(k));
+  } catch(e) {}
+}
+
+function getDailyAttemptsLeft() {
+  return Math.max(0, MAX_DAILY_ATTEMPTS - getDailyAttemptsUsed());
+}
+
+function hasDailyAttemptsLeft() {
+  return getDailyAttemptsLeft() > 0;
+}
 
 /* ════════════════════════════════════════════════
    STATE
@@ -2006,7 +2199,8 @@ let STATE = {
   score: 0,
   totalScore: 0,
   helpers: {eliminate:true, skip:true, hint:true},
-  usedQIds: [],
+  usedQIds: [],          // histórico global anti-repetição (persiste entre sessões)
+  sessionUsedQIds: [],   // usadas nesta sessão (reset ao iniciar nova partida)
   currentQ: null,
   countdownInterval: null,
   timeLeft: 30,
@@ -2088,6 +2282,7 @@ function saveState() {
   _saveFirebaseTimer = setTimeout(() => {
     const uid = STATE.user.uid;
     const {db, doc, setDoc} = window.FB;
+    const todayKey2 = new Date().toISOString().slice(0,10);
     setDoc(doc(db, 'users', uid), {
       lives: STATE.lives,
       livesLastRegen: STATE.livesLastRegen,
@@ -2101,6 +2296,7 @@ function saveState() {
       xp: STATE.userData?.xp || 0,
       level: STATE.userData?.level || 1,
       totalXP: STATE.userData?.totalXP || 0,
+      [`dailyAttempts_${todayKey2}`]: getDailyAttemptsUsed(), // anti-exploit multi-device
       updatedAt: new Date().toISOString(),
     }, { merge: true }).catch(e => console.warn('saveState Firebase erro:', e));
   }, 2000);
@@ -2137,26 +2333,95 @@ function getTimeToNextLife() {
 }
 
 function renderLives(containerId) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  const hearts = Array.from({length: MAX_LIVES}, (_,i) =>
-    `<span class="life${i >= STATE.lives ? ' lost' : ''} life-mini-heart">❤️</span>`
-  ).join('');
-  if (containerId === 'quizLivesMini') {
-    el.innerHTML = hearts + `<span class="quiz-lives-label" style="margin-left:5px">${STATE.lives} VIDAS</span>`;
+  // Mantido para compatibilidade — agora exibe tentativas diárias
+  renderDailyAttemptsDisplay(containerId);
+}
+
+function updateHomeCTA() {
+  const btn = document.getElementById('homeCTABtn');
+  const txt = document.getElementById('homeCTAText');
+  const used = getDailyAttemptsUsed();
+  const left = getDailyAttemptsLeft();
+
+  if (!btn || !txt) return;
+
+  if (left === 0) {
+    btn.style.background = 'rgba(100,100,100,0.3)';
+    btn.style.borderColor = 'rgba(100,100,100,0.4)';
+    txt.textContent = 'TENTATIVAS ESGOTADAS';
+    const arrow = document.getElementById('homeCTAArrow');
+    if (arrow) arrow.textContent = '⏳';
+  } else if (used > 0) {
+    btn.style.background = '';
+    btn.style.borderColor = '';
+    txt.textContent = `JOGAR (${left} tentativa${left > 1 ? 's' : ''})`;
+    const arrow = document.getElementById('homeCTAArrow');
+    if (arrow) arrow.textContent = '›';
   } else {
-    el.innerHTML = hearts;
+    btn.style.background = '';
+    btn.style.borderColor = '';
+    txt.textContent = 'COMEÇAR DESAFIO';
+    const arrow = document.getElementById('homeCTAArrow');
+    if (arrow) arrow.textContent = '›';
   }
+}
+  const used = getDailyAttemptsUsed();
+  const left = getDailyAttemptsLeft();
+  const total = MAX_DAILY_ATTEMPTS;
+
+  // Ícones de tentativas (bola de futebol = disponível, cinza = usado)
+  const icons = Array.from({length: total}, (_, i) =>
+    `<span class="life${i >= left ? ' lost' : ''} life-mini-heart" style="font-size:${containerId === 'quizLivesMini' ? '15px' : '22px'}">⚽</span>`
+  ).join('');
+
+  // Atualiza múltiplos containers de exibição
+  const targets = containerId
+    ? [containerId]
+    : ['livesDisplay','quizLivesMini','goLives','attemptsHomeDisplay'];
+
+  targets.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (id === 'quizLivesMini') {
+      el.innerHTML = icons + `<span class="quiz-lives-label" style="margin-left:5px">${left}/${total} HOJE</span>`;
+    } else if (id === 'goLives') {
+      el.innerHTML = icons;
+    } else {
+      el.innerHTML = icons;
+    }
+  });
+
+  // Atualiza o label de tentativas na home se existir
+  const timerEl = document.getElementById('livesTimer');
+  if (timerEl) {
+    if (left === 0) {
+      // Calcula tempo para reset à meia-noite
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 0);
+      const diff = tomorrow - now;
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      timerEl.textContent = `⏳ Novas tentativas em ${h}h ${m}m`;
+    } else {
+      timerEl.textContent = left === total ? '' : `⚽ ${left} tentativa${left > 1 ? 's' : ''} restante${left > 1 ? 's' : ''}`;
+    }
+  }
+
+  // Sincroniza também o elemento homeStatLives
+  const homeEl = document.getElementById('homeStatLives');
+  if (homeEl) homeEl.textContent = left;
+
+  // Atualiza o CTA button
+  updateHomeCTA();
 }
 
 function startLivesTimer() {
   setInterval(() => {
-    checkLivesRegen();
-    renderLives('livesDisplay');
-    const t = getTimeToNextLife();
-    const el = document.getElementById('livesTimer');
-    if (el) el.textContent = STATE.lives >= MAX_LIVES ? '' : t ? `⏱ próxima vida em ${t}` : '';
-  }, 1000);
+    renderDailyAttemptsDisplay('livesDisplay');
+    renderDailyAttemptsDisplay(); // atualiza todos os displays
+  }, 60000); // atualiza a cada minuto (não há regeneração por tempo)
 }
 
 /* ════════════════════════════════════════════════
@@ -2675,12 +2940,24 @@ async function loadUserData(user) {
       if (data.lastPlayedDate !== undefined) STATE.lastPlayedDate = data.lastPlayedDate;
       if (data.wonToday !== undefined) STATE.wonToday = data.wonToday;
       if (data.livesLastRegen !== undefined) STATE.livesLastRegen = data.livesLastRegen;
+      // Sincroniza tentativas diárias do Firebase (anti-exploit multi-device)
+      const todayAttemptsKey = `dailyAttempts_${new Date().toISOString().slice(0,10)}`;
+      if (data[todayAttemptsKey] !== undefined) {
+        const fbAttempts = data[todayAttemptsKey];
+        const localAttempts = getDailyAttemptsUsed();
+        // Usa o maior valor (mais restritivo) para evitar burlar pelo app
+        if (fbAttempts > localAttempts) {
+          try { localStorage.setItem(getDailyAttemptsKey(), fbAttempts); } catch(e) {}
+        }
+      }
       // Recalcular level a partir do XP para garantir consistência
       const info = getLevelInfo(STATE.userData.xp);
       STATE.userData.level = info.level;
       renderHomeXP();
       renderStreakBadge();
       renderLives('livesDisplay');
+      renderDailyAttemptsDisplay(); // atualiza todos os displays de tentativas
+      updateHomeCTA();
       // Sincroniza localStorage com os dados do Firestore
       try {
         localStorage.setItem('spfc_quiz_state', JSON.stringify({
@@ -2800,11 +3077,90 @@ function checkAvatarSetup() {
 /* ════════════════════════════════════════════════
    QUIZ ENGINE
 ════════════════════════════════════════════════ */
+function getAvailableQuestionsForLevel(level) {
+  // Exclui perguntas já usadas nesta sessão e no histórico recente global
+  const sessionUsed = STATE.sessionUsedQIds || [];
+  const recentUsed = (STATE.usedQIds || []).slice(-60); // últimas 60 evitadas globalmente
+  const excluded = new Set([...sessionUsed, ...recentUsed]);
+  return QUESTIONS.filter(q => q.l === level && !excluded.has(q.id));
+}
+
 function getQuestionsForLevel(level) {
-  const pool = QUESTIONS.filter(q => q.l === level);
-  // Shuffle and pick QUESTIONS_PER_LEVEL (or 1 for level 6)
   const count = level === 6 ? 1 : QUESTIONS_PER_LEVEL;
-  return shuffle(pool).slice(0, count);
+
+  // Tenta pegar do pool filtrado (sem repetição)
+  let pool = getAvailableQuestionsForLevel(level);
+
+  // Se o pool filtrado não tiver perguntas suficientes, relaxa o filtro (usa só sessionUsed)
+  if (pool.length < count) {
+    const sessionUsed = new Set(STATE.sessionUsedQIds || []);
+    pool = QUESTIONS.filter(q => q.l === level && !sessionUsed.has(q.id));
+  }
+
+  // Último fallback: usa todas do nível
+  if (pool.length < count) {
+    pool = QUESTIONS.filter(q => q.l === level);
+  }
+
+  if (pool.length === 0) return [];
+
+  // ── DISTRIBUIÇÃO DE DIFICULDADE DENTRO DO NÍVEL ──
+  // Ordena questões por dificuldade (campo 'diff': 1=fácil, 2=médio, 3=difícil, 4=expert)
+  // Se não tiver campo 'diff', distribui aleatoriamente mas evita sequências repetidas
+  const hasDiff = pool.some(q => q.diff !== undefined);
+
+  if (hasDiff && level <= 4) {
+    // Garante progressão de dificuldade: fácil → médio → difícil → expert
+    const byDiff = {1:[], 2:[], 3:[], 4:[]};
+    pool.forEach(q => { const d = q.diff || 2; if (byDiff[d]) byDiff[d].push(q); });
+
+    // Para níveis iniciais, pega proporção crescente por dificuldade
+    const diffMap = {
+      1: [1,1,2,2,3],    // Nível 1: 2 fáceis, 2 médias, 1 difícil
+      2: [1,2,2,3,3],    // Nível 2: 1 fácil, 2 médias, 2 difíceis
+      3: [2,3,3,4,4],    // Nível 3: 1 média, 2 difíceis, 2 expert
+      4: [3,3,4,4,4],    // Nível 4: 2 difíceis, 3 expert
+    };
+    const diffSeq = diffMap[level] || [1,2,3,4,3];
+    const selected = [];
+    const used = new Set();
+
+    for (const d of diffSeq.slice(0, count)) {
+      const candidates = (byDiff[d] || []).filter(q => !used.has(q.id || q.q));
+      // Se não tem candidatos nessa dificuldade, pega de qualquer dificuldade
+      const pick = candidates.length > 0
+        ? shuffle(candidates)[0]
+        : shuffle(pool.filter(q => !used.has(q.id || q.q)))[0];
+      if (pick) {
+        selected.push(pick);
+        used.add(pick.id || pick.q);
+      }
+    }
+
+    // Preenche se ficou curto
+    if (selected.length < count) {
+      const remaining = shuffle(pool.filter(q => !used.has(q.id || q.q)));
+      for (const q of remaining) {
+        if (selected.length >= count) break;
+        selected.push(q);
+      }
+    }
+
+    // Registra no histórico global
+    selected.forEach(q => { if (q.id && !STATE.usedQIds.includes(q.id)) STATE.usedQIds.push(q.id); });
+    // Mantém histórico global em no máximo 120 entradas
+    if (STATE.usedQIds.length > 120) STATE.usedQIds = STATE.usedQIds.slice(-120);
+    saveState();
+
+    return selected;
+  }
+
+  // Fallback: shuffle simples com anti-repetição
+  const selected = shuffle(pool).slice(0, count);
+  selected.forEach(q => { if (q.id && !STATE.usedQIds.includes(q.id)) STATE.usedQIds.push(q.id); });
+  if (STATE.usedQIds.length > 120) STATE.usedQIds = STATE.usedQIds.slice(-120);
+  saveState();
+  return selected;
 }
 
 function shuffle(arr) {
@@ -2826,18 +3182,20 @@ function confirmQuit() {
 }
 
 function startGame() {
-  checkLivesRegen();
-  if (STATE.lives <= 0) {
-    const t = getTimeToNextLife();
-    toast('Sem vidas! 💔', t ? `Próxima vida em ${t}` : 'Aguarde para recarregar');
+  if (!hasDailyAttemptsLeft()) {
+    toast('Sem tentativas! ⏳', `Você usou todas as ${MAX_DAILY_ATTEMPTS} tentativas de hoje. Volte amanhã!`);
+    renderDailyAttemptsDisplay();
     return;
   }
+  incrementDailyAttempts();
   STATE.level = 1;
   STATE.questionIdx = 0;
   STATE.score = 0;
   STATE.helpers = {eliminate:true, skip:true, hint:true};
-  STATE.pularLeft = 3;
+  STATE.pularLeft = 2; // Reduzido para 2 no novo sistema mais enxuto
+  STATE.sessionUsedQIds = []; // Rastreia perguntas desta sessão especificamente
   levelQuestions = getQuestionsForLevel(1);
+  renderDailyAttemptsDisplay();
   goScreen('screen-quiz');
   renderQuestion();
   playTheme();
@@ -3122,36 +3480,44 @@ function selectAnswer(origIdx, evtOrBtn) {
 }
 
 function handleWrong(q) {
-  loseLife();
+  // No novo sistema, o "game over" ocorre por resposta errada ou tempo
+  // A tentativa já foi contada ao iniciar a partida
   goScreen('screen-gameover');
   document.getElementById('goScore').textContent = STATE.score;
   document.getElementById('goQuestion').textContent = q.q;
   document.getElementById('goCorrect').textContent = `✅ Resposta correta: ${q.o[q.c]}`;
-  renderLives('goLives');
-  const t = getTimeToNextLife();
+  renderDailyAttemptsDisplay('goLives');
+
+  const left = getDailyAttemptsLeft();
   const timerEl = document.getElementById('goTimer');
-  if (timerEl) timerEl.textContent = STATE.lives < MAX_LIVES && t ? `⏱ Próxima vida em ${t}` : '';
+  if (timerEl) {
+    if (left === 0) {
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 0);
+      const diff = tomorrow - now;
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      timerEl.textContent = `⏳ Novas tentativas em ${h}h ${m}m`;
+    } else {
+      timerEl.textContent = `⚽ ${left} tentativa${left !== 1 ? 's' : ''} restante${left !== 1 ? 's' : ''}`;
+    }
+  }
   const tryBtn = document.getElementById('btnTryAgain');
-  if (tryBtn) tryBtn.disabled = STATE.lives <= 0;
+  if (tryBtn) tryBtn.disabled = !hasDailyAttemptsLeft();
   playGameOver();
   saveScoreToFirebase();
-  updateLivesInterval();
   // Atualiza missão de partidas jogadas mesmo ao perder
   updateMissionProgress('play5', 1);
   updateMissionProgress('score5000', STATE.score);
 }
 
 function updateLivesInterval() {
-  const iv = setInterval(() => {
-    checkLivesRegen();
-    renderLives('goLives');
-    const t = getTimeToNextLife();
-    const el = document.getElementById('goTimer');
-    if (el) el.textContent = STATE.lives < MAX_LIVES && t ? `⏱ Próxima vida em ${t}` : '';
-    const tryBtn = document.getElementById('btnTryAgain');
-    if (tryBtn) tryBtn.disabled = STATE.lives <= 0;
-    if (STATE.lives >= MAX_LIVES) clearInterval(iv);
-  }, 1000);
+  // Mantido por compatibilidade — no novo sistema de tentativas diárias,
+  // não há regeneração por tempo, então apenas atualiza o display.
+  renderDailyAttemptsDisplay('goLives');
+  renderDailyAttemptsDisplay();
 }
 
 function advanceQuestion() {
@@ -3216,8 +3582,15 @@ function goVictory() {
 }
 
 function tryAgain() {
-  if (STATE.lives <= 0) {
-    toast('Sem vidas!', 'Aguarde o recarregamento');
+  if (!hasDailyAttemptsLeft()) {
+    const now = new Date();
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    const diff = tomorrow - now;
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    toast('Sem tentativas! ⏳', `Novas tentativas em ${h}h ${m}m. Volte amanhã!`);
     return;
   }
   startGame();
@@ -3302,8 +3675,28 @@ function usePular() {
     pularBtn.innerHTML = left > 0 ? `⏭ PULAR <span style="font-size:10px;opacity:.7">(${left})</span>` : '⏭ PULAR';
   }
   clearInterval(countdownTimer);
-  toast('⏭️ Pergunta pulada!', left > 0 ? `${left} pulo${left > 1 ? 's' : ''} restante${left > 1 ? 's' : ''}` : 'Último pulo usado!');
-  setTimeout(() => advanceQuestion(), 800);
+
+  // ── CORREÇÃO DO BUG ──
+  // O pulo NÃO deve avançar o progresso da questão.
+  // questionIdx permanece o mesmo — apenas troca a pergunta atual por uma nova.
+  // Adiciona a pergunta pulada ao pool de "usadas na sessão" para não repetir.
+  const pulada = levelQuestions[STATE.questionIdx];
+  if (pulada && pulada.id && !STATE.sessionUsedQIds.includes(pulada.id)) {
+    STATE.sessionUsedQIds.push(pulada.id);
+  }
+
+  // Busca uma nova pergunta do mesmo nível, excluindo as já usadas nesta sessão
+  const pool = getAvailableQuestionsForLevel(STATE.level);
+  if (pool.length > 0) {
+    const novaQ = shuffle(pool)[0];
+    levelQuestions[STATE.questionIdx] = novaQ; // Substitui no mesmo índice
+    if (novaQ.id) STATE.sessionUsedQIds.push(novaQ.id);
+  }
+  // Se o pool estiver vazio, mantém a questão atual (fallback sem crash)
+
+  toast('⏭️ Pergunta trocada!', left > 0 ? `${left} pulo${left > 1 ? 's' : ''} restante${left > 1 ? 's' : ''}` : 'Último pulo usado!');
+  // Questão é carregada no mesmo índice — progresso não avança
+  setTimeout(() => renderQuestion(), 300);
 }
 
 function closeModal() {
@@ -3474,8 +3867,11 @@ async function loadRanking(type, btn) {
     let all = [];
     snap.forEach(d => all.push(d.data()));
 
-    // Ordena no cliente pelo score
-    all.sort((a, b) => (b.score||0) - (a.score||0));
+    // Ordena no cliente: score desc, depois streak desc (critério de desempate)
+    all.sort((a, b) => {
+      if ((b.score||0) !== (a.score||0)) return (b.score||0) - (a.score||0);
+      return (b.streak||0) - (a.streak||0); // desempate por sequência
+    });
 
     // Top 10
     const top10 = all.slice(0, 10);
@@ -3521,6 +3917,96 @@ async function loadRanking(type, btn) {
   }
 }
 
+async function loadRankingWordle(btn) {
+  if (btn) {
+    document.querySelectorAll('.rank-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  const list = document.getElementById('rankList');
+  list.innerHTML = '<div class="rank-loading">Carregando ranking do Wordle...</div>';
+
+  if (!window.FB) {
+    list.innerHTML = '<div class="rank-empty">Configure o Firebase para ver o ranking.</div>';
+    return;
+  }
+
+  const {db, collection, query, orderBy, limit, getDocs} = window.FB;
+
+  try {
+    // Agrupa por uid pegando o maior streak de cada jogador
+    const snap = await getDocs(query(collection(db, 'ranking_wordle'), orderBy('streak', 'desc'), limit(100)));
+    const byUid = {};
+    snap.forEach(d => {
+      const data = d.data();
+      if (!byUid[data.uid] || byUid[data.uid].streak < data.streak) {
+        byUid[data.uid] = data;
+      }
+    });
+
+    const docs = Object.values(byUid)
+      .sort((a, b) => b.streak - a.streak || a.tries - b.tries);
+
+    if (!docs.length) {
+      list.innerHTML = '<div class="rank-empty">Nenhum registro ainda. Jogue o Wordle hoje!</div>';
+      return;
+    }
+
+    const myUid = window.FB.auth.currentUser?.uid || STATE.user?.uid;
+    const top10 = docs.slice(0, 10);
+    const myInTop = top10.findIndex(d => d.uid === myUid);
+    const myFullPos = myUid ? docs.findIndex(d => d.uid === myUid) : -1;
+
+    let html = `
+      <div style="font-size:10px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase;padding:8px 4px 12px;text-align:center">
+        🔤 RANKING POR SEQUÊNCIA CONSECUTIVA
+      </div>
+      ${top10.map((d, i) => {
+        const pos = i + 1;
+        const posClass = pos === 1 ? 'top1' : pos === 2 ? 'top2' : pos === 3 ? 'top3' : '';
+        const isMe = myUid && d.uid === myUid;
+        const streakFire = d.streak >= 30 ? '👑' : d.streak >= 15 ? '💎' : d.streak >= 7 ? '🔥🔥' : d.streak >= 3 ? '🔥' : '';
+        return `
+          <div class="rank-item${isMe ? ' me' : ''}">
+            <div class="rank-pos ${posClass}">${pos}</div>
+            ${d.avatar ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
+            <div class="rank-info">
+              <div class="rank-name">${d.name || 'Torcedor'}${isMe ? ' (você)' : ''} ${streakFire}</div>
+              <div class="rank-detail">${d.tries != null ? d.tries : '—'} tent. · Édição #${(d.edition || 0) + 1}</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <div class="rank-pts">${d.streak}</div>
+              <div style="font-size:9px;color:var(--txt3);letter-spacing:1px">dias seguidos</div>
+            </div>
+          </div>`;
+      }).join('')}`;
+
+    // Jogador fora do top 10
+    if (myUid && myInTop === -1 && myFullPos >= 0) {
+      const myData = docs[myFullPos];
+      const streakFire = myData.streak >= 30 ? '👑' : myData.streak >= 15 ? '💎' : myData.streak >= 7 ? '🔥🔥' : myData.streak >= 3 ? '🔥' : '';
+      html += `
+        <div style="text-align:center;padding:8px 0;color:var(--txt3);font-size:11px;letter-spacing:2px">• • •</div>
+        <div class="rank-item me">
+          <div class="rank-pos">${myFullPos + 1}</div>
+          ${myData.avatar ? `<img class="rank-avatar-mini" src="${myData.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
+          <div class="rank-info">
+            <div class="rank-name">${myData.name || 'Torcedor'} (você) ${streakFire}</div>
+            <div class="rank-detail">${myData.tries != null ? myData.tries : '—'} tent. · Édição #${(myData.edition || 0) + 1}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div class="rank-pts">${myData.streak}</div>
+            <div style="font-size:9px;color:var(--txt3);letter-spacing:1px">dias seguidos</div>
+          </div>
+        </div>`;
+    }
+
+    list.innerHTML = html;
+  } catch(e) {
+    list.innerHTML = '<div class="rank-empty">Erro ao carregar. Verifique o Firebase.</div>';
+    console.warn('Wordle ranking error:', e);
+  }
+}
 
 /* ════════════════════════════════════════════════
    PROFILE
@@ -3790,7 +4276,8 @@ function goScreen(id) {
   const navMap = {
     'screen-home': 'nav-quiz',
     'screen-ranking': 'nav-ranking',
-    'screen-desafios': 'nav-desafios'
+    'screen-desafios': 'nav-desafios',
+    'screen-wordle': 'nav-wondler'
   };
   const activeNav = navMap[id];
   if (activeNav) {
@@ -3868,6 +4355,446 @@ function showQuizOfflineMsg(msg) {
 }
 
 
+/* ════════════════════════════════════════════════
+   WORDLE — integrado ao quiz
+════════════════════════════════════════════════ */
+async function loadWordleFromFirebase() {
+  // ── NOVO: busca JSON estático em vez do Firestore (zero leituras) ──
+  try {
+    const res = await fetch('/data/wordle.json?v=' + Date.now());
+    if (!res.ok) throw new Error('JSON não encontrado');
+    const lista = await res.json();
+    if (!lista || lista.length === 0) return;
+    WORDLE_DB.length = 0;
+    lista.forEach(j => WORDLE_DB.push(j));
+    console.log('✅ Wordle JSON: ' + WORDLE_DB.length + ' jogadores');
+    if (document.getElementById('screen-wordle') && document.getElementById('screen-wordle').classList.contains('active')) {
+      wordleInited = false;
+      renderWordle();
+    }
+  } catch(e) {
+    console.warn('Wordle JSON não disponível, usando DB local:', e.message);
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   SPFC WORDLE — Adivinha o ídolo tricolor
+═══════════════════════════════════════════════════ */
+
+const WORDLE_COLS = [
+  {k:'posicao',  l:'Posição'},
+  {k:'pais',     l:'País'},
+  {k:'decada',   l:'Década'},
+  {k:'jogos',    l:'Jogos'},
+  {k:'gols',     l:'Gols'},
+  {k:'titulos',  l:'Títulos'},
+];
+
+const WORDLE_DB = [
+  {nome:'Rogério Ceni',    emoji:'🧤',posicao:'Goleiro',  pais:'Brasil',    decada:1990,jogos:1237,gols:131,titulos:16,selecao:true, revelado:true, idolo:true, periodo:'1990–2015',desc:'O maior ídolo da história do SPFC. Goleiro artilheiro. 1237 jogos, 131 gols, 16 títulos.'},
+  {nome:'Müller',          emoji:'⚽',posicao:'Atacante', pais:'Brasil',    decada:1980,jogos:380, gols:196,titulos:10,selecao:true, revelado:true, idolo:true, periodo:'1982–1994',desc:'Maior artilheiro da história do São Paulo com 196 gols. Ídolo eterno.'},
+  {nome:'Careca',          emoji:'🎯',posicao:'Atacante', pais:'Brasil',    decada:1980,jogos:274, gols:157,titulos:8, selecao:true, revelado:true, idolo:true, periodo:'1978–1988',desc:'Um dos maiores centroavantes da história do futebol brasileiro.'},
+  {nome:'Raí',             emoji:'🎖️',posicao:'Meia',     pais:'Brasil',    decada:1990,jogos:273, gols:82, titulos:6, selecao:true, revelado:false,idolo:true, periodo:'1991–2004',desc:'Capitão dos campeões mundiais e libertadores. Ídolo eterno do Morumbi.'},
+  {nome:'Kaká',            emoji:'⚡',posicao:'Meia',     pais:'Brasil',    decada:2000,jogos:195, gols:68, titulos:8, selecao:true, revelado:true, idolo:true, periodo:'1999–2003/2014',desc:'Bola de Ouro 2007. Revelado pelo São Paulo, um dos maiores jogadores da história.'},
+  {nome:'Cafu',            emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:1990,jogos:263, gols:14, titulos:5, selecao:true, revelado:true, idolo:true, periodo:'1989–1994',desc:'Melhor lateral-direito da história do futebol. Revelado pelo SPFC.'},
+  {nome:'Lugano',          emoji:'🛡️',posicao:'Zagueiro', pais:'Uruguai',   decada:2000,jogos:280, gols:12, titulos:7, selecao:true, revelado:false,idolo:true, periodo:'2004–2014',desc:'Capitão e zagueiro ídolo. Um dos maiores líderes da história tricolor.'},
+  {nome:'Zetti',           emoji:'🧤',posicao:'Goleiro',  pais:'Brasil',    decada:1990,jogos:346, gols:0,  titulos:12,selecao:true, revelado:true, idolo:true, periodo:'1987–1999',desc:'Goleiro do tricampeonato mundial. Um dos maiores do clube.'},
+  {nome:'Luís Fabiano',    emoji:'💥',posicao:'Atacante', pais:'Brasil',    decada:2000,jogos:305, gols:175,titulos:4, selecao:true, revelado:false,idolo:true, periodo:'2006–2012',desc:'O Fabuloso. Um dos maiores artilheiros da história do São Paulo.'},
+  {nome:'Serginho Chulapa',emoji:'👟',posicao:'Atacante', pais:'Brasil',    decada:1980,jogos:198, gols:86, titulos:6, selecao:false,revelado:true, idolo:true, periodo:'1978–1985',desc:'Ídolo do povo. Artilheiro importante na era dourada dos anos 80.'},
+  {nome:'Aloísio Chulapa', emoji:'💪',posicao:'Atacante', pais:'Brasil',    decada:1980,jogos:178, gols:72, titulos:5, selecao:false,revelado:true, idolo:true, periodo:'1979–1986',desc:'Parceiro de Serginho, formou uma das duplas mais temidas da história.'},
+  {nome:'Léo',             emoji:'🛡️',posicao:'Zagueiro', pais:'Brasil',    decada:2000,jogos:298, gols:15, titulos:8, selecao:false,revelado:false,idolo:true, periodo:'2003–2012',desc:'Um dos pilares da defesa do São Paulo nos anos de maior glória.'},
+  {nome:'Leonardo',        emoji:'🎯',posicao:'Lateral',  pais:'Brasil',    decada:1990,jogos:87,  gols:19, titulos:4, selecao:true, revelado:true, idolo:false,periodo:'1989–1992',desc:'Lateral criativo que brilhou no São Paulo antes de ir para a Europa.'},
+  {nome:'Denilson',        emoji:'🌀',posicao:'Meia',     pais:'Brasil',    decada:1990,jogos:29,  gols:4,  titulos:2, selecao:true, revelado:true, idolo:false,periodo:'1995–1997',desc:'Revelado pelo SPFC antes de sua transferência milionária para o Betis.'},
+  {nome:'Grafite',         emoji:'⚡',posicao:'Atacante', pais:'Brasil',    decada:2000,jogos:66,  gols:28, titulos:3, selecao:false,revelado:false,idolo:false,periodo:'2003–2005',desc:'Atacante que marcou muitos gols importantes antes de ir para a Europa.'},
+  {nome:'Hernanes',        emoji:'🎯',posicao:'Meia',     pais:'Brasil',    decada:2010,jogos:98,  gols:22, titulos:3, selecao:true, revelado:false,idolo:false,periodo:'2007–2012/2019',desc:'Meia talentoso, revelado pelo SPFC e que voltou no fim da carreira.'},
+  {nome:'Miranda',         emoji:'🛡️',posicao:'Zagueiro', pais:'Brasil',    decada:2010,jogos:112, gols:8,  titulos:5, selecao:true, revelado:false,idolo:false,periodo:'2009–2014',desc:'Zagueiro que foi peça importante antes de ir para o Atlético de Madrid.'},
+  {nome:'Cicinho',         emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:2000,jogos:145, gols:6,  titulos:5, selecao:true, revelado:false,idolo:false,periodo:'2002–2006',desc:'Lateral que foi parte importante do tricampeonato brasileiro.'},
+  {nome:'Amoroso',         emoji:'💥',posicao:'Atacante', pais:'Brasil',    decada:2000,jogos:38,  gols:14, titulos:2, selecao:true, revelado:false,idolo:false,periodo:'2004',desc:'Atacante que passou pelo São Paulo em 2004.'},
+  {nome:'Danilo',          emoji:'🎯',posicao:'Meia',     pais:'Brasil',    decada:2000,jogos:188, gols:34, titulos:6, selecao:true, revelado:false,idolo:false,periodo:'2000–2007',desc:'Meia que foi peça fundamental no tricampeonato brasileiro.'},
+  {nome:'Mineiro',         emoji:'💪',posicao:'Volante',  pais:'Brasil',    decada:2000,jogos:142, gols:8,  titulos:5, selecao:true, revelado:false,idolo:false,periodo:'2003–2007',desc:'Volante raçudo que conquistou o tricampeonato e o Mundial de 2005.'},
+  {nome:'Júlio Baptista',  emoji:'⚡',posicao:'Meia',     pais:'Brasil',    decada:2000,jogos:88,  gols:32, titulos:4, selecao:true, revelado:true, idolo:false,periodo:'1999–2003',desc:'Revelado pelo São Paulo antes de ir para a Europa ainda jovem.'},
+  {nome:'Lúcio',           emoji:'🛡️',posicao:'Zagueiro', pais:'Brasil',    decada:2000,jogos:56,  gols:4,  titulos:3, selecao:true, revelado:false,idolo:false,periodo:'2007–2009',desc:'Zagueiro campeão do mundo com o Brasil em 2002, passou pelo SPFC.'},
+  {nome:'Fabão',           emoji:'🛡️',posicao:'Zagueiro', pais:'Brasil',    decada:1990,jogos:244, gols:12, titulos:8, selecao:false,revelado:false,idolo:false,periodo:'1993–2002',desc:'Zagueiro que foi companheiro de Rogério Ceni por muitos anos.'},
+  {nome:'Fábio Santos',    emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:2000,jogos:198, gols:8,  titulos:5, selecao:false,revelado:false,idolo:false,periodo:'2004–2010',desc:'Lateral-esquerdo confiável do tricampeonato brasileiro.'},
+  {nome:'Wellington Nem',  emoji:'⚽',posicao:'Atacante', pais:'Brasil',    decada:2010,jogos:62,  gols:15, titulos:1, selecao:false,revelado:false,idolo:false,periodo:'2015–2017',desc:'Atacante que passou pelo São Paulo nos anos 2010.'},
+  {nome:'Nenê',            emoji:'🎯',posicao:'Meia',     pais:'Brasil',    decada:2010,jogos:48,  gols:12, titulos:1, selecao:false,revelado:false,idolo:false,periodo:'2019',desc:'Meia veterano que passou pelo São Paulo em 2019.'},
+  {nome:'Pablo',           emoji:'💥',posicao:'Atacante', pais:'Brasil',    decada:2010,jogos:88,  gols:28, titulos:1, selecao:false,revelado:false,idolo:false,periodo:'2018–2020',desc:'Centroavante que foi destaque pelo São Paulo.'},
+  {nome:'Dani Alves',      emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:2020,jogos:44,  gols:2,  titulos:1, selecao:true, revelado:false,idolo:false,periodo:'2019–2021',desc:'Um dos maiores vencedores da história do futebol, passou pelo SPFC.'},
+  {nome:'Calleri',         emoji:'⚽',posicao:'Atacante', pais:'Argentina', decada:2020,jogos:148, gols:68, titulos:2, selecao:true, revelado:false,idolo:true, periodo:'2021–',desc:'Artilheiro argentino que se tornou ídolo no São Paulo.'},
+  {nome:'Lucas Moura',     emoji:'⚡',posicao:'Meia',     pais:'Brasil',    decada:2020,jogos:78,  gols:14, titulos:1, selecao:true, revelado:true, idolo:true, periodo:'2012–2013/2023–',desc:'Revelado pelo São Paulo, voltou como herói após carreira na Europa.'},
+  {nome:'Wellington',      emoji:'🧤',posicao:'Goleiro',  pais:'Brasil',    decada:2010,jogos:112, gols:0,  titulos:2, selecao:false,revelado:false,idolo:false,periodo:'2013–2019',desc:'Goleiro reserva que foi importante nos momentos decisivos.'},
+  {nome:'Pato',            emoji:'💥',posicao:'Atacante', pais:'Brasil',    decada:2010,jogos:38,  gols:12, titulos:1, selecao:true, revelado:false,idolo:false,periodo:'2014–2015',desc:'Alexandre Pato passou pelo São Paulo em sua volta ao Brasil.'},
+  {nome:'Centurión',       emoji:'🌀',posicao:'Meia',     pais:'Argentina', decada:2010,jogos:55,  gols:8,  titulos:1, selecao:false,revelado:false,idolo:false,periodo:'2016–2017',desc:'Meia argentino talentoso e polêmico que encantou no SPFC.'},
+  {nome:'Antony',          emoji:'⚡',posicao:'Atacante', pais:'Brasil',    decada:2020,jogos:52,  gols:9,  titulos:1, selecao:true, revelado:true, idolo:false,periodo:'2019–2021',desc:'Revelado pelo São Paulo antes de ir para o Ajax e Manchester United.'},
+  {nome:'Igor Vinicius',   emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:2020,jogos:145, gols:8,  titulos:2, selecao:false,revelado:false,idolo:false,periodo:'2019–',desc:'Lateral-direito dedicado e querido pela torcida do São Paulo.'},
+  {nome:'Rafinha',         emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:2020,jogos:68,  gols:3,  titulos:1, selecao:false,revelado:false,idolo:false,periodo:'2022–2023',desc:'Lateral experiente que passou pelo São Paulo.'},
+  {nome:'Arboleda',        emoji:'🛡️',posicao:'Zagueiro', pais:'Equador',   decada:2010,jogos:198, gols:12, titulos:2, selecao:true, revelado:false,idolo:true, periodo:'2017–',desc:'Zagueiro equatoriano que se tornou um dos pilares da defesa do SPFC.'},
+  {nome:'Reinaldo',        emoji:'🏃',posicao:'Lateral',  pais:'Brasil',    decada:2010,jogos:245, gols:18, titulos:2, selecao:false,revelado:false,idolo:true, periodo:'2015–2023',desc:'Lateral-esquerdo querido pela torcida, um dos mais longevos.'},
+  {nome:'Luan',            emoji:'⚡',posicao:'Meia',     pais:'Brasil',    decada:2020,jogos:44,  gols:4,  titulos:1, selecao:false,revelado:false,idolo:false,periodo:'2021–2022',desc:'Meia que passou pelo São Paulo após boa passagem pelo Grêmio.'},
+];
+
+let wordleState = {
+  guesses: [],
+  won: false,
+  dicas: 0,
+  secret: null,
+  edition: 0,
+  todayKey: '',
+  streak: 0,
+};
+
+let wordleInited = false;
+
+async function loadWordleFromFirebase() {
+  // ── NOVO: busca JSON estático em vez do Firestore (zero leituras) ──
+  try {
+    const res = await fetch('/data/wordle.json?v=' + Date.now());
+    if (!res.ok) throw new Error('JSON não encontrado');
+    const lista = await res.json();
+    if (!lista || lista.length === 0) return;
+    WORDLE_DB.length = 0;
+    lista.forEach(j => WORDLE_DB.push(j));
+    console.log('✅ Wordle JSON: ' + WORDLE_DB.length + ' jogadores');
+    if (document.getElementById('wordle-panel') && document.getElementById('wordle-panel').classList.contains('active')) {
+      wordleInited = false;
+      initWordle();
+    }
+  } catch(e) {
+    console.warn('Wordle JSON não disponível, usando DB local:', e.message);
+  }
+}
+
+function initWordle() {
+  if (wordleInited && wordleState.todayKey === getTodayKey()) return;
+
+  const todayKey = getTodayKey();
+  wordleState.todayKey = todayKey;
+
+  // Carrega estado salvo
+  try {
+    const saved = JSON.parse(localStorage.getItem('spfc_wordle') || '{}');
+    if (saved.todayKey === todayKey) {
+      // Mesmo dia — restaura estado completo
+      wordleState.guesses = saved.guesses || [];
+      wordleState.won = saved.won || false;
+      wordleState.dicas = saved.dicas || 0;
+      wordleState.streak = saved.streak || 0;
+    } else {
+      // Novo dia — reseta o jogo
+      wordleState.guesses = [];
+      wordleState.won = false;
+      wordleState.dicas = 0;
+      // Verifica se jogou ontem para manter streak
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayKey = yesterday.toISOString().slice(0, 10);
+      if (saved.lastWonKey === yesterdayKey) {
+        // Jogou e venceu ontem — mantém streak
+        wordleState.streak = saved.streak || 0;
+      } else if (saved.lastWonKey === todayKey) {
+        // Já venceu hoje (não deveria chegar aqui, mas segurança)
+        wordleState.streak = saved.streak || 0;
+      } else {
+        // Perdeu ou não jogou ontem — zera streak
+        wordleState.streak = 0;
+      }
+    }
+  } catch(e) {}
+
+  // Sorteia jogador do dia pela data (mesmo para todos)
+  const dayNum = Math.floor(Date.now() / 86400000);
+  wordleState.edition = dayNum % WORDLE_DB.length;
+  wordleState.secret = WORDLE_DB[wordleState.edition];
+
+  wordleInited = true;
+  renderWordle();
+}
+
+function getTodayKey() {
+  return new Date().toISOString().slice(0,10);
+}
+
+function saveWordleState() {
+  localStorage.setItem('spfc_wordle', JSON.stringify({
+    todayKey: wordleState.todayKey,
+    guesses: wordleState.guesses,
+    won: wordleState.won,
+    dicas: wordleState.dicas,
+    streak: wordleState.streak,
+    lastWonKey: wordleState.won ? wordleState.todayKey : (JSON.parse(localStorage.getItem('spfc_wordle')||'{}').lastWonKey || null),
+  }));
+  // Salva no Firebase se logado e acabou de ganhar
+  if (wordleState.won && window.FB) {
+    const currentUser = window.FB.auth.currentUser || STATE.user;
+    if (currentUser) {
+      if (!STATE.user) STATE.user = currentUser;
+      const {db, doc, setDoc, serverTimestamp} = window.FB;
+      const uid = currentUser.uid;
+      const dateKey = wordleState.todayKey;
+      // Buscar bestStreak atual para não sobrescrever com valor menor
+      const {getDoc} = window.FB;
+      getDoc(doc(db, 'ranking_wordle', uid + '_best')).then(snap => {
+        const oldBest = snap.exists() ? (snap.data().bestStreak || 0) : 0;
+        const newBest = Math.max(oldBest, wordleState.streak);
+        // Salva partida do dia
+        setDoc(doc(db, 'ranking_wordle', uid + '_' + dateKey), {
+          uid,
+          name: STATE.avatar?.name || currentUser.displayName || 'Torcedor',
+          avatar: STATE.avatar?.dataUrl || null,
+          streak: wordleState.streak,
+          bestStreak: newBest,
+          tries: wordleState.guesses.length,
+          edition: wordleState.edition,
+          dateKey,
+          lastWonKey: dateKey,
+          updatedAt: serverTimestamp(),
+        }).catch(() => {});
+        // Salva doc de melhor resultado geral
+        setDoc(doc(db, 'ranking_wordle', uid + '_best'), {
+          uid,
+          name: STATE.avatar?.name || currentUser.displayName || 'Torcedor',
+          avatar: STATE.avatar?.dataUrl || null,
+          streak: wordleState.streak,
+          bestStreak: newBest,
+          tries: wordleState.guesses.length,
+          edition: wordleState.edition,
+          lastWonKey: dateKey,
+          updatedAt: serverTimestamp(),
+        }, { merge: true }).catch(() => {});
+
+        // ── XP pelo Wordle — streak × 10 XP ──
+        const xpWordle = Math.min(wordleState.streak * 10, 200); // máx 200 XP
+        if (xpWordle > 0) addXP(xpWordle * XP_DIVISOR); // converte para pontos internos
+      }).catch(() => {});
+    }
+  }
+}
+
+function wrdColWidth() {
+  const isMobile = window.innerWidth <= 480;
+  const nameCol = isMobile ? '85px' : '110px';
+  const cellMin = isMobile ? '42px' : '50px';
+  return `${nameCol} repeat(${WORDLE_COLS.length}, minmax(${cellMin}, 1fr))`;
+}
+
+function wrdCellVal(k, val) {
+  if (k==='selecao'||k==='revelado'||k==='idolo') return val?'Sim':'Não';
+  if (k==='decada') return val+'s';
+  return String(val);
+}
+
+function wrdCompare(j) {
+  const s = wordleState.secret;
+  return WORDLE_COLS.map(({k}) => {
+    const jv = j[k], sv = s[k];
+    if (typeof sv === 'boolean') {
+      return {cls: jv===sv?'hit':'miss', val: wrdCellVal(k,jv)};
+    }
+    if (typeof sv === 'number') {
+      if (jv===sv) return {cls:'hit', val: wrdCellVal(k,jv)};
+      const diff = jv-sv;
+      const near = k==='decada' ? Math.abs(diff)===10 : Math.abs(diff)/sv < 0.25;
+      const arrow = diff>0?' ⬇':' ⬆';
+      return {cls: near?'near':'miss', val: wrdCellVal(k,jv)+arrow};
+    }
+    return {cls: jv===sv?'hit':'miss', val: wrdCellVal(k,jv)};
+  });
+}
+
+function renderWordle() {
+  const panel = document.getElementById('wordle-panel');
+  const s = wordleState.secret;
+  const alreadyPlayed = wordleState.won || wordleState.guesses.length >= 6;
+
+  // Dicas reveladas
+  const dicas = s ? [
+    s.posicao,
+    s.decada+'s · '+s.pais,
+    s.titulos+' títulos pelo SPFC'
+  ] : ['','',''];
+
+  panel.innerHTML = `<div class="wrd-wrap">
+    <div class="wrd-hdr">
+      <div class="wrd-badge">SÃO PAULO FC</div>
+      <div class="wrd-title">WORDLE</div>
+      <div class="wrd-sub">${new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'long'})} · Édição #${wordleState.edition+1}</div>
+      <div class="wrd-streak"><b>🔥${wordleState.streak}</b><span>STREAK</span></div>
+    </div>
+
+    <div class="wrd-hint">
+      <div class="wrd-hint-icon" id="wSil">${alreadyPlayed ? s.emoji : '❓'}</div>
+      <div class="wrd-hint-right">
+        <div class="wrd-hint-label">PISTAS REVELADAS</div>
+        <div class="wrd-clues">
+          <div class="wrd-clue on">${dicas[0]}</div>
+          <div class="wrd-clue${wordleState.dicas>=1?' on':''}" id="wClue2">${wordleState.dicas>=1?dicas[1]:'🔒 após 2 erros'}</div>
+          <div class="wrd-clue${wordleState.dicas>=2?' on':''}" id="wClue3">${wordleState.dicas>=2?dicas[2]:'🔒 após 4 erros'}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrd-leg">
+      <div class="wrd-li"><div class="wrd-ld" style="background:#22c55e"></div>Correto</div>
+      <div class="wrd-li"><div class="wrd-ld" style="background:#f59e0b"></div>Quase</div>
+      <div class="wrd-li"><div class="wrd-ld" style="background:#7a2222"></div>Errado</div>
+      <div class="wrd-li"><div class="wrd-ld" style="background:var(--border2)"></div>⬆⬇ direção</div>
+    </div>
+
+    <div class="wrd-scroll">
+      <div class="wrd-col-hdr" id="wColHdr" style="grid-template-columns:${wrdColWidth()}">
+        <div class="wrd-ch" style="text-align:left;padding-left:6px">Jogador</div>
+        ${WORDLE_COLS.map(c=>`<div class="wrd-ch">${c.l}</div>`).join('')}
+      </div>
+      <div class="wrd-rows" id="wRows"></div>
+    </div>
+
+    <div class="wrd-tries" id="wTries">Tentativa <b id="wTnum">${wordleState.guesses.length+1}</b> de 6</div>
+
+    <div class="wrd-input-area" id="wInputArea">
+      <div class="wrd-input-label">Quem é o ídolo tricolor?</div>
+      <div class="wrd-input-row">
+        <input class="wrd-inp" id="wInp" type="text" placeholder="Digite o nome do jogador..." autocomplete="off">
+        <button class="wrd-gbtn" onclick="wrdGuess()">▶ TENTAR</button>
+      </div>
+      <div class="wrd-sug" id="wSug"></div>
+      <div class="wrd-err" id="wErr"></div>
+    </div>
+
+    <div id="wResult"></div>
+  </div>`;
+
+  buildWrdGrid();
+  if (alreadyPlayed) showWrdResult();
+
+  // Input listeners
+  const inp = document.getElementById('wInp');
+  if (inp) {
+    inp.addEventListener('keydown', e=>{ if(e.key==='Enter') wrdGuess(); });
+    inp.addEventListener('input', function(){
+      const v = this.value.trim().toLowerCase();
+      const sug = document.getElementById('wSug');
+      if (v.length < 2) { sug.style.display='none'; return; }
+      const matches = WORDLE_DB.filter(j=>j.nome.toLowerCase().includes(v)).slice(0,6);
+      if (!matches.length) { sug.style.display='none'; return; }
+      sug.style.display='block';
+      sug.innerHTML = matches.map(j=>`<div class="wrd-si" onclick="document.getElementById('wInp').value='${j.nome}';document.getElementById('wSug').style.display='none';wrdGuess()">${j.emoji} ${j.nome}</div>`).join('');
+    });
+  }
+}
+
+function buildWrdGrid() {
+  const all = [...wordleState.guesses];
+  while (all.length < 6) all.push(null);
+  const el = document.getElementById('wRows');
+  if (!el) return;
+  el.innerHTML = all.map((g,i) => {
+    const tmpl = `grid-template-columns:${wrdColWidth()}`;
+    if (!g) return `<div class="wrd-row" style="${tmpl}">
+      <div class="wrd-name emp">${i===wordleState.guesses.length?'← sua vez':'—'}</div>
+      ${WORDLE_COLS.map(()=>`<div class="wrd-cell emp"><div class="wrd-cv">·</div></div>`).join('')}
+    </div>`;
+    return `<div class="wrd-row" style="${tmpl}">
+      <div class="wrd-name">${g.emoji} ${g.nome}</div>
+      ${g.cells.map(c=>`<div class="wrd-cell ${c.cls}">
+        <div class="wrd-ci">${c.cls==='hit'?'✓':c.cls==='near'?'≈':'✗'}</div>
+        <div class="wrd-cv">${c.val}</div>
+      </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+function wrdGuess() {
+  if (wordleState.won || wordleState.guesses.length >= 6) return;
+  const raw = document.getElementById('wInp').value.trim();
+  const j = WORDLE_DB.find(x => x.nome.toLowerCase() === raw.toLowerCase());
+  document.getElementById('wSug').style.display = 'none';
+  if (!j) { document.getElementById('wErr').textContent = 'Jogador não encontrado. Tente outro.'; return; }
+  document.getElementById('wErr').textContent = '';
+
+  const cells = wrdCompare(j);
+  wordleState.guesses.push({...j, cells});
+  document.getElementById('wInp').value = '';
+
+  const s = wordleState.secret;
+  const dicas = [s.posicao, s.decada+'s · '+s.pais, s.titulos+' títulos pelo SPFC'];
+
+  if (wordleState.guesses.length >= 2 && wordleState.dicas < 1) {
+    wordleState.dicas = 1;
+    const e = document.getElementById('wClue2');
+    if (e) { e.textContent = dicas[1]; e.classList.add('on'); }
+  }
+  if (wordleState.guesses.length >= 4 && wordleState.dicas < 2) {
+    wordleState.dicas = 2;
+    const e = document.getElementById('wClue3');
+    if (e) { e.textContent = dicas[2]; e.classList.add('on'); }
+  }
+
+  buildWrdGrid();
+
+  const isWin = j.nome === wordleState.secret.nome;
+  if (isWin) {
+    wordleState.won = true;
+    wordleState.streak++;
+  }
+
+  if (isWin || wordleState.guesses.length >= 6) {
+    if (!isWin) {
+      wordleState.streak = 0;
+      // Limpa lastWonKey para não manter streak indevido
+      try {
+        const s = JSON.parse(localStorage.getItem('spfc_wordle') || '{}');
+        s.lastWonKey = null;
+        localStorage.setItem('spfc_wordle', JSON.stringify(s));
+      } catch(e) {}
+    }
+    saveWordleState();
+    document.getElementById('wInputArea').style.display = 'none';
+    document.getElementById('wTries').style.display = 'none';
+    document.getElementById('wSil').textContent = wordleState.secret.emoji;
+    showWrdResult();
+  } else {
+    saveWordleState();
+    document.getElementById('wTnum').textContent = wordleState.guesses.length + 1;
+  }
+}
+
+function showWrdResult() {
+  const s = wordleState.secret;
+  const isWin = wordleState.won;
+  const EMJI = {hit:'🟢',near:'🟡',miss:'🔴'};
+  const eg = wordleState.guesses.map(g=>g.cells.map(c=>EMJI[c.cls]).join('')).join('\n');
+  const shareText = `🔴 SPFC Wordle #${wordleState.edition+1} ${isWin?wordleState.guesses.length+'/6':'X/6'}\n${eg}\nspfc-hoje.vercel.app`;
+
+  document.getElementById('wInputArea') && (document.getElementById('wInputArea').style.display='none');
+  document.getElementById('wTries') && (document.getElementById('wTries').style.display='none');
+
+  const el = document.getElementById('wResult');
+  if (!el) return;
+  el.innerHTML = `<div class="wrd-result">
+    <div class="wrd-ri">${isWin?'🔴':'💔'}</div>
+    <div class="wrd-rt">${isWin?'Acertou!':'Game Over'}</div>
+    <div class="wrd-rs">${isWin?`Em ${wordleState.guesses.length}/6 tentativas · Édição #${wordleState.edition+1}`:`O jogador era ${s.nome}`}</div>
+    <div class="wrd-rp">
+      <div class="wrd-rpp">${s.emoji}</div>
+      <div>
+        <div class="wrd-rpn">${s.nome}</div>
+        <div class="wrd-rpd">${s.posicao} · ${s.periodo}<br>${s.desc}</div>
+      </div>
+    </div>
+    <div class="wrd-emj">${eg}</div>
+    <button class="wrd-sbtn" onclick="(async()=>{try{await navigator.clipboard.writeText(\`${shareText}\`);this.textContent='✓ COPIADO!';}catch(e){}})()">↗ COMPARTILHAR RESULTADO</button>
+  </div>`;
+}
+
+function goScreenWordle() {
+  goScreen('screen-wordle');
+  // Init wordle and load from Firebase
+  if (!wordleInited || wordleState.todayKey !== getTodayKey()) {
+    loadWordleFromFirebase().then(() => initWordle());
+  } else {
+    initWordle();
+  }
+}
 
 /* ════════════════════════════════════════════════
    INIT
@@ -4062,9 +4989,14 @@ function renderHomeXP() {
     }
   }
 
-  // Atualizar vidas na home
+  // Atualizar tentativas diárias na home
   const livesEl = document.getElementById('homeStatLives');
-  if (livesEl) livesEl.textContent = STATE.lives;
+  if (livesEl) livesEl.textContent = getDailyAttemptsLeft();
+  const attemptsLabelEl = document.getElementById('homeAttemptsLabel');
+  if (attemptsLabelEl) {
+    const left = getDailyAttemptsLeft();
+    attemptsLabelEl.textContent = left === MAX_DAILY_ATTEMPTS ? 'RESTANTES HOJE' : left === 0 ? 'ESGOTADAS — VEM AMANHÃ' : `RESTANTES HOJE`;
+  }
 
   // Atualizar também no quiz
   const quizLevel = document.getElementById('quizPlayerLevel');
@@ -4333,6 +5265,40 @@ function renderDesafios() {
       </div>
     </div>
   `;
+
+  // Botão Wondler
+  html += `
+    <div class="desafios-section-title">🔤 WONDLER DO DIA</div>
+    <div style="padding:0 0 8px">
+      <button onclick="goScreenWordle()" style="width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;text-align:left;">
+        <span style="font-size:32px">🔤</span>
+        <div style="flex:1">
+          <div style="font-family:var(--font-t);font-size:18px;color:var(--txt);letter-spacing:2px">WONDLER</div>
+          <div style="font-size:11px;color:var(--txt3);letter-spacing:1px;margin-top:2px">Adivinhe o jogador do SPFC de hoje</div>
+        </div>
+        <span style="font-size:20px;color:var(--red)">›</span>
+      </button>
+    </div>
+  `;
+
+  // Botão Sexta Temática
+  const tematicoPlayed = hasPlayedTematico();
+  const tematicoAvailable = isFriday() && !tematicoPlayed && TEMATICO_STATE.perguntas?.length > 0;
+  const tematicoLabel = tematicoPlayed ? '✅ Concluído esta semana' : isFriday() ? '⚡ Disponível hoje!' : '🗓 Disponível na sexta';
+  html += `
+    <div class="desafios-section-title">🔥 SEXTA TEMÁTICA</div>
+    <div style="padding:0 0 8px">
+      <button onclick="${tematicoAvailable ? 'goScreenTematico()' : 'void 0'}" style="width:100%;background:${tematicoAvailable ? 'linear-gradient(135deg,rgba(200,168,75,.15),rgba(139,0,0,.15))' : 'var(--bg2)'};border:1px solid ${tematicoAvailable ? 'rgba(200,168,75,.4)' : 'var(--border2)'};border-radius:8px;padding:16px;display:flex;align-items:center;gap:14px;cursor:${tematicoAvailable ? 'pointer' : 'default'};text-align:left;opacity:${tematicoPlayed ? '.6' : '1'}">
+        <span style="font-size:32px">${TEMATICO_STATE.emoji || '🔥'}</span>
+        <div style="flex:1">
+          <div style="font-family:var(--font-t);font-size:18px;color:${tematicoAvailable ? 'var(--gold)' : 'var(--txt)'};letter-spacing:2px">SEXTA TEMÁTICA</div>
+          <div style="font-size:11px;color:var(--txt3);letter-spacing:1px;margin-top:2px">${tematicoLabel} · Tema: ${TEMATICO_STATE.tema || '...'}</div>
+        </div>
+        <span style="font-size:20px;color:var(--gold)">${tematicoAvailable ? '›' : tematicoPlayed ? '✓' : '🔒'}</span>
+      </button>
+    </div>
+  `;
+
   panel.innerHTML = html;
 }
 
@@ -4426,11 +5392,481 @@ async function updateLiveStats() {
   if (bestEl) bestEl.textContent = STATE.avatar?.name || '—';
 }
 
+
+/* ═══════════════════════════════════════════════════════════════
+   SEXTA TEMÁTICA — Sistema completo
+   Estrutura Firestore:
+     /tematico/{weekKey}  → { tema, emoji, descricao, perguntas:[{q,o,c,diff}] }
+     /tematico_scores/{uid}_{weekKey} → { uid, name, score, acertos, weekKey, completou, bonus }
+   weekKey = "YYYY-Www" (ex: "2025-W22")
+═══════════════════════════════════════════════════════════════ */
+
+// ── Estado do temático ──────────────────────────────────────────
+let TEMATICO_STATE = {
+  weekKey: '',
+  tema: '',
+  emoji: '🔥',
+  perguntas: [],
+  questionIdx: 0,
+  score: 0,
+  acertos: 0,
+  timer: null,
+  timeLeft: 20,
+  currentQ: null,
+  played: false,       // já jogou esta semana?
+  completou: false,    // acertou todas as 5?
+};
+
+// ── Helpers de data ─────────────────────────────────────────────
+function getWeekKey() {
+  const now = new Date();
+  const startOfYear = new Date(now.getFullYear(), 0, 1);
+  const weekNum = Math.ceil(((now - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+  return `${now.getFullYear()}-W${String(weekNum).padStart(2,'0')}`;
+}
+
+function isFriday() {
+  return new Date().getDay() === 5;
+}
+
+// ── Verificar se já jogou esta semana (localStorage) ────────────
+function getTematicoPlayKey() {
+  return 'spfc_tematico_' + getWeekKey();
+}
+
+function hasPlayedTematico() {
+  try { return localStorage.getItem(getTematicoPlayKey()) === '1'; }
+  catch(e) { return false; }
+}
+
+function markTematicoPlayed() {
+  try { localStorage.setItem(getTematicoPlayKey(), '1'); }
+  catch(e) {}
+}
+
+// ── Carregar dados do GitHub JSON ───────────────────────────────
+// Estrutura: /data/tematico.json no repositório
+// O JSON contém um objeto com weekKeys como chaves:
+// { "2025-W22": { tema, emoji, imagem, descricao, perguntas:[...] }, ... }
+const TEMATICO_GITHUB_URL = 'data/tematico.json'; // caminho relativo ao repo
+
+async function loadTematicoData() {
+  const weekKey = getWeekKey();
+  try {
+    // Adiciona cache-buster semanal para não travar no cache do browser
+    const url = `${TEMATICO_GITHUB_URL}?v=${weekKey}`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const json = await resp.json();
+
+    // Suporta dois formatos:
+    // 1. Objeto indexado por weekKey: { "2025-W22": { ... } }
+    // 2. Array com campo weekKey: [ { weekKey: "2025-W22", ... } ]
+    let data = null;
+    if (Array.isArray(json)) {
+      data = json.find(d => d.weekKey === weekKey);
+    } else if (json[weekKey]) {
+      data = json[weekKey];
+    } else {
+      // Fallback: pega a entrada mais recente disponível
+      const keys = Object.keys(json).sort().reverse();
+      if (keys.length > 0) data = json[keys[0]];
+    }
+
+    if (data && data.perguntas?.length > 0) return { weekKey, ...data };
+  } catch(e) { console.warn('Tematico JSON load error:', e); }
+  return null;
+}
+
+// ── Inicializar card na home ─────────────────────────────────────
+async function initSextaTematicaCard() {
+  const card = document.getElementById('sextaTematicaCard');
+  if (!card) return;
+
+  // O card SEMPRE aparece — independente do dia ou do JSON
+  card.style.display = 'block';
+
+  const today = new Date().getDay(); // 5 = sexta
+  const played = hasPlayedTematico();
+  const statusEl = document.getElementById('sextaTematicaStatus');
+  const btn = document.getElementById('sextaTematicaBtn');
+  const themeEl = document.getElementById('sextaTematicaTheme');
+
+  // Tenta carregar dados do JSON (sem bloquear exibição do card)
+  const data = await loadTematicoData();
+
+  if (data && data.perguntas && data.perguntas.length > 0) {
+    // Dados carregados — atualiza estado e textos
+    TEMATICO_STATE.weekKey = data.weekKey;
+    TEMATICO_STATE.tema = data.tema || 'Tema Especial';
+    TEMATICO_STATE.emoji = data.emoji || '🔥';
+    TEMATICO_STATE.perguntas = data.perguntas;
+
+    // Imagem de fundo personalizada do JSON
+    const bgEl = document.getElementById('sextaTematicaBg');
+    if (bgEl && data.imagem) bgEl.style.backgroundImage = `url('${data.imagem}')`;
+
+    // Emoji e tema
+    const emojiCardEl = document.getElementById('sextaTematicaEmoji');
+    if (emojiCardEl) emojiCardEl.textContent = data.emoji || '🔥';
+    if (themeEl) themeEl.textContent = `TEMA: ${(data.tema || '').toUpperCase()}`;
+
+    if (played) {
+      if (statusEl) statusEl.innerHTML = `<span style="font-size:11px;color:var(--green)">✅ Desafio concluído esta semana!</span>`;
+      if (btn) { btn.disabled = true; btn.textContent = '✅ JÁ PARTICIPOU'; btn.style.background = 'rgba(34,197,94,.2)'; btn.style.color = 'var(--green)'; btn.style.border = '1px solid rgba(34,197,94,.3)'; }
+    } else if (today !== 5) {
+      const daysLeft = ((5 - today + 7) % 7) || 7;
+      if (statusEl) statusEl.innerHTML = `<span style="font-size:11px;color:rgba(255,255,255,.6)">🗓 Disponível na próxima sexta-feira · ${daysLeft} dia${daysLeft > 1 ? 's' : ''}</span>`;
+      if (btn) { btn.disabled = true; btn.textContent = `DISPONÍVEL NA SEXTA`; btn.style.background = 'rgba(255,255,255,.08)'; btn.style.color = 'rgba(255,255,255,.4)'; btn.style.border = '1px solid rgba(255,255,255,.1)'; btn.style.cursor = 'default'; }
+    } else {
+      // Sexta e não jogou — totalmente disponível
+      if (statusEl) statusEl.innerHTML = `<span style="font-size:11px;color:var(--gold)">⚡ Disponível hoje! · 1 chance · Badge exclusiva</span>`;
+      if (btn) { btn.disabled = false; btn.textContent = 'ENTRAR NO DESAFIO →'; btn.style.background = 'var(--gold)'; btn.style.color = '#000'; btn.style.border = 'none'; btn.style.cursor = 'pointer'; }
+    }
+  } else {
+    // JSON não disponível ainda — mostra card no estado "em breve"
+    if (themeEl) themeEl.textContent = 'TEMA EM BREVE';
+    if (statusEl) {
+      if (today === 5) {
+        statusEl.innerHTML = `<span style="font-size:11px;color:rgba(255,255,255,.5)">🔄 Tema sendo preparado para hoje...</span>`;
+      } else {
+        const daysLeft = ((5 - today + 7) % 7) || 7;
+        statusEl.innerHTML = `<span style="font-size:11px;color:rgba(255,255,255,.5)">🗓 Próxima sexta-feira · ${daysLeft} dia${daysLeft > 1 ? 's' : ''}</span>`;
+      }
+    }
+    if (btn) { btn.disabled = true; btn.textContent = 'EM BREVE'; btn.style.background = 'rgba(255,255,255,.08)'; btn.style.color = 'rgba(255,255,255,.35)'; btn.style.cursor = 'default'; }
+  }
+}
+
+// ── Entrar na tela temática ──────────────────────────────────────
+function goScreenTematico() {
+  if (hasPlayedTematico()) {
+    toast('Já participou! ✅', 'Você já jogou a Sexta Temática desta semana.');
+    return;
+  }
+  if (!isFriday()) {
+    const daysLeft = ((5 - new Date().getDay() + 7) % 7) || 7;
+    toast('Ainda não! 🗓', `A Sexta Temática estará disponível em ${daysLeft} dia${daysLeft > 1 ? 's' : ''}.`);
+    return;
+  }
+  if (!TEMATICO_STATE.perguntas || TEMATICO_STATE.perguntas.length === 0) {
+    toast('Carregando...', 'Aguarde o tema ser carregado.');
+    return;
+  }
+
+  // Inicializa estado
+  TEMATICO_STATE.questionIdx = 0;
+  TEMATICO_STATE.score = 0;
+  TEMATICO_STATE.acertos = 0;
+  TEMATICO_STATE.played = false;
+  TEMATICO_STATE.completou = false;
+  TEMATICO_STATE.perguntas = shuffle([...TEMATICO_STATE.perguntas]).slice(0, 5); // garante 5 aleatórias
+
+  // Atualiza header da tela
+  const titleEl = document.getElementById('tematicoThemeTitle');
+  const emojiEl = document.getElementById('tematicoThemeEmoji');
+  if (titleEl) titleEl.textContent = TEMATICO_STATE.tema.toUpperCase();
+  if (emojiEl) emojiEl.textContent = TEMATICO_STATE.emoji;
+
+  goScreen('screen-tematico');
+  renderTematicoQuestion();
+}
+
+function confirmQuitTematico() {
+  if (confirm('Quer mesmo sair? Você perderá sua única chance da semana!')) {
+    clearInterval(TEMATICO_STATE.timer);
+    markTematicoPlayed(); // conta como jogado mesmo saindo
+    saveTematicoScore(false);
+    goScreen('screen-home');
+  }
+}
+
+// ── Renderizar pergunta temática ────────────────────────────────
+function renderTematicoQuestion() {
+  const idx = TEMATICO_STATE.questionIdx;
+  const q = TEMATICO_STATE.perguntas[idx];
+  if (!q) return;
+  TEMATICO_STATE.currentQ = q;
+
+  // Atualiza contador e progresso
+  const numEl = document.getElementById('tematicoQNum');
+  if (numEl) numEl.textContent = idx + 1;
+
+  const scoreEl = document.getElementById('tematicoScore');
+  if (scoreEl) scoreEl.textContent = TEMATICO_STATE.score.toLocaleString('pt-BR') + ' PTS';
+
+  // Steps de progresso
+  for (let i = 0; i < 5; i++) {
+    const step = document.getElementById('tematicoStep' + i);
+    if (!step) continue;
+    if (i < idx) step.style.background = 'var(--green)';
+    else if (i === idx) step.style.background = 'var(--gold)';
+    else step.style.background = 'rgba(255,255,255,.08)';
+  }
+
+  // Pergunta
+  const qEl = document.getElementById('tematicoQText');
+  if (qEl) qEl.textContent = q.q;
+
+  // Opções — embaralhadas
+  const letters = ['A','B','C','D'];
+  const shuffled = shuffle(q.o.map((text, i) => ({ text, orig: i })));
+  const optsEl = document.getElementById('tematicoOptions');
+  if (optsEl) {
+    optsEl.innerHTML = shuffled.map((opt, i) => `
+      <button
+        class="q-opt"
+        onclick="selectTematicoAnswer(${opt.orig})"
+        data-orig="${opt.orig}"
+        style="text-align:left;border-color:rgba(200,168,75,.2)"
+      >
+        <div class="q-opt-inner">
+          <span class="q-opt-letter" style="background:rgba(200,168,75,.15);border-color:rgba(200,168,75,.3);color:var(--gold)">${letters[i]}</span>
+          <span class="q-opt-text">${opt.text}</span>
+        </div>
+      </button>
+    `).join('');
+  }
+
+  // Timer — 20s por pergunta temática
+  startTematicoCountdown(20);
+}
+
+// ── Timer ────────────────────────────────────────────────────────
+function startTematicoCountdown(seconds) {
+  clearInterval(TEMATICO_STATE.timer);
+  TEMATICO_STATE.timeLeft = seconds;
+  updateTematicoTimerUI();
+  TEMATICO_STATE.timer = setInterval(() => {
+    TEMATICO_STATE.timeLeft--;
+    updateTematicoTimerUI();
+    if (TEMATICO_STATE.timeLeft <= 0) {
+      clearInterval(TEMATICO_STATE.timer);
+      tematicoTimeOut();
+    }
+  }, 1000);
+}
+
+function updateTematicoTimerUI() {
+  const circ = 207.3;
+  const pct = TEMATICO_STATE.timeLeft / 20;
+  const fill = document.getElementById('tematicoTimerFill');
+  const num = document.getElementById('tematicoTimerNum');
+  if (fill) {
+    fill.style.strokeDashoffset = circ * (1 - pct);
+    fill.classList.toggle('danger', TEMATICO_STATE.timeLeft <= 6);
+  }
+  if (num) {
+    num.textContent = TEMATICO_STATE.timeLeft;
+    num.classList.toggle('danger', TEMATICO_STATE.timeLeft <= 6);
+  }
+}
+
+function tematicoTimeOut() {
+  const q = TEMATICO_STATE.currentQ;
+  const opts = document.querySelectorAll('#tematicoOptions .q-opt');
+  opts.forEach(btn => {
+    btn.disabled = true;
+    if (parseInt(btn.dataset.orig) === q.c) btn.classList.add('correct');
+  });
+  toast('⏱ Tempo esgotado!', `Resposta: ${q.o[q.c]}`);
+  setTimeout(() => endTematico('timeout'), 1800);
+}
+
+// ── Resposta ────────────────────────────────────────────────────
+function selectTematicoAnswer(origIdx) {
+  clearInterval(TEMATICO_STATE.timer);
+  const q = TEMATICO_STATE.currentQ;
+  const opts = document.querySelectorAll('#tematicoOptions .q-opt');
+  opts.forEach(b => b.disabled = true);
+
+  if (origIdx === q.c) {
+    // Acertou
+    opts.forEach(b => { if (parseInt(b.dataset.orig) === origIdx) b.classList.add('correct'); });
+    playCorrect();
+    TEMATICO_STATE.acertos++;
+    const pts = 500 + Math.floor(TEMATICO_STATE.timeLeft * 25); // 500 base + bônus de tempo
+    TEMATICO_STATE.score += pts;
+    showFeedback('correct');
+    toast(`✅ Correto! +${pts}`, TEMATICO_STATE.acertos === 5 ? '🏆 Todas acertadas!' : `${5 - TEMATICO_STATE.acertos} perguntas restantes`);
+
+    setTimeout(() => {
+      TEMATICO_STATE.questionIdx++;
+      if (TEMATICO_STATE.questionIdx >= 5) {
+        endTematico('complete');
+      } else {
+        renderTematicoQuestion();
+      }
+    }, 1400);
+  } else {
+    // Errou — game over temático
+    opts.forEach(b => {
+      if (parseInt(b.dataset.orig) === origIdx) b.classList.add('wrong');
+      if (parseInt(b.dataset.orig) === q.c) b.classList.add('correct');
+    });
+    playWrong();
+    showFeedback('wrong');
+    toast('❌ Errou!', `Resposta correta: ${q.o[q.c]}`);
+    setTimeout(() => endTematico('wrong'), 1800);
+  }
+}
+
+// ── Encerrar temático ───────────────────────────────────────────
+async function endTematico(reason) {
+  clearInterval(TEMATICO_STATE.timer);
+  markTematicoPlayed();
+  TEMATICO_STATE.played = true;
+
+  const completou = reason === 'complete' && TEMATICO_STATE.acertos === 5;
+  TEMATICO_STATE.completou = completou;
+
+  // Aplica multiplicador 1.5x se acertou todas as 5
+  const scoreBase = TEMATICO_STATE.score;
+  const scoreFinal = completou ? Math.floor(scoreBase * 1.5) : scoreBase;
+
+  await saveTematicoScore(completou, scoreBase, scoreFinal);
+
+  // Tela de resultado
+  goScreen('screen-tematico-result');
+
+  const emojiEl = document.getElementById('tematicoResultEmoji');
+  const titleEl = document.getElementById('tematicoResultTitle');
+  const subEl   = document.getElementById('tematicoResultSub');
+  const bdEl    = document.getElementById('tematicoResultBreakdown');
+  const badgeEl = document.getElementById('tematicoResultBadge');
+
+  if (completou) {
+    if (emojiEl) emojiEl.textContent = '🏆';
+    if (titleEl) { titleEl.textContent = 'PERFEITO!'; titleEl.style.color = 'var(--gold)'; }
+    if (subEl)   subEl.textContent = `Acertou todas as 5 perguntas de "${TEMATICO_STATE.tema}"! Multiplicador 1.5x aplicado.`;
+    if (badgeEl) {
+      badgeEl.style.display = 'block';
+      badgeEl.innerHTML = `
+        <div style="background:linear-gradient(135deg,rgba(200,168,75,.2),rgba(200,168,75,.05));border:1px solid rgba(200,168,75,.5);border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:12px">
+          <span style="font-size:36px">${TEMATICO_STATE.emoji}</span>
+          <div>
+            <div style="font-family:var(--font-t);font-size:14px;letter-spacing:2px;color:var(--gold)">BADGE CONQUISTADA</div>
+            <div style="font-size:12px;color:var(--txt2);margin-top:2px">Mestre de ${TEMATICO_STATE.tema}</div>
+          </div>
+          <span style="font-size:24px;margin-left:auto">✨</span>
+        </div>`;
+    }
+  } else if (reason === 'wrong') {
+    if (emojiEl) emojiEl.textContent = '💔';
+    if (titleEl) { titleEl.textContent = 'ELIMINADO!'; titleEl.style.color = '#ef4444'; }
+    if (subEl)   subEl.textContent = `Você acertou ${TEMATICO_STATE.acertos}/5 antes de errar. Tente novamente na próxima sexta!`;
+  } else {
+    // timeout
+    if (emojiEl) emojiEl.textContent = '⏱';
+    if (titleEl) { titleEl.textContent = 'TEMPO ESGOTADO'; titleEl.style.color = 'var(--txt2)'; }
+    if (subEl)   subEl.textContent = `Você acertou ${TEMATICO_STATE.acertos}/5 antes do tempo acabar. Semana que vem você se prepara!`;
+  }
+
+  // Breakdown
+  if (bdEl) {
+    const rows = [
+      { label: 'Acertos', value: `${TEMATICO_STATE.acertos} / 5` },
+      { label: 'Score base', value: scoreBase.toLocaleString('pt-BR') + ' pts' },
+      completou ? { label: '✨ Multiplicador 1.5x', value: '+' + (scoreFinal - scoreBase).toLocaleString('pt-BR') + ' pts', highlight: true } : null,
+      { label: 'Score final', value: scoreFinal.toLocaleString('pt-BR') + ' pts', big: true },
+    ].filter(Boolean);
+
+    bdEl.innerHTML = rows.map(r => `
+      <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+        <span style="font-size:12px;color:${r.highlight ? 'var(--gold)' : 'var(--txt2)'}">${r.label}</span>
+        <span style="font-size:${r.big ? '16px' : '12px'};font-weight:${r.big ? '700' : '400'};color:${r.highlight ? 'var(--gold)' : r.big ? 'var(--txt)' : 'var(--txt2)'};font-family:${r.big ? 'var(--font-t)' : 'var(--font-b)'}">${r.value}</span>
+      </div>
+    `).join('');
+  }
+
+  playVictory();
+  initSextaTematicaCard(); // atualiza card na home
+}
+
+// ── Salvar score no Firestore ───────────────────────────────────
+async function saveTematicoScore(completou, scoreBase, scoresFinal) {
+  // Salva no localStorage sempre (funciona sem login)
+  try {
+    const weekKey = TEMATICO_STATE.weekKey || getWeekKey();
+    localStorage.setItem('spfc_tematico_result_' + weekKey, JSON.stringify({
+      acertos: TEMATICO_STATE.acertos,
+      scoreBase: scoreBase || TEMATICO_STATE.score,
+      scoreFinal: scoresFinal || TEMATICO_STATE.score,
+      completou: completou || false,
+      savedAt: new Date().toISOString(),
+    }));
+  } catch(e) {}
+
+  // Sincroniza com Firestore se logado (para ranking e badges)
+  if (!window.FB) return;
+  const currentUser = window.FB.auth.currentUser || STATE.user;
+  if (!currentUser) return;
+
+  const { db, doc, setDoc, serverTimestamp } = window.FB;
+  const uid = currentUser.uid;
+  const name = STATE.avatar?.name || 'Torcedor';
+  const avatar = STATE.avatar?.dataUrl || null;
+  const weekKey = TEMATICO_STATE.weekKey || getWeekKey();
+
+  try {
+    await setDoc(doc(db, 'tematico_scores', `${uid}_${weekKey}`), {
+      uid, name, avatar,
+      scoreBase: scoreBase || TEMATICO_STATE.score,
+      scoreBonus: (scoresFinal || TEMATICO_STATE.score) - (scoreBase || TEMATICO_STATE.score),
+      scoreFinal: scoresFinal || TEMATICO_STATE.score,
+      acertos: TEMATICO_STATE.acertos,
+      completou: completou || false,
+      tema: TEMATICO_STATE.tema,
+      weekKey,
+      createdAt: serverTimestamp(),
+    });
+
+    // XP bônus pelo temático
+    const xpBonus = completou ? 500 : TEMATICO_STATE.acertos * 80;
+    addXP(xpBonus);
+    if (xpBonus > 0) toast(`🔥 +${xpBonus} XP`, completou ? 'Temática perfeita!' : 'Bônus de participação');
+
+    // Conquista se completou
+    if (completou) {
+      // Salva badge no perfil do usuário
+      setDoc(doc(db, 'users', uid), {
+        [`badge_tematico_${weekKey}`]: { tema: TEMATICO_STATE.tema, emoji: TEMATICO_STATE.emoji, conquistadoEm: new Date().toISOString() }
+      }, { merge: true }).catch(() => {});
+    }
+  } catch(e) { console.warn('Tematico save error:', e); }
+}
+
+/* ─── Formato do documento Firestore para perguntas temáticas ────
+   Coleção: tematico
+   Documento ID: "YYYY-Www" (ex: "2025-W22")
+
+   {
+     tema: "Libertadores",
+     emoji: "⭐",
+     descricao: "As conquistas do SPFC na Libertadores",
+     perguntas: [
+       {
+         q: "Em que ano o São Paulo venceu sua primeira Libertadores?",
+         o: ["1992", "1993", "1994", "1995"],
+         c: 0,
+         diff: 1
+       },
+       ...
+     ]
+   }
+
+   Regras Firestore sugeridas:
+     allow read: if true;
+     allow write: if request.auth.token.admin == true;
+──────────────────────────────────────────────────────────────── */
+
 function init() {
   loadState();
-  checkLivesRegen();
+  // Inicializa sessionUsedQIds se não existir
+  if (!STATE.sessionUsedQIds) STATE.sessionUsedQIds = [];
   checkStreakOnLoad();
-  renderLives('livesDisplay');
+  renderDailyAttemptsDisplay('livesDisplay');
+  renderDailyAttemptsDisplay(); // atualiza todos
   renderStreakBadge();
   startLivesTimer();
   document.getElementById('statPergs').textContent = QUESTIONS.length + '+';
@@ -4438,9 +5874,26 @@ function init() {
   renderHomeXP();
   initHomeExtras(); // carrega ranking real, missões e live stats
   loadFirebaseQuestions();
+  loadWordleFromFirebase();
+
+  // Carrega Sexta Temática — sempre, independente de login/Firebase
+  initSextaTematicaCard();
 }
 
 init();
+
+// Abre direto na tela do Wondler se vier do deep-link #wondler
+if (window.location.hash === '#wondler') {
+  window.addEventListener('firebase-ready', function() {
+    goScreenWordle();
+  }, { once: true });
+  // fallback se Firebase já estava pronto
+  setTimeout(function() {
+    if (document.getElementById('screen-wordle') && !document.getElementById('screen-wordle').classList.contains('active')) {
+      goScreenWordle();
+    }
+  }, 800);
+}
 </script>
 
 
