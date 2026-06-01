@@ -2362,6 +2362,8 @@ function updateHomeCTA() {
     if (arrow) arrow.textContent = '›';
   }
 }
+
+function renderDailyAttemptsDisplay(containerId) {
   const used = getDailyAttemptsUsed();
   const left = getDailyAttemptsLeft();
   const total = MAX_DAILY_ATTEMPTS;
