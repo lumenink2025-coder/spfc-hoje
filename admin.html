@@ -188,6 +188,21 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 .nivel-tab{padding:6px 12px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt3);border-radius:6px;cursor:pointer;font-size:11px;letter-spacing:1px;transition:.2s}
 .nivel-tab.active{background:var(--red);border-color:var(--red);color:#fff}
 .q-count{font-size:11px;color:var(--txt3);letter-spacing:1px;margin-bottom:10px}
+/* ── SEXTA TEMÁTICA ── */
+.tematico-week-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:14px 16px;background:linear-gradient(135deg,rgba(139,0,0,.15),rgba(200,168,75,.08));border:1px solid rgba(200,168,75,.25);border-radius:10px}
+.tematico-week-label{font-size:11px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase;margin-bottom:2px}
+.tematico-week-key{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold);letter-spacing:2px}
+.tematico-q-list{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.tematico-q-item{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:12px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.tematico-q-text{font-size:13px;color:var(--txt);margin-bottom:6px;line-height:1.4}
+.tematico-q-meta{font-size:11px;color:var(--txt3);display:flex;gap:12px;flex-wrap:wrap}
+.tematico-q-correct{color:var(--green)}
+.diff-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:1px}
+.diff-1{background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
+.diff-2{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+.diff-3{background:rgba(249,115,22,.15);color:#f97316;border:1px solid rgba(249,115,22,.3)}
+.diff-4{background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3)}
+.img-preview{width:100%;max-height:120px;object-fit:cover;border-radius:8px;margin-top:8px;display:none}
 </style>
 
   <!-- Preload Firebase modules para reduzir tempo de login -->
@@ -225,6 +240,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
     <button class="admin-tab" onclick="showTab('relatos',this);loadRelatos()">⚠️ RELATOS</button>
     <button class="admin-tab" onclick="showTab('destaque',this);loadDestaqueTab()">⭐ DESTAQUE</button>
     <button class="admin-tab" onclick="showTab('palpite',this);loadPalpiteAdmin()">⚽ PALPITÔMETRO</button>
+    <button class="admin-tab" onclick="showTab('tematico',this);loadTematico()">🔥 SEXTA TEMÁTICA</button>
   </div>
 
   <!-- TAB: NOVO EVENTO -->
@@ -536,15 +552,6 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 
       <div class="form-row full">
         <div class="form-group">
-          <label class="form-label">Foto do jogador (URL Cloudinary)</label>
-          <input class="form-input" id="wFoto" type="url" placeholder="https://res.cloudinary.com/..." oninput="previewWFoto()">
-          <div class="form-hint">Cole a URL pública do Cloudinary — será exibida como rosto na silhueta</div>
-          <img class="preview-img" id="prevWFoto" alt="preview foto jogador">
-        </div>
-      </div>
-
-      <div class="form-row full">
-        <div class="form-group">
           <label class="form-label">Descrição (aparece no card de resultado)</label>
           <textarea class="form-textarea" id="wDesc" placeholder="O maior ídolo da história do SPFC. Goleiro artilheiro..."></textarea>
         </div>
@@ -691,6 +698,140 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
       <div class="migrate-progress" id="migratePerguntasProgress"></div>
     </div>
   </div>
+
+  <!-- TAB: SEXTA TEMÁTICA -->
+  <div id="tab-tematico" style="display:none">
+
+    <!-- Formulário: configuração da semana -->
+    <div class="form-card">
+      <div class="form-title">🔥 Configurar Semana Temática</div>
+
+      <div class="tematico-week-header">
+        <div>
+          <div class="tematico-week-label">Semana atual</div>
+          <div class="tematico-week-key" id="tematicoWeekDisplay">—</div>
+        </div>
+        <div style="text-align:right">
+          <div class="tematico-week-label">Perguntas salvas</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--txt)" id="tematicoQCount">0</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Semana (weekKey)</label>
+          <input class="form-input" id="tWeekKey" placeholder="2026-W22" style="font-family:'DM Mono',monospace">
+          <div class="form-hint">Formato: YYYY-Www · Deixe em branco para usar a semana atual</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Emoji do tema</label>
+          <input class="form-input" id="tEmoji" placeholder="⭐" style="font-size:24px;text-align:center">
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label">Nome do tema</label>
+          <input class="form-input" id="tTema" placeholder="Ex: Libertadores, Morumbi, Ídolos dos Anos 90...">
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label">Descrição curta (aparece no app)</label>
+          <input class="form-input" id="tDescricao" placeholder="Ex: As três conquistas épicas do SPFC na Libertadores">
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label">URL da imagem de fundo do card</label>
+          <input class="form-input" id="tImagem" placeholder="https://..." oninput="previewTematicoImg(this.value)">
+          <div class="form-hint">Cole uma URL pública (Imgur, Cloudinary, seu CDN). Deixe vazio para usar o fundo padrão vermelho.</div>
+          <img id="tematicoImgPreview" class="img-preview" alt="Preview">
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulário: adicionar pergunta -->
+    <div class="form-card">
+      <div class="form-title" id="tPerguntaFormTitle">➕ Adicionar Pergunta Temática</div>
+
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label">Pergunta</label>
+          <textarea class="form-textarea" id="tPergunta" placeholder="Ex: Em que ano o São Paulo venceu sua primeira Libertadores?" style="min-height:60px"></textarea>
+        </div>
+      </div>
+
+      <div class="form-row full">
+        <div class="form-label" style="margin-bottom:8px">Opções — marque a correta</div>
+        <div class="opt-grid">
+          <div class="opt-group">
+            <label class="opt-label"><input type="radio" name="tCorreto" value="0"> Opção A <span class="correct-badge">correta</span></label>
+            <input class="form-input" id="tOpt0" type="text" placeholder="Opção A (resposta correta)">
+          </div>
+          <div class="opt-group">
+            <label class="opt-label"><input type="radio" name="tCorreto" value="1"> Opção B</label>
+            <input class="form-input" id="tOpt1" type="text" placeholder="Opção B">
+          </div>
+          <div class="opt-group">
+            <label class="opt-label"><input type="radio" name="tCorreto" value="2"> Opção C</label>
+            <input class="form-input" id="tOpt2" type="text" placeholder="Opção C">
+          </div>
+          <div class="opt-group">
+            <label class="opt-label"><input type="radio" name="tCorreto" value="3"> Opção D</label>
+            <input class="form-input" id="tOpt3" type="text" placeholder="Opção D">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Dificuldade</label>
+          <select class="form-select" id="tDiff">
+            <option value="1">⚪ Fácil</option>
+            <option value="2" selected>🟡 Médio</option>
+            <option value="3">🟠 Difícil</option>
+            <option value="4">🔴 Expert</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:8px">
+          <button class="submit-btn" id="tAddPerguntaBtn" onclick="addTematicoQuestion()" style="margin-top:0;flex:1">➕ ADICIONAR</button>
+          <button onclick="cancelEditTematico()" style="padding:12px 16px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);border-radius:8px;cursor:pointer;font-size:13px;white-space:nowrap" id="tCancelBtn">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de perguntas adicionadas + botão salvar/publicar -->
+    <div class="form-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div class="form-title" style="margin-bottom:0">📋 Perguntas desta semana</div>
+        <div style="font-size:11px;color:var(--txt3)" id="tQListCount">0 perguntas</div>
+      </div>
+      <div id="tQList"><div style="font-size:13px;color:var(--txt3);text-align:center;padding:20px">Nenhuma pergunta adicionada ainda</div></div>
+
+      <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+        <button onclick="salvarTematico()" style="flex:1;min-width:140px;padding:14px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:1px">
+          💾 SALVAR NO FIREBASE
+        </button>
+        <button onclick="publicarTematico()" style="flex:1;min-width:140px;padding:14px;background:#22c55e;color:#000;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:1px">
+          📤 PUBLICAR JSON
+        </button>
+      </div>
+      <div style="font-size:11px;color:var(--txt3);margin-top:8px">
+        💾 Salvar = grava no Firebase · 📤 Publicar = baixa o <code>tematico.json</code> para subir em <code>/data/</code>
+      </div>
+    </div>
+
+    <!-- Semanas anteriores -->
+    <div class="form-card">
+      <div class="form-title">🗂 Semanas anteriores</div>
+      <div id="tWeeksList"><div style="font-size:13px;color:var(--txt3)">Carregando...</div></div>
+    </div>
+
+  </div>
+
 </div>
 
 <div class="toast" id="toast"></div>
@@ -790,6 +931,7 @@ window.showTab = function(tab, btn) {
   if (tab === 'relatos') loadRelatos();
   if (tab === 'destaque') loadDestaqueTab();
   if (tab === 'palpite') loadPalpiteAdmin();
+  if (tab === 'tematico') loadTematico();
 };
 
 // ── ABA DESTAQUE — MODO SEMANA ──────────────────────
@@ -1090,13 +1232,6 @@ window.previewVid = function() {
     el.style.borderRadius = '6px';
     el.style.marginTop = '8px';
   } else el.style.display = 'none';
-};
-
-window.previewWFoto = function() {
-  const url = document.getElementById('wFoto').value.trim();
-  const el = document.getElementById('prevWFoto');
-  if (url) { el.src = url; el.style.display = 'block'; }
-  else el.style.display = 'none';
 };
 
 // ── STATS ────────────────────────────────────────────
@@ -1625,7 +1760,6 @@ window.submitWordle = async function() {
   const revelado = document.querySelector('input[name="wRev"]:checked')?.value === 'true';
   const idolo = document.querySelector('input[name="wIdo"]:checked')?.value === 'true';
   const desc = document.getElementById('wDesc').value.trim();
-  const foto = document.getElementById('wFoto').value.trim();
 
   if (!nome) { toast('Nome obrigatório', 'err'); return; }
   if (!pais) { toast('País obrigatório', 'err'); return; }
@@ -1636,7 +1770,7 @@ window.submitWordle = async function() {
   btn.disabled = true;
   btn.textContent = editingWordleId ? 'Atualizando...' : 'Salvando...';
 
-  const dados = { nome, emoji, posicao, pais, decada, periodo, jogos, gols, titulos, selecao, revelado, idolo, desc, foto: foto || '', updatedAt: new Date().toISOString() };
+  const dados = { nome, emoji, posicao, pais, decada, periodo, jogos, gols, titulos, selecao, revelado, idolo, desc, updatedAt: new Date().toISOString() };
 
   try {
     if (editingWordleId) {
@@ -1661,12 +1795,10 @@ window.submitWordle = async function() {
 };
 
 function resetWordleForm() {
-  ['wNome','wEmoji','wPais','wPeriodo','wJogos','wGols','wTitulos','wDesc','wFoto'].forEach(id => {
+  ['wNome','wEmoji','wPais','wPeriodo','wJogos','wGols','wTitulos','wDesc'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
-  const prevWFoto = document.getElementById('prevWFoto');
-  if (prevWFoto) prevWFoto.style.display = 'none';
   document.querySelector('input[name="wSel"][value="true"]').checked = true;
   document.querySelector('input[name="wRev"][value="true"]').checked = true;
   document.querySelector('input[name="wIdo"][value="true"]').checked = true;
@@ -1735,10 +1867,6 @@ window.editWordle = async function(id) {
     document.getElementById('wGols').value = j.gols || 0;
     document.getElementById('wTitulos').value = j.titulos || 0;
     document.getElementById('wDesc').value = j.desc || '';
-    document.getElementById('wFoto').value = j.foto || '';
-    const prevWFoto = document.getElementById('prevWFoto');
-    if (j.foto) { prevWFoto.src = j.foto; prevWFoto.style.display = 'block'; }
-    else { prevWFoto.style.display = 'none'; }
 
     document.querySelector(`input[name="wSel"][value="${j.selecao}"]`).checked = true;
     document.querySelector(`input[name="wRev"][value="${j.revelado}"]`).checked = true;
@@ -2083,6 +2211,280 @@ window.publicarWordle = async function() {
     toast('❌ Erro: ' + e.message, 'err');
   }
 };
+// ═══════════════════════════════════════════════════════════
+// SEXTA TEMÁTICA — Admin
+// Coleção Firestore: tematico/{weekKey}
+// Documento: { tema, emoji, imagem, descricao, perguntas:[] }
+// ═══════════════════════════════════════════════════════════
+
+function getWeekKey(date = new Date()) {
+  const startOfYear = new Date(date.getFullYear(), 0, 1);
+  const week = Math.ceil(((date - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+  return `${date.getFullYear()}-W${String(week).padStart(2, '0')}`;
+}
+
+// Estado local das perguntas sendo editadas
+let tPerguntas = [];
+let tEditingIdx = null;
+
+window.loadTematico = async function() {
+  const weekKey = getWeekKey();
+  document.getElementById('tematicoWeekDisplay').textContent = weekKey;
+  document.getElementById('tWeekKey').placeholder = weekKey;
+
+  // Tenta carregar semana atual do Firestore
+  try {
+    const snap = await getDoc(doc(db, 'tematico', weekKey));
+    if (snap.exists()) {
+      const data = snap.data();
+      document.getElementById('tTema').value = data.tema || '';
+      document.getElementById('tEmoji').value = data.emoji || '';
+      document.getElementById('tDescricao').value = data.descricao || '';
+      document.getElementById('tImagem').value = data.imagem || '';
+      if (data.imagem) previewTematicoImg(data.imagem);
+      tPerguntas = data.perguntas || [];
+    } else {
+      tPerguntas = [];
+    }
+  } catch(e) {
+    tPerguntas = [];
+  }
+
+  renderTPerguntas();
+  loadTematicoWeeksList();
+};
+
+function renderTPerguntas() {
+  const list = document.getElementById('tQList');
+  const count = document.getElementById('tQListCount');
+  const qcount = document.getElementById('tematicoQCount');
+  if (count) count.textContent = `${tPerguntas.length} pergunta${tPerguntas.length !== 1 ? 's' : ''}`;
+  if (qcount) qcount.textContent = tPerguntas.length;
+
+  const diffLabels = {1:'Fácil',2:'Médio',3:'Difícil',4:'Expert'};
+  const diffClass  = {1:'diff-1',2:'diff-2',3:'diff-3',4:'diff-4'};
+
+  if (!tPerguntas.length) {
+    list.innerHTML = '<div style="font-size:13px;color:var(--txt3);text-align:center;padding:20px">Nenhuma pergunta adicionada ainda.<br>Use o formulário acima para adicionar.</div>';
+    return;
+  }
+
+  list.innerHTML = tPerguntas.map((q, i) => `
+    <div class="tematico-q-item">
+      <div style="flex:1">
+        <div class="tematico-q-text">${i+1}. ${q.q}</div>
+        <div class="tematico-q-meta">
+          ${q.o.map((op, oi) => `<span class="${oi === q.c ? 'tematico-q-correct' : ''}">${oi === q.c ? '✓' : '·'} ${op}</span>`).join('  ')}
+        </div>
+        <div style="margin-top:6px">
+          <span class="diff-badge ${diffClass[q.diff] || 'diff-2'}">${diffLabels[q.diff] || 'Médio'}</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+        <button class="ev-btn" onclick="editTematicoQuestion(${i})" title="Editar">✏️</button>
+        <button class="ev-btn del" onclick="removeTematicoQuestion(${i})" title="Remover">🗑️</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+window.addTematicoQuestion = function() {
+  const q = document.getElementById('tPergunta').value.trim();
+  const opts = [0,1,2,3].map(i => document.getElementById('tOpt'+i).value.trim());
+  const correctEl = document.querySelector('input[name="tCorreto"]:checked');
+  const diff = parseInt(document.getElementById('tDiff').value) || 2;
+
+  if (!q) { toast('Escreva a pergunta', 'err'); return; }
+  if (opts.some(o => !o)) { toast('Preencha todas as opções', 'err'); return; }
+  if (!correctEl) { toast('Marque a resposta correta', 'err'); return; }
+
+  const entry = { q, o: opts, c: parseInt(correctEl.value), diff };
+
+  if (tEditingIdx !== null) {
+    tPerguntas[tEditingIdx] = entry;
+    tEditingIdx = null;
+    document.getElementById('tPerguntaFormTitle').textContent = '➕ Adicionar Pergunta Temática';
+    document.getElementById('tAddPerguntaBtn').textContent = '➕ ADICIONAR';
+  } else {
+    tPerguntas.push(entry);
+  }
+
+  resetTPerguntaForm();
+  renderTPerguntas();
+  toast(`✅ Pergunta ${tEditingIdx !== null ? 'atualizada' : 'adicionada'} (${tPerguntas.length} total)`, 'ok');
+};
+
+window.editTematicoQuestion = function(idx) {
+  const q = tPerguntas[idx];
+  document.getElementById('tPergunta').value = q.q;
+  q.o.forEach((op, i) => { document.getElementById('tOpt'+i).value = op; });
+  const radio = document.querySelector(`input[name="tCorreto"][value="${q.c}"]`);
+  if (radio) radio.checked = true;
+  document.getElementById('tDiff').value = q.diff || 2;
+  tEditingIdx = idx;
+  document.getElementById('tPerguntaFormTitle').textContent = `✏️ Editando pergunta ${idx+1}`;
+  document.getElementById('tAddPerguntaBtn').textContent = '💾 SALVAR EDIÇÃO';
+  document.getElementById('tPergunta').scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
+window.removeTematicoQuestion = function(idx) {
+  if (!confirm(`Remover a pergunta ${idx+1}?`)) return;
+  tPerguntas.splice(idx, 1);
+  renderTPerguntas();
+};
+
+window.cancelEditTematico = function() {
+  tEditingIdx = null;
+  resetTPerguntaForm();
+  document.getElementById('tPerguntaFormTitle').textContent = '➕ Adicionar Pergunta Temática';
+  document.getElementById('tAddPerguntaBtn').textContent = '➕ ADICIONAR';
+};
+
+function resetTPerguntaForm() {
+  document.getElementById('tPergunta').value = '';
+  [0,1,2,3].forEach(i => { document.getElementById('tOpt'+i).value = ''; });
+  document.querySelectorAll('input[name="tCorreto"]').forEach(r => r.checked = false);
+  document.getElementById('tDiff').value = '2';
+}
+
+function getTematicoFormData() {
+  const weekKeyInput = document.getElementById('tWeekKey').value.trim();
+  const weekKey = weekKeyInput || getWeekKey();
+  return {
+    weekKey,
+    tema: document.getElementById('tTema').value.trim(),
+    emoji: document.getElementById('tEmoji').value.trim() || '🔥',
+    descricao: document.getElementById('tDescricao').value.trim(),
+    imagem: document.getElementById('tImagem').value.trim(),
+    perguntas: tPerguntas,
+  };
+}
+
+window.salvarTematico = async function() {
+  const data = getTematicoFormData();
+  if (!data.tema) { toast('Preencha o nome do tema', 'err'); return; }
+  if (data.perguntas.length < 5) { toast(`Adicione pelo menos 5 perguntas (${data.perguntas.length} adicionadas)`, 'err'); return; }
+
+  try {
+    await setDoc(doc(db, 'tematico', data.weekKey), {
+      tema: data.tema,
+      emoji: data.emoji,
+      descricao: data.descricao,
+      imagem: data.imagem,
+      perguntas: data.perguntas,
+      updatedAt: new Date().toISOString(),
+    });
+    toast(`✅ Semana ${data.weekKey} salva com ${data.perguntas.length} perguntas`, 'ok');
+    loadTematicoWeeksList();
+  } catch(e) {
+    toast('❌ Erro: ' + e.message, 'err');
+  }
+};
+
+window.publicarTematico = async function() {
+  toast('⏳ Gerando tematico.json...', 'ok');
+  try {
+    const data = getTematicoFormData();
+    if (!data.tema) { toast('Preencha o nome do tema antes de publicar', 'err'); return; }
+    if (!data.perguntas.length) { toast('Adicione perguntas antes de publicar', 'err'); return; }
+
+    // Publica só a semana atual — o app só precisa da semana vigente
+    const json = {
+      [data.weekKey]: {
+        tema: data.tema,
+        emoji: data.emoji,
+        descricao: data.descricao,
+        imagem: data.imagem,
+        perguntas: data.perguntas,
+      }
+    };
+
+    downloadJSON('tematico.json', json);
+    toast(`✅ tematico.json — semana ${data.weekKey} · ${data.perguntas.length} perguntas`, 'ok');
+  } catch(e) {
+    toast('❌ Erro: ' + e.message, 'err');
+  }
+};
+
+window.loadTematicoWeeksList = async function() {
+  const listEl = document.getElementById('tWeeksList');
+  if (!listEl) return;
+  try {
+    const snap = await getDocs(collection(db, 'tematico'));
+    if (snap.empty) {
+      listEl.innerHTML = '<div style="font-size:13px;color:var(--txt3)">Nenhuma semana cadastrada ainda.</div>';
+      return;
+    }
+    const weeks = [];
+    snap.forEach(d => weeks.push({ weekKey: d.id, ...d.data() }));
+    weeks.sort((a,b) => b.weekKey.localeCompare(a.weekKey));
+
+    listEl.innerHTML = weeks.map(w => `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;margin-bottom:8px;gap:12px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+            <span style="font-size:18px">${w.emoji || '🔥'}</span>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--gold)">${w.weekKey}</span>
+            <span style="font-size:13px;color:var(--txt)">${w.tema || '—'}</span>
+          </div>
+          <div style="font-size:11px;color:var(--txt3)">${(w.perguntas||[]).length} perguntas</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="ev-btn" onclick="loadTematicoWeek('${w.weekKey}')" title="Carregar para edição">✏️</button>
+          <button class="ev-btn del" onclick="deleteTematicoWeek('${w.weekKey}', this)" title="Excluir">🗑️</button>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {
+    listEl.innerHTML = `<div style="font-size:13px;color:#f87171">Erro: ${e.message}</div>`;
+  }
+};
+
+window.loadTematicoWeek = async function(weekKey) {
+  try {
+    const snap = await getDoc(doc(db, 'tematico', weekKey));
+    if (!snap.exists()) { toast('Semana não encontrada', 'err'); return; }
+    const data = snap.data();
+    document.getElementById('tWeekKey').value = weekKey;
+    document.getElementById('tTema').value = data.tema || '';
+    document.getElementById('tEmoji').value = data.emoji || '';
+    document.getElementById('tDescricao').value = data.descricao || '';
+    document.getElementById('tImagem').value = data.imagem || '';
+    if (data.imagem) previewTematicoImg(data.imagem);
+    tPerguntas = data.perguntas || [];
+    renderTPerguntas();
+    document.getElementById('tTema').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    toast(`📂 Semana ${weekKey} carregada — ${tPerguntas.length} perguntas`, 'ok');
+  } catch(e) {
+    toast('❌ Erro: ' + e.message, 'err');
+  }
+};
+
+window.deleteTematicoWeek = async function(weekKey, btn) {
+  if (!confirm(`Excluir semana ${weekKey} e todas as suas perguntas?`)) return;
+  btn.disabled = true;
+  try {
+    await deleteDoc(doc(db, 'tematico', weekKey));
+    toast(`🗑 Semana ${weekKey} excluída`, 'ok');
+    loadTematicoWeeksList();
+  } catch(e) {
+    toast('❌ Erro: ' + e.message, 'err');
+    btn.disabled = false;
+  }
+};
+
+window.previewTematicoImg = function(url) {
+  const img = document.getElementById('tematicoImgPreview');
+  if (!img) return;
+  if (url && url.startsWith('http')) {
+    img.src = url;
+    img.style.display = 'block';
+    img.onerror = () => { img.style.display = 'none'; };
+  } else {
+    img.style.display = 'none';
+  }
+};
+
 </script>
 </body>
 </html>
