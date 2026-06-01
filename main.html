@@ -4267,23 +4267,34 @@ function closeSobre(e) {
 <script>
 (function(){
   /* ── Configuração ─────────────────────────────── */
-  const PROXY   = 'https://api.rss2json.com/v1/api.json?rss_url=';
-  const FEEDS   = [
-    // Feed dedicado ao SPFC — Gazeta Esportiva
-    'https://www.gazetaesportiva.com/times/sao-paulo/feed/',
-    // Portal oficial do São Paulo FC
-    'https://saopaulofc.net/feed',
-    // SPFC Notícias — portal especializado
-    'https://spfcnoticias.com/feed',
-    // São Paulo Sempre — maior blog tricolor
-    'https://saopaulosempre.com.br/feed',
+
+  // AllOrigins: gratuito, sem limite, sem chave de API
+  // Retorna o XML do feed direto, parseamos manualmente
+  const ALLORIGINS = 'https://api.allorigins.win/get?url=';
+
+  // rss2json como fallback secundário (limite 10k/mês)
+  const RSS2JSON   = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
+  // Feeds confiáveis e ativos para SPFC
+  const FEEDS = [
+    // Gazeta Esportiva — feed dedicado SPFC (mais confiável)
+    { url: 'https://www.gazetaesportiva.com/times/sao-paulo/feed/', filter: false },
+    // ge.globo — tag São Paulo (muito estável)
+    { url: 'https://ge.globo.com/rss/sao-paulo/', filter: false },
     // Lance! — cobertura SPFC
-    'https://www.lance.com.br/sao-paulo/feed/',
+    { url: 'https://www.lance.com.br/sao-paulo/feed/', filter: false },
+    // UOL Esporte — tag São Paulo FC
+    { url: 'https://esporte.uol.com.br/futebol/campeonatos/brasileiro/rss.xml', filter: true },
   ];
-  // feeds dedicados ao SPFC já filtram por clube; regex como segunda camada de segurança
-  const FILTER  = /s[aã]o paulo|spfc|tricolor|morumbi/i;
-  const PX_PER_SEC = 55;             // velocidade: pixels por segundo
-  const SEP     = ' ◆ ';             // separador entre manchetes
+
+  // Filtro aplicado apenas nos feeds marcados com filter:true
+  const FILTER     = /s[aã]o paulo|spfc|tricolor/i;
+  const PX_PER_SEC = 55;
+  const SEP        = ' ◆ ';
+  const CACHE_KEY  = 'spfc_ticker_cache';
+  const CACHE_TTL  = 20 * 60 * 1000; // 20 minutos
+  const RELOAD_INT = 20 * 60 * 1000; // recarrega a cada 20 min (economiza requests)
+
   const FALLBACK = [
     'São Paulo FC — Acompanhe todas as notícias do Tricolor aqui',
     'SPFC Hoje: história, quiz, wordle e muito mais para o torcedor',
@@ -4291,47 +4302,95 @@ function closeSobre(e) {
   ];
 
   /* ── Elementos ────────────────────────────────── */
-  const inner   = document.getElementById('tickerInner');
-  const loading = document.getElementById('tickerLoading');
-  const tag     = document.getElementById('tickerTag');
-  const tagLbl  = document.getElementById('tickerTagLabel');
-  const dot     = document.getElementById('tickerDot');
-  let   headlines = [];
-  let   isLive  = false;
+  const inner  = document.getElementById('tickerInner');
+  const tag    = document.getElementById('tickerTag');
+  const tagLbl = document.getElementById('tickerTagLabel');
+  const dot    = document.getElementById('tickerDot');
 
-  /* ── Busca um feed via proxy ──────────────────── */
-  async function fetchFeed(url){
+  /* ── Parse manual de RSS/XML ──────────────────── */
+  function parseXML(xmlStr) {
     try {
-      const r = await fetch(PROXY + encodeURIComponent(url), {signal: AbortSignal.timeout(6000)});
-      if(!r.ok) return [];
-      const d = await r.json();
-      if(d.status !== 'ok' || !Array.isArray(d.items)) return [];
-      return d.items
-        .filter(i => FILTER.test(i.title || ''))
-        .map(i => ({ title: (i.title||'').trim(), link: i.link||'#' }));
+      const parser = new DOMParser();
+      const doc    = parser.parseFromString(xmlStr, 'text/xml');
+      const items  = Array.from(doc.querySelectorAll('item'));
+      return items.map(el => ({
+        title:   (el.querySelector('title')?.textContent || '').trim().replace(/<!\[CDATA\[|\]\]>/g,'').trim(),
+        link:    (el.querySelector('link')?.textContent || el.querySelector('link')?.getAttribute('href') || '#').trim(),
+        pubDate: (el.querySelector('pubDate')?.textContent || '').trim()
+      })).filter(i => i.title);
     } catch { return []; }
   }
 
+  /* ── Busca via AllOrigins (proxy primário) ────── */
+  async function fetchViaAllOrigins(feedUrl) {
+    const url = ALLORIGINS + encodeURIComponent(feedUrl);
+    const r   = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    if (!r.ok) throw new Error('allorigins ' + r.status);
+    const d = await r.json();
+    if (!d.contents) throw new Error('allorigins empty');
+    return parseXML(d.contents);
+  }
+
+  /* ── Fallback: rss2json ───────────────────────── */
+  async function fetchViaRss2json(feedUrl) {
+    const url = RSS2JSON + encodeURIComponent(feedUrl);
+    const r   = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    if (!r.ok) throw new Error('rss2json ' + r.status);
+    const d = await r.json();
+    if (d.status !== 'ok' || !Array.isArray(d.items)) throw new Error('rss2json bad');
+    return d.items.map(i => ({
+      title:   (i.title  || '').trim(),
+      link:    i.link    || '#',
+      pubDate: i.pubDate || ''
+    })).filter(i => i.title);
+  }
+
+  /* ── Busca um feed (tenta AllOrigins → rss2json) ─ */
+  async function fetchFeed({ url, filter }) {
+    let items = [];
+    try       { items = await fetchViaAllOrigins(url); }
+    catch (e) {
+      try     { items = await fetchViaRss2json(url); }
+      catch   { return []; }
+    }
+    if (filter) items = items.filter(i => FILTER.test(i.title));
+    return items.slice(0, 8); // máx 8 por feed
+  }
+
+  /* ── Cache localStorage ───────────────────────── */
+  function saveCache(headlines) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), items: headlines }));
+    } catch {}
+  }
+  function loadCache() {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const c = JSON.parse(raw);
+      if (Date.now() - c.ts > CACHE_TTL) return null;
+      return c.items;
+    } catch { return null; }
+  }
+
   /* ── Monta e anima o ticker ───────────────────── */
-  function buildTicker(items){
-    if(!items.length) items = FALLBACK.map(t=>({title:t,link:'#'}));
+  function buildTicker(items) {
+    if (!items.length) items = FALLBACK.map(t => ({ title: t, link: '#', pubDate: '' }));
 
-    /* duplica para loop perfeito */
-    const full = [...items, ...items];
+    const full = [...items, ...items]; // duplica para loop perfeito
 
-    /* cria os spans */
     inner.innerHTML = '';
     full.forEach((item, idx) => {
-      if(idx > 0){
+      if (idx > 0) {
         const sp = document.createElement('span');
-        sp.className = 'ticker-item-sep';
+        sp.className   = 'ticker-item-sep';
         sp.textContent = SEP;
         inner.appendChild(sp);
       }
       const a = document.createElement('span');
-      a.className = 'ticker-item';
+      a.className   = 'ticker-item';
       a.textContent = item.title;
-      if(item.link && item.link !== '#'){
+      if (item.link && item.link !== '#') {
         a.style.cursor = 'pointer';
         a.addEventListener('click', e => {
           e.stopPropagation();
@@ -4341,45 +4400,65 @@ function closeSobre(e) {
       inner.appendChild(a);
     });
 
-    /* mede a largura da primeira metade (items originais) */
     requestAnimationFrame(() => {
-      const totalW   = inner.scrollWidth;
-      const halfW    = totalW / 2;           // largura de um "ciclo"
-      const duration = Math.round(halfW / PX_PER_SEC);
-
-      inner.style.setProperty('--ticker-duration', duration + 's');
+      const halfW  = inner.scrollWidth / 2;
+      const dur    = Math.max(20, Math.round(halfW / PX_PER_SEC));
+      inner.style.setProperty('--ticker-duration', dur + 's');
       inner.style.setProperty('--ticker-shift', '-' + halfW + 'px');
-
-      /* reseta animação */
       inner.style.animation = 'none';
-      inner.offsetHeight;   /* reflow forçado */
+      inner.offsetHeight; // reflow
       inner.style.animation = '';
     });
   }
 
+  /* ── Atualiza a tag AO VIVO / NOTÍCIAS ───────── */
+  function updateTag(headlines) {
+    const now    = Date.now();
+    const isLive = headlines.some(h => h.pubDate && (now - new Date(h.pubDate).getTime()) < 3 * 60 * 60 * 1000);
+    if (isLive) {
+      tag.style.background  = 'var(--red)';
+      tag.style.borderRight = '';
+      tagLbl.textContent    = 'AO VIVO';
+      dot.style.display     = 'block';
+    } else {
+      tag.style.background  = '#1a0000';
+      tag.style.borderRight = '1px solid rgba(204,0,0,.3)';
+      tagLbl.textContent    = 'NOTÍCIAS';
+      dot.style.display     = 'none';
+    }
+  }
+
   /* ── Carrega todos os feeds em paralelo ───────── */
-  async function loadTicker(){
-    const results = await Promise.allSettled(FEEDS.map(fetchFeed));
-    headlines = results
+  async function loadTicker() {
+    // Exibe cache imediatamente enquanto busca novos dados
+    const cached = loadCache();
+    if (cached && cached.length) {
+      updateTag(cached);
+      buildTicker(cached);
+    }
+
+    const results  = await Promise.allSettled(FEEDS.map(fetchFeed));
+    const headlines = results
       .filter(r => r.status === 'fulfilled')
       .flatMap(r => r.value);
 
-    /* detecta "ao vivo" se houver manchetes recentes (< 3h) */
-    const now = Date.now();
-    isLive = headlines.some(h => h.pubDate && (now - new Date(h.pubDate)) < 3*60*60*1000);
-
-    if(isLive){
-      tag.style.background = 'var(--red)';
-      tagLbl.textContent   = 'AO VIVO';
-      dot.style.display    = 'block';
-    } else {
-      tag.style.background = '#1a0000';
-      tag.style.borderRight = '1px solid rgba(204,0,0,.3)';
-      tagLbl.textContent   = 'NOTÍCIAS';
-      dot.style.display    = 'none';
+    if (headlines.length) {
+      // Deduplica por título
+      const seen = new Set();
+      const unique = headlines.filter(h => {
+        const k = h.title.slice(0, 60);
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      });
+      saveCache(unique);
+      updateTag(unique);
+      buildTicker(unique);
+    } else if (!cached) {
+      // Sem cache e sem resultado: usa fallback
+      updateTag([]);
+      buildTicker([]);
     }
-
-    buildTicker(headlines.length ? headlines : FALLBACK.map(t=>({title:t,link:'#'})));
   }
 
   /* ── Pause / resume no toque ──────────────────── */
@@ -4388,9 +4467,7 @@ function closeSobre(e) {
 
   /* ── Init ─────────────────────────────────────── */
   loadTicker();
-
-  /* recarrega a cada 10 minutos */
-  setInterval(loadTicker, 10 * 60 * 1000);
+  setInterval(loadTicker, RELOAD_INT);
 })();
 </script>
 
