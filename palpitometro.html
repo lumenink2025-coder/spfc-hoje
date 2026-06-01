@@ -2076,7 +2076,18 @@ async function autoProcessarResultado(matchId, golsSpfc, golsOpp, isSPFCHome) {
   try {
     const jogoRef  = doc(db, 'palpitometroJogos', String(matchId));
     const jogoSnap = await getDoc(jogoRef);
-    if (jogoSnap.exists() && jogoSnap.data().processado === true) return;
+    if (jogoSnap.exists() && jogoSnap.data().processado === true) {
+      // Já processado — mas verifica se ainda há palpites pendentes (pontos===null)
+      // Isso cobre casos onde o batch falhou parcialmente
+      const qCheck = query(collection(db, 'palpitometroPalpites'),
+        where('matchId', '==', String(matchId)),
+        where('pontos', '==', null)
+      );
+      const checkSnap = await getDocs(qCheck);
+      if (checkSnap.empty) return; // tudo ok, sai
+      // Tem pendentes — remove a trava e reprocessa
+      await updateDoc(jogoRef, { processado: false });
+    }
 
     const resultado = golsSpfc > golsOpp ? 'vitoria' : golsSpfc === golsOpp ? 'empate' : 'derrota';
     const ptsBase   = resultado === 'vitoria' ? 10 : resultado === 'empate' ? 5 : 0;
@@ -2110,15 +2121,19 @@ async function autoProcessarResultado(matchId, golsSpfc, golsOpp, isSPFCHome) {
 
       batch.update(d.ref, { pontos, placareExato: acertouPlacar, resultado_final: resultado });
 
+      // Usa setDoc com merge:true em vez de update — garante que o doc existe mesmo
+      // que o usuário nunca tenha aberto o palpitômetro antes (evita falha silenciosa)
       const rankRef = doc(db, 'ranking', p.userId);
-      batch.update(rankRef, {
+      batch.set(rankRef, {
         totalPontos:   increment(pontos),
         totalPalpites: increment(1),
         totalAcertos:  increment(acertouResultado ? 1 : 0),
         totalErros:    increment(acertouResultado ? 0 : 1),
         placareExatos: increment(acertouPlacar ? 1 : 0),
-        pontosMes:     increment(pontos)
-      });
+        pontosMes:     increment(pontos),
+        displayName:   p.displayName || p.userId,
+        photoURL:      p.photoURL || ''
+      }, { merge: true });
     });
 
     batch.update(jogoRef, { processado: true });
@@ -2313,14 +2328,17 @@ async function confirmarPalpite(matchId) {
   btn.textContent = 'Enviando...';
 
   try {
+    const rankSnap = await window.FB.getDoc(window.FB.doc(db, 'ranking', currentUser.uid)).catch(()=>null);
     const palpiteData = {
-      userId: currentUser.uid,
-      matchId: String(matchId),
-      resultado: selectedRes,
+      userId:      currentUser.uid,
+      displayName: rankSnap?.data()?.displayName || currentUser.displayName || currentUser.email?.split('@')[0] || 'Torcedor',
+      photoURL:    rankSnap?.data()?.photoURL    || currentUser.photoURL    || '',
+      matchId:     String(matchId),
+      resultado:   selectedRes,
       golsSpfc, golsOpp,
-      pontos: null,
+      pontos:      null,
       placareExato: false,
-      timestamp: serverTimestamp()
+      timestamp:   serverTimestamp()
     };
 
     await setDoc(doc(db, 'palpitometroPalpites', `${currentUser.uid}_${matchId}`), palpiteData);
