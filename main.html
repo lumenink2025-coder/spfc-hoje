@@ -4441,6 +4441,20 @@ function closeSobre(e) {
     }
   }
 
+  /* ── Busca NewsAPI via Cloudflare Worker ─────── */
+  async function fetchNewsAPI() {
+    try {
+      const r = await fetch('https://red-sun-b335.lumenink2025.workers.dev/?news=1', { signal: AbortSignal.timeout(8000) });
+      if (!r.ok) throw new Error('http ' + r.status);
+      const data = await r.json();
+      if (data.status !== 'ok' || !Array.isArray(data.articles)) return [];
+      return data.articles
+        .filter(a => a.title && a.title !== '[Removed]')
+        .slice(0, 10)
+        .map(a => ({ title: a.title.trim(), link: a.url || '#', pubDate: a.publishedAt || '' }));
+    } catch { return []; }
+  }
+
   /* ── Carrega todos os feeds em paralelo ───────── */
   async function loadTicker() {
     // Exibe cache imediatamente enquanto busca novos dados
@@ -4450,10 +4464,14 @@ function closeSobre(e) {
       buildTicker(cached);
     }
 
-    const results  = await Promise.allSettled(FEEDS.map(fetchFeed));
-    const headlines = results
-      .filter(r => r.status === 'fulfilled')
-      .flatMap(r => r.value);
+    const [rssResults, newsApiItems] = await Promise.all([
+      Promise.allSettled(FEEDS.map(fetchFeed)),
+      fetchNewsAPI()
+    ]);
+    const headlines = [
+      ...rssResults.filter(r => r.status === 'fulfilled').flatMap(r => r.value),
+      ...newsApiItems
+    ];
 
     if (headlines.length) {
       // Deduplica por título
