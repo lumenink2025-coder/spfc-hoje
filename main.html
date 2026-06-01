@@ -4271,14 +4271,8 @@ function closeSobre(e) {
   // Proxies CORS tentados em sequência para cada feed
   // Formato: função que recebe a URL do feed e devolve a URL do proxy
   const PROXIES = [
-    // 1. corsproxy.io — muito permissivo, sem chave
-    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-    // 2. cors.sh — alternativa estável
-    url => `https://proxy.cors.sh/${url}`,
-    // 3. thingproxy — simples e direto
-    url => `https://thingproxy.freeboard.io/fetch/${url}`,
-    // 4. rss2json — converte RSS→JSON (fallback final)
-    url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`,
+    // Cloudflare Worker próprio — proxy confiável sem limites práticos
+    url => `https://red-sun-b335.lumenink2025.workers.dev/?url=${encodeURIComponent(url)}`,
   ];
 
   // Feeds confiáveis e ativos para SPFC
@@ -4330,11 +4324,11 @@ function closeSobre(e) {
   /* ── Tenta um proxy específico para um feed ──── */
   async function tryProxy(proxyFn, feedUrl) {
     const proxyUrl = proxyFn(feedUrl);
-    const r = await fetch(proxyUrl, { signal: AbortSignal.timeout(7000) });
+    const r = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
     if (!r.ok) throw new Error('http ' + r.status);
     const text = await r.text();
 
-    // rss2json devolve JSON; os outros devolvem XML direto
+    // rss2json devolve JSON estruturado
     if (proxyUrl.includes('rss2json.com')) {
       let d;
       try { d = JSON.parse(text); } catch { throw new Error('json parse'); }
@@ -4346,7 +4340,18 @@ function closeSobre(e) {
       })).filter(i => i.title);
     }
 
-    // Proxies que devolvem XML direto
+    // allorigins devolve { contents: "<xml>...</xml>" }
+    if (proxyUrl.includes('allorigins.win')) {
+      let d;
+      try { d = JSON.parse(text); } catch { throw new Error('allorigins json parse'); }
+      const xmlStr = d.contents || '';
+      if (!xmlStr) throw new Error('allorigins empty');
+      const items = parseXML(xmlStr);
+      if (!items.length) throw new Error('allorigins xml empty');
+      return items;
+    }
+
+    // Proxies que devolvem XML direto (corsproxy.io, htmldriven, etc.)
     const items = parseXML(text);
     if (!items.length) throw new Error('xml empty');
     return items;
