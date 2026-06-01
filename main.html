@@ -4268,16 +4268,22 @@ function closeSobre(e) {
 (function(){
   /* ── Configuração ─────────────────────────────── */
 
-  // AllOrigins: gratuito, sem limite, sem chave de API
-  // Retorna o XML do feed direto, parseamos manualmente
-  const ALLORIGINS = 'https://api.allorigins.win/get?url=';
-
-  // rss2json como fallback secundário (limite 10k/mês)
-  const RSS2JSON   = 'https://api.rss2json.com/v1/api.json?rss_url=';
+  // Proxies CORS tentados em sequência para cada feed
+  // Formato: função que recebe a URL do feed e devolve a URL do proxy
+  const PROXIES = [
+    // 1. corsproxy.io — muito permissivo, sem chave
+    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    // 2. cors.sh — alternativa estável
+    url => `https://proxy.cors.sh/${url}`,
+    // 3. thingproxy — simples e direto
+    url => `https://thingproxy.freeboard.io/fetch/${url}`,
+    // 4. rss2json — converte RSS→JSON (fallback final)
+    url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`,
+  ];
 
   // Feeds confiáveis e ativos para SPFC
   const FEEDS = [
-    // Gazeta Esportiva — feed dedicado SPFC (mais confiável)
+    // Gazeta Esportiva — feed dedicado SPFC
     { url: 'https://www.gazetaesportiva.com/times/sao-paulo/feed/', filter: false },
     // ge.globo — tag São Paulo (muito estável)
     { url: 'https://ge.globo.com/rss/sao-paulo/', filter: false },
@@ -4321,40 +4327,42 @@ function closeSobre(e) {
     } catch { return []; }
   }
 
-  /* ── Busca via AllOrigins (proxy primário) ────── */
-  async function fetchViaAllOrigins(feedUrl) {
-    const url = ALLORIGINS + encodeURIComponent(feedUrl);
-    const r   = await fetch(url, { signal: AbortSignal.timeout(8000) });
-    if (!r.ok) throw new Error('allorigins ' + r.status);
-    const d = await r.json();
-    if (!d.contents) throw new Error('allorigins empty');
-    return parseXML(d.contents);
+  /* ── Tenta um proxy específico para um feed ──── */
+  async function tryProxy(proxyFn, feedUrl) {
+    const proxyUrl = proxyFn(feedUrl);
+    const r = await fetch(proxyUrl, { signal: AbortSignal.timeout(7000) });
+    if (!r.ok) throw new Error('http ' + r.status);
+    const text = await r.text();
+
+    // rss2json devolve JSON; os outros devolvem XML direto
+    if (proxyUrl.includes('rss2json.com')) {
+      let d;
+      try { d = JSON.parse(text); } catch { throw new Error('json parse'); }
+      if (d.status !== 'ok' || !Array.isArray(d.items)) throw new Error('rss2json bad status');
+      return d.items.map(i => ({
+        title:   (i.title   || '').trim(),
+        link:    i.link     || '#',
+        pubDate: i.pubDate  || ''
+      })).filter(i => i.title);
+    }
+
+    // Proxies que devolvem XML direto
+    const items = parseXML(text);
+    if (!items.length) throw new Error('xml empty');
+    return items;
   }
 
-  /* ── Fallback: rss2json ───────────────────────── */
-  async function fetchViaRss2json(feedUrl) {
-    const url = RSS2JSON + encodeURIComponent(feedUrl);
-    const r   = await fetch(url, { signal: AbortSignal.timeout(8000) });
-    if (!r.ok) throw new Error('rss2json ' + r.status);
-    const d = await r.json();
-    if (d.status !== 'ok' || !Array.isArray(d.items)) throw new Error('rss2json bad');
-    return d.items.map(i => ({
-      title:   (i.title  || '').trim(),
-      link:    i.link    || '#',
-      pubDate: i.pubDate || ''
-    })).filter(i => i.title);
-  }
-
-  /* ── Busca um feed (tenta AllOrigins → rss2json) ─ */
+  /* ── Busca um feed percorrendo todos os proxies ─ */
   async function fetchFeed({ url, filter }) {
     let items = [];
-    try       { items = await fetchViaAllOrigins(url); }
-    catch (e) {
-      try     { items = await fetchViaRss2json(url); }
-      catch   { return []; }
+    for (const proxyFn of PROXIES) {
+      try {
+        items = await tryProxy(proxyFn, url);
+        if (items.length) break; // proxy funcionou
+      } catch { /* tenta próximo */ }
     }
     if (filter) items = items.filter(i => FILTER.test(i.title));
-    return items.slice(0, 8); // máx 8 por feed
+    return items.slice(0, 8);
   }
 
   /* ── Cache localStorage ───────────────────────── */
