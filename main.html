@@ -4277,13 +4277,27 @@ function closeSobre(e) {
 
   // Feeds confiáveis e ativos para SPFC
   const FEEDS = [
+    // Site oficial SPFC
+    { url: 'https://www.saopaulofc.net/feed/', filter: false },
+    // SPFC.net — maior portal do torcedor
+    { url: 'https://spfc.net/feed/', filter: false },
+    // SPFC Notícias
+    { url: 'https://spfcnoticias.com/feed/', filter: false },
+    // São Paulo Sempre — blog referência
+    { url: 'https://saopaulosempre.com.br/feed/', filter: false },
+    // Arquibancada Tricolor
+    { url: 'https://arqtricolor.com/feed/', filter: false },
+    // São Paulo Blog
+    { url: 'https://saopaulo.blog/feed/', filter: false },
     // Gazeta Esportiva — feed dedicado SPFC
     { url: 'https://www.gazetaesportiva.com/times/sao-paulo/feed/', filter: false },
-    // ge.globo — tag São Paulo (muito estável)
+    // ge.globo — tag São Paulo
     { url: 'https://ge.globo.com/rss/sao-paulo/', filter: false },
     // Lance! — cobertura SPFC
     { url: 'https://www.lance.com.br/sao-paulo/feed/', filter: false },
-    // UOL Esporte — tag São Paulo FC
+    // Trivela
+    { url: 'https://trivela.com.br/feed/', filter: true },
+    // UOL Esporte
     { url: 'https://esporte.uol.com.br/futebol/campeonatos/brasileiro/rss.xml', filter: true },
   ];
 
