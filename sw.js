@@ -1,7 +1,7 @@
 // SPFC — Hoje na História | Service Worker v1.1.1.1
 // ⚠️ MUDE O CACHE_VERSION A CADA DEPLOY!
 
-const CACHE_VERSION = "v1.1.1.1.1.1.0.0.1.0.9";  // ← ALTERE ISSO A CADA NOVO DEPLOY
+const CACHE_VERSION = "v1.1.1.1.1.1.0.0.1.1.0";  // ← ALTERE ISSO A CADA NOVO DEPLOY
 const CACHE_NAME = `spfc-hoje-${CACHE_VERSION}`;
 const ASSETS = ['/', '/index.html', '/quiz.html', '/manifest.json'];
 
