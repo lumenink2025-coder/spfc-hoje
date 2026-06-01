@@ -1182,107 +1182,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .ww-play-btn:active{background:rgba(200,168,75,.25)}
 .ww-stripe{height:3px;background:linear-gradient(90deg,var(--gold) 0%,rgba(200,168,75,.2) 100%)}
 
-/* Card Wondler */
-.widget-wondler{
-  border-radius:16px;overflow:hidden;position:relative;
-  border:1px solid rgba(204,0,0,.22);
-  background:#080000;
-  min-height:160px;touch-action:pan-y;
-  display:flex;flex-direction:column;
-  cursor:pointer;
-  box-shadow:0 0 32px rgba(180,0,0,.1)
-}
-.widget-wondler:active{transform:scale(.98)}
-/* vinheta radial vermelha */
-.widget-wondler::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 120% 100% at 50% 100%,rgba(120,0,0,.5) 0%,transparent 60%),
-             radial-gradient(ellipse 80% 70% at 50% 0%,rgba(20,0,0,.7) 0%,transparent 70%);
-  pointer-events:none;z-index:0
-}
-/* scan lines */
-.widget-wondler::after{
-  content:'';position:absolute;inset:0;z-index:4;pointer-events:none;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.05) 2px,rgba(0,0,0,.05) 3px)
-}
-.wond-inner{padding:14px 14px 12px;flex:1;display:flex;flex-direction:column;position:relative;z-index:2}
-.wond-eyebrow{
-  font-family:var(--font-body);font-size:7px;font-weight:700;
-  letter-spacing:3px;color:rgba(204,0,0,.6);
-  text-transform:uppercase;margin-bottom:10px;
-  display:flex;align-items:center;gap:6px
-}
-.wond-eyebrow-dot{
-  width:4px;height:4px;border-radius:50%;background:var(--red);flex-shrink:0;
-  animation:wondPulse 1.8s ease-in-out infinite
-}
-@keyframes wondPulse{0%,100%{opacity:1;box-shadow:0 0 5px var(--red)}50%{opacity:.2;box-shadow:none}}
-
-/* Área central: o "?" como elemento visual principal */
-.wond-mystery{
-  flex:1;display:flex;align-items:center;justify-content:center;
-  position:relative;padding:4px 0 8px
-}
-/* Marca d'água SPFC atrás */
-.wond-watermark{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-title);font-size:88px;
-  color:rgba(204,0,0,.06);letter-spacing:-4px;
-  pointer-events:none;user-select:none;line-height:1
-}
-/* O grande interrogation mark */
-.wond-mark{
-  font-family:var(--font-title);
-  font-size:68px;line-height:1;
-  color:rgba(255,255,255,.08);
-  text-shadow:
-    0 0 30px rgba(204,0,0,.5),
-    0 0 60px rgba(180,0,0,.25);
-  letter-spacing:-2px;
-  position:relative;
-  animation:wondGlow 3s ease-in-out infinite
-}
-@keyframes wondGlow{
-  0%,100%{color:rgba(255,255,255,.08);text-shadow:0 0 30px rgba(204,0,0,.5),0 0 60px rgba(180,0,0,.2)}
-  50%{color:rgba(255,255,255,.13);text-shadow:0 0 40px rgba(230,0,0,.7),0 0 80px rgba(200,0,0,.35)}
-}
-/* Barras de redação/censura sobre o "?" — efeito arquivo secreto */
-.wond-redact{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;
-  gap:5px;pointer-events:none
-}
-.wond-redact-bar{
-  height:7px;border-radius:1px;background:rgba(180,0,0,.18);
-  width:var(--w,60%);
-  animation:wondFlicker var(--d,4s) ease-in-out infinite var(--delay,0s)
-}
-@keyframes wondFlicker{0%,100%{opacity:.18}48%{opacity:.18}50%{opacity:.35}52%{opacity:.18}}
-
-/* Título */
-.wond-title{
-  font-family:var(--font-title);
-  font-size:20px;letter-spacing:2px;
-  color:#fff;line-height:1;margin-bottom:2px;
-  text-shadow:0 0 16px rgba(200,0,0,.3)
-}
-.wond-sub{
-  font-family:var(--font-body);font-size:9px;
-  color:rgba(255,255,255,.28);letter-spacing:.5px;margin-bottom:10px
-}
-/* CTA */
-.wond-btn{
-  width:100%;padding:8px;border-radius:7px;
-  background:rgba(180,0,0,.2);border:1px solid rgba(204,0,0,.3);
-  font-family:var(--font-ui);font-size:10px;font-weight:600;
-  letter-spacing:2px;color:rgba(255,80,80,.9);text-transform:uppercase;
-  cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:6px
-}
-.wond-btn:active{background:rgba(180,0,0,.35)}
-.wond-btn-arrow{font-size:12px;opacity:.7}
-.wond-stripe{height:3px;background:linear-gradient(90deg,#CC0000 33.3%,#fff 33.3% 66.6%,#111 66.6%);position:relative;z-index:3}
-
 /* Card Rankings */
 .widget-rank{
   border-radius:16px;overflow:hidden;position:relative;
@@ -1408,6 +1307,21 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 /* Estado: resultado */
 .widget-palp.s-result{border-color:rgba(200,168,75,.3);animation:wResultPulse 2.5s ease-in-out infinite}
 @keyframes wResultPulse{0%,100%{box-shadow:0 0 0 rgba(200,168,75,0)}50%{box-shadow:0 0 18px rgba(200,168,75,.18)}}
+
+/* Card futuro / placeholder */
+.widget-future{
+  border-radius:16px;overflow:hidden;position:relative;
+  border:1px solid rgba(255,255,255,.05);
+  background:rgba(255,255,255,.02);
+  min-height:120px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:6px
+}
+.wf-label{
+  font-family:var(--font-body);font-size:8px;font-weight:600;
+  letter-spacing:3px;color:rgba(255,255,255,.12);text-transform:uppercase
+}
+.wf-icon{font-size:24px;opacity:.18;filter:grayscale(1)}
 
 /* Widget: PRÓXIMO JOGO (mantido com ajustes) */
 .widget-jogo{background:linear-gradient(145deg,#0a0a0e 0%,#0a0a0a 100%);border-color:rgba(255,255,255,.08)}
@@ -2058,34 +1972,26 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <!-- ══ LINHA 2: WORDLE + EM BREVE ══ -->
     <div class="hub-row">
 
-      <!-- WONDLER DO DIA -->
-      <div class="widget-wondler" onclick="window.location.href='quiz.html#wondler'">
-        <div class="wond-inner">
-          <div class="wond-eyebrow">
-            <span class="wond-eyebrow-dot"></span>
-            Wondler do dia
+      <!-- WORDLE TRICOLOR -->
+      <div class="widget-wordle" onclick="window.location.href='wordle.html'">
+        <div class="ww-inner">
+          <div class="ww-eyebrow">Jogo do dia</div>
+          <div class="ww-title">WORDLE <em>TRICOLOR</em></div>
+          <div class="ww-grid" id="wordlePreviewGrid">
+            <!-- preenchido por JS -->
           </div>
-
-          <!-- Elemento visual: mistério -->
-          <div class="wond-mystery">
-            <div class="wond-watermark">SPFC</div>
-            <div class="wond-mark">?</div>
-            <div class="wond-redact">
-              <div class="wond-redact-bar" style="--w:72%;--d:3.8s;--delay:0s"></div>
-              <div class="wond-redact-bar" style="--w:50%;--d:5.1s;--delay:.6s"></div>
-              <div class="wond-redact-bar" style="--w:64%;--d:4.3s;--delay:1.2s"></div>
+          <div class="ww-status">
+            <div class="ww-streak">
+              <span>🔥</span>
+              <strong id="wordleStreakNum">0</strong>
+              <span style="font-size:9px;color:rgba(255,255,255,.3)">dias</span>
             </div>
-          </div>
-
-          <div class="wond-title">QUEM É ESSE<br>JOGADOR?</div>
-          <div class="wond-sub">Adivinhe a lenda do Tricolor</div>
-          <div class="wond-status">
-            <button class="wond-btn" onclick="event.stopPropagation();window.location.href='quiz.html#wondler'">
-              Revelar <span class="wond-btn-arrow">›</span>
+            <button class="ww-play-btn" onclick="event.stopPropagation();window.location.href='wordle.html'">
+              JOGAR HOJE
             </button>
           </div>
         </div>
-        <div class="wond-stripe"></div>
+        <div class="ww-stripe"></div>
       </div>
 
       <!-- EM BREVE -->
@@ -3485,8 +3391,7 @@ async function renderDestaque() {
 
   // Verifica se há destaque fixado no JSON (campo destaqueData = hoje)
   let best = null;
-  const todayStr = `${TODAY_M < 10 ? '0' : ''}${TODAY_M < 10 ? TODAY_M : TODAY_M}-${TODAY_D < 10 ? '0' : ''}${TODAY_D}`;
-  const todayFull = new Date().toISOString().slice(0,10);
+  const todayFull = new Date().toISOString().slice(0,10); // "2026-05-31"
 
   try {
     // Busca nos eventos já carregados no DB
