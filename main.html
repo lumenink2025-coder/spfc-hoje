@@ -3403,9 +3403,10 @@ async function renderDestaque() {
   const todayFull = new Date().toISOString().slice(0,10); // "2026-05-31"
 
   try {
-    // Busca nos eventos já carregados no DB
-    const todayEvents = ev(TODAY_M, TODAY_D);
-    const fixado = todayEvents.find(e => e.destaqueData === todayFull);
+    // Busca em TODOS os eventos carregados (o destaque pode ser de qualquer data histórica)
+    const fixado = Object.values(DB)
+      .flatMap(mes => Object.values(mes).flat())
+      .find(e => e.destaqueData === todayFull);
     if (fixado) best = fixado;
   } catch(e) {}
 
