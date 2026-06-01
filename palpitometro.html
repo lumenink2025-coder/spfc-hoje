@@ -2360,6 +2360,38 @@ async function confirmarPalpite(matchId) {
 /* ════════════════════════════════════════════
    RANKING — Pódio CSS + Tabela
 ════════════════════════════════════════════ */
+// Detecta se um displayName é na verdade um UID (string longa sem espaço)
+function looksLikeUID(name) {
+  return !name || (name.length > 20 && !/\s/.test(name) && /[A-Za-z0-9]{20,}/.test(name));
+}
+
+// Sanitiza lista de users — substitui UIDs por nome legível e corrige no Firestore em background
+async function sanitizeUserNames(users) {
+  const { db, doc, getDoc, setDoc } = window.FB;
+  const toFix = users.filter(u => looksLikeUID(u.displayName));
+  if (!toFix.length) return users;
+
+  await Promise.all(toFix.map(async u => {
+    try {
+      const snap = await getDoc(doc(db, 'users', u.id));
+      const data = snap.exists() ? snap.data() : {};
+      const realName = data.displayName || data.name || null;
+      const realPhoto = data.avatarUrl || data.photoURL || u.photoURL || '';
+      if (realName) {
+        u.displayName = realName;
+        u.photoURL = realPhoto;
+        // Corrige no Firestore em background
+        setDoc(doc(db, 'ranking', u.id), { displayName: realName, photoURL: realPhoto }, { merge: true }).catch(()=>{});
+      } else {
+        // Usa a inicial do email ou "Torcedor"
+        u.displayName = u.email?.split('@')[0] || 'Torcedor';
+      }
+    } catch(e) {}
+  }));
+
+  return users;
+}
+
 async function loadRanking(type) {
   const container = document.getElementById('rankingContent');
   container.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div></div>';
@@ -2382,6 +2414,9 @@ async function loadRanking(type) {
       container.innerHTML = '<div class="loading-state">Nenhum dado ainda — seja o primeiro a palpitar!</div>';
       return;
     }
+
+    // Corrige UIDs aparecendo como nome
+    await sanitizeUserNames(users);
 
     const top3     = users.slice(0, 3);
     const rows4to10 = users.slice(3, 10);
@@ -2545,6 +2580,9 @@ async function loadVergonha() {
     const snap = await getDocs(q);
     const users = [];
     snap.forEach(d => users.push({ id: d.id, ...d.data() }));
+
+    // Corrige UIDs aparecendo como nome
+    await sanitizeUserNames(users);
 
     if (!users.length) {
       container.innerHTML = '<div class="loading-state">Ninguém no mural ainda 😅</div>';
