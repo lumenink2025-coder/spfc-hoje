@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admin — SPFC Histórico</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -90,6 +90,71 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 .filter-select{padding:8px 12px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);border-radius:8px;font-size:13px;outline:none}
 .ev-count{font-size:12px;color:var(--txt3);margin-bottom:12px;letter-spacing:1px}
 .loading-msg{text-align:center;padding:40px;color:var(--txt3);font-size:13px;letter-spacing:2px}
+
+/* ── DESTAQUE SEMANA ── */
+.dsm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.dsm-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--txt)}
+.dsm-subtitle{font-size:11px;letter-spacing:3px;color:var(--txt3);margin-top:2px}
+.dsm-pub-btn{display:flex;align-items:center;gap:8px;padding:11px 22px;background:var(--red);color:#fff;border:none;border-radius:8px;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;cursor:pointer;transition:.2s}
+.dsm-pub-btn:hover{background:var(--red2);transform:translateY(-1px)}
+
+.dsm-week-nav{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.dsm-nav-btn{width:36px;height:36px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.15s;flex-shrink:0}
+.dsm-nav-btn:hover{border-color:var(--red);color:var(--red)}
+.dsm-week-label{flex:1;text-align:center;font-size:12px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase}
+
+.dsm-days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:28px}
+.dsm-day{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:12px 8px;cursor:pointer;transition:.2s;text-align:center;position:relative;min-height:90px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.dsm-day:hover{border-color:rgba(204,0,0,.4);background:rgba(204,0,0,.04)}
+.dsm-day.active{border-color:var(--red);background:rgba(204,0,0,.08);box-shadow:0 0 0 1px rgba(204,0,0,.2)}
+.dsm-day.today{border-color:rgba(204,0,0,.5)}
+.dsm-day.has-destaque{border-color:var(--gold)!important;background:rgba(200,168,75,.06)!important}
+.dsm-day-wd{font-size:9px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase}
+.dsm-day-num{font-family:'Bebas Neue',sans-serif;font-size:26px;line-height:1;color:var(--txt2)}
+.dsm-day.today .dsm-day-num{color:var(--red)}
+.dsm-day.active .dsm-day-num{color:var(--txt)}
+.dsm-day.has-destaque .dsm-day-num{color:var(--gold)}
+.dsm-day-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:2px}
+.dsm-day-dot.empty{background:var(--border2)}
+.dsm-day-thumb{width:36px;height:28px;border-radius:4px;object-fit:cover;margin-top:2px}
+
+.dsm-panel{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;overflow:hidden}
+.dsm-panel-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.dsm-panel-date{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--txt)}
+.dsm-panel-sub{font-size:11px;color:var(--txt3);letter-spacing:1px;margin-top:1px}
+.dsm-current-badge{display:flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.3);border-radius:20px;font-size:11px;color:var(--gold);letter-spacing:1px}
+
+.dsm-events{padding:16px}
+.dsm-ev-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;cursor:pointer;transition:.15s;border:1px solid transparent;margin-bottom:8px;position:relative}
+.dsm-ev-item:hover{background:rgba(255,255,255,.04);border-color:var(--border2)}
+.dsm-ev-item.selected{background:rgba(204,0,0,.08);border-color:var(--red)}
+.dsm-ev-item.current-destaque{background:rgba(200,168,75,.06);border-color:var(--gold)}
+.dsm-ev-thumb{width:56px;height:42px;border-radius:6px;object-fit:cover;flex-shrink:0;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:20px}
+.dsm-ev-thumb img{width:100%;height:100%;object-fit:cover;border-radius:6px}
+.dsm-ev-info{flex:1;min-width:0}
+.dsm-ev-name{font-size:14px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.dsm-ev-meta{font-size:11px;color:var(--txt3);letter-spacing:.5px}
+.dsm-ev-badge{font-size:9px;letter-spacing:1.5px;padding:2px 8px;border-radius:3px;text-transform:uppercase;flex-shrink:0}
+.dsm-ev-badge.vitoria{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.25)}
+.dsm-ev-badge.titulo,.dsm-ev-badge.mundial,.dsm-ev-badge.fundacao{background:rgba(200,168,75,.12);color:var(--gold);border:1px solid rgba(200,168,75,.25)}
+.dsm-ev-badge.aniversario{background:rgba(96,165,250,.1);color:#7cb9ff;border:1px solid rgba(96,165,250,.2)}
+.dsm-ev-badge.estreia{background:rgba(134,239,172,.1);color:#86efac;border:1px solid rgba(134,239,172,.2)}
+.dsm-ev-badge.despedida{background:rgba(251,146,60,.1);color:#fb923c;border:1px solid rgba(251,146,60,.2)}
+.dsm-ev-badge.recorde{background:rgba(255,255,255,.06);color:var(--txt2);border:1px solid var(--border2)}
+.dsm-ev-star{position:absolute;top:8px;right:8px;font-size:13px}
+
+.dsm-fix-btn{width:100%;padding:13px;background:var(--red);color:#fff;border:none;border-radius:8px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;transition:.2s;margin-top:4px}
+.dsm-fix-btn:hover{background:var(--red2)}
+.dsm-fix-btn:disabled{opacity:.35;cursor:not-allowed}
+.dsm-fix-btn.already{background:rgba(200,168,75,.15);color:var(--gold);border:1px solid rgba(200,168,75,.4)}
+.dsm-fix-btn.already:hover{background:rgba(200,168,75,.25)}
+
+.dsm-empty{text-align:center;padding:40px 20px;color:var(--txt3);font-size:13px;letter-spacing:1px}
+.dsm-empty-icon{font-size:36px;margin-bottom:12px;opacity:.4}
+
+.dsm-loading{text-align:center;padding:32px;color:var(--txt3);font-size:12px;letter-spacing:2px}
+.dsm-spinner{width:20px;height:20px;border:2px solid var(--border2);border-top-color:var(--red);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* ── MIGRATE ── */
 .migrate-card{background:var(--bg2);border:1px solid var(--yellow);border-radius:12px;padding:24px;margin-bottom:20px}
@@ -525,36 +590,35 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 
   <!-- TAB: DESTAQUE -->
   <div id="tab-destaque" style="display:none">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px">⭐ EVENTO EM DESTAQUE</div>
-      <button onclick="clearDestaque()" style="padding:8px 16px;background:transparent;border:1px solid rgba(204,0,0,.4);color:#ff6666;border-radius:6px;cursor:pointer;font-size:12px;letter-spacing:1px">🗑️ LIMPAR FIXADO</button>
-    </div>
 
-    <!-- Preview do destaque atual -->
-    <div id="destaqueAtual" style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px;margin-bottom:24px">
-      <div style="font-size:11px;letter-spacing:3px;color:var(--txt3);margin-bottom:12px">DESTAQUE ATUAL</div>
-      <div id="destaqueAtualContent" style="font-size:14px;color:var(--txt2)">Carregando...</div>
-    </div>
-
-    <!-- Filtro de data -->
-    <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px;margin-bottom:16px">
-      <div style="font-size:11px;letter-spacing:3px;color:var(--txt3);margin-bottom:12px">ESCOLHER DATA</div>
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-        <input type="date" id="destaqueDate" style="padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);font-size:14px;border-radius:8px;outline:none;font-family:'Inter',sans-serif">
-        <button onclick="buscarEventosDia()" style="padding:10px 20px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:1px">BUSCAR EVENTOS</button>
-        <button onclick="buscarEventosDia('hoje')" style="padding:10px 16px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);border-radius:8px;font-size:12px;cursor:pointer;letter-spacing:1px">HOJE</button>
+    <!-- Header -->
+    <div class="dsm-header">
+      <div>
+        <div class="dsm-title">⭐ DESTAQUES DA SEMANA</div>
+        <div class="dsm-subtitle">CONFIGURE UM DESTAQUE POR DIA E PUBLIQUE DE UMA VEZ</div>
       </div>
+      <button class="dsm-pub-btn" onclick="publicarEventos()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        PUBLICAR JSON
+      </button>
     </div>
 
-    <!-- Lista de eventos do dia escolhido -->
-    <div id="destaqueEventosList"></div>
-
-    <!-- Publicar -->
-    <div style="background:rgba(204,0,0,.06);border:1px solid rgba(204,0,0,.2);border-radius:12px;padding:20px;margin-top:8px">
-      <div style="font-size:11px;letter-spacing:3px;color:var(--txt3);margin-bottom:8px">PUBLICAR NO APP</div>
-      <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;line-height:1.6">Após fixar o destaque, clique abaixo para baixar o <code style="background:var(--bg3);padding:2px 6px;border-radius:4px;font-size:12px">eventos.json</code> atualizado. Depois é só colocar o arquivo na pasta <code style="background:var(--bg3);padding:2px 6px;border-radius:4px;font-size:12px">/data/</code> do projeto.</p>
-      <button onclick="publicarEventos()" style="width:100%;padding:14px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;letter-spacing:2px;font-family:'Bebas Neue',sans-serif;transition:.2s">🚀 SALVAR E PUBLICAR EVENTOS</button>
+    <!-- Navegação de semana -->
+    <div class="dsm-week-nav">
+      <button class="dsm-nav-btn" onclick="dsmNavWeek(-1)">‹</button>
+      <div class="dsm-week-label" id="dsmWeekLabel">—</div>
+      <button class="dsm-nav-btn" onclick="dsmNavWeek(1)">›</button>
+      <button onclick="dsmGoToday()" style="padding:6px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);border-radius:6px;cursor:pointer;font-size:11px;letter-spacing:1px;transition:.15s" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border2)'">HOJE</button>
     </div>
+
+    <!-- Grade de 7 dias -->
+    <div class="dsm-days" id="dsmDaysGrid"></div>
+
+    <!-- Painel do dia selecionado -->
+    <div class="dsm-panel" id="dsmDayPanel">
+      <div class="dsm-loading"><div class="dsm-spinner"></div>Selecione um dia</div>
+    </div>
+
   </div>
 
   <!-- TAB: PALPITÔMETRO ADMIN -->
@@ -719,9 +783,7 @@ window.showTab = function(tab, btn) {
   if (tab === 'palpite') loadPalpiteAdmin();
 };
 
-// ── ABA DESTAQUE ──────────────────────────────────────
-// O destaque agora é salvo direto no Firestore em cada evento (campo destaqueData)
-// e propagado via eventos.json ao publicar. Zero leitura extra no app.
+// ── ABA DESTAQUE — MODO SEMANA ──────────────────────
 
 // Data local no formato YYYY-MM-DD (evita bug UTC/timezone)
 function localDateStr(d) {
@@ -729,119 +791,272 @@ function localDateStr(d) {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
+const WDS = ['DOM','SEG','TER','QUA','QUI','SEX','SÁB'];
+const MONTHS_BR = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const CAT_LABEL = {vitoria:'Vitória',titulo:'Título',mundial:'Mundial',fundacao:'Fundação',aniversario:'Aniversário',estreia:'Estreia',despedida:'Despedida',recorde:'Recorde'};
+
+let _dsmWeekOffset = 0;   // 0 = semana atual, -1 = semana anterior, etc.
+let _dsmActiveDay  = null; // dateStr do dia selecionado
+let _dsmFixados    = {};   // cache: dateStr → {id, ev}
+let _dsmSelectedEv = null; // evento selecionado no painel
+
+// Retorna a segunda-feira da semana com offset
+function dsmWeekStart(offset) {
+  const now = new Date();
+  const day = now.getDay(); // 0=dom
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1) + offset * 7);
+  monday.setHours(0,0,0,0);
+  return monday;
+}
+
 window.loadDestaqueTab = async function() {
-  const today = localDateStr();
-  const dateInput = document.getElementById('destaqueDate');
-  if (dateInput && !dateInput.value) dateInput.value = today;
-
-  // Mostra destaque atual buscando no Firestore pelo campo destaqueData = hoje
-  const el = document.getElementById('destaqueAtualContent');
-  try {
-    const todayStr = localDateStr();
-    const q = query(collection(db, 'eventos'), where('destaqueData', '==', todayStr));
-    const snap = await getDocs(q);
-    if (!snap.empty) {
-      const ev = { id: snap.docs[0].id, ...snap.docs[0].data() };
-      el.innerHTML = `
-        <div style="display:flex;gap:16px;align-items:flex-start">
-          ${ev.image ? `<img src="${ev.image}" style="width:80px;height:60px;object-fit:cover;border-radius:6px;flex-shrink:0">` : `<div style="width:80px;height:60px;background:var(--bg3);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">${ev.video ? '🎬' : '📅'}</div>`}
-          <div>
-            <div style="font-weight:600;color:var(--txt);font-size:15px;margin-bottom:4px">${ev.n || ev.title || '—'}</div>
-            <div style="font-size:12px;color:var(--txt3);margin-bottom:4px">${ev.y || ''} · ${ev.t || ''}</div>
-            <div style="font-size:11px;color:var(--gold);letter-spacing:1px">📌 Fixado para ${todayStr}</div>
-            <button onclick="clearDestaque('${ev.id}')" style="margin-top:8px;padding:6px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);border-radius:6px;font-size:11px;cursor:pointer">🗑️ Remover destaque</button>
-          </div>
-        </div>`;
-    } else {
-      el.innerHTML = `<span style="color:var(--txt3);font-style:italic">Nenhum evento fixado para hoje — o app usa a lógica automática</span>`;
-    }
-  } catch(e) {
-    el.innerHTML = `<span style="color:#ff6666">Erro ao carregar: ${e.message}</span>`;
-  }
-
-  buscarEventosDia('hoje');
+  _dsmWeekOffset = 0;
+  _dsmActiveDay  = localDateStr(); // abre no dia de hoje
+  await dsmLoadWeek();
 };
 
-window.buscarEventosDia = async function(mode) {
-  const listEl = document.getElementById('destaqueEventosList');
-  listEl.innerHTML = `<div style="text-align:center;padding:20px;color:var(--txt3);font-size:12px;letter-spacing:2px">🔍 Buscando eventos...</div>`;
+window.dsmNavWeek = async function(dir) {
+  _dsmWeekOffset += dir;
+  await dsmLoadWeek();
+};
 
-  let dateVal;
-  if (mode === 'hoje') {
-    dateVal = localDateStr();
-    document.getElementById('destaqueDate').value = dateVal;
-  } else {
-    dateVal = document.getElementById('destaqueDate').value;
-  }
-  if (!dateVal) { listEl.innerHTML = `<div style="color:var(--txt3);padding:16px">Escolha uma data.</div>`; return; }
+window.dsmGoToday = async function() {
+  _dsmWeekOffset = 0;
+  _dsmActiveDay = localDateStr();
+  await dsmLoadWeek();
+};
 
-  const [y, m, d2] = dateVal.split('-').map(Number);
+async function dsmLoadWeek() {
+  const monday = dsmWeekStart(_dsmWeekOffset);
+  const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
 
+  // Label da semana
+  const lbl = document.getElementById('dsmWeekLabel');
+  if (lbl) lbl.textContent = `${monday.getDate()} ${MONTHS_BR[monday.getMonth()]} — ${sunday.getDate()} ${MONTHS_BR[sunday.getMonth()]} ${sunday.getFullYear()}`;
+
+  // Busca fixados da semana no Firestore (campo destaqueData entre seg e dom)
+  _dsmFixados = {};
   try {
-    const q = query(
-      collection(db, 'eventos'),
-      where('mes', '==', m),
-      where('dia', '==', d2)
+    const dateFrom = localDateStr(monday);
+    const dateTo   = localDateStr(sunday);
+    const q = query(collection(db, 'eventos'),
+      where('destaqueData', '>=', dateFrom),
+      where('destaqueData', '<=', dateTo)
     );
     const snap = await getDocs(q);
+    snap.forEach(d => {
+      const ev = { id: d.id, ...d.data() };
+      _dsmFixados[ev.destaqueData] = ev;
+    });
+  } catch(e) {}
+
+  // Renderiza os 7 dias
+  dsmRenderDays(monday);
+
+  // Carrega painel do dia ativo
+  if (_dsmActiveDay) await dsmLoadDayPanel(_dsmActiveDay);
+}
+
+function dsmRenderDays(monday) {
+  const grid = document.getElementById('dsmDaysGrid');
+  if (!grid) return;
+  const today = localDateStr();
+  let html = '';
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday); d.setDate(monday.getDate() + i);
+    const ds = localDateStr(d);
+    const isToday    = ds === today;
+    const isActive   = ds === _dsmActiveDay;
+    const hasDestaque = !!_dsmFixados[ds];
+    const fixado = _dsmFixados[ds];
+    const thumb  = fixado?.image
+      ? `<img src="${fixado.image}" class="dsm-day-thumb" onerror="this.style.display='none'">`
+      : hasDestaque ? `<div style="font-size:18px">⭐</div>` : '';
+
+    html += `<div class="dsm-day${isToday?' today':''}${isActive?' active':''}${hasDestaque?' has-destaque':''}"
+      onclick="dsmSelectDay('${ds}')">
+      <div class="dsm-day-wd">${WDS[d.getDay()]}</div>
+      <div class="dsm-day-num">${d.getDate()}</div>
+      ${thumb || `<div class="dsm-day-dot${hasDestaque?'':' empty'}"></div>`}
+    </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+window.dsmSelectDay = async function(dateStr) {
+  _dsmActiveDay = dateStr;
+  // Reatualiza grade (highlight)
+  document.querySelectorAll('.dsm-day').forEach(el => el.classList.remove('active'));
+  event?.currentTarget?.classList.add('active');
+  // Rebusca atualizado
+  const monday = dsmWeekStart(_dsmWeekOffset);
+  dsmRenderDays(monday);
+  await dsmLoadDayPanel(dateStr);
+};
+
+async function dsmLoadDayPanel(dateStr) {
+  const panel = document.getElementById('dsmDayPanel');
+  if (!panel) return;
+  panel.innerHTML = `<div class="dsm-loading"><div class="dsm-spinner"></div>Buscando eventos...</div>`;
+  _dsmSelectedEv = null;
+
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const fixado = _dsmFixados[dateStr];
+  const diasSemana = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+  const dt = new Date(y, m-1, d);
+  const labelDia = `${diasSemana[dt.getDay()]}, ${d} de ${MONTHS_BR[m-1]} de ${y}`;
+  const isToday = dateStr === localDateStr();
+
+  try {
+    const q = query(collection(db, 'eventos'), where('mes','==',m), where('dia','==',d));
+    const snap = await getDocs(q);
     const events = [];
-    snap.forEach(d => events.push({ id: d.id, ...d.data() }));
-    events.sort((a, b) => {
-      const order = { titulo:0, mundial:1, fundacao:2, vitoria:3, recorde:4, estreia:5, despedida:6, aniversario:7 };
-      return (order[a.t]??9) - (order[b.t]??9);
+    snap.forEach(doc => events.push({ id: doc.id, ...doc.data() }));
+    events.sort((a,b) => {
+      const o = {titulo:0,mundial:1,fundacao:2,vitoria:3,recorde:4,estreia:5,despedida:6,aniversario:7};
+      return (o[a.t]??9)-(o[b.t]??9);
     });
 
+    const headerBadge = fixado
+      ? `<div class="dsm-current-badge">⭐ ${fixado.n?.substring(0,22) || 'Fixado'}</div>`
+      : isToday ? `<div class="dsm-current-badge" style="background:rgba(204,0,0,.1);border-color:rgba(204,0,0,.3);color:var(--red)">● HOJE</div>` : '';
+
     if (!events.length) {
-      listEl.innerHTML = `<div style="text-align:center;padding:24px;color:var(--txt3)">Nenhum evento encontrado para ${d2}/${m}.</div>`;
+      panel.innerHTML = `
+        <div class="dsm-panel-header">
+          <div><div class="dsm-panel-date">${labelDia}</div></div>
+          ${headerBadge}
+        </div>
+        <div class="dsm-empty"><div class="dsm-empty-icon">📭</div>Nenhum evento histórico neste dia</div>`;
       return;
     }
 
-    const catEmoji = { vitoria:'⚽', titulo:'🏆', aniversario:'🎂', estreia:'⭐', despedida:'👋', recorde:'📊', mundial:'🌍', fundacao:'🏛️' };
-    listEl.innerHTML = `
-      <div style="font-size:11px;letter-spacing:3px;color:var(--txt3);margin-bottom:12px">${events.length} EVENTO(S) EM ${d2}/${m}</div>
-      ${events.map((ev) => `
-        <div style="background:var(--bg2);border:1px solid ${ev.destaqueData === dateVal ? 'var(--gold)' : 'var(--border2)'};border-radius:12px;padding:16px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start">
-          ${ev.image ? `<img src="${ev.image}" style="width:70px;height:52px;object-fit:cover;border-radius:6px;flex-shrink:0">` : `<div style="width:70px;height:52px;background:var(--bg3);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${catEmoji[ev.t]||'📅'}</div>`}
-          <div style="flex:1;min-width:0">
-            <div style="font-weight:600;color:var(--txt);font-size:14px;margin-bottom:3px">${ev.n || ev.title || '—'}</div>
-            <div style="font-size:11px;color:var(--txt3);margin-bottom:10px">${ev.y || ''} · ${ev.t || ''}${ev.destaqueData === dateVal ? ' &nbsp;⭐ DESTAQUE' : ''}</div>
-            <button onclick='fixarDestaque("${ev.id}", "${dateVal}")' style="padding:8px 18px;background:${ev.destaqueData === dateVal ? 'var(--gold)' : 'var(--red)'};color:#${ev.destaqueData === dateVal ? '000' : 'fff'};border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:1px">${ev.destaqueData === dateVal ? '⭐ JÁ É DESTAQUE' : '📌 FIXAR COMO DESTAQUE'}</button>
+    const evHtml = events.map(ev => {
+      const isFix = fixado?.id === ev.id;
+      const thumb = ev.image
+        ? `<div class="dsm-ev-thumb"><img src="${ev.image}" onerror="this.parentElement.innerHTML='${(ev.t==='vitoria'?'⚽':ev.t==='titulo'?'🏆':ev.t==='aniversario'?'🎂':'📅')}'"></div>`
+        : `<div class="dsm-ev-thumb">${ev.t==='vitoria'?'⚽':ev.t==='titulo'?'🏆':ev.t==='mundial'?'🌍':ev.t==='aniversario'?'🎂':ev.t==='estreia'?'⭐':ev.t==='despedida'?'👋':ev.t==='fundacao'?'🏛️':'📅'}</div>`;
+      return `
+        <div class="dsm-ev-item${isFix?' current-destaque':''}" id="dsmEv_${ev.id}" onclick="dsmSelectEv('${ev.id}','${dateStr}')">
+          ${thumb}
+          <div class="dsm-ev-info">
+            <div class="dsm-ev-name">${ev.n || ev.title || '—'}</div>
+            <div class="dsm-ev-meta">${ev.y || ''} · ${CAT_LABEL[ev.t] || ev.t || ''}</div>
           </div>
+          <span class="dsm-ev-badge ${ev.t||''}">${CAT_LABEL[ev.t]||ev.t||''}</span>
+          ${isFix ? '<span class="dsm-ev-star">⭐</span>' : ''}
+        </div>`;
+    }).join('');
+
+    const isClearable = !!fixado;
+    panel.innerHTML = `
+      <div class="dsm-panel-header">
+        <div>
+          <div class="dsm-panel-date">${labelDia}</div>
+          <div class="dsm-panel-sub">${events.length} evento${events.length!==1?'s':''} histórico${events.length!==1?'s':''}</div>
         </div>
-      `).join('')}`;
+        ${headerBadge}
+      </div>
+      <div class="dsm-events">
+        ${evHtml}
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="dsm-fix-btn${fixado?' already':''}" id="dsmFixBtn" onclick="dsmConfirmarFix('${dateStr}')" disabled>
+            ${fixado ? '⭐ TROCAR DESTAQUE' : '📌 FIXAR SELECIONADO'}
+          </button>
+          ${isClearable ? `<button onclick="dsmRemoverFix('${fixado.id}','${dateStr}')" style="padding:13px 14px;background:transparent;border:1px solid rgba(204,0,0,.3);color:#ff6666;border-radius:8px;cursor:pointer;font-size:18px;transition:.2s" title="Remover destaque" onmouseover="this.style.background='rgba(204,0,0,.1)'" onmouseout="this.style.background='transparent'">🗑</button>` : ''}
+        </div>
+      </div>`;
+
+    // Se já tem fixado, pré-seleciona ele
+    if (fixado) dsmSelectEv(fixado.id, dateStr, true);
+
   } catch(e) {
-    listEl.innerHTML = `<div style="color:#ff6666;padding:16px">Erro: ${e.message}</div>`;
+    panel.innerHTML = `<div class="dsm-loading" style="color:#ff6666">Erro: ${e.message}</div>`;
   }
+}
+
+window.dsmSelectEv = function(evId, dateStr, silent) {
+  _dsmSelectedEv = evId;
+  document.querySelectorAll('.dsm-ev-item').forEach(el => el.classList.remove('selected'));
+  const el = document.getElementById('dsmEv_' + evId);
+  if (el) el.classList.add('selected');
+  const btn = document.getElementById('dsmFixBtn');
+  const fixado = _dsmFixados[dateStr];
+  if (btn) {
+    btn.disabled = false;
+    if (fixado && fixado.id === evId) {
+      btn.textContent = '⭐ JÁ É O DESTAQUE';
+      btn.disabled = true;
+    } else if (fixado) {
+      btn.textContent = '🔄 TROCAR DESTAQUE';
+      btn.className = 'dsm-fix-btn';
+    } else {
+      btn.textContent = '📌 FIXAR COMO DESTAQUE';
+      btn.className = 'dsm-fix-btn';
+    }
+  }
+};
+
+window.dsmConfirmarFix = async function(dateVal) {
+  if (!_dsmSelectedEv) return;
+  try {
+    const btn = document.getElementById('dsmFixBtn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
+
+    // Remove fixado anterior dessa data
+    const q = query(collection(db, 'eventos'), where('destaqueData','==', dateVal));
+    const snap = await getDocs(q);
+    const ops = [];
+    snap.forEach(d => { if (d.id !== _dsmSelectedEv) ops.push(updateDoc(doc(db,'eventos',d.id), { destaqueData: null })); });
+    await Promise.all(ops);
+
+    // Fixa o novo
+    await updateDoc(doc(db,'eventos', _dsmSelectedEv), { destaqueData: dateVal });
+
+    toast('⭐ Destaque fixado!', 'ok');
+
+    // Atualiza cache local e grade
+    const monday = dsmWeekStart(_dsmWeekOffset);
+    const qNew = query(collection(db,'eventos'), where('destaqueData','>=', localDateStr(monday)), where('destaqueData','<=', localDateStr(new Date(monday.getTime()+6*86400000))));
+    const snapNew = await getDocs(qNew);
+    _dsmFixados = {};
+    snapNew.forEach(d => { const ev = {id:d.id,...d.data()}; _dsmFixados[ev.destaqueData] = ev; });
+
+    dsmRenderDays(monday);
+    await dsmLoadDayPanel(dateVal);
+  } catch(e) {
+    toast('Erro: ' + e.message, 'err');
+  }
+};
+
+window.dsmRemoverFix = async function(evId, dateVal) {
+  if (!confirm('Remover destaque deste dia?')) return;
+  try {
+    await updateDoc(doc(db,'eventos', evId), { destaqueData: null });
+    delete _dsmFixados[dateVal];
+    toast('🗑️ Destaque removido', 'ok');
+    const monday = dsmWeekStart(_dsmWeekOffset);
+    dsmRenderDays(monday);
+    await dsmLoadDayPanel(dateVal);
+  } catch(e) {
+    toast('Erro: ' + e.message, 'err');
+  }
+};
+
+// Mantém compatibilidade com clearDestaque (usado em outros lugares)
+window.clearDestaque = async function(evId) {
+  if (!confirm('Remover o destaque?')) return;
+  try {
+    await updateDoc(doc(db, 'eventos', evId), { destaqueData: null });
+    toast('🗑️ Destaque removido', 'ok');
+    loadDestaqueTab();
+  } catch(e) { toast('Erro: ' + e.message, 'err'); }
 };
 
 window.fixarDestaque = async function(evId, dateVal) {
-  try {
-    // Remove destaque anterior dessa data
-    const q = query(collection(db, 'eventos'), where('destaqueData', '==', dateVal));
-    const snap = await getDocs(q);
-    const batch = [];
-    snap.forEach(d => {
-      if (d.id !== evId) batch.push(updateDoc(doc(db, 'eventos', d.id), { destaqueData: null }));
-    });
-    await Promise.all(batch);
-    // Fixa o novo
-    await updateDoc(doc(db, 'eventos', evId), { destaqueData: dateVal });
-    toast('✅ Destaque fixado! Lembre de Publicar Eventos.', 'ok');
-    loadDestaqueTab();
-  } catch(e) {
-    toast('Erro: ' + e.message, 'err');
-  }
-};
-
-window.clearDestaque = async function(evId) {
-  if (!confirm('Remover o destaque? O app voltará à lógica automática.')) return;
-  try {
-    await updateDoc(doc(db, 'eventos', evId), { destaqueData: null });
-    toast('🗑️ Destaque removido! Lembre de Publicar Eventos.', 'ok');
-    loadDestaqueTab();
-  } catch(e) {
-    toast('Erro: ' + e.message, 'err');
-  }
+  _dsmSelectedEv = evId;
+  await dsmConfirmarFix(dateVal);
 };
 
 // ── EMOJI ────────────────────────────────────────────
