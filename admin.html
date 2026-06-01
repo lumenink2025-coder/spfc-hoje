@@ -159,6 +159,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
     <button class="admin-tab" onclick="showTab('wordle',this);loadWordle()">🔤 WORDLE</button>
     <button class="admin-tab" onclick="showTab('relatos',this);loadRelatos()">⚠️ RELATOS</button>
     <button class="admin-tab" onclick="showTab('destaque',this);loadDestaqueTab()">⭐ DESTAQUE</button>
+    <button class="admin-tab" onclick="showTab('palpite',this);loadPalpiteAdmin()">⚽ PALPITÔMETRO</button>
   </div>
 
   <!-- TAB: NOVO EVENTO -->
@@ -556,6 +557,45 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
     </div>
   </div>
 
+  <!-- TAB: PALPITÔMETRO ADMIN -->
+  <div id="tab-palpite" style="display:none">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;margin-bottom:20px">⚽ PROCESSAR RESULTADO</div>
+
+    <!-- Palpites pendentes -->
+    <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px;margin-bottom:16px">
+      <div style="font-size:11px;letter-spacing:3px;color:var(--txt3);margin-bottom:16px">PALPITES PENDENTES (SEM RESULTADO)</div>
+      <div id="palpitesPendentesInfo" style="font-size:13px;color:var(--txt2);margin-bottom:16px">Carregando...</div>
+    </div>
+
+    <!-- Formulário de resultado manual -->
+    <div style="background:var(--bg2);border:1px solid rgba(204,0,0,.3);border-radius:12px;padding:20px;margin-bottom:16px">
+      <div style="font-size:11px;letter-spacing:3px;color:var(--txt3);margin-bottom:16px">INSERIR RESULTADO MANUALMENTE</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div class="form-group">
+          <label class="form-label">Gols São Paulo</label>
+          <input type="number" id="palGolsSP" min="0" max="20" value="0" class="form-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gols Adversário</label>
+          <input type="number" id="palGolsAdv" min="0" max="20" value="0" class="form-input">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:16px">
+        <label class="form-label">Match ID (TheSportsDB) — deixe vazio para processar todos pendentes</label>
+        <input type="text" id="palMatchId" placeholder="ex: 1234567" class="form-input">
+      </div>
+      <button onclick="processarResultadoManual()" style="width:100%;padding:14px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:2px;font-family:'Bebas Neue',sans-serif">
+        ⚡ PROCESSAR RESULTADO AGORA
+      </button>
+    </div>
+
+    <!-- Histórico de jogos processados -->
+    <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px">
+      <div style="font-size:11px;letter-spacing:3px;color:var(--txt3);margin-bottom:12px">HISTÓRICO DE JOGOS</div>
+      <div id="palpiteHistorico" style="font-size:13px;color:var(--txt2)">Carregando...</div>
+    </div>
+  </div>
+
   <!-- TAB: MIGRAR -->
   <div id="tab-migrate" style="display:none">
     <div class="migrate-card">
@@ -584,7 +624,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, where, orderBy, writeBatch, updateDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, where, orderBy, writeBatch, updateDoc, setDoc, getDoc, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, inMemoryPersistence, setPersistence } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -676,21 +716,28 @@ window.showTab = function(tab, btn) {
   if (tab === 'wordle') loadWordle();
   if (tab === 'relatos') loadRelatos();
   if (tab === 'destaque') loadDestaqueTab();
+  if (tab === 'palpite') loadPalpiteAdmin();
 };
 
 // ── ABA DESTAQUE ──────────────────────────────────────
 // O destaque agora é salvo direto no Firestore em cada evento (campo destaqueData)
 // e propagado via eventos.json ao publicar. Zero leitura extra no app.
 
+// Data local no formato YYYY-MM-DD (evita bug UTC/timezone)
+function localDateStr(d) {
+  d = d || new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
 window.loadDestaqueTab = async function() {
-  const today = new Date().toISOString().slice(0,10);
+  const today = localDateStr();
   const dateInput = document.getElementById('destaqueDate');
   if (dateInput && !dateInput.value) dateInput.value = today;
 
   // Mostra destaque atual buscando no Firestore pelo campo destaqueData = hoje
   const el = document.getElementById('destaqueAtualContent');
   try {
-    const todayStr = new Date().toISOString().slice(0,10);
+    const todayStr = localDateStr();
     const q = query(collection(db, 'eventos'), where('destaqueData', '==', todayStr));
     const snap = await getDocs(q);
     if (!snap.empty) {
@@ -721,7 +768,7 @@ window.buscarEventosDia = async function(mode) {
 
   let dateVal;
   if (mode === 'hoje') {
-    dateVal = new Date().toISOString().slice(0,10);
+    dateVal = localDateStr();
     document.getElementById('destaqueDate').value = dateVal;
   } else {
     dateVal = document.getElementById('destaqueDate').value;
@@ -1614,6 +1661,124 @@ window.excluirRelato = async function(id) {
     loadRelatos();
   } catch(e) {
     toast('Erro: ' + e.message, 'err');
+  }
+};
+
+// ── PALPITÔMETRO ADMIN ────────────────────────────
+window.loadPalpiteAdmin = async function() {
+  // Carrega palpites pendentes
+  const infoEl = document.getElementById('palpitesPendentesInfo');
+  const histEl = document.getElementById('palpiteHistorico');
+  try {
+    const qPend = query(collection(db, 'palpitometroPalpites'), where('pontos', '==', null));
+    const snapPend = await getDocs(qPend);
+    const pendentes = [];
+    snapPend.forEach(d => pendentes.push({ id: d.id, ...d.data() }));
+
+    if (!pendentes.length) {
+      infoEl.innerHTML = '<span style="color:var(--green)">✅ Nenhum palpite pendente.</span>';
+    } else {
+      // Agrupa por matchId
+      const porJogo = {};
+      pendentes.forEach(p => {
+        if (!porJogo[p.matchId]) porJogo[p.matchId] = [];
+        porJogo[p.matchId].push(p);
+      });
+      infoEl.innerHTML = Object.entries(porJogo).map(([mid, pals]) =>
+        `<div style="background:rgba(204,0,0,.08);border:1px solid rgba(204,0,0,.2);border-radius:8px;padding:12px;margin-bottom:8px">
+          <div style="font-weight:600;color:var(--txt);margin-bottom:4px">Match ID: <code style="color:var(--red)">${mid}</code></div>
+          <div style="font-size:12px;color:var(--txt3)">${pals.length} palpite(s) pendente(s): ${pals.map(p=>p.displayName||p.userId).join(', ')}</div>
+          <button onclick="document.getElementById('palMatchId').value='${mid}'" style="margin-top:8px;padding:5px 12px;background:transparent;border:1px solid var(--border2);color:var(--txt2);border-radius:6px;font-size:11px;cursor:pointer">Usar este ID</button>
+        </div>`
+      ).join('');
+    }
+
+    // Histórico de jogos processados
+    const qHist = query(collection(db, 'palpitometroJogos'), orderBy('processadoEm', 'desc'));
+    const snapHist = await getDocs(qHist).catch(()=>null);
+    if (!snapHist || snapHist.empty) {
+      histEl.innerHTML = '<span style="color:var(--txt3)">Nenhum jogo processado ainda.</span>';
+    } else {
+      histEl.innerHTML = snapHist.docs.map(d => {
+        const j = d.data();
+        const cor = j.resultado === 'vitoria' ? 'var(--green)' : j.resultado === 'empate' ? 'var(--yellow)' : '#ef4444';
+        const status = j.processado ? '✅' : '⏳';
+        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+          <div>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:${cor}">${j.golsSpfc} × ${j.golsAdv ?? j.golsOpp}</span>
+            <span style="font-size:11px;color:var(--txt3);margin-left:8px">${j.resultado?.toUpperCase()||''}</span>
+          </div>
+          <div style="font-size:11px;color:var(--txt3)">${status} ID: ${j.matchId}</div>
+        </div>`;
+      }).join('');
+    }
+  } catch(e) {
+    infoEl.innerHTML = `<span style="color:#ef4444">Erro: ${e.message}</span>`;
+  }
+};
+
+window.processarResultadoManual = async function() {
+  const golsSP  = parseInt(document.getElementById('palGolsSP').value)  || 0;
+  const golsAdv = parseInt(document.getElementById('palGolsAdv').value) || 0;
+  const matchIdInput = document.getElementById('palMatchId').value.trim();
+
+  if (!confirm(`Processar: São Paulo ${golsSP} × ${golsAdv} Adversário?`)) return;
+
+  try {
+    toast('⏳ Processando...', 'ok');
+
+    const resultado = golsSP > golsAdv ? 'vitoria' : golsSP === golsAdv ? 'empate' : 'derrota';
+    const ptsBase   = resultado === 'vitoria' ? 10 : resultado === 'empate' ? 5 : 0;
+
+    // Busca palpites pendentes — filtra por matchId se fornecido
+    let qPend = matchIdInput
+      ? query(collection(db, 'palpitometroPalpites'), where('matchId','==', matchIdInput), where('pontos','==',null))
+      : query(collection(db, 'palpitometroPalpites'), where('pontos','==', null));
+
+    const snapPend = await getDocs(qPend);
+    if (snapPend.empty) { toast('Nenhum palpite pendente encontrado.', 'ok'); return; }
+
+    const batch = writeBatch(db);
+    let count = 0;
+
+    snapPend.forEach(d => {
+      const p = d.data();
+      const acertouResultado = p.resultado === resultado;
+      const acertouPlacar    = p.golsSpfc === golsSP && p.golsOpp === golsAdv;
+      let pontos = 0;
+      if (acertouResultado) pontos += ptsBase;
+      if (acertouPlacar)    pontos += 50;
+
+      batch.update(d.ref, { pontos, placareExato: acertouPlacar, resultado_final: resultado });
+
+      const rankRef = doc(db, 'ranking', p.userId);
+      batch.set(rankRef, {
+        totalPontos:   increment(pontos),
+        totalPalpites: increment(1),
+        totalAcertos:  increment(acertouResultado ? 1 : 0),
+        totalErros:    increment(acertouResultado ? 0 : 1),
+        placareExatos: increment(acertouPlacar ? 1 : 0),
+        pontosMes:     increment(pontos),
+        displayName:   p.displayName || p.userId,
+        photoURL:      p.photoURL || ''
+      }, { merge: true });
+      count++;
+    });
+
+    // Marca o jogo como processado
+    const mid = matchIdInput || snapPend.docs[0].data().matchId;
+    const jogoRef = doc(db, 'palpitometroJogos', String(mid));
+    batch.set(jogoRef, {
+      matchId: String(mid), golsSpfc: golsSP, golsAdv, resultado,
+      processado: true, processadoEm: serverTimestamp()
+    }, { merge: true });
+
+    await batch.commit();
+    toast(`✅ ${count} palpite(s) processado(s)! Resultado: ${resultado.toUpperCase()}`, 'ok');
+    loadPalpiteAdmin();
+
+  } catch(e) {
+    toast('❌ Erro: ' + e.message, 'err');
   }
 };
 

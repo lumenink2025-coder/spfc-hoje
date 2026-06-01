@@ -3400,7 +3400,8 @@ async function renderDestaque() {
 
   // Verifica se há destaque fixado no JSON (campo destaqueData = hoje)
   let best = null;
-  const todayFull = new Date().toISOString().slice(0,10); // "2026-05-31"
+  // Usa data local (não UTC) para evitar bug de timezone no Brasil (UTC-3)
+  const todayFull = `${TODAY_Y}-${String(TODAY_M).padStart(2,'0')}-${String(TODAY_D).padStart(2,'0')}`;
 
   try {
     // Busca em TODOS os eventos carregados (o destaque pode ser de qualquer data histórica)
