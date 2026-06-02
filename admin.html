@@ -1857,36 +1857,34 @@ async function loadWordle() {
 
     list.innerHTML = jogadores.map(j => {
       const hasFoto = !!j.foto;
-      const avatarHtml = hasFoto
-        ? \`<img src="${j.foto}" alt="${j.nome}" style="width:56px;height:56px;object-fit:cover;border-radius:50%;border:2px solid var(--red);flex-shrink:0;background:var(--bg3)" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">\`
+      const fotoTag = hasFoto
+        ? '<img src="' + j.foto + '" alt="' + j.nome + '" style="width:56px;height:56px;object-fit:cover;border-radius:50%;border:2px solid var(--red);flex-shrink:0;background:var(--bg3)" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
         : '';
-      const emojiFallback = \`<div style="width:56px;height:56px;border-radius:50%;background:var(--bg3);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0${hasFoto ? ';display:none' : ''}">${j.emoji || '⚽'}</div>\`;
-      return \`
-      <div class="w-item" style="align-items:center;gap:14px">
-        <div style="position:relative;flex-shrink:0">
-          ${avatarHtml}
-          ${emojiFallback}
-          ${hasFoto ? '' : ''}
-        </div>
-        <div class="w-item-info" style="min-width:0">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
-            <div class="w-item-name" style="margin-bottom:0">${j.nome}</div>
-            ${j.idolo ? '<span style="font-size:10px;background:rgba(204,0,0,.15);color:var(--red);border:1px solid rgba(204,0,0,.3);padding:1px 7px;border-radius:3px;letter-spacing:1px">ÍDOLO</span>' : ''}
-            ${!hasFoto ? '<span style="font-size:10px;background:rgba(245,158,11,.12);color:#f59e0b;border:1px solid rgba(245,158,11,.3);padding:1px 7px;border-radius:3px;letter-spacing:1px">SEM FOTO</span>' : '<span style="font-size:10px;background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.3);padding:1px 7px;border-radius:3px;letter-spacing:1px">📷 COM FOTO</span>'}
-          </div>
-          <div class="w-item-meta">
-            ${j.posicao} · ${j.pais} · ${j.decada}s · ${j.periodo}<br>
-            ⚽ ${j.gols} gols · 🎮 ${j.jogos} jogos · 🏆 ${j.titulos} títulos<br>
-            ${j.selecao ? '🇧🇷 Seleção' : '🚫 Sem seleção'} · ${j.revelado ? '✅ Revelado' : '➡️ Contratado'}
-          </div>
-          ${j.desc ? \`<div style="font-size:11px;color:var(--txt3);margin-top:5px;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${j.desc}</div>\` : ''}
-        </div>
-        <div class="w-item-actions" style="flex-direction:column;gap:6px">
-          <button class="ev-btn" onclick="editWordle('${j.id}')">✏️</button>
-          <button class="ev-btn del" onclick="deleteWordle('${j.id}', this)">🗑️</button>
-        </div>
-      </div>
-      \`;
+      const emojiDisplay = hasFoto ? 'none' : 'flex';
+      const emojiFallback = '<div style="width:56px;height:56px;border-radius:50%;background:var(--bg3);border:2px solid var(--border2);display:' + emojiDisplay + ';align-items:center;justify-content:center;font-size:26px;flex-shrink:0">' + (j.emoji || '⚽') + '</div>';
+      const idoloBadge = j.idolo ? '<span style="font-size:10px;background:rgba(204,0,0,.15);color:var(--red);border:1px solid rgba(204,0,0,.3);padding:1px 7px;border-radius:3px;letter-spacing:1px">ÍDOLO</span>' : '';
+      const fotoBadge = hasFoto
+        ? '<span style="font-size:10px;background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.3);padding:1px 7px;border-radius:3px;letter-spacing:1px">📷 COM FOTO</span>'
+        : '<span style="font-size:10px;background:rgba(245,158,11,.12);color:#f59e0b;border:1px solid rgba(245,158,11,.3);padding:1px 7px;border-radius:3px;letter-spacing:1px">SEM FOTO</span>';
+      const descHtml = j.desc ? '<div style="font-size:11px;color:var(--txt3);margin-top:5px;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + j.desc + '</div>' : '';
+      return '<div class="w-item" style="align-items:center;gap:14px">'
+        + '<div style="position:relative;flex-shrink:0">' + fotoTag + emojiFallback + '</div>'
+        + '<div class="w-item-info" style="min-width:0">'
+        + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">'
+        + '<div class="w-item-name" style="margin-bottom:0">' + j.nome + '</div>'
+        + idoloBadge + fotoBadge
+        + '</div>'
+        + '<div class="w-item-meta">'
+        + j.posicao + ' · ' + j.pais + ' · ' + j.decada + 's · ' + j.periodo + '<br>'
+        + '⚽ ' + j.gols + ' gols · 🎮 ' + j.jogos + ' jogos · 🏆 ' + j.titulos + ' títulos<br>'
+        + (j.selecao ? '🇧🇷 Seleção' : '🚫 Sem seleção') + ' · ' + (j.revelado ? '✅ Revelado' : '➡️ Contratado')
+        + '</div>'
+        + descHtml
+        + '</div>'
+        + '<div class="w-item-actions" style="flex-direction:column;gap:6px">'
+        + '<button class="ev-btn" onclick="editWordle(\'' + j.id + '\')">✏️</button>'
+        + '<button class="ev-btn del" onclick="deleteWordle(\'' + j.id + '\', this)">🗑️</button>'
+        + '</div></div>';
     }).join('');
   } catch(e) {
     list.innerHTML = `<div class="loading-msg">Erro: ${e.message}</div>`;
