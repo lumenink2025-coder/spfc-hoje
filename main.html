@@ -3447,6 +3447,9 @@ async function loadOrUpdateStreak(db, doc, setDoc, uid) {
             }
           } catch(e) { /* ranking fetch optional */ }
 
+          // Hub já carregou — atualiza com dados reais do usuário agora disponíveis
+          if (typeof fillHubUserData === 'function') fillHubUserData();
+
         } catch(e) {
           if (nameEl) nameEl.textContent = '?';
           if (avatarEl) avatarEl.textContent = '?';
@@ -4236,7 +4239,8 @@ async function fillHubUserData(){
     if(elws) elws.textContent = ws;
   } catch(e) {}
 
-  // streak do quiz — lê do Firestore cache (_cachedUserData) ou localStorage (spfc_quiz_state)
+  // streak do quiz — vem do Firestore via _cachedUserData.data.streak
+  // ou fallback para localStorage spfc_quiz_state
   try {
     let quizStreak = 0;
     const cached = window._cachedUserData;
@@ -4311,20 +4315,8 @@ async function initHub(){
   });
 }
 
-(function waitForAuth() {
-  if (window._cachedUserData) {
-    initHub();
-  } else {
-    let attempts = 0;
-    const iv = setInterval(() => {
-      attempts++;
-      if (window._cachedUserData || attempts > 80) {
-        clearInterval(iv);
-        initHub();
-      }
-    }, 100);
-  }
-})();
+// initHub roda imediatamente; fillHubUserData será re-chamado após login
+setTimeout(initHub, 300);
 
 
 </script>
