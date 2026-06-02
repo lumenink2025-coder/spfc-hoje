@@ -4305,7 +4305,22 @@ async function initHub(){
   });
 }
 
-setTimeout(initHub, 500);
+// Aguarda o Firebase/auth estar pronto antes de inicializar o hub
+(function waitForAuth() {
+  if (window._cachedUserData) {
+    initHub();
+  } else {
+    // Tenta por até 8s em intervalos curtos
+    let attempts = 0;
+    const iv = setInterval(() => {
+      attempts++;
+      if (window._cachedUserData || attempts > 80) {
+        clearInterval(iv);
+        initHub();
+      }
+    }, 100);
+  }
+})();
 
 
 </script>
