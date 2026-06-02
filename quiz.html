@@ -1596,33 +1596,181 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       </div>
     </div>
 
-    <!-- SEXTA TEMÁTICA — full width, abaixo dos dois cards -->
-    <div id="sextaTematicaCard" style="width:100%;border-radius:16px;overflow:hidden;position:relative;min-height:130px;border:1px solid rgba(200,168,75,.35);box-shadow:0 4px 24px rgba(139,0,0,.3)">
-      <!-- Imagem de fundo do tema (preenchida via JS com data.imagem) -->
-      <div id="sextaTematicaBg" style="position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;"></div>
-      <!-- Overlay vermelho rubro (fica sobre a imagem) -->
-      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(100,0,0,.80) 0%,rgba(60,0,0,.88) 100%)"></div>
-      <!-- Padrão decorativo sutil -->
-      <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 80% 50%,rgba(200,168,75,.08) 0%,transparent 60%)"></div>
-      <!-- Linha dourada no topo -->
-      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
-      <!-- Conteúdo em linha horizontal -->
-      <div style="position:relative;z-index:2;padding:14px 16px;display:flex;align-items:center;gap:14px">
-        <!-- Ícone/emoji -->
-        <div style="flex-shrink:0;width:48px;height:48px;border-radius:12px;background:rgba(200,168,75,.15);border:1px solid rgba(200,168,75,.3);display:flex;align-items:center;justify-content:center;font-size:24px" id="sextaTematicaEmoji">🔥</div>
-        <!-- Textos -->
-        <div style="flex:1;min-width:0">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px">
-            <div style="font-family:var(--font-t);font-size:15px;letter-spacing:2px;color:#fff">SEXTA TEMÁTICA</div>
-            <div style="background:var(--gold);color:#000;font-size:8px;font-weight:800;padding:2px 7px;border-radius:20px;letter-spacing:1px;white-space:nowrap">1.5×</div>
+    <!-- SEXTA TEMÁTICA — Riot Games level card -->
+    <div id="sextaTematicaCard" style="width:100%;border-radius:12px;overflow:hidden;position:relative;min-height:160px;cursor:pointer" onclick="document.getElementById('sextaTematicaBtn').click()">
+
+      <!-- CSS do card -->
+      <style>
+        #sextaTematicaCard { isolation: isolate; }
+        #sextaTematicaBg {
+          position:absolute;inset:0;
+          background-size:cover;background-position:center top;
+          transform:scale(1.08);
+          transition:transform 6s ease;
+        }
+        #sextaTematicaCard:hover #sextaTematicaBg { transform:scale(1.13); }
+
+        /* Camadas de overlay */
+        .st-overlay-dark {
+          position:absolute;inset:0;
+          background: linear-gradient(105deg,
+            rgba(0,0,0,.92) 0%,
+            rgba(10,0,0,.78) 40%,
+            rgba(0,0,0,.18) 100%);
+        }
+        .st-overlay-red {
+          position:absolute;inset:0;
+          background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(139,0,0,.35) 60%,
+            rgba(80,0,0,.7) 100%);
+        }
+        .st-scanlines {
+          position:absolute;inset:0;
+          background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.08) 2px,rgba(0,0,0,.08) 4px);
+          pointer-events:none;
+        }
+
+        /* Borda animada dourada */
+        #sextaTematicaCard::before {
+          content:'';position:absolute;inset:0;border-radius:12px;
+          background: linear-gradient(120deg, transparent 30%, rgba(200,168,75,.6) 50%, transparent 70%);
+          background-size: 200% 100%;
+          animation: st-shimmer 4s linear infinite;
+          z-index:5;pointer-events:none;
+        }
+        #sextaTematicaCard::after {
+          content:'';position:absolute;inset:0;border-radius:12px;
+          box-shadow: inset 0 0 0 1px rgba(200,168,75,.4), 0 8px 40px rgba(139,0,0,.5);
+          z-index:5;pointer-events:none;
+        }
+        @keyframes st-shimmer {
+          0%   { background-position: -100% 0; }
+          100% { background-position: 200% 0; }
+        }
+
+        /* Partículas de luz */
+        .st-particle {
+          position:absolute;width:2px;height:2px;border-radius:50%;
+          background:rgba(200,168,75,.8);
+          animation: st-float linear infinite;
+          pointer-events:none;
+        }
+        @keyframes st-float {
+          0%   { transform:translateY(0) translateX(0) scale(1); opacity:0; }
+          20%  { opacity:1; }
+          80%  { opacity:.6; }
+          100% { transform:translateY(-80px) translateX(20px) scale(0); opacity:0; }
+        }
+
+        /* Badge XP */
+        .st-badge {
+          display:inline-flex;align-items:center;gap:4px;
+          background:linear-gradient(135deg,#C8A84B,#E2C97E);
+          color:#000;font-size:9px;font-weight:900;
+          padding:3px 8px;border-radius:2px;
+          letter-spacing:1.5px;font-family:var(--font-t);
+          box-shadow:0 2px 8px rgba(200,168,75,.5);
+          white-space:nowrap;
+        }
+
+        /* Linha divisória dourada animada */
+        .st-divider {
+          width:0;height:1px;
+          background:linear-gradient(90deg,rgba(200,168,75,.8),transparent);
+          animation: st-expand .8s .3s ease forwards;
+          margin-bottom:6px;
+        }
+        @keyframes st-expand { to { width: 120px; } }
+
+        /* Botão estilo Riot */
+        #sextaTematicaBtn {
+          position:relative;overflow:hidden;
+          background:linear-gradient(135deg,rgba(200,168,75,.15),rgba(200,168,75,.05));
+          color:rgba(255,255,255,.4);
+          border:1px solid rgba(200,168,75,.25);
+          padding:10px 16px;
+          font-family:var(--font-t);font-size:12px;letter-spacing:2px;
+          cursor:default;border-radius:3px;white-space:nowrap;
+          transition:all .3s;
+          clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+        }
+        #sextaTematicaBtn.active {
+          background:linear-gradient(135deg,#C8A84B,#a07830);
+          color:#000;cursor:pointer;
+          box-shadow:0 0 20px rgba(200,168,75,.4);
+          color:#000;font-weight:700;
+        }
+        #sextaTematicaBtn.active::before {
+          content:'';position:absolute;inset:0;
+          background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+          transform:translateX(-100%);
+          animation: st-btn-shine 2s 1s ease infinite;
+        }
+        @keyframes st-btn-shine {
+          0%   { transform:translateX(-100%); }
+          100% { transform:translateX(200%); }
+        }
+
+        /* Label evento ao vivo */
+        .st-live-dot {
+          width:6px;height:6px;border-radius:50%;
+          background:#ef4444;
+          box-shadow:0 0 6px #ef4444;
+          animation:st-pulse 1.5s ease infinite;
+          display:inline-block;margin-right:5px;
+        }
+        @keyframes st-pulse {
+          0%,100%{transform:scale(1);opacity:1}
+          50%{transform:scale(1.4);opacity:.7}
+        }
+      </style>
+
+      <!-- Imagem de fundo -->
+      <div id="sextaTematicaBg"></div>
+
+      <!-- Overlays -->
+      <div class="st-overlay-dark"></div>
+      <div class="st-overlay-red"></div>
+      <div class="st-scanlines"></div>
+
+      <!-- Partículas decorativas -->
+      <div class="st-particle" style="bottom:20%;left:55%;animation-duration:3s;animation-delay:0s"></div>
+      <div class="st-particle" style="bottom:10%;left:65%;animation-duration:4s;animation-delay:1s"></div>
+      <div class="st-particle" style="bottom:30%;left:72%;animation-duration:3.5s;animation-delay:.5s"></div>
+
+      <!-- Conteúdo -->
+      <div style="position:relative;z-index:10;padding:18px 16px;display:flex;flex-direction:column;justify-content:space-between;min-height:160px">
+
+        <!-- Topo: label evento -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div style="display:flex;align-items:center;font-size:9px;color:rgba(255,255,255,.5);letter-spacing:2px;font-family:var(--font-u);text-transform:uppercase">
+            <span class="st-live-dot"></span>EVENTO SEMANAL
           </div>
-          <div id="sextaTematicaTheme" style="font-size:9px;color:rgba(255,255,255,.6);letter-spacing:1.5px;font-family:var(--font-u);margin-bottom:4px">TEMA EM BREVE</div>
-          <div id="sextaTematicaStatus" style="font-size:10px;color:rgba(255,255,255,.5)">🗓 Carregando...</div>
+          <div class="st-badge">✦ 1.5× XP</div>
         </div>
-        <!-- Botão -->
-        <button id="sextaTematicaBtn" onclick="goScreenTematico()" disabled style="flex-shrink:0;background:rgba(255,255,255,.08);color:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.1);padding:10px 14px;font-family:var(--font-t);font-size:12px;letter-spacing:1.5px;cursor:default;border-radius:10px;white-space:nowrap">
-          EM BREVE
-        </button>
+
+        <!-- Centro: título principal -->
+        <div style="flex:1">
+          <div style="font-family:var(--font-t);font-size:28px;letter-spacing:3px;color:#fff;line-height:1;text-shadow:0 0 30px rgba(200,168,75,.3);margin-bottom:4px">
+            SEXTA TEMÁTICA
+          </div>
+          <div class="st-divider"></div>
+          <div id="sextaTematicaTheme" style="font-family:var(--font-u);font-size:11px;color:rgba(200,168,75,.9);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">
+            TEMA EM BREVE
+          </div>
+          <div id="sextaTematicaStatus" style="font-size:11px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:6px">
+            🗓 Carregando...
+          </div>
+        </div>
+
+        <!-- Rodapé: botão + emoji -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px">
+          <div id="sextaTematicaEmoji" style="font-size:28px;filter:drop-shadow(0 0 12px rgba(200,168,75,.5))">🔥</div>
+          <button id="sextaTematicaBtn" onclick="goScreenTematico()" disabled>
+            EM BREVE
+          </button>
+        </div>
       </div>
     </div>
 
@@ -5535,7 +5683,7 @@ async function initSextaTematicaCard() {
     } else {
       // Sexta e não jogou — totalmente disponível
       if (statusEl) statusEl.innerHTML = `<span style="font-size:11px;color:var(--gold)">⚡ Disponível hoje! · 1 chance · Badge exclusiva</span>`;
-      if (btn) { btn.disabled = false; btn.textContent = 'ENTRAR NO DESAFIO →'; btn.style.background = 'var(--gold)'; btn.style.color = '#000'; btn.style.border = 'none'; btn.style.cursor = 'pointer'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'ENTRAR NO DESAFIO →'; btn.classList.add('active'); btn.style.cursor = 'pointer'; }
     }
   } else {
     // JSON não disponível ainda — mostra card no estado "em breve"
