@@ -1,20 +1,22 @@
 [
   {
     "id": "08TPv8f80Fk5OrLGlBAx",
+    "l": 6,
+    "createdAt": "2026-05-17T00:14:27.853Z",
+    "h": "Um recorde mundial absoluto para um goleiro.",
     "o": [
       "131",
       "129",
       "135",
       "127"
     ],
-    "h": "Um recorde mundial absoluto para um goleiro.",
-    "createdAt": "2026-05-17T00:14:27.853Z",
-    "l": 6,
-    "q": "Qual é o número exato de gols que Rogério Ceni marcou pelo São Paulo ao longo de sua carreira?",
-    "c": 0
+    "c": 0,
+    "q": "Qual é o número exato de gols que Rogério Ceni marcou pelo São Paulo ao longo de sua carreira?"
   },
   {
     "id": "0USDuHBBBqN6Nn1bAV2x",
+    "c": 0,
+    "q": "Qual é a data de fundação do São Paulo FC?",
     "h": "A data coincide com o aniversário da cidade de São Paulo.",
     "o": [
       "25 de janeiro de 1930",
@@ -22,57 +24,58 @@
       "25 de março de 1930",
       "1º de maio de 1930"
     ],
-    "createdAt": "2026-05-17T00:14:27.849Z",
     "l": 1,
-    "q": "Qual é a data de fundação do São Paulo FC?",
-    "c": 0
+    "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "0Xix1mV8K3cPVn5RkLlP",
-    "q": "Quantas Copas Libertadores o São Paulo conquistou?",
-    "c": 0,
+    "l": 1,
     "createdAt": "2026-05-17T00:14:27.849Z",
-    "h": "O clube conquistou o torneio nos anos 90 e 2000.",
+    "c": 0,
+    "q": "Quantas Copas Libertadores o São Paulo conquistou?",
     "o": [
       "3",
       "2",
       "1",
       "4"
     ],
-    "l": 1
+    "h": "O clube conquistou o torneio nos anos 90 e 2000."
   },
   {
     "id": "0aWD43znjDO4jvdUL6Dj",
-    "q": "Qual dirigente é considerado o principal idealizador do Estádio do Morumbi?",
-    "c": 0,
+    "updatedAt": "2026-05-17T03:35:51.339Z",
     "createdAt": "2026-05-17T03:35:51.339Z",
+    "l": 2,
+    "h": "Um grande homem e uma grande homenagem",
     "o": [
       "Cicero Pompeu de Toledo",
       "Laudo Natel",
       "Porfirio da Paz",
       "Juvenal Juvêncio"
     ],
-    "h": "Um grande homem e uma grande homenagem",
-    "l": 2,
-    "updatedAt": "2026-05-17T03:35:51.339Z"
+    "q": "Qual dirigente é considerado o principal idealizador do Estádio do Morumbi?",
+    "c": 0
   },
   {
     "id": "0ejp7xZ6Ii4E9IL5dfIX",
-    "c": 3,
-    "q": "Em que ano o São Paulo FC conquistou a Supercopa do Brasil (Supercopa Rei)?",
-    "l": 2,
     "updatedAt": "2026-05-17T01:33:22.495Z",
     "createdAt": "2026-05-17T01:33:22.495Z",
-    "h": "O freguês sempre tem a razão.",
+    "l": 2,
+    "q": "Em que ano o São Paulo FC conquistou a Supercopa do Brasil (Supercopa Rei)?",
+    "c": 3,
     "o": [
       "2023",
       "2022",
       "1999",
       "2024"
-    ]
+    ],
+    "h": "O freguês sempre tem a razão."
   },
   {
     "id": "0on6PYQnm1LTWtKn5V0n",
+    "createdAt": "2026-05-17T00:14:27.852Z",
+    "updatedAt": "2026-05-17T00:33:51.279Z",
+    "l": 4,
     "h": "O título foi confirmado no início do mês 3 de 1977 — confira o calendário.",
     "o": [
       "Março de 1977",
@@ -80,14 +83,28 @@
       "Setembro de 1977",
       "Janeiro de 1978"
     ],
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "l": 4,
-    "updatedAt": "2026-05-17T00:33:51.279Z",
-    "q": "Em que mês o São Paulo conquistou o Campeonato Brasileiro de 1977?",
-    "c": 0
+    "c": 0,
+    "q": "Em que mês o São Paulo conquistou o Campeonato Brasileiro de 1977?"
+  },
+  {
+    "id": "11Rr4aBNnmSAsv2IyX73",
+    "c": 0,
+    "o": [
+      "Troféu Ramón de Carranza",
+      "Troféu Santiago Bernabéu",
+      "Troféu Joan Gamper",
+      "Troféu Teresa Herrera"
+    ],
+    "updatedAt": "2026-06-02T02:01:13.910Z",
+    "q": "O São Paulo venceu o Real Madrid em 1992 por 4 a 1 em\num torneio amistoso na Espanha. Qual era o nome desse torneio?",
+    "l": 3,
+    "h": "Um dos torneios de verão mais tradicionais da Espanha.",
+    "createdAt": "2026-06-02T02:01:13.910Z"
   },
   {
     "id": "15ouzWk170dm7Mn4LdHR",
+    "l": 4,
+    "updatedAt": "2026-05-17T01:58:45.938Z",
     "createdAt": "2026-05-17T01:58:45.938Z",
     "o": [
       "Um jogador do SPFC marcou na final de 1958",
@@ -96,16 +113,26 @@
       "Nenhum jogador ligado ao SPFC marcou gol em final de Copa do Mundo"
     ],
     "h": "Todas as vezes que a seleção brasileira ganhou a Copa, tinha ao menos um jogador do SPFC.",
-    "updatedAt": "2026-05-17T01:58:45.938Z",
-    "l": 4,
     "q": "Qual destas afirmações sobre jogadores do São Paulo Futebol Clube em finais de Copa do Mundo é verdadeira?",
     "c": 3
   },
   {
-    "id": "1IPbHoYqIO3I8vQcfkiK",
+    "id": "1G2JAi3mZLFxIawfnN4R",
+    "createdAt": "2026-06-02T01:25:05.142Z",
+    "updatedAt": "2026-06-02T01:25:05.142Z",
+    "o": [
+      "King",
+      "Picasso",
+      "Poy",
+      "Zarzur"
+    ],
+    "h": "Seu nome artístico é curto e imponente, remetendo à realeza.",
     "c": 0,
-    "q": "Quantos Mundiais de Clubes o São Paulo conquistou?",
     "l": 1,
+    "q": "Quem foi o goleiro titular do São Paulo no jogo histórico\ncontra o Palmeiras em 1943, o ano em que a ‘moeda caiu em pé’?"
+  },
+  {
+    "id": "1IPbHoYqIO3I8vQcfkiK",
     "h": "O SPFC é o maior campeão mundial do Brasil.",
     "o": [
       "3",
@@ -113,12 +140,15 @@
       "1",
       "4"
     ],
+    "q": "Quantos Mundiais de Clubes o São Paulo conquistou?",
+    "c": 0,
+    "l": 1,
     "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "1TCGbkduqh6GvISBnCwp",
-    "q": "Kaká foi revelado pelo São Paulo. Em que ano estreou pelo clube?",
-    "c": 0,
+    "l": 2,
+    "createdAt": "2026-05-17T00:14:27.850Z",
     "o": [
       "2001",
       "1999",
@@ -126,13 +156,11 @@
       "2000"
     ],
     "h": "Ele fez sua estreia quando era ainda muito jovem.",
-    "createdAt": "2026-05-17T00:14:27.850Z",
-    "l": 2
+    "c": 0,
+    "q": "Kaká foi revelado pelo São Paulo. Em que ano estreou pelo clube?"
   },
   {
     "id": "1TRvSa1WIJp3GPihKo7z",
-    "q": "Em qual cidade foi disputado o Mundial de 2005 onde o São Paulo venceu o Liverpool?",
-    "c": 0,
     "o": [
       "Yokohama",
       "Tóquio",
@@ -140,14 +168,31 @@
       "Abu Dhabi"
     ],
     "h": "A final foi disputada no Japão.",
-    "createdAt": "2026-05-17T00:14:27.850Z",
-    "l": 3
+    "q": "Em qual cidade foi disputado o Mundial de 2005 onde o São Paulo venceu o Liverpool?",
+    "c": 0,
+    "l": 3,
+    "createdAt": "2026-05-17T00:14:27.850Z"
+  },
+  {
+    "id": "1qooiN8qEFNQYyp5IAYF",
+    "h": "Um uruguaio que também teve passagens marcantes por outros grandes clubes paulistas.",
+    "l": 5,
+    "o": [
+      "Ramon Platero",
+      "Jim Lopes",
+      "Béla Guttmann",
+      "Eugenio Medgyessy"
+    ],
+    "q": "Qual foi o primeiro técnico estrangeiro da história do São\nPaulo FC, logo em 1930?",
+    "updatedAt": "2026-06-02T02:21:42.224Z",
+    "c": 0,
+    "createdAt": "2026-06-02T02:21:42.224Z"
   },
   {
     "id": "1z2MYYLgu74QW3N57H8j",
     "l": 2,
-    "updatedAt": "2026-05-17T00:26:30.509Z",
     "createdAt": "2026-05-17T00:14:27.850Z",
+    "updatedAt": "2026-05-17T00:26:30.509Z",
     "o": [
       "Cafu",
       "Serginho",
@@ -155,11 +200,13 @@
       "Junior"
     ],
     "h": "Um dos maiores laterais de todos os tempos.",
-    "c": 2,
-    "q": "Qual lateral direito do São Paulo se destacou no Tricampeonato da Libertadores?"
+    "q": "Qual lateral direito do São Paulo se destacou no Tricampeonato da Libertadores?",
+    "c": 2
   },
   {
     "id": "22hTcmsSuA7EW0Y9uHKr",
+    "l": 1,
+    "createdAt": "2026-05-17T00:14:27.849Z",
     "q": "Qual técnico levou o São Paulo à conquista da Libertadores em 1992 e 1993?",
     "c": 0,
     "o": [
@@ -168,14 +215,10 @@
       "Vanderlei Luxemburgo",
       "Paulo Autuori"
     ],
-    "h": "Um dos maiores treinadores da história do futebol brasileiro.",
-    "createdAt": "2026-05-17T00:14:27.849Z",
-    "l": 1
+    "h": "Um dos maiores treinadores da história do futebol brasileiro."
   },
   {
     "id": "263P2erLjhFrqnUGAxEN",
-    "l": 4,
-    "updatedAt": "2026-05-17T03:50:16.520Z",
     "h": "Vencendo todas as partidas no tempo normal.",
     "o": [
       "1992",
@@ -183,9 +226,11 @@
       "1994",
       "2005"
     ],
-    "createdAt": "2026-05-17T03:50:16.520Z",
+    "q": "O São Paulo FC foi o primeiro campeão mundial com 100% de aproveitamento. Em que edição?",
     "c": 3,
-    "q": "O São Paulo FC foi o primeiro campeão mundial com 100% de aproveitamento. Em que edição?"
+    "updatedAt": "2026-05-17T03:50:16.520Z",
+    "createdAt": "2026-05-17T03:50:16.520Z",
+    "l": 4
   },
   {
     "id": "2ERYr4u04xt0MJuBfej9",
@@ -196,31 +241,29 @@
       "1970"
     ],
     "h": "A inauguração foi em 1º de outubro.",
-    "createdAt": "2026-05-17T00:14:27.849Z",
-    "l": 2,
+    "c": 0,
     "q": "Em que ano o Estádio do Morumbi foi inaugurado?",
-    "c": 0
+    "l": 2,
+    "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "2juaD19CBJp1WNQNXMGW",
-    "l": 1,
-    "createdAt": "2026-05-17T00:14:27.849Z",
+    "q": "Rogério Ceni é conhecido por marcar gols sendo goleiro. Quantos gols ele marcou?",
+    "c": 0,
+    "h": "A maioria de cobranças de falta e pênaltis.",
     "o": [
       "131",
       "89",
       "150",
       "72"
     ],
-    "h": "A maioria de cobranças de falta e pênaltis.",
-    "c": 0,
-    "q": "Rogério Ceni é conhecido por marcar gols sendo goleiro. Quantos gols ele marcou?"
+    "l": 1,
+    "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "2lIbDKRaRy6InNKpBTMZ",
-    "c": 0,
-    "q": "O São Paulo FC conquistou o Campeonato Paulista de 2021 contra qual rival?",
-    "updatedAt": "2026-05-17T03:57:16.575Z",
     "l": 5,
+    "updatedAt": "2026-05-17T03:57:16.575Z",
     "createdAt": "2026-05-17T03:57:16.575Z",
     "o": [
       "Palmeiras",
@@ -228,27 +271,28 @@
       "Santos",
       "RB Bragantino"
     ],
-    "h": "Nosso Eterno Freguês"
+    "h": "Nosso Eterno Freguês",
+    "q": "O São Paulo FC conquistou o Campeonato Paulista de 2021 contra qual rival?",
+    "c": 0
   },
   {
     "id": "2oRDRlHktgbmh68CPzr6",
     "q": "Casemiro estreou profissionalmente pelo São Paulo em que data?",
     "c": 0,
-    "h": "Foi em julho, mês do aniversário de Telê Santana.",
     "o": [
       "26 de julho de 2010",
       "15 de março de 2011",
       "1 de janeiro de 2010",
       "10 de agosto de 2011"
     ],
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "l": 5
+    "h": "Foi em julho, mês do aniversário de Telê Santana.",
+    "l": 5,
+    "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "2poExeQdrgahVOOk3C6Y",
     "q": "Diego Lugano é de qual país?",
     "c": 0,
-    "createdAt": "2026-05-17T00:14:27.852Z",
     "h": "O país tem fronteira com o Brasil no sul.",
     "o": [
       "Uruguai",
@@ -256,7 +300,23 @@
       "Paraguai",
       "Chile"
     ],
-    "l": 4
+    "l": 4,
+    "createdAt": "2026-05-17T00:14:27.852Z"
+  },
+  {
+    "id": "30HWg3N9KxAQi3vIE1wS",
+    "c": 0,
+    "o": [
+      "6x0",
+      "5x0",
+      "4x0",
+      "7x0"
+    ],
+    "updatedAt": "2026-06-02T01:39:47.550Z",
+    "q": "Qual foi a maior goleada aplicada pelo São Paulo na\nhistória da Copa Libertadores?",
+    "l": 1,
+    "h": "Aconteceu em 2016 contra o Trujillanos, da Venezuela",
+    "createdAt": "2026-06-02T01:39:47.550Z"
   },
   {
     "id": "3a11UffUvmaICTsu7tzT",
@@ -269,13 +329,27 @@
       "Bauza",
       "José Poy"
     ],
+    "updatedAt": "2026-05-17T02:34:05.193Z",
     "createdAt": "2026-05-17T02:34:05.193Z",
-    "l": 3,
-    "updatedAt": "2026-05-17T02:34:05.193Z"
+    "l": 3
+  },
+  {
+    "id": "4K6CmMt0cPLOOt083h3x",
+    "c": 3,
+    "o": [
+      "Teixeirinha",
+      "Leônidas",
+      "Serginho Chulapa",
+      "Augusto"
+    ],
+    "q": "Qual jogador marcou o gol 2000 da história do São Paulo\nFC?",
+    "l": 4,
+    "updatedAt": "2026-06-02T02:17:59.034Z",
+    "createdAt": "2026-06-02T02:17:59.034Z",
+    "h": "Ele era Gugu, mas não o Liberato"
   },
   {
     "id": "4VbXzwoLXEIO6Fu3YvxA",
-    "l": 4,
     "h": "Ele demorou alguns anos após a estreia para marcar seu primeiro gol de falta.",
     "o": [
       "1997",
@@ -283,9 +357,40 @@
       "1999",
       "2001"
     ],
-    "createdAt": "2026-05-17T00:14:27.852Z",
     "c": 0,
-    "q": "Em que ano Rogério Ceni fez seu primeiro gol de falta pelo São Paulo?"
+    "q": "Em que ano Rogério Ceni fez seu primeiro gol de falta pelo São Paulo?",
+    "l": 4,
+    "createdAt": "2026-05-17T00:14:27.852Z"
+  },
+  {
+    "id": "4zbz9NVS00AxSmHbZJSK",
+    "q": "Qual jogador marcou o gol 3000 da história do São Paulo\nFC?",
+    "updatedAt": "2026-06-02T02:19:45.571Z",
+    "l": 4,
+    "createdAt": "2026-06-02T02:19:45.571Z",
+    "o": [
+      "Barthô",
+      "Amaury",
+      "Leônidas",
+      "Serginho Chulapa"
+    ],
+    "c": 1,
+    "h": "Ama ou ri"
+  },
+  {
+    "id": "5E6Yz3WQCWvfUPrSeD1f",
+    "q": "O São Paulo conquistou o Campeonato Brasileiro de 1977\nnos pênaltis contra o Atlético-MG. Quem era o goleiro tricolor?",
+    "c": 1,
+    "o": [
+      "Zetti",
+      "Waldir Peres",
+      "Picasso",
+      "Sergio"
+    ],
+    "updatedAt": "2026-06-02T01:42:22.041Z",
+    "h": "Ele ficou famoso por ‘catimbar’ e desestabilizar os batedores adversários.",
+    "l": 1,
+    "createdAt": "2026-06-02T01:42:22.041Z"
   },
   {
     "id": "5W9VJ3Zz1TKWZwoGvNHS",
@@ -296,18 +401,29 @@
       "CR Flamengo"
     ],
     "h": "Sempre teve representantes campeões.",
-    "createdAt": "2026-05-17T02:06:58.343Z",
-    "l": 5,
-    "updatedAt": "2026-05-25T21:40:50.604Z",
     "q": "Qual clube brasileiro teve jogadores campeões em TODAS as Copas do Mundo vencidas pela Seleção Brasileira?",
-    "c": 0
+    "c": 0,
+    "createdAt": "2026-05-17T02:06:58.343Z",
+    "updatedAt": "2026-05-25T21:40:50.604Z",
+    "l": 5
+  },
+  {
+    "id": "5iP3WWamLKWHC7uLBd5Y",
+    "l": 5,
+    "o": [
+      "Raí",
+      "Toninho Cerezo",
+      "Cafú",
+      "Leonardo"
+    ],
+    "q": "O São Paulo venceu o Milan em 1993 com um gol de\ncalcanhar de Müller. Quem deu o passe longo que originou o lance?",
+    "c": 1,
+    "h": "O veterano volante que foi o melhor em campo naquela final.",
+    "updatedAt": "2026-06-02T02:23:04.845Z",
+    "createdAt": "2026-06-02T02:23:04.845Z"
   },
   {
     "id": "5iib23GqyHl6vFLhtyYB",
-    "c": 1,
-    "q": "Quantos títulos do Campeonato Paulista o São Paulo FC conquistou na década de 1990? \n\nA) 2",
-    "updatedAt": "2026-05-17T04:23:08.699Z",
-    "l": 6,
     "o": [
       "2",
       "3",
@@ -315,21 +431,25 @@
       "4"
     ],
     "h": "91, 92.....",
-    "createdAt": "2026-05-17T04:23:08.699Z"
+    "q": "Quantos títulos do Campeonato Paulista o São Paulo FC conquistou na década de 1990? \n\nA) 2",
+    "c": 1,
+    "updatedAt": "2026-05-17T04:23:08.699Z",
+    "createdAt": "2026-05-17T04:23:08.699Z",
+    "l": 6
   },
   {
     "id": "622UaJ611e2RWh5TxTbh",
+    "l": 1,
+    "createdAt": "2026-05-17T00:14:27.849Z",
+    "c": 0,
+    "q": "Qual lateral do São Paulo foi bicampeão mundial com a Seleção Brasileira?",
+    "h": "Ele jogou na Copa de 1994 e 2002.",
     "o": [
       "Cafu",
       "Zé Maria",
       "Cicinho",
       "Bellini"
-    ],
-    "h": "Ele jogou na Copa de 1994 e 2002.",
-    "createdAt": "2026-05-17T00:14:27.849Z",
-    "l": 1,
-    "q": "Qual lateral do São Paulo foi bicampeão mundial com a Seleção Brasileira?",
-    "c": 0
+    ]
   },
   {
     "id": "65Qdhztly5VieQS7sdxh",
@@ -342,87 +462,115 @@
       "1 de outubro de 1929",
       "25 de maio de 1932"
     ],
-    "c": 0,
-    "q": "Telê Santana nasceu em que data?"
+    "q": "Telê Santana nasceu em que data?",
+    "c": 0
   },
   {
     "id": "6ZRaPiSvvGYqCFf956g1",
     "l": 5,
     "updatedAt": "2026-05-17T02:18:56.535Z",
     "createdAt": "2026-05-17T02:18:56.535Z",
+    "q": "Qual jogador é o segundo maior artilheiro da história do São Paulo FC?",
+    "c": 3,
+    "h": "Ele marcou 233 gols",
     "o": [
       "Luis Fabiano",
       "Leônidas da Silva",
       "Serginho Chulapa",
       "Gino Orlando"
-    ],
-    "h": "Ele marcou 233 gols",
-    "c": 3,
-    "q": "Qual jogador é o segundo maior artilheiro da história do São Paulo FC?"
+    ]
   },
   {
     "id": "6x1Q9YOAMaRcLNueYHI7",
     "updatedAt": "2026-05-17T01:04:51.945Z",
-    "l": 2,
     "createdAt": "2026-05-17T01:04:51.945Z",
+    "l": 2,
+    "q": "Duas das maiores goleadas da história do São Paulo Futebol Clube foi um impressionante 12 a 1, um foi contra o Jabaquara, qual foi o outro clube?",
+    "c": 3,
+    "h": "Inicio da fundação",
     "o": [
       "Portuguesa",
       "Nacional",
       "União São João",
       "Sirio"
-    ],
-    "h": "Inicio da fundação",
-    "c": 3,
-    "q": "Duas das maiores goleadas da história do São Paulo Futebol Clube foi um impressionante 12 a 1, um foi contra o Jabaquara, qual foi o outro clube?"
+    ]
   },
   {
     "id": "760kX60g8UsTgrZoKJoq",
-    "c": 3,
-    "q": "Qual é a capacidade atual do MorumBIS?",
-    "l": 1,
-    "updatedAt": "2026-05-17T01:30:07.989Z",
-    "createdAt": "2026-05-17T01:30:07.989Z",
     "h": "É alguns quebrados",
     "o": [
       "55.000",
       "62.633",
       "65.598",
       "66.795"
-    ]
+    ],
+    "q": "Qual é a capacidade atual do MorumBIS?",
+    "c": 3,
+    "updatedAt": "2026-05-17T01:30:07.989Z",
+    "createdAt": "2026-05-17T01:30:07.989Z",
+    "l": 1
   },
   {
     "id": "788dcleDbQ4Xk2eNlidF",
+    "l": 1,
+    "updatedAt": "2026-05-17T01:31:39.556Z",
     "createdAt": "2026-05-17T01:31:39.556Z",
+    "q": "Qual foi o feito inédito do São Paulo FC no Campeonato Brasileiro entre 2006 e 2008?",
+    "c": 0,
     "o": [
       "Conquistar o tricampeonato consecutivo na era dos pontos corridos",
       "Marcar mais de 100 gols em uma única edição",
       "Vencer o torneio sem perder nenhum jogo",
       "Vencer o torneio com o maior aproveitamento da história"
     ],
-    "h": "Aqui é trabalho meu filho, TRI-HEXA só tem um.",
-    "updatedAt": "2026-05-17T01:31:39.556Z",
+    "h": "Aqui é trabalho meu filho, TRI-HEXA só tem um."
+  },
+  {
+    "id": "7Eub0kq5XDrhhKX60lB6",
+    "q": "Em 2005, o São Paulo venceu o Liverpool na final do\nMundial. Quem deu a assistência para o gol de Mineiro?",
+    "createdAt": "2026-06-02T01:33:35.244Z",
+    "c": 2,
     "l": 1,
-    "q": "Qual foi o feito inédito do São Paulo FC no Campeonato Brasileiro entre 2006 e 2008?",
-    "c": 0
+    "o": [
+      "Danilo",
+      "Cicinho",
+      "Aloísio Chulapa",
+      "Amoroso"
+    ],
+    "updatedAt": "2026-06-02T01:33:35.244Z",
+    "h": "O rei do ‘danone’ que fez um pivô perfeito de peito."
+  },
+  {
+    "id": "7G9uTYetGFpl3idjshb7",
+    "l": 4,
+    "q": "Quem foi o técnico que lançou o time do ‘Menudos do\nMorumbi’ em 1985?",
+    "c": 1,
+    "o": [
+      "Muricy Ramalho",
+      "Cilinho",
+      "Bela Guttmann",
+      "Pepe"
+    ],
+    "createdAt": "2026-06-02T02:04:26.502Z",
+    "h": "Otacílio Pires de Camargo, o mestre que priorizava a base",
+    "updatedAt": "2026-06-02T02:04:26.502Z"
   },
   {
     "id": "8BdYD2qTA5grtP8LezaB",
+    "l": 1,
     "createdAt": "2026-05-17T00:14:27.849Z",
+    "q": "Qual ídolo do São Paulo ganhou a Bola de Ouro FIFA em 2007?",
+    "c": 0,
+    "h": "Ele saiu das categorias de base do SPFC.",
     "o": [
       "Kaká",
       "Ronaldinho",
       "Cafu",
       "Raí"
-    ],
-    "h": "Ele saiu das categorias de base do SPFC.",
-    "l": 1,
-    "q": "Qual ídolo do São Paulo ganhou a Bola de Ouro FIFA em 2007?",
-    "c": 0
+    ]
   },
   {
     "id": "8ITKtxzrKbGnPSLluA4H",
-    "q": "O São Paulo é o único clube da América do Sul com 3 títulos mundiais. Qual a ordem cronológica correta?",
-    "c": 0,
     "o": [
       "1992, 1993 e 2005",
       "1991, 1993 e 2005",
@@ -430,28 +578,46 @@
       "1993, 1995 e 2005"
     ],
     "h": "O SPFC conquistou os títulos mundiais em três décadas diferentes.",
-    "createdAt": "2026-05-17T00:14:27.853Z",
-    "l": 6
+    "c": 0,
+    "q": "O São Paulo é o único clube da América do Sul com 3 títulos mundiais. Qual a ordem cronológica correta?",
+    "l": 6,
+    "createdAt": "2026-05-17T00:14:27.853Z"
   },
   {
     "id": "8UrqHvLihtrysdQkKums",
-    "q": "Qual foi a primeira torcida organizada do São Paulo Futebol Clube?",
-    "c": 1,
+    "updatedAt": "2026-05-17T03:31:30.157Z",
     "createdAt": "2026-05-17T03:31:30.157Z",
-    "h": "Tenho Um Singelo Palpite",
+    "l": 2,
     "o": [
       "Dragões da Real",
       "TUSP – Torcida Uniformizada do São Paulo",
       "Falange Tricolor",
       "TTI"
     ],
-    "l": 2,
-    "updatedAt": "2026-05-17T03:31:30.157Z"
+    "h": "Tenho Um Singelo Palpite",
+    "q": "Qual foi a primeira torcida organizada do São Paulo Futebol Clube?",
+    "c": 1
+  },
+  {
+    "id": "8kUrYoebBfOuWAziIj84",
+    "updatedAt": "2026-06-02T02:32:23.741Z",
+    "o": [
+      "Müller",
+      "Careca",
+      "Silas",
+      "Sidnei"
+    ],
+    "h": "Embora parecida a sonoridade, não é mulher",
+    "l": 6,
+    "c": 0,
+    "createdAt": "2026-06-02T02:32:23.741Z",
+    "q": "Quem foi o autor do gol do título paulista de 1985, contra a\nPortuguesa?"
   },
   {
     "id": "96OTwqfnK3agZs03gTjD",
-    "q": "Em que ano Rogério Ceni foi o artilheiro do São Paulo FC?",
-    "c": 3,
+    "l": 2,
+    "updatedAt": "2026-05-17T02:13:37.123Z",
+    "createdAt": "2026-05-17T02:13:37.123Z",
     "o": [
       "2012",
       "2000",
@@ -459,30 +625,26 @@
       "2005"
     ],
     "h": "Fez jus ao nome de goleiro artilheiro na última era extremamente vitoriosa.",
-    "createdAt": "2026-05-17T02:13:37.123Z",
-    "updatedAt": "2026-05-17T02:13:37.123Z",
-    "l": 2
+    "c": 3,
+    "q": "Em que ano Rogério Ceni foi o artilheiro do São Paulo FC?"
   },
   {
     "id": "9IoyizSzPIn0mAq78VDU",
-    "createdAt": "2026-05-17T04:33:04.503Z",
-    "h": "Poh, essa tá fácil",
+    "q": "Qual foi o resultado do concurso promovido pelo DEIP (Departamento Estadual de Imprensa e Propaganda) para escolher o clube mais querido de São Paulo?",
+    "c": 2,
     "o": [
       "Corinthians venceu com 8.000 votos",
       "Palmeiras venceu com 6.000 votos",
       "São Paulo venceu com 5.523 votos, mais que a soma dos votos de Corinthians e Palmeiras",
       "Houve empate entre São Paulo e Corinthians"
     ],
-    "l": 6,
+    "h": "Poh, essa tá fácil",
     "updatedAt": "2026-05-17T04:33:04.503Z",
-    "q": "Qual foi o resultado do concurso promovido pelo DEIP (Departamento Estadual de Imprensa e Propaganda) para escolher o clube mais querido de São Paulo?",
-    "c": 2
+    "createdAt": "2026-05-17T04:33:04.503Z",
+    "l": 6
   },
   {
     "id": "9reO43vX1rGNFCjCAm8w",
-    "q": "Em que ano Rogério Ceni fez sua estreia pelo São Paulo?",
-    "c": 0,
-    "createdAt": "2026-05-17T00:14:27.850Z",
     "o": [
       "1993",
       "1990",
@@ -490,71 +652,74 @@
       "1991"
     ],
     "h": "Ele estreou ainda muito jovem no começo dos anos 90.",
-    "l": 3
+    "c": 0,
+    "q": "Em que ano Rogério Ceni fez sua estreia pelo São Paulo?",
+    "l": 3,
+    "createdAt": "2026-05-17T00:14:27.850Z"
   },
   {
     "id": "9sN22vYxjssZoDAoFkI7",
-    "c": 1,
     "q": "Qual foi o primeiro jogo profissional do futebol brasileiro, disputado entre São Paulo e Santos?",
-    "l": 6,
-    "updatedAt": "2026-05-17T01:22:39.511Z",
-    "h": "O confronto marcou o início oficial da era profissional no esporte organizado pela Associação Paulista de Esportes Atléticos",
+    "c": 1,
     "o": [
       "1930",
       "1933",
       "1931",
       "1932"
     ],
+    "h": "O confronto marcou o início oficial da era profissional no esporte organizado pela Associação Paulista de Esportes Atléticos",
+    "l": 6,
+    "updatedAt": "2026-05-17T01:22:39.511Z",
     "createdAt": "2026-05-17T01:22:39.511Z"
   },
   {
     "id": "AMbcGVEWyg9jF4lVfJcb",
-    "c": 1,
-    "q": "Quem é o maior artilheiro da história do São Paulo FC?",
     "updatedAt": "2026-05-17T01:43:41.030Z",
+    "createdAt": "2026-05-17T01:43:41.030Z",
     "l": 1,
+    "q": "Quem é o maior artilheiro da história do São Paulo FC?",
+    "c": 1,
     "o": [
       "Luis Fabiano",
       "Serginho Chulapa",
       "Luciano",
       "Rogério Ceni"
     ],
-    "h": "Ele também é ídolo do Santos",
-    "createdAt": "2026-05-17T01:43:41.030Z"
+    "h": "Ele também é ídolo do Santos"
   },
   {
     "id": "APmU0cxKe8N3fD9T0kSC",
-    "l": 2,
-    "createdAt": "2026-05-17T00:14:27.849Z",
-    "h": "Zagueiro querido que defendeu o clube por uma década.",
+    "q": "Qual jogador uruguaio foi capitão e ídolo do São Paulo nos anos 2000?",
+    "c": 0,
     "o": [
       "Diego Lugano",
       "Forlan",
       "Recoba",
       "Suárez"
     ],
-    "c": 0,
-    "q": "Qual jogador uruguaio foi capitão e ídolo do São Paulo nos anos 2000?"
+    "h": "Zagueiro querido que defendeu o clube por uma década.",
+    "l": 2,
+    "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "AQYsUscZHzsvetQZpGje",
-    "c": 0,
-    "q": "Qual a sequência correta dos eventos históricos do São Paulo?",
     "l": 6,
-    "updatedAt": "2026-05-17T00:49:17.702Z",
     "createdAt": "2026-05-17T00:14:27.853Z",
+    "updatedAt": "2026-05-17T00:49:17.702Z",
+    "h": "A história começa em 25 de janeiro de 1930 e o Morumbi foi inaugurado em 1960.",
     "o": [
       "Fundação 1930 → Morumbi 1960 → Brasileiro 1978 → Libertadores 1992 → Mundial 1992",
       "Fundação 1925 → Morumbi 1955 → Brasileiro 1986 → Libertadores 1992 → Mundial 1992",
       "Fundação 1930 → Morumbi 1960 → Brasileiro 1991 → Libertadores 1992 → Mundial 1993",
       "Fundação 1930 → Morumbi 1965 → Brasileiro 1986 → Libertadores 1993 → Mundial 1992"
     ],
-    "h": "A história começa em 25 de janeiro de 1930 e o Morumbi foi inaugurado em 1960."
+    "c": 0,
+    "q": "Qual a sequência correta dos eventos históricos do São Paulo?"
   },
   {
     "id": "AdeTkDEkDo6kQDYZprkp",
-    "q": "Além de Rogério Ceni, qual outro goleiro marcou gol pelo São Paulo Futebol Clube em jogos oficiais?",
     "c": 0,
+    "q": "Além de Rogério Ceni, qual outro goleiro marcou gol pelo São Paulo Futebol Clube em jogos oficiais?",
     "o": [
       "Moscatto",
       "Poy",
@@ -562,73 +727,89 @@
       "Waldir Peres"
     ],
     "h": "Rogério foi o mestre, mas antes dele teve quem ousou.",
-    "createdAt": "2026-05-17T04:10:01.136Z",
+    "l": 5,
     "updatedAt": "2026-05-17T04:10:01.136Z",
-    "l": 5
+    "createdAt": "2026-05-17T04:10:01.136Z"
+  },
+  {
+    "id": "AyDEZ0zvUOWyWzLLASXp",
+    "h": "Ele é uruguaio",
+    "o": [
+      "Calleri",
+      "Aristizábal",
+      "Sastre",
+      "Pedro Rocha"
+    ],
+    "q": "Qual jogador estrangeiro tem o maior número de gols\nmarcados pelo São Paulo FC?",
+    "updatedAt": "2026-06-02T01:58:09.764Z",
+    "c": 3,
+    "createdAt": "2026-06-02T01:58:09.764Z",
+    "l": 3
   },
   {
     "id": "BNj5erUnUenY0mTcXd45",
-    "h": "jornalista da Gazeta Esportiva",
+    "updatedAt": "2026-05-17T01:19:34.605Z",
+    "createdAt": "2026-05-17T01:19:34.605Z",
+    "l": 6,
     "o": [
       "Nelson Rodrigues",
       "Tomás Mazzoni",
       "Galvão Bueno",
       "João Saldanha"
     ],
-    "createdAt": "2026-05-17T01:19:34.605Z",
-    "l": 6,
-    "updatedAt": "2026-05-17T01:19:34.605Z",
+    "h": "jornalista da Gazeta Esportiva",
     "q": "Qual jornalista cunhou os apelidos 'Clube da Fé', 'Majestoso' e 'Choque-Rei'?",
     "c": 1
   },
   {
     "id": "BPoXrkjf6citGUmieVfg",
-    "c": 0,
-    "q": "Qual foi o placar histórico do São Paulo sobre o Inter-SP em julho de 1932?",
     "l": 4,
     "createdAt": "2026-05-17T00:14:27.852Z",
+    "h": "Uma das maiores goleadas absolutas da história do clube.",
     "o": [
       "11x0",
       "12x0",
       "10x0",
       "9x0"
     ],
-    "h": "Uma das maiores goleadas absolutas da história do clube."
+    "q": "Qual foi o placar histórico do São Paulo sobre o Inter-SP em julho de 1932?",
+    "c": 0
   },
   {
     "id": "Ci9Dx1VwDNMBNqpvOeYj",
-    "l": 4,
     "updatedAt": "2026-05-17T01:39:48.066Z",
-    "h": "com títulos da Libertadores, Mundial de Clubes e Campeonato Paulista em ambos os anos.",
+    "createdAt": "2026-05-17T01:39:48.066Z",
+    "l": 4,
     "o": [
       "1992 e 1993",
       "1993 e 1994",
       "1992 e 2005",
       "1991 e 1992"
     ],
-    "createdAt": "2026-05-17T01:39:48.066Z",
-    "c": 0,
-    "q": "O São Paulo FC é o único clube sul-americano a ter conquistado duas tríplices coroas consecutivamente. Em que anos?"
+    "h": "com títulos da Libertadores, Mundial de Clubes e Campeonato Paulista em ambos os anos.",
+    "q": "O São Paulo FC é o único clube sul-americano a ter conquistado duas tríplices coroas consecutivamente. Em que anos?",
+    "c": 0
   },
   {
     "id": "E07pCUv9RbHMKrPNuSQC",
-    "c": 3,
-    "q": "Qual treinador é considerado o maior da história do São Paulo Futebol Clube?",
     "l": 1,
     "updatedAt": "2026-05-17T02:28:06.120Z",
+    "createdAt": "2026-05-17T02:28:06.120Z",
+    "c": 3,
+    "q": "Qual treinador é considerado o maior da história do São Paulo Futebol Clube?",
+    "h": "Comandou o bicampeonato mundial do Tricolor.",
     "o": [
       "Vicente Feola",
       "Muricy Ramalho",
       "Emerson Leão",
       "Telê Santana"
-    ],
-    "h": "Comandou o bicampeonato mundial do Tricolor.",
-    "createdAt": "2026-05-17T02:28:06.120Z"
+    ]
   },
   {
     "id": "EHVnCOV546DQ4AygiR0E",
-    "q": "Quem marcou o gol que deu o título mundial ao São Paulo FC em 2005?",
-    "c": 1,
+    "updatedAt": "2026-05-17T01:34:29.125Z",
+    "createdAt": "2026-05-17T01:34:29.125Z",
+    "l": 4,
     "h": "Ele é gaucho",
     "o": [
       "Aloisio Chulapa",
@@ -636,24 +817,23 @@
       "Dagoberto",
       "Amoroso"
     ],
-    "createdAt": "2026-05-17T01:34:29.125Z",
-    "l": 4,
-    "updatedAt": "2026-05-17T01:34:29.125Z"
+    "q": "Quem marcou o gol que deu o título mundial ao São Paulo FC em 2005?",
+    "c": 1
   },
   {
     "id": "EbGD8gHAteIfYoJx5VxX",
-    "c": 1,
-    "q": "Leônidas da Silva chegou ao São Paulo FC em qual ano?",
-    "l": 3,
-    "updatedAt": "2026-05-17T02:14:43.093Z",
-    "createdAt": "2026-05-17T02:14:43.093Z",
+    "h": "Foi a negociação mais cara do futebol da época.",
     "o": [
       "1939",
       "1942",
       "1940",
       "1938"
     ],
-    "h": "Foi a negociação mais cara do futebol da época."
+    "c": 1,
+    "q": "Leônidas da Silva chegou ao São Paulo FC em qual ano?",
+    "l": 3,
+    "updatedAt": "2026-05-17T02:14:43.093Z",
+    "createdAt": "2026-05-17T02:14:43.093Z"
   },
   {
     "id": "FDW5im447RUfTV53mA40",
@@ -671,8 +851,6 @@
   },
   {
     "id": "FGLqN2WQJhtciWQpd8Pc",
-    "q": "Em qual ano o São Paulo goleou o Jabaquara por 12 a 1?",
-    "c": 2,
     "o": [
       "1940",
       "1942",
@@ -680,15 +858,17 @@
       "1944"
     ],
     "h": "Campeonato Paulista",
-    "createdAt": "2026-05-17T01:02:02.909Z",
+    "q": "Em qual ano o São Paulo goleou o Jabaquara por 12 a 1?",
+    "c": 2,
+    "l": 2,
     "updatedAt": "2026-05-17T01:02:02.909Z",
-    "l": 2
+    "createdAt": "2026-05-17T01:02:02.909Z"
   },
   {
     "id": "FO9GuUJedvRnXyluQs3Z",
-    "q": "Cafu, lateral-direito ídolo do São Paulo FC, nasceu em qual cidade?",
-    "c": 0,
+    "updatedAt": "2026-05-17T02:44:03.349Z",
     "createdAt": "2026-05-17T02:44:03.349Z",
+    "l": 5,
     "h": "Ele é natural do município da Grande São Paulo",
     "o": [
       "Itaquaquecetuba",
@@ -696,28 +876,41 @@
       "Suzano",
       "Mogi das Cruzes"
     ],
+    "q": "Cafu, lateral-direito ídolo do São Paulo FC, nasceu em qual cidade?",
+    "c": 0
+  },
+  {
+    "id": "FjNk4YfPi69Y8IEL75ZD",
+    "q": "Em 1971, o São Paulo conquistou o Paulistão com um gol\npolêmico de Toninho Guerreiro contra o Palmeiras. Quem era o árbitro?",
     "l": 5,
-    "updatedAt": "2026-05-17T02:44:03.349Z"
+    "updatedAt": "2026-06-02T02:25:27.727Z",
+    "o": [
+      "José Favilli Neto",
+      "Dulcidio Wanderley Boschillia",
+      "Armando Marques",
+      "Arnaldo Cezar Coelho"
+    ],
+    "c": 2,
+    "createdAt": "2026-06-02T02:25:27.727Z",
+    "h": "Ele anulou um gol de cabeça de Leivinha, do Palmeiras, sob a alegação de toque de mão, o que gerou muita revolta por parte dos palmeirenses e garantiu a vitória por 1 a 0 e o título são-paulino"
   },
   {
     "id": "G5agsIplNT2nsEEmIvKf",
-    "l": 3,
-    "updatedAt": "2026-05-17T03:37:51.579Z",
-    "createdAt": "2026-05-17T03:37:51.579Z",
+    "q": "Quantas pessoas compareceram ao Pacaembu para ver a estreia de Leônidas da Silva pelo São Paulo, no Majestoso de 1942?",
+    "c": 3,
+    "h": "um recorde de público no Estádio do Pacaembu que permanece invicto até hoje",
     "o": [
       "80.000",
       "71.345",
       "70.000",
       "71.280"
     ],
-    "h": "um recorde de público no Estádio do Pacaembu que permanece invicto até hoje",
-    "c": 3,
-    "q": "Quantas pessoas compareceram ao Pacaembu para ver a estreia de Leônidas da Silva pelo São Paulo, no Majestoso de 1942?"
+    "updatedAt": "2026-05-17T03:37:51.579Z",
+    "createdAt": "2026-05-17T03:37:51.579Z",
+    "l": 3
   },
   {
     "id": "Gjhk6NZYZ6OSDgtDCMSD",
-    "l": 1,
-    "updatedAt": "2026-05-17T00:24:42.169Z",
     "h": "O estádio foi inaugurado em 1960 e é o maior de propriedade privada do mundo.",
     "o": [
       "Morumbi",
@@ -725,28 +918,28 @@
       "Canindé",
       "MorumBYD"
     ],
-    "createdAt": "2026-05-17T00:14:27.848Z",
+    "q": "Qual é o apelido do estádio do São Paulo?",
     "c": 0,
-    "q": "Qual é o apelido do estádio do São Paulo?"
+    "createdAt": "2026-05-17T00:14:27.848Z",
+    "updatedAt": "2026-05-17T00:24:42.169Z",
+    "l": 1
   },
   {
     "id": "GksxfPRSeNpn3z6ZOLGO",
-    "c": 0,
     "q": "Qual técnico comandou o São Paulo no título da Libertadores de 2005?",
-    "l": 4,
-    "h": "Um técnico diferente de Telê Santana foi o responsável.",
+    "c": 0,
     "o": [
       "Paulo Autuori",
       "Telê Santana",
       "Muricy Ramalho",
       "Levir Culpi"
     ],
+    "h": "Um técnico diferente de Telê Santana foi o responsável.",
+    "l": 4,
     "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "Gr8HAyU9ocG73wvtQ02B",
-    "q": "O que representa a fase conhecida como 'São Paulo da Floresta'?",
-    "c": 2,
     "o": [
       "O período em que o clube jogava no Parque do Ibirapuera",
       "O apelido do time campeão de 1943",
@@ -754,15 +947,17 @@
       "O nome do campo onde o clube foi fundado"
     ],
     "h": "A fase 'São Paulo da Floresta' (1930–1935)",
-    "createdAt": "2026-05-17T01:18:01.990Z",
+    "q": "O que representa a fase conhecida como 'São Paulo da Floresta'?",
+    "c": 2,
     "updatedAt": "2026-05-17T01:18:01.990Z",
+    "createdAt": "2026-05-17T01:18:01.990Z",
     "l": 5
   },
   {
     "id": "HMmV3tLaCFK59vkW43A7",
     "updatedAt": "2026-05-17T04:26:34.659Z",
-    "l": 6,
     "createdAt": "2026-05-17T04:26:34.659Z",
+    "l": 6,
     "o": [
       "988 minutos",
       "990 minutos",
@@ -770,38 +965,53 @@
       "976 minutos"
     ],
     "h": "A histórica sequência invicta começou no dia 5 de agosto e terminou em 15 de setembro de 2007",
-    "c": 1,
-    "q": "Qual é o recorde de minutos sem sofrer gols de Rogério Ceni no Campeonato Brasileiro pelo São Paulo FC?"
+    "q": "Qual é o recorde de minutos sem sofrer gols de Rogério Ceni no Campeonato Brasileiro pelo São Paulo FC?",
+    "c": 1
+  },
+  {
+    "id": "HfZyFDPOoSUtj8bzqR99",
+    "o": [
+      "1992",
+      "1994",
+      "1993",
+      "1990"
+    ],
+    "h": "No mesmo ano do bicampeonato mundial do time profissional.",
+    "updatedAt": "2026-06-02T01:59:03.613Z",
+    "q": "Em que ano o São Paulo conquistou a sua primeira Copa\nSão Paulo de Futebol Júnior?",
+    "c": 2,
+    "createdAt": "2026-06-02T01:59:03.613Z",
+    "l": 3
   },
   {
     "id": "HxYJUhvgmWEgaY4Kye30",
-    "c": 0,
-    "q": "Entre quais anos Müller atuou pelo São Paulo Futebol Clube em sua primeira passagem?",
     "l": 6,
     "updatedAt": "2026-05-17T02:21:05.693Z",
     "createdAt": "2026-05-17T02:21:05.693Z",
-    "h": "Ele foi um dos grandes nomes da era Telê Santana e participou do bicampeonato mundial do Tricolor.",
     "o": [
       "1984–1994",
       "1985–1995",
       "1980–1991",
       "1987–1997"
-    ]
+    ],
+    "h": "Ele foi um dos grandes nomes da era Telê Santana e participou do bicampeonato mundial do Tricolor.",
+    "c": 0,
+    "q": "Entre quais anos Müller atuou pelo São Paulo Futebol Clube em sua primeira passagem?"
   },
   {
     "id": "Hze920CzwOXLZV7xlj3W",
+    "l": 2,
+    "updatedAt": "2026-05-17T01:50:36.208Z",
+    "createdAt": "2026-05-17T01:50:36.208Z",
     "c": 2,
     "q": "Qual ex-jogador do São Paulo Futebol Clube ergueu a taça da Copa do Mundo de 2002 como capitão da Seleção Brasileira?",
-    "updatedAt": "2026-05-17T01:50:36.208Z",
-    "l": 2,
     "o": [
       "Raí",
       "Denilson",
       "Cafú",
       "Dunga"
     ],
-    "h": "É o jogador com mais finais de Copa do Mundo consecutivas da história",
-    "createdAt": "2026-05-17T01:50:36.208Z"
+    "h": "É o jogador com mais finais de Copa do Mundo consecutivas da história"
   },
   {
     "id": "IAHAsU0ivTlAny0HYSWZ",
@@ -815,42 +1025,87 @@
       "1960"
     ],
     "h": "Logo após a copa de 50",
-    "c": 0,
-    "q": "Em que ano Adhemar Ferreira da Silva conquistou sua primeira medalha de ouro olímpica?"
+    "q": "Em que ano Adhemar Ferreira da Silva conquistou sua primeira medalha de ouro olímpica?",
+    "c": 0
   },
   {
     "id": "IGA0fhF5ObSrqTWTe0E1",
-    "h": "Foi em março de 2001, na Copa do Brasil.",
+    "l": 5,
+    "createdAt": "2026-05-17T00:14:27.853Z",
     "o": [
       "28 de março de 2001",
       "15 de setembro de 2000",
       "10 de abril de 2002",
       "22 de junho de 2001"
     ],
-    "createdAt": "2026-05-17T00:14:27.853Z",
-    "l": 5,
+    "h": "Foi em março de 2001, na Copa do Brasil.",
     "q": "Em que data o São Paulo fez 10x0 no Botafogo-PB?",
     "c": 0
   },
   {
+    "id": "J42VU3e3REwdQVXvlZop",
+    "c": 0,
+    "h": "Ele era diretor do Bradesco e usou sua influência financeira para o clube",
+    "updatedAt": "2026-06-02T02:23:56.324Z",
+    "createdAt": "2026-06-02T02:23:56.324Z",
+    "l": 5,
+    "q": "Qual era a profissão original de Laudo Natel, o presidente\nque viabilizou a construção do Morumbi?",
+    "o": [
+      "Bancário",
+      "Governador",
+      "Advogado",
+      "Médico"
+    ]
+  },
+  {
     "id": "J6NMRfXiKAvy2gxOJ4QO",
+    "updatedAt": "2026-05-17T04:09:04.001Z",
+    "createdAt": "2026-05-17T04:09:04.001Z",
+    "l": 5,
+    "q": "Qual feito raro o São Paulo Futebol Clube alcançou na temporada de 1993?",
+    "c": 1,
     "h": "E a gente reclama dos jogos de hoje",
     "o": [
       "Ser campeão invicto da Libertadores",
       "Disputar 97 jogos oficiais no ano",
       "Jogar 80 partidas oficiais",
       "Não perder e nem empatar nenhum clássico"
+    ]
+  },
+  {
+    "id": "J7ENNEVus9qInmqBuFE8",
+    "createdAt": "2026-06-02T02:27:03.523Z",
+    "l": 6,
+    "q": "Quem foi o autor do gol do título brasileiro de 1991 contra\no Bragantino?",
+    "c": 0,
+    "h": "Ele marcou o único gol da primeira partida da final no Morumbi",
+    "o": [
+      "Mário Tilico",
+      "Raí",
+      "Elivélton",
+      "Müller"
     ],
-    "createdAt": "2026-05-17T04:09:04.001Z",
-    "l": 5,
-    "updatedAt": "2026-05-17T04:09:04.001Z",
-    "q": "Qual feito raro o São Paulo Futebol Clube alcançou na temporada de 1993?",
-    "c": 1
+    "updatedAt": "2026-06-02T02:27:03.523Z"
+  },
+  {
+    "id": "JyyNT0nB651TFKvNavHg",
+    "createdAt": "2026-06-02T01:53:49.832Z",
+    "l": 2,
+    "c": 0,
+    "o": [
+      "Pepe",
+      "Cilinho",
+      "Mário Travaglini",
+      "José Poy"
+    ],
+    "h": "O ‘Canhão da Vila’ que comandou o Tricolor no título contra o Guarani.",
+    "q": "Quem era o técnico do São Paulo na conquista do\nCampeonato Brasileiro de 1986?",
+    "updatedAt": "2026-06-02T01:53:49.832Z"
   },
   {
     "id": "KATpVLelwSftJwSY9TRU",
-    "l": 4,
-    "createdAt": "2026-05-17T00:14:27.852Z",
+    "q": "Qual foi o adversário do São Paulo na final da Copa do Brasil de 2023?",
+    "c": 0,
     "o": [
       "Flamengo",
       "Palmeiras",
@@ -858,87 +1113,98 @@
       "Grêmio"
     ],
     "h": "Um grande rival carioca.",
-    "c": 0,
-    "q": "Qual foi o adversário do São Paulo na final da Copa do Brasil de 2023?"
+    "l": 4,
+    "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "KG2kyuO4YidPm0H9dIS9",
+    "l": 2,
+    "createdAt": "2026-05-17T00:14:27.849Z",
+    "q": "Qual treinador levou o São Paulo ao tricampeonato brasileiro (2006-2007-2008)?",
+    "c": 0,
     "o": [
       "Muricy Ramalho",
       "Telê Santana",
       "Emerson Leão",
       "Ricardo Gomes"
     ],
-    "h": "Ele voltou ao clube em 2023 e ganhou a Copa do Brasil.",
-    "createdAt": "2026-05-17T00:14:27.849Z",
-    "l": 2,
-    "q": "Qual treinador levou o São Paulo ao tricampeonato brasileiro (2006-2007-2008)?",
-    "c": 0
+    "h": "Ele voltou ao clube em 2023 e ganhou a Copa do Brasil."
   },
   {
     "id": "KVGQl5YG7ndi7akpbeJA",
-    "c": 0,
-    "q": "Telê Santana nasceu em que estado brasileiro?",
-    "l": 3,
-    "createdAt": "2026-05-17T00:14:27.852Z",
     "h": "O técnico era mineiro de nascimento.",
     "o": [
       "Minas Gerais",
       "São Paulo",
       "Rio de Janeiro",
       "Bahia"
-    ]
+    ],
+    "q": "Telê Santana nasceu em que estado brasileiro?",
+    "c": 0,
+    "l": 3,
+    "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "KoAwy5lqBLOz9wVel3AR",
-    "c": 0,
     "q": "Em que dia exato foi fundado o São Paulo Futebol Clube?",
-    "l": 5,
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "h": "A data coincide com o aniversário da cidade de São Paulo, em 1930.",
+    "c": 0,
     "o": [
       "25 de janeiro de 1930",
       "25 de janeiro de 1935",
       "1 de fevereiro de 1930",
       "10 de março de 1930"
-    ]
+    ],
+    "h": "A data coincide com o aniversário da cidade de São Paulo, em 1930.",
+    "l": 5,
+    "createdAt": "2026-05-17T00:14:27.852Z"
+  },
+  {
+    "id": "Kv7USCGVBevIWznZPj00",
+    "l": 4,
+    "q": "Qual desses jogadores NUNCA marcou um gol pelo São\nPaulo, apesar de ter jogado mais de 300 partidas?",
+    "o": [
+      "Roberto Dias",
+      "Válter",
+      "Jurandir",
+      "Alfredo Ramos"
+    ],
+    "c": 3,
+    "h": "Seu apelido era ‘O Polvo’ e ele era lateral-esquerdo",
+    "createdAt": "2026-06-02T01:32:25.196Z",
+    "updatedAt": "2026-06-02T01:32:25.196Z"
   },
   {
     "id": "L4XRiI0a8oyNYid0AGxs",
+    "createdAt": "2026-05-17T00:14:27.852Z",
+    "updatedAt": "2026-05-17T00:41:06.803Z",
+    "l": 5,
     "q": "Quantos títulos Rogério Ceni conquistou com a camisa do São Paulo?",
     "c": 0,
-    "h": "Entre 1992 e 2015, uma coleção histórica.",
     "o": [
       "18",
       "19",
       "20",
       "12"
     ],
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "l": 5,
-    "updatedAt": "2026-05-17T00:41:06.803Z"
+    "h": "Entre 1992 e 2015, uma coleção histórica."
   },
   {
     "id": "L9Uimsr3pTt4kJdMPyOI",
-    "c": 0,
     "q": "Em que data o Estádio do Morumbi foi inaugurado?",
-    "l": 3,
-    "updatedAt": "2026-05-17T00:31:01.193Z",
-    "createdAt": "2026-05-17T00:14:27.852Z",
+    "c": 0,
+    "h": "A data foi em outubro, no início do campeonato paulista.",
     "o": [
       "2º de outubro de 1960",
       "10 de outubro de 1960",
       "25 de agosto de 1960",
       "1 de outubro de 1960"
     ],
-    "h": "A data foi em outubro, no início do campeonato paulista."
+    "createdAt": "2026-05-17T00:14:27.852Z",
+    "updatedAt": "2026-05-17T00:31:01.193Z",
+    "l": 3
   },
   {
     "id": "LBw9EyTirRUBjATt7NWK",
-    "c": 3,
-    "q": "Em que ano o São Paulo FC foi pioneiro ao fundar a primeira torcida organizada do futebol brasileiro?",
-    "l": 6,
-    "updatedAt": "2026-05-17T04:32:00.685Z",
     "o": [
       "1931",
       "1930",
@@ -946,42 +1212,44 @@
       "1939"
     ],
     "h": "Desde o início pioneiro",
+    "q": "Em que ano o São Paulo FC foi pioneiro ao fundar a primeira torcida organizada do futebol brasileiro?",
+    "c": 3,
+    "l": 6,
+    "updatedAt": "2026-05-17T04:32:00.685Z",
     "createdAt": "2026-05-17T04:32:00.685Z"
   },
   {
     "id": "LDUy0aKIfssM6AWs8fTw",
-    "createdAt": "2026-05-17T02:38:31.314Z",
+    "c": 2,
+    "q": "Qual treinador do São Paulo Futebol Clube conquistou dois títulos mundiais consecutivos?",
+    "h": "O mestre dos mestres",
     "o": [
       "Muricy Ramalho",
       "Paulo Autuori",
       "Telê Santana",
       "Rogério Ceni"
     ],
-    "h": "O mestre dos mestres",
     "l": 4,
     "updatedAt": "2026-05-17T02:38:31.314Z",
-    "q": "Qual treinador do São Paulo Futebol Clube conquistou dois títulos mundiais consecutivos?",
-    "c": 2
+    "createdAt": "2026-05-17T02:38:31.314Z"
   },
   {
     "id": "LpydICQNL9NaWggZ7aFA",
-    "createdAt": "2026-05-17T04:17:08.496Z",
+    "h": "é considerado o segundo maior clássico do Brasil e figura na 18ª posição geral dos maiores clássicos do mundo, segundo a revista World Soccer.",
     "o": [
       "Majestoso",
       "Choque-Rei",
       "San-São",
       "Clássico da Saudade"
     ],
-    "h": "é considerado o segundo maior clássico do Brasil e figura na 18ª posição geral dos maiores clássicos do mundo, segundo a revista World Soccer.",
-    "l": 6,
-    "updatedAt": "2026-05-17T04:17:40.664Z",
     "q": "Qual foi o segundo maior clássico do mundo segundo a revista World Soccer, envolvendo o São Paulo FC?",
-    "c": 0
+    "c": 0,
+    "createdAt": "2026-05-17T04:17:08.496Z",
+    "l": 6,
+    "updatedAt": "2026-05-17T04:17:40.664Z"
   },
   {
     "id": "Lywnya30CE4wZ9L35JV1",
-    "q": "Qual foi o segundo maior jejum de títulos do São Paulo FC?",
-    "c": 2,
     "h": "Não gosto nem de lembrar disso, ainda bem que não foi uma década desta vez.",
     "o": [
       "6 anos",
@@ -989,59 +1257,75 @@
       "8 anos",
       "9 anos"
     ],
+    "q": "Qual foi o segundo maior jejum de títulos do São Paulo FC?",
+    "c": 2,
+    "updatedAt": "2026-05-17T03:51:35.112Z",
     "createdAt": "2026-05-17T03:51:35.112Z",
-    "l": 4,
-    "updatedAt": "2026-05-17T03:51:35.112Z"
+    "l": 4
   },
   {
     "id": "MIUTcRHuMcCqNfaMR5qS",
-    "l": 3,
-    "updatedAt": "2026-05-17T03:46:29.637Z",
-    "createdAt": "2026-05-17T03:46:29.637Z",
+    "h": "Uma vez ATLETA.....",
     "o": [
       "Judô",
       "Boxe",
       "Atletismo",
       "Natação"
     ],
-    "h": "Uma vez ATLETA.....",
     "c": 2,
-    "q": "Além do futebol, qual outro esporte o São Paulo FC tem tradição histórica, com atleta bicampeão olímpico?"
+    "q": "Além do futebol, qual outro esporte o São Paulo FC tem tradição histórica, com atleta bicampeão olímpico?",
+    "l": 3,
+    "updatedAt": "2026-05-17T03:46:29.637Z",
+    "createdAt": "2026-05-17T03:46:29.637Z"
+  },
+  {
+    "id": "MNWt4C7nMzgZ4T2LZpCB",
+    "updatedAt": "2026-06-02T01:26:19.001Z",
+    "h": "Ele era o maior ídolo do clube carioca antes de se tornar o ‘Diamante Negro’ no Morumbi.",
+    "o": [
+      "Botafogo",
+      "Vasco",
+      "Flamengo",
+      "Fluminense"
+    ],
+    "l": 1,
+    "c": 2,
+    "createdAt": "2026-06-02T01:26:19.001Z",
+    "q": "Na década de 40, o São Paulo contratou Leônidas da Silva\npelo valor recorde de 200 contos de réis. De qual clube ele veio?"
   },
   {
     "id": "MOcPdwEwGgO9pDvxLZ68",
-    "c": 0,
     "q": "Qual foi a goleada do São Paulo sobre o Santos em junho de 1944?",
-    "l": 4,
-    "createdAt": "2026-05-17T00:14:27.852Z",
+    "c": 0,
     "h": "Uma das maiores goleadas nos clássicos paulistas da história.",
     "o": [
       "9x1",
       "8x0",
       "7x1",
       "10x2"
-    ]
+    ],
+    "l": 4,
+    "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "MdMftXqGheXlku2SJPip",
-    "h": "Foi contra um clube do RJ",
+    "l": 2,
+    "updatedAt": "2026-06-01T03:01:46.203Z",
+    "createdAt": "2026-06-01T03:01:46.203Z",
     "o": [
       "Palmeiras",
       "Botafogo",
       "Santo André",
       "Flamengo"
     ],
-    "l": 2,
-    "updatedAt": "2026-06-01T03:01:46.203Z",
+    "h": "Foi contra um clube do RJ",
     "c": 1,
-    "createdAt": "2026-06-01T03:01:46.203Z",
     "q": "Contra qual equipe Hernanes fez sua estreia oficial em competições profissionais pelo São Paulo?"
   },
   {
     "id": "MuKmzXb7D0WzGiLh90nN",
     "c": 0,
     "q": "O São Paulo venceu o MUNDIAL de 1992 contra qual time?",
-    "l": 2,
     "h": "O adversário era o grande clube espanhol de Johan Cruyff.",
     "o": [
       "Barcelona",
@@ -1049,42 +1333,58 @@
       "Ajax",
       "Juventus"
     ],
+    "l": 2,
     "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
+    "id": "MuoNCmkamNH14do7KxtL",
+    "l": 2,
+    "updatedAt": "2026-06-02T01:43:31.918Z",
+    "createdAt": "2026-06-02T01:43:31.918Z",
+    "o": [
+      "Tigre",
+      "Tigres",
+      "Lanús",
+      "Universidad do Chile"
+    ],
+    "h": "O jogo de volta terminou no intervalo após uma confusão generalizada",
+    "q": "Qual foi o adversário do São Paulo na final da Copa SulAmericana de 2012?",
+    "c": 0
+  },
+  {
     "id": "Mv0lRDcXhMeFDt722plS",
-    "c": 2,
     "q": "Qual foi o valor da contratação de Leônidas da Silva pelo São Paulo FC em 1942, valor recorde da época?",
-    "l": 6,
-    "updatedAt": "2026-05-17T04:29:22.735Z",
-    "createdAt": "2026-05-17T04:29:22.735Z",
-    "h": "Era muito dinheiro para a época",
+    "c": 2,
     "o": [
       "100 contos de réis",
       "350 contos de réis",
       "200 contos de réis",
       "500 contos de réis"
-    ]
+    ],
+    "h": "Era muito dinheiro para a época",
+    "updatedAt": "2026-05-17T04:29:22.735Z",
+    "createdAt": "2026-05-17T04:29:22.735Z",
+    "l": 6
   },
   {
     "id": "MyQh8lXIMItGNTTNuSNt",
-    "updatedAt": "2026-05-17T03:27:53.782Z",
-    "l": 1,
-    "createdAt": "2026-05-17T03:27:53.782Z",
+    "q": "Telê Santana é considerado o técnico mais vencedor da história do São Paulo FC. Quantas passagens ele teve pelo clube?",
+    "c": 2,
+    "h": "A primeira foi em 1973",
     "o": [
       "1 passagem",
       "3 passagem",
       "2 passagem",
       "4 passagem"
     ],
-    "h": "A primeira foi em 1973",
-    "c": 2,
-    "q": "Telê Santana é considerado o técnico mais vencedor da história do São Paulo FC. Quantas passagens ele teve pelo clube?"
+    "updatedAt": "2026-05-17T03:27:53.782Z",
+    "createdAt": "2026-05-17T03:27:53.782Z",
+    "l": 1
   },
   {
     "id": "N0BcVp9yYmLkQGpNVEow",
-    "q": "Casemiro foi revelado pelo São Paulo. Em que ano ele estreou profissionalmente?",
     "c": 0,
+    "q": "Casemiro foi revelado pelo São Paulo. Em que ano ele estreou profissionalmente?",
     "o": [
       "2010",
       "2008",
@@ -1092,25 +1392,27 @@
       "2011"
     ],
     "h": "Ele era um jovem de 17 anos quando estreou.",
-    "createdAt": "2026-05-17T00:14:27.850Z",
-    "l": 3
+    "l": 3,
+    "createdAt": "2026-05-17T00:14:27.850Z"
   },
   {
     "id": "NRAn7cok6JrX4lE5Dqdg",
     "l": 2,
     "createdAt": "2026-05-17T00:14:27.849Z",
+    "q": "Qual a posição de Rogério Ceni em campo?",
+    "c": 0,
     "h": "Único goleiro artilheiro da história do futebol.",
     "o": [
       "Goleiro",
       "Zagueiro",
       "Meia",
       "Lateral"
-    ],
-    "c": 0,
-    "q": "Qual a posição de Rogério Ceni em campo?"
+    ]
   },
   {
     "id": "Nczffwv2BqSTUPwcxU5a",
+    "l": 4,
+    "createdAt": "2026-05-17T00:14:27.852Z",
     "h": "Ele foi despedido pelo clube em fevereiro de 1978.",
     "o": [
       "Pedro Rocha",
@@ -1118,74 +1420,117 @@
       "Recoba",
       "Cavani"
     ],
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "l": 4,
     "q": "Qual atacante uruguaio jogou pelo São Paulo nos anos 70?",
     "c": 0
   },
   {
     "id": "NdsQjD45dg5Nmnw4RfSj",
-    "c": 1,
-    "q": "Rogério Ceni marcou seu primeiro gol de falta pelo São Paulo no ano de 1997, qual foi o adversário?",
     "l": 4,
-    "updatedAt": "2026-05-17T00:37:44.784Z",
     "createdAt": "2026-05-17T00:36:03.249Z",
+    "updatedAt": "2026-05-17T00:37:44.784Z",
+    "q": "Rogério Ceni marcou seu primeiro gol de falta pelo São Paulo no ano de 1997, qual foi o adversário?",
+    "c": 1,
+    "h": "O gol histórico ocorreu no dia 15 de fevereiro, em uma partida, válida pelo Campeonato Paulista",
     "o": [
       "Inter de Limeira",
       "União São João",
       "Guarani",
       "Portuguesa"
+    ]
+  },
+  {
+    "id": "OS3C7svG3Dzrpul1go4v",
+    "l": 2,
+    "q": "Qual jogador estrangeiro detém o recorde de mais partidas\ndisputadas pelo São Paulo FC?",
+    "o": [
+      "Pedro Rocha",
+      "Lugano",
+      "José Poy",
+      "Darío Pereyra"
     ],
-    "h": "O gol histórico ocorreu no dia 15 de fevereiro, em uma partida, válida pelo Campeonato Paulista"
+    "c": 2,
+    "updatedAt": "2026-06-02T01:30:02.315Z",
+    "createdAt": "2026-06-02T01:30:02.315Z",
+    "h": "Ele foi goleiro e técnico do clube, somando 525 jogos como atleta"
   },
   {
     "id": "OqmqaiHpNaxQTJfMvazE",
-    "l": 3,
     "updatedAt": "2026-05-17T02:26:32.719Z",
+    "createdAt": "2026-05-17T02:26:32.719Z",
+    "l": 3,
+    "h": "Somanda as duas passagens pelo São Paulo FC entre 2001 e 2015",
     "o": [
       "200",
       "210",
       "215",
       "212"
     ],
-    "h": "Somanda as duas passagens pelo São Paulo FC entre 2001 e 2015",
-    "createdAt": "2026-05-17T02:26:32.719Z",
+    "q": "Luís Fabiano é o terceiro maior artilheiro da história do São Paulo FC. Quantos gols ele marcou?",
+    "c": 3
+  },
+  {
+    "id": "P0pIlVftQfVgURi6x5xh",
+    "h": "Foi um dos primeiros CTs modernos do Brasil, batizado de Frederico Antonio Germano Menzen.",
+    "updatedAt": "2026-06-02T02:34:25.113Z",
+    "l": 6,
     "c": 3,
-    "q": "Luís Fabiano é o terceiro maior artilheiro da história do São Paulo FC. Quantos gols ele marcou?"
+    "createdAt": "2026-06-02T02:34:25.113Z",
+    "q": "Em que ano o São Paulo inaugurou o seu Centro de\nTreinamento da Barra Funda?",
+    "o": [
+      "1990",
+      "1984",
+      "1986",
+      "1988"
+    ]
+  },
+  {
+    "id": "PR4yFjToZxtVYpXvjkeF",
+    "o": [
+      "Serginho Chulapa",
+      "Careca",
+      "Arthur Friedenreich",
+      "Leônidas da Silva"
+    ],
+    "q": "Qual jogador detém o recorde de mais gols marcados em\num único jogo pelo São Paulo?",
+    "c": 2,
+    "createdAt": "2026-06-02T01:41:13.799Z",
+    "updatedAt": "2026-06-02T01:41:13.799Z",
+    "h": "Ele marcou 6 gols em uma partida contra o Santos em 1930.",
+    "l": 1
   },
   {
     "id": "QG7C56g0VpDSmJvKq48W",
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "h": "Frase emblemática",
+    "c": 3,
+    "q": "Quem é o autor da frase, \"A nossa vida é uma sucessiva sucessão de sucessões que se sucedem sucessivamente até sucederem o sucesso\"?",
     "o": [
       "Rogério Ceni",
       "Juvenal Juvêncio",
       "Muricy Ramalho",
       "Hernanes"
     ],
+    "h": "Frase emblemática",
     "l": 5,
-    "updatedAt": "2026-05-17T00:43:28.787Z",
-    "q": "Quem é o autor da frase, \"A nossa vida é uma sucessiva sucessão de sucessões que se sucedem sucessivamente até sucederem o sucesso\"?",
-    "c": 3
+    "createdAt": "2026-05-17T00:14:27.852Z",
+    "updatedAt": "2026-05-17T00:43:28.787Z"
   },
   {
     "id": "QYIfCB8lrpxT4xjrTWHw",
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "h": "Ele estreou em novembro desse ano.",
+    "q": "Müller fez sua estreia pelo São Paulo em que ano?",
+    "c": 0,
     "o": [
       "1984",
       "1982",
       "1986",
       "1980"
     ],
+    "h": "Ele estreou em novembro desse ano.",
     "l": 4,
-    "q": "Müller fez sua estreia pelo São Paulo em que ano?",
-    "c": 0
+    "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "Qcmy3xtAWxn7UmUOqE4j",
-    "q": "Qual apelido tinha Leônidas da Silva?",
-    "c": 0,
+    "l": 1,
+    "updatedAt": "2026-05-17T02:16:27.719Z",
     "createdAt": "2026-05-17T02:16:27.719Z",
     "o": [
       "Diamante Negro",
@@ -1194,42 +1539,56 @@
       "Chokito"
     ],
     "h": "É um chocolate.",
-    "l": 1,
-    "updatedAt": "2026-05-17T02:16:27.719Z"
+    "q": "Qual apelido tinha Leônidas da Silva?",
+    "c": 0
   },
   {
     "id": "QqLi7HP1QBlyZQRFcDMI",
-    "c": 3,
-    "q": "Quando e como o apelido 'O Mais Querido' surgiu?",
-    "l": 3,
-    "updatedAt": "2026-05-17T01:14:13.830Z",
-    "createdAt": "2026-05-17T01:14:13.830Z",
+    "h": "o São Paulo entrou com as cores do estado",
     "o": [
       "Surgiu após vencer o Mundial de 1992",
       "Surgiu após o primeiro campeonato brasileiro",
       "Surgiu após pesquisa da Datafolha em 1970",
       "Surgiu na inauguração do Pacaembu em 1940, quando o clube entrou com as cores do estado proibidas pela ditadura Vargas"
     ],
-    "h": "o São Paulo entrou com as cores do estado"
+    "q": "Quando e como o apelido 'O Mais Querido' surgiu?",
+    "c": 3,
+    "l": 3,
+    "updatedAt": "2026-05-17T01:14:13.830Z",
+    "createdAt": "2026-05-17T01:14:13.830Z"
+  },
+  {
+    "id": "Qsw64nkMkXdguhqKwUQP",
+    "createdAt": "2026-06-02T01:59:58.791Z",
+    "l": 3,
+    "c": 0,
+    "o": [
+      "Fabuloso",
+      "França",
+      "Reinaldo",
+      "Dagoberto"
+    ],
+    "h": "O ‘Fabuloso’ em sua primeira passagem goleadora pelo clube.",
+    "updatedAt": "2026-06-02T01:59:58.791Z",
+    "q": "Qual jogador do São Paulo foi o artilheiro do Campeonato\nBrasileiro de 2002?"
   },
   {
     "id": "R2LW7NTmVocnsrcgcBIh",
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "h": "O adversário na final foi um time argentino.",
     "o": [
       "2012",
       "2015",
       "2008",
       "2018"
     ],
-    "l": 3,
+    "h": "O adversário na final foi um time argentino.",
+    "c": 0,
     "q": "O São Paulo ganhou a Copa Sul-Americana em qual ano?",
-    "c": 0
+    "l": 3,
+    "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "R56UuYVThlug8R0VdQN9",
-    "q": "Arthur Friedenreich recebeu qual apelido histórico?",
-    "c": 0,
+    "l": 3,
     "createdAt": "2026-05-17T00:14:27.850Z",
     "h": "O nome fazia referência à sua bravura e força.",
     "o": [
@@ -1238,12 +1597,11 @@
       "O Touro",
       "O Falcão"
     ],
-    "l": 3
+    "q": "Arthur Friedenreich recebeu qual apelido histórico?",
+    "c": 0
   },
   {
     "id": "RnRzkiSmm5ZwyR0WJFLH",
-    "l": 4,
-    "createdAt": "2026-05-17T00:14:27.852Z",
     "o": [
       "Junho de 1970",
       "Março de 1972",
@@ -1252,57 +1610,56 @@
     ],
     "h": "Ele nasceu em Itaquera, São Paulo.",
     "c": 0,
-    "q": "Em que mês e ano Cafu nasceu?"
+    "q": "Em que mês e ano Cafu nasceu?",
+    "l": 4,
+    "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "RyNXC0ewOTMFY76C5Jw3",
+    "l": 6,
+    "updatedAt": "2026-05-17T04:21:55.048Z",
     "createdAt": "2026-05-17T04:21:55.048Z",
+    "c": 2,
+    "q": "Rogério Ceni é recordista em partidas como capitão pelo mesmo clube. Quantas vezes ele foi capitão do São Paulo?",
+    "h": "É muita coisa, tipo, quase uma milhar, mas um quase um pouco distante.",
     "o": [
       "912",
       "990",
       "982",
       "946"
-    ],
-    "h": "É muita coisa, tipo, quase uma milhar, mas um quase um pouco distante.",
-    "updatedAt": "2026-05-17T04:21:55.048Z",
-    "l": 6,
-    "q": "Rogério Ceni é recordista em partidas como capitão pelo mesmo clube. Quantas vezes ele foi capitão do São Paulo?",
-    "c": 2
+    ]
   },
   {
     "id": "SA6lXInIuSmXkW9tfbOO",
+    "l": 1,
+    "updatedAt": "2026-05-17T02:12:25.558Z",
     "createdAt": "2026-05-17T02:12:25.558Z",
+    "q": "Quem é o jogador com mais partidas disputadas pelo São Paulo FC?",
+    "c": 0,
     "o": [
       "Rogério Ceni",
       "Luciano",
       "França",
       "Raí"
     ],
-    "h": "Ele é simplesmente uma lenda.",
-    "l": 1,
-    "updatedAt": "2026-05-17T02:12:25.558Z",
-    "q": "Quem é o jogador com mais partidas disputadas pelo São Paulo FC?",
-    "c": 0
+    "h": "Ele é simplesmente uma lenda."
   },
   {
     "id": "SGCx9pJxMv117ciRoDG9",
-    "q": "Em que ano Cafu foi revelado pelo São Paulo?",
+    "l": 3,
+    "createdAt": "2026-05-17T00:14:27.852Z",
     "c": 0,
+    "q": "Em que ano Cafu foi revelado pelo São Paulo?",
+    "h": "Ele estreou ainda na era dos títulos paulistas.",
     "o": [
       "1989",
       "1987",
       "1991",
       "1985"
-    ],
-    "h": "Ele estreou ainda na era dos títulos paulistas.",
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "l": 3
+    ]
   },
   {
     "id": "ScVBwGiqtivo8DlkPrk9",
-    "q": "Qual jogador é considerado o maior ídolo da história do São Paulo?",
-    "c": 0,
-    "createdAt": "2026-05-17T00:14:27.849Z",
     "h": "Ele foi goleiro e artilheiro ao mesmo tempo.",
     "o": [
       "Rogério Ceni",
@@ -1310,12 +1667,13 @@
       "Cafu",
       "Müller"
     ],
-    "l": 1
+    "c": 0,
+    "q": "Qual jogador é considerado o maior ídolo da história do São Paulo?",
+    "l": 1,
+    "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "SvlhGlBfRmiQtEJj3Lnh",
-    "l": 5,
-    "updatedAt": "2026-05-17T03:56:06.119Z",
     "o": [
       "Mineirão",
       "Pacaembú",
@@ -1323,88 +1681,102 @@
       "Canindé"
     ],
     "h": "Quem gosta de pão de queijo?",
-    "createdAt": "2026-05-17T03:56:06.119Z",
+    "q": "Em qual estádio o São Paulo FC conquistou seu primeiro título do Campeonato Brasileiro, em 1977?",
     "c": 0,
-    "q": "Em qual estádio o São Paulo FC conquistou seu primeiro título do Campeonato Brasileiro, em 1977?"
+    "updatedAt": "2026-05-17T03:56:06.119Z",
+    "createdAt": "2026-05-17T03:56:06.119Z",
+    "l": 5
   },
   {
     "id": "TRAU5Zk3xjsa18DzaCSy",
+    "l": 4,
     "updatedAt": "2026-06-01T02:57:13.668Z",
+    "createdAt": "2026-06-01T02:57:13.668Z",
+    "c": 1,
+    "q": "Em que data Hernanes fez sua estreia absoluta pelo São Paulo?",
     "o": [
       "19 de junho de 2005",
       "2 de junho de 2004",
       "12 de julho de 2004",
       "19 de junho de 2004"
     ],
-    "l": 4,
-    "h": "Aconteceu um ano antes de sua estreia oficial no Campeonato Brasileiro.",
-    "q": "Em que data Hernanes fez sua estreia absoluta pelo São Paulo?",
-    "createdAt": "2026-06-01T02:57:13.668Z",
-    "c": 1
+    "h": "Aconteceu um ano antes de sua estreia oficial no Campeonato Brasileiro."
+  },
+  {
+    "id": "TamlLQ3OKiU20hNivDqZ",
+    "createdAt": "2026-06-02T01:49:57.858Z",
+    "updatedAt": "2026-06-02T01:49:57.858Z",
+    "h": "Antonio Sastre, conhecido como ‘El Maestro’",
+    "l": 2,
+    "o": [
+      "Sastre",
+      "Geraldo Scotto",
+      "Bordon",
+      "Romerito"
+    ],
+    "q": "Em 1943, o São Paulo contratou um atacante paraguaio\nque se tornou ídolo e foi fundamental no título da ‘moeda em pé’. Quem\nera ele?",
+    "c": 0
   },
   {
     "id": "Te22X8youvWU0fkfauSz",
-    "c": 2,
-    "q": "Por que o São Paulo FC é chamado de 'Clube da Fé'?",
-    "l": 2,
-    "updatedAt": "2026-05-17T01:09:52.155Z",
-    "h": "Um grande time jamais morre",
     "o": [
       "Por ter muitos jogadores religiosos",
       "Por ter vencido títulos em datas religiosas",
       "Por ter ressurgido após ser extinto em 1935",
       "Por ter sido fundado por um cardeal"
     ],
+    "h": "Um grande time jamais morre",
+    "q": "Por que o São Paulo FC é chamado de 'Clube da Fé'?",
+    "c": 2,
+    "l": 2,
+    "updatedAt": "2026-05-17T01:09:52.155Z",
     "createdAt": "2026-05-17T01:09:52.155Z"
   },
   {
     "id": "U4CtmeoTOBai0EEz51WK",
     "c": 0,
     "q": "Qual a cor que NUNCA aparece no uniforme do São Paulo?",
-    "l": 1,
-    "updatedAt": "2026-05-17T00:25:51.051Z",
-    "createdAt": "2026-05-17T00:14:27.849Z",
     "h": "O tricolor paulista é vermelho, branco e preto.",
     "o": [
       "Verde",
       "Azul",
       "Amarelo",
       "Branco"
-    ]
+    ],
+    "l": 1,
+    "createdAt": "2026-05-17T00:14:27.849Z",
+    "updatedAt": "2026-05-17T00:25:51.051Z"
   },
   {
     "id": "UUwYFaOkWvWHxpqSMQFK",
-    "c": 0,
-    "q": "Qual jogador resumiu em uma carreira tudo que o São Paulo representa: lealdade, história e superação?",
     "l": 6,
     "createdAt": "2026-05-17T00:14:27.853Z",
-    "h": "1.237 jogos, 131 gols, 17 títulos, tudo pelo mesmo clube. Uma história impossível de superar.",
+    "q": "Qual jogador resumiu em uma carreira tudo que o São Paulo representa: lealdade, história e superação?",
+    "c": 0,
     "o": [
       "Rogério Ceni — 1.237 jogos e 131 gols como goleiro",
       "Raí — capitão do tricampeonato",
       "Telê Santana — técnico dos Mundiais",
       "Cafu — bicampeão mundial com a Seleção"
-    ]
+    ],
+    "h": "1.237 jogos, 131 gols, 17 títulos, tudo pelo mesmo clube. Uma história impossível de superar."
   },
   {
     "id": "Udbw5rA36lrdHeHFIqDB",
-    "c": 0,
-    "q": "Qual foi o primeiro título mundial do São Paulo?",
     "l": 1,
     "createdAt": "2026-05-17T00:14:27.849Z",
-    "h": "O SPFC venceu o Barcelona nesta final histórica.",
     "o": [
       "1992",
       "1993",
       "2005",
       "1991"
-    ]
+    ],
+    "h": "O SPFC venceu o Barcelona nesta final histórica.",
+    "c": 0,
+    "q": "Qual foi o primeiro título mundial do São Paulo?"
   },
   {
     "id": "Ul5p2RV2s2l3HihEbZ2V",
-    "q": "O São Paulo FC, Corinthians e Palmeiras formam o chamado 'Trio de Ferro' da capital. Quando o São Paulo passou a ser considerado parte desse grupo?",
-    "c": 0,
-    "createdAt": "2026-05-17T03:39:30.676Z",
     "o": [
       "1940",
       "1930",
@@ -1412,111 +1784,144 @@
       "1980"
     ],
     "h": "Antes o o grupo das três grandes forças paulistanas da época era composto por Corinthians, Palmeiras e Paulistano",
+    "q": "O São Paulo FC, Corinthians e Palmeiras formam o chamado 'Trio de Ferro' da capital. Quando o São Paulo passou a ser considerado parte desse grupo?",
+    "c": 0,
     "updatedAt": "2026-05-17T03:39:30.676Z",
+    "createdAt": "2026-05-17T03:39:30.676Z",
     "l": 3
   },
   {
     "id": "Ur34stI0pP2D6pUNSYfK",
+    "l": 1,
+    "updatedAt": "2026-06-01T02:58:54.073Z",
+    "createdAt": "2026-06-01T02:58:54.073Z",
     "q": "Contra qual equipe Hernanes fez sua estreia absoluta com a camisa do São Paulo?",
+    "c": 0,
+    "h": "O adversário não era brasileiro.",
     "o": [
       "Los Angeles Galaxy",
       "Boca Juniors",
       "Flamengo",
       "Botafogo"
-    ],
-    "updatedAt": "2026-06-01T02:58:54.073Z",
-    "c": 0,
-    "l": 1,
-    "h": "O adversário não era brasileiro.",
-    "createdAt": "2026-06-01T02:58:54.073Z"
+    ]
   },
   {
     "id": "UrHyuAwETxMoVt4z3zNR",
+    "l": 6,
     "createdAt": "2026-05-17T00:14:27.853Z",
+    "updatedAt": "2026-05-17T00:49:58.247Z",
+    "c": 0,
+    "q": "Considerando todos os títulos, qual é a data mais importante da história do São Paulo Futebol Clube?",
     "h": "Sem a fundação em 25 de janeiro de 1930, nada mais existiria. É a data mãe de todas as conquistas.",
     "o": [
       "25 de janeiro de 1930 — Fundação do clube",
       "22 de dezembro de 1992 — 1º Mundial",
       "26 de maio de 1993 — 2ª Libertadores",
       "19 de dezembro de 2005 — 3º Mundial"
-    ],
-    "updatedAt": "2026-05-17T00:49:58.247Z",
-    "l": 6,
-    "q": "Considerando todos os títulos, qual é a data mais importante da história do São Paulo Futebol Clube?",
-    "c": 0
+    ]
   },
   {
     "id": "V11tetLuDeRygh6B8ZMn",
-    "l": 4,
-    "updatedAt": "2026-05-17T02:37:39.692Z",
-    "h": "Ficou conhecido por suas anotações na beira do campo",
     "o": [
       "Edgar Bauza",
       "Juan Carlos Osorio",
       "Zubeldia",
       "Miguel Ángel Ramires"
     ],
-    "createdAt": "2026-05-17T02:37:39.692Z",
+    "h": "Ficou conhecido por suas anotações na beira do campo",
+    "q": "Qual treinador estrangeiro do São Paulo Futebol Clube ficou famoso pelo estilo tático inovador em 2015?",
     "c": 1,
-    "q": "Qual treinador estrangeiro do São Paulo Futebol Clube ficou famoso pelo estilo tático inovador em 2015?"
+    "l": 4,
+    "updatedAt": "2026-05-17T02:37:39.692Z",
+    "createdAt": "2026-05-17T02:37:39.692Z"
   },
   {
     "id": "V4S8M4yoOMUUXrEyvtZ0",
+    "l": 6,
+    "updatedAt": "2026-05-17T02:39:31.937Z",
     "createdAt": "2026-05-17T02:39:31.937Z",
-    "h": "Nunca vai existir outro igual",
+    "c": 1,
+    "q": "Qual treinador é o recordista de títulos oficiais na história do São Paulo Futebol Clube?",
     "o": [
       "Muricy Ramalho",
       "Telê Santana",
       "Rubens Minelli",
       "Hernan Crespo"
     ],
-    "l": 6,
-    "updatedAt": "2026-05-17T02:39:31.937Z",
-    "q": "Qual treinador é o recordista de títulos oficiais na história do São Paulo Futebol Clube?",
-    "c": 1
+    "h": "Nunca vai existir outro igual"
   },
   {
     "id": "V50YxRv9Y2MbSNAJ0iT6",
+    "l": 3,
+    "createdAt": "2026-05-17T00:14:27.850Z",
+    "c": 0,
+    "q": "Qual foi o placar da final do Mundial de 1992 entre São Paulo e Barcelona?",
     "h": "Foi uma final equilibrada, mas o SPFC levou a melhor.",
     "o": [
       "2x1",
       "1x0",
       "3x2",
       "2x0"
-    ],
-    "createdAt": "2026-05-17T00:14:27.850Z",
-    "l": 3,
-    "q": "Qual foi o placar da final do Mundial de 1992 entre São Paulo e Barcelona?",
-    "c": 0
+    ]
   },
   {
     "id": "V6Z83X0DuR7u1MGFPjRX",
-    "q": "O São Paulo venceu o Mundial de 2005 contra qual time inglês?",
-    "c": 0,
+    "h": "Os Reds de Liverpool foram os adversários.",
     "o": [
       "Liverpool",
       "Manchester United",
       "Chelsea",
       "Arsenal"
     ],
-    "h": "Os Reds de Liverpool foram os adversários.",
-    "createdAt": "2026-05-17T00:14:27.849Z",
-    "l": 2
+    "q": "O São Paulo venceu o Mundial de 2005 contra qual time inglês?",
+    "c": 0,
+    "l": 2,
+    "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "WpadE0cQTAAr88TSXNly",
-    "c": 0,
-    "q": "Qual treinador do São Paulo Futebol Clube ficou conhecido por revelar os “Menudos do Morumbi”?",
     "updatedAt": "2026-05-17T02:35:25.644Z",
-    "l": 3,
     "createdAt": "2026-05-17T02:35:25.644Z",
+    "l": 3,
     "o": [
       "Cilinho",
       "Muricy Ramalho",
       "Telê Santana",
       "Carpegiani"
     ],
-    "h": "Apostava fortemente na base nos anos 1980"
+    "h": "Apostava fortemente na base nos anos 1980",
+    "q": "Qual treinador do São Paulo Futebol Clube ficou conhecido por revelar os “Menudos do Morumbi”?",
+    "c": 0
+  },
+  {
+    "id": "Wq3WM5hFOxFUYZ2bRqKr",
+    "q": "Quem é o maior artilheiro da história do São Paulo (todos\nos tempos)?",
+    "c": 3,
+    "createdAt": "2026-06-02T01:44:41.728Z",
+    "h": "Ele marcou 242 gols pelo clube nas décadas de 70 e 80.",
+    "o": [
+      "Luís Fabiano",
+      "França",
+      "Gino Orlando",
+      "Serginho Chulapa"
+    ],
+    "updatedAt": "2026-06-02T01:44:41.728Z",
+    "l": 2
+  },
+  {
+    "id": "Wqzm5Uij06NKRXv5bmGs",
+    "l": 2,
+    "updatedAt": "2026-06-02T01:35:25.427Z",
+    "createdAt": "2026-06-02T01:35:25.427Z",
+    "o": [
+      "Campanha Ouro",
+      "Campanha Soberana",
+      "Campanha do Cimento",
+      "Campanha do Tijolo"
+    ],
+    "h": "O nome remete ao material básico de construção que os torcedores ajudavam a comprar",
+    "c": 2,
+    "q": "Qual era o nome da campanha popular que arrecadou\nfundos para a construção do Morumbi nos anos 50 e 60?"
   },
   {
     "id": "XIySLmq9QZOj6OKk6MTZ",
@@ -1530,55 +1935,56 @@
     ],
     "h": "E ela teima em cair várias e várias vezes",
     "createdAt": "2026-05-17T03:54:42.178Z",
-    "l": 4,
-    "updatedAt": "2026-05-30T03:54:08.713Z"
+    "updatedAt": "2026-05-30T03:54:08.713Z",
+    "l": 4
   },
   {
     "id": "XO9MzpPSxy40ISnKYYT9",
     "l": 2,
+    "createdAt": "2026-05-17T00:14:27.850Z",
+    "c": 0,
+    "q": "Raí foi capitão do São Paulo e irmão de qual famoso jogador?",
     "h": "Seu irmão era ídolo do Corinthians e do Brasil.",
     "o": [
       "Sócrates",
       "Zico",
       "Bebeto",
       "Romário"
-    ],
-    "createdAt": "2026-05-17T00:14:27.850Z",
-    "c": 0,
-    "q": "Raí foi capitão do São Paulo e irmão de qual famoso jogador?"
+    ]
   },
   {
     "id": "XfpVLCJ6oKMiq2IvgyV4",
-    "c": 0,
-    "q": "Arthur Friedenreich nasceu em que data?",
-    "l": 5,
-    "createdAt": "2026-05-17T00:14:27.852Z",
+    "h": "O Tigre nasceu no século XIX em São Paulo.",
     "o": [
       "18 de julho de 1892",
       "25 de março de 1890",
       "1 de outubro de 1895",
       "15 de agosto de 1893"
     ],
-    "h": "O Tigre nasceu no século XIX em São Paulo."
+    "q": "Arthur Friedenreich nasceu em que data?",
+    "c": 0,
+    "l": 5,
+    "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "XltEMjYRYOyKdFVNofSK",
-    "q": "O que representam as duas estrelas douradas no escudo do São Paulo FC?",
-    "c": 1,
+    "l": 3,
+    "updatedAt": "2026-05-17T03:41:26.410Z",
     "createdAt": "2026-05-17T03:41:26.410Z",
-    "h": "Um dos maiores feitos do Brasil",
+    "c": 1,
+    "q": "O que representam as duas estrelas douradas no escudo do São Paulo FC?",
     "o": [
       "Os dois Mundiais",
       "Os dois recordes mundiais de salto triplo de Adhemar Ferreira da Silva",
       "Dois recordes do Rogério Ceni",
       "Os dois clubes que se juntaram e deram a origem ao SPFC"
     ],
-    "l": 3,
-    "updatedAt": "2026-05-17T03:41:26.410Z"
+    "h": "Um dos maiores feitos do Brasil"
   },
   {
     "id": "XmYUQv0r53Tp7pzTXMCy",
-    "createdAt": "2026-05-17T04:01:28.020Z",
+    "c": 0,
+    "q": "Qual jogador do São Paulo Futebol Clube marcou o primeiro gol da história do Morumbi?",
     "o": [
       "Arnaldo Poffo Garcia (Peixinho)",
       "Leônidas da Silva (Diamante Negro)",
@@ -1588,28 +1994,42 @@
     "h": "O gol aconteceu na inauguração do Estádio do Morumbi em 1960",
     "l": 5,
     "updatedAt": "2026-05-17T04:01:28.020Z",
-    "q": "Qual jogador do São Paulo Futebol Clube marcou o primeiro gol da história do Morumbi?",
-    "c": 0
+    "createdAt": "2026-05-17T04:01:28.020Z"
   },
   {
     "id": "Y9IRBbj2Mvb5BI3E9Xhq",
-    "l": 2,
-    "updatedAt": "2026-05-17T01:32:28.607Z",
-    "h": "É, já fomos melhores.",
+    "q": "Quantos títulos do Campeonato Paulista o São Paulo FC possui?",
+    "c": 3,
     "o": [
       "21",
       "23",
       "24",
       "22"
     ],
+    "h": "É, já fomos melhores.",
+    "updatedAt": "2026-05-17T01:32:28.607Z",
     "createdAt": "2026-05-17T01:32:28.607Z",
-    "c": 3,
-    "q": "Quantos títulos do Campeonato Paulista o São Paulo FC possui?"
+    "l": 2
+  },
+  {
+    "id": "YwWB80v92K4oHEqtcHNG",
+    "q": "Qual técnico detém o recorde de mais jogos comandando\no São Paulo FC?",
+    "c": 1,
+    "o": [
+      "Telê Santana",
+      "Vicente Feola",
+      "Muricy Ramalho",
+      "José Poy"
+    ],
+    "h": "Ele também foi o técnico do Brasil na conquista da Copa de 1958.",
+    "createdAt": "2026-06-02T01:37:13.702Z",
+    "l": 3,
+    "updatedAt": "2026-06-02T01:37:13.702Z"
   },
   {
     "id": "ZmLC1AFtIhGfzEMNZRtf",
-    "q": "Qual treinador levou o São Paulo Futebol Clube ao TRI da Copa Libertadores da América?",
-    "c": 1,
+    "l": 2,
+    "updatedAt": "2026-05-17T02:30:47.972Z",
     "createdAt": "2026-05-17T02:30:47.972Z",
     "h": "Também venceu o Mundial daquele ano.",
     "o": [
@@ -1618,30 +2038,29 @@
       "Telê Santana",
       "Emerson Leão"
     ],
-    "l": 2,
-    "updatedAt": "2026-05-17T02:30:47.972Z"
+    "c": 1,
+    "q": "Qual treinador levou o São Paulo Futebol Clube ao TRI da Copa Libertadores da América?"
   },
   {
     "id": "a2w5SMzTmdbOJuesLxxW",
     "q": "Qual técnico comandou o São Paulo FC na conquista do Campeonato Paulista de 2021?",
     "c": 0,
-    "createdAt": "2026-05-17T03:26:28.029Z",
+    "h": "Ele Habla",
     "o": [
       "Hernan Crespo",
       "Zubeldia",
       "Rogério Ceni",
       "Carpini"
     ],
-    "h": "Ele Habla",
+    "l": 1,
     "updatedAt": "2026-05-17T03:26:28.029Z",
-    "l": 1
+    "createdAt": "2026-05-17T03:26:28.029Z"
   },
   {
     "id": "aFhVGGDuKIAlwrfbOLFl",
-    "c": 3,
-    "q": "Qual foi o gol que deu o título da Copa do Brasil de 2023 ao São Paulo FC no primeiro jogo da final?",
-    "l": 5,
     "updatedAt": "2026-05-17T03:58:24.945Z",
+    "createdAt": "2026-05-17T03:58:24.945Z",
+    "l": 5,
     "o": [
       "Gol do Nestor",
       "Gol do Luciano",
@@ -1649,14 +2068,14 @@
       "Gol do Calleri"
     ],
     "h": "Toca nele que vocÊs já sabem..",
-    "createdAt": "2026-05-17T03:58:24.945Z"
+    "q": "Qual foi o gol que deu o título da Copa do Brasil de 2023 ao São Paulo FC no primeiro jogo da final?",
+    "c": 3
   },
   {
     "id": "aJKsfa4txPWImGV42aG6",
     "updatedAt": "2026-06-01T03:00:07.594Z",
     "createdAt": "2026-06-01T03:00:07.594Z",
-    "q": "Qual foi o placar da partida que marcou a estreia absoluta de Hernanes?",
-    "c": 2,
+    "l": 1,
     "h": "O São Paulo venceu por apenas um gol de diferença e não sofreu gols.",
     "o": [
       "São Paulo 2 x 0 Los Angeles Galaxy",
@@ -1664,97 +2083,128 @@
       "São Paulo 1 x 0 Los Angeles Galaxy",
       "São Paulo 2 x 1 Los Angeles Galaxy"
     ],
-    "l": 1
+    "q": "Qual foi o placar da partida que marcou a estreia absoluta de Hernanes?",
+    "c": 2
   },
   {
     "id": "ax90MuEQ2AkE6b4fVIhV",
-    "l": 1,
-    "updatedAt": "2026-05-17T01:11:27.785Z",
-    "h": "O Tricolor já nasceu papando títulos",
+    "c": 0,
+    "q": "Qual foi o primeiro título do São Paulo FC?",
     "o": [
       "Campeonato Paulista de 1931",
       "Campeonato Paulista de 1930",
       "Campeonato Paulista de 1943",
       "Torneio Rio-São Paulo de 1933"
     ],
-    "createdAt": "2026-05-17T01:11:27.785Z",
-    "c": 0,
-    "q": "Qual foi o primeiro título do São Paulo FC?"
+    "h": "O Tricolor já nasceu papando títulos",
+    "l": 1,
+    "updatedAt": "2026-05-17T01:11:27.785Z",
+    "createdAt": "2026-05-17T01:11:27.785Z"
   },
   {
     "id": "bNEpyIsKYaZTDY4i6MJE",
-    "q": "Adhemar Ferreira da Silva foi bicampeão olímpico em qual modalidade?",
-    "c": 3,
+    "l": 3,
+    "updatedAt": "2026-05-17T03:43:03.565Z",
     "createdAt": "2026-05-17T03:43:03.565Z",
+    "h": "Adhemar Ferreira da Silva foi bicampeão olímpico nessa modalidade",
     "o": [
       "Salto em distância",
       "Marcha Atlética",
       "Salto com vara",
       "Salto triplo"
     ],
-    "h": "Adhemar Ferreira da Silva foi bicampeão olímpico nessa modalidade",
-    "l": 3,
-    "updatedAt": "2026-05-17T03:43:03.565Z"
+    "c": 3,
+    "q": "Adhemar Ferreira da Silva foi bicampeão olímpico em qual modalidade?"
   },
   {
     "id": "bT9kUn9suhYaAkx4fbbd",
-    "c": 2,
-    "q": "Além do “Peixinho” e da “Bicicleta”, qual outro movimento histórico do futebol ficou marcado por ter sido criado por um jogador do São Paulo Futebol Clube?",
-    "updatedAt": "2026-05-17T04:38:38.811Z",
     "l": 6,
+    "updatedAt": "2026-05-17T04:38:38.811Z",
     "createdAt": "2026-05-17T04:38:38.811Z",
+    "q": "Além do “Peixinho” e da “Bicicleta”, qual outro movimento histórico do futebol ficou marcado por ter sido criado por um jogador do São Paulo Futebol Clube?",
+    "c": 2,
+    "h": "Ah King seu danado",
     "o": [
       "lambreta",
       "elástico",
       "defesa ponte",
       "folha seca"
+    ]
+  },
+  {
+    "id": "biBTFGhE3xxjIS2vNyLY",
+    "h": "Uma defesa intransponível liderada por Breno, Alex Silva e Miranda.",
+    "createdAt": "2026-06-02T01:55:07.201Z",
+    "c": 1,
+    "q": "Em 2007, o São Paulo de Muricy Ramalho bateu o recorde\nde menos gols sofridos em um Brasileirão de pontos corridos. Quantos\ngols foram?",
+    "o": [
+      "21",
+      "19",
+      "18",
+      "26"
     ],
-    "h": "Ah King seu danado"
+    "updatedAt": "2026-06-02T01:55:07.201Z",
+    "l": 2
   },
   {
     "id": "caDoed1Ra6OfAYxiDFDK",
-    "c": 0,
-    "q": "Qual foi a data exata da estreia de Rogério Ceni pelo São Paulo?",
-    "updatedAt": "2026-05-17T00:45:16.726Z",
-    "l": 5,
-    "h": "A partida foi contra o Tenerife",
     "o": [
       "25 de junho de 1993",
       "5 de março de 1993",
       "10 de agosto de 1990",
       "22 de janeiro de 1992"
     ],
-    "createdAt": "2026-05-17T00:14:27.853Z"
+    "h": "A partida foi contra o Tenerife",
+    "q": "Qual foi a data exata da estreia de Rogério Ceni pelo São Paulo?",
+    "c": 0,
+    "l": 5,
+    "createdAt": "2026-05-17T00:14:27.853Z",
+    "updatedAt": "2026-05-17T00:45:16.726Z"
   },
   {
     "id": "chOxLJEH9OT3LL48RPLA",
+    "q": "Qual lendário jogador brasileiro ficou conhecido como o “Pelé antes de Pelé”?",
+    "c": 1,
+    "h": "Ele brilhou muito antes das Copas transmitidas pela TV e foi um dos primeiros grandes ídolos do futebol brasileiro.",
     "o": [
       "Lêonidas da Silva",
       "Arthur Friedenreich",
       "Zizinho",
       "Garrincha"
     ],
-    "h": "Ele brilhou muito antes das Copas transmitidas pela TV e foi um dos primeiros grandes ídolos do futebol brasileiro.",
-    "createdAt": "2026-05-17T01:45:36.732Z",
     "updatedAt": "2026-05-17T01:45:36.732Z",
-    "l": 4,
-    "q": "Qual lendário jogador brasileiro ficou conhecido como o “Pelé antes de Pelé”?",
-    "c": 1
+    "createdAt": "2026-05-17T01:45:36.732Z",
+    "l": 4
+  },
+  {
+    "id": "cxyE11bfbr796GcKBzPN",
+    "createdAt": "2026-06-02T02:36:47.424Z",
+    "l": 1,
+    "q": "Qual jogador marcou o primeiro gol da história do São\nPaulo na Copa Libertadores (em 1972)?",
+    "o": [
+      "Terto",
+      "Toninho Guerreiro",
+      "Pedro Rocha",
+      "Everaldo"
+    ],
+    "updatedAt": "2026-06-02T02:36:47.424Z",
+    "c": 0,
+    "h": "Foi em um empate contra o Atlético-MG no Mineirão."
   },
   {
     "id": "d4rPAYjkMK6VlrNd1hir",
     "l": 6,
     "updatedAt": "2026-05-17T02:42:19.829Z",
+    "createdAt": "2026-05-17T02:42:19.829Z",
+    "q": "Qual jogador do São Paulo FC foi o segundo com mais jogos pelo clube, com 617 partidas?",
+    "c": 3,
     "o": [
       "De Sordi",
       "Rogério Ceni",
       "Serginho Chulapa",
       "Waldir Peres"
     ],
-    "h": "Uma posição que difcilmente se mexe",
-    "createdAt": "2026-05-17T02:42:19.829Z",
-    "c": 3,
-    "q": "Qual jogador do São Paulo FC foi o segundo com mais jogos pelo clube, com 617 partidas?"
+    "h": "Uma posição que difcilmente se mexe"
   },
   {
     "id": "dEd2jBzLJXHBH7J0eZIp",
@@ -1767,42 +2217,58 @@
       "Zenon"
     ],
     "h": "Seu irmão era doutor em medicina além de jogador.",
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "l": 4
+    "l": 4,
+    "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "dG9kgjzXcnM2AJsDoVft",
-    "c": 0,
-    "q": "O São Paulo venceu o Campeonato Paulista de 2021 em que fase?",
     "l": 2,
+    "createdAt": "2026-05-17T00:14:27.850Z",
     "updatedAt": "2026-05-17T00:27:34.169Z",
+    "q": "O São Paulo venceu o Campeonato Paulista de 2021 em que fase?",
+    "c": 0,
     "h": "O título foi conquistado no mata-mata.",
     "o": [
       "Final",
       "Pontos Corridos",
       "Quadrangular",
       "Grupo"
-    ],
-    "createdAt": "2026-05-17T00:14:27.850Z"
+    ]
   },
   {
     "id": "dgJKu57o1u1I7LcAOT20",
-    "updatedAt": "2026-05-17T01:51:46.026Z",
     "l": 2,
+    "updatedAt": "2026-05-17T01:51:46.026Z",
     "createdAt": "2026-05-17T01:51:46.026Z",
+    "q": "Qual ídolo do São Paulo Futebol Clube foi campeão mundial pela Seleção Brasileira em 1994?",
+    "c": 3,
+    "h": "Ídolo e muito bem vindo em Paris",
     "o": [
       "Rogério Ceni",
       "Careca",
       "Muricy Ramalho",
       "Raí"
+    ]
+  },
+  {
+    "id": "e9TIeVHvv51DOl9OFGPu",
+    "h": "Um gol de falta que garantiu o empate em 2 a 2 e o título",
+    "updatedAt": "2026-06-02T02:35:39.414Z",
+    "c": 1,
+    "q": "Qual jogador do São Paulo marcou o gol do título paulista\nde 2000 contra o Santos?",
+    "l": 1,
+    "o": [
+      "Edu",
+      "Marcelinho Paraiba",
+      "Dodô",
+      "França"
     ],
-    "h": "Ídolo e muito bem vindo em Paris",
-    "c": 3,
-    "q": "Qual ídolo do São Paulo Futebol Clube foi campeão mundial pela Seleção Brasileira em 1994?"
+    "createdAt": "2026-06-02T02:35:39.414Z"
   },
   {
     "id": "epSh0NoQqHG0zjMDn3Na",
-    "createdAt": "2026-05-17T00:14:27.850Z",
+    "c": 0,
+    "q": "O São Paulo conquistou a Libertadores de 2005 derrotando qual time brasileiro na final?",
     "o": [
       "Athletico Paranaense",
       "Flamengo",
@@ -1811,29 +2277,40 @@
     ],
     "h": "O rival era um time paranaense.",
     "l": 3,
-    "q": "O São Paulo conquistou a Libertadores de 2005 derrotando qual time brasileiro na final?",
-    "c": 0
+    "createdAt": "2026-05-17T00:14:27.850Z"
   },
   {
     "id": "esKkfjHKGm0jkZGUE9lz",
-    "c": 1,
-    "q": "Qual craque revelado pelo São Paulo Futebol Clube venceu a Copa do Mundo de 2002 ainda muito jovem?",
-    "l": 1,
     "updatedAt": "2026-05-17T01:49:35.443Z",
     "createdAt": "2026-05-17T01:49:35.443Z",
+    "l": 1,
     "h": "Depois virou Bola de Ouro no futebol europeu.",
     "o": [
       "Rogério Ceni",
       "Kaká",
       "Lucas MOura",
       "Raí"
+    ],
+    "q": "Qual craque revelado pelo São Paulo Futebol Clube venceu a Copa do Mundo de 2002 ainda muito jovem?",
+    "c": 1
+  },
+  {
+    "id": "fOiufhGYxq8Rqin6uc2f",
+    "createdAt": "2026-06-02T01:28:17.950Z",
+    "l": 5,
+    "c": 1,
+    "h": "É um número redondo que representa três décadas de força no Morumbi.",
+    "q": "O São Paulo detém o recorde de invencibilidade em jogos\nde Copa Libertadores como mandante. Quantos jogos o clube ficou\nsem perder em casa entre 1987 e 2006?",
+    "updatedAt": "2026-06-02T01:28:17.950Z",
+    "o": [
+      "20 jogos",
+      "30 jogos",
+      "35 jogos",
+      "25 jogos"
     ]
   },
   {
     "id": "fQwZgs86H7wiqavmsmdl",
-    "q": "Qual foi a goleada histórica do São Paulo sobre o Jabaquara em julho de 1945?",
-    "c": 0,
-    "createdAt": "2026-05-17T00:14:27.853Z",
     "o": [
       "12x1",
       "11x0",
@@ -1841,28 +2318,28 @@
       "9x1"
     ],
     "h": "Aconteceu em 8 de julho, uma das maiores goleadas da história.",
-    "l": 5
+    "q": "Qual foi a goleada histórica do São Paulo sobre o Jabaquara em julho de 1945?",
+    "c": 0,
+    "l": 5,
+    "createdAt": "2026-05-17T00:14:27.853Z"
   },
   {
     "id": "fYnHZEZvOYPkX34mL2B5",
-    "c": 2,
-    "q": "Em que ano ocorreu a inauguração total do Estádio do Morumbi?",
-    "updatedAt": "2026-05-17T01:26:41.221Z",
     "l": 1,
+    "updatedAt": "2026-05-17T01:26:41.221Z",
+    "createdAt": "2026-05-17T01:26:41.221Z",
+    "q": "Em que ano ocorreu a inauguração total do Estádio do Morumbi?",
+    "c": 2,
+    "h": "O evento de conclusão contou com uma grande partida entre o São Paulo e o Porto, de Portugal, terminando empatada em \\(1\\) a \\(1\\)",
     "o": [
       "1966",
       "1969",
       "1970",
       "1965"
-    ],
-    "h": "O evento de conclusão contou com uma grande partida entre o São Paulo e o Porto, de Portugal, terminando empatada em \\(1\\) a \\(1\\)",
-    "createdAt": "2026-05-17T01:26:41.221Z"
+    ]
   },
   {
     "id": "foSvSuw6gHaB7NTU3P5u",
-    "l": 5,
-    "updatedAt": "2026-05-17T04:07:21.073Z",
-    "createdAt": "2026-05-17T04:07:21.073Z",
     "o": [
       "50 jogos sem perder",
       "104 jogos consecutivos marcando gols",
@@ -1870,16 +2347,19 @@
       "10 clássicos sem sofrer gol"
     ],
     "h": "Saudades dessa fase goleadora",
+    "q": "Qual recorde impressionante o São Paulo Futebol Clube alcançou entre 1930 e 1934?",
     "c": 1,
-    "q": "Qual recorde impressionante o São Paulo Futebol Clube alcançou entre 1930 e 1934?"
+    "updatedAt": "2026-05-17T04:07:21.073Z",
+    "createdAt": "2026-05-17T04:07:21.073Z",
+    "l": 5
   },
   {
     "id": "fqeX5TEylmX4k6Wh7Njx",
-    "c": 1,
-    "q": "Qual estádio foi a casa do São Paulo Futebol Clube antes da inauguração do Morumbi?",
-    "updatedAt": "2026-05-17T03:34:31.013Z",
     "l": 2,
+    "updatedAt": "2026-05-17T03:34:31.013Z",
     "createdAt": "2026-05-17T03:34:31.013Z",
+    "q": "Qual estádio foi a casa do São Paulo Futebol Clube antes da inauguração do Morumbi?",
+    "c": 1,
     "o": [
       "Pacaembú",
       "Canindé",
@@ -1890,6 +2370,8 @@
   },
   {
     "id": "g3bbjMFOAnRNPbsCVxZt",
+    "l": 2,
+    "createdAt": "2026-05-17T00:14:27.849Z",
     "h": "Um recorde mundial de jogos pela mesma equipe.",
     "o": [
       "1.237",
@@ -1897,30 +2379,29 @@
       "1.100",
       "1.500"
     ],
-    "createdAt": "2026-05-17T00:14:27.849Z",
-    "l": 2,
-    "q": "Quantas partidas Rogério Ceni jogou pelo São Paulo?",
-    "c": 0
+    "c": 0,
+    "q": "Quantas partidas Rogério Ceni jogou pelo São Paulo?"
   },
   {
     "id": "gI5v6eBqUwjrbom3BnfO",
-    "c": 1,
-    "q": "Quantos títulos internacionais oficiais o São Paulo FC possui?",
     "l": 6,
     "updatedAt": "2026-05-17T04:18:29.129Z",
     "createdAt": "2026-05-17T04:18:29.129Z",
-    "h": "uma dúzia",
+    "q": "Quantos títulos internacionais oficiais o São Paulo FC possui?",
+    "c": 1,
     "o": [
       "21",
       "12",
       "13",
       "16"
-    ]
+    ],
+    "h": "uma dúzia"
   },
   {
     "id": "gOcHsfJNMaKEUm7jj4yK",
-    "q": "Qual foi o apelido dado ao grupo de jovens jogadores do São Paulo liderados por Müller em 1984?",
-    "c": 1,
+    "updatedAt": "2026-05-17T02:22:31.021Z",
+    "createdAt": "2026-05-17T02:22:31.021Z",
+    "l": 5,
     "o": [
       "Os garotos do Morumbi",
       "Menudos do Morumbi",
@@ -1928,12 +2409,13 @@
       "Expressinho"
     ],
     "h": "Jogavam como música",
-    "createdAt": "2026-05-17T02:22:31.021Z",
-    "l": 5,
-    "updatedAt": "2026-05-17T02:22:31.021Z"
+    "q": "Qual foi o apelido dado ao grupo de jovens jogadores do São Paulo liderados por Müller em 1984?",
+    "c": 1
   },
   {
     "id": "gWxZdeWsU7F6ZVKKxp1X",
+    "l": 3,
+    "createdAt": "2026-05-17T00:14:27.852Z",
     "h": "Ele jogou pelo São Paulo antes de ir para a Europa.",
     "o": [
       "Kaká",
@@ -1941,100 +2423,143 @@
       "Oscar",
       "Casemiro"
     ],
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "l": 3,
     "q": "Qual jogador do São Paulo ganhou o Bola de Ouro em 2007 e veio das categorias de base?",
     "c": 0
   },
   {
-    "id": "h0tB4D9HZiSuYQcZyjH7",
-    "c": 3,
-    "q": "Qual foi o clube com quem o São Paulo tentou se fundir em 1935?",
-    "updatedAt": "2026-05-17T01:25:05.693Z",
+    "id": "gcMIG1qkd1sWat2ZthKg",
+    "o": [
+      "Neto",
+      "Lê",
+      "Careca",
+      "Müller"
+    ],
+    "h": "O São Paulo saiu na frente com Edivaldo, aos 30 minutos da primeira etapa, e ampliou com ELê",
+    "createdAt": "2026-06-02T02:12:41.072Z",
+    "l": 4,
+    "q": "Quem foi o autor do gol do título paulista de 1987 contra o\nCorinthians?",
+    "c": 1,
+    "updatedAt": "2026-06-02T02:12:41.072Z"
+  },
+  {
+    "id": "gqtYoMZoawRinfiIAEfa",
+    "h": "Foi a maior virada da história dos pontos corridos até então.",
+    "c": 0,
+    "updatedAt": "2026-06-02T02:30:30.770Z",
+    "q": "Em 2008, o São Paulo tirou uma diferença de quantos\npontos para o Grêmio para ser campeão brasileiro?",
     "l": 6,
+    "createdAt": "2026-06-02T02:30:30.770Z",
+    "o": [
+      "11",
+      "12",
+      "10",
+      "09"
+    ]
+  },
+  {
+    "id": "h0tB4D9HZiSuYQcZyjH7",
+    "q": "Qual foi o clube com quem o São Paulo tentou se fundir em 1935?",
+    "c": 3,
+    "h": "O Clube era vizinho da Portuguesa",
     "o": [
       "Club Athletico Paulistano",
       "Associação Atlética Portuguesa",
       "Esporte Clube Pinheiros",
       "Clube de Regatas Tietê"
     ],
-    "h": "O Clube era vizinho da Portuguesa",
+    "l": 6,
+    "updatedAt": "2026-05-17T01:25:05.693Z",
     "createdAt": "2026-05-17T01:25:05.693Z"
   },
   {
+    "id": "hWlqHyIYjIZL7aqoJQXJ",
+    "l": 2,
+    "h": "Foi para os países vizinhos do Mercosul",
+    "updatedAt": "2026-06-02T01:48:57.702Z",
+    "createdAt": "2026-06-02T01:48:57.702Z",
+    "c": 1,
+    "q": "Qual foi a primeira excursão internacional da história do\nSão Paulo FC, realizada em 1945?",
+    "o": [
+      "Chile e Equador",
+      "Argentina e Uruguai",
+      "México",
+      "Europa"
+    ]
+  },
+  {
     "id": "heoq7nKT2TSMjBGK0n0O",
-    "l": 1,
-    "updatedAt": "2026-05-17T01:48:43.904Z",
+    "h": "Era goleiro e virou o maior ídolo da história tricolor.",
     "o": [
       "Rogério Ceni",
       "Rai",
       "Luis Fabiano",
       "França"
     ],
-    "h": "Era goleiro e virou o maior ídolo da história tricolor.",
-    "createdAt": "2026-05-17T01:48:43.904Z",
+    "q": "Qual jogador do São Paulo Futebol Clube foi campeão da Copa do Mundo de 2002 com o Brasil?",
     "c": 0,
-    "q": "Qual jogador do São Paulo Futebol Clube foi campeão da Copa do Mundo de 2002 com o Brasil?"
+    "updatedAt": "2026-05-17T01:48:43.904Z",
+    "createdAt": "2026-05-17T01:48:43.904Z",
+    "l": 1
   },
   {
     "id": "jTL37Ie0w6iDFWun89Cz",
-    "c": 2,
-    "q": "Qual jogador foi o herói da conquista da Copa Sul-Americana de 2012?",
-    "l": 3,
     "updatedAt": "2026-05-17T01:35:28.608Z",
+    "createdAt": "2026-05-17T01:35:28.608Z",
+    "l": 3,
+    "q": "Qual jogador foi o herói da conquista da Copa Sul-Americana de 2012?",
+    "c": 2,
     "o": [
       "Luis Fabiano",
       "Alan Kardec",
       "Lucas Moura",
       "Rogério Ceni"
     ],
-    "h": "Ele tinha um apelido",
-    "createdAt": "2026-05-17T01:35:28.608Z"
+    "h": "Ele tinha um apelido"
   },
   {
     "id": "k0FbXx1BWeKZGbXaWtPZ",
-    "createdAt": "2026-05-17T04:14:18.268Z",
-    "h": "Na primeiro edição do torneio, em 1971",
     "o": [
       "Leônidas da Silva",
       "Zizinho",
       "Terto",
       "Teixerinha"
     ],
+    "h": "Na primeiro edição do torneio, em 1971",
+    "q": "Qual jogador do  marcou o primeiro gol na história do São Paulo no Campeonato Brasileiro?",
+    "c": 2,
     "l": 5,
     "updatedAt": "2026-05-17T04:14:18.268Z",
-    "q": "Qual jogador do  marcou o primeiro gol na história do São Paulo no Campeonato Brasileiro?",
-    "c": 2
+    "createdAt": "2026-05-17T04:14:18.268Z"
   },
   {
     "id": "kjzbKCjk472nZ0a0j9k2",
     "l": 1,
     "updatedAt": "2026-05-17T03:29:00.148Z",
     "createdAt": "2026-05-17T03:29:00.148Z",
+    "c": 3,
+    "q": "Como é chamado o clássico entre São Paulo FC e Corinthians?",
+    "h": "Para os reis, a realeza.",
     "o": [
       "Derby",
       "SãoCor",
       "Choque-Rei",
       "Majestou"
-    ],
-    "h": "Para os reis, a realeza.",
-    "c": 3,
-    "q": "Como é chamado o clássico entre São Paulo FC e Corinthians?"
+    ]
   },
   {
     "id": "kkd2wEZHEj4hVKZ6jMnO",
-    "c": 0,
-    "q": "Em quantas competições diferentes o São Paulo FC conquistou títulos internacionais?",
-    "updatedAt": "2026-05-17T04:27:51.856Z",
-    "l": 6,
+    "h": "Tudo que seis é que nada seis",
     "o": [
       "6 competições",
       "8 competiões",
       "12 competiões",
       "5 competições"
     ],
-    "h": "Tudo que seis é que nada seis",
-    "createdAt": "2026-05-17T04:27:51.856Z"
+    "q": "Em quantas competições diferentes o São Paulo FC conquistou títulos internacionais?",
+    "c": 0,
+    "updatedAt": "2026-05-17T04:27:51.856Z",
+    "createdAt": "2026-05-17T04:27:51.856Z",
+    "l": 6
   },
   {
     "id": "lZiHnF6s1emOYVsjL7fQ",
@@ -2047,28 +2572,55 @@
       "Nacional",
       "Peñarol"
     ],
-    "createdAt": "2026-05-17T00:14:27.849Z",
-    "l": 2
+    "l": 2,
+    "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "lg8COGDXAjyw9cdXFnHA",
-    "c": 0,
-    "q": "O São Paulo conquistou a Copa do Brasil pela primeira vez em que ano?",
-    "l": 2,
+    "h": "A final foi contra o Flamengo.",
     "o": [
       "2023",
       "2012",
       "2015",
       "2018"
     ],
-    "h": "A final foi contra o Flamengo.",
+    "q": "O São Paulo conquistou a Copa do Brasil pela primeira vez em que ano?",
+    "c": 0,
+    "l": 2,
     "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
+    "id": "ltfSVbvWCmJMDiMJ3Bum",
+    "createdAt": "2026-06-02T02:07:21.124Z",
+    "updatedAt": "2026-06-02T02:07:21.124Z",
+    "o": [
+      "Serginho Chulapa",
+      "Dodô",
+      "França",
+      "Luís Fabiano"
+    ],
+    "c": 2,
+    "l": 4,
+    "q": "Qual jogador do São Paulo detém o recorde de mais gols\nmarcados em uma única edição de Campeonato Paulista?",
+    "h": "Ele marcou 24 gols na edição de 1998"
+  },
+  {
+    "id": "mViy5NPbFS0yYCoEmPiZ",
+    "l": 4,
+    "c": 1,
+    "h": "No bar eu estou",
+    "updatedAt": "2026-06-02T02:15:04.538Z",
+    "o": [
+      "Fried (El Tigre)",
+      "Barthô",
+      "Teixeirinha",
+      "Zazur"
+    ],
+    "createdAt": "2026-06-02T02:15:04.538Z",
+    "q": "Qual jogador marcou o gol 1 da história do São Paulo\nFC?"
+  },
+  {
     "id": "mX1g8yTrHRDEQn2IBtvb",
-    "c": 0,
-    "q": "Qual foi o placar exato na final do Mundial de 2005 contra o Liverpool?",
-    "l": 5,
     "h": "Um único gol decidiu o título.",
     "o": [
       "1x0",
@@ -2076,42 +2628,42 @@
       "2x0",
       "3x1"
     ],
+    "c": 0,
+    "q": "Qual foi o placar exato na final do Mundial de 2005 contra o Liverpool?",
+    "l": 5,
     "createdAt": "2026-05-17T00:14:27.853Z"
   },
   {
     "id": "maWo5ivMo5BUksizKJ9C",
-    "c": 0,
-    "q": "Qual foi a maior goleada do São Paulo na era moderna?",
     "l": 3,
     "createdAt": "2026-05-17T00:14:27.850Z",
+    "c": 0,
+    "q": "Qual foi a maior goleada do São Paulo na era moderna?",
+    "h": "Foi na Copa do Brasil em 2001.",
     "o": [
       "10x0 no Botafogo-PB",
       "12x1 no Jabaquara",
       "11x0 no Inter-SP",
       "9x0 na Port. Santista"
-    ],
-    "h": "Foi na Copa do Brasil em 2001."
+    ]
   },
   {
     "id": "n194N9zpRjbUxSCt31QP",
-    "l": 3,
-    "updatedAt": "2026-05-17T01:54:16.161Z",
-    "createdAt": "2026-05-17T01:54:16.161Z",
-    "h": "É considerado por muitos o maior treinador da história do SPFC.",
+    "c": 1,
+    "q": "Qual técnico multicampeão do São Paulo Futebol Clube comandou o Brasil na Copa do Mundo de 1982?",
     "o": [
       "Muricy Ramalho",
       "Telê Santana",
       "Parreira",
       "Dunga"
     ],
-    "c": 1,
-    "q": "Qual técnico multicampeão do São Paulo Futebol Clube comandou o Brasil na Copa do Mundo de 1982?"
+    "h": "É considerado por muitos o maior treinador da história do SPFC.",
+    "l": 3,
+    "updatedAt": "2026-05-17T01:54:16.161Z",
+    "createdAt": "2026-05-17T01:54:16.161Z"
   },
   {
     "id": "nWTuwc3w4qLcZhdbT8zq",
-    "q": "Raí foi capitão do São Paulo FC nos títulos da Libertadores de 1992 e 1993. Qual prêmio individual ele recebeu em 1992?",
-    "c": 2,
-    "createdAt": "2026-05-17T02:24:56.206Z",
     "o": [
       "Bola de Ouro",
       "Bola de Prata",
@@ -2119,58 +2671,106 @@
       "Melhor jogador do Mundial de Clubes"
     ],
     "h": "Antes de ir para a Europa",
+    "q": "Raí foi capitão do São Paulo FC nos títulos da Libertadores de 1992 e 1993. Qual prêmio individual ele recebeu em 1992?",
+    "c": 2,
     "updatedAt": "2026-05-17T02:24:56.206Z",
+    "createdAt": "2026-05-17T02:24:56.206Z",
     "l": 4
   },
   {
-    "id": "oX4VVguhU3ba1dD6d8ot",
-    "c": 0,
-    "q": "Qual treinador comandou o São Paulo Futebol Clube no tricampeonato brasileiro consecutivo entre 2006 e 2008?",
+    "id": "nc9Qujxs2STmZE3w6Dyw",
+    "q": "Na campanha do Tri-Brasileiro (2006-2008), qual goleiro\nsubstituiu Rogério Ceni em 2006 quando o capitão se lesionou?",
+    "o": [
+      "Bosco",
+      "Roger",
+      "Dênis",
+      "Alencar"
+    ],
     "l": 1,
-    "updatedAt": "2026-05-17T02:29:32.612Z",
-    "h": "Ficou famoso pela frase “Aqui é trabalho, meu filho”.",
+    "h": "Ele era conhecido como o ‘reserva de luxo’ e passou por Fortaleza e Cruzeiro",
+    "createdAt": "2026-06-02T01:31:18.573Z",
+    "updatedAt": "2026-06-02T01:31:18.573Z",
+    "c": 0
+  },
+  {
+    "id": "o4FIFpSsLi1q9pgaFAe9",
+    "l": 1,
+    "q": "Qual jogador marcou o gol do título da Copa do Brasil de\n2023, contra o Flamengo?",
+    "c": 2,
+    "updatedAt": "2026-06-02T01:56:28.846Z",
+    "o": [
+      "Calleri",
+      "Luciano",
+      "Nestor",
+      "Arboleda"
+    ],
+    "createdAt": "2026-06-02T01:56:28.846Z",
+    "h": "Um chute de fora da área que garantiu o título inédito no Morumbi"
+  },
+  {
+    "id": "oX4VVguhU3ba1dD6d8ot",
     "o": [
       "Muricy Ramalho",
       "Levir Culpi",
       "Emerson Leão",
       "Roger Machado"
     ],
-    "createdAt": "2026-05-17T02:29:32.612Z"
+    "h": "Ficou famoso pela frase “Aqui é trabalho, meu filho”.",
+    "q": "Qual treinador comandou o São Paulo Futebol Clube no tricampeonato brasileiro consecutivo entre 2006 e 2008?",
+    "c": 0,
+    "updatedAt": "2026-05-17T02:29:32.612Z",
+    "createdAt": "2026-05-17T02:29:32.612Z",
+    "l": 1
   },
   {
     "id": "ok2bZy1HLYKORe8xFH5z",
-    "l": 6,
-    "updatedAt": "2026-05-17T04:19:36.201Z",
-    "h": "É bastante, mas nem tanto",
+    "c": 0,
+    "q": "uantas vezes o São Paulo FC foi campeão do Campeonato Paulista na década de 1940?",
     "o": [
       "5 vezes",
       "6 vezes",
       "3 vezes",
       "7 vezes"
     ],
-    "createdAt": "2026-05-17T04:19:36.201Z",
-    "c": 0,
-    "q": "uantas vezes o São Paulo FC foi campeão do Campeonato Paulista na década de 1940?"
+    "h": "É bastante, mas nem tanto",
+    "l": 6,
+    "updatedAt": "2026-05-17T04:19:36.201Z",
+    "createdAt": "2026-05-17T04:19:36.201Z"
+  },
+  {
+    "id": "oovfCijEd1859RmSTfVB",
+    "updatedAt": "2026-06-02T02:38:05.296Z",
+    "createdAt": "2026-06-02T02:38:05.296Z",
+    "h": "O ‘Artilheiro dos Gols Bonitos’ marcou 5 gols contra o Cruzeiro em 1997",
+    "l": 1,
+    "q": "Qual jogador do São Paulo detém o recorde de mais gols\nem uma única partida de Campeonato Brasileiro?",
+    "c": 1,
+    "o": [
+      "França",
+      "Dodô",
+      "Dagoberto",
+      "Careca"
+    ]
   },
   {
     "id": "orfijZmocAapfXxFFz5H",
-    "q": "Quantos gols Leônidas da Silva marcou pelo São Paulo FC?",
-    "c": 2,
+    "l": 4,
+    "updatedAt": "2026-05-17T02:17:51.645Z",
     "createdAt": "2026-05-17T02:17:51.645Z",
+    "h": "Está entre 140 e 149",
     "o": [
       "134",
       "148",
       "144",
       "139"
     ],
-    "h": "Está entre 140 e 149",
-    "l": 4,
-    "updatedAt": "2026-05-17T02:17:51.645Z"
+    "c": 2,
+    "q": "Quantos gols Leônidas da Silva marcou pelo São Paulo FC?"
   },
   {
     "id": "p8yfZecBPRKxd4uAJOcH",
-    "l": 2,
-    "updatedAt": "2026-05-17T02:31:56.747Z",
+    "q": "Qual lendário treinador comandou o São Paulo Futebol Clube no título brasileiro de 1977, encerrando um jejum de títulos importantes?",
+    "c": 2,
     "h": "Era conhecido pelo estilo disciplinador e campeão.",
     "o": [
       "José Poy",
@@ -2178,43 +2778,57 @@
       "Rubens Minelli",
       "Vicente Feola"
     ],
-    "createdAt": "2026-05-17T02:31:56.747Z",
-    "c": 2,
-    "q": "Qual lendário treinador comandou o São Paulo Futebol Clube no título brasileiro de 1977, encerrando um jejum de títulos importantes?"
+    "l": 2,
+    "updatedAt": "2026-05-17T02:31:56.747Z",
+    "createdAt": "2026-05-17T02:31:56.747Z"
   },
   {
     "id": "pCpLkHvHmK6WQqI9ZgCm",
     "l": 6,
     "updatedAt": "2026-05-17T04:30:50.214Z",
-    "h": "Foi uma época excelente, 50% perfeita",
+    "createdAt": "2026-05-17T04:30:50.214Z",
     "o": [
       "2 títulos",
       "5 títulos",
       "3 títulos",
       "6 títulos"
     ],
-    "createdAt": "2026-05-17T04:30:50.214Z",
+    "h": "Foi uma época excelente, 50% perfeita",
     "c": 1,
     "q": "Quantos títulos do Campeonato Paulista o São Paulo FC conquistou na década de 1980?"
+  },
+  {
+    "id": "pIdSfYHj4vTdbWzhXNaw",
+    "l": 1,
+    "updatedAt": "2026-06-02T01:36:17.911Z",
+    "o": [
+      "Rogério Ceni",
+      "Müller",
+      "Palinha",
+      "Luís Fabiano"
+    ],
+    "h": "Sim, é um goleiro, e ele marcou 14 gols na competição.",
+    "createdAt": "2026-06-02T01:36:17.911Z",
+    "c": 0,
+    "q": "Quem é o maior artilheiro da história do São Paulo em\njogos de Copa Libertadores?"
   },
   {
     "id": "pax1R1zqaT7ol25mqeLD",
     "q": "Em que ano o São Paulo conquistou o Campeonato Brasileiro pela primeira vez?",
     "c": 2,
-    "createdAt": "2026-05-17T00:14:27.849Z",
-    "h": "Foi o primeiro título nacional do clube.",
     "o": [
       "1986",
       "1991",
-      "1978",
+      "1977",
       "1972"
     ],
     "l": 2,
-    "updatedAt": "2026-05-17T00:28:48.067Z"
+    "h": "Foi o primeiro título nacional do clube.",
+    "updatedAt": "2026-06-02T01:41:39.240Z",
+    "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "pgNtUaP8Igpd8c5RXoEf",
-    "createdAt": "2026-05-17T01:28:40.359Z",
     "o": [
       "100 mil torcedores",
       "150 mil torcedores",
@@ -2222,39 +2836,40 @@
       "110 mil torcedores"
     ],
     "h": "Era um projeto audacioso, principalmente para a época.",
-    "l": 2,
-    "updatedAt": "2026-05-17T01:28:40.359Z",
     "q": "Qual era a capacidade original projetada para o Estádio do Morumbi?",
-    "c": 1
+    "c": 1,
+    "updatedAt": "2026-05-17T01:28:40.359Z",
+    "createdAt": "2026-05-17T01:28:40.359Z",
+    "l": 2
   },
   {
     "id": "psTirAeecWEFNPCbvV5o",
     "updatedAt": "2026-05-17T03:33:17.482Z",
+    "createdAt": "2026-05-17T03:33:17.482Z",
     "l": 2,
+    "q": "Como se chama o principal centro de formação de atletas do São Paulo Futebol Clube em Cotia?",
+    "c": 3,
     "o": [
       "CT da Barra Funda",
       "CT Telê Santana",
       "Morumbi Academy",
       "CFA Laudo Natel"
     ],
-    "h": "Nada mais justo do que homenagear um grande são paulino.",
-    "createdAt": "2026-05-17T03:33:17.482Z",
-    "c": 3,
-    "q": "Como se chama o principal centro de formação de atletas do São Paulo Futebol Clube em Cotia?"
+    "h": "Nada mais justo do que homenagear um grande são paulino."
   },
   {
     "id": "qEzurO2digSpLjH7Zmlu",
-    "q": "O São Paulo ganhou a Libertadores em 1993 derrotando o Universidad de Chile. Qual foi o placar agregado?",
-    "c": 0,
-    "h": "O SPFC venceu nos dois jogos da final.",
     "o": [
       "5x2",
       "4x1",
       "6x3",
       "3x0"
     ],
-    "createdAt": "2026-05-17T00:14:27.853Z",
-    "l": 5
+    "h": "O SPFC venceu nos dois jogos da final.",
+    "c": 0,
+    "q": "O São Paulo ganhou a Libertadores em 1993 derrotando o Universidad de Chile. Qual foi o placar agregado?",
+    "l": 5,
+    "createdAt": "2026-05-17T00:14:27.853Z"
   },
   {
     "id": "qMnTyAf0zkJWYlCp6qKq",
@@ -2265,14 +2880,13 @@
       "1964",
       "1970"
     ],
-    "createdAt": "2026-05-17T00:14:27.853Z",
-    "l": 5,
     "q": "Em que ano Müller nasceu?",
-    "c": 0
+    "c": 0,
+    "l": 5,
+    "createdAt": "2026-05-17T00:14:27.853Z"
   },
   {
     "id": "qTBH5sKYH2LxQYC0VwQi",
-    "createdAt": "2026-05-17T04:35:42.401Z",
     "o": [
       "2010",
       "2020",
@@ -2280,28 +2894,46 @@
       "1950"
     ],
     "h": "É algo a se pensar, os últimos anos são tenebrosos",
+    "q": "O São Paulo FC conquistou o Campeonato Paulista em todas as décadas desde sua fundação, exceto em qual?",
+    "c": 0,
     "l": 6,
     "updatedAt": "2026-05-17T04:35:42.401Z",
-    "q": "O São Paulo FC conquistou o Campeonato Paulista em todas as décadas desde sua fundação, exceto em qual?",
+    "createdAt": "2026-05-17T04:35:42.401Z"
+  },
+  {
+    "id": "qagCWY4n92wfYk8onjiE",
+    "h": "Era comandado pelo então auxiliar Muricy Ramalho",
+    "createdAt": "2026-06-02T01:46:11.930Z",
+    "updatedAt": "2026-06-02T01:46:11.930Z",
+    "l": 2,
+    "q": "Em 1994, o São Paulo venceu a Copa CONMEBOL com um\ntime reserva que ficou conhecido como?",
+    "o": [
+      "Expressinho",
+      "Garotos de Cotia",
+      "Menudos do Morumbi",
+      "Máquina Tricolor"
+    ],
     "c": 0
   },
   {
     "id": "qzdhnP4yv7h9ZyrbeyWs",
-    "l": 5,
     "updatedAt": "2026-05-17T01:42:26.118Z",
-    "h": "Três vezes é dificil, mas quatro?",
+    "createdAt": "2026-05-17T01:42:26.118Z",
+    "l": 5,
     "o": [
       "Brasileiro, Libertadores, Mundial e Copa do Brasil",
       "Paulista, Copa do Brasil, Mundial e Recopa Sul-Americana",
       "Paulista, Libertadores, Mundial e Recopa Sul-Americana",
       "Paulista, Brasileiro, Libertadores e Supercopa da Libertadores"
     ],
-    "createdAt": "2026-05-17T01:42:26.118Z",
-    "c": 2,
-    "q": "Qual foi a “quadrupla coroa” conquistada pelo São Paulo Futebol Clube em 1993?"
+    "h": "Três vezes é dificil, mas quatro?",
+    "q": "Qual foi a “quadrupla coroa” conquistada pelo São Paulo Futebol Clube em 1993?",
+    "c": 2
   },
   {
     "id": "rP8wEs20A7V8nZGNzMlp",
+    "l": 3,
+    "createdAt": "2026-05-17T00:14:27.850Z",
     "h": "Foi em agosto de 1945, uma das maiores goleadas da história.",
     "o": [
       "Jabaquara",
@@ -2309,102 +2941,131 @@
       "Corinthians",
       "Portuguesa"
     ],
-    "createdAt": "2026-05-17T00:14:27.850Z",
-    "l": 3,
-    "q": "O São Paulo marcou 12 gols em um único jogo em 1945 contra qual time?",
+    "c": 0,
+    "q": "O São Paulo marcou 12 gols em um único jogo em 1945 contra qual time?"
+  },
+  {
+    "id": "riXYSqyhz8TD0axH9060",
+    "updatedAt": "2026-06-02T02:29:26.337Z",
+    "q": "Qual jogador do São Paulo detém o recorde de mais gols\nmarcados em clássicos contra o Corinthians?",
+    "l": 6,
+    "createdAt": "2026-06-02T02:29:26.337Z",
+    "o": [
+      "Serginho Chulapa",
+      "Luizinho",
+      "Teixeirinha",
+      "Leônidas da Silva"
+    ],
+    "h": "Ele que é idolo da peixada também, que marcou 15 gols contra o rival",
     "c": 0
   },
   {
     "id": "s3uk4k6EzGys19LobHmW",
-    "l": 4,
     "updatedAt": "2026-05-17T03:52:54.920Z",
     "createdAt": "2026-05-17T03:52:54.920Z",
+    "l": 4,
+    "q": "Qual foi o maior jejum de títulos do São Paulo FC?",
+    "c": 0,
+    "h": "Nesse período, o clube concentrou seus investimentos na construção do Estádio do Morumbi, ficando sem erguer taças",
     "o": [
       "13 anos",
       "12 anos",
       "18 anos",
       "15 anos"
-    ],
-    "h": "Nesse período, o clube concentrou seus investimentos na construção do Estádio do Morumbi, ficando sem erguer taças",
-    "c": 0,
-    "q": "Qual foi o maior jejum de títulos do São Paulo FC?"
+    ]
   },
   {
     "id": "sMRuST0Nr21IDccNxNYr",
+    "updatedAt": "2026-05-17T03:49:17.593Z",
+    "createdAt": "2026-05-17T03:49:17.593Z",
+    "l": 4,
     "q": "Qual foi o maior número de títulos conquistados pelo São Paulo FC em um único ano?",
     "c": 0,
-    "createdAt": "2026-05-17T03:49:17.593Z",
     "o": [
       "7",
       "8",
       "5",
       "6"
     ],
-    "h": "A famoso era de ouro do Tricolor",
-    "l": 4,
-    "updatedAt": "2026-05-17T03:49:17.593Z"
+    "h": "A famoso era de ouro do Tricolor"
   },
   {
     "id": "sNUNnazSgbrTDbNkF9y0",
     "q": "Qual zagueiro histórico do São Paulo nasceu em 14 de fevereiro de 1931?",
     "c": 0,
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "h": "Um pilar da defesa tricolor nos anos 50 e 60.",
     "o": [
       "De Sordi",
       "Bellini",
       "Luizinho",
       "Bauer"
     ],
-    "l": 4
+    "h": "Um pilar da defesa tricolor nos anos 50 e 60.",
+    "l": 4,
+    "createdAt": "2026-05-17T00:14:27.852Z"
+  },
+  {
+    "id": "sTehwREG2BSyKPje20Uu",
+    "h": "Ele era lapidado.",
+    "c": 2,
+    "updatedAt": "2026-06-02T02:16:35.588Z",
+    "q": "Qual jogador marcou o gol 1000 da história do São Paulo\nFC?",
+    "l": 4,
+    "createdAt": "2026-06-02T02:16:35.588Z",
+    "o": [
+      "Serginho Chulapa",
+      "Barthô",
+      "Leônidas da Silva",
+      "Serginho Chulapa"
+    ]
   },
   {
     "id": "sj2sjnzhHnd0X61AU31V",
-    "c": 0,
-    "q": "Quantos Campeonatos Brasileiros o São Paulo já conquistou?",
-    "l": 1,
+    "h": "O Tri consecutivo foi em 2006, 2007 e 2008.",
     "o": [
       "6",
       "4",
       "8",
       "3"
     ],
-    "h": "O Tri consecutivo foi em 2006, 2007 e 2008.",
+    "q": "Quantos Campeonatos Brasileiros o São Paulo já conquistou?",
+    "c": 0,
+    "l": 1,
     "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "slH7oTponf3N7m6rwHXz",
+    "l": 4,
     "createdAt": "2026-05-17T00:14:27.852Z",
+    "h": "O grande volante chegou ao clube no início dos anos 90.",
     "o": [
       "1992",
       "1990",
       "1988",
       "1994"
     ],
-    "h": "O grande volante chegou ao clube no início dos anos 90.",
-    "l": 4,
     "q": "Em que ano Toninho Cerezo estreou pelo São Paulo?",
     "c": 0
   },
   {
     "id": "ssNE7U4fYuZb1gHMxczS",
-    "c": 3,
-    "q": "O maior público absoluto da história do Estádio do Morumbi não foi em um jogo de futebol. Qual evento reuniu impressionantes 162.957 pessoas no estádio?",
-    "l": 6,
     "updatedAt": "2026-05-17T04:42:07.249Z",
     "createdAt": "2026-05-17T04:42:07.249Z",
-    "h": "A fé move montanhas e multidões",
+    "l": 6,
     "o": [
       "Missa do Papa João Paulo II",
       "Final do Campeonato Paulista de 1977",
       "Show Menudos",
       "Congresso das Testemunhas de Jeová"
-    ]
+    ],
+    "h": "A fé move montanhas e multidões",
+    "q": "O maior público absoluto da história do Estádio do Morumbi não foi em um jogo de futebol. Qual evento reuniu impressionantes 162.957 pessoas no estádio?",
+    "c": 3
   },
   {
     "id": "svF13csWnF5WhaMufMUe",
-    "q": "Qual goleiro campeão mundial pelo São Paulo Futebol Clube esteve na Seleção Brasileira da Copa de 1994?",
-    "c": 0,
+    "updatedAt": "2026-05-17T02:00:11.797Z",
+    "createdAt": "2026-05-17T02:00:11.797Z",
+    "l": 4,
     "o": [
       "Zetti",
       "Rogério Ceni",
@@ -2412,103 +3073,113 @@
       "Poy"
     ],
     "h": "Foi o goleiro do mundial de clubes do SPFC",
-    "createdAt": "2026-05-17T02:00:11.797Z",
-    "updatedAt": "2026-05-17T02:00:11.797Z",
-    "l": 4
+    "q": "Qual goleiro campeão mundial pelo São Paulo Futebol Clube esteve na Seleção Brasileira da Copa de 1994?",
+    "c": 0
   },
   {
     "id": "tFd9KBxgW3c53WXyVz85",
-    "q": "Qual jogador revelado pelo São Paulo Futebol Clube se tornou o único atleta da história a disputar três finais consecutivas de Copa do Mundo?",
+    "l": 5,
+    "updatedAt": "2026-05-17T02:01:28.171Z",
+    "createdAt": "2026-05-17T02:01:28.171Z",
     "c": 1,
+    "q": "Qual jogador revelado pelo São Paulo Futebol Clube se tornou o único atleta da história a disputar três finais consecutivas de Copa do Mundo?",
+    "h": "Participou das finais de 1994, 1998 e 2002.",
     "o": [
       "Rai",
       "Cafú",
       "Zetti",
       "Ronaldo Fenômeno"
-    ],
-    "h": "Participou das finais de 1994, 1998 e 2002.",
-    "createdAt": "2026-05-17T02:01:28.171Z",
-    "l": 5,
-    "updatedAt": "2026-05-17T02:01:28.171Z"
+    ]
   },
   {
     "id": "tuqNltGefsYmFiPQ18mB",
     "l": 4,
-    "h": "Aconteceu duas vezes com placar de 12x1 em anos diferentes.",
+    "createdAt": "2026-05-17T00:14:27.852Z",
     "o": [
       "12x1",
       "11x0",
       "10x0",
       "9x1"
     ],
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "c": 0,
-    "q": "Qual foi o placar da maior goleada do São Paulo no Campeonato Paulista histórico?"
+    "h": "Aconteceu duas vezes com placar de 12x1 em anos diferentes.",
+    "q": "Qual foi o placar da maior goleada do São Paulo no Campeonato Paulista histórico?",
+    "c": 0
   },
   {
     "id": "ucUEK5ESuVukSNTOrYCr",
-    "q": "O São Paulo marcou 12 gols no Sírio em que data de 1933?",
-    "c": 0,
-    "createdAt": "2026-05-17T00:14:27.852Z",
+    "h": "Foi no mês de agosto de 1933.",
     "o": [
       "27 de agosto",
       "15 de julho",
       "3 de setembro",
       "10 de outubro"
     ],
-    "h": "Foi no mês de agosto de 1933.",
-    "l": 5
+    "q": "O São Paulo marcou 12 gols no Sírio em que data de 1933?",
+    "c": 0,
+    "l": 5,
+    "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "uhFuObefQYS8vlyNRCej",
-    "l": 2,
-    "h": "O time italiano de Capello foi derrotado.",
     "o": [
       "Milan",
       "Barcelona",
       "Parma",
       "Ajax"
     ],
-    "createdAt": "2026-05-17T00:14:27.849Z",
+    "h": "O time italiano de Capello foi derrotado.",
+    "q": "O São Paulo venceu o Mundial de 1993 contra qual time?",
     "c": 0,
-    "q": "O São Paulo venceu o Mundial de 1993 contra qual time?"
+    "l": 2,
+    "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "uhQM7tZQOxa3TTIgP7o3",
-    "l": 6,
-    "updatedAt": "2026-05-17T04:37:00.768Z",
-    "h": "Ah minha terra tem palmeiras onde canta o sabiá",
     "o": [
       "São Paulo 1 x 0 Sporting Clube de Portugal",
       "São Paulo 2 x 1 Porto",
       "São Paulo 3 x 0 Real Madrid",
       "São Paulo 1 x 1 Corinthians"
     ],
-    "createdAt": "2026-05-17T04:37:00.768Z",
+    "h": "Ah minha terra tem palmeiras onde canta o sabiá",
+    "q": "Qual foi o primeiro jogo da inauguração parcial do Estádio do Morumbi em 1960?",
     "c": 0,
-    "q": "Qual foi o primeiro jogo da inauguração parcial do Estádio do Morumbi em 1960?"
+    "l": 6,
+    "updatedAt": "2026-05-17T04:37:00.768Z",
+    "createdAt": "2026-05-17T04:37:00.768Z"
+  },
+  {
+    "id": "vMqY366UBfej3BkLbNg3",
+    "updatedAt": "2026-06-02T02:03:03.155Z",
+    "q": "Qual foi a maior venda da história do São Paulo FC (em\nvalores nominais)?",
+    "h": "Vendido ao PSG em 2012 por cerca de 43 milhões de euros.",
+    "c": 1,
+    "createdAt": "2026-06-02T02:03:03.155Z",
+    "o": [
+      "Denilson",
+      "Lucas Moura",
+      "David Neres",
+      "Antony"
+    ],
+    "l": 4
   },
   {
     "id": "vNwtQfETU9HsPzksIpuu",
+    "l": 6,
+    "updatedAt": "2026-05-17T01:21:10.612Z",
     "createdAt": "2026-05-17T01:21:10.612Z",
+    "h": "Na cidade de São Paulo, o \"Dia Tricolor\" (que institui o Dia do São Paulo Futebol Clube no calendário oficial de eventos do município)",
     "o": [
       "16 de dezembro",
       "2 de outubro",
       "25 de janeiro",
       "27 de abril"
     ],
-    "h": "Na cidade de São Paulo, o \"Dia Tricolor\" (que institui o Dia do São Paulo Futebol Clube no calendário oficial de eventos do município)",
-    "l": 6,
-    "updatedAt": "2026-05-17T01:21:10.612Z",
     "q": "Em que data é comemorado o 'Dia Tricolor' na cidade de São Paulo?",
     "c": 0
   },
   {
     "id": "vPLOviPFvOYbxROQ8x6a",
-    "c": 2,
-    "q": "Qual atleta do São Paulo Futebol Clube ficou de fora da final da 1958 FIFA World Cup devido a uma lesão?",
-    "l": 6,
-    "updatedAt": "2026-05-17T02:05:40.373Z",
     "h": "Ele era o lateral-direito titular do Brasil",
     "o": [
       "Mauro Ramos",
@@ -2516,55 +3187,57 @@
       "De Sordi",
       "Canhoteiro"
     ],
-    "createdAt": "2026-05-17T02:05:40.373Z"
+    "q": "Qual atleta do São Paulo Futebol Clube ficou de fora da final da 1958 FIFA World Cup devido a uma lesão?",
+    "c": 2,
+    "updatedAt": "2026-05-17T02:05:40.373Z",
+    "createdAt": "2026-05-17T02:05:40.373Z",
+    "l": 6
   },
   {
     "id": "vZqek62GNHAZRiYOOLdZ",
+    "updatedAt": "2026-05-17T04:34:36.296Z",
     "createdAt": "2026-05-17T04:34:36.296Z",
+    "l": 6,
+    "h": "Jesus aprova",
     "o": [
       "Marcos Evangelista de Morais",
       "Marcos Cafuso da Silva",
       "Marcos Cafu",
       "Francisco Cafu de Oliveira"
     ],
-    "h": "Jesus aprova",
-    "updatedAt": "2026-05-17T04:34:36.296Z",
-    "l": 6,
     "q": "Qual é o nome completo de Cafu, lateral-direito ídolo do São Paulo FC?",
     "c": 0
   },
   {
     "id": "vm6kArVsRaDgUtEHscGw",
-    "l": 1,
-    "h": "Capital do estado de São Paulo.",
+    "c": 0,
+    "q": "Em que cidade fica o Estádio do Morumbi?",
     "o": [
       "São Paulo",
       "Santos",
       "Campinas",
       "Guarulhos"
     ],
-    "createdAt": "2026-05-17T00:14:27.849Z",
-    "c": 0,
-    "q": "Em que cidade fica o Estádio do Morumbi?"
+    "h": "Capital do estado de São Paulo.",
+    "l": 1,
+    "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "wBa5G624GwOpATvYz8Qk",
     "c": 0,
     "q": "Em qual cidade Arthur Friedenreich nasceu?",
-    "l": 4,
-    "createdAt": "2026-05-17T00:14:27.852Z",
     "h": "Ele nasceu na capital paulista no século XIX.",
     "o": [
       "São Paulo",
       "Santos",
       "Campinas",
       "Ribeirão Preto"
-    ]
+    ],
+    "l": 4,
+    "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "wLqf5P99GDGvPnqjy21C",
-    "l": 5,
-    "createdAt": "2026-05-17T00:14:27.853Z",
     "h": "Aconteceu em junho de 1944, no Campeonato Paulista.",
     "o": [
       "9x1",
@@ -2572,57 +3245,57 @@
       "8x0",
       "7x0"
     ],
+    "q": "Qual foi o placar exato da goleada do São Paulo sobre o Santos em 1944?",
     "c": 0,
-    "q": "Qual foi o placar exato da goleada do São Paulo sobre o Santos em 1944?"
+    "l": 5,
+    "createdAt": "2026-05-17T00:14:27.853Z"
   },
   {
     "id": "x8KPyJmJ53UkUUfeYONq",
-    "c": 3,
-    "q": "O São Paulo FC é o único clube que nunca foi rebaixado no Campeonato Brasileiro. Qual outro clube divide esse feito?",
-    "l": 3,
     "updatedAt": "2026-05-17T03:47:52.161Z",
     "createdAt": "2026-05-17T03:47:52.161Z",
+    "l": 3,
+    "h": "Na cidade desse time eles colocam ovo de cordona no cachorro quente.",
     "o": [
       "Santos",
       "Botafogo",
       "Atlético Mineiro",
       "Flamengo"
     ],
-    "h": "Na cidade desse time eles colocam ovo de cordona no cachorro quente."
+    "q": "O São Paulo FC é o único clube que nunca foi rebaixado no Campeonato Brasileiro. Qual outro clube divide esse feito?",
+    "c": 3
   },
   {
     "id": "xA5wnS9fyhMvaOvps9t1",
-    "l": 1,
-    "createdAt": "2026-05-17T00:14:27.849Z",
+    "h": "O nome homenageia um ex-presidente do clube.",
     "o": [
       "Cícero Pompeu de Toledo",
       "Pacaembu",
       "Olímpico",
       "Morumbi"
     ],
-    "h": "O nome homenageia um ex-presidente do clube.",
     "c": 0,
-    "q": "Qual é o nome oficial do estádio do São Paulo?"
+    "q": "Qual é o nome oficial do estádio do São Paulo?",
+    "l": 1,
+    "createdAt": "2026-05-17T00:14:27.849Z"
   },
   {
     "id": "xTgiFrImkEhabNIx2cEH",
     "l": 1,
     "updatedAt": "2026-05-17T01:07:45.801Z",
     "createdAt": "2026-05-17T01:07:45.801Z",
+    "c": 1,
+    "q": "De quais dois clubes surgiu o São Paulo FC em 1930?",
     "o": [
       "Club Athletico Paulistano e São Bento",
       "Associação Atlética das Palmeiras e Club Athletico Paulistano",
       "Tietê e São Bento",
       "Associação Atlética das Palmeiras e Tietê"
     ],
-    "h": "Um deles atua até hoje no basquete",
-    "c": 1,
-    "q": "De quais dois clubes surgiu o São Paulo FC em 1930?"
+    "h": "Um deles atua até hoje no basquete"
   },
   {
     "id": "xtVI99UcbGrqr1n7dTIW",
-    "q": "Qual jogador revelado pelo São Paulo Futebol Clube disputou quatro Copas do Mundo consecutivas pela Seleção Brasileira?",
-    "c": 2,
     "h": "Jogou as Copas de 1994, 1998, 2002 e 2006.",
     "o": [
       "Leonardo",
@@ -2630,13 +3303,14 @@
       "Cafú",
       "Müller"
     ],
+    "q": "Qual jogador revelado pelo São Paulo Futebol Clube disputou quatro Copas do Mundo consecutivas pela Seleção Brasileira?",
+    "c": 2,
+    "updatedAt": "2026-05-17T01:53:15.967Z",
     "createdAt": "2026-05-17T01:53:15.967Z",
-    "l": 3,
-    "updatedAt": "2026-05-17T01:53:15.967Z"
+    "l": 3
   },
   {
     "id": "yAlqQYJ89L1HOUrSPDGp",
-    "l": 5,
     "h": "Ele se despediu em maio desse ano.",
     "o": [
       "1965",
@@ -2644,28 +3318,42 @@
       "1967",
       "1969"
     ],
-    "createdAt": "2026-05-17T00:14:27.853Z",
     "c": 0,
-    "q": "De Sordi completou seu último jogo pelo São Paulo em que ano?"
+    "q": "De Sordi completou seu último jogo pelo São Paulo em que ano?",
+    "l": 5,
+    "createdAt": "2026-05-17T00:14:27.853Z"
   },
   {
     "id": "yX9gAPCecscbmyHCJweu",
+    "l": 3,
+    "createdAt": "2026-05-17T00:14:27.850Z",
     "c": 0,
     "q": "Qual centroavante do São Paulo ficou conhecido como \"O Fabuloso\"?",
-    "l": 3,
     "h": "Nasceu em novembro de 1980.",
     "o": [
       "Luís Fabiano",
       "Careca",
       "Grafite",
       "Müller"
+    ]
+  },
+  {
+    "id": "ys9FjRcCR77jLYEFuHBj",
+    "c": 2,
+    "l": 2,
+    "h": "O feito ocorreu em 26 de fevereiro de 1969, na vitória tricolor por 4 a 1 contra o São Bento",
+    "createdAt": "2026-06-02T01:52:19.330Z",
+    "o": [
+      "Müller",
+      "Bentinho",
+      "Zé Roberto",
+      "Dagoberto"
     ],
-    "createdAt": "2026-05-17T00:14:27.850Z"
+    "q": "Qual jogador do São Paulo marcou o gol mais rápido da\nhistória do clube (aos 12 segundos)?",
+    "updatedAt": "2026-06-02T01:52:19.329Z"
   },
   {
     "id": "yshCkeXaWIPL30LPunvZ",
-    "q": "Qual foi o placar da final do Mundial de 1993 entre São Paulo e Milan?",
-    "c": 0,
     "o": [
       "3x2",
       "2x1",
@@ -2673,11 +3361,16 @@
       "2x0"
     ],
     "h": "Foi uma partida com muitos gols.",
-    "createdAt": "2026-05-17T00:14:27.852Z",
-    "l": 3
+    "c": 0,
+    "q": "Qual foi o placar da final do Mundial de 1993 entre São Paulo e Milan?",
+    "l": 3,
+    "createdAt": "2026-05-17T00:14:27.852Z"
   },
   {
     "id": "zttC4TpgVXiXwIEcT8qH",
+    "updatedAt": "2026-05-17T04:20:35.120Z",
+    "createdAt": "2026-05-17T04:20:35.120Z",
+    "l": 6,
     "q": "Qual é a posição do São Paulo FC no ranking de maiores campeões do Brasil (em 2026)?",
     "c": 1,
     "o": [
@@ -2686,9 +3379,6 @@
       "quinto",
       "segundo"
     ],
-    "h": "Já fomos melhores",
-    "createdAt": "2026-05-17T04:20:35.120Z",
-    "l": 6,
-    "updatedAt": "2026-05-17T04:20:35.120Z"
+    "h": "Já fomos melhores"
   }
 ]
