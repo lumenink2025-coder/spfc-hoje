@@ -4231,28 +4231,57 @@ function revealIdentity(){
 
 /* ── Dados do usuário ── */
 async function fillHubUserData(){
-  // streak do wordle — chave: spfc_wondler (JSON com .streak)
+  // ── DIAGNÓSTICO VISUAL ──
+  function showDiag(lines) {
+    let box = document.getElementById('_diagBox');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = '_diagBox';
+      box.style.cssText = 'position:fixed;bottom:10px;left:10px;right:10px;z-index:99999;background:#000;border:2px solid #CC0000;border-radius:8px;padding:10px;font-family:monospace;font-size:11px;color:#0f0;max-height:200px;overflow-y:auto';
+      const btn = document.createElement('button');
+      btn.textContent = '✕';
+      btn.style.cssText = 'position:absolute;top:4px;right:8px;background:none;border:none;color:#fff;font-size:16px;cursor:pointer';
+      btn.onclick = () => box.remove();
+      box.appendChild(btn);
+      document.body.appendChild(box);
+    }
+    box.innerHTML = '<b style="color:#CC0000">🔍 DIAGNÓSTICO</b> <button onclick="document.getElementById('_diagBox').remove()" style="float:right;background:none;border:none;color:#fff;cursor:pointer">✕</button><br>' + lines.join('<br>');
+  }
+  const diag = [];
+
+  // wordle
   try {
     const wRaw = localStorage.getItem('spfc_wondler');
-    const ws = wRaw ? (JSON.parse(wRaw).streak || 0) : 0;
+    const wObj = wRaw ? JSON.parse(wRaw) : null;
+    const ws = wObj ? (wObj.streak || 0) : 0;
+    diag.push('spfc_wondler: ' + (wRaw ? '✅ existe' : '❌ NÃO EXISTE'));
+    if (wObj) diag.push('wondler.streak = ' + wObj.streak + ' | lastWonKey = ' + wObj.lastWonKey);
     const elws = document.getElementById('wordleStreakNum');
     if(elws) elws.textContent = ws;
-  } catch(e) {}
+  } catch(e) { diag.push('wondler ERRO: ' + e.message); }
 
-  // streak do quiz — vem do Firestore via _cachedUserData.data.streak
-  // ou fallback para localStorage spfc_quiz_state
+  // quiz
   try {
     let quizStreak = 0;
     const cached = window._cachedUserData;
+    const qRaw = localStorage.getItem('spfc_quiz_state');
+    const qObj = qRaw ? JSON.parse(qRaw) : null;
+    diag.push('spfc_quiz_state: ' + (qRaw ? '✅ existe' : '❌ NÃO EXISTE'));
+    if (qObj) diag.push('quiz_state.streak = ' + qObj.streak + ' | lastPlayedDate = ' + qObj.lastPlayedDate);
+    diag.push('_cachedUserData: ' + (cached ? '✅ existe' : '❌ NÃO EXISTE'));
+    if (cached?.data) diag.push('cached.streak = ' + cached.data.streak + ' | cached.xp = ' + cached.data.xp);
     if (cached && cached.data && cached.data.streak != null) {
       quizStreak = cached.data.streak;
-    } else {
-      const qRaw = localStorage.getItem('spfc_quiz_state');
-      quizStreak = qRaw ? (JSON.parse(qRaw).streak || 0) : 0;
+    } else if (qObj) {
+      quizStreak = qObj.streak || 0;
     }
+    diag.push('➡ quizStreak exibido = ' + quizStreak);
     const elS = document.getElementById('quizStreakVal');
     if(elS) elS.textContent = quizStreak;
-  } catch(e) {}
+  } catch(e) { diag.push('quiz ERRO: ' + e.message); }
+
+  diag.push('⏰ ' + new Date().toLocaleTimeString());
+  showDiag(diag);
 
   // Firebase: xp → nível + XP (mesma lógica da topbar)
   const myData = await fetchMyRankPosition(); // retorna {pos, score}
