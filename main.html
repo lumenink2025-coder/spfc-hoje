@@ -445,7 +445,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .nav-tab:hover:not(.active){color:var(--txt)}
 
 /* ── PANELS ──────────────────────────────────────── */
-.panel{display:none;padding:0 0 100px}
+.panel{display:none;padding:0 0 40px}
 .panel.active{display:block}
 
 /* ── SECTION HEADER ──────────────────────────────── */
@@ -1444,33 +1444,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   color:rgba(204,0,0,.5);letter-spacing:2px
 }
 
-/* ── BOTTOM NAV (substituiu nav-tabs no Hoje) ─────── */
-.bottom-nav{
-  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
-  z-index:200;width:calc(100% - 32px);max-width:420px;
-  background:rgba(15,15,15,.96);backdrop-filter:blur(16px);
-  border:1px solid var(--border2);border-radius:20px 20px 0 0;
-  border-bottom:none;
-  display:flex;
-  padding-bottom:env(safe-area-inset-bottom)
-}
-.bn-tab{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  gap:4px;padding:10px 8px 12px;
-  font-family:var(--font-body);font-size:9px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3);
-  border:none;background:transparent;cursor:pointer;transition:.2s
-}
-.bn-icon{font-size:18px;line-height:1;filter:grayscale(1);transition:.2s}
-.bn-tab.active{color:var(--red)}
-.bn-tab.active .bn-icon{filter:grayscale(0)}
-.bn-tab:hover:not(.active){color:var(--txt)}
-
-/* hide old nav-tabs on panel-hoje */
-.nav-tabs{display:none}
-
-/* ── PANELS PADDING for bottom-nav ──────────────── */
-.panel{padding-bottom:120px}
+/* ── PANELS PADDING ──────────────────────────────── */
+.panel{padding-bottom:40px}
 
 /* ── EVENT MODAL — BOTTOM SHEET ─────────────────── */
 .ev-modal{
@@ -2090,8 +2065,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="wqh-stripe"></div>
     </div>
 
-    <!-- ══ LINHA 2: WORDLE + EM BREVE ══ -->
-    <div class="hub-row">
+    <!-- ══ LINHA 2: WORDLE (largura total) ══ -->
+    <div style="margin-bottom:10px">
 
       <!-- QUEM É ESSE JOGADOR -->
       <div class="widget-wordle">
@@ -2150,13 +2125,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         <div class="ww-stripe"></div>
       </div>
 
-      <!-- EM BREVE -->
-      <div class="widget-future">
-        <div class="wf-icon">⚡</div>
-        <div class="wf-label">Em breve</div>
-      </div>
-
-    </div><!-- /hub-row -->
+    </div><!-- /wordle wrapper -->
 
     <!-- ══ LINHA 3: PALPITÔMETRO + PRÓXIMO JOGO ══ -->
     <div class="hub-row-sm">
@@ -2241,24 +2210,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </div>
 
 <!-- BOTTOM NAV -->
-<nav class="bottom-nav" id="bottomNav">
-  <button class="bn-tab active" id="bnHoje" onclick="switchTab('hoje',this)">
-    <span class="bn-icon">📅</span>
-    <span>Hoje</span>
-  </button>
-  <button class="bn-tab" id="bnCal" onclick="switchTab('calendario',this)">
-    <span class="bn-icon">🗓️</span>
-    <span>Calendário</span>
-  </button>
-  <button class="bn-tab" id="bnRec" onclick="switchTab('records',this)">
-    <span class="bn-icon">🏆</span>
-    <span>Recordes</span>
-  </button>
-  <button class="bn-tab" id="bnGol" onclick="switchTab('goleadas',this)">
-    <span class="bn-icon">⚽</span>
-    <span>Goleadas</span>
-  </button>
-</nav>
+
 
 <script>
 'use strict';
@@ -3555,12 +3507,8 @@ function switchTab(id, btn) {
 function showPanel(id, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.bn-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
-  // Sync bottom nav
-  const map = { hoje: 'bnHoje', calendario: 'bnCal', records: 'bnRec', goleadas: 'bnGol' };
-  if (map[id]) { const b = document.getElementById(map[id]); if (b) b.classList.add('active'); }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
