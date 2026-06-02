@@ -2210,6 +2210,19 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </div>
 
 <!-- BOTTOM NAV -->
+<!-- DIAG BTN -->
+<button onclick="
+  const w=localStorage.getItem('spfc_wondler');
+  const q=localStorage.getItem('spfc_quiz_state');
+  const c=window._cachedUserData;
+  const wObj=w?JSON.parse(w):null;
+  const qObj=q?JSON.parse(q):null;
+  alert(
+    'WONDLER:\n' + (w ? 'streak='+wObj.streak+' lastWon='+wObj.lastWonKey : 'NAO EXISTE') +
+    '\n\nQUIZ STATE:\n' + (q ? 'streak='+qObj.streak+' lastPlayed='+qObj.lastPlayedDate : 'NAO EXISTE') +
+    '\n\nCACHED USER:\n' + (c ? 'streak='+c.data.streak+' xp='+c.data.xp : 'NAO EXISTE')
+  );
+" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:99999;background:#CC0000;color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px">🔍 VER DADOS</button>
 
 
 <script>
@@ -4231,57 +4244,28 @@ function revealIdentity(){
 
 /* ── Dados do usuário ── */
 async function fillHubUserData(){
-  // ── DIAGNÓSTICO VISUAL ──
-  function showDiag(lines) {
-    let box = document.getElementById('_diagBox');
-    if (!box) {
-      box = document.createElement('div');
-      box.id = '_diagBox';
-      box.style.cssText = 'position:fixed;bottom:10px;left:10px;right:10px;z-index:99999;background:#000;border:2px solid #CC0000;border-radius:8px;padding:10px;font-family:monospace;font-size:11px;color:#0f0;max-height:200px;overflow-y:auto';
-      const btn = document.createElement('button');
-      btn.textContent = '✕';
-      btn.style.cssText = 'position:absolute;top:4px;right:8px;background:none;border:none;color:#fff;font-size:16px;cursor:pointer';
-      btn.onclick = () => box.remove();
-      box.appendChild(btn);
-      document.body.appendChild(box);
-    }
-    box.innerHTML = '<b style="color:#CC0000">🔍 DIAGNÓSTICO</b> <button onclick="document.getElementById('_diagBox').remove()" style="float:right;background:none;border:none;color:#fff;cursor:pointer">✕</button><br>' + lines.join('<br>');
-  }
-  const diag = [];
-
-  // wordle
+  // streak do wordle — chave: spfc_wondler (JSON com .streak)
   try {
     const wRaw = localStorage.getItem('spfc_wondler');
-    const wObj = wRaw ? JSON.parse(wRaw) : null;
-    const ws = wObj ? (wObj.streak || 0) : 0;
-    diag.push('spfc_wondler: ' + (wRaw ? '✅ existe' : '❌ NÃO EXISTE'));
-    if (wObj) diag.push('wondler.streak = ' + wObj.streak + ' | lastWonKey = ' + wObj.lastWonKey);
+    const ws = wRaw ? (JSON.parse(wRaw).streak || 0) : 0;
     const elws = document.getElementById('wordleStreakNum');
     if(elws) elws.textContent = ws;
-  } catch(e) { diag.push('wondler ERRO: ' + e.message); }
+  } catch(e) {}
 
-  // quiz
+  // streak do quiz — vem do Firestore via _cachedUserData.data.streak
+  // ou fallback para localStorage spfc_quiz_state
   try {
     let quizStreak = 0;
     const cached = window._cachedUserData;
-    const qRaw = localStorage.getItem('spfc_quiz_state');
-    const qObj = qRaw ? JSON.parse(qRaw) : null;
-    diag.push('spfc_quiz_state: ' + (qRaw ? '✅ existe' : '❌ NÃO EXISTE'));
-    if (qObj) diag.push('quiz_state.streak = ' + qObj.streak + ' | lastPlayedDate = ' + qObj.lastPlayedDate);
-    diag.push('_cachedUserData: ' + (cached ? '✅ existe' : '❌ NÃO EXISTE'));
-    if (cached?.data) diag.push('cached.streak = ' + cached.data.streak + ' | cached.xp = ' + cached.data.xp);
     if (cached && cached.data && cached.data.streak != null) {
       quizStreak = cached.data.streak;
-    } else if (qObj) {
-      quizStreak = qObj.streak || 0;
+    } else {
+      const qRaw = localStorage.getItem('spfc_quiz_state');
+      quizStreak = qRaw ? (JSON.parse(qRaw).streak || 0) : 0;
     }
-    diag.push('➡ quizStreak exibido = ' + quizStreak);
     const elS = document.getElementById('quizStreakVal');
     if(elS) elS.textContent = quizStreak;
-  } catch(e) { diag.push('quiz ERRO: ' + e.message); }
-
-  diag.push('⏰ ' + new Date().toLocaleTimeString());
-  showDiag(diag);
+  } catch(e) {}
 
   // Firebase: xp → nível + XP (mesma lógica da topbar)
   const myData = await fetchMyRankPosition(); // retorna {pos, score}
