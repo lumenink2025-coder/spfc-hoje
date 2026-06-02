@@ -557,6 +557,18 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
         </div>
       </div>
 
+      <div class="form-row full">
+        <div class="form-group">
+          <label class="form-label">URL da foto (Cloudinary)</label>
+          <input class="form-input" id="wFoto" type="url" placeholder="https://res.cloudinary.com/..." oninput="previewWordleFoto()">
+          <div class="form-hint">Cole a URL pública do Cloudinary — aparece no card de resultado do jogador</div>
+          <div id="wFotoPreviewWrap" style="display:none;margin-top:10px;display:none;align-items:center;gap:12px">
+            <img id="wFotoPreview" src="" alt="Preview" style="width:72px;height:72px;object-fit:cover;border-radius:50%;border:2px solid var(--red);background:var(--bg3)">
+            <span style="font-size:12px;color:var(--txt3)">Preview da foto do jogador</span>
+          </div>
+        </div>
+      </div>
+
       <div style="display:flex;gap:8px;margin-top:8px">
         <button class="submit-btn" id="wSubmitBtn" onclick="submitWordle()" style="flex:1">💾 SALVAR JOGADOR</button>
         <button class="submit-btn" onclick="cancelEditWordle()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);max-width:120px">✕ CANCELAR</button>
@@ -1234,6 +1246,19 @@ window.previewVid = function() {
   } else el.style.display = 'none';
 };
 
+window.previewWordleFoto = function() {
+  const url = document.getElementById("wFoto").value.trim();
+  const wrap = document.getElementById("wFotoPreviewWrap");
+  const img  = document.getElementById("wFotoPreview");
+  if (url) {
+    img.src = url;
+    wrap.style.display = "flex";
+    img.onerror = () => { wrap.style.display = "none"; };
+  } else {
+    wrap.style.display = "none";
+  }
+};
+
 // ── STATS ────────────────────────────────────────────
 window.addStat = function() {
   const list = document.getElementById('statsList');
@@ -1760,6 +1785,7 @@ window.submitWordle = async function() {
   const revelado = document.querySelector('input[name="wRev"]:checked')?.value === 'true';
   const idolo = document.querySelector('input[name="wIdo"]:checked')?.value === 'true';
   const desc = document.getElementById('wDesc').value.trim();
+  const foto = document.getElementById('wFoto').value.trim();
 
   if (!nome) { toast('Nome obrigatório', 'err'); return; }
   if (!pais) { toast('País obrigatório', 'err'); return; }
@@ -1770,7 +1796,7 @@ window.submitWordle = async function() {
   btn.disabled = true;
   btn.textContent = editingWordleId ? 'Atualizando...' : 'Salvando...';
 
-  const dados = { nome, emoji, posicao, pais, decada, periodo, jogos, gols, titulos, selecao, revelado, idolo, desc, updatedAt: new Date().toISOString() };
+  const dados = { nome, emoji, posicao, pais, decada, periodo, jogos, gols, titulos, selecao, revelado, idolo, desc, ...(foto && { foto }), updatedAt: new Date().toISOString() };
 
   try {
     if (editingWordleId) {
@@ -1795,10 +1821,11 @@ window.submitWordle = async function() {
 };
 
 function resetWordleForm() {
-  ['wNome','wEmoji','wPais','wPeriodo','wJogos','wGols','wTitulos','wDesc'].forEach(id => {
+  ['wNome','wEmoji','wPais','wPeriodo','wJogos','wGols','wTitulos','wDesc','wFoto'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
+  const _prevWrap = document.getElementById('wFotoPreviewWrap'); if (_prevWrap) _prevWrap.style.display = 'none';
   document.querySelector('input[name="wSel"][value="true"]').checked = true;
   document.querySelector('input[name="wRev"][value="true"]').checked = true;
   document.querySelector('input[name="wIdo"][value="true"]').checked = true;
@@ -1828,23 +1855,39 @@ async function loadWordle() {
       return;
     }
 
-    list.innerHTML = jogadores.map(j => `
-      <div class="w-item">
-        <div style="font-size:28px;flex-shrink:0">${j.emoji || '⚽'}</div>
-        <div class="w-item-info">
-          <div class="w-item-name">${j.nome}</div>
+    list.innerHTML = jogadores.map(j => {
+      const hasFoto = !!j.foto;
+      const avatarHtml = hasFoto
+        ? \`<img src="${j.foto}" alt="${j.nome}" style="width:56px;height:56px;object-fit:cover;border-radius:50%;border:2px solid var(--red);flex-shrink:0;background:var(--bg3)" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">\`
+        : '';
+      const emojiFallback = \`<div style="width:56px;height:56px;border-radius:50%;background:var(--bg3);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0${hasFoto ? ';display:none' : ''}">${j.emoji || '⚽'}</div>\`;
+      return \`
+      <div class="w-item" style="align-items:center;gap:14px">
+        <div style="position:relative;flex-shrink:0">
+          ${avatarHtml}
+          ${emojiFallback}
+          ${hasFoto ? '' : ''}
+        </div>
+        <div class="w-item-info" style="min-width:0">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
+            <div class="w-item-name" style="margin-bottom:0">${j.nome}</div>
+            ${j.idolo ? '<span style="font-size:10px;background:rgba(204,0,0,.15);color:var(--red);border:1px solid rgba(204,0,0,.3);padding:1px 7px;border-radius:3px;letter-spacing:1px">ÍDOLO</span>' : ''}
+            ${!hasFoto ? '<span style="font-size:10px;background:rgba(245,158,11,.12);color:#f59e0b;border:1px solid rgba(245,158,11,.3);padding:1px 7px;border-radius:3px;letter-spacing:1px">SEM FOTO</span>' : '<span style="font-size:10px;background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.3);padding:1px 7px;border-radius:3px;letter-spacing:1px">📷 COM FOTO</span>'}
+          </div>
           <div class="w-item-meta">
             ${j.posicao} · ${j.pais} · ${j.decada}s · ${j.periodo}<br>
             ⚽ ${j.gols} gols · 🎮 ${j.jogos} jogos · 🏆 ${j.titulos} títulos<br>
-            ${j.selecao?'🇧🇷 Seleção':'🚫 Sem seleção'} · ${j.revelado?'✅ Revelado':'➡️ Contratado'} · ${j.idolo?'❤️ Ídolo':'👤 Jogador'}
+            ${j.selecao ? '🇧🇷 Seleção' : '🚫 Sem seleção'} · ${j.revelado ? '✅ Revelado' : '➡️ Contratado'}
           </div>
+          ${j.desc ? \`<div style="font-size:11px;color:var(--txt3);margin-top:5px;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${j.desc}</div>\` : ''}
         </div>
-        <div class="w-item-actions">
+        <div class="w-item-actions" style="flex-direction:column;gap:6px">
           <button class="ev-btn" onclick="editWordle('${j.id}')">✏️</button>
           <button class="ev-btn del" onclick="deleteWordle('${j.id}', this)">🗑️</button>
         </div>
       </div>
-    `).join('');
+      \`;
+    }).join('');
   } catch(e) {
     list.innerHTML = `<div class="loading-msg">Erro: ${e.message}</div>`;
   }
@@ -1867,6 +1910,8 @@ window.editWordle = async function(id) {
     document.getElementById('wGols').value = j.gols || 0;
     document.getElementById('wTitulos').value = j.titulos || 0;
     document.getElementById('wDesc').value = j.desc || '';
+    const _fotoEl = document.getElementById('wFoto');
+    if (_fotoEl) { _fotoEl.value = j.foto || ''; if (j.foto) window.previewWordleFoto(); }
 
     document.querySelector(`input[name="wSel"][value="${j.selecao}"]`).checked = true;
     document.querySelector(`input[name="wRev"][value="${j.revelado}"]`).checked = true;
