@@ -2210,19 +2210,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </div>
 
 <!-- BOTTOM NAV -->
-<!-- DIAG BTN -->
-<button onclick="
-  const w=localStorage.getItem('spfc_wondler');
-  const q=localStorage.getItem('spfc_quiz_state');
-  const c=window._cachedUserData;
-  const wObj=w?JSON.parse(w):null;
-  const qObj=q?JSON.parse(q):null;
-  alert(
-    'WONDLER:\n' + (w ? 'streak='+wObj.streak+' lastWon='+wObj.lastWonKey : 'NAO EXISTE') +
-    '\n\nQUIZ STATE:\n' + (q ? 'streak='+qObj.streak+' lastPlayed='+qObj.lastPlayedDate : 'NAO EXISTE') +
-    '\n\nCACHED USER:\n' + (c ? 'streak='+c.data.streak+' xp='+c.data.xp : 'NAO EXISTE')
-  );
-" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:99999;background:#CC0000;color:#fff;border:none;padding:8px 18px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px">🔍 VER DADOS</button>
 
 
 <script>
@@ -3459,6 +3446,7 @@ async function loadOrUpdateStreak(db, doc, setDoc, uid) {
               window._cachedUserData.data.rankTotal = total || 1000;
             }
           } catch(e) { /* ranking fetch optional */ }
+          if (typeof fillHubUserData === 'function') fillHubUserData();
 
           // Hub já carregou — atualiza com dados reais do usuário agora disponíveis
           if (typeof fillHubUserData === 'function') fillHubUserData();
@@ -4244,7 +4232,7 @@ function revealIdentity(){
 
 /* ── Dados do usuário ── */
 async function fillHubUserData(){
-  // streak do wordle — chave: spfc_wondler (JSON com .streak)
+  // wordle streak — localStorage spfc_wondler
   try {
     const wRaw = localStorage.getItem('spfc_wondler');
     const ws = wRaw ? (JSON.parse(wRaw).streak || 0) : 0;
@@ -4252,19 +4240,25 @@ async function fillHubUserData(){
     if(elws) elws.textContent = ws;
   } catch(e) {}
 
-  // streak do quiz — vem do Firestore via _cachedUserData.data.streak
-  // ou fallback para localStorage spfc_quiz_state
+  // quiz streak — lê direto do Firestore (fonte de verdade)
   try {
-    let quizStreak = 0;
-    const cached = window._cachedUserData;
-    if (cached && cached.data && cached.data.streak != null) {
-      quizStreak = cached.data.streak;
+    const uid = window._indexAuth?.currentUser?.uid;
+    if (uid) {
+      const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+      const { getApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+      const db2 = getFirestore(getApp());
+      const snap = await getDoc(doc(db2, 'users', uid));
+      if (snap.exists()) {
+        const quizStreak = snap.data().streak || 0;
+        const elS = document.getElementById('quizStreakVal');
+        if(elS) elS.textContent = quizStreak;
+      }
     } else {
       const qRaw = localStorage.getItem('spfc_quiz_state');
-      quizStreak = qRaw ? (JSON.parse(qRaw).streak || 0) : 0;
+      const quizStreak = qRaw ? (JSON.parse(qRaw).streak || 0) : 0;
+      const elS = document.getElementById('quizStreakVal');
+      if(elS) elS.textContent = quizStreak;
     }
-    const elS = document.getElementById('quizStreakVal');
-    if(elS) elS.textContent = quizStreak;
   } catch(e) {}
 
   // Firebase: xp → nível + XP (mesma lógica da topbar)
