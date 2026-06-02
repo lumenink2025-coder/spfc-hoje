@@ -142,22 +142,34 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   width: 192px;
   height: 192px;
   border-radius: 50%;
-  background:
-    linear-gradient(#0D0D0D, #0D0D0D) padding-box,
-    conic-gradient(
-      var(--gold) 0deg,
-      rgba(255,210,80,0.9) 40deg,
-      rgba(180,140,30,0.3) 100deg,
-      rgba(200,168,75,0.15) 140deg,
-      var(--gold) 180deg,
-      rgba(255,210,80,0.9) 220deg,
-      rgba(180,140,30,0.3) 280deg,
-      rgba(200,168,75,0.15) 320deg,
-      var(--gold) 360deg
-    ) border-box;
-  border: 2.5px solid transparent;
   animation: ringRotate 10s linear infinite;
   z-index: 3;
+}
+.avatar-ring-gold::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  padding: 2.5px;
+  background: conic-gradient(
+    var(--gold) 0deg,
+    rgba(255,210,80,0.9) 40deg,
+    rgba(180,140,30,0.3) 100deg,
+    rgba(200,168,75,0.15) 140deg,
+    var(--gold) 180deg,
+    rgba(255,210,80,0.9) 220deg,
+    rgba(180,140,30,0.3) 280deg,
+    rgba(200,168,75,0.15) 320deg,
+    var(--gold) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
 }
 @keyframes ringRotate { to { transform: rotate(360deg); } }
 
@@ -1381,27 +1393,46 @@ function render(){
 render();
 
 // API pública para receber dados do main.html
-window.fillPerfilFromCache = function(data, user){
+window.fillPerfilFromCache = async function(data, user){
   if(!data||!user) return;
-  DATA.name = data.displayName || user.email?.split('@')[0] || 'Torcedor';
+  DATA.name = data.displayName || data.name || user.email?.split('@')[0] || 'Torcedor';
   DATA.initial = DATA.name[0].toUpperCase();
-  DATA.avatarUrl = data.avatarUrl || data.avatar?.url || '';
+  DATA.avatarUrl = data.avatarUrl || data.avatar?.url || data.avatar?.dataUrl || '';
   DATA.xp = data.xp || data.totalXP || 0;
-  DATA.streak = data.loginStreak || 0;
-  DATA.streakMax = data.maxStreak || DATA.streak;
+
+  // Streak: tenta do cache do main (passado como streakCount), senão do Firestore
+  DATA.streak = data.streakCount || data.streak || data.loginStreak || 0;
+  DATA.streakMax = data.bestStreak || DATA.streak;
+
+  // Ranking — lido da coleção ranking/{uid}_geral (passado opcionalmente)
   DATA.rankPos = data.rankPos || 999;
   DATA.rankTotal = data.rankTotal || 1000;
-  DATA.quizAcertos = data.totalAcertos || 0;
-  DATA.quizTotal = data.totalRespostas || 0;
-  DATA.wordleWins = data.wordleWins || 0;
-  DATA.palpitesCertos = data.palpitesExatos || 0;
-  DATA.cardsTotal = data.cardsTotal || 0;
-  if(data.createdAt){
-    const dt=new Date(data.createdAt);
-    const m=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-    DATA.sinceDate = m[dt.getMonth()]+' '+dt.getFullYear();
-    DATA.sinceMs = dt.getTime();
+
+  // Quiz stats — quiz.html salva como quizAcertos/quizTotal no users doc
+  // mas também podem vir como totalAcertos/totalRespostas (campos legados)
+  DATA.quizAcertos = data.quizAcertos || data.totalAcertos || 0;
+  DATA.quizTotal   = data.quizTotal   || data.totalRespostas || 0;
+
+  DATA.wordleWins     = data.wordleWins    || 0;
+  DATA.palpitesCertos = data.palpitesExatos || data.palpitesCertos || 0;
+  DATA.cardsTotal     = data.cardsTotal    || 0;
+
+  // Data de membro: tenta createdAt, depois firstLogin, depois updatedAt
+  const rawDate = data.createdAt || data.firstLoginDate || data.registeredAt || data.updatedAt;
+  if(rawDate){
+    const dt = new Date(typeof rawDate === 'object' && rawDate.toDate ? rawDate.toDate() : rawDate);
+    if(!isNaN(dt)){
+      const m=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+      DATA.sinceDate = m[dt.getMonth()]+' '+dt.getFullYear();
+      DATA.sinceMs = dt.getTime();
+    }
   }
+
+  // Se não temos streak do cache, tenta buscar do Firestore (coleção streaks)
+  if(!DATA.streak && user.uid && window._cachedStreak !== undefined){
+    DATA.streak = window._cachedStreak || 0;
+  }
+
   render();
 };
 </script>

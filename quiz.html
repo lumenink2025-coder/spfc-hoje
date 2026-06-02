@@ -2358,6 +2358,9 @@ let STATE = {
   bestStreak: 0,
   lastPlayedDate: null,
   wonToday: false,
+  // STATS PARA PERFIL
+  quizTotal: 0,
+  quizAcertos: 0,
 };
 
 let musicOn = false;
@@ -2426,7 +2429,7 @@ function saveState() {
   clearTimeout(_saveFirebaseTimer);
   _saveFirebaseTimer = setTimeout(() => {
     const uid = STATE.user.uid;
-    const {db, doc, setDoc} = window.FB;
+    const {db, doc, setDoc, increment} = window.FB;
     const todayKey2 = new Date().toISOString().slice(0,10);
     setDoc(doc(db, 'users', uid), {
       lives: STATE.lives,
@@ -3087,6 +3090,9 @@ async function loadUserData(user) {
       if (data.lastPlayedDate !== undefined) STATE.lastPlayedDate = data.lastPlayedDate;
       if (data.wonToday !== undefined) STATE.wonToday = data.wonToday;
       if (data.livesLastRegen !== undefined) STATE.livesLastRegen = data.livesLastRegen;
+      // Stats de perfil
+      if (data.quizTotal   !== undefined) STATE.quizTotal   = data.quizTotal;
+      if (data.quizAcertos !== undefined) STATE.quizAcertos = data.quizAcertos;
       // Sincroniza tentativas diárias do Firebase (anti-exploit multi-device)
       const todayAttemptsKey = `dailyAttempts_${new Date().toISOString().slice(0,10)}`;
       if (data[todayAttemptsKey] !== undefined) {
@@ -3605,6 +3611,8 @@ function selectAnswer(origIdx, evtOrBtn) {
     const comboPts = comboCount >= 3 ? Math.floor((pts + timePts) * 0.2) : 0;
     const total = pts + timePts + comboPts;
     STATE.score += total;
+    STATE.quizTotal++;
+    STATE.quizAcertos++;
     document.getElementById('quizScoreBadge').textContent = `${STATE.score} pts`;
     showScorePopup(total, btn);
     // Atualiza XP e missões ao acertar
@@ -3619,6 +3627,7 @@ function selectAnswer(origIdx, evtOrBtn) {
     });
     playWrong();
     showFeedback('wrong');
+    STATE.quizTotal++;
     comboCount = 0;
     const comboEl = document.getElementById('comboDisplay');
     if (comboEl) comboEl.classList.remove('show');
@@ -3656,9 +3665,29 @@ function handleWrong(q) {
   playGameOver();
   saveScoreToFirebase();
   if (window.saveQuizStreak) window.saveQuizStreak();
+  // Salva contagem de perguntas/acertos no perfil
+  saveQuizStatsToFirestore();
   // Atualiza missão de partidas jogadas mesmo ao perder
   updateMissionProgress('play5', 1);
   updateMissionProgress('score5000', STATE.score);
+}
+
+async function saveQuizStatsToFirestore() {
+  if (!window.FB || !STATE.user || (!STATE.quizTotal && !STATE.quizAcertos)) return;
+  const { db, doc, setDoc, increment } = window.FB;
+  const uid = STATE.user.uid;
+  const acertosSessao = STATE.quizAcertos || 0;
+  const totalSessao   = STATE.quizTotal   || 0;
+  if (!totalSessao) return;
+  try {
+    await setDoc(doc(db, 'users', uid), {
+      quizTotal:   increment(totalSessao),
+      quizAcertos: increment(acertosSessao),
+    }, { merge: true });
+  } catch(e) { console.warn('saveQuizStats:', e); }
+  // Zera os contadores da sessão após salvar
+  STATE.quizTotal   = 0;
+  STATE.quizAcertos = 0;
 }
 
 function updateLivesInterval() {

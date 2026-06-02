@@ -1727,205 +1727,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   color:rgba(255,255,255,.12);letter-spacing:1.5px;
   text-transform:uppercase;line-height:1.8
 }
-
-/* ── PERFIL MODAL ──────────────────────────── */
-#perfilModal{
-  position:fixed;inset:0;z-index:3100;
-  background:rgba(0,0,0,0);
-  visibility:hidden;pointer-events:none;
-  transition:background .3s,visibility 0s .38s;
-  display:flex;align-items:flex-end;justify-content:center;
-}
-#perfilModal.open{
-  background:rgba(0,0,0,.9);
-  visibility:visible;pointer-events:all;
-  transition:background .3s,visibility 0s 0s;
-}
-#perfilModalSheet{
-  width:100%;max-width:480px;
-  background:#0D0D0D;
-  border-radius:20px 20px 0 0;
-  border-top:1px solid #222;
-  max-height:95dvh;
-  overflow-y:auto;
-  scrollbar-width:none;
-  transform:translateY(100%);
-  transition:transform .38s cubic-bezier(.32,1,.32,1);
-  position:relative;
-  box-shadow:0 -12px 60px rgba(0,0,0,.9);
-}
-#perfilModal.open #perfilModalSheet{transform:translateY(0)}
-#perfilModalSheet::-webkit-scrollbar{display:none}
-#perfilModalClose{
-  position:sticky;top:10px;float:right;margin:10px 12px 0 0;
-  width:32px;height:32px;border-radius:50%;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(20,20,20,.95);
-  color:rgba(255,255,255,.5);font-size:14px;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  z-index:20;flex-shrink:0;
-}
-#perfilModalClose:active{background:var(--red);color:#fff}
-#perfilModalHandle{
-  position:sticky;top:0;left:0;right:0;height:20px;
-  display:flex;align-items:center;justify-content:center;
-  background:#0D0D0D;z-index:10;flex-shrink:0;
-  border-radius:20px 20px 0 0;
-}
-#perfilModalHandle::after{
-  content:'';width:36px;height:4px;border-radius:2px;
-  background:rgba(255,255,255,.15);
-}
-
-/* ── PERFIL INTERNO ─────────────────────────── */
-.p-root{font-family:'Anton',sans-serif;color:#F0EBE3;background:#0D0D0D;}
-
-/* hero */
-.p-hero{position:relative;height:100svh;min-height:580px;max-height:820px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;}
-.p-hero-bg{position:absolute;inset:0;z-index:0;}
-.p-hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
-.p-hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,rgba(13,13,13,.6) 60%,#0D0D0D 100%),radial-gradient(ellipse 80% 60% at 50% 40%,rgba(139,0,0,.2) 0%,transparent 70%);}
-.p-hero-scan{position:absolute;inset:0;z-index:1;background-image:repeating-linear-gradient(0deg,transparent 0px,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 3px);pointer-events:none;}
-
-/* avatar */
-.p-avatar-zone{position:absolute;top:16%;left:50%;transform:translateX(-50%);z-index:10;display:flex;align-items:center;justify-content:center;}
-.p-avatar-halo{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(204,0,0,.3) 0%,transparent 65%);animation:pHalo 4s ease-in-out infinite;}
-@keyframes pHalo{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.1);opacity:1}}
-.p-avatar-ring{position:absolute;width:188px;height:188px;border-radius:50%;background:linear-gradient(#0D0D0D,#0D0D0D) padding-box,conic-gradient(#C8A84B 0deg,rgba(255,210,80,.9) 40deg,rgba(180,140,30,.3) 100deg,rgba(200,168,75,.15) 140deg,#C8A84B 180deg,rgba(255,210,80,.9) 220deg,rgba(180,140,30,.3) 280deg,rgba(200,168,75,.15) 320deg,#C8A84B 360deg) border-box;border:2.5px solid transparent;animation:pRing 10s linear infinite;z-index:2;}
-@keyframes pRing{to{transform:rotate(360deg)}}
-.p-avatar-photo{position:relative;z-index:5;width:158px;height:158px;border-radius:50%;overflow:hidden;background:#1a0000;border:3px solid rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:60px;color:rgba(204,0,0,.6);box-shadow:0 0 0 1px rgba(200,168,75,.12),0 0 40px rgba(204,0,0,.5);}
-.p-avatar-photo img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
-.p-avatar-shield{position:absolute;top:-54px;left:50%;transform:translateX(-50%);z-index:20;width:50px;filter:drop-shadow(0 0 10px rgba(204,0,0,.7));}
-.p-level-badge{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);z-index:20;background:linear-gradient(135deg,#8B0000,#CC0000,#FF2222);color:#fff;font-family:'Anton',sans-serif;font-size:11px;letter-spacing:3px;padding:4px 18px 4px 14px;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);white-space:nowrap;box-shadow:0 0 16px rgba(204,0,0,.8);}
-
-/* identity */
-.p-identity{position:relative;z-index:10;padding:0 20px;}
-.p-rule{width:36px;height:2px;background:#CC0000;box-shadow:0 0 8px rgba(204,0,0,.7);margin-bottom:10px;}
-.p-name{font-family:'Anton',sans-serif;font-size:clamp(42px,11vw,58px);line-height:.88;letter-spacing:-1px;color:#fff;text-shadow:0 0 60px rgba(204,0,0,.35),0 4px 24px rgba(0,0,0,.8);margin-bottom:14px;}
-.p-name .p-ln{display:block;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.35);text-shadow:none;}
-.p-cargo{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(20,10,0,.95),rgba(30,20,0,.9));border:1px solid rgba(200,168,75,.4);border-radius:4px;padding:8px 14px;margin-bottom:6px;position:relative;overflow:hidden;}
-.p-cargo::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,168,75,.6),transparent);}
-.p-cargo img{width:28px;height:28px;flex-shrink:0;}
-.p-cargo-t{font-family:'Anton',sans-serif;font-size:15px;letter-spacing:3px;color:#FFD060;line-height:1;text-shadow:0 0 12px rgba(200,168,75,.5);}
-.p-cargo-s{font-size:9px;letter-spacing:3px;color:rgba(200,168,75,.5);}
-.p-since{font-size:12px;color:rgba(255,255,255,.25);letter-spacing:1.5px;display:flex;align-items:center;gap:8px;margin-bottom:0;}
-.p-since-dot{width:3px;height:3px;border-radius:50%;background:#CC0000;box-shadow:0 0 4px rgba(204,0,0,.8);}
-
-/* xp strip hero */
-.p-xp-strip{position:relative;z-index:10;padding:18px 20px 0;}
-.p-xp-meta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px;}
-.p-xp-ml{font-size:11px;color:rgba(255,255,255,.2);letter-spacing:1.5px;}
-.p-xp-mr{font-family:'Anton',sans-serif;font-size:13px;letter-spacing:2px;color:#C8A84B;text-shadow:0 0 8px rgba(200,168,75,.5);}
-.p-xp-track{width:100%;height:3px;background:rgba(255,255,255,.06);position:relative;margin-bottom:18px;}
-.p-xp-fill{position:absolute;top:0;left:0;bottom:0;background:linear-gradient(90deg,#8B0000,#CC0000,#FF5555);box-shadow:0 0 10px rgba(204,0,0,.9);transition:width 1.4s cubic-bezier(.22,1,.36,1);}
-.p-xp-fill::after{content:'';position:absolute;right:-1px;top:-4px;width:2px;height:11px;background:#fff;box-shadow:0 0 8px #fff;}
-
-/* numbers */
-.p-nums{position:relative;z-index:10;padding:0 20px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;}
-.p-num-item{display:flex;flex-direction:column;gap:3px;padding-left:14px;border-left:1px solid rgba(255,255,255,.07);}
-.p-num-item:first-child{border-left:none;padding-left:0;}
-.p-num-val{font-family:'Anton',sans-serif;font-size:28px;line-height:1;color:#fff;}
-.p-num-val.r{color:#FF5533}.p-num-val.g{color:#C8A84B}
-.p-num-lbl{font-size:9px;color:rgba(255,255,255,.25);letter-spacing:2px;text-transform:uppercase;}
-
-/* fold2 */
-.p-fold{background:#0D0D0D;padding:0 16px 40px;position:relative;overflow:hidden;}
-.p-fold-wm{position:absolute;top:30px;right:-50px;font-family:'Anton',sans-serif;font-size:180px;color:rgba(255,255,255,.015);pointer-events:none;line-height:1;}
-.p-divider{display:flex;align-items:center;gap:14px;padding:32px 0 18px;}
-.p-div-lbl{font-family:'Anton',sans-serif;font-size:10px;letter-spacing:5px;color:rgba(255,255,255,.2);white-space:nowrap;}
-.p-div-line{flex:1;height:1px;background:rgba(255,255,255,.06);}
-
-/* xp card */
-.p-xp-card{background:#161616;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:18px;position:relative;overflow:hidden;margin-bottom:10px;}
-.p-xp-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(204,0,0,.4),transparent);}
-.p-xp-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(204,0,0,.04) 0%,transparent 60%);}
-.p-xp-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;position:relative;}
-.p-xp-lvl{display:flex;align-items:center;gap:10px;}
-.p-xp-ln{font-family:'Anton',sans-serif;font-size:28px;color:#fff;line-height:1;}
-.p-xp-tier{font-size:9px;font-weight:700;letter-spacing:2px;padding:2px 9px;border-radius:2px;background:rgba(204,0,0,.2);color:#FF6666;border:1px solid rgba(204,0,0,.3);}
-.p-hex-next{width:40px;height:40px;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);background:linear-gradient(135deg,#1a1a1a,#252525);display:flex;align-items:center;justify-content:center;font-family:'Anton',sans-serif;font-size:14px;color:rgba(255,255,255,.25);}
-.p-xp-vals{font-family:'Anton',sans-serif;font-size:13px;color:#F0EBE3;letter-spacing:1px;margin-bottom:3px;position:relative;}
-.p-xp-vals span{color:rgba(255,255,255,.3);}
-.p-xp-rem{font-size:11px;color:rgba(255,255,255,.25);margin-bottom:14px;position:relative;}
-.p-xp-rem b{color:#C8A84B;}
-.p-xp-bar{height:8px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.04);position:relative;}
-.p-xp-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#8B0000,#CC0000,#FF4444);box-shadow:0 0 12px rgba(204,0,0,.7);transition:width 1.3s cubic-bezier(.22,1,.36,1);position:relative;}
-.p-xp-bar-fill::after{content:'';position:absolute;top:0;right:0;bottom:0;width:40%;background:linear-gradient(90deg,transparent,rgba(255,160,160,.25));animation:pShimmer 2s ease-in-out infinite;}
-@keyframes pShimmer{0%,100%{opacity:.3}50%{opacity:.9}}
-.p-xp-pct{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:8px;font-family:'Anton',sans-serif;color:rgba(255,120,120,.9);letter-spacing:1px;z-index:2;pointer-events:none;}
-
-/* ranking */
-.p-rank-card{background:linear-gradient(160deg,#1C1000 0%,#110A00 40%,#0A0600 100%);border:1px solid rgba(200,168,75,.3);border-radius:12px;padding:0;position:relative;overflow:hidden;margin-bottom:10px;box-shadow:0 0 0 1px rgba(200,168,75,.06),0 8px 32px rgba(0,0,0,.6);}
-.p-rank-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(200,168,75,.3) 20%,rgba(255,220,80,.9) 50%,rgba(200,168,75,.3) 80%,transparent 100%);z-index:2;}
-.p-rank-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 100% 80% at 50% -10%,rgba(200,168,75,.1) 0%,transparent 60%);z-index:0;}
-.p-rank-corner{position:absolute;width:14px;height:14px;z-index:3;}
-.p-rank-corner.tl{top:6px;left:6px;border-top:1px solid rgba(200,168,75,.5);border-left:1px solid rgba(200,168,75,.5);}
-.p-rank-corner.tr{top:6px;right:6px;border-top:1px solid rgba(200,168,75,.5);border-right:1px solid rgba(200,168,75,.5);}
-.p-rank-corner.bl{bottom:6px;left:6px;border-bottom:1px solid rgba(200,168,75,.5);border-left:1px solid rgba(200,168,75,.5);}
-.p-rank-corner.br{bottom:6px;right:6px;border-bottom:1px solid rgba(200,168,75,.5);border-right:1px solid rgba(200,168,75,.5);}
-.p-rank-inner{position:relative;z-index:1;display:flex;align-items:center;padding:22px 20px;gap:0;}
-.p-rank-left{flex-shrink:0;padding-right:18px;border-right:1px solid rgba(200,168,75,.1);}
-.p-laurel-row{display:grid;grid-template-columns:52px auto 52px;align-items:center;gap:4px;}
-.p-laurel{width:52px;height:80px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(200,168,75,.5));}
-.p-rank-numwrap{display:flex;flex-direction:column;align-items:center;}
-.p-rank-num{font-family:'Anton',sans-serif;font-size:52px;line-height:.9;color:#FFD060;text-shadow:0 0 40px rgba(255,215,0,.55),0 2px 8px rgba(0,0,0,.9);animation:pRankGlow 3s ease-in-out infinite;}
-@keyframes pRankGlow{0%,100%{text-shadow:0 0 40px rgba(255,215,0,.4),0 2px 8px rgba(0,0,0,.9)}50%{text-shadow:0 0 70px rgba(255,215,0,.9),0 0 120px rgba(200,168,75,.4),0 2px 8px rgba(0,0,0,.9)}}
-.p-rank-numlbl{font-size:8px;letter-spacing:4px;color:rgba(200,168,75,.5);margin-top:4px;}
-.p-rank-right{flex:1;padding-left:18px;}
-.p-rank-title{font-family:'Anton',sans-serif;font-size:19px;letter-spacing:3px;color:#C8A84B;margin-bottom:10px;text-shadow:0 0 16px rgba(200,168,75,.35);}
-.p-rank-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(90deg,rgba(200,168,75,.2),rgba(200,168,75,.1));border:1px solid rgba(200,168,75,.4);color:#FFD060;font-family:'Anton',sans-serif;font-size:13px;letter-spacing:3px;padding:5px 14px;border-radius:3px;margin-bottom:10px;box-shadow:0 0 14px rgba(200,168,75,.12);}
-.p-rank-badge::before{content:'★';font-size:10px;}
-.p-rank-desc{font-size:12px;color:rgba(255,255,255,.3);line-height:1.6;}
-
-/* stat cards */
-.p-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
-.p-stat{background:#161616;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:16px 14px 14px;position:relative;overflow:hidden;}
-.p-stat::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;}
-.p-stat.str::after{background:linear-gradient(90deg,transparent,rgba(255,107,43,.7),transparent)}
-.p-stat.acc::after{background:linear-gradient(90deg,transparent,rgba(78,205,196,.7),transparent)}
-.p-stat.wrd::after{background:linear-gradient(90deg,transparent,rgba(200,168,75,.7),transparent)}
-.p-stat.pal::after{background:linear-gradient(90deg,transparent,rgba(155,93,229,.7),transparent)}
-.p-stat.qzz::after{background:linear-gradient(90deg,transparent,rgba(204,0,0,.7),transparent)}
-.p-stat-icon{width:80px;height:80px;object-fit:contain;display:block;margin-bottom:12px;}
-.p-stat-icon-svg{width:80px;height:80px;display:block;margin-bottom:12px;}
-.p-stat-val{font-family:'Anton',sans-serif;font-size:38px;line-height:1;margin-bottom:2px;}
-.p-stat-val.str{color:#FF6B2B}.p-stat-val.acc{color:#4ECDC4}.p-stat-val.wrd{color:#C8A84B}.p-stat-val.pal{color:#9B5DE5}.p-stat-val.qzz{color:#FF4444}
-.p-stat-name{font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.25);text-transform:uppercase;margin-bottom:6px;}
-.p-stat-sub{font-size:11px;color:rgba(255,255,255,.4);line-height:1.4;}
-.p-stat-full{background:#161616;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:10px;position:relative;overflow:hidden;}
-.p-stat-full::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(204,0,0,.5),transparent);}
-.p-sf-val{font-family:'Anton',sans-serif;font-size:42px;color:#FF4444;line-height:1;margin-bottom:2px;}
-.p-sf-name{font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.25);text-transform:uppercase;margin-bottom:4px;}
-.p-sf-sub{font-size:11px;color:rgba(255,255,255,.4);}
-.p-sf-bar{height:3px;background:rgba(255,255,255,.04);border-radius:2px;margin-top:10px;overflow:hidden;}
-.p-sf-bar-fill{height:100%;background:linear-gradient(90deg,#8B0000,#FF4444);border-radius:2px;transition:width 1.2s;}
-
-/* badges hexagonais */
-.p-badges-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
-.p-badges-row::-webkit-scrollbar{display:none}
-.p-badge-item{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:6px;width:64px;}
-.p-badge-hex{width:60px;height:68px;position:relative;display:flex;align-items:center;justify-content:center;}
-.p-badge-hex svg{position:absolute;inset:0;}
-.p-badge-hex .p-bh-emoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;z-index:2;}
-.p-badge-hex.locked{opacity:.25;filter:grayscale(1);}
-.p-badge-name{font-family:'Anton',sans-serif;font-size:8px;letter-spacing:1.5px;color:rgba(255,255,255,.25);text-align:center;text-transform:uppercase;line-height:1.3;}
-
-/* coleção */
-.p-cards-fan{position:relative;height:110px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:12px;}
-.p-fan-card{position:absolute;width:60px;height:84px;border-radius:6px;border:1px solid rgba(200,168,75,.3);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.7);overflow:hidden;}
-.p-fan-card img{width:48px;height:48px;object-fit:contain;opacity:.75;}
-.p-fan-card:nth-child(1){transform:rotate(-20deg) translateX(-80px) translateY(12px);background:linear-gradient(135deg,#1a0800,#2a0a0a);z-index:1;}
-.p-fan-card:nth-child(2){transform:rotate(-10deg) translateX(-40px) translateY(4px);background:linear-gradient(135deg,#1a0a00,#300f0f);z-index:2;}
-.p-fan-card:nth-child(3){transform:rotate(0deg);background:linear-gradient(135deg,#200000,#CC0000 120%);z-index:5;border-color:rgba(200,168,75,.6);box-shadow:0 0 20px rgba(200,168,75,.2),0 8px 24px rgba(0,0,0,.8);}
-.p-fan-card:nth-child(4){transform:rotate(10deg) translateX(40px) translateY(4px);background:linear-gradient(135deg,#1a0a00,#300f0f);z-index:2;}
-.p-fan-card:nth-child(5){transform:rotate(20deg) translateX(80px) translateY(12px);background:linear-gradient(135deg,#1a0800,#2a0a0a);z-index:1;}
-.p-col-count{text-align:center;font-family:'Anton',sans-serif;font-size:32px;color:#FFD060;letter-spacing:2px;text-shadow:0 0 16px rgba(200,168,75,.4);}
-.p-col-sub{text-align:center;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.2);text-transform:uppercase;margin-top:2px;}
-.p-sig{display:flex;align-items:center;justify-content:center;gap:10px;padding:36px 0 16px;}
-.p-sig-t{font-family:'Anton',sans-serif;font-size:11px;letter-spacing:5px;color:rgba(255,255,255,.15);}
-.p-sig-d{width:3px;height:3px;border-radius:50%;background:#CC0000;box-shadow:0 0 6px rgba(204,0,0,.8);}
-.p-sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.p-sec-link{font-size:10px;letter-spacing:2px;color:#CC0000;cursor:pointer;}
 </style>
 </head>
 <body style="padding-top:calc(96px + env(safe-area-inset-top))">
@@ -3567,6 +3368,16 @@ async function loadOrUpdateStreak(db, doc, setDoc, uid) {
         try {
           const snap = await getDoc(doc(db, 'users', user.uid));
           const data = snap.exists() ? snap.data() : {};
+
+          // Registra data do primeiro login se ainda não existe
+          if (!data.firstLoginDate) {
+            const firstDate = new Date().toISOString();
+            updateDoc(doc(db, 'users', user.uid), { firstLoginDate: firstDate }).catch(()=>{
+              setDoc(doc(db, 'users', user.uid), { firstLoginDate: firstDate }, { merge: true }).catch(()=>{});
+            });
+            data.firstLoginDate = firstDate;
+          }
+
           // Cache global — evita releituras em grantLoginBonus e fillHubUserData
           window._cachedUserData = { uid: user.uid, data, ts: Date.now() };
           const name       = data.displayName || user.email?.split('@')[0] || 'Torcedor';
@@ -3594,6 +3405,30 @@ async function loadOrUpdateStreak(db, doc, setDoc, uid) {
 
           // Nível + XP + streak
           updateTopbarLevel(xpFinal, streak);
+
+          // Guarda streak no cache global para o perfil usar
+          window._cachedStreak = streak;
+          if (window._cachedUserData) {
+            window._cachedUserData.data.streakCount = streak;
+          }
+
+          // Tenta buscar posição do ranking geral para o perfil
+          try {
+            const { getDocs, collection, orderBy, query } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+            const rankSnap = await getDocs(query(collection(db, 'ranking'), orderBy('score','desc')));
+            let pos = 1, total = 0, myScore = 0;
+            const myRef = `${user.uid}_geral`;
+            rankSnap.forEach(d => {
+              if(d.id.endsWith('_geral')) {
+                total++;
+                if(d.id === myRef) { pos = total; myScore = d.data().score || 0; }
+              }
+            });
+            if (window._cachedUserData) {
+              window._cachedUserData.data.rankPos = pos;
+              window._cachedUserData.data.rankTotal = total || 1000;
+            }
+          } catch(e) { /* ranking fetch optional */ }
 
         } catch(e) {
           if (nameEl) nameEl.textContent = '?';
@@ -4798,130 +4633,41 @@ function closeSobre(e) {
   setInterval(loadTicker, RELOAD_INT);
 })();
 
-
 // ── PERFIL MODAL ─────────────────────────────────
-const _pXP_TITLES = [
-  {min:0,t:'Torcedor de Arquibancada'},{min:100,t:'Torcedor da Caldeira'},
-  {min:500,t:'Fiel Tricolor'},{min:800,t:'Conhecedor da História'},
-  {min:1200,t:'Membro da Torcida Organizada'},{min:1700,t:'Torcedor que Nunca Faltou'},
-  {min:2300,t:'Historiador Tricolor'},{min:3000,t:'Guardião do Morumbi'},
-  {min:3800,t:'Lenda das Arquibancadas'},{min:4700,t:'Garoto do Cotia'},
-  {min:5700,t:'Revelação do Tricolor'},{min:9300,t:'Titular Absoluto'},
-  {min:12200,t:'Ídolo em Formação'},{min:15500,t:'Estrela da Libertadores'},
-  {min:19200,t:'Campeão Paulista'},
-];
-const _pTIERS = [
-  {min:0,l:'INICIANTE'},{min:500,l:'BRONZE'},{min:1200,l:'PRATA'},
-  {min:2300,l:'OURO'},{min:3000,l:'ÉPICO'},{min:3800,l:'LENDÁRIO'},
-  {min:9300,l:'MESTRE'},{min:19200,l:'GRANDIOSO'},
-];
-function _pGetLvl(xp){
-  let lvl=1,t=_pXP_TITLES[0].t,nx=_pXP_TITLES[1]?.min||null;
-  for(let i=_pXP_TITLES.length-1;i>=0;i--){
-    if(xp>=_pXP_TITLES[i].min){lvl=i+1;t=_pXP_TITLES[i].t;nx=_pXP_TITLES[i+1]?.min||null;break;}
-  }
-  const cur=_pXP_TITLES[lvl-1]?.min||0,nxt=nx||cur+1;
-  const pct=Math.min(99,Math.round((xp-cur)/(nxt-cur)*100));
-  return {lvl,t,cur,nxt,pct,diff:nxt-xp};
-}
-function _pGetTier(xp){let t=_pTIERS[0];for(let i=_pTIERS.length-1;i>=0;i--){if(xp>=_pTIERS[i].min){t=_pTIERS[i];break;}}return t.l;}
-function _pRankTop(p,t){const r=p/t*100;return r<=1?'TOP 1%':r<=5?'TOP 5%':r<=10?'TOP 10%':'TOP 25%';}
-function _pSet(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
-function _pFmt(n){return Number(n).toLocaleString('pt-BR');}
-
-function _pFillPerfil(data, user) {
-  if(!data) return;
-  const name    = data.displayName || user?.email?.split('@')[0] || 'Torcedor';
-  const avatar  = data.avatarUrl || data.avatar?.url || data.avatar?.dataUrl || '';
-  const xp      = data.xp || data.totalXP || 0;
-  const streak  = data.loginStreak || 0;
-  const rankPos = data.rankPos || 999;
-  const rankTot = data.rankTotal || 1000;
-  const qAcert  = data.totalAcertos || 0;
-  const qTotal  = data.totalRespostas || 0;
-  const wordle  = data.wordleWins || 0;
-  const palp    = data.palpitesExatos || 0;
-  const cards   = data.cardsTotal || 0;
-
-  // Datas
-  let sinceStr = '—', sinceDays = '—';
-  if(data.createdAt){
-    const dt=new Date(data.createdAt);
-    const m=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-    sinceStr = m[dt.getMonth()]+' '+dt.getFullYear();
-    sinceDays = _pFmt(Math.floor((Date.now()-dt.getTime())/86400000))+' dias';
-  }
-
-  const info = _pGetLvl(xp);
-  const parts = name.trim().split(' ');
-
-  // Avatar
-  const avEl = document.getElementById('pAvatar');
-  if(avEl){
-    if(avatar) avEl.innerHTML = `<img src="${avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
-    else avEl.textContent = parts[0][0].toUpperCase();
-  }
-
-  _pSet('pLevel',   'NÍVEL '+info.lvl);
-  _pSet('pFirstName', parts[0].toUpperCase());
-  _pSet('pLastName',  parts.slice(1).join(' ').toUpperCase());
-  _pSet('pCargoTitle', info.t.toUpperCase());
-  _pSet('pSinceDate',  sinceStr);
-  _pSet('pSinceDays',  sinceDays);
-
-  const diff = info.diff>0 ? ` · ${_pFmt(info.diff)} para o próximo` : '';
-  _pSet('pXpMetaL', `${_pFmt(xp)} / ${_pFmt(info.nxt)} XP${diff}`);
-  _pSet('pXpMetaR', info.pct+'%');
-
-  _pSet('pN1', (streak>=10?'🔥 ':'')+streak);
-  _pSet('pN2', _pFmt(qTotal));
-  const qpct = qTotal>0 ? Math.round(qAcert/qTotal*100) : 0;
-  _pSet('pN3', qpct+'%');
-
-  _pSet('pXpLvl',    'NÍVEL '+info.lvl);
-  _pSet('pXpTier',   _pGetTier(xp));
-  _pSet('pXpNext',   info.lvl+1);
-  _pSet('pXpCurr',   _pFmt(xp));
-  _pSet('pXpMax',    _pFmt(info.nxt));
-  _pSet('pXpDiff',   _pFmt(info.diff)+' XP');
-  _pSet('pXpCardPct', info.pct+'%');
-
-  _pSet('pRankNum',  '#'+rankPos);
-  _pSet('pRankTop',  _pRankTop(rankPos,rankTot));
-
-  _pSet('pStreak',    streak);
-  _pSet('pStreakMax',  data.maxStreak||streak);
-  _pSet('pAcertos',   qpct+'%');
-  _pSet('pWordle',    wordle);
-  _pSet('pPalpites',  palp);
-  _pSet('pQuiz',      _pFmt(qTotal));
-  _pSet('pColCount',  cards);
-
-  // Barras de progresso
-  setTimeout(()=>{
-    ['pXpHeroFill','pXpCardFill'].forEach(id=>{
-      const el=document.getElementById(id);
-      if(el) el.style.width=info.pct+'%';
-    });
-    const qb=document.getElementById('pQuizBar');
-    if(qb) qb.style.width=Math.min(100,Math.round(qTotal/500*100))+'%';
-  }, 350);
-}
-
 function openPerfilModal() {
-  const modal = document.getElementById('perfilModal');
-  if(!modal) return;
+  const modal  = document.getElementById('perfilModal');
+  const iframe = document.getElementById('perfilIframe');
+
+  // Só carrega o iframe uma vez
+  if (!iframe.src || iframe.src === window.location.href) {
+    iframe.src = 'perfil.html';
+  }
+
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Injeta dados do cache
-  const cached = window._cachedUserData;
-  if(cached) _pFillPerfil(cached.data, {uid: cached.uid});
+  // Assim que o iframe carregar, injeta os dados do Firebase
+  iframe.onload = () => {
+    try {
+      const cached = window._cachedUserData;
+      if (cached && iframe.contentWindow && iframe.contentWindow.fillPerfilFromCache) {
+        iframe.contentWindow.fillPerfilFromCache(cached.data, { uid: cached.uid, email: '' });
+      }
+    } catch(e) { console.warn('Perfil iframe inject:', e); }
+  };
+
+  // Se o iframe já estava carregado, injeta direto
+  try {
+    if (iframe.contentWindow && iframe.contentWindow.fillPerfilFromCache) {
+      const cached = window._cachedUserData;
+      if (cached) iframe.contentWindow.fillPerfilFromCache(cached.data, { uid: cached.uid, email: '' });
+    }
+  } catch(e) {}
 }
 
-function closePerfilModal() {
+function closePerfilModal(e) {
+  if (e && e.target !== document.getElementById('perfilModal')) return;
   const modal = document.getElementById('perfilModal');
-  if(!modal) return;
   modal.classList.remove('open');
   document.body.style.overflow = '';
 }
@@ -4929,241 +4675,16 @@ function closePerfilModal() {
 </script>
 
 
-<!-- ══ PERFIL MODAL ══ -->
-<div id="perfilModal" onclick="if(event.target===this)closePerfilModal()">
-  <div id="perfilModalSheet">
-    <div id="perfilModalHandle"></div>
-    <button id="perfilModalClose" onclick="closePerfilModal()">✕</button>
-    <div class="p-root">
-
-      <!-- HERO -->
-      <div class="p-hero">
-        <div class="p-hero-bg">
-          <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417074/ad859639-60f1-4fb9-b99d-0c1c40ad250f_qcadq7.png" alt="">
-        </div>
-        <div class="p-hero-scan"></div>
-
-        <!-- Avatar -->
-        <div class="p-avatar-zone">
-          <div class="p-avatar-halo"></div>
-          <div class="p-avatar-ring"></div>
-          <div class="p-avatar-photo" id="pAvatar">?</div>
-          <img class="p-avatar-shield" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt="SPFC">
-          <div class="p-level-badge" id="pLevel">NÍVEL 1</div>
-        </div>
-
-        <!-- Identidade -->
-        <div class="p-identity">
-          <div class="p-rule"></div>
-          <div class="p-name">
-            <span id="pFirstName">—</span>
-            <span class="p-ln" id="pLastName"></span>
-          </div>
-          <div class="p-cargo">
-            <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt="">
-            <div>
-              <div class="p-cargo-t" id="pCargoTitle">—</div>
-              <div class="p-cargo-s">FÉ · TRADIÇÃO · PAIXÃO</div>
-            </div>
-          </div>
-          <div class="p-since">
-            <span>Membro desde</span>
-            <span id="pSinceDate" style="color:rgba(255,255,255,.4)">—</span>
-            <div class="p-since-dot"></div>
-            <span id="pSinceDays">—</span>
-          </div>
-        </div>
-
-        <!-- XP strip -->
-        <div class="p-xp-strip">
-          <div class="p-xp-meta">
-            <span class="p-xp-ml" id="pXpMetaL">— XP</span>
-            <span class="p-xp-mr" id="pXpMetaR">0%</span>
-          </div>
-          <div class="p-xp-track">
-            <div class="p-xp-fill" id="pXpHeroFill" style="width:0%"></div>
-          </div>
-        </div>
-
-        <!-- 3 números -->
-        <div class="p-nums">
-          <div class="p-num-item">
-            <div class="p-num-val r" id="pN1">—</div>
-            <div class="p-num-lbl">Streak dias</div>
-          </div>
-          <div class="p-num-item">
-            <div class="p-num-val" id="pN2">—</div>
-            <div class="p-num-lbl">Quiz jogados</div>
-          </div>
-          <div class="p-num-item">
-            <div class="p-num-val g" id="pN3">—</div>
-            <div class="p-num-lbl">Taxa acertos</div>
-          </div>
-        </div>
-      </div><!-- /hero -->
-
-      <!-- FOLD 2 -->
-      <div class="p-fold">
-        <div class="p-fold-wm">SPFC</div>
-
-        <!-- XP card -->
-        <div class="p-divider"><span class="p-div-lbl">PROGRESSÃO</span><div class="p-div-line"></div></div>
-        <div class="p-xp-card">
-          <div class="p-xp-top">
-            <div class="p-xp-lvl">
-              <div class="p-xp-ln" id="pXpLvl">NÍVEL 1</div>
-              <div class="p-xp-tier" id="pXpTier">INICIANTE</div>
-            </div>
-            <div class="p-hex-next" id="pXpNext">2</div>
-          </div>
-          <div class="p-xp-vals"><span id="pXpCurr">0</span> / <span id="pXpMax">100</span> XP</div>
-          <div class="p-xp-rem">Faltam <b id="pXpDiff">100 XP</b> para o próximo nível</div>
-          <div class="p-xp-bar">
-            <div class="p-xp-bar-fill" id="pXpCardFill" style="width:0%"></div>
-            <div class="p-xp-pct" id="pXpCardPct">0%</div>
-          </div>
-        </div>
-
-        <!-- Ranking -->
-        <div class="p-divider"><span class="p-div-lbl">RANKING</span><div class="p-div-line"></div></div>
-        <div class="p-rank-card">
-          <div class="p-rank-corner tl"></div><div class="p-rank-corner tr"></div>
-          <div class="p-rank-corner bl"></div><div class="p-rank-corner br"></div>
-          <div class="p-rank-inner">
-            <div class="p-rank-left">
-              <div class="p-laurel-row">
-                <img class="p-laurel" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417254/left_vgohzf.png" alt="">
-                <div class="p-rank-numwrap">
-                  <span class="p-rank-num" id="pRankNum">#—</span>
-                  <span class="p-rank-numlbl">RANKING</span>
-                </div>
-                <img class="p-laurel" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417391/image_err3hg.png" alt="">
-              </div>
-            </div>
-            <div class="p-rank-right">
-              <div class="p-rank-title">RANKING GERAL</div>
-              <div class="p-rank-badge" id="pRankTop">TOP —%</div>
-              <div class="p-rank-desc">Entre os melhores<br>torcedores do Brasil</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Estatísticas -->
-        <div class="p-divider"><span class="p-div-lbl">ESTATÍSTICAS</span><div class="p-div-line"></div></div>
-        <div class="p-stats-grid">
-          <div class="p-stat str">
-            <img class="p-stat-icon" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417811/de823f35-5371-4482-9eb8-4543f1349e11_kyvv5z.png" alt="">
-            <div class="p-stat-val str" id="pStreak">—</div>
-            <div class="p-stat-name">Streak dias</div>
-            <div class="p-stat-sub">Melhor sequência<br><b id="pStreakMax">—</b> dias</div>
-          </div>
-          <div class="p-stat acc">
-            <img class="p-stat-icon" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780419535/8b87ee5e-72d4-49c5-b4ea-14ffb9ccb138_mcqetr.png" alt="">
-            <div class="p-stat-val acc" id="pAcertos">—%</div>
-            <div class="p-stat-name">% Acertos quiz</div>
-            <div class="p-stat-sub">Você está voando!<br>Continue assim!</div>
-          </div>
-          <div class="p-stat wrd">
-            <svg class="p-stat-icon-svg" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="3" width="4" height="4" rx="1" fill="#C8A84B" opacity=".9"/>
-              <rect x="10" y="3" width="4" height="4" rx="1" fill="#C8A84B" opacity=".6"/>
-              <rect x="17" y="3" width="4" height="4" rx="1" fill="#C8A84B" opacity=".3"/>
-              <rect x="3" y="10" width="4" height="4" rx="1" fill="#C8A84B" opacity=".6"/>
-              <rect x="10" y="10" width="4" height="4" rx="1" fill="#C8A84B"/>
-              <rect x="17" y="10" width="4" height="4" rx="1" fill="#C8A84B" opacity=".6"/>
-              <rect x="3" y="17" width="4" height="4" rx="1" fill="#C8A84B" opacity=".3"/>
-              <rect x="10" y="17" width="4" height="4" rx="1" fill="#C8A84B" opacity=".6"/>
-              <rect x="17" y="17" width="4" height="4" rx="1" fill="#C8A84B" opacity=".9"/>
-            </svg>
-            <div class="p-stat-val wrd" id="pWordle">—</div>
-            <div class="p-stat-name">Wordle vencidos</div>
-            <div class="p-stat-sub">Vocabulário de<br><b>craque!</b></div>
-          </div>
-          <div class="p-stat pal">
-            <img class="p-stat-icon" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780419959/ee6549f4-21ed-44a6-9eb4-dfa77b7c82c5_acjuza.png" alt="">
-            <div class="p-stat-val pal" id="pPalpites">—</div>
-            <div class="p-stat-name">Palpites certos</div>
-            <div class="p-stat-sub">Intuição tricolor<br>aflorada!</div>
-          </div>
-        </div>
-        <div class="p-stat-full">
-          <svg class="p-stat-icon-svg" style="width:80px;height:80px;flex-shrink:0" viewBox="0 0 24 24" fill="none">
-            <rect x="4" y="3" width="16" height="18" rx="2" stroke="#FF4444" stroke-width="1.5"/>
-            <line x1="8" y1="8" x2="16" y2="8" stroke="#FF4444" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="8" y1="12" x2="16" y2="12" stroke="#FF4444" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="8" y1="16" x2="12" y2="16" stroke="#FF4444" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          <div style="flex:1">
-            <div class="p-sf-val" id="pQuiz">—</div>
-            <div class="p-sf-name">Quiz jogados</div>
-            <div class="p-sf-sub">Incrível! Você é uma máquina!</div>
-            <div class="p-sf-bar"><div class="p-sf-bar-fill" id="pQuizBar" style="width:0%"></div></div>
-          </div>
-        </div>
-
-        <!-- Conquistas -->
-        <div class="p-divider"><span class="p-div-lbl">CONQUISTAS</span><div class="p-div-line"></div></div>
-        <div class="p-sec-hdr"><div></div><div class="p-sec-link">VER TODAS ›</div></div>
-        <div class="p-badges-row">
-          <div class="p-badge-item">
-            <div class="p-badge-hex">
-              <svg viewBox="0 0 60 68" fill="none"><polygon points="30,2 58,17 58,51 30,66 2,51 2,17" fill="url(#phR)" stroke="url(#phRS)" stroke-width="1.5"/><defs><linearGradient id="phR" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3a0000"/><stop offset="50%" stop-color="#8B0000"/><stop offset="100%" stop-color="#CC0000"/></linearGradient><linearGradient id="phRS" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FF4444"/><stop offset="100%" stop-color="#8B0000"/></linearGradient></defs></svg>
-              <div class="p-bh-emoji">🔥</div>
-            </div>
-            <div class="p-badge-name">Streak 10</div>
-          </div>
-          <div class="p-badge-item">
-            <div class="p-badge-hex">
-              <svg viewBox="0 0 60 68" fill="none"><polygon points="30,2 58,17 58,51 30,66 2,51 2,17" fill="url(#phB)" stroke="url(#phBS)" stroke-width="1.5"/><defs><linearGradient id="phB" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#003344"/><stop offset="100%" stop-color="#4ECDC4"/></linearGradient><linearGradient id="phBS" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#4ECDC4"/><stop offset="100%" stop-color="#003344"/></linearGradient></defs></svg>
-              <div class="p-bh-emoji">🎯</div>
-            </div>
-            <div class="p-badge-name">Perfeccionista</div>
-          </div>
-          <div class="p-badge-item">
-            <div class="p-badge-hex">
-              <svg viewBox="0 0 60 68" fill="none"><polygon points="30,2 58,17 58,51 30,66 2,51 2,17" fill="url(#phG)" stroke="url(#phGS)" stroke-width="1.5"/><defs><linearGradient id="phG" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#4a3000"/><stop offset="50%" stop-color="#8B6914"/><stop offset="100%" stop-color="#C8A84B"/></linearGradient><linearGradient id="phGS" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#FFD060"/><stop offset="100%" stop-color="#6b4e00"/></linearGradient></defs></svg>
-              <div class="p-bh-emoji">⭐</div>
-            </div>
-            <div class="p-badge-name">Campeão</div>
-          </div>
-          <div class="p-badge-item">
-            <div class="p-badge-hex">
-              <svg viewBox="0 0 60 68" fill="none"><polygon points="30,2 58,17 58,51 30,66 2,51 2,17" fill="url(#phS)" stroke="url(#phSS)" stroke-width="1.5"/><defs><linearGradient id="phS" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#1a1a1a"/><stop offset="100%" stop-color="#888"/></linearGradient><linearGradient id="phSS" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#bbb"/><stop offset="100%" stop-color="#333"/></linearGradient></defs></svg>
-              <div class="p-bh-emoji">💯</div>
-            </div>
-            <div class="p-badge-name">Quiz Master</div>
-          </div>
-          <div class="p-badge-item">
-            <div class="p-badge-hex locked">
-              <svg viewBox="0 0 60 68" fill="none"><polygon points="30,2 58,17 58,51 30,66 2,51 2,17" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/></svg>
-              <div class="p-bh-emoji">🔒</div>
-            </div>
-            <div class="p-badge-name">Lendário</div>
-          </div>
-        </div>
-
-        <!-- Coleção -->
-        <div class="p-divider"><span class="p-div-lbl">COLEÇÃO</span><div class="p-div-line"></div></div>
-        <div class="p-sec-hdr"><div></div><div class="p-sec-link">VER TODAS ›</div></div>
-        <div class="p-cards-fan">
-          <div class="p-fan-card"><img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt=""></div>
-          <div class="p-fan-card"><img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt=""></div>
-          <div class="p-fan-card"><img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt=""></div>
-          <div class="p-fan-card"><img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt=""></div>
-          <div class="p-fan-card"><img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt=""></div>
-        </div>
-        <div class="p-col-count" id="pColCount">—</div>
-        <div class="p-col-sub">CARDS COLECIONADOS</div>
-
-        <div class="p-sig">
-          <span class="p-sig-t">SPFC</span>
-          <div class="p-sig-d"></div>
-          <span class="p-sig-t">HOJE</span>
-        </div>
-      </div><!-- /fold -->
-    </div><!-- /p-root -->
-  </div><!-- /sheet -->
-</div><!-- /modal -->
+<!-- PERFIL MODAL -->
+<div class="perfil-modal" id="perfilModal" onclick="closePerfilModal(event)">
+  <div class="perfil-modal-sheet" id="perfilModalSheet">
+    <div class="perfil-modal-handle"></div>
+    <button class="perfil-modal-close" onclick="closePerfilModal()">✕</button>
+    <div class="perfil-modal-body" id="perfilModalBody">
+      <iframe id="perfilIframe" src="" title="Perfil"></iframe>
+    </div>
+  </div>
+</div>
 </body>
 </html>
 
