@@ -4232,7 +4232,7 @@ function revealIdentity(){
 
 /* ── Dados do usuário ── */
 async function fillHubUserData(){
-  // wordle streak — localStorage spfc_wondler
+  // wordle streak — localStorage spfc_wondler (sem leitura Firestore)
   try {
     const wRaw = localStorage.getItem('spfc_wondler');
     const ws = wRaw ? (JSON.parse(wRaw).streak || 0) : 0;
@@ -4240,25 +4240,19 @@ async function fillHubUserData(){
     if(elws) elws.textContent = ws;
   } catch(e) {}
 
-  // quiz streak — lê direto do Firestore (fonte de verdade)
+  // quiz streak — usa _cachedUserData (já lido no login, sem getDoc extra)
+  // fallback: localStorage spfc_quiz_state
   try {
-    const uid = window._indexAuth?.currentUser?.uid;
-    if (uid) {
-      const { getFirestore, doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-      const { getApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
-      const db2 = getFirestore(getApp());
-      const snap = await getDoc(doc(db2, 'users', uid));
-      if (snap.exists()) {
-        const quizStreak = snap.data().streak || 0;
-        const elS = document.getElementById('quizStreakVal');
-        if(elS) elS.textContent = quizStreak;
-      }
+    let quizStreak = 0;
+    const cached = window._cachedUserData;
+    if (cached && cached.data && cached.data.streak != null) {
+      quizStreak = cached.data.streak;
     } else {
       const qRaw = localStorage.getItem('spfc_quiz_state');
-      const quizStreak = qRaw ? (JSON.parse(qRaw).streak || 0) : 0;
-      const elS = document.getElementById('quizStreakVal');
-      if(elS) elS.textContent = quizStreak;
+      quizStreak = qRaw ? (JSON.parse(qRaw).streak || 0) : 0;
     }
+    const elS = document.getElementById('quizStreakVal');
+    if(elS) elS.textContent = quizStreak;
   } catch(e) {}
 
   // Firebase: xp → nível + XP (mesma lógica da topbar)
@@ -4323,7 +4317,20 @@ async function initHub(){
 }
 
 // initHub roda imediatamente; fillHubUserData será re-chamado após login
-setTimeout(initHub, 300);
+// Aguarda login completar antes de inicializar o hub
+(function waitForAuth() {
+  if (window._cachedUserData) {
+    initHub();
+  } else {
+    let n = 0;
+    const iv = setInterval(() => {
+      if (window._cachedUserData || ++n > 60) {
+        clearInterval(iv);
+        initHub();
+      }
+    }, 150);
+  }
+})();
 
 
 </script>
