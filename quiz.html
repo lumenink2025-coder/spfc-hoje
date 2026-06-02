@@ -5959,23 +5959,24 @@ async function saveTematicoScore(completou, scoreBase, scoresFinal) {
     }));
   } catch(e) {}
 
-  // Sincroniza com Firestore se logado (para ranking e badges)
   if (!window.FB) return;
   const currentUser = window.FB.auth.currentUser || STATE.user;
   if (!currentUser) return;
 
-  const { db, doc, setDoc, serverTimestamp } = window.FB;
+  const { db, doc, setDoc, getDoc, serverTimestamp } = window.FB;
   const uid = currentUser.uid;
   const name = STATE.avatar?.name || 'Torcedor';
   const avatar = STATE.avatar?.dataUrl || null;
   const weekKey = TEMATICO_STATE.weekKey || getWeekKey();
+  const scoreFinal = scoresFinal || TEMATICO_STATE.score;
 
   try {
+    // 1. Histórico isolado do temático
     await setDoc(doc(db, 'tematico_scores', `${uid}_${weekKey}`), {
       uid, name, avatar,
       scoreBase: scoreBase || TEMATICO_STATE.score,
-      scoreBonus: (scoresFinal || TEMATICO_STATE.score) - (scoreBase || TEMATICO_STATE.score),
-      scoreFinal: scoresFinal || TEMATICO_STATE.score,
+      scoreBonus: scoreFinal - (scoreBase || TEMATICO_STATE.score),
+      scoreFinal,
       acertos: TEMATICO_STATE.acertos,
       completou: completou || false,
       tema: TEMATICO_STATE.tema,
@@ -5983,18 +5984,75 @@ async function saveTematicoScore(completou, scoreBase, scoresFinal) {
       createdAt: serverTimestamp(),
     });
 
-    // XP bônus pelo temático
-    const xpBonus = completou ? 500 : TEMATICO_STATE.acertos * 80;
-    addXP(xpBonus);
-    if (xpBonus > 0) toast(`🔥 +${xpBonus} XP`, completou ? 'Temática perfeita!' : 'Bônus de participação');
+    // 2. Soma ao RANKING SEMANAL
+    const now = new Date();
+    const sWeekKey = `${now.getFullYear()}-W${String(Math.ceil((now - new Date(now.getFullYear(),0,1)) / 86400000 / 7)).padStart(2,'0')}`;
+    const weekRef = doc(db, 'ranking', `${uid}_semanal_${sWeekKey}`);
+    const weekSnap = await getDoc(weekRef);
+    if (weekSnap.exists()) {
+      const existing = weekSnap.data();
+      await setDoc(weekRef, {
+        ...existing,
+        score: (existing.score || 0) + scoreFinal,
+        tematicoBonus: scoreFinal,
+        updatedAt: serverTimestamp(),
+      }, { merge: true });
+    } else {
+      await setDoc(weekRef, {
+        uid, name, avatar,
+        score: scoreFinal,
+        tematicoBonus: scoreFinal,
+        level: STATE.level || 1,
+        streak: STATE.streak || 0,
+        bestStreak: STATE.bestStreak || 0,
+        type: 'semanal',
+        weekKey: sWeekKey,
+        updatedAt: serverTimestamp(),
+      });
+    }
 
-    // Conquista se completou
+    // 3. Soma ao RANKING GERAL — perpétuo, nunca reseta
+    const geralRef = doc(db, 'ranking', `${uid}_geral`);
+    const geralSnap = await getDoc(geralRef);
+    if (geralSnap.exists()) {
+      const existing = geralSnap.data();
+      await setDoc(geralRef, {
+        ...existing,
+        score: (existing.score || 0) + scoreFinal,
+        tematicoAcumulado: (existing.tematicoAcumulado || 0) + scoreFinal,
+        updatedAt: serverTimestamp(),
+      }, { merge: true });
+    } else {
+      await setDoc(geralRef, {
+        uid, name, avatar,
+        score: scoreFinal,
+        tematicoAcumulado: scoreFinal,
+        level: STATE.level || 1,
+        streak: STATE.streak || 0,
+        bestStreak: STATE.bestStreak || 0,
+        type: 'geral',
+        updatedAt: serverTimestamp(),
+      });
+    }
+
+    // 4. XP bônus
+    const xpBonus = completou ? 500 : TEMATICO_STATE.acertos * 80;
+    if (xpBonus > 0) {
+      addXP(xpBonus);
+      toast(`🔥 +${xpBonus} XP`, completou ? 'Temática perfeita! Score somado ao ranking!' : 'Bônus de participação');
+    }
+
+    // 5. Badge se completou todas as 5
     if (completou) {
-      // Salva badge no perfil do usuário
       setDoc(doc(db, 'users', uid), {
-        [`badge_tematico_${weekKey}`]: { tema: TEMATICO_STATE.tema, emoji: TEMATICO_STATE.emoji, conquistadoEm: new Date().toISOString() }
+        [`badge_tematico_${weekKey}`]: {
+          tema: TEMATICO_STATE.tema,
+          emoji: TEMATICO_STATE.emoji,
+          conquistadoEm: new Date().toISOString()
+        }
       }, { merge: true }).catch(() => {});
     }
+
   } catch(e) { console.warn('Tematico save error:', e); }
 }
 
