@@ -4228,15 +4228,21 @@ function revealIdentity(){
 
 /* ── Dados do usuário ── */
 async function fillHubUserData(){
-  // streak do wordle (localStorage)
-  const ws = parseInt(localStorage.getItem('wordleStreak')||'0',10);
-  const elws = document.getElementById('wordleStreakNum');
-  if(elws) elws.textContent = ws;
+  // streak do wordle — chave real: spfc_wondler (JSON)
+  try {
+    const wRaw = localStorage.getItem('spfc_wondler');
+    const ws = wRaw ? (JSON.parse(wRaw).streak || 0) : 0;
+    const elws = document.getElementById('wordleStreakNum');
+    if(elws) elws.textContent = ws;
+  } catch(e) {}
 
-  // streak de quiz completados (localStorage)
-  const streak = parseInt(localStorage.getItem('quizStreak')||'0',10);
-  const elS = document.getElementById('quizStreakVal');
-  if(elS) elS.textContent = streak;
+  // streak de quiz — chave real: spfc_quiz_state (JSON)
+  try {
+    const qRaw = localStorage.getItem('spfc_quiz_state');
+    const streak = qRaw ? (JSON.parse(qRaw).streak || 0) : 0;
+    const elS = document.getElementById('quizStreakVal');
+    if(elS) elS.textContent = streak;
+  } catch(e) {}
 
   // Firebase: xp → nível + XP (mesma lógica da topbar)
   const myData = await fetchMyRankPosition(); // retorna {pos, score}
