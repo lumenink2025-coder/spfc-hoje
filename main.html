@@ -1132,117 +1132,113 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 }
 
 /* Card Quem é esse Jogador — nível Riot Games */
+/* ══ WIDGET QUEM É ESSE JOGADOR ══════════════════════ */
 .widget-wordle{
-  border-radius:16px;overflow:hidden;position:relative;
-  border:1px solid rgba(204,0,0,.4);
-  background:#0a0000;
-  cursor:pointer;min-height:160px;touch-action:pan-y;
+  border-radius:14px;overflow:hidden;position:relative;
+  border:1px solid rgba(204,0,0,.35);
+  background:linear-gradient(160deg,#0f0000 0%,#0a0000 60%,#050005 100%);
+  cursor:pointer;touch-action:pan-y;
   display:flex;flex-direction:column;
   transition:transform .18s,box-shadow .18s;
-  box-shadow:0 4px 28px rgba(204,0,0,.2),inset 0 1px 0 rgba(255,255,255,.04)
+  box-shadow:0 4px 32px rgba(204,0,0,.18),inset 0 1px 0 rgba(255,255,255,.03)
 }
-.widget-wordle:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(204,0,0,.35)}
-.widget-wordle:active{transform:scale(.97)}
-
-/* faixa diagonal de brilho */
-.widget-wordle::before{
-  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(118deg,
-    transparent 30%,
-    rgba(204,0,0,.07) 45%,
-    rgba(255,60,60,.1) 50%,
-    rgba(204,0,0,.07) 55%,
-    transparent 70%
-  );
-  animation:wdShine 3.5s ease-in-out infinite
-}
-@keyframes wdShine{0%,100%{opacity:0;transform:translateX(-30px)}40%,60%{opacity:1;transform:translateX(30px)}}
-
-/* grade hexagonal decorativa no fundo */
+.widget-wordle:hover{transform:translateY(-2px);box-shadow:0 12px 48px rgba(204,0,0,.38)}
+.widget-wordle:active{transform:scale(.975)}
 .widget-wordle::after{
   content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:radial-gradient(circle,rgba(204,0,0,.06) 1px,transparent 1px);
-  background-size:18px 18px;
-  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%)
+  background:
+    radial-gradient(ellipse 120% 60% at 85% 100%,rgba(180,0,0,.13) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 80% at 90% 80%,rgba(120,0,0,.08) 0%,transparent 55%);
 }
-
-.ww-inner{padding:14px 14px 12px;flex:1;display:flex;flex-direction:column;position:relative;z-index:2}
-
+.ww-inner{padding:14px 14px 10px;flex:1;display:flex;flex-direction:column;position:relative;z-index:2}
 .ww-eyebrow{
+  display:flex;align-items:center;gap:6px;
   font-family:var(--font-body);font-size:7px;font-weight:700;
-  letter-spacing:3.5px;color:rgba(204,0,0,.8);
-  text-transform:uppercase;margin-bottom:6px;
-  display:flex;align-items:center;gap:6px
+  letter-spacing:3px;color:rgba(204,0,0,.75);
+  text-transform:uppercase;margin-bottom:8px
 }
-.ww-eyebrow::before{
-  content:'';width:10px;height:1px;
-  background:linear-gradient(90deg,var(--red),transparent);display:block
+.ww-eyebrow::before,.ww-eyebrow::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(204,0,0,.5),transparent)
 }
-
 .ww-title{
-  font-family:var(--font-title);font-size:20px;
-  letter-spacing:1px;color:#fff;line-height:1.05;margin-bottom:10px
+  font-family:var(--font-title);font-size:19px;
+  letter-spacing:.5px;color:#fff;line-height:1.05;margin-bottom:12px;
+  text-shadow:0 2px 12px rgba(0,0,0,.8)
 }
-.ww-title em{
-  color:var(--red);font-style:normal;
-  text-shadow:0 0 20px rgba(204,0,0,.6)
-}
-
-/* silhueta mistério */
-.ww-mystery-wrap{
-  flex:1;display:flex;align-items:center;justify-content:flex-start;
-  gap:10px;margin:2px 0 10px
-}
+.ww-title em{color:#ff2222;font-style:normal;text-shadow:0 0 18px rgba(204,0,0,.7)}
+.ww-mystery-wrap{display:flex;align-items:center;gap:12px;margin-bottom:10px;flex:1}
 .ww-silhouette{
-  width:48px;height:48px;border-radius:50%;flex-shrink:0;
-  background:radial-gradient(circle at 40% 35%,rgba(204,0,0,.35),rgba(80,0,0,.2));
-  border:1.5px solid rgba(204,0,0,.5);
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;
-  box-shadow:0 0 0 4px rgba(204,0,0,.08),0 0 20px rgba(204,0,0,.25);
-  animation:wdPulse 2.8s ease-in-out infinite
+  width:60px;height:60px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 40% 30%,#2a0000,#0a0000);
+  border:2px solid rgba(204,0,0,.6);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  box-shadow:0 0 0 3px rgba(204,0,0,.12),0 0 16px rgba(204,0,0,.35),inset 0 0 12px rgba(204,0,0,.15);
+  animation:wdPulse 2.6s ease-in-out infinite
 }
+.ww-silhouette img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 @keyframes wdPulse{
-  0%,100%{box-shadow:0 0 0 4px rgba(204,0,0,.08),0 0 20px rgba(204,0,0,.2)}
-  50%{box-shadow:0 0 0 8px rgba(204,0,0,.0),0 0 30px rgba(204,0,0,.4)}
+  0%,100%{box-shadow:0 0 0 3px rgba(204,0,0,.12),0 0 16px rgba(204,0,0,.3),inset 0 0 12px rgba(204,0,0,.1)}
+  50%{box-shadow:0 0 0 6px rgba(204,0,0,.05),0 0 28px rgba(204,0,0,.55),inset 0 0 16px rgba(204,0,0,.2)}
 }
-.ww-mystery-info{display:flex;flex-direction:column;gap:3px}
-.ww-mystery-tag{
-  font-family:var(--font-ui);font-size:8px;letter-spacing:2px;
-  color:rgba(255,255,255,.25);text-transform:uppercase
-}
-.ww-mystery-clue{
-  font-family:var(--font-ui);font-size:13px;font-weight:600;
-  color:rgba(255,255,255,.7);letter-spacing:.5px;
-  display:flex;gap:3px
-}
-.ww-mystery-clue span{
-  width:11px;height:3px;border-radius:2px;
-  background:rgba(204,0,0,.4);display:inline-block;margin-top:5px
-}
-
-.ww-status{margin-top:auto}
+.ww-mystery-info{display:flex;flex-direction:column;gap:5px}
+.ww-mystery-row{display:flex;align-items:center;gap:5px}
+.ww-mystery-row svg{width:10px;height:10px;stroke:rgba(204,0,0,.7);fill:none;flex-shrink:0}
+.ww-mystery-tag{font-family:var(--font-ui);font-size:8px;letter-spacing:2px;color:rgba(255,255,255,.35);text-transform:uppercase}
+.ww-name-bars{display:flex;gap:3px;margin-top:1px}
+.ww-name-bars span{height:3px;border-radius:2px;display:block;background:rgba(204,0,0,.5)}
+.ww-name-bars span:nth-child(1){width:18px;background:rgba(204,0,0,.7)}
+.ww-name-bars span:nth-child(2){width:12px}
+.ww-name-bars span:nth-child(3){width:22px;background:rgba(255,255,255,.12)}
+.ww-name-bars span:nth-child(4){width:14px;background:rgba(255,255,255,.12)}
+.ww-name-bars span:nth-child(5){width:10px;background:rgba(255,255,255,.12)}
+.ww-sub-tag{font-family:var(--font-ui);font-size:7.5px;letter-spacing:2px;color:rgba(255,255,255,.2);text-transform:uppercase}
 .ww-streak{
-  display:flex;align-items:center;gap:4px;
-  font-family:var(--font-body);font-size:9px;color:rgba(255,130,50,.7);
-  margin-bottom:6px
+  display:flex;align-items:center;gap:5px;margin-bottom:8px;
+  font-family:var(--font-body);font-size:9px;letter-spacing:1.5px;
+  color:rgba(255,255,255,.3);text-transform:uppercase
 }
-.ww-streak strong{font-family:var(--font-title);font-size:16px;color:#ff8c32}
+.ww-streak strong{font-family:var(--font-title);font-size:17px;color:#ff8c32;text-shadow:0 0 10px rgba(255,100,0,.4)}
 
-.ww-play-btn{
-  width:100%;padding:8px;border-radius:8px;
-  background:linear-gradient(135deg,rgba(204,0,0,.3) 0%,rgba(139,0,0,.2) 100%);
-  border:1px solid rgba(204,0,0,.5);
-  font-family:var(--font-ui);font-size:9px;font-weight:600;
-  letter-spacing:2.5px;color:#ff4444;text-transform:uppercase;
-  cursor:pointer;transition:.15s;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05)
+/* ── BOTÃO REVELAR ────────────────────────────────── */
+#revealIdentityBtn{width:100%;padding:0;border:none;background:none;cursor:pointer;display:block}
+.rv-wrap{
+  position:relative;width:100%;height:52px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(90deg,#1a0000 0%,#2d0000 45%,#1a0000 100%);
+  border:1px solid rgba(204,0,0,.6);border-radius:4px;overflow:hidden;
+  transition:transform .15s,box-shadow .15s;
+  box-shadow:0 0 18px rgba(204,0,0,.3),inset 0 0 20px rgba(204,0,0,.08)
 }
-.ww-play-btn:active{background:rgba(204,0,0,.45);color:#fff}
-.ww-stripe{
-  height:3px;flex-shrink:0;
-  background:linear-gradient(90deg,#CC0000 0%,#ff4444 40%,rgba(204,0,0,.1) 100%)
+.rv-wrap::before{
+  content:'';position:absolute;inset:-1px;
+  background:linear-gradient(90deg,rgba(204,0,0,.0) 0%,rgba(204,0,0,.5) 20%,rgba(255,60,60,.3) 50%,rgba(204,0,0,.5) 80%,rgba(204,0,0,.0) 100%);
+  clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 50%,calc(100% - 8px) 100%,8px 100%,0% 50%);
+  z-index:0;pointer-events:none;animation:rvGlow 2.2s ease-in-out infinite
 }
+@keyframes rvGlow{0%,100%{opacity:.6}50%{opacity:1}}
+.rv-wrap::after{
+  content:'';position:absolute;top:0;left:-100%;width:40%;height:100%;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,80,80,.12),transparent);
+  animation:rvScan 2.8s ease-in-out infinite
+}
+@keyframes rvScan{0%{left:-40%}100%{left:140%}}
+#revealIdentityBtn:hover .rv-wrap{transform:scale(1.03);box-shadow:0 0 32px rgba(204,0,0,.6),inset 0 0 24px rgba(204,0,0,.15)}
+#revealIdentityBtn:active .rv-wrap{transform:scale(.98)}
+.rv-content{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:10px;width:100%}
+.rv-fingerprint{width:28px;height:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.rv-fingerprint svg{width:28px;height:28px}
+.rv-corner{position:absolute;width:10px;height:10px;border-color:rgba(204,0,0,.8);border-style:solid;z-index:3}
+.rv-corner.tl{top:4px;left:4px;border-width:1.5px 0 0 1.5px}
+.rv-corner.tr{top:4px;right:4px;border-width:1.5px 1.5px 0 0}
+.rv-corner.bl{bottom:4px;left:4px;border-width:0 0 1.5px 1.5px}
+.rv-corner.br{bottom:4px;right:4px;border-width:0 1.5px 1.5px 0}
+.rv-texts{display:flex;flex-direction:column;align-items:center;line-height:1}
+.rv-main{font-family:var(--font-title);font-size:20px;font-weight:900;letter-spacing:3px;color:#fff;text-shadow:0 0 20px rgba(255,60,60,.6),0 2px 4px rgba(0,0,0,.8)}
+.rv-sub{font-family:var(--font-ui);font-size:7px;font-weight:600;letter-spacing:3px;color:rgba(204,0,0,.9);text-transform:uppercase;margin-top:1px}
+.rv-arrow{font-size:16px;color:rgba(204,0,0,.9);text-shadow:0 0 10px rgba(204,0,0,.8);animation:rvArrow 1.2s ease-in-out infinite}
+@keyframes rvArrow{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+.ww-stripe{height:3px;flex-shrink:0;background:linear-gradient(90deg,#CC0000 0%,#ff4444 40%,rgba(204,0,0,.1) 100%)}
 
 /* Card Rankings */
 .widget-rank{
@@ -2035,30 +2031,58 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="hub-row">
 
       <!-- QUEM É ESSE JOGADOR -->
-      <div class="widget-wordle" onclick="window.location.href='wondler.html'">
+      <div class="widget-wordle">
         <div class="ww-inner">
           <div class="ww-eyebrow">Desafio do dia</div>
           <div class="ww-title">QUEM É ESSE <em>JOGADOR?</em></div>
           <div class="ww-mystery-wrap">
-            <div class="ww-silhouette">🕵️</div>
+            <div class="ww-silhouette">
+              <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780349356/5ac9aa15-bbbd-47c7-a1f0-e929d04f5725_inc1ye.png" alt="">
+            </div>
             <div class="ww-mystery-info">
-              <div class="ww-mystery-tag">Identidade oculta</div>
-              <div class="ww-mystery-clue">
+              <div class="ww-mystery-row">
+                <svg viewBox="0 0 12 12"><rect x="1" y="1" width="10" height="10" rx="2" stroke-width="1.2"/><path d="M4 6h4M6 4v4" stroke-width="1.2"/></svg>
+                <span class="ww-mystery-tag">🔒 Identidade oculta</span>
+              </div>
+              <div class="ww-name-bars">
                 <span></span><span></span><span></span><span></span><span></span>
               </div>
-              <div class="ww-mystery-tag" style="margin-top:2px">Jogador do SPFC</div>
+              <span class="ww-sub-tag">Jogador do SPFC</span>
             </div>
           </div>
-          <div class="ww-status">
-            <div class="ww-streak">
-              <span>🔥</span>
-              <strong id="wordleStreakNum">0</strong>
-              <span style="font-size:9px;color:rgba(255,255,255,.25)">dias</span>
-            </div>
-            <button class="ww-play-btn" onclick="event.stopPropagation();window.location.href='wondler.html'">
-              DESCOBRIR AGORA
-            </button>
+          <div class="ww-streak">
+            <span>🔥</span>
+            <strong id="wordleStreakNum">0</strong>
+            <span>dias de sequência</span>
           </div>
+          <button id="revealIdentityBtn" onclick="revealIdentity()">
+            <div class="rv-wrap">
+              <div class="rv-corner tl"></div>
+              <div class="rv-corner tr"></div>
+              <div class="rv-corner bl"></div>
+              <div class="rv-corner br"></div>
+              <div class="rv-content">
+                <div class="rv-fingerprint">
+                  <svg viewBox="0 0 28 28" fill="none" stroke="rgba(204,0,0,.9)" stroke-width="1.4" stroke-linecap="round">
+                    <path d="M14 4C8.5 4 4 8.5 4 14c0 3.5 1.8 6.6 4.5 8.5"/>
+                    <path d="M14 7c-3.9 0-7 3.1-7 7 0 2.4 1.2 4.5 3 5.8"/>
+                    <path d="M14 10c-2.2 0-4 1.8-4 4 0 1.4.7 2.6 1.8 3.3"/>
+                    <path d="M14 13c-.6 0-1 .4-1 1s.4 1 1 1"/>
+                    <path d="M17 14c0-1.7-1.3-3-3-3"/>
+                    <path d="M20 14c0-3.3-2.7-6-6-6"/>
+                    <path d="M23 14c0-5-4-9-9-9"/>
+                    <path d="M19 19.5C18 21.5 16.1 23 14 23"/>
+                    <path d="M22 17c-.5 1.5-1.3 2.8-2.5 3.8"/>
+                  </svg>
+                </div>
+                <div class="rv-texts">
+                  <span class="rv-main">REVELAR</span>
+                  <span class="rv-sub">IDENTIDADE OCULTA</span>
+                </div>
+                <span class="rv-arrow">»</span>
+              </div>
+            </div>
+          </button>
         </div>
         <div class="ww-stripe"></div>
       </div>
@@ -4147,11 +4171,13 @@ function startRankAutoRotate(){
 
 /* ── Grid decorativo Wordle ── */
 function buildWordlePreview(){
-  const grid = document.getElementById('wordlePreviewGrid');
-  if(!grid) return;
-  const letters = [{l:'S',c:'hit'},{l:'P',c:'near'},{l:'F',c:''},{l:'C',c:'hit'},{l:'?',c:''}];
-  grid.innerHTML = letters.map(({l,c})=>`<div class="ww-cell ${c}">${l}</div>`).join('');
+  // preview removido — substituído pelo card REVELAR
 }
+
+function revealIdentity(){
+  window.location.href = 'wondler.html';
+}
+
 
 /* ── Dados do usuário ── */
 async function fillHubUserData(){
