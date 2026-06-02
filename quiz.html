@@ -3655,6 +3655,7 @@ function handleWrong(q) {
   if (tryBtn) tryBtn.disabled = !hasDailyAttemptsLeft();
   playGameOver();
   saveScoreToFirebase();
+  if (window.saveQuizStreak) window.saveQuizStreak();
   // Atualiza missão de partidas jogadas mesmo ao perder
   updateMissionProgress('play5', 1);
   updateMissionProgress('score5000', STATE.score);
@@ -3722,6 +3723,7 @@ function goVictory() {
   playVictory();
   goScreen('screen-victory');
   saveScoreToFirebase();
+  if (window.saveQuizStreak) window.saveQuizStreak();
   // Atualiza missões de vitória
   updateMissionProgress('win3', 1);
   updateMissionProgress('play5', 1);
@@ -3944,11 +3946,25 @@ async function saveScoreToFirebase() {
       dateKey, weekKey, monthKey,
     };
 
-    // GERAL — só atualiza se for melhor pontuação
+    // GERAL — acumulativo: soma pontos de cada sessão, nunca reseta
     const geralRef = doc(db, 'ranking', uid + '_geral');
     const geralSnap = await window.FB.getDoc(geralRef);
-    if (!geralSnap.exists() || geralSnap.data().score < STATE.score) {
-      await setDoc(geralRef, {...rankData, type:'geral'});
+    if (geralSnap.exists()) {
+      const prev = geralSnap.data();
+      await setDoc(geralRef, {
+        ...rankData,
+        type: 'geral',
+        score: (prev.score || 0) + STATE.score,
+        sessoes: (prev.sessoes || 0) + 1,
+        bestSession: Math.max(prev.bestSession || 0, STATE.score),
+      });
+    } else {
+      await setDoc(geralRef, {
+        ...rankData,
+        type: 'geral',
+        sessoes: 1,
+        bestSession: STATE.score,
+      });
     }
 
     // DIÁRIO — 1 entrada por usuário por dia, só atualiza se for melhor
