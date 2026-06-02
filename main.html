@@ -58,17 +58,15 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min-heig
 /* ── SCANLINES ───────────────────────────────────── */
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);pointer-events:none;z-index:9999}
 
-/* ── ONESIGNAL — oculta todos os widgets injetados ── */
+/* ── ONESIGNAL — oculta widgets injetados pelo SDK ── */
 #onesignal-slidedown-container,
 #onesignal-slidedown-dialog,
-.onesignal-slidedown-container,
 #onesignal-bell-container,
-.onesignal-bell-launcher,
 #onesignal-bell-launcher,
 #onesignal-customlink-container,
-.onesignal-customlink-container,
-[id^="onesignal-"],
-[class^="onesignal-"] { display:none!important; visibility:hidden!important; pointer-events:none!important; }
+#onesignal-popover-container,
+#onesignal-slidedown-allow-button,
+#onesignal-slidedown-cancel-button { display:none!important; visibility:hidden!important; pointer-events:none!important; }
 
 /* ══ NEWS TICKER ═════════════════════════════════════
    Faixa fixa logo abaixo da topbar, estilo TV esportiva
@@ -1748,6 +1746,52 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   font-family:var(--font-body);font-size:9px;
   color:rgba(255,255,255,.12);letter-spacing:1.5px;
   text-transform:uppercase;line-height:1.8
+}
+
+/* ── PERFIL MODAL ────────────────────────────────── */
+.perfil-modal{
+  display:none;
+  position:fixed;inset:0;
+  z-index:2000;
+  background:rgba(0,0,0,.7);
+  align-items:flex-end;
+  justify-content:center;
+}
+.perfil-modal.open{ display:flex; }
+.perfil-modal-sheet{
+  position:relative;
+  width:100%;max-width:480px;
+  height:92svh;
+  background:var(--bg);
+  border-radius:20px 20px 0 0;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.perfil-modal-handle{
+  flex-shrink:0;
+  width:36px;height:4px;
+  background:rgba(255,255,255,.15);
+  border-radius:2px;
+  margin:10px auto 0;
+}
+.perfil-modal-close{
+  position:absolute;top:10px;right:14px;
+  width:32px;height:32px;
+  background:rgba(255,255,255,.08);
+  border:none;border-radius:50%;
+  color:rgba(255,255,255,.6);
+  font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  z-index:10;
+  transition:.15s;
+}
+.perfil-modal-close:hover{ background:rgba(204,0,0,.4); color:#fff; }
+.perfil-modal-body{
+  flex:1;overflow:hidden;
+}
+.perfil-modal-body iframe{
+  width:100%;height:100%;
+  border:none;display:block;
 }
 </style>
 </head>
@@ -4663,8 +4707,10 @@ function _injectPerfilData() {
     if (cached && iframe?.contentWindow?.fillPerfilFromCache) {
       iframe.contentWindow.fillPerfilFromCache(cached.data, { uid: cached.uid, email: '' });
     }
-  } catch(e) { console.warn('Perfil iframe inject:', e); }
+  } catch(e) { console.warn('Perfil inject:', e); }
 }
+
+let _perfilLoaded = false;
 
 function openPerfilModal() {
   const modal  = document.getElementById('perfilModal');
@@ -4673,18 +4719,17 @@ function openPerfilModal() {
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Primeiro acesso: carrega o iframe e injeta dados ao terminar
-  if (!iframe.src || iframe.src === window.location.href || iframe.src === 'about:blank') {
+  if (!_perfilLoaded) {
+    _perfilLoaded = true;
     iframe.onload = () => { iframe.onload = null; _injectPerfilData(); };
     iframe.src = 'perfil.html';
-    return;
+  } else {
+    _injectPerfilData();
   }
-
-  // Iframe já carregado: injeta direto (sem reassinar onload)
-  _injectPerfilData();
 }
 
 function closePerfilModal(e) {
+  // Chamado pelo botão ✕ (sem argumento) ou pelo click no overlay
   if (e && e.target !== document.getElementById('perfilModal')) return;
   const modal = document.getElementById('perfilModal');
   modal.classList.remove('open');
