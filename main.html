@@ -18,12 +18,22 @@
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
       appId: "687e1968-e03a-4d09-9d6a-9c07bee9cc2d",
-      notifyButton: { enable: false }, // usamos nosso próprio botão 🔔
       allowLocalhostAsSecureOrigin: true,
+      // Desativa TODOS os prompts e widgets injetados pelo SDK
+      notifyButton: { enable: false },
+      promptOptions: {
+        slidedown: { enabled: false },
+        customlink: { enabled: false },
+      },
+      welcomeNotification: { disable: true },
+      autoResubscribe: false,
+      autoRegister: false,
     });
     // Atualiza UI do botão após init
-    const permission = OneSignal.Notifications.permission;
-    updateNotifUI(permission);
+    try {
+      const permission = OneSignal.Notifications.permission;
+      updateNotifUI(permission);
+    } catch(e) {}
   });
 </script>
 
@@ -47,6 +57,18 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min-heig
 
 /* ── SCANLINES ───────────────────────────────────── */
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.04) 3px,rgba(0,0,0,.04) 4px);pointer-events:none;z-index:9999}
+
+/* ── ONESIGNAL — oculta todos os widgets injetados ── */
+#onesignal-slidedown-container,
+#onesignal-slidedown-dialog,
+.onesignal-slidedown-container,
+#onesignal-bell-container,
+.onesignal-bell-launcher,
+#onesignal-bell-launcher,
+#onesignal-customlink-container,
+.onesignal-customlink-container,
+[id^="onesignal-"],
+[class^="onesignal-"] { display:none!important; visibility:hidden!important; pointer-events:none!important; }
 
 /* ══ NEWS TICKER ═════════════════════════════════════
    Faixa fixa logo abaixo da topbar, estilo TV esportiva
@@ -2832,9 +2854,9 @@ async function registerSW() {
   if (!('serviceWorker' in navigator)) return null;
   try {
     const reg = await navigator.serviceWorker.register('sw.js');
-    reg.update();
+    reg.update().catch(()=>{});
   } catch(e) {
-    console.warn('SW registration failed:', e);
+    // SW indisponível em ambiente de desenvolvimento — silencioso
   }
 }
 
@@ -4634,35 +4656,32 @@ function closeSobre(e) {
 })();
 
 // ── PERFIL MODAL ─────────────────────────────────
+function _injectPerfilData() {
+  try {
+    const iframe = document.getElementById('perfilIframe');
+    const cached = window._cachedUserData;
+    if (cached && iframe?.contentWindow?.fillPerfilFromCache) {
+      iframe.contentWindow.fillPerfilFromCache(cached.data, { uid: cached.uid, email: '' });
+    }
+  } catch(e) { console.warn('Perfil iframe inject:', e); }
+}
+
 function openPerfilModal() {
   const modal  = document.getElementById('perfilModal');
   const iframe = document.getElementById('perfilIframe');
 
-  // Só carrega o iframe uma vez
-  if (!iframe.src || iframe.src === window.location.href) {
-    iframe.src = 'perfil.html';
-  }
-
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Assim que o iframe carregar, injeta os dados do Firebase
-  iframe.onload = () => {
-    try {
-      const cached = window._cachedUserData;
-      if (cached && iframe.contentWindow && iframe.contentWindow.fillPerfilFromCache) {
-        iframe.contentWindow.fillPerfilFromCache(cached.data, { uid: cached.uid, email: '' });
-      }
-    } catch(e) { console.warn('Perfil iframe inject:', e); }
-  };
+  // Primeiro acesso: carrega o iframe e injeta dados ao terminar
+  if (!iframe.src || iframe.src === window.location.href || iframe.src === 'about:blank') {
+    iframe.onload = () => { iframe.onload = null; _injectPerfilData(); };
+    iframe.src = 'perfil.html';
+    return;
+  }
 
-  // Se o iframe já estava carregado, injeta direto
-  try {
-    if (iframe.contentWindow && iframe.contentWindow.fillPerfilFromCache) {
-      const cached = window._cachedUserData;
-      if (cached) iframe.contentWindow.fillPerfilFromCache(cached.data, { uid: cached.uid, email: '' });
-    }
-  } catch(e) {}
+  // Iframe já carregado: injeta direto (sem reassinar onload)
+  _injectPerfilData();
 }
 
 function closePerfilModal(e) {
