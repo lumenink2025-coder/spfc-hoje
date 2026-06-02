@@ -4228,7 +4228,7 @@ function revealIdentity(){
 
 /* ── Dados do usuário ── */
 async function fillHubUserData(){
-  // streak do wordle — chave real: spfc_wondler (JSON)
+  // streak do wordle — chave: spfc_wondler (JSON com .streak)
   try {
     const wRaw = localStorage.getItem('spfc_wondler');
     const ws = wRaw ? (JSON.parse(wRaw).streak || 0) : 0;
@@ -4236,12 +4236,18 @@ async function fillHubUserData(){
     if(elws) elws.textContent = ws;
   } catch(e) {}
 
-  // streak de quiz — chave real: spfc_quiz_state (JSON)
+  // streak do quiz — lê do Firestore cache (_cachedUserData) ou localStorage (spfc_quiz_state)
   try {
-    const qRaw = localStorage.getItem('spfc_quiz_state');
-    const streak = qRaw ? (JSON.parse(qRaw).streak || 0) : 0;
+    let quizStreak = 0;
+    const cached = window._cachedUserData;
+    if (cached && cached.data && cached.data.streak != null) {
+      quizStreak = cached.data.streak;
+    } else {
+      const qRaw = localStorage.getItem('spfc_quiz_state');
+      quizStreak = qRaw ? (JSON.parse(qRaw).streak || 0) : 0;
+    }
     const elS = document.getElementById('quizStreakVal');
-    if(elS) elS.textContent = streak;
+    if(elS) elS.textContent = quizStreak;
   } catch(e) {}
 
   // Firebase: xp → nível + XP (mesma lógica da topbar)
@@ -4305,12 +4311,10 @@ async function initHub(){
   });
 }
 
-// Aguarda o Firebase/auth estar pronto antes de inicializar o hub
 (function waitForAuth() {
   if (window._cachedUserData) {
     initHub();
   } else {
-    // Tenta por até 8s em intervalos curtos
     let attempts = 0;
     const iv = setInterval(() => {
       attempts++;
