@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Perfil — SPFC Hoje</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --red: #CC0000;
+  --red-dark: #8B0000;
+  --red-glow: rgba(204,0,0,0.7);
+  --gold: #C8A84B;
+  --gold-bright: #FFD060;
+  --gold-glow: rgba(200,168,75,0.6);
+  --bg: #0D0D0D;
+  --bg2: #161616;
+  --bg3: #1E1E1E;
+  --border: rgba(255,255,255,0.06);
+  --txt: #F0EBE3;
+  --txt2: rgba(255,255,255,0.45);
+  --txt3: rgba(255,255,255,0.2);
+}
+html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 640px;
+  max-height: 900px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Stadium BG */
+.hero-stadium {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.hero-stadium img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.hero-stadium::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 30%, rgba(13,13,13,0.7) 65%, #0D0D0D 100%),
+    linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 50%, rgba(0,0,0,0.4) 100%),
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(139,0,0,0.25) 0%, transparent 70%);
+}
+
+/* Scan lines overlay */
+.hero-scan {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 3px);
+  pointer-events: none;
+}
+
+/* Vignette lateral */
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(ellipse 120% 100% at 50% 50%, transparent 50%, rgba(0,0,0,0.5) 100%);
+  pointer-events: none;
+}
+
+/* SPFC watermark fundo */
+.hero-watermark {
+  position: absolute;
+  bottom: 120px;
+  right: -20px;
+  z-index: 2;
+  opacity: 0.04;
+  width: 200px;
+  filter: grayscale(1);
+}
+
+/* ── AVATAR ── */
+.hero-avatar-wrap {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Halo externo */
+.avatar-halo-outer {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(204,0,0,0.25) 0%, transparent 65%);
+  animation: haloBreath 4s ease-in-out infinite;
+}
+@keyframes haloBreath {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* Spotlight de cima */
+.avatar-spotlight {
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 280px;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,220,180,0.6) 50%, rgba(204,0,0,0.3) 100%);
+  filter: blur(4px);
+  animation: spotBreath 4s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes spotBreath {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.9; }
+}
+
+/* Anel externo giratório dourado */
+.avatar-ring-gold {
+  position: absolute;
+  width: 192px;
+  height: 192px;
+  border-radius: 50%;
+  background:
+    linear-gradient(#0D0D0D, #0D0D0D) padding-box,
+    conic-gradient(
+      var(--gold) 0deg,
+      rgba(255,210,80,0.9) 40deg,
+      rgba(180,140,30,0.3) 100deg,
+      rgba(200,168,75,0.15) 140deg,
+      var(--gold) 180deg,
+      rgba(255,210,80,0.9) 220deg,
+      rgba(180,140,30,0.3) 280deg,
+      rgba(200,168,75,0.15) 320deg,
+      var(--gold) 360deg
+    ) border-box;
+  border: 2.5px solid transparent;
+  animation: ringRotate 10s linear infinite;
+  z-index: 3;
+}
+@keyframes ringRotate { to { transform: rotate(360deg); } }
+
+/* Anel interno fixo */
+.avatar-ring-inner {
+  position: absolute;
+  width: 178px;
+  height: 178px;
+  border-radius: 50%;
+  border: 1px solid rgba(200,168,75,0.2);
+  z-index: 4;
+}
+
+/* Foto */
+.avatar-photo {
+  position: relative;
+  z-index: 5;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #1a0000;
+  border: 3px solid rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 64px;
+  color: rgba(204,0,0,0.6);
+  box-shadow:
+    0 0 0 1px rgba(200,168,75,0.15),
+    0 0 40px rgba(204,0,0,0.5),
+    inset 0 0 30px rgba(0,0,0,0.5);
+}
+.avatar-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+/* Badge nível */
+.avatar-level-badge {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.level-badge-inner {
+  background: linear-gradient(135deg, #8B0000, var(--red), #FF2222);
+  color: #fff;
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  padding: 4px 18px 4px 14px;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  white-space: nowrap;
+  box-shadow: 0 0 16px rgba(204,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6);
+  position: relative;
+}
+.level-badge-inner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+}
+
+/* Logo acima do avatar */
+.avatar-shield {
+  position: absolute;
+  top: -58px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 52px;
+  height: 52px;
+  filter: drop-shadow(0 0 10px rgba(204,0,0,0.7));
+}
+
+/* ── IDENTITY — nome + cargo ── */
+.hero-identity {
+  position: relative;
+  z-index: 10;
+  padding: 0 20px 0;
+}
+
+/* Linha vermelha */
+.identity-rule {
+  width: 36px;
+  height: 2px;
+  background: var(--red);
+  box-shadow: 0 0 8px var(--red-glow);
+  margin-bottom: 10px;
+}
+
+/* Nome */
+.identity-name {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(44px, 12vw, 60px);
+  line-height: 0.88;
+  letter-spacing: -1px;
+  color: #fff;
+  text-shadow:
+    0 0 60px rgba(204,0,0,0.4),
+    0 4px 24px rgba(0,0,0,0.8),
+    2px 2px 0 rgba(0,0,0,0.4);
+  margin-bottom: 14px;
+}
+.identity-name .ln {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255,255,255,0.35);
+  text-shadow: none;
+}
+
+/* Cargo badge */
+.identity-cargo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(20,10,0,0.9), rgba(30,20,0,0.85));
+  border: 1px solid rgba(200,168,75,0.45);
+  border-radius: 4px;
+  padding: 8px 16px;
+  box-shadow:
+    0 0 20px rgba(200,168,75,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 0 20px rgba(200,168,75,0.04);
+  margin-bottom: 6px;
+  position: relative;
+  overflow: hidden;
+}
+.identity-cargo::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,168,75,0.6), transparent);
+}
+.cargo-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px rgba(200,168,75,0.3));
+}
+.cargo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.cargo-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 16px;
+  letter-spacing: 3px;
+  color: var(--gold-bright);
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(200,168,75,0.5);
+}
+.cargo-sub {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: rgba(200,168,75,0.5);
+  font-weight: 400;
+}
+
+/* Membro desde */
+.identity-since {
+  font-size: 12px;
+  color: var(--txt3);
+  letter-spacing: 1.5px;
+  font-weight: 400;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.since-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 4px var(--red-glow);
+}
+
+/* ── XP STRIP ── */
+.hero-xp {
+  position: relative;
+  z-index: 10;
+  padding: 18px 20px 0;
+}
+.xp-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 7px;
+}
+.xp-meta-left { font-size: 11px; color: var(--txt3); letter-spacing: 1.5px; font-weight: 400; }
+.xp-meta-right {
+  font-family: 'Anton', sans-serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-shadow: 0 0 8px var(--gold-glow);
+}
+.xp-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  position: relative;
+  overflow: visible;
+  margin-bottom: 18px;
+}
+.xp-fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  background: linear-gradient(90deg, #8B0000, var(--red), #FF5555);
+  box-shadow: 0 0 10px rgba(204,0,0,0.9), 0 0 3px rgba(255,120,120,0.6);
+  transition: width 1.4s cubic-bezier(0.22,1,0.36,1);
+}
+.xp-fill::after {
+  content: '';
+  position: absolute;
+  right: -1px; top: -4px;
+  width: 2px; height: 11px;
+  background: #fff;
+  box-shadow: 0 0 8px #fff, 0 0 3px var(--red);
+}
+
+/* ── NUMBERS ROW ── */
+.hero-numbers {
+  position: relative;
+  z-index: 10;
+  padding: 0 20px 28px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.hn-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(255,255,255,0.07);
+}
+.hn-item:first-child { border-left: none; padding-left: 0; }
+.hn-val {
+  font-family: 'Anton', sans-serif;
+  font-size: 28px;
+  line-height: 1;
+  color: #fff;
+}
+.hn-val.red { color: #FF5533; }
+.hn-val.gold { color: var(--gold); }
+.hn-label { font-size: 9px; color: var(--txt3); letter-spacing: 2px; text-transform: uppercase; font-weight: 400; }
+
+/* ═══════════════════════════════
+   SEGUNDA DOBRA
+═══════════════════════════════ */
+.fold2 { background: var(--bg); padding: 0 16px 48px; position: relative; overflow: hidden; }
+
+/* BG logo watermark */
+.fold2-watermark {
+  position: absolute;
+  top: 40px; right: -60px;
+  font-family: 'Anton', sans-serif;
+  font-size: 200px;
+  color: rgba(255,255,255,0.015);
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+/* Divisor */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 36px 0 20px;
+}
+.divider-label {
+  font-family: 'Anton', sans-serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--txt3);
+  white-space: nowrap;
+}
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+
+/* ── XP CARD ── */
+.xp-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 18px 20px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.xp-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(204,0,0,0.05) 0%, transparent 60%);
+}
+.xp-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(204,0,0,0.4), transparent);
+}
+.xp-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  position: relative;
+}
+.xp-card-level {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.xp-card-lvlnum {
+  font-family: 'Anton', sans-serif;
+  font-size: 28px;
+  color: #fff;
+  line-height: 1;
+}
+.xp-tier-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 2px 9px;
+  border-radius: 2px;
+  background: rgba(204,0,0,0.2);
+  color: #FF6666;
+  border: 1px solid rgba(204,0,0,0.3);
+}
+/* Hexagon next level icon */
+.hex-next {
+  width: 42px;
+  height: 42px;
+  clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  background: linear-gradient(135deg, var(--bg3), #2a2a2a);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 14px;
+  color: var(--txt3);
+  position: relative;
+}
+.xp-card-vals {
+  font-family: 'Anton', sans-serif;
+  font-size: 14px;
+  color: var(--txt);
+  letter-spacing: 1px;
+  margin-bottom: 3px;
+  position: relative;
+}
+.xp-card-vals span { color: var(--txt3); }
+.xp-card-rem {
+  font-size: 11px;
+  color: var(--txt3);
+  letter-spacing: .5px;
+  margin-bottom: 14px;
+  position: relative;
+}
+.xp-card-rem b { color: var(--gold); font-weight: 600; }
+.xp-card-bar {
+  height: 8px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.xp-card-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--red-dark), var(--red), #FF4444);
+  box-shadow: 0 0 12px rgba(204,0,0,0.7);
+  transition: width 1.3s cubic-bezier(0.22,1,0.36,1);
+  position: relative;
+}
+.xp-card-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255,160,160,0.3));
+  animation: shimmer 2s ease-in-out infinite;
+}
+@keyframes shimmer { 0%,100%{opacity:.3} 50%{opacity:.9} }
+.xp-pct-label {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 8px;
+  font-family: 'Anton', sans-serif;
+  color: rgba(255,120,120,0.9);
+  letter-spacing: 1px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── RANKING HERO ── */
+.ranking-block {
+  background: linear-gradient(160deg, #1C1000 0%, #110A00 40%, #0A0600 100%);
+  border: 1px solid rgba(200,168,75,0.35);
+  border-radius: 12px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 10px;
+  box-shadow:
+    0 0 0 1px rgba(200,168,75,0.08),
+    0 8px 32px rgba(0,0,0,0.6),
+    0 0 60px rgba(200,168,75,0.06);
+}
+.ranking-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(200,168,75,0.3) 20%, rgba(255,220,80,0.9) 50%, rgba(200,168,75,0.3) 80%, transparent 100%);
+  z-index: 2;
+}
+.ranking-block::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 100% 80% at 50% -10%, rgba(200,168,75,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 30% 100%, rgba(139,0,0,0.1) 0%, transparent 50%);
+  z-index: 0;
+}
+/* Cantos decorativos */
+.ranking-block .corner {
+  position: absolute;
+  width: 16px; height: 16px;
+  z-index: 3;
+}
+.ranking-block .corner-tl { top: 6px; left: 6px; border-top: 1px solid rgba(200,168,75,0.5); border-left: 1px solid rgba(200,168,75,0.5); }
+.ranking-block .corner-tr { top: 6px; right: 6px; border-top: 1px solid rgba(200,168,75,0.5); border-right: 1px solid rgba(200,168,75,0.5); }
+.ranking-block .corner-bl { bottom: 6px; left: 6px; border-bottom: 1px solid rgba(200,168,75,0.5); border-left: 1px solid rgba(200,168,75,0.5); }
+.ranking-block .corner-br { bottom: 6px; right: 6px; border-bottom: 1px solid rgba(200,168,75,0.5); border-right: 1px solid rgba(200,168,75,0.5); }
+
+.ranking-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 24px 20px;
+}
+.ranking-left {
+  flex-shrink: 0;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 20px;
+  border-right: 1px solid rgba(200,168,75,0.12);
+}
+/* louros + número: grid de 3 colunas — laurel | número | laurel */
+.laurel-wrap {
+  display: grid;
+  grid-template-columns: 52px auto 52px;
+  align-items: center;
+  justify-items: center;
+  gap: 4px;
+}
+.laurel-img {
+  width: 52px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(200,168,75,0.5));
+  display: block;
+}
+.ranking-number-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.ranking-num {
+  font-family: 'Anton', sans-serif;
+  font-size: 52px;
+  line-height: 0.9;
+  color: var(--gold-bright);
+  text-shadow:
+    0 0 40px rgba(255,215,0,0.6),
+    0 0 80px rgba(200,168,75,0.3),
+    0 2px 8px rgba(0,0,0,0.9);
+  display: block;
+  text-align: center;
+  animation: rankGlow 3s ease-in-out infinite;
+}
+@keyframes rankGlow {
+  0%,100% { text-shadow: 0 0 40px rgba(255,215,0,0.5), 0 2px 8px rgba(0,0,0,0.9); }
+  50% { text-shadow: 0 0 60px rgba(255,215,0,0.9), 0 0 100px rgba(200,168,75,0.4), 0 2px 8px rgba(0,0,0,0.9); }
+}
+.ranking-num-label {
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: rgba(200,168,75,0.5);
+  text-align: center;
+  font-weight: 400;
+  display: block;
+  margin-top: 4px;
+}
+.ranking-right { flex: 1; padding-left: 20px; }
+.ranking-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 10px;
+  text-shadow: 0 0 16px rgba(200,168,75,0.4);
+}
+.ranking-top-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(90deg, rgba(200,168,75,0.2), rgba(200,168,75,0.1));
+  border: 1px solid rgba(200,168,75,0.4);
+  color: var(--gold-bright);
+  font-family: 'Anton', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  padding: 5px 14px;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 16px rgba(200,168,75,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.ranking-top-badge::before {
+  content: '★';
+  font-size: 10px;
+  color: var(--gold-bright);
+}
+.ranking-desc { font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.6; letter-spacing: .5px; }
+
+/* ── STAT CARDS GRID ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.stat-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 14px 14px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.stat-card:active { transform: scale(0.97); }
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+}
+.stat-card.streak::after { background: linear-gradient(90deg, transparent, rgba(255,107,43,0.7), transparent); }
+.stat-card.acertos::after { background: linear-gradient(90deg, transparent, rgba(78,205,196,0.7), transparent); }
+.stat-card.wordle::after { background: linear-gradient(90deg, transparent, rgba(200,168,75,0.7), transparent); }
+.stat-card.palpites::after { background: linear-gradient(90deg, transparent, rgba(155,93,229,0.7), transparent); }
+.stat-card.quiz::after { background: linear-gradient(90deg, transparent, rgba(204,0,0,0.7), transparent); }
+
+.sc-icon-wrap {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+}
+.sc-icon-wrap img { width: 80px; height: 80px; object-fit: contain; display: block; }
+.sc-icon-wrap.streak {}
+.sc-icon-wrap.acertos {}
+.sc-icon-wrap.wordle {}
+.sc-icon-wrap.palpites {}
+.sc-icon-wrap.quiz {}
+
+.sc-val {
+  font-family: 'Anton', sans-serif;
+  font-size: 36px;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 2px;
+}
+.sc-val.streak { color: #FF6B2B; }
+.sc-val.acertos { color: #4ECDC4; }
+.sc-val.wordle { color: var(--gold); }
+.sc-val.palpites { color: #9B5DE5; }
+.sc-val.quiz { color: #FF4444; }
+.sc-name { font-size: 9px; letter-spacing: 2px; color: var(--txt3); text-transform: uppercase; margin-bottom: 6px; }
+.sc-sub { font-size: 11px; color: var(--txt2); line-height: 1.4; }
+
+/* Full-width stat card (quiz jogados) */
+.stat-card-full {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card-full::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(204,0,0,0.5), transparent);
+}
+.scf-info { flex: 1; }
+.scf-val { font-family: 'Anton', sans-serif; font-size: 42px; color: #FF4444; line-height: 1; margin-bottom: 2px; }
+.scf-name { font-size: 9px; letter-spacing: 2px; color: var(--txt3); text-transform: uppercase; margin-bottom: 4px; }
+.scf-sub { font-size: 11px; color: var(--txt2); }
+.scf-bar { height: 3px; background: rgba(255,255,255,0.04); border-radius: 2px; margin-top: 10px; overflow: hidden; }
+.scf-bar-fill { height: 100%; background: linear-gradient(90deg, var(--red-dark), var(--red)); border-radius: 2px; transition: width 1.2s; }
+
+/* SVG Quiz icon inline */
+.quiz-icon-svg { width: 80px; height: 80px; }
+
+/* ── CONQUISTAS ── */
+.conquistas-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.conquistas-scroll::-webkit-scrollbar { display: none; }
+
+.badge-item {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  width: 64px;
+}
+/* Hexágono SVG-based */
+.badge-hex-wrap {
+  position: relative;
+  width: 60px;
+  height: 68px;
+}
+.badge-hex-wrap svg { position: absolute; inset: 0; }
+.badge-hex-wrap .badge-emoji {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  z-index: 2;
+}
+.badge-hex-wrap.locked { filter: grayscale(1); opacity: 0.25; }
+.badge-name {
+  font-family: 'Anton', sans-serif;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  color: var(--txt3);
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+/* ── COLEÇÃO ── */
+.colecao-wrap { position: relative; }
+.cards-fan {
+  position: relative;
+  height: 110px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.fan-card {
+  position: absolute;
+  width: 60px;
+  height: 84px;
+  border-radius: 6px;
+  border: 1px solid rgba(200,168,75,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+  overflow: hidden;
+}
+.fan-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%);
+}
+.fan-card img { width: 48px; height: 48px; object-fit: contain; opacity: 0.75; }
+.fan-card:nth-child(1) { transform: rotate(-20deg) translateX(-80px) translateY(12px); background: linear-gradient(135deg, #1a0800, #2a0a0a); z-index: 1; }
+.fan-card:nth-child(2) { transform: rotate(-10deg) translateX(-40px) translateY(4px); background: linear-gradient(135deg, #1a0a00, #300f0f); z-index: 2; }
+.fan-card:nth-child(3) { transform: rotate(0deg); background: linear-gradient(135deg, #200000, #CC0000 120%); z-index: 5; border-color: rgba(200,168,75,0.6); box-shadow: 0 0 20px rgba(200,168,75,0.2), 0 8px 24px rgba(0,0,0,0.8); }
+.fan-card:nth-child(4) { transform: rotate(10deg) translateX(40px) translateY(4px); background: linear-gradient(135deg, #1a0a00, #300f0f); z-index: 2; }
+.fan-card:nth-child(5) { transform: rotate(20deg) translateX(80px) translateY(12px); background: linear-gradient(135deg, #1a0800, #2a0a0a); z-index: 1; }
+.fan-card:nth-child(3):active { transform: rotate(0deg) translateY(-12px) scale(1.08); }
+
+.colecao-count {
+  text-align: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 32px;
+  color: var(--gold-bright);
+  letter-spacing: 2px;
+  text-shadow: 0 0 16px rgba(200,168,75,0.4);
+}
+.colecao-sub {
+  text-align: center;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--txt3);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* Assinatura */
+.signature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 40px 0 16px;
+}
+.sig-text { font-family: 'Anton', sans-serif; font-size: 11px; letter-spacing: 5px; color: var(--txt3); }
+.sig-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--red); box-shadow: 0 0 6px var(--red-glow); }
+
+/* Seção header */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.section-link { font-size: 10px; letter-spacing: 2px; color: var(--red); cursor: pointer; font-weight: 500; }
+
+/* ── ANIMAÇÕES ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+.hero-identity { animation: fadeUp .7s .2s ease both; }
+.hero-xp { animation: fadeUp .6s .35s ease both; }
+.hero-numbers { animation: fadeUp .6s .45s ease both; }
+.xp-card { animation: fadeUp .5s .1s ease both; }
+.ranking-block { animation: fadeUp .5s .15s ease both; }
+.stats-grid { animation: fadeUp .5s .2s ease both; }
+.stat-card-full { animation: fadeUp .5s .25s ease both; }
+</style>
+</head>
+<body>
+
+<!-- ════════════ HERO ════════════ -->
+<div class="hero">
+  <div class="hero-stadium"><img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417074/ad859639-60f1-4fb9-b99d-0c1c40ad250f_qcadq7.png" alt=""></div>
+  <div class="hero-scan"></div>
+  <div class="hero-vignette"></div>
+  <img class="hero-watermark" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt="">
+
+  <!-- Avatar -->
+  <div class="hero-avatar-wrap">
+    <div class="avatar-spotlight"></div>
+    <div class="avatar-halo-outer"></div>
+    <div class="avatar-ring-gold"></div>
+    <div class="avatar-ring-inner"></div>
+    <div class="avatar-photo" id="heroAvatar">R</div>
+    <img class="avatar-shield" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt="SPFC">
+    <div class="avatar-level-badge">
+      <div class="level-badge-inner" id="heroLevel">NÍVEL 9</div>
+    </div>
+  </div>
+
+  <!-- Identidade -->
+  <div class="hero-identity">
+    <div class="identity-rule"></div>
+    <div class="identity-name">
+      <span id="firstName">RAFAEL</span>
+      <span class="ln" id="lastName">TORCEDOR</span>
+    </div>
+    <div class="identity-cargo">
+      <img class="cargo-icon" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt="">
+      <div class="cargo-text">
+        <span class="cargo-title" id="cargoTitle">GUARDIÃO DO MORUMBI</span>
+        <span class="cargo-sub">FÉ · TRADIÇÃO · PAIXÃO</span>
+      </div>
+    </div>
+    <div class="identity-since">
+      <span>Membro desde</span>
+      <span id="sinceDate" style="color:rgba(255,255,255,0.4)">Fev 2024</span>
+      <div class="since-dot"></div>
+      <span id="sinceDays">486 dias</span>
+    </div>
+  </div>
+
+  <!-- XP Strip -->
+  <div class="hero-xp">
+    <div class="xp-meta">
+      <span class="xp-meta-left" id="xpMetaLeft">2.840 / 3.000 XP · 160 para o próximo</span>
+      <span class="xp-meta-right" id="xpMetaPct">63%</span>
+    </div>
+    <div class="xp-track">
+      <div class="xp-fill" id="xpHeroFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- Numbers -->
+  <div class="hero-numbers">
+    <div class="hn-item">
+      <div class="hn-val red" id="hn1">🔥 47</div>
+      <div class="hn-label">Streak dias</div>
+    </div>
+    <div class="hn-item">
+      <div class="hn-val" id="hn2">312</div>
+      <div class="hn-label">Quiz jogados</div>
+    </div>
+    <div class="hn-item">
+      <div class="hn-val gold" id="hn3">74%</div>
+      <div class="hn-label">Taxa acertos</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ FOLD 2 ════════════ -->
+<div class="fold2">
+  <div class="fold2-watermark">SPFC</div>
+
+  <!-- XP Card -->
+  <div class="divider">
+    <span class="divider-label">PROGRESSÃO</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="xp-card">
+    <div class="xp-card-top">
+      <div class="xp-card-level">
+        <div class="xp-card-lvlnum" id="xpCardLvl">NÍVEL 9</div>
+        <div class="xp-tier-badge" id="xpTier">ÉPICO</div>
+      </div>
+      <div class="hex-next" id="xpHexNext">10</div>
+    </div>
+    <div class="xp-card-vals"><span id="xpCardCurr">2.840</span> / <span id="xpCardNext">3.000</span> XP</div>
+    <div class="xp-card-rem">Faltam <b id="xpCardDiff">160 XP</b> para o próximo nível</div>
+    <div class="xp-card-bar">
+      <div class="xp-card-fill" id="xpCardFill" style="width:0%"></div>
+      <div class="xp-pct-label" id="xpCardPct">63%</div>
+    </div>
+  </div>
+
+  <!-- Ranking -->
+  <div class="divider">
+    <span class="divider-label">RANKING</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="ranking-block">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+    <div class="ranking-inner">
+      <div class="ranking-left">
+        <div class="laurel-wrap">
+          <img class="laurel-img" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417254/left_vgohzf.png" alt="">
+          <div class="ranking-number-wrap">
+            <span class="ranking-num" id="rankNum">#12</span>
+            <span class="ranking-num-label">RANKING</span>
+          </div>
+          <img class="laurel-img" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417391/image_err3hg.png" alt="">
+        </div>
+      </div>
+      <div class="ranking-right">
+        <div class="ranking-title">RANKING GERAL</div>
+        <div class="ranking-top-badge" id="rankTop">TOP 1%</div>
+        <div class="ranking-desc">Entre os melhores<br>torcedores do Brasil</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="divider">
+    <span class="divider-label">ESTATÍSTICAS</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="stats-grid">
+    <!-- Streak -->
+    <div class="stat-card streak">
+      <div class="sc-icon-wrap streak">
+        <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417811/de823f35-5371-4482-9eb8-4543f1349e11_kyvv5z.png" alt="">
+      </div>
+      <div class="sc-val streak" id="scStreak">47</div>
+      <div class="sc-name">Streak dias</div>
+      <div class="sc-sub">Melhor sequência<br><b>47 dias</b></div>
+    </div>
+
+    <!-- Acertos -->
+    <div class="stat-card acertos">
+      <div class="sc-icon-wrap acertos">
+        <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780419535/8b87ee5e-72d4-49c5-b4ea-14ffb9ccb138_mcqetr.png" alt="">
+      </div>
+      <div class="sc-val acertos" id="scAcertos">74%</div>
+      <div class="sc-name">% Acertos quiz</div>
+      <div class="sc-sub">Você está voando!<br>Continue assim!</div>
+    </div>
+
+    <!-- Wordle -->
+    <div class="stat-card wordle">
+      <div class="sc-icon-wrap wordle">
+        <svg class="quiz-icon-svg" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="3" width="4" height="4" rx="1" fill="#C8A84B" opacity=".9"/>
+          <rect x="10" y="3" width="4" height="4" rx="1" fill="#C8A84B" opacity=".6"/>
+          <rect x="17" y="3" width="4" height="4" rx="1" fill="#C8A84B" opacity=".3"/>
+          <rect x="3" y="10" width="4" height="4" rx="1" fill="#C8A84B" opacity=".6"/>
+          <rect x="10" y="10" width="4" height="4" rx="1" fill="#C8A84B"/>
+          <rect x="17" y="10" width="4" height="4" rx="1" fill="#C8A84B" opacity=".6"/>
+          <rect x="3" y="17" width="4" height="4" rx="1" fill="#C8A84B" opacity=".3"/>
+          <rect x="10" y="17" width="4" height="4" rx="1" fill="#C8A84B" opacity=".6"/>
+          <rect x="17" y="17" width="4" height="4" rx="1" fill="#C8A84B" opacity=".9"/>
+        </svg>
+      </div>
+      <div class="sc-val wordle" id="scWordle">18</div>
+      <div class="sc-name">Wordle vencidos</div>
+      <div class="sc-sub">Vocabulário de<br><b>craque!</b></div>
+    </div>
+
+    <!-- Palpites -->
+    <div class="stat-card palpites">
+      <div class="sc-icon-wrap palpites">
+        <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780419959/ee6549f4-21ed-44a6-9eb4-dfa77b7c82c5_acjuza.png" alt="">
+      </div>
+      <div class="sc-val palpites" id="scPalpites">9</div>
+      <div class="sc-name">Palpites certos</div>
+      <div class="sc-sub">Intuição tricolor<br>aflorada!</div>
+    </div>
+  </div>
+
+  <!-- Quiz jogados — full width -->
+  <div class="stat-card-full">
+    <div class="sc-icon-wrap quiz" style="width:80px;height:80px">
+      <svg class="quiz-icon-svg" viewBox="0 0 24 24" fill="none">
+        <rect x="4" y="3" width="16" height="18" rx="2" stroke="#FF4444" stroke-width="1.5"/>
+        <line x1="8" y1="8" x2="16" y2="8" stroke="#FF4444" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="8" y1="12" x2="16" y2="12" stroke="#FF4444" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="8" y1="16" x2="12" y2="16" stroke="#FF4444" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="scf-info">
+      <div class="scf-val" id="scQuiz">312</div>
+      <div class="scf-name">Quiz jogados</div>
+      <div class="scf-sub">Incrível! Você é uma máquina!</div>
+      <div class="scf-bar"><div class="scf-bar-fill" id="quizBarFill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- Conquistas -->
+  <div class="divider">
+    <span class="divider-label">CONQUISTAS</span>
+    <div class="divider-line"></div>
+  </div>
+  <div class="section-header" style="padding-top:0;margin-top:-8px">
+    <div></div>
+    <div class="section-link">VER TODAS ›</div>
+  </div>
+
+  <div class="conquistas-scroll">
+    <!-- Badge: Streak 10 -->
+    <div class="badge-item">
+      <div class="badge-hex-wrap">
+        <svg viewBox="0 0 60 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,2 58,17 58,51 30,66 2,51 2,17" fill="url(#gradRed)" stroke="url(#strokeRed)" stroke-width="1.5"/>
+          <defs>
+            <linearGradient id="gradRed" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#3a0000"/>
+              <stop offset="50%" stop-color="#8B0000"/>
+              <stop offset="100%" stop-color="#CC0000"/>
+            </linearGradient>
+            <linearGradient id="strokeRed" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#FF4444"/>
+              <stop offset="100%" stop-color="#8B0000"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="badge-emoji">🔥</div>
+      </div>
+      <div class="badge-name">Streak 10</div>
+    </div>
+
+    <!-- Badge: Perfeccionista -->
+    <div class="badge-item">
+      <div class="badge-hex-wrap">
+        <svg viewBox="0 0 60 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,2 58,17 58,51 30,66 2,51 2,17" fill="url(#gradBlue)" stroke="url(#strokeBlue)" stroke-width="1.5"/>
+          <defs>
+            <linearGradient id="gradBlue" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#003344"/>
+              <stop offset="50%" stop-color="#006677"/>
+              <stop offset="100%" stop-color="#4ECDC4"/>
+            </linearGradient>
+            <linearGradient id="strokeBlue" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#4ECDC4"/>
+              <stop offset="100%" stop-color="#003344"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="badge-emoji">🎯</div>
+      </div>
+      <div class="badge-name">Perfeccionista</div>
+    </div>
+
+    <!-- Badge: Campeão -->
+    <div class="badge-item">
+      <div class="badge-hex-wrap">
+        <svg viewBox="0 0 60 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,2 58,17 58,51 30,66 2,51 2,17" fill="url(#gradGold)" stroke="url(#strokeGold)" stroke-width="1.5"/>
+          <defs>
+            <linearGradient id="gradGold" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#4a3000"/>
+              <stop offset="50%" stop-color="#8B6914"/>
+              <stop offset="100%" stop-color="#C8A84B"/>
+            </linearGradient>
+            <linearGradient id="strokeGold" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#FFD060"/>
+              <stop offset="100%" stop-color="#6b4e00"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="badge-emoji">⭐</div>
+      </div>
+      <div class="badge-name">Campeão</div>
+    </div>
+
+    <!-- Badge: Quiz Master -->
+    <div class="badge-item">
+      <div class="badge-hex-wrap">
+        <svg viewBox="0 0 60 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,2 58,17 58,51 30,66 2,51 2,17" fill="url(#gradSilver)" stroke="url(#strokeSilver)" stroke-width="1.5"/>
+          <defs>
+            <linearGradient id="gradSilver" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#1a1a1a"/>
+              <stop offset="50%" stop-color="#444"/>
+              <stop offset="100%" stop-color="#888"/>
+            </linearGradient>
+            <linearGradient id="strokeSilver" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#bbb"/>
+              <stop offset="100%" stop-color="#333"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="badge-emoji">💯</div>
+      </div>
+      <div class="badge-name">Quiz Master</div>
+    </div>
+
+    <!-- Badge: Lendário (locked) -->
+    <div class="badge-item">
+      <div class="badge-hex-wrap locked">
+        <svg viewBox="0 0 60 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,2 58,17 58,51 30,66 2,51 2,17" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+        </svg>
+        <div class="badge-emoji">🔒</div>
+      </div>
+      <div class="badge-name">Lendário</div>
+    </div>
+  </div>
+
+  <!-- Coleção -->
+  <div class="divider">
+    <span class="divider-label">COLEÇÃO</span>
+    <div class="divider-line"></div>
+  </div>
+  <div class="section-header" style="padding-top:0;margin-top:-8px">
+    <div></div>
+    <div class="section-link">VER TODAS ›</div>
+  </div>
+
+  <div class="colecao-wrap">
+    <div class="cards-fan">
+      <div class="fan-card"><img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt=""></div>
+      <div class="fan-card"><img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt=""></div>
+      <div class="fan-card"><img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt=""></div>
+      <div class="fan-card"><img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt=""></div>
+      <div class="fan-card"><img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt=""></div>
+    </div>
+    <div class="colecao-count" id="colCount">26</div>
+    <div class="colecao-sub">CARDS COLECIONADOS</div>
+  </div>
+
+  <!-- Assinatura -->
+  <div class="signature">
+    <span class="sig-text">SPFC</span>
+    <div class="sig-sep"></div>
+    <span class="sig-text">HOJE</span>
+  </div>
+</div>
+
+<script>
+const XP_TITLES = [
+  {min:0,title:'Torcedor de Arquibancada'},{min:100,title:'Torcedor da Caldeira'},
+  {min:500,title:'Fiel Tricolor'},{min:800,title:'Conhecedor da História'},
+  {min:1200,title:'Membro da Torcida Organizada'},{min:1700,title:'Torcedor que Nunca Faltou'},
+  {min:2300,title:'Historiador Tricolor'},{min:3000,title:'Guardião do Morumbi'},
+  {min:3800,title:'Lenda das Arquibancadas'},{min:4700,title:'Garoto do Cotia'},
+  {min:5700,title:'Revelação do Tricolor'},{min:9300,title:'Titular Absoluto'},
+  {min:12200,title:'Ídolo em Formação'},{min:15500,title:'Estrela da Libertadores'},
+  {min:19200,title:'Campeão Paulista'},
+];
+const TIERS = [
+  {min:0,l:'INICIANTE'},{min:500,l:'BRONZE'},{min:1200,l:'PRATA'},
+  {min:2300,l:'OURO'},{min:3000,l:'ÉPICO'},{min:3800,l:'LENDÁRIO'},
+  {min:9300,l:'MESTRE'},{min:19200,l:'GRANDIOSO'},
+];
+
+const DATA = {
+  name:'Rafael Torcedor', initial:'R', avatarUrl:'',
+  sinceDate:'Fev 2024', sinceMs:new Date('2024-02-01').getTime(),
+  xp:2840, streak:47, streakMax:47,
+  rankPos:12, rankTotal:1200,
+  quizAcertos:231, quizTotal:312,
+  wordleWins:18, palpitesCertos:9, cardsTotal:26,
+};
+
+function getLvl(xp){
+  let lvl=1,title=XP_TITLES[0].title,nextXP=XP_TITLES[1]?.min||null;
+  for(let i=XP_TITLES.length-1;i>=0;i--){
+    if(xp>=XP_TITLES[i].min){lvl=i+1;title=XP_TITLES[i].title;nextXP=XP_TITLES[i+1]?.min||null;break;}
+  }
+  const curr=XP_TITLES[lvl-1]?.min||0;
+  const next=nextXP||curr+1;
+  const pct=Math.min(99,Math.round((xp-curr)/(next-curr)*100));
+  return {lvl,title,curr,next,pct,diff:next-xp};
+}
+function getTier(xp){let t=TIERS[0];for(let i=TIERS.length-1;i>=0;i--){if(xp>=TIERS[i].min){t=TIERS[i];break;}}return t.l;}
+function getRankTop(p,t){const r=p/t*100;return r<=1?'TOP 1%':r<=5?'TOP 5%':r<=10?'TOP 10%':'TOP 25%';}
+function fmt(n){return n.toLocaleString('pt-BR');}
+function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
+
+function render(){
+  const d=DATA, info=getLvl(d.xp);
+  const days=Math.floor((Date.now()-d.sinceMs)/86400000)||486;
+  const parts=d.name.trim().split(' ');
+
+  // Avatar
+  if(d.avatarUrl){
+    document.getElementById('heroAvatar').innerHTML=`<img src="${d.avatarUrl}">`;
+  } else {
+    set('heroAvatar', d.initial.toUpperCase());
+  }
+
+  // Hero
+  set('heroLevel','NÍVEL '+info.lvl);
+  set('firstName', parts[0].toUpperCase());
+  set('lastName', parts.slice(1).join(' ').toUpperCase());
+  set('cargoTitle', info.title.toUpperCase());
+  set('sinceDate', d.sinceDate);
+  set('sinceDays', fmt(days)+' dias');
+
+  // XP hero strip
+  const diff=info.diff>0?` · ${fmt(info.diff)} para o próximo`:'';
+  set('xpMetaLeft',`${fmt(d.xp)} / ${fmt(info.next)} XP${diff}`);
+  set('xpMetaPct', info.pct+'%');
+
+  // Numbers
+  set('hn1', (d.streak>=10?'🔥 ':'')+d.streak);
+  set('hn2', fmt(d.quizTotal));
+  const qpct=d.quizTotal>0?Math.round(d.quizAcertos/d.quizTotal*100):0;
+  set('hn3', qpct+'%');
+
+  // XP card
+  set('xpCardLvl','NÍVEL '+info.lvl);
+  set('xpTier', getTier(d.xp));
+  set('xpHexNext', info.lvl+1);
+  set('xpCardCurr', fmt(d.xp));
+  set('xpCardNext', fmt(info.next));
+  set('xpCardDiff', fmt(info.diff)+' XP');
+  set('xpCardPct', info.pct+'%');
+
+  // Ranking
+  set('rankNum','#'+d.rankPos);
+  set('rankTop', getRankTop(d.rankPos,d.rankTotal));
+
+  // Stats
+  set('scStreak', d.streak);
+  set('scAcertos', qpct+'%');
+  set('scWordle', d.wordleWins);
+  set('scPalpites', d.palpitesCertos);
+  set('scQuiz', fmt(d.quizTotal));
+  set('colCount', d.cardsTotal);
+
+  // Animações de progresso
+  setTimeout(()=>{
+    ['xpHeroFill','xpCardFill'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.style.width=info.pct+'%';
+    });
+    const qb=document.getElementById('quizBarFill');
+    if(qb) qb.style.width=Math.min(100,Math.round(d.quizTotal/500*100))+'%';
+  }, 350);
+}
+
+render();
+
+// API pública para receber dados do main.html
+window.fillPerfilFromCache = function(data, user){
+  if(!data||!user) return;
+  DATA.name = data.displayName || user.email?.split('@')[0] || 'Torcedor';
+  DATA.initial = DATA.name[0].toUpperCase();
+  DATA.avatarUrl = data.avatarUrl || data.avatar?.url || '';
+  DATA.xp = data.xp || data.totalXP || 0;
+  DATA.streak = data.loginStreak || 0;
+  DATA.streakMax = data.maxStreak || DATA.streak;
+  DATA.rankPos = data.rankPos || 999;
+  DATA.rankTotal = data.rankTotal || 1000;
+  DATA.quizAcertos = data.totalAcertos || 0;
+  DATA.quizTotal = data.totalRespostas || 0;
+  DATA.wordleWins = data.wordleWins || 0;
+  DATA.palpitesCertos = data.palpitesExatos || 0;
+  DATA.cardsTotal = data.cardsTotal || 0;
+  if(data.createdAt){
+    const dt=new Date(data.createdAt);
+    const m=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    DATA.sinceDate = m[dt.getMonth()]+' '+dt.getFullYear();
+    DATA.sinceMs = dt.getTime();
+  }
+  render();
+};
+</script>
+</body>
+</html>

@@ -1780,7 +1780,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="tb-drop-profile-level" id="tbDropLevel">NÍVEL 1</div>
     </div>
   </div>
-  <button class="tb-drop-item" onclick="closeUserDrop()">
+  <button class="tb-drop-item" onclick="closeUserDrop();openPerfilModal()">
     <span>👤</span> Meu Perfil
   </button>
   <button class="tb-drop-item" onclick="closeUserDrop();window.location.href='quiz.html'">
@@ -4598,8 +4598,59 @@ function closeSobre(e) {
   loadTicker();
   setInterval(loadTicker, RELOAD_INT);
 })();
+
+// ── PERFIL MODAL ─────────────────────────────────
+function openPerfilModal() {
+  const modal  = document.getElementById('perfilModal');
+  const iframe = document.getElementById('perfilIframe');
+
+  // Só carrega o iframe uma vez
+  if (!iframe.src || iframe.src === window.location.href) {
+    iframe.src = 'perfil.html';
+  }
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Assim que o iframe carregar, injeta os dados do Firebase
+  iframe.onload = () => {
+    try {
+      const cached = window._cachedUserData;
+      if (cached && iframe.contentWindow && iframe.contentWindow.fillPerfilFromCache) {
+        iframe.contentWindow.fillPerfilFromCache(cached.data, { uid: cached.uid, email: '' });
+      }
+    } catch(e) { console.warn('Perfil iframe inject:', e); }
+  };
+
+  // Se o iframe já estava carregado, injeta direto
+  try {
+    if (iframe.contentWindow && iframe.contentWindow.fillPerfilFromCache) {
+      const cached = window._cachedUserData;
+      if (cached) iframe.contentWindow.fillPerfilFromCache(cached.data, { uid: cached.uid, email: '' });
+    }
+  } catch(e) {}
+}
+
+function closePerfilModal(e) {
+  if (e && e.target !== document.getElementById('perfilModal')) return;
+  const modal = document.getElementById('perfilModal');
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 </script>
 
+
+<!-- PERFIL MODAL -->
+<div class="perfil-modal" id="perfilModal" onclick="closePerfilModal(event)">
+  <div class="perfil-modal-sheet" id="perfilModalSheet">
+    <div class="perfil-modal-handle"></div>
+    <button class="perfil-modal-close" onclick="closePerfilModal()">✕</button>
+    <div class="perfil-modal-body" id="perfilModalBody">
+      <iframe id="perfilIframe" src="" title="Perfil"></iframe>
+    </div>
+  </div>
+</div>
 </body>
 </html>
 
