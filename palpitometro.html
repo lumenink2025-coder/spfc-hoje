@@ -1920,15 +1920,27 @@ async function loadUserStats() {
   setAvatar(document.getElementById('tbAvatar'),  data.photoURL, name);
   document.getElementById('tbUsername').textContent = name.split(' ')[0] || 'sair';
 
-  // Calcular posição
-  const { collection, query, orderBy, getDocs } = window.FB;
-  const q   = query(collection(db, 'ranking'), orderBy('totalPontos', 'desc'));
-  const all = await getDocs(q);
+  // Calcular posição — top 50 + cache 10 min no localStorage
+  const rankCacheKey = 'spfc_palp_rank_' + currentUser.uid;
+  const rankTTL = 60 * 60 * 1000; // 1 hora
   let pos = 1;
-  all.forEach(d => {
-    if (d.id === currentUser.uid) return;
-    if ((d.data().totalPontos || 0) > (data.totalPontos || 0)) pos++;
-  });
+  try {
+    const rc = JSON.parse(localStorage.getItem(rankCacheKey) || 'null');
+    if (rc && Date.now() - rc.ts < rankTTL) {
+      pos = rc.pos;
+    } else {
+      const { collection, query, orderBy, limit, getDocs } = window.FB;
+      const q   = query(collection(db, 'ranking'), orderBy('totalPontos', 'desc'), limit(50));
+      const all = await getDocs(q);
+      let p = 1;
+      all.forEach(d => {
+        if (d.id === currentUser.uid) return;
+        if ((d.data().totalPontos || 0) > (data.totalPontos || 0)) p++;
+      });
+      pos = p;
+      try { localStorage.setItem(rankCacheKey, JSON.stringify({ pos, ts: Date.now() })); } catch(e) {}
+    }
+  } catch(e) {}
   document.getElementById('usbRank').textContent = '#' + pos;
 }
 
@@ -2343,6 +2355,9 @@ async function confirmarPalpite(matchId) {
 
     await setDoc(doc(db, 'palpitometroPalpites', `${currentUser.uid}_${matchId}`), palpiteData);
     await updateDoc(doc(db, 'ranking', currentUser.uid), { totalPalpites: increment(1) });
+
+    // Invalida cache de posição para ver ranking atualizado na hora
+    try { localStorage.removeItem('spfc_palp_rank_' + currentUser.uid); } catch(e) {}
 
     userPalpite = palpiteData;
     toast('✅ Palpite enviado!', 'Boa sorte, torcedor!');

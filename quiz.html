@@ -4018,6 +4018,47 @@ async function saveScoreToFirebase() {
     }
 
   } catch(e) { console.warn('Ranking save error:', e); }
+
+  // Invalida cache do ranking para o usuário ver o novo score na hora
+  try {
+    const today = new Date().toISOString().slice(0,10);
+    ['geral', 'diario', 'semanal', 'mensal'].forEach(type => {
+      localStorage.removeItem('spfc_rank_tab_' + type + '_' + today);
+    });
+    // Também invalida cache de posição pessoal
+    if (uid) localStorage.removeItem('spfc_rank_pos_' + uid);
+  } catch(e) {}
+}
+
+function renderRankingList(all, type) {
+  const list = document.getElementById('rankList');
+  const top10 = all.slice(0, 10);
+  if (!top10.length) {
+    list.innerHTML = '<div class="rank-empty">Nenhuma pontuação ainda. Seja o primeiro!</div>';
+    return;
+  }
+  const myUid = STATE.user?.uid;
+  const renderItem = (d, pos, isMe) => {
+    const posClass = pos === 1 ? 'top1' : pos === 2 ? 'top2' : pos === 3 ? 'top3' : '';
+    return `<div class="rank-item${isMe?' me':''}">
+      <div class="rank-pos ${posClass}">${pos}</div>
+      ${d.avatar ? `<img class="rank-avatar-mini" src="${d.avatar}" alt="">` : `<div class="rank-avatar-mini" style="background:var(--bg3);border:1px solid var(--border2);border-radius:50%"></div>`}
+      <div class="rank-info">
+        <div class="rank-name">${d.name || 'Torcedor'}${isMe?' (você)':''} ${d.streak>2?'🔥'.repeat(Math.min(3,Math.floor(d.streak/3))):''}</div>
+        <div class="rank-detail">Nível ${d.level || 1} · ${d.streak||0} dias seguidos</div>
+      </div>
+      <div class="rank-pts">${(d.score||0).toLocaleString('pt-BR')}</div>
+    </div>`;
+  };
+  let html = top10.map((d, i) => renderItem(d, i + 1, myUid && d.uid === myUid)).join('');
+  if (myUid) {
+    const myPos = all.findIndex(d => d.uid === myUid);
+    if (myPos >= 10) {
+      const myData = all[myPos];
+      html += `<div style="text-align:center;padding:8px 0;color:var(--txt3);font-size:11px;letter-spacing:2px">• • •</div>${renderItem(myData, myPos + 1, true)}`;
+    }
+  }
+  list.innerHTML = html;
 }
 
 async function loadRanking(type, btn) {
@@ -4037,22 +4078,33 @@ async function loadRanking(type, btn) {
 
   const {db, collection, query, where, limit, getDocs} = window.FB;
 
+  // Cache 5 min no localStorage por tipo de ranking
+  const cacheKey = 'spfc_rank_tab_' + type + '_' + new Date().toISOString().slice(0,10);
+  const TTL = 30 * 60 * 1000; // 30 minutos
+  try {
+    const rc = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+    if (rc && Date.now() - rc.ts < TTL) {
+      renderRankingList(rc.data, type);
+      return;
+    }
+  } catch(e) {}
+
   try {
     const now = new Date();
     const dateKey = now.toISOString().slice(0,10);
     const weekKey = `${now.getFullYear()}-W${String(Math.ceil((now - new Date(now.getFullYear(),0,1)) / 86400000 / 7)).padStart(2,'0')}`;
     const monthKey = now.toISOString().slice(0,7);
 
-    // Busca sem orderBy (evita índice composto) — ordena no cliente
+    // Busca top 50 — sem orderBy (evita índice composto) — ordena no cliente
     let q;
     if (type === 'geral') {
-      q = query(collection(db,'ranking'), where('type','==','geral'), limit(200));
+      q = query(collection(db,'ranking'), where('type','==','geral'), limit(50));
     } else if (type === 'diario') {
-      q = query(collection(db,'ranking'), where('type','==','diario'), where('dateKey','==',dateKey), limit(200));
+      q = query(collection(db,'ranking'), where('type','==','diario'), where('dateKey','==',dateKey), limit(50));
     } else if (type === 'semanal') {
-      q = query(collection(db,'ranking'), where('type','==','semanal'), where('weekKey','==',weekKey), limit(200));
+      q = query(collection(db,'ranking'), where('type','==','semanal'), where('weekKey','==',weekKey), limit(50));
     } else {
-      q = query(collection(db,'ranking'), where('type','==','mensal'), where('monthKey','==',monthKey), limit(200));
+      q = query(collection(db,'ranking'), where('type','==','mensal'), where('monthKey','==',monthKey), limit(50));
     }
 
     const snap = await getDocs(q);
@@ -4064,6 +4116,9 @@ async function loadRanking(type, btn) {
       if ((b.score||0) !== (a.score||0)) return (b.score||0) - (a.score||0);
       return (b.streak||0) - (a.streak||0); // desempate por sequência
     });
+
+    // Salva no localStorage para evitar releituras nos próximos 5 min
+    try { localStorage.setItem(cacheKey, JSON.stringify({ data: all, ts: Date.now() })); } catch(e) {}
 
     // Top 10
     const top10 = all.slice(0, 10);
@@ -4089,20 +4144,7 @@ async function loadRanking(type, btn) {
         </div>`;
     };
 
-    let html = top10.map((d, i) => renderItem(d, i + 1, myUid && d.uid === myUid)).join('');
-
-    // Se o jogador está logado e fora do top 10, mostra sua posição
-    if (myUid) {
-      const myPos = all.findIndex(d => d.uid === myUid);
-      if (myPos >= 10) {
-        const myData = all[myPos];
-        html += `
-          <div style="text-align:center;padding:8px 0;color:var(--txt3);font-size:11px;letter-spacing:2px">• • •</div>
-          ${renderItem(myData, myPos + 1, true)}`;
-      }
-    }
-
-    list.innerHTML = html;
+    renderRankingList(all, type);
   } catch(e) {
     list.innerHTML = '<div class="rank-empty">Erro ao carregar ranking.</div>';
     console.warn('Ranking error:', e);

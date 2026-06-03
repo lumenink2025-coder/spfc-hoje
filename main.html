@@ -3332,29 +3332,42 @@ async function grantLoginBonus(db, doc, getDoc, updateDoc, uid, loginStreak) {
   } catch(e) { return 0; }
 }
 
-// ── Streak helper — salva/lê da coleção 'streaks' ─
+// ── Streak helper — localStorage-first, Firestore só quando muda ─
 async function loadOrUpdateStreak(db, doc, setDoc, uid) {
-  const today = new Date().toISOString().slice(0,10);
-  const ref   = doc(db, 'streaks', uid);
+  const today     = new Date().toISOString().slice(0,10);
+  const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
+  const cacheKey  = `spfc_streak_${uid}`;
+
+  // Lê cache local primeiro — evita leitura do Firestore se já resolvemos hoje
+  try {
+    const raw = localStorage.getItem(cacheKey);
+    if (raw) {
+      const lc = JSON.parse(raw);
+      if (lc.lastDate === today) return lc.count; // já processado hoje, zero leituras
+    }
+  } catch(e) {}
+
+  // Precisa ir ao Firestore (primeiro acesso do dia)
+  const ref = doc(db, 'streaks', uid);
   try {
     const snap = await (await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js')).getDoc(ref);
+    let count = 1;
     if (snap.exists()) {
-      const d = snap.data();
-      const lastDate = d.lastDate || '';
-      const count    = d.count    || 0;
-      const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
-      if (lastDate === today)    return count;               // já jogou hoje
-      if (lastDate === yesterday){ // dia seguinte — incrementa
-        await setDoc(ref, { count: count+1, lastDate: today });
-        return count + 1;
-      }
-      // quebrou a sequência
-      await setDoc(ref, { count: 1, lastDate: today });
-      return 1;
-    } else {
-      await setDoc(ref, { count: 1, lastDate: today });
-      return 1;
+      const d    = snap.data();
+      const last = d.lastDate || '';
+      const cur  = d.count    || 0;
+      if      (last === today)     count = cur;       // já tinha atualizado (outra aba)
+      else if (last === yesterday) count = cur + 1;   // sequência mantida
+      else                         count = 1;          // sequência quebrada
     }
+    // Só escreve se mudou (não era today no Firestore)
+    const snapDate = snap.exists() ? snap.data().lastDate : '';
+    if (snapDate !== today) {
+      await setDoc(ref, { count, lastDate: today });
+    }
+    // Salva no localStorage para não ler o Firestore de novo hoje
+    try { localStorage.setItem(cacheKey, JSON.stringify({ count, lastDate: today })); } catch(e) {}
+    return count;
   } catch(e) { return 0; }
 }
 
@@ -3387,8 +3400,23 @@ async function loadOrUpdateStreak(db, doc, setDoc, uid) {
       if (user) {
         area.style.display = 'block';
         try {
-          const snap = await getDoc(doc(db, 'users', user.uid));
-          const data = snap.exists() ? snap.data() : {};
+          // Cache do perfil por 24h no localStorage — evita leitura do Firestore a cada sessão
+          const profileCacheKey = 'spfc_profile_' + user.uid;
+          const profileTTL = 24 * 60 * 60 * 1000; // 24 horas
+          let data = {};
+          let needsFirestore = true;
+          try {
+            const pc = JSON.parse(localStorage.getItem(profileCacheKey) || 'null');
+            if (pc && Date.now() - pc.ts < profileTTL) {
+              data = pc.data;
+              needsFirestore = false;
+            }
+          } catch(e) {}
+          if (needsFirestore) {
+            const snap = await getDoc(doc(db, 'users', user.uid));
+            data = snap.exists() ? snap.data() : {};
+            try { localStorage.setItem(profileCacheKey, JSON.stringify({ data, ts: Date.now() })); } catch(e) {}
+          }
 
           // Registra data do primeiro login se ainda não existe
           if (!data.firstLoginDate) {
@@ -3434,24 +3462,33 @@ async function loadOrUpdateStreak(db, doc, setDoc, uid) {
           }
 
           // Tenta buscar posição do ranking geral para o perfil
+          // Cache localStorage por 10 min — evita leituras repetidas
           try {
-            const { getDocs, collection, orderBy, query } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-            const rankSnap = await getDocs(query(collection(db, 'ranking'), orderBy('score','desc')));
-            let pos = 1, total = 0, myScore = 0;
-            const myRef = `${user.uid}_geral`;
-            rankSnap.forEach(d => {
-              if(d.id.endsWith('_geral')) {
-                total++;
-                if(d.id === myRef) { pos = total; myScore = d.data().score || 0; }
-              }
-            });
+            const rankCacheKey = `spfc_rank_pos_${user.uid}`;
+            const rankTTL = 60 * 60 * 1000; // 1 hora
+            let rankPos = null, rankTotal = null;
+            try {
+              const rc = JSON.parse(localStorage.getItem(rankCacheKey) || 'null');
+              if (rc && Date.now() - rc.ts < rankTTL) { rankPos = rc.pos; rankTotal = rc.total; }
+            } catch(e) {}
+
+            if (rankPos === null) {
+              const { getDocs, collection, orderBy, query, limit, where } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+              // Busca só top 50 — suficiente para mostrar posição e escalar conforme cresce
+              const rankSnap = await getDocs(query(collection(db, 'ranking'), where('type','==','geral'), orderBy('score','desc'), limit(50)));
+              let pos = null, total = 0;
+              const myRef = `${user.uid}_geral`;
+              rankSnap.forEach(d => { total++; if(d.id === myRef) pos = total; });
+              rankPos   = pos || (total + 1); // se não está no top 50, fica fora
+              rankTotal = total;
+              try { localStorage.setItem(rankCacheKey, JSON.stringify({ pos: rankPos, total: rankTotal, ts: Date.now() })); } catch(e) {}
+            }
+
             if (window._cachedUserData) {
-              window._cachedUserData.data.rankPos = pos;
-              window._cachedUserData.data.rankTotal = total || 1000;
+              window._cachedUserData.data.rankPos   = rankPos;
+              window._cachedUserData.data.rankTotal = rankTotal || 50;
             }
           } catch(e) { /* ranking fetch optional */ }
-          if (typeof fillHubUserData === 'function') fillHubUserData();
-
           // Hub já carregou — atualiza com dados reais do usuário agora disponíveis
           if (typeof fillHubUserData === 'function') fillHubUserData();
 
@@ -4152,14 +4189,20 @@ async function getHubFB(){
   return {db:_hubDb, auth:_hubAuth};
 }
 
-/* ── Top 1 real do Firebase por período ── */
+/* ── Top 1 real do Firebase por período (cache 5 min no localStorage) ── */
 async function fetchTop1(period){
+  const cacheKey = 'spfc_top1_' + period;
+  const TTL = 5 * 60 * 1000;
+  try {
+    const rc = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+    if (rc && Date.now() - rc.ts < TTL) return rc.data;
+  } catch(e) {}
   try {
     const {db} = await getHubFB();
     const {_col:col,_query:q,_where:wh,_orderBy:ob,_limit:lim,_getDocs:gd} = db;
     const now = new Date();
     const dateKey  = now.toISOString().slice(0,10);
-    const weekKey  = `${now.getFullYear()}-W${String(Math.ceil((now - new Date(now.getFullYear(),0,1)) / 86400000 / 7)).padStart(2,'0')}`;
+    const weekKey  = now.getFullYear()+'-W'+String(Math.ceil((now - new Date(now.getFullYear(),0,1)) / 86400000 / 7)).padStart(2,'0');
     const monthKey = now.toISOString().slice(0,7);
     let snap;
     if      (period==='geral')   snap = await gd(q(col(db,'ranking'), wh('type','==','geral'),   ob('score','desc'), lim(1)));
@@ -4168,7 +4211,9 @@ async function fetchTop1(period){
     else if (period==='mensal')  snap = await gd(q(col(db,'ranking'), wh('type','==','mensal'),  wh('monthKey','==',monthKey), ob('score','desc'), lim(1)));
     if(!snap||snap.empty) return null;
     const d = snap.docs[0].data();
-    return {n: d.name||'Torcedor', p: d.score||0};
+    const result = {n: d.name||'Torcedor', p: d.score||0};
+    try { localStorage.setItem(cacheKey, JSON.stringify({data: result, ts: Date.now()})); } catch(e) {}
+    return result;
   } catch(e){ console.warn('hub top1',period,e.message); return null; }
 }
 
@@ -4177,11 +4222,23 @@ async function fetchMyRankPosition(){
     const {db, auth} = await getHubFB();
     const user = auth.currentUser;
     if(!user) return null;
-    const {_col:col,_query:q,_where:wh,_orderBy:ob,_getDocs:gd} = db;
-    const snap = await gd(q(col(db,'ranking'), wh('type','==','geral'), ob('score','desc')));
+
+    // Reutiliza cache do login se disponível (< 10 min)
+    const rankCacheKey = `spfc_rank_pos_${user.uid}`;
+    const rankTTL = 60 * 60 * 1000; // 1 hora
+    try {
+      const rc = JSON.parse(localStorage.getItem(rankCacheKey) || 'null');
+      if (rc && Date.now() - rc.ts < rankTTL) return { pos: rc.pos, score: rc.score || 0 };
+    } catch(e) {}
+
+    const {_col:col,_query:q,_where:wh,_orderBy:ob,_limit:lim,_getDocs:gd} = db;
+    // Busca só top 50
+    const snap = await gd(q(col(db,'ranking'), wh('type','==','geral'), ob('score','desc'), lim(50)));
     const idx  = snap.docs.findIndex(d=>d.data().uid===user.uid);
     if(idx===-1) return null;
-    return {pos:idx+1, score:snap.docs[idx].data().score||0};
+    const result = {pos:idx+1, score:snap.docs[idx].data().score||0};
+    try { localStorage.setItem(rankCacheKey, JSON.stringify({ ...result, ts: Date.now() })); } catch(e) {}
+    return result;
   } catch(e){ return null; }
 }
 
