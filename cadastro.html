@@ -742,5 +742,104 @@ async function salvarPerfil() {
   }
 }
 </script>
+
+<!-- ══ BANNER: ADICIONAR À TELA INICIAL ══ -->
+<style>
+#pwa-banner{
+  position:fixed;bottom:0;left:0;right:0;z-index:99999;
+  background:linear-gradient(135deg,#1a0000,#0a0a0a);
+  border-top:1px solid rgba(204,0,0,.35);
+  padding:14px 16px 20px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:0 -4px 24px rgba(0,0,0,.6);
+  transform:translateY(110%);
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+}
+#pwa-banner.show{transform:translateY(0)}
+#pwa-banner-icon{font-size:28px;flex-shrink:0}
+#pwa-banner-text{flex:1;min-width:0}
+#pwa-banner-text strong{display:block;font-size:13px;color:#fff;font-family:'Bebas Neue',Impact,sans-serif;letter-spacing:2px;margin-bottom:2px}
+#pwa-banner-text span{font-size:11px;color:#888;line-height:1.4}
+#pwa-banner-btn{
+  background:var(--red,#CC0000);color:#fff;border:none;border-radius:10px;
+  padding:10px 14px;font-size:12px;font-weight:700;cursor:pointer;
+  white-space:nowrap;font-family:'Inter',sans-serif;letter-spacing:.5px;
+  flex-shrink:0;transition:.2s;
+}
+#pwa-banner-btn:hover{background:#8B0000}
+#pwa-banner-close{
+  background:none;border:none;color:#555;font-size:18px;cursor:pointer;
+  padding:4px;line-height:1;flex-shrink:0;
+}
+</style>
+
+<div id="pwa-banner">
+  <div id="pwa-banner-icon">📲</div>
+  <div id="pwa-banner-text">
+    <strong>INSTALE O SPFC HOJE</strong>
+    <span id="pwa-banner-sub">Funciona melhor instalado na tela inicial</span>
+  </div>
+  <button id="pwa-banner-btn">INSTALAR</button>
+  <button id="pwa-banner-close" onclick="dismissBanner()">✕</button>
+</div>
+
+<script>
+(function(){
+  // Não mostra se já está instalado como PWA
+  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) return;
+  // Não mostra se já foi dispensado
+  if (localStorage.getItem('pwa_banner_dismissed')) return;
+
+  const banner  = document.getElementById('pwa-banner');
+  const btn     = document.getElementById('pwa-banner-btn');
+  const sub     = document.getElementById('pwa-banner-sub');
+  let deferredPrompt = null;
+
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isAndroid = /android/i.test(navigator.userAgent);
+
+  if (isIOS) {
+    // iOS: instrução manual
+    sub.textContent = 'Toque em compartilhar ⬆ e depois "Adicionar à tela inicial"';
+    btn.textContent = 'ENTENDI';
+    btn.onclick = dismissBanner;
+  } else {
+    // Android/Chrome: prompt nativo
+    btn.textContent = 'INSTALAR';
+    btn.onclick = async function() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        dismissBanner();
+      } else {
+        dismissBanner();
+      }
+    };
+
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      setTimeout(() => banner.classList.add('show'), 2500);
+    });
+
+    // Se não capturou o evento (já instalado ou não suportado), não mostra
+    // Aguarda 3s para ver se o evento chega
+    setTimeout(() => {
+      if (!deferredPrompt) return; // evento não chegou, não mostra
+    }, 3000);
+    return; // Android mostra só quando o evento chegar
+  }
+
+  // iOS: mostra após 2.5s
+  setTimeout(() => banner.classList.add('show'), 2500);
+})();
+
+function dismissBanner() {
+  const banner = document.getElementById('pwa-banner');
+  banner.classList.remove('show');
+  localStorage.setItem('pwa_banner_dismissed', '1');
+}
+</script>
 </body>
 </html>
