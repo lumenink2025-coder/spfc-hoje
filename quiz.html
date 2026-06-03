@@ -3233,7 +3233,7 @@ function checkAvatarSetup() {
 function getAvailableQuestionsForLevel(level) {
   // Exclui perguntas já usadas nesta sessão e no histórico recente global
   const sessionUsed = STATE.sessionUsedQIds || [];
-  const recentUsed = (STATE.usedQIds || []).slice(-60); // últimas 60 evitadas globalmente
+  const recentUsed = (STATE.usedQIds || []).slice(-200); // evita as últimas 200 perguntas
   const excluded = new Set([...sessionUsed, ...recentUsed]);
   return QUESTIONS.filter(q => q.l === level && !excluded.has(q.id));
 }
@@ -3302,7 +3302,7 @@ function getQuestionsForLevel(level) {
     // Registra no histórico global
     selected.forEach(q => { if (q.id && !STATE.usedQIds.includes(q.id)) STATE.usedQIds.push(q.id); });
     // Mantém histórico global em no máximo 120 entradas
-    if (STATE.usedQIds.length > 120) STATE.usedQIds = STATE.usedQIds.slice(-120);
+    if (STATE.usedQIds.length > 230) STATE.usedQIds = STATE.usedQIds.slice(-230);
     saveState();
 
     return selected;
@@ -3311,7 +3311,7 @@ function getQuestionsForLevel(level) {
   // Fallback: shuffle simples com anti-repetição
   const selected = shuffle(pool).slice(0, count);
   selected.forEach(q => { if (q.id && !STATE.usedQIds.includes(q.id)) STATE.usedQIds.push(q.id); });
-  if (STATE.usedQIds.length > 120) STATE.usedQIds = STATE.usedQIds.slice(-120);
+  if (STATE.usedQIds.length > 230) STATE.usedQIds = STATE.usedQIds.slice(-230);
   saveState();
   return selected;
 }
