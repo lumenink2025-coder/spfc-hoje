@@ -9,12 +9,14 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --red:#CC0000;--red2:#8B0000;--gold:#C8A84B;
-  --bg:#0A0A0A;--bg2:#111;--bg3:#191919;--bg4:#222;
-  --border:#2a2a2a;--border2:#333;
+  --bg:#0A0A0A;--bg2:#111111;--bg3:#191919;--bg4:#222;
+  --sidebar:#0D0D0D;
+  --border:#2a2a2a;--border2:#2e2e2e;
   --txt:#F0EBE3;--txt2:#AAA;--txt3:#666;
   --green:#22c55e;--yellow:#f59e0b;
+  --sidebar-w:228px;
 }
-body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-height:100vh}
+body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
 
 /* ── LOGIN ── */
 #loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
@@ -28,21 +30,100 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 .login-err{color:#ff6666;font-size:13px;margin-top:8px;min-height:20px}
 
 /* ── ADMIN LAYOUT ── */
-#adminScreen{display:none;max-width:900px;margin:0 auto;padding:20px}
-.admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
-.admin-title{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--red)}
-.admin-title span{color:var(--txt3);font-size:14px;font-family:'Inter',sans-serif;letter-spacing:2px;display:block;margin-top:-4px}
-.logout-btn{padding:8px 16px;background:transparent;border:1px solid var(--border2);color:var(--txt3);border-radius:6px;cursor:pointer;font-size:12px;letter-spacing:1px}
-.logout-btn:hover{border-color:var(--red);color:var(--red)}
+#adminScreen{display:none;min-height:100vh;flex-direction:row}
+#adminScreen.visible{display:flex}
 
-/* ── TABS ── */
-.admin-tabs{display:flex;gap:8px;margin-bottom:24px}
-.admin-tab{padding:10px 20px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);border-radius:8px;cursor:pointer;font-size:13px;letter-spacing:1px;transition:.2s}
-.admin-tab.active{background:var(--red);border-color:var(--red);color:#fff}
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar-w);
+  min-height:100vh;
+  background:var(--sidebar);
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  flex-shrink:0;
+  position:fixed;
+  top:0;left:0;bottom:0;
+  z-index:100;
+}
+.sidebar-logo-area{padding:24px 20px 0}
+.sidebar-logo{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--red);line-height:1;letter-spacing:1px}
+.sidebar-sub{font-size:11px;letter-spacing:2px;color:var(--txt3);margin-top:2px;text-transform:uppercase}
+.sidebar-sep{height:1px;background:var(--border);margin:20px 0 8px}
+.sidebar-nav{flex:1;padding:0 12px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.admin-tab{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;
+  background:transparent;
+  border:none;
+  color:var(--txt2);
+  border-radius:8px;
+  cursor:pointer;
+  font-size:13.5px;
+  font-family:'Inter',sans-serif;
+  font-weight:400;
+  letter-spacing:0;
+  transition:.15s;
+  text-align:left;
+  width:100%;
+}
+.admin-tab:hover{background:rgba(255,255,255,.05);color:var(--txt)}
+.admin-tab.active{
+  background:var(--red);
+  color:#fff;
+  font-weight:500;
+  box-shadow:0 2px 8px rgba(204,0,0,.25);
+}
+.admin-tab .tab-icon{font-size:15px;flex-shrink:0;width:18px;text-align:center}
+.sidebar-bottom{padding:16px 12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:2px;margin-top:auto}
+.sidebar-bottom-btn{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;
+  background:transparent;border:none;
+  color:var(--txt2);border-radius:8px;cursor:pointer;
+  font-size:13.5px;font-family:'Inter',sans-serif;
+  transition:.15s;text-align:left;width:100%;
+}
+.sidebar-bottom-btn:hover{background:rgba(255,255,255,.05);color:var(--txt)}
+
+/* ── MAIN CONTENT ── */
+.admin-main{
+  margin-left:var(--sidebar-w);
+  flex:1;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+.admin-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:28px 32px 0;
+}
+.admin-page-title{font-size:26px;font-weight:600;color:var(--txt);line-height:1.2}
+.admin-page-sub{font-size:13px;color:var(--txt3);margin-top:4px}
+.theme-btn{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 18px;
+  background:transparent;
+  border:1px solid var(--border2);
+  color:var(--txt2);
+  border-radius:8px;
+  cursor:pointer;
+  font-size:13px;
+  font-family:'Inter',sans-serif;
+  transition:.15s;
+  flex-shrink:0;
+}
+.theme-btn:hover{border-color:var(--txt3);color:var(--txt)}
+.admin-content{padding:24px 32px 40px;flex:1}
+
+/* ── legacy header/tabs ── (hidden — replaced by sidebar) */
+.admin-header{display:none}
+.admin-tabs{display:none}
 
 /* ── FORM ── */
 .form-card{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:24px;margin-bottom:20px}
-.form-title{font-size:14px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase;margin-bottom:20px}
+.form-title{font-size:12px;letter-spacing:2.5px;color:var(--txt2);text-transform:uppercase;margin-bottom:20px;font-weight:500;display:flex;align-items:center;gap:10px}
+.form-title .fticon{color:var(--red);font-size:14px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 .form-row.full{grid-template-columns:1fr}
 .form-group{display:flex;flex-direction:column;gap:6px}
@@ -226,27 +307,73 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 
 <!-- ADMIN -->
 <div id="adminScreen">
-  <div class="admin-header">
-    <div class="admin-title">ADMIN <span>SPFC — HISTÓRICO</span></div>
-    <button class="logout-btn" onclick="doLogout()">SAIR</button>
-  </div>
 
-  <div class="admin-tabs">
-    <button class="admin-tab active" onclick="showTab('add',this)">➕ NOVO EVENTO</button>
-    <button class="admin-tab" onclick="showTab('list',this)">📋 EVENTOS</button>
-    <button class="admin-tab" onclick="showTab('migrate',this)">⚙️ MIGRAR DADOS</button>
-    <button class="admin-tab" onclick="showTab('perguntas',this)">❓ PERGUNTAS</button>
-    <button class="admin-tab" onclick="showTab('wordle',this);loadWordle()">🔤 WORDLE</button>
-    <button class="admin-tab" onclick="showTab('relatos',this);loadRelatos()">⚠️ RELATOS</button>
-    <button class="admin-tab" onclick="showTab('destaque',this);loadDestaqueTab()">⭐ DESTAQUE</button>
-    <button class="admin-tab" onclick="showTab('palpite',this);loadPalpiteAdmin()">⚽ PALPITÔMETRO</button>
-    <button class="admin-tab" onclick="showTab('tematico',this);loadTematico()">🔥 SEXTA TEMÁTICA</button>
-  </div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo-area">
+      <div class="sidebar-logo">ADMIN</div>
+      <div class="sidebar-sub">SPFC — HISTÓRICO</div>
+    </div>
+    <div class="sidebar-sep"></div>
+    <nav class="sidebar-nav">
+      <button class="admin-tab active" onclick="showTab('add',this)" data-tab="add">
+        <span class="tab-icon">+</span> Novo Evento
+      </button>
+      <button class="admin-tab" onclick="showTab('list',this)" data-tab="list">
+        <span class="tab-icon">📋</span> Eventos
+      </button>
+      <button class="admin-tab" onclick="showTab('migrate',this)" data-tab="migrate">
+        <span class="tab-icon">⚙️</span> Migrar Dados
+      </button>
+      <button class="admin-tab" onclick="showTab('perguntas',this)" data-tab="perguntas">
+        <span class="tab-icon">?</span> Perguntas
+      </button>
+      <button class="admin-tab" onclick="showTab('wordle',this);loadWordle()" data-tab="wordle">
+        <span class="tab-icon">W</span> Wordle
+      </button>
+      <button class="admin-tab" onclick="showTab('relatos',this);loadRelatos()" data-tab="relatos">
+        <span class="tab-icon">📄</span> Relatos
+      </button>
+      <button class="admin-tab" onclick="showTab('destaque',this);loadDestaqueTab()" data-tab="destaque">
+        <span class="tab-icon">☆</span> Destaque
+      </button>
+      <button class="admin-tab" onclick="showTab('palpite',this);loadPalpiteAdmin()" data-tab="palpite">
+        <span class="tab-icon">↗</span> Palpitômetro
+      </button>
+      <button class="admin-tab" onclick="showTab('tematico',this);loadTematico()" data-tab="tematico">
+        <span class="tab-icon">◇</span> Sexta Temática
+      </button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="sidebar-bottom-btn">
+        <span class="tab-icon">⚙</span> Configurações
+      </button>
+      <button class="sidebar-bottom-btn" onclick="doLogout()">
+        <span class="tab-icon">→</span> Sair
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div id="pageHeaderArea">
+        <div class="admin-page-title" id="pageTitle">Novo Evento</div>
+        <div class="admin-page-sub" id="pageSubtitle">Crie um novo evento para o histórico.</div>
+      </div>
+      <button class="theme-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        Tema Escuro
+      </button>
+    </div>
+    <div class="admin-content">
+
+  <!-- hidden legacy tabs wrapper (shown below) -->
 
   <!-- TAB: NOVO EVENTO -->
   <div id="tab-add">
     <div class="form-card">
-      <div class="form-title">📅 Data & Tipo</div>
+      <div class="form-title"><span class="fticon">📅</span> DATA &amp; TIPO</div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Mês</label>
@@ -286,7 +413,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
     </div>
 
     <div class="form-card">
-      <div class="form-title">📝 Conteúdo</div>
+      <div class="form-title"><span class="fticon">📝</span> CONTEÚDO</div>
       <div class="form-row full">
         <div class="form-group">
           <label class="form-label">Título</label>
@@ -308,7 +435,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
     </div>
 
     <div class="form-card">
-      <div class="form-title">🎬 Mídia</div>
+      <div class="form-title"><span class="fticon">🎬</span> MÍDIA</div>
       <div class="form-row full">
         <div class="form-group">
           <label class="form-label">URL da imagem (Cloudinary)</label>
@@ -339,9 +466,9 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
       <button class="add-stat-btn" onclick="addStat()">+ ADICIONAR ESTATÍSTICA</button>
     </div>
 
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <button class="submit-btn" id="submitBtn" onclick="submitEvent()" style="flex:1">💾 SALVAR EVENTO</button>
-      <button class="submit-btn" onclick="cancelEditEvent()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);max-width:120px">✕ CANCELAR</button>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+      <button class="submit-btn" onclick="cancelEditEvent()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);max-width:130px;padding:13px 24px;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;letter-spacing:0">Cancelar</button>
+      <button class="submit-btn" id="submitBtn" onclick="submitEvent()" style="max-width:180px;padding:13px 24px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;letter-spacing:0;display:flex;align-items:center;gap:8px;justify-content:center"><span>💾</span> Salvar Evento</button>
     </div>
     <div style="margin-top:12px;padding:14px 16px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.25);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:12px">
       <div>
@@ -844,7 +971,9 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 
   </div>
 
-</div>
+    </div><!-- admin-content -->
+  </div><!-- admin-main -->
+</div><!-- adminScreen -->
 
 <div class="toast" id="toast"></div>
 
@@ -905,7 +1034,9 @@ window._doLogin = window.doLogin = async function() {
 
     // sucesso
     document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminScreen').style.display = 'block';
+    const as = document.getElementById('adminScreen');
+    as.style.display = 'flex';
+    as.classList.add('visible');
 
   } catch(e) {
     btn.textContent = 'ENTRAR';
@@ -927,8 +1058,23 @@ window._doLogin = window.doLogin = async function() {
 
 window.doLogout = function() {
   document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('adminScreen').style.display = 'none';
+  const as = document.getElementById('adminScreen');
+  as.style.display = 'none';
+  as.classList.remove('visible');
   document.getElementById('loginPass').value = '';
+};
+
+// Page titles for each tab
+const TAB_TITLES = {
+  add:      ['Novo Evento',       'Crie um novo evento para o histórico.'],
+  list:     ['Eventos',           'Gerencie todos os eventos cadastrados.'],
+  migrate:  ['Migrar Dados',      'Ferramentas de migração do banco de dados.'],
+  perguntas:['Perguntas',         'Gerencie as perguntas do quiz.'],
+  wordle:   ['Wordle',            'Gerencie os jogadores do Wordle.'],
+  relatos:  ['Relatos',           'Relatos de erro enviados pelos usuários.'],
+  destaque: ['Destaque',          'Configure o destaque semanal.'],
+  palpite:  ['Palpitômetro',      'Processe resultados e gerencie palpites.'],
+  tematico: ['Sexta Temática',    'Configure o tema e perguntas da semana.'],
 };
 
 // ── TABS ─────────────────────────────────────────────
@@ -937,6 +1083,11 @@ window.showTab = function(tab, btn) {
   document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).style.display = 'block';
   btn.classList.add('active');
+  const titles = TAB_TITLES[tab] || [tab, ''];
+  const tEl = document.getElementById('pageTitle');
+  const sEl = document.getElementById('pageSubtitle');
+  if (tEl) tEl.textContent = titles[0];
+  if (sEl) sEl.textContent = titles[1];
   if (tab === 'list') loadEvents();
   if (tab === 'perguntas') loadPerguntas();
   if (tab === 'wordle') loadWordle();
