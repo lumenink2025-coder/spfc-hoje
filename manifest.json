@@ -10,14 +10,14 @@
   "lang": "pt-BR",
   "categories": ["sports", "entertainment"],
   "icons": [
-    { "src": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png", "sizes": "72x72",   "type": "image/png", "purpose": "any maskable" },
-    { "src": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png", "sizes": "96x96",   "type": "image/png", "purpose": "any maskable" },
-    { "src": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png", "sizes": "128x128", "type": "image/png", "purpose": "any maskable" },
-    { "src": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png", "sizes": "144x144", "type": "image/png", "purpose": "any maskable" },
-    { "src": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png", "sizes": "152x152", "type": "image/png", "purpose": "any maskable" },
-    { "src": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png", "sizes": "384x384", "type": "image/png", "purpose": "any maskable" },
-    { "src": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    { "src": "icon.png", "sizes": "72x72",   "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon.png", "sizes": "96x96",   "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon.png", "sizes": "128x128", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon.png", "sizes": "144x144", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon.png", "sizes": "152x152", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon.png", "sizes": "384x384", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ],
   "screenshots": [
     {
@@ -34,7 +34,7 @@
       "short_name": "Hoje",
       "description": "Ver eventos de hoje",
       "url": "/?utm_source=shortcut",
-      "icons": [{ "src": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png", "sizes": "96x96" }]
+      "icons": [{ "src": "icon.png", "sizes": "96x96" }]
     }
   ]
 }
