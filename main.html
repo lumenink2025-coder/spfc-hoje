@@ -4889,7 +4889,9 @@ function closePerfilModal(e) {
   let _pendingDest = null;
 
   window.tryFeature = function(featureKey) {
-    const isVisitante = localStorage.getItem('spfc_visitante') === '1';
+    // Usuário logado no Firebase → acesso livre, independente do localStorage
+    const firebaseUser = window._indexAuth?.currentUser;
+    const isVisitante = !firebaseUser && localStorage.getItem('spfc_visitante') === '1';
     if (!isVisitante) {
       // Usuário cadastrado — acesso livre
       window.location.href = LOCKED_FEATURES[featureKey].dest;
