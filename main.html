@@ -1786,13 +1786,13 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="tb-drawer-tagline">SPFC Hoje</div>
   </div>
   <div class="tb-drawer-nav">
-    <button class="tb-drawer-item active-page" onclick="closeDrawer()">
+    <button class="tb-drawer-item active-page" id="drawerItemHoje" onclick="closeDrawer();showPanel('hoje')">
       <span class="tb-drawer-item-icon">🏠</span>Hoje
     </button>
-    <button class="tb-drawer-item" onclick="closeDrawer();tryFeature('palpitometro')">
+    <button class="tb-drawer-item" onclick="closeDrawer();window.location.href='palpitometro.html'">
       <span class="tb-drawer-item-icon">🎯</span>Palpitômetro
     </button>
-    <button class="tb-drawer-item" onclick="closeDrawer();tryFeature('quiz')">
+    <button class="tb-drawer-item" onclick="closeDrawer();window.location.href='quiz.html'">
       <span class="tb-drawer-item-icon">⚡</span>Quiz
     </button>
     <div class="tb-drawer-sep"></div>
@@ -2001,7 +2001,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="widgets-grid">
 
     <!-- ══ CARD QUIZ HERÓI ══ -->
-    <div class="widget-quiz-hero" onclick="tryFeature('quiz')">
+    <div class="widget-quiz-hero" onclick="window.location.href='quiz.html'">
       <div class="wqh-top">
         <div class="wqh-title-block">
           <div class="wqh-eyebrow">São Paulo FC · Teste de conhecimento</div>
@@ -2057,7 +2057,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
       <!-- play bar -->
       <div class="wqh-play">
-        <button class="wqh-play-btn" onclick="event.stopPropagation();tryFeature('quiz')">
+        <button class="wqh-play-btn" onclick="event.stopPropagation();window.location.href='quiz.html'">
           <span class="wqh-play-icon">▶</span> JOGAR AGORA
         </button>
         <div class="wqh-level-pill">
@@ -2097,7 +2097,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
             <strong id="wordleStreakNum">0</strong>
             <span>dias de sequência</span>
           </div>
-          <button id="revealIdentityBtn" onclick="tryFeature('wordle')">
+          <button id="revealIdentityBtn" onclick="revealIdentity()">
             <div class="rv-wrap">
               <div class="rv-corner tl"></div>
               <div class="rv-corner tr"></div>
@@ -2135,7 +2135,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="hub-row-sm">
 
       <!-- PALPITÔMETRO -->
-      <div class="widget widget-palp" id="palpWrap" style="display:none" onclick="tryFeature('palpitometro')">
+      <div class="widget widget-palp" id="palpWrap" style="display:none" onclick="window.location.href='palpitometro.html'">
         <div class="wp-inner">
           <div class="wp-eyebrow" id="palpBtnEyebrow">SÃO PAULO FC</div>
           <div class="wp-title" id="palpBtnLabel">PALPITÔMETRO</div>
@@ -3104,7 +3104,7 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
 
   // Reset classes
   wrap.classList.remove('s-sent','s-closed','s-result');
-  wrap.onclick = () => tryFeature('palpitometro');
+  wrap.onclick = () => window.location.href = 'palpitometro.html';
   if (eyebrow) eyebrow.textContent = 'SÃO PAULO FC';
 
   if (jaPalpitou && resultPeriod) {
@@ -3160,7 +3160,17 @@ function closeDrawer() {
 function showTab2(tab) {
   const map = { calendario:1, recordes:2, goleadas:3 };
   const tabs = document.querySelectorAll('.nav-tab');
-  if (tabs[map[tab]]) tabs[map[tab]].click();
+  // Ativa o painel diretamente (nav-tabs está hidden, .click() pode não funcionar)
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('panel-' + tab);
+  if (panel) panel.classList.add('active');
+  // Atualiza destaque no drawer
+  document.querySelectorAll('.tb-drawer-item').forEach(el => el.classList.remove('active-page'));
+  // Marca o item correspondente no drawer como ativo
+  const drawerMap = { calendario: 5, recordes: 3, goleadas: 4 };
+  const drawerItems = document.querySelectorAll('.tb-drawer-item');
+  if (drawerItems[drawerMap[tab]]) drawerItems[drawerMap[tab]].classList.add('active-page');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ── User Dropdown ─────────────────────────────────
@@ -3554,6 +3564,12 @@ function showPanel(id, btn) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
+  // Atualiza destaque no drawer
+  document.querySelectorAll('.tb-drawer-item').forEach(el => el.classList.remove('active-page'));
+  if (id === 'hoje') {
+    const drawerHoje = document.getElementById('drawerItemHoje');
+    if (drawerHoje) drawerHoje.classList.add('active-page');
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -4003,7 +4019,7 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
 
   // Reset classes
   wrap.className = 'widget widget-palp';
-  wrap.onclick = () => tryFeature('palpitometro');
+  wrap.onclick = () => window.location.href = 'palpitometro.html';
   if (eyebrow) eyebrow.textContent = 'SÃO PAULO FC';
 
   if (jaPalpitou && resultPeriod) {
@@ -4287,7 +4303,7 @@ function buildWordlePreview(){
 }
 
 function revealIdentity(){
-  tryFeature('wordle');
+  window.location.href = 'wondler.html';
 }
 
 
@@ -4788,147 +4804,6 @@ function closePerfilModal(e) {
     </div>
   </div>
 </div>
-
-<!-- ══ MODAL LOCK — RECURSO EXCLUSIVO ══ -->
-<style>
-#lockModal{
-  position:fixed;inset:0;z-index:9000;
-  display:flex;align-items:flex-end;justify-content:center;
-  background:rgba(0,0,0,.72);backdrop-filter:blur(8px);
-  opacity:0;visibility:hidden;transition:opacity .28s,visibility .28s;
-}
-#lockModal.show{opacity:1;visibility:visible}
-#lockModal.show .lock-sheet{transform:translateY(0)}
-.lock-sheet{
-  width:100%;max-width:480px;
-  background:linear-gradient(160deg,#0d0000 0%,#0a0a0a 100%);
-  border:1px solid rgba(204,0,0,.22);
-  border-bottom:none;
-  border-radius:24px 24px 0 0;
-  padding:0 20px 40px;
-  transform:translateY(100%);
-  transition:transform .35s cubic-bezier(.22,1,.36,1);
-}
-.lock-handle{width:36px;height:4px;background:rgba(255,255,255,.12);border-radius:2px;margin:14px auto 20px}
-.lock-icon{font-size:44px;text-align:center;margin-bottom:10px}
-.lock-title{
-  font-family:'Bebas Neue',Impact,sans-serif;
-  font-size:28px;letter-spacing:3px;
-  text-align:center;color:#fff;margin-bottom:6px
-}
-.lock-title em{color:#CC0000;font-style:normal}
-.lock-sub{font-size:13px;color:rgba(240,235,227,.55);text-align:center;line-height:1.6;margin-bottom:24px}
-.lock-perks{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
-.lock-perk{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(240,235,227,.75)}
-.lock-perk-icon{width:30px;height:30px;border-radius:8px;background:rgba(204,0,0,.15);border:1px solid rgba(204,0,0,.25);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.lock-btn-primary{
-  width:100%;padding:16px;
-  background:linear-gradient(135deg,#CC0000,#8B0000);
-  color:#fff;border:none;border-radius:14px;
-  font-family:'Bebas Neue',Impact,sans-serif;
-  font-size:22px;letter-spacing:3px;
-  cursor:pointer;transition:.2s;
-  box-shadow:0 8px 28px rgba(204,0,0,.4);
-  margin-bottom:10px;
-}
-.lock-btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(204,0,0,.55)}
-.lock-btn-secondary{
-  width:100%;padding:12px;
-  background:none;
-  color:rgba(240,235,227,.35);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-  font-family:'Inter',sans-serif;font-size:13px;
-  cursor:pointer;transition:.2s;
-}
-.lock-btn-secondary:hover{color:rgba(240,235,227,.6);border-color:rgba(255,255,255,.15)}
-</style>
-
-<div id="lockModal" onclick="if(event.target===this)closeLockModal()">
-  <div class="lock-sheet">
-    <div class="lock-handle"></div>
-    <div class="lock-icon" id="lockModalIcon">🔒</div>
-    <div class="lock-title" id="lockModalTitle">RECURSO <em>EXCLUSIVO</em></div>
-    <div class="lock-sub" id="lockModalSub">Cadastre-se grátis para desbloquear.</div>
-    <div class="lock-perks" id="lockModalPerks"></div>
-    <button class="lock-btn-primary" onclick="lockGoRegister()">CRIAR CONTA GRÁTIS</button>
-    <button class="lock-btn-secondary" onclick="closeLockModal()">Continuar explorando</button>
-  </div>
-</div>
-
-<script>
-// ══ LÓGICA DE VISITANTE + LOCK ══
-(function(){
-  const LOCKED_FEATURES = {
-    quiz: {
-      icon: '⚡',
-      title: 'QUIZ <em>TRICOLOR</em>',
-      sub: 'Teste seus conhecimentos sobre o São Paulo FC, suba no ranking e conquiste XP.',
-      perks: ['🏅 Ranking global e por período','🔥 Sequências e conquistas','⚡ 6 níveis de dificuldade'],
-      dest: 'quiz.html',
-      lockKey: 'quiz',
-    },
-    wordle: {
-      icon: '🔍',
-      title: 'REVELAR <em>IDENTIDADE</em>',
-      sub: 'Descubra quem é o jogador misterioso e mantenha sua sequência diária.',
-      perks: ['🎯 Desafio exclusivo por dia','🔥 Sequência de acertos','🏆 Sua posição no ranking'],
-      dest: 'wondler.html',
-      lockKey: 'wordle',
-    },
-    palpitometro: {
-      icon: '🎯',
-      title: 'PALPITÔMETRO',
-      sub: 'Dê seus palpites nos jogos do SPFC e dispute o ranking de acertos.',
-      perks: ['📊 Placar exato vale pontos bônus','🏅 Ranking mensal e geral','🔔 Lembrete de palpites'],
-      dest: 'palpitometro.html',
-      lockKey: 'palpitometro',
-    },
-  };
-
-  let _pendingDest = null;
-
-  window.tryFeature = function(featureKey) {
-    // Usuário logado no Firebase → acesso livre, independente do localStorage
-    const firebaseUser = window._indexAuth?.currentUser;
-    const isVisitante = !firebaseUser && localStorage.getItem('spfc_visitante') === '1';
-    if (!isVisitante) {
-      // Usuário cadastrado — acesso livre
-      window.location.href = LOCKED_FEATURES[featureKey].dest;
-      return;
-    }
-    // Visitante — mostra modal
-    const f = LOCKED_FEATURES[featureKey];
-    _pendingDest = f.dest;
-
-    document.getElementById('lockModalIcon').textContent = f.icon;
-    document.getElementById('lockModalTitle').innerHTML  = f.title;
-    document.getElementById('lockModalSub').textContent  = f.sub;
-
-    const perksEl = document.getElementById('lockModalPerks');
-    perksEl.innerHTML = f.perks.map(p =>
-      `<div class="lock-perk"><div class="lock-perk-icon">${p[0]}</div><span>${p.slice(1).trim()}</span></div>`
-    ).join('');
-
-    document.getElementById('lockModal').classList.add('show');
-    document.body.style.overflow = 'hidden';
-  };
-
-  window.closeLockModal = function() {
-    document.getElementById('lockModal').classList.remove('show');
-    document.body.style.overflow = '';
-    _pendingDest = null;
-  };
-
-  window.lockGoRegister = function() {
-    const f = Object.values(LOCKED_FEATURES).find(x => x.dest === _pendingDest);
-    const lockKey = f ? f.lockKey : '';
-    sessionStorage.setItem('_cadOrigem', 'main.html?locked=' + lockKey);
-    window.location.href = 'cadastro.html';
-  };
-})();
-</script>
-
 </body>
 </html>
 
