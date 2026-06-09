@@ -328,7 +328,21 @@ onAuthStateChanged(auth, async user => {
     <div id="s1GlobalErr" class="err-msg" style="margin-top:10px"></div>
   </div>
 
+  <!-- Banner de feature bloqueada (visível só quando veio de lock) -->
+  <div id="lockBanner" style="display:none;background:rgba(204,0,0,.1);border:1px solid rgba(204,0,0,.3);border-radius:12px;padding:14px 16px;margin-bottom:4px;text-align:center">
+    <div style="font-family:'Bebas Neue',Impact,sans-serif;font-size:16px;letter-spacing:2px;color:#fff;margin-bottom:4px" id="lockBannerTitle">🔒 RECURSO EXCLUSIVO</div>
+    <div style="font-size:12px;color:rgba(240,235,227,.65);line-height:1.5" id="lockBannerSub">Cadastre-se grátis para desbloquear.</div>
+  </div>
+
   <div class="s1-footer">Ao entrar você concorda com os <a href="#">Termos</a> e <a href="#">Privacidade</a></div>
+
+  <!-- Visitante -->
+  <div id="guestSection" style="text-align:center;margin-top:6px">
+    <button onclick="entrarComoVisitante()" style="background:none;border:none;color:#555;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.5px;padding:8px 16px;transition:.2s;text-decoration:underline;text-underline-offset:3px"
+      onmouseover="this.style.color='#888'" onmouseout="this.style.color='#555'">
+      Explorar sem conta →
+    </button>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════
@@ -741,6 +755,39 @@ async function salvarPerfil() {
     }
   }
 }
+
+// ══ MODO VISITANTE ══
+function entrarComoVisitante() {
+  localStorage.setItem('spfc_visitante', '1');
+  const dest = sessionStorage.getItem('_cadOrigem');
+  sessionStorage.removeItem('_cadOrigem');
+  window.location.href = dest || 'main.html';
+}
+
+// Mostra banner contextual se veio de feature bloqueada
+(function() {
+  const orig = sessionStorage.getItem('_cadOrigem') || '';
+  if (orig.includes('?locked=')) {
+    const banner = document.getElementById('lockBanner');
+    const title  = document.getElementById('lockBannerTitle');
+    const sub    = document.getElementById('lockBannerSub');
+    if (!banner) return;
+    const map = {
+      quiz:         ['⚡ QUIZ TRICOLOR — EXCLUSIVO',    'Crie sua conta grátis para jogar o Quiz e subir no ranking.'],
+      wordle:       ['🔍 WORDLE — EXCLUSIVO',           'Cadastre-se para revelar a identidade oculta e manter sua sequência.'],
+      palpitometro: ['🎯 PALPITÔMETRO — EXCLUSIVO',     'Entre com sua conta para dar palpites e disputar o ranking de acertos.'],
+    };
+    const key = Object.keys(map).find(k => orig.includes(k));
+    if (key) {
+      title.textContent = map[key][0];
+      sub.textContent   = map[key][1];
+    }
+    banner.style.display = 'block';
+    // Esconde o botão "Explorar sem conta" quando veio de lock
+    const gs = document.getElementById('guestSection');
+    if (gs) gs.style.display = 'none';
+  }
+})();
 </script>
 
 <!-- ══ BANNER: ADICIONAR À TELA INICIAL ══ -->
