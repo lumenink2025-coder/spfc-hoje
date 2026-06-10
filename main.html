@@ -4516,42 +4516,58 @@ function closeSobre(e) {
 <!-- ══ NEWS TICKER — SCRIPT ══════════════════════════ -->
 <script>
 (function(){
-  /* ── Configuração ─────────────────────────────── */
+  /* ══════════════════════════════════════════════════
+     CONFIGURAÇÃO
+  ══════════════════════════════════════════════════ */
 
-  // Proxies CORS tentados em sequência para cada feed
-  // Formato: função que recebe a URL do feed e devolve a URL do proxy
+  // Proxies CORS em ordem de confiabilidade.
+  // Cada entrada é uma função que recebe a URL do feed e retorna a URL do proxy.
   const PROXIES = [
-    // Cloudflare Worker próprio — proxy confiável sem limites práticos
+    // 1. Worker próprio — mais rápido quando a allowlist estiver atualizada
     url => `https://red-sun-b335.lumenink2025.workers.dev/?url=${encodeURIComponent(url)}`,
+    // 2. corsproxy.io — sem autenticação, confiável
+    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    // 3. allorigins — devolve JSON com campo "contents"
+    url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+    // 4. htmldriven — XML direto
+    url => `https://cors.eu.org/${url}`,
+    // 5. rss2json — converte para JSON estruturado
+    url => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`,
   ];
 
-  // Feeds confiáveis e ativos para SPFC
+  // Feeds em ordem de prioridade.
+  // filter:true = aplicar FILTER_RE ao título antes de exibir
   const FEEDS = [
-    { url: 'https://www.saopaulofc.net/feed/', filter: false },
-    { url: 'https://spfc.net/feed/', filter: false },
-    { url: 'https://spfcnoticias.com/feed/', filter: false },
-    { url: 'https://saopaulosempre.com.br/feed/', filter: false },
-    { url: 'https://arqtricolor.com/feed/', filter: false },
-    { url: 'https://saopaulo.blog/feed/', filter: false },
-    { url: 'https://www.gazetaesportiva.com/times/sao-paulo/feed/', filter: false },
-    { url: 'https://ge.globo.com/rss/sao-paulo/', filter: false },
-    { url: 'https://www.lance.com.br/sao-paulo/feed/', filter: false },
-    { url: 'https://trivela.com.br/feed/', filter: true },
+    // ── Fontes oficiais / especializadas SPFC ──────
+    { url: 'https://www.saopaulofc.net/feed/',                          filter: false },
+    { url: 'https://spfc.net/feed/',                                    filter: false },
+    { url: 'https://spfcnoticias.com/feed/',                            filter: false },
+    { url: 'https://arqtricolor.com/feed/',                             filter: false },
+    { url: 'https://saopaulosempre.com.br/feed/',                       filter: false },
+    { url: 'https://saopaulo.blog/feed/',                               filter: false },
+    // ── Portais esportivos gerais (filtrar por SPFC) ─
+    { url: 'https://ge.globo.com/rss/sao-paulo/',                       filter: false },
+    { url: 'https://www.lance.com.br/sao-paulo/feed/',                  filter: false },
+    { url: 'https://www.gazetaesportiva.com/times/sao-paulo/feed/',     filter: false },
+    { url: 'https://trivela.com.br/feed/',                              filter: true  },
+    { url: 'https://www.goal.com/pt-br/feeds/noticias?fmt=rss',         filter: true  },
     { url: 'https://esporte.uol.com.br/futebol/campeonatos/brasileiro/rss.xml', filter: true },
   ];
 
-  // Filtro aplicado apenas nos feeds marcados com filter:true
-  const FILTER     = /s[aã]o paulo|spfc|tricolor/i;
+  // Palavras-chave para filtrar feeds gerais
+  const FILTER_RE  = /s[aã]o paulo|spfc|tricolor|morumbi/i;
   const PX_PER_SEC = 55;
   const SEP        = ' ◆ ';
-  const CACHE_KEY  = 'spfc_ticker_cache';
-  const CACHE_TTL  = 20 * 60 * 1000; // 20 minutos
-  const RELOAD_INT = 20 * 60 * 1000; // recarrega a cada 20 min (economiza requests)
+  const CACHE_KEY  = 'spfc_ticker_v2';
+  const CACHE_TTL  = 20 * 60 * 1000; // 20 min
+  const RELOAD_INT = 20 * 60 * 1000;
+  const MAX_AGE_H  = 48; // ignorar notícias com mais de 48h
 
   const FALLBACK = [
     'São Paulo FC — Acompanhe todas as notícias do Tricolor aqui',
     'SPFC Hoje: história, quiz, wordle e muito mais para o torcedor',
-    'Tricolor do Morumbi — Campeão Mundial'
+    'Tricolor do Morumbi — Campeão do Mundo',
+    'Rogério Ceni — O maior goleiro da história do futebol mundial',
   ];
 
   /* ── Elementos ────────────────────────────────── */
@@ -4560,74 +4576,75 @@ function closeSobre(e) {
   const tagLbl = document.getElementById('tickerTagLabel');
   const dot    = document.getElementById('tickerDot');
 
-  /* ── Parse manual de RSS/XML ──────────────────── */
+  /* ── Parse RSS/XML ────────────────────────────── */
   function parseXML(xmlStr) {
     try {
-      const parser = new DOMParser();
-      const doc    = parser.parseFromString(xmlStr, 'text/xml');
-      const items  = Array.from(doc.querySelectorAll('item'));
-      return items.map(el => ({
-        title:   (el.querySelector('title')?.textContent || '').trim().replace(/<!\[CDATA\[|\]\]>/g,'').trim(),
-        link:    (el.querySelector('link')?.textContent || el.querySelector('link')?.getAttribute('href') || '#').trim(),
-        pubDate: (el.querySelector('pubDate')?.textContent || '').trim()
-      })).filter(i => i.title);
+      const doc   = new DOMParser().parseFromString(xmlStr, 'text/xml');
+      return Array.from(doc.querySelectorAll('item')).map(el => ({
+        title:   clean(el.querySelector('title')?.textContent   || ''),
+        link:    clean(el.querySelector('link')?.textContent    || el.querySelector('link')?.getAttribute('href') || '#'),
+        pubDate: clean(el.querySelector('pubDate')?.textContent || ''),
+      })).filter(i => i.title.length > 5);
     } catch { return []; }
   }
 
-  /* ── Tenta um proxy específico para um feed ──── */
+  function clean(s) {
+    return s.replace(/<!\[CDATA\[|\]\]>/g, '').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').trim();
+  }
+
+  /* ── Filtro por idade ─────────────────────────── */
+  function isRecent(pubDate) {
+    if (!pubDate) return true; // sem data = aceitar
+    try {
+      const age = Date.now() - new Date(pubDate).getTime();
+      return age < MAX_AGE_H * 3600 * 1000;
+    } catch { return true; }
+  }
+
+  /* ── Tenta um proxy para um feed ─────────────── */
   async function tryProxy(proxyFn, feedUrl) {
     const proxyUrl = proxyFn(feedUrl);
-    const r = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
+    const r = await fetch(proxyUrl, { signal: AbortSignal.timeout(9000) });
     if (!r.ok) throw new Error('http ' + r.status);
     const text = await r.text();
 
-    // rss2json devolve JSON estruturado
+    // rss2json → JSON estruturado
     if (proxyUrl.includes('rss2json.com')) {
-      let d;
-      try { d = JSON.parse(text); } catch { throw new Error('json parse'); }
-      if (d.status !== 'ok' || !Array.isArray(d.items)) throw new Error('rss2json bad status');
-      return d.items.map(i => ({
-        title:   (i.title   || '').trim(),
-        link:    i.link     || '#',
-        pubDate: i.pubDate  || ''
-      })).filter(i => i.title);
+      const d = JSON.parse(text);
+      if (d.status !== 'ok' || !Array.isArray(d.items)) throw new Error('rss2json error');
+      return d.items.map(i => ({ title: clean(i.title||''), link: i.link||'#', pubDate: i.pubDate||'' })).filter(i => i.title.length > 5);
     }
 
-    // allorigins devolve { contents: "<xml>...</xml>" }
+    // allorigins → { contents: "<xml>" }
     if (proxyUrl.includes('allorigins.win')) {
-      let d;
-      try { d = JSON.parse(text); } catch { throw new Error('allorigins json parse'); }
-      const xmlStr = d.contents || '';
-      if (!xmlStr) throw new Error('allorigins empty');
-      const items = parseXML(xmlStr);
-      if (!items.length) throw new Error('allorigins xml empty');
+      const d = JSON.parse(text);
+      const items = parseXML(d.contents || '');
+      if (!items.length) throw new Error('allorigins empty');
       return items;
     }
 
-    // Proxies que devolvem XML direto (corsproxy.io, htmldriven, etc.)
+    // Resto → XML direto
     const items = parseXML(text);
     if (!items.length) throw new Error('xml empty');
     return items;
   }
 
-  /* ── Busca um feed percorrendo todos os proxies ─ */
+  /* ── Busca um feed tentando proxies em sequência ─ */
   async function fetchFeed({ url, filter }) {
     let items = [];
     for (const proxyFn of PROXIES) {
       try {
         items = await tryProxy(proxyFn, url);
-        if (items.length) break; // proxy funcionou
-      } catch { /* tenta próximo */ }
+        if (items.length) break;
+      } catch { /* tenta próximo proxy */ }
     }
-    if (filter) items = items.filter(i => FILTER.test(i.title));
-    return items.slice(0, 8);
+    if (filter) items = items.filter(i => FILTER_RE.test(i.title));
+    return items.filter(i => isRecent(i.pubDate)).slice(0, 8);
   }
 
-  /* ── Cache localStorage ───────────────────────── */
+  /* ── Cache ────────────────────────────────────── */
   function saveCache(headlines) {
-    try {
-      localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), items: headlines }));
-    } catch {}
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), items: headlines })); } catch {}
   }
   function loadCache() {
     try {
@@ -4635,52 +4652,70 @@ function closeSobre(e) {
       if (!raw) return null;
       const c = JSON.parse(raw);
       if (Date.now() - c.ts > CACHE_TTL) return null;
-      return c.items;
+      return Array.isArray(c.items) && c.items.length ? c.items : null;
     } catch { return null; }
+  }
+
+  /* ── Deduplica por título ─────────────────────── */
+  function dedup(items) {
+    const seen = new Set();
+    return items.filter(h => {
+      const k = h.title.slice(0, 60).toLowerCase();
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+  }
+
+  /* ── Ordena por data mais recente ─────────────── */
+  function sortByDate(items) {
+    return items.sort((a, b) => {
+      const da = a.pubDate ? new Date(a.pubDate).getTime() : 0;
+      const db = b.pubDate ? new Date(b.pubDate).getTime() : 0;
+      return db - da;
+    });
   }
 
   /* ── Monta e anima o ticker ───────────────────── */
   function buildTicker(items) {
     if (!items.length) items = FALLBACK.map(t => ({ title: t, link: '#', pubDate: '' }));
 
-    const full = [...items, ...items]; // duplica para loop perfeito
-
+    const full = [...items, ...items]; // duplica para loop contínuo
     inner.innerHTML = '';
     full.forEach((item, idx) => {
       if (idx > 0) {
-        const sp = document.createElement('span');
-        sp.className   = 'ticker-item-sep';
-        sp.textContent = SEP;
-        inner.appendChild(sp);
+        const sep = document.createElement('span');
+        sep.className   = 'ticker-item-sep';
+        sep.textContent = SEP;
+        inner.appendChild(sep);
       }
-      const a = document.createElement('span');
-      a.className   = 'ticker-item';
-      a.textContent = item.title;
+      const span = document.createElement('span');
+      span.className   = 'ticker-item';
+      span.textContent = item.title;
       if (item.link && item.link !== '#') {
-        a.style.cursor = 'pointer';
-        a.addEventListener('click', e => {
-          e.stopPropagation();
-          window.open(item.link, '_blank', 'noopener');
-        });
+        span.style.cursor = 'pointer';
+        span.addEventListener('click', e => { e.stopPropagation(); window.open(item.link, '_blank', 'noopener'); });
       }
-      inner.appendChild(a);
+      inner.appendChild(span);
     });
 
     requestAnimationFrame(() => {
-      const halfW  = inner.scrollWidth / 2;
-      const dur    = Math.max(20, Math.round(halfW / PX_PER_SEC));
+      const halfW = inner.scrollWidth / 2;
+      const dur   = Math.max(20, Math.round(halfW / PX_PER_SEC));
       inner.style.setProperty('--ticker-duration', dur + 's');
       inner.style.setProperty('--ticker-shift', '-' + halfW + 'px');
       inner.style.animation = 'none';
-      inner.offsetHeight; // reflow
+      inner.offsetHeight; // force reflow
       inner.style.animation = '';
     });
   }
 
-  /* ── Atualiza a tag AO VIVO / NOTÍCIAS ───────── */
+  /* ── Atualiza tag AO VIVO / NOTÍCIAS ─────────── */
   function updateTag(headlines) {
-    const now    = Date.now();
-    const isLive = headlines.some(h => h.pubDate && (now - new Date(h.pubDate).getTime()) < 3 * 60 * 60 * 1000);
+    const isLive = headlines.some(h => {
+      if (!h.pubDate) return false;
+      return (Date.now() - new Date(h.pubDate).getTime()) < 3 * 3600 * 1000;
+    });
     if (isLive) {
       tag.style.background  = 'var(--red)';
       tag.style.borderRight = '';
@@ -4694,7 +4729,7 @@ function closeSobre(e) {
     }
   }
 
-  /* ── Busca NewsAPI via Cloudflare Worker ─────── */
+  /* ── NewsAPI via Worker ───────────────────────── */
   async function fetchNewsAPI() {
     try {
       const r = await fetch('https://red-sun-b335.lumenink2025.workers.dev/?news=1', { signal: AbortSignal.timeout(8000) });
@@ -4702,50 +4737,44 @@ function closeSobre(e) {
       const data = await r.json();
       if (data.status !== 'ok' || !Array.isArray(data.articles)) return [];
       return data.articles
-        .filter(a => a.title && a.title !== '[Removed]')
+        .filter(a => a.title && a.title !== '[Removed]' && isRecent(a.publishedAt))
         .slice(0, 10)
         .map(a => ({ title: a.title.trim(), link: a.url || '#', pubDate: a.publishedAt || '' }));
     } catch { return []; }
   }
 
-  /* ── Carrega todos os feeds em paralelo ───────── */
+  /* ── Carrega tudo ─────────────────────────────── */
   async function loadTicker() {
-    // Exibe cache imediatamente enquanto busca novos dados
+    // Exibe cache imediatamente enquanto busca dados frescos
     const cached = loadCache();
-    if (cached && cached.length) {
-      updateTag(cached);
-      buildTicker(cached);
-    }
+    if (cached) { updateTag(cached); buildTicker(cached); }
 
-    const [rssResults, newsApiItems] = await Promise.all([
-      Promise.allSettled(FEEDS.map(fetchFeed)),
-      fetchNewsAPI()
-    ]);
-    const headlines = [
-      ...rssResults.filter(r => r.status === 'fulfilled').flatMap(r => r.value),
-      ...newsApiItems
-    ];
+    try {
+      const [rssResults, newsApiItems] = await Promise.all([
+        Promise.allSettled(FEEDS.map(fetchFeed)),
+        fetchNewsAPI(),
+      ]);
 
-    if (headlines.length) {
-      // Deduplica por título
-      const seen = new Set();
-      const unique = headlines.filter(h => {
-        const k = h.title.slice(0, 60);
-        if (seen.has(k)) return false;
-        seen.add(k);
-        return true;
-      });
-      saveCache(unique);
-      updateTag(unique);
-      buildTicker(unique);
-    } else if (!cached) {
-      // Sem cache e sem resultado: usa fallback
-      updateTag([]);
-      buildTicker([]);
+      const all = [
+        ...rssResults.filter(r => r.status === 'fulfilled').flatMap(r => r.value),
+        ...newsApiItems,
+      ];
+
+      if (all.length) {
+        const final = sortByDate(dedup(all));
+        saveCache(final);
+        updateTag(final);
+        buildTicker(final);
+      } else if (!cached) {
+        updateTag([]);
+        buildTicker([]);
+      }
+    } catch {
+      if (!cached) buildTicker([]);
     }
   }
 
-  /* ── Pause / resume no toque ──────────────────── */
+  /* ── Pause/resume no toque ────────────────────── */
   window.pauseTicker  = () => inner.classList.add('paused');
   window.resumeTicker = () => inner.classList.remove('paused');
 
@@ -4753,6 +4782,7 @@ function closeSobre(e) {
   loadTicker();
   setInterval(loadTicker, RELOAD_INT);
 })();
+
 
 // ── PERFIL MODAL ─────────────────────────────────
 function _injectPerfilData() {
