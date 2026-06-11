@@ -1,64 +1,64 @@
 {
-  "SEMANA 1": {
-    "tema": "SPFC/COPA DO MUNDO",
+  "2026-W24": {
+    "tema": "Copa do Mundo",
     "emoji": "🔥",
-    "descricao": "A relação Tricolor e seleção brasileira",
+    "descricao": "COPA DO MUNDO E SPFC",
     "imagem": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780353488/4e28dfe7-13ac-4490-8298-8f3143224c69_uohump.png",
     "perguntas": [
       {
-        "q": "Qual goleiro histórico do São Paulo nunca perdeu um jogo oficial como titular da Seleção (17 jogos, 16 vitórias e 1 empate)?",
+        "q": "Qual jogador, enquanto estava vinculado contratualmente ao São Paulo FC, marcou o maior número de gols em uma única edição de Copa do Mundo?",
         "o": [
-          "GIlmar Rinaldi",
-          "Zetti",
-          "Rogério Ceni",
-          "Waldir Peres"
-        ],
-        "c": 1,
-        "diff": 4
-      },
-      {
-        "q": "Em qual Copa o São Paulo teve o \"Trio de Ferro\" (Bauer, Rui e Noronha) como titulares absolutos da Seleção?",
-        "o": [
-          "1934",
-          "1950",
-          "1954",
-          "1986"
-        ],
-        "c": 1,
-        "diff": 2
-      },
-      {
-        "q": "Qual técnico estrangeiro do São Paulo comandou a Seleção Brasileira em dois jogos oficiais (vitórias contra o Uruguai) em 1944?",
-        "o": [
-          "Jim Lopes",
-          "Joreca",
-          "José Poy",
-          "Béla Guttmann"
-        ],
-        "c": 3,
-        "diff": 4
-      },
-      {
-        "q": "Qual jogador, enquanto atuava pelo São Paulo, marcou mais gols em uma única edição de Copa do Mundo (5 gols)?",
-        "o": [
-          "Serginho Chulapa",
-          "Luís Fabiano",
-          "Careca",
-          "Leônidas da Silva"
+          "Leônidas da Silva (1938)",
+          "Luis Fabiano (2010)",
+          "Careca (1986)",
+          "Müller (1990)"
         ],
         "c": 2,
         "diff": 4
       },
       {
-        "q": "Qual jogador do São Paulo foi o único do clube a receber um vermelho direto em mata-mata de Copa do Mundo pela Seleção?",
+        "q": "Na Copa de 1950, o famoso \"Trio de Ferro\" do São Paulo foi a base da Seleção. Qual desses jogadores foi o único brasileiro eleito para a Seleção Ideal (All-Star Team) da FIFA naquela edição?",
         "o": [
-          "Leonardo",
-          "Oscar",
-          "Cafu",
-          "Ronaldão"
+          "Bauer",
+          "Rui",
+          "Noronha",
+          "Ademir Menezes"
         ],
         "c": 0,
-        "diff": 1
+        "diff": 2
+      },
+      {
+        "q": "Quem foi o primeiro jogador estrangeiro da história do São Paulo FC a disputar uma Copa do Mundo enquanto defendia as cores do clube?",
+        "o": [
+          "Pedro Rocha (Uruguai, 1974)",
+          "Pablo Forlán (Uruguai, 1970)",
+          "Darío Pereyra (Uruguai, 1986)",
+          "Aristizábal (Colômbia, 1994)"
+        ],
+        "c": 1,
+        "diff": 2
+      },
+      {
+        "q": "Um lendário goleiro do São Paulo detém um recorde raro na Seleção Brasileira: ele disputou 17 partidas oficiais como titular da Amarelinha e jamais sofreu uma derrota (16 vitórias e 1 empate). Quem é ele?",
+        "o": [
+          "Rogério Ceni",
+          "Waldir Peres",
+          "Gilmar Rinaldi",
+          "Zetti"
+        ],
+        "c": 3,
+        "diff": 2
+      },
+      {
+        "q": "Qual técnico estrangeiro do São Paulo FC teve a honra de comandar a Seleção Brasileira em partidas oficiais, vencendo o Uruguai por duas vezes em 1944?",
+        "o": [
+          "Béla Guttmann",
+          "Joreca",
+          "Jim Lopes",
+          "José Poy"
+        ],
+        "c": 1,
+        "diff": 2
       }
     ]
   }
