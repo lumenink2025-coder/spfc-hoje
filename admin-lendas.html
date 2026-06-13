@@ -56,6 +56,20 @@ main{padding:1.2rem 1.5rem 3rem;}
 .savedtag{font-size:.62rem;color:var(--rl);margin-top:.25rem;letter-spacing:.06em;}
 .toast{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--r);color:#fff;padding:.7rem 1.4rem;border-radius:8px;font-size:.8rem;font-weight:600;z-index:999;transition:transform .25s;box-shadow:0 8px 24px rgba(0,0,0,.5);}
 .toast.show{transform:translateX(-50%) translateY(0);}
+
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:998;padding:1rem;}
+.modal-ov.show{display:flex;}
+.modal-box{background:var(--k2);border:1px solid var(--bd2);border-radius:10px;padding:1.2rem;width:100%;max-width:420px;max-height:90vh;overflow-y:auto;}
+.modal-box h2{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.05em;margin-bottom:.8rem;color:#7fe07f;}
+.mfield{margin-bottom:.7rem;}
+.mfield label{display:block;font-size:.68rem;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25rem;}
+.mfield input,.mfield select{width:100%;background:var(--k1);border:1px solid var(--bd2);color:var(--w);padding:.5rem .7rem;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none;}
+.mfield input:focus,.mfield select:focus{border-color:#7fe07f;}
+.modal-actions{display:flex;gap:.6rem;margin-top:1rem;}
+.modal-actions button{flex:1;padding:.6rem;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;}
+.mbtn-cancel{background:var(--k3);border:1px solid var(--bd);color:var(--w2);}
+.mbtn-save{background:#1a3a1a;border:1px solid #2a5a2a;color:#7fe07f;}
+.mbtn-save:hover{background:#244a24;}
 </style>
 </head>
 <body>
@@ -71,6 +85,7 @@ main{padding:1.2rem 1.5rem 3rem;}
   <div class="sbox"><span class="sicon">🔎</span><input type="text" id="search" placeholder="Buscar jogador..."></div>
   <button class="fbtn" id="onlyWithFoto">Só com foto</button>
   <span class="fcount" id="fcount">0 com foto · 0 alterações</span>
+  <button class="fbtn" id="addBtn" style="background:#1a3a1a;border-color:#2a5a2a;color:#7fe07f">+ Adicionar jogador/técnico</button>
   <button class="fbtn export" id="exportBtn" disabled>⬇ Exportar dados.json</button>
 </div>
 
@@ -83,6 +98,35 @@ main{padding:1.2rem 1.5rem 3rem;}
 </main>
 
 <div class="toast" id="toast"></div>
+
+<div class="modal-ov" id="addOv">
+  <div class="modal-box">
+    <h2>+ Adicionar jogador / técnico</h2>
+    <div class="mfield"><label>Posição</label>
+      <select id="add-posicao">
+        <option value="TEC">TEC — Técnico</option>
+        <option value="GL">GL — Goleiro</option>
+        <option value="LD">LD — Lateral Direito</option>
+        <option value="LE">LE — Lateral Esquerdo</option>
+        <option value="ZG">ZG — Zagueiro</option>
+        <option value="DF">DF — Defensor</option>
+        <option value="VL">VL — Volante</option>
+        <option value="MC">MC — Meio-Campo</option>
+        <option value="AT">AT — Atacante</option>
+        <option value="LT">LT — Lateral</option>
+        <option value="RP">RP — Reserva/Polivalente</option>
+      </select>
+    </div>
+    <div class="mfield"><label>Nome (exibido)</label><input type="text" id="add-nome" placeholder="Ex: CRESPO"></div>
+    <div class="mfield"><label>Nome completo</label><input type="text" id="add-nomeCompleto" placeholder="Ex: Hernán Crespo"></div>
+    <div class="mfield"><label>Ano (de chegada)</label><input type="text" id="add-ano" placeholder="Ex: 2024"></div>
+    <div class="mfield"><label>Foto (URL Cloudinary)</label><input type="text" id="add-foto" placeholder="https://res.cloudinary.com/..."></div>
+    <div class="modal-actions">
+      <button class="mbtn-cancel" onclick="closeAddModal()">Cancelar</button>
+      <button class="mbtn-save" onclick="saveNewEntry()">✓ Adicionar</button>
+    </div>
+  </div>
+</div>
 
 <script>
 let DATA=[];
@@ -191,6 +235,38 @@ document.getElementById('exportBtn').addEventListener('click',()=>{
   URL.revokeObjectURL(url);
   showToast('dados.json exportado — suba este arquivo em /data/dados.json no servidor');
 });
+
+// ── ADICIONAR JOGADOR / TÉCNICO ──────────────────────────────────
+document.getElementById('addBtn').addEventListener('click',()=>{
+  ['add-nome','add-nomeCompleto','add-ano','add-foto'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('add-posicao').value='TEC';
+  document.getElementById('addOv').classList.add('show');
+});
+function closeAddModal(){ document.getElementById('addOv').classList.remove('show'); }
+document.getElementById('addOv').addEventListener('click',e=>{ if(e.target.id==='addOv') closeAddModal(); });
+
+function saveNewEntry(){
+  const nome=document.getElementById('add-nome').value.trim().toUpperCase();
+  if(!nome){ showToast('Informe o nome'); return; }
+  const novo={
+    nome,
+    posicao: document.getElementById('add-posicao').value,
+    ano: document.getElementById('add-ano').value.trim(),
+    nomeCompleto: document.getElementById('add-nomeCompleto').value.trim(),
+    nascimento:'', localNascimento:'', falecimento:'', localFalecimento:'',
+    contratado:'', posterior:'', estreia:'', ultimoJogo:'',
+    jogos:0, vitorias:0, empates:0, derrotas:0, golsMarcados:0, golsSofridos:0,
+    titulos:[],
+  };
+  const foto=document.getElementById('add-foto').value.trim();
+  if(foto) novo.foto=foto;
+  DATA.push(novo);
+  edited[DATA.length-1]=true;
+  closeAddModal();
+  curSearch=''; document.getElementById('search').value='';
+  render();
+  showToast(`${nome} adicionado — não esqueça de exportar`);
+}
 </script>
 </body>
 </html>

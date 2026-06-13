@@ -955,6 +955,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .legend-card{flex-shrink:0;width:clamp(108px,28vw,136px);aspect-ratio:2/3;border-radius:10px;overflow:hidden;position:relative;cursor:pointer;scroll-snap-align:start;border:1px solid var(--border2);background:var(--bg2);transition:transform .15s}
 .legend-card:active{transform:scale(.96)}
 .legend-card img{width:100%;height:100%;object-fit:cover;object-position:center 15%;display:block}
+.legend-noimg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:30px;color:var(--txt3);background:linear-gradient(160deg,var(--bg3),var(--bg2))}
 .legend-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.9) 100%)}
 .legend-badge{position:absolute;top:6px;left:6px;z-index:2;font-family:var(--font-title);font-size:11px;color:#fff;background:rgba(204,0,0,.88);padding:2px 6px;border-radius:4px;letter-spacing:1px}
 .legend-info{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:8px}
@@ -1854,7 +1855,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <span class="tb-drawer-item-icon">📅</span>Calendário
     </button>
     <button class="tb-drawer-item" onclick="closeDrawer();openJogadoresModal()">
-      <span class="tb-drawer-item-icon">👕</span>Lendas Tricolor
+      <span class="tb-drawer-item-icon">👕</span>Eles Vestiram o Manto
     </button>
     <div class="tb-drawer-sep"></div>
     <button class="tb-drawer-item" onclick="closeDrawer();openSobre()">
@@ -2045,7 +2046,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
   <!-- ③.5 LENDAS TRICOLOR — CARROSSEL NETFLIX -->
   <div class="sec-head-new">
-    <div class="sec-title-new">lendas tricolor</div>
+    <div class="sec-title-new">eles vestiram o manto</div>
     <div class="sec-badge" id="legendsCount">0</div>
   </div>
   <div class="legends-scroll" id="legendsScroll"></div>
@@ -2271,7 +2272,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   </div>
 </div>
 
-<!-- PLAYER MODAL — Lendas Tricolor -->
+<!-- PLAYER MODAL — Eles Vestiram o Manto -->
 <div id="playerModal" class="ev-modal" onclick="closePlayerModal(event)">
   <div class="ev-modal-sheet" id="playerModalSheet">
     <div class="ev-modal-handle"></div>
@@ -2287,7 +2288,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="jog-modal-sheet" id="jogadoresModalSheet">
     <button class="jog-modal-close" onclick="closeJogadoresModal()">✕</button>
     <div class="jog-modal-body">
-      <iframe id="jogadoresIframe" src="" title="Lendas Tricolor"></iframe>
+      <iframe id="jogadoresIframe" src="" title="Eles Vestiram o Manto"></iframe>
     </div>
   </div>
 </div>
@@ -4916,8 +4917,27 @@ async function loadPlayers(){
     PLAYERS_DATA = [];
   }
   LEGENDS_LIST = [];
-  PLAYERS_DATA.forEach((p,i)=>{ if(p.foto) LEGENDS_LIST.push({...p, _idx:i}); });
+  PLAYERS_DATA.forEach((p,i)=>{ LEGENDS_LIST.push({...p, _idx:i}); });
   renderLegends();
+}
+
+const MANTO_KEY = 'spfc_manto_diario_v1';
+const MANTO_N = 12; // 11 + técnico
+
+function pickDailyLegends(list, n){
+  if(list.length<=n) return list;
+  const today = new Date().toISOString().slice(0,10);
+  let cache=null;
+  try{ cache = JSON.parse(localStorage.getItem(MANTO_KEY)||'null'); }catch(e){}
+  if(cache && cache.date===today && Array.isArray(cache.idxs) && cache.idxs.length){
+    const byIdx = {}; list.forEach(p=>byIdx[p._idx]=p);
+    const picked = cache.idxs.map(i=>byIdx[i]).filter(Boolean);
+    if(picked.length) return picked;
+  }
+  const shuffled = [...list].sort(()=>Math.random()-0.5);
+  const picked = shuffled.slice(0,n);
+  try{ localStorage.setItem(MANTO_KEY, JSON.stringify({date:today, idxs:picked.map(p=>p._idx)})); }catch(e){}
+  return picked;
 }
 
 function renderLegends(){
@@ -4926,16 +4946,49 @@ function renderLegends(){
   if(!wrap) return;
   if(countEl) countEl.textContent = LEGENDS_LIST.length;
   if(!LEGENDS_LIST.length){ wrap.innerHTML=''; return; }
-  wrap.innerHTML = LEGENDS_LIST.map(p=>`
+  const daily = pickDailyLegends(LEGENDS_LIST, MANTO_N);
+  const moreHtml = `<div class="legends-more" onclick="openJogadoresModal()"><span>👕</span><span>Ver todos os jogadores</span></div>`;
+  const cardsHtml = daily.map(legendCardHtml).join('');
+  if(daily.length>1){
+    wrap.innerHTML = cardsHtml + cardsHtml + moreHtml;
+    setupInfiniteScroll(wrap, daily.length);
+  }else{
+    wrap.innerHTML = cardsHtml + moreHtml;
+  }
+}
+
+function legendCardHtml(p){
+  const ini = _pmInitials(p.nome);
+  const media = p.foto
+    ? `<img src="${p.foto}" alt="${p.nome}" loading="lazy" onerror="this.outerHTML='<div class=legend-noimg>${ini}</div>'">`
+    : `<div class="legend-noimg">${ini}</div>`;
+  return `
     <div class="legend-card" onclick="openPlayerModal(${p._idx})">
-      <img src="${p.foto}" alt="${p.nome}" loading="lazy" onerror="this.closest('.legend-card').style.display='none'">
+      ${media}
       <div class="legend-badge">${p.ano}</div>
       <div class="legend-info">
         <div class="legend-name">${p.nome}</div>
         <div class="legend-pos">${p.posicao}</div>
       </div>
-    </div>
-  `).join('') + `<div class="legends-more" onclick="openJogadoresModal()"><span>👕</span><span>Ver todos os jogadores</span></div>`;
+    </div>`;
+}
+
+function setupInfiniteScroll(wrap, n){
+  requestAnimationFrame(()=>{
+    const card = wrap.querySelector('.legend-card');
+    if(!card) return;
+    const gap = parseFloat(getComputedStyle(wrap).gap)||10;
+    const cardW = card.getBoundingClientRect().width + gap;
+    const setW = cardW * n;
+    wrap.scrollLeft = setW; // começa na 2ª cópia (meio do loop)
+    wrap.addEventListener('scroll', ()=>{
+      if(wrap.scrollLeft < cardW*0.5){
+        wrap.scrollLeft += setW;
+      }else if(wrap.scrollLeft > setW*1.5){
+        wrap.scrollLeft -= setW;
+      }
+    }, {passive:true});
+  });
 }
 
 function _pmInitials(nome){

@@ -18,11 +18,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--k);color:var(--w);min-hei
 .load-txt{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.1em;color:var(--mu);}
 
 #hdr{background:var(--k1);border-bottom:3px solid var(--r);position:sticky;top:0;z-index:200;}
-.htop{display:flex;align-items:center;gap:1.2rem;padding:1.2rem 2rem 1rem;}
-.escudo{width:54px;height:54px;flex-shrink:0;}
-.htitle h1{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:.06em;line-height:1;color:var(--w);}
-.htitle p{font-size:.7rem;color:var(--mu);letter-spacing:.14em;text-transform:uppercase;margin-top:.2rem;}
-.hstats{display:flex;gap:1.5rem;margin-left:auto;align-items:center;}
+.htop{display:flex;align-items:center;gap:.9rem;padding:1rem 1rem .8rem;flex-wrap:wrap;}
+.escudo{width:46px;height:46px;flex-shrink:0;}
+.htitle{min-width:0;}
+.htitle h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,6vw,1.9rem);letter-spacing:.06em;line-height:1.05;color:var(--w);white-space:nowrap;}
+.htitle p{font-size:.62rem;color:var(--mu);letter-spacing:.12em;text-transform:uppercase;margin-top:.15rem;white-space:nowrap;}
+.hsub{padding:0 1rem .8rem;font-size:.7rem;color:var(--w2);line-height:1.5;}
+.hsub .credit{display:block;margin-top:.25rem;font-size:.62rem;color:var(--mu);letter-spacing:.06em;}
+.hstats{display:flex;gap:1rem;align-items:center;padding:0 1rem .9rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.hstats::-webkit-scrollbar{display:none;}
+.sitem{flex-shrink:0;}
 .sitem{text-align:center;}
 .snum{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--rl);line-height:1;}
 .slbl{font-size:.62rem;color:var(--mu);text-transform:uppercase;letter-spacing:.1em;}
@@ -55,6 +60,7 @@ main{padding:1.5rem 2rem;}
 .GL{background:#0d2a40;color:#5bc8f0;}.LD{background:#0d2a0d;color:#5af05a;}.LE{background:#0d2a0d;color:#5af05a;}
 .ZG{background:#1e0d35;color:#b87af5;}.DF{background:#2a2a0d;color:#efd05a;}.VL{background:#35120d;color:#f07a5b;}
 .MC{background:#35200d;color:#f0a85a;}.AT{background:#35100d;color:#f05a5a;}.LT{background:#0d2a2a;color:#5af0f0;}.RP{background:#252525;color:#999;}
+.TEC{background:#2a0d2a;color:#f05af0;}
 
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.45rem;}
 body.lv .pgrid{grid-template-columns:1fr;}
@@ -154,25 +160,30 @@ input[type=file]{display:none;}
     <text x="40" y="50" font-family="Bebas Neue,sans-serif" font-size="22" fill="white" text-anchor="middle">SPFC</text>
   </svg>
   <div class="htitle">
-    <h1>SÃO PAULO FC</h1>
-    <p>Fichário Histórico de Jogadores</p>
+    <h1>FICHÁRIO SPFC</h1>
+    <p>Histórico de Jogadores</p>
   </div>
-  <div class="hstats">
-    <div class="sitem"><div class="snum" id="stotal">0</div><div class="slbl">Total</div></div>
-    <div class="sdiv"></div>
-    <div class="sitem"><div class="snum" id="svis">0</div><div class="slbl">Visíveis</div></div>
-    <div class="sdiv"></div>
-    <div class="sitem"><div class="snum" id="stitles">0</div><div class="slbl">Campeões</div></div>
-    <div class="sdiv"></div>
-    <div class="sitem"><div class="snum" id="sfotoc" style="color:rgba(91,200,240,.9)">0</div><div class="slbl">Com Foto</div></div>
-    <div class="sdiv"></div>
-    <div class="sitem"><div class="snum" id="sgames">0</div><div class="slbl">Total Jogos</div></div>
-  </div>
+</div>
+<div class="hsub">
+  Todos os jogadores que já vestiram a camisa do São Paulo FC pelo menos uma vez.
+  <span class="credit">Por Michael Serra / Arquivo Histórico João Farah</span>
+</div>
+<div class="hstats">
+  <div class="sitem"><div class="snum" id="stotal">0</div><div class="slbl">Total</div></div>
+  <div class="sdiv"></div>
+  <div class="sitem"><div class="snum" id="svis">0</div><div class="slbl">Visíveis</div></div>
+  <div class="sdiv"></div>
+  <div class="sitem"><div class="snum" id="stitles">0</div><div class="slbl">Campeões</div></div>
+  <div class="sdiv"></div>
+  <div class="sitem"><div class="snum" id="sfotoc" style="color:rgba(91,200,240,.9)">0</div><div class="slbl">Com Foto</div></div>
+  <div class="sdiv"></div>
+  <div class="sitem"><div class="snum" id="sgames">0</div><div class="slbl">Total Jogos</div></div>
 </div>
 <div id="ctrl">
   <div class="sbox"><span class="sicon">🔍</span><input type="text" id="search" placeholder="Buscar jogador..." autocomplete="off"></div>
   <div class="fgrp" id="pfilt">
     <button class="fbtn on" data-p="ALL">Todos</button>
+    <button class="fbtn" data-p="TEC">TEC</button>
     <button class="fbtn" data-p="GL">GL</button><button class="fbtn" data-p="LD">LD</button>
     <button class="fbtn" data-p="LE">LE</button><button class="fbtn" data-p="ZG">ZG</button>
     <button class="fbtn" data-p="DF">DF</button><button class="fbtn" data-p="VL">VL</button>
@@ -245,8 +256,8 @@ input[type=file]{display:none;}
 <button id="stb" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-const POS_ORDER=['GL','LD','LE','ZG','DF','VL','MC','AT','LT','RP','—'];
-const POS_NAMES={GL:'Goleiro',LD:'Lateral Direito',LE:'Lateral Esquerdo',ZG:'Zagueiro',DF:'Defensor',VL:'Volante',MC:'Meio-Campo',AT:'Atacante',LT:'Lateral',RP:'Reserva/Polivalente','—':'Indefinida'};
+const POS_ORDER=['TEC','GL','LD','LE','ZG','DF','VL','MC','AT','LT','RP','—'];
+const POS_NAMES={TEC:'Técnico',GL:'Goleiro',LD:'Lateral Direito',LE:'Lateral Esquerdo',ZG:'Zagueiro',DF:'Defensor',VL:'Volante',MC:'Meio-Campo',AT:'Atacante',LT:'Lateral',RP:'Reserva/Polivalente','—':'Indefinida'};
 
 let DATA=[];
 let curModalIdx=-1;
