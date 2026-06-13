@@ -257,79 +257,37 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 }
 .tb-drawer-version{font-size:9px;color:rgba(255,255,255,.2);letter-spacing:2px}
 
-/* ══ CENTRO — PLAYER CARD ════════════════════════════
-   Inspirado em sistemas de progressão de jogos:
-   nível em destaque, XP bar orgânica, streak integrado
-═══════════════════════════════════════════════════ */
-.tb-center{
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:4px;
-  min-width:0
-}
-.tb-player-card{
-  display:flex;align-items:center;gap:6px;
-  padding:5px 12px 5px 8px;
-  background:linear-gradient(135deg,rgba(200,168,75,.12) 0%,rgba(180,140,40,.05) 100%);
-  border:1px solid rgba(200,168,75,.22);
-  border-radius:24px;position:relative;overflow:hidden;
-  box-shadow:0 0 20px rgba(200,168,75,.06),inset 0 1px 0 rgba(255,255,255,.06)
-}
-/* shimmer sutil no card */
-.tb-player-card::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.04) 50%,transparent 60%);
-  animation:tbShimmer 3s ease-in-out infinite
-}
-@keyframes tbShimmer{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
+/* ══ CENTRO — vazio (espaçador) ══════════════════════ */
+.tb-center{flex:1;min-width:0}
 
-.tb-level-icon{
-  width:26px;height:26px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,#C8A84B,#8B6914);
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;box-shadow:0 2px 8px rgba(200,168,75,.35)
+/* ── NÍVEL COMPACTO (junto ao avatar) ────────────── */
+.tb-level-mini{display:flex;align-items:center;gap:5px}
+.tb-level-mini-tag{
+  font-family:var(--font-body);font-size:8px;letter-spacing:1.5px;
+  color:var(--gold2);white-space:nowrap
 }
-.tb-level-info{display:flex;flex-direction:column;align-items:flex-start;gap:0}
-.tb-level-label{
-  font-family:var(--font-body);font-size:8px;
-  color:rgba(200,168,75,.6);letter-spacing:2.5px;text-transform:uppercase;
-  line-height:1
-}
-.tb-level-value{
-  font-family:var(--font-title);font-size:20px;line-height:1;
-  color:var(--gold2);letter-spacing:.5px
-}
-
-/* XP bar — abaixo do player card */
-.tb-xp-row{
-  display:flex;align-items:center;gap:6px;width:100%;max-width:160px
-}
+.tb-level-mini-tag b{font-family:var(--font-title);font-size:10px;font-weight:400;color:var(--gold2)}
 .tb-xp-bar-wrap{
-  flex:1;height:3px;
+  width:36px;height:3px;flex-shrink:0;
   background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden
 }
 .tb-xp-bar{
   height:100%;border-radius:99px;
   background:linear-gradient(90deg,#8B6914,#C8A84B,#E2C97E);
-  transition:width .8s cubic-bezier(.4,0,.2,1);
-  box-shadow:0 0 6px rgba(200,168,75,.4)
-}
-.tb-xp-pct{
-  font-family:var(--font-body);font-size:8px;
-  color:rgba(200,168,75,.5);letter-spacing:1px;white-space:nowrap
+  transition:width .8s cubic-bezier(.4,0,.2,1)
 }
 
-/* ── STREAK (dentro do player card) ─────────────── */
-.tb-streak{
-  display:none;align-items:center;gap:3px;
-  border-left:1px solid rgba(255,165,0,.2);
-  padding-left:8px;margin-left:4px;
-  font-size:9px;letter-spacing:1px;
-  color:rgba(255,160,60,.8);
-  animation:streakPulse 2.5s ease-in-out infinite
+/* ── STREAK (badge minúsculo no avatar) ──────────── */
+.tb-streak-badge{
+  position:absolute;bottom:-3px;right:-3px;
+  display:none;align-items:center;gap:2px;
+  background:#1a0d00;border:1px solid rgba(255,140,50,.5);
+  border-radius:10px;padding:1px 4px;
+  font-size:8px;line-height:1.2;color:#ff8c32;
+  font-family:var(--font-body);font-weight:600;
+  box-shadow:0 2px 6px rgba(0,0,0,.5)
 }
-.tb-streak.visible{display:flex}
-@keyframes streakPulse{0%,100%{opacity:1}50%{opacity:.65}}
-.tb-streak-num{font-family:var(--font-title);font-size:16px;color:#ff8c32;line-height:1}
+.tb-streak-badge.visible{display:flex}
 
 /* ══ DIREITA — USER PROFILE ══════════════════════════
    Avatar como âncora visual, nome subordinado, chevron
@@ -1896,38 +1854,24 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <span class="tb-menu-bar"></span>
   </button>
 
-  <!-- CENTRO: player progression card -->
-  <div class="tb-center" id="tbLevel" style="display:none">
-    <div class="tb-player-card">
-      <div class="tb-level-icon" id="tbLevelIcon">⭐</div>
-      <div class="tb-level-info">
-        <span class="tb-level-label">NÍVEL</span>
-        <span class="tb-level-value" id="tbLevelNum">1</span>
-      </div>
-      <!-- streak integrado no card -->
-      <div class="tb-streak" id="tbStreak">
-        <span>🔥</span><span class="tb-streak-num" id="tbStreakNum">0</span>
-      </div>
-    </div>
-    <div class="tb-xp-row">
-      <div class="tb-xp-bar-wrap">
-        <div class="tb-xp-bar" id="tbXpBar" style="width:0%"></div>
-      </div>
-      <span class="tb-xp-pct" id="tbXpPct">0%</span>
-    </div>
-  </div>
+  <!-- CENTRO: vazio (antes player card grande) -->
+  <div class="tb-center" id="tbLevel"></div>
 
-  <!-- DIREITA: avatar + meta -->
+  <!-- DIREITA: avatar + meta + nível compacto -->
   <div id="tbUserArea" style="display:none">
     <button class="tb-user-btn" id="tbUserBtn"
             onclick="toggleUserDrop()" aria-expanded="false">
       <div class="tb-user-avatar-wrap">
         <div class="tb-user-avatar" id="tbUserAvatar"></div>
         <div class="tb-avatar-ring" id="tbAvatarRing"></div>
+        <div class="tb-streak-badge" id="tbStreak"><span>🔥</span><span id="tbStreakNum">0</span></div>
       </div>
       <div class="tb-user-meta">
         <span class="tb-user-name" id="tbUserName">...</span>
-        <span class="tb-user-sub" id="tbUserSub">XP 0</span>
+        <div class="tb-level-mini">
+          <span class="tb-level-mini-tag">NÍV. <b id="tbLevelNum">1</b></span>
+          <div class="tb-xp-bar-wrap"><div class="tb-xp-bar" id="tbXpBar" style="width:0%"></div></div>
+        </div>
       </div>
       <span class="tb-chevron">▾</span>
     </button>
@@ -3356,24 +3300,16 @@ function getLevelInfo(xp) {
 }
 
 function updateTopbarLevel(xp, streak) {
-  const { level, pct, emoji, title } = getLevelInfo(xp || 0);
+  const { level, pct, title } = getLevelInfo(xp || 0);
 
-  const iconEl  = document.getElementById('tbLevelIcon');
   const numEl   = document.getElementById('tbLevelNum');
   const bar     = document.getElementById('tbXpBar');
-  const pctEl   = document.getElementById('tbXpPct');
   const ringEl  = document.getElementById('tbAvatarRing');
-  const subEl   = document.getElementById('tbUserSub');
   const dropLvl = document.getElementById('tbDropLevel');
-  const center  = document.getElementById('tbLevel');
 
-  if (center) center.style.display = 'flex';
-  if (iconEl) iconEl.textContent = emoji;
   if (numEl)  numEl.textContent  = level;
   setTimeout(() => { if (bar) bar.style.width = pct + '%'; }, 80);
-  if (pctEl)  pctEl.textContent  = pct + '%';
   if (ringEl) ringEl.style.setProperty('--ring-pct', pct + '%');
-  if (subEl)  subEl.textContent  = `${(xp||0).toLocaleString('pt-BR')} XP`;
   if (dropLvl) dropLvl.textContent = `NÍVEL ${level} • ${title}`;
 
   if (streak > 0) {
