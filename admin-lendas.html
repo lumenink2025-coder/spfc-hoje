@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPFC — Admin de Fotos · Lendas Tricolor</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--r:#CC0000;--rd:#990000;--rl:#FF4444;--k:#0D0D0D;--k1:#161616;--k2:#1E1E1E;--k3:#2A2A2A;--k4:#383838;--w:#F0F0EB;--w2:#D8D8D2;--mu:#888;--bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.13);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--k);color:var(--w);min-height:100vh;font-size:14px;}
+#loading{position:fixed;inset:0;background:var(--k);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:1rem;}
+.spinner{width:48px;height:48px;border:3px solid var(--bd2);border-top-color:var(--r);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-txt{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.1em;color:var(--mu);}
+
+#hdr{background:var(--k1);border-bottom:3px solid var(--r);position:sticky;top:0;z-index:200;padding:1.2rem 1.5rem;}
+#hdr h1{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.05em;}
+#hdr p{font-size:.72rem;color:var(--mu);letter-spacing:.08em;margin-top:.3rem;}
+
+#ctrl{background:var(--k1);border-bottom:1px solid var(--bd);padding:.75rem 1.5rem;display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;position:sticky;top:96px;z-index:190;}
+.sbox{position:relative;flex:1;min-width:200px;}
+.sbox input{width:100%;background:var(--k3);border:1px solid var(--bd);color:var(--w);padding:.55rem .9rem .55rem 2.4rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s;}
+.sbox input:focus{border-color:var(--r);}
+.sbox input::placeholder{color:var(--mu);}
+.sicon{position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--mu);font-size:.85rem;pointer-events:none;}
+.fbtn{background:var(--k3);border:1px solid var(--bd);color:var(--mu);padding:.55rem 1rem;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.fbtn:hover{border-color:var(--r);color:var(--w);}
+.fbtn.on{background:var(--r);border-color:var(--r);color:#fff;}
+.fbtn.export{background:#0d2a40;border-color:#1e4a6a;color:#5bc8f0;}
+.fbtn.export:hover{background:#1a4060;}
+.fbtn.export:disabled{opacity:.4;cursor:default;}
+.fcount{font-family:'Bebas Neue',sans-serif;font-size:.85rem;color:var(--rl);letter-spacing:.05em;}
+
+main{padding:1.2rem 1.5rem 3rem;}
+.tip{background:var(--k2);border:1px solid var(--bd);border-radius:8px;padding:.8rem 1rem;font-size:.78rem;color:var(--w2);line-height:1.6;margin-bottom:1.2rem;}
+.tip a{color:var(--rl);}
+.tip code{background:var(--k3);padding:.1rem .35rem;border-radius:4px;font-size:.74rem;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.6rem;}
+.card{background:var(--k2);border:1px solid var(--bd);border-radius:8px;padding:.7rem .9rem;display:flex;gap:.7rem;align-items:center;transition:border-color .15s;}
+.card.edited{border-color:var(--rl);background:var(--k3);}
+.thumb{width:46px;height:46px;border-radius:50%;background:var(--k4);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid var(--bd2);}
+.thumb img{width:100%;height:100%;object-fit:cover;}
+.thumb .ini{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--mu);}
+.info{flex:1;min-width:0;}
+.nome{font-size:.82rem;font-weight:600;}
+.meta{font-size:.66rem;color:var(--mu);margin-bottom:.35rem;}
+.urlrow{display:flex;gap:.4rem;}
+.urlrow input{flex:1;background:var(--k1);border:1px solid var(--bd2);color:var(--w);padding:.4rem .6rem;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:.72rem;outline:none;}
+.urlrow input:focus{border-color:#5bc8f0;}
+.urlrow button{background:#0d2a40;border:1px solid #1e4a6a;color:#5bc8f0;padding:.4rem .65rem;border-radius:5px;font-size:.7rem;cursor:pointer;white-space:nowrap;}
+.urlrow button:hover{background:#1a4060;}
+.urlrow .rm{background:#350d0d;border-color:#5a1e1e;color:var(--rl);}
+.urlrow .rm:hover{background:#4a1414;}
+.savedtag{font-size:.62rem;color:var(--rl);margin-top:.25rem;letter-spacing:.06em;}
+.toast{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--r);color:#fff;padding:.7rem 1.4rem;border-radius:8px;font-size:.8rem;font-weight:600;z-index:999;transition:transform .25s;box-shadow:0 8px 24px rgba(0,0,0,.5);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div id="loading"><div class="spinner"></div><div class="load-txt">CARREGANDO DADOS…</div></div>
+
+<header id="hdr" style="display:none">
+  <h1>ADMIN · LENDAS <span style="color:var(--rl)">TRICOLOR</span></h1>
+  <p>Cole a URL do Cloudinary no campo de cada jogador e clique em "Salvar". Ao final, exporte o <code>dados.json</code> atualizado e suba esse arquivo no servidor (em <code>/data/dados.json</code>).</p>
+</header>
+
+<div id="ctrl" style="display:none">
+  <div class="sbox"><span class="sicon">🔎</span><input type="text" id="search" placeholder="Buscar jogador..."></div>
+  <button class="fbtn" id="onlyWithFoto">Só com foto</button>
+  <span class="fcount" id="fcount">0 com foto · 0 alterações</span>
+  <button class="fbtn export" id="exportBtn" disabled>⬇ Exportar dados.json</button>
+</div>
+
+<main id="main" style="display:none">
+  <div class="tip">
+    📸 Suba a foto em <a href="https://cloudinary.com" target="_blank">cloudinary.com</a> (ou outro host de imagens), copie o link direto da imagem e cole no campo abaixo do jogador.<br>
+    Depois de editar todos que quiser, clique em <b>Exportar dados.json</b> — isso baixa o arquivo atualizado. Substitua o arquivo <code>dados.json</code> (em <code>/data/dados.json</code>) no servidor para que as fotos apareçam para todo mundo.
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let DATA=[];
+let edited={}; // idx -> true
+let curSearch='', onlyFoto=false;
+
+function initials(name){ return name.split(' ').slice(0,2).map(w=>w[0]||'').join(''); }
+function norm(s){ return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
+
+async function loadData(){
+  let json=null, err=null;
+  for(const url of ['/data/dados.json','dados.json']){
+    try{
+      const r=await fetch(url+'?v='+Date.now());
+      if(!r.ok) throw new Error(r.status);
+      json=await r.json(); break;
+    }catch(e){ err=e; }
+  }
+  if(!json){
+    document.getElementById('loading').innerHTML=`<div style="color:var(--rl);font-size:1rem;text-align:center;padding:2rem">
+      <div style="font-size:2rem;margin-bottom:.5rem">⚠️</div>
+      Erro ao carregar dados.json<br><small style="color:var(--mu)">${err?.message||''}</small>
+    </div>`;
+    return;
+  }
+  DATA=json;
+  document.getElementById('loading').style.display='none';
+  document.getElementById('hdr').style.display='';
+  document.getElementById('ctrl').style.display='';
+  document.getElementById('main').style.display='';
+  render();
+}
+loadData();
+
+function updateCount(){
+  const withFoto=DATA.filter(p=>p.foto).length;
+  const ne=Object.keys(edited).length;
+  document.getElementById('fcount').textContent=`${withFoto} com foto · ${ne} alteração${ne!==1?'es':''}`;
+  document.getElementById('exportBtn').disabled = ne===0;
+}
+
+function render(){
+  let arr=DATA.map((p,i)=>({...p,_idx:i}));
+  if(onlyFoto) arr=arr.filter(p=>p.foto);
+  if(curSearch){ const q=norm(curSearch); arr=arr.filter(p=>norm(p.nome).includes(q)||norm(p.nomeCompleto||'').includes(q)); }
+  arr.sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'));
+
+  document.getElementById('grid').innerHTML = arr.map(p=>{
+    const idx=p._idx, foto=p.foto||'', ini=initials(p.nome);
+    return `<div class="card${edited[idx]?' edited':''}" data-idx="${idx}">
+      <div class="thumb" id="thumb-${idx}">${foto?`<img src="${foto}" onerror="this.parentElement.innerHTML='<span class=ini>${ini}</span>'">`:`<span class="ini">${ini}</span>`}</div>
+      <div class="info">
+        <div class="nome">${p.nome}</div>
+        <div class="meta">${p.posicao} · ${p.ano}${p.nomeCompleto?' · '+p.nomeCompleto:''}</div>
+        <div class="urlrow">
+          <input type="text" id="url-${idx}" placeholder="Cole a URL do Cloudinary..." value="${foto.replace(/"/g,'&quot;')}">
+          <button onclick="applyFoto(${idx})">✓ Salvar</button>
+          <button class="rm" onclick="removeFoto(${idx})">🗑</button>
+        </div>
+        ${edited[idx]?'<div class="savedtag">● alterado (ainda não exportado)</div>':''}
+      </div>
+    </div>`;
+  }).join('');
+  updateCount();
+}
+
+function applyFoto(idx){
+  const url=document.getElementById(`url-${idx}`).value.trim();
+  if(!url){ showToast('Cole uma URL antes de salvar'); return; }
+  DATA[idx].foto=url;
+  edited[idx]=true;
+  render();
+  showToast(`Foto de ${DATA[idx].nome} atualizada`);
+}
+
+function removeFoto(idx){
+  if(!DATA[idx].foto && !edited[idx]) return;
+  delete DATA[idx].foto;
+  edited[idx]=true;
+  document.getElementById(`url-${idx}`).value='';
+  render();
+  showToast(`Foto de ${DATA[idx].nome} removida`);
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(t._h);
+  t._h=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+document.getElementById('search').addEventListener('input',e=>{ curSearch=e.target.value.trim(); render(); });
+document.getElementById('onlyWithFoto').addEventListener('click',e=>{
+  onlyFoto=!onlyFoto;
+  e.target.classList.toggle('on',onlyFoto);
+  render();
+});
+
+document.getElementById('exportBtn').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(DATA,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='dados.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  showToast('dados.json exportado — suba este arquivo em /data/dados.json no servidor');
+});
+</script>
+</body>
+</html>

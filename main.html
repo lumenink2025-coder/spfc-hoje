@@ -948,6 +948,54 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .dec-from-next{display:none}
 
 /* ══════════════════════════════════════════════════
+   LENDAS TRICOLOR — CARROSSEL ESTILO NETFLIX
+══════════════════════════════════════════════════ */
+.legends-scroll{display:flex;gap:10px;overflow-x:auto;padding:0 16px 4px;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.legends-scroll::-webkit-scrollbar{display:none}
+.legend-card{flex-shrink:0;width:clamp(108px,28vw,136px);aspect-ratio:2/3;border-radius:10px;overflow:hidden;position:relative;cursor:pointer;scroll-snap-align:start;border:1px solid var(--border2);background:var(--bg2);transition:transform .15s}
+.legend-card:active{transform:scale(.96)}
+.legend-card img{width:100%;height:100%;object-fit:cover;object-position:center 15%;display:block}
+.legend-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.9) 100%)}
+.legend-badge{position:absolute;top:6px;left:6px;z-index:2;font-family:var(--font-title);font-size:11px;color:#fff;background:rgba(204,0,0,.88);padding:2px 6px;border-radius:4px;letter-spacing:1px}
+.legend-info{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:8px}
+.legend-name{font-family:var(--font-ui);font-size:12px;font-weight:600;color:#fff;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.legend-pos{font-size:9px;color:var(--gold2);letter-spacing:1px;text-transform:uppercase;margin-top:1px}
+.legends-more{flex-shrink:0;width:clamp(108px,28vw,136px);aspect-ratio:2/3;border-radius:10px;border:1px dashed var(--border2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;color:var(--txt2);background:var(--bg2);scroll-snap-align:start}
+.legends-more span:first-child{font-size:22px}
+.legends-more span:last-child{font-size:10px;letter-spacing:1px;text-align:center;padding:0 10px}
+
+/* ══ PLAYER MODAL (reaproveita .ev-modal) ══ */
+.pm-header{display:flex;gap:14px;align-items:center;padding:0 18px 14px}
+.pm-photo{width:76px;height:76px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center}
+.pm-photo img{width:100%;height:100%;object-fit:cover}
+.pm-photo-ini{font-family:var(--font-title);font-size:24px;color:var(--txt3)}
+.pm-name{font-family:var(--font-title);font-size:22px;color:#fff;line-height:1.1}
+.pm-badge{display:inline-block;font-family:var(--font-title);font-size:11px;letter-spacing:1px;background:rgba(204,0,0,.85);color:#fff;padding:2px 8px;border-radius:4px;margin-bottom:4px}
+.pm-full{font-size:11px;color:var(--txt2);margin-top:2px}
+.pm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px;margin-bottom:12px}
+.pm-field{background:var(--bg3);border-radius:8px;padding:8px 10px;border:1px solid var(--border)}
+.pm-flbl{font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.pm-fval{font-size:12px;color:var(--txt);font-weight:500;word-break:break-word}
+.pm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 18px;margin-bottom:12px}
+.pm-stat{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center}
+.pm-stat-num{font-family:var(--font-title);font-size:20px;line-height:1}
+.pm-stat-lbl{font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.pm-sv{color:#7fff6a}.pm-se{color:#e2c97e}.pm-sd{color:#ff5a5a}.pm-sg{color:var(--red2)}
+.pm-titles{padding:0 18px 20px}
+.pm-titles-lbl{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.pm-tag{display:inline-block;background:rgba(204,0,0,.15);color:#ff7a7a;border:1px solid rgba(204,0,0,.3);border-radius:4px;font-size:11px;padding:3px 8px;margin:0 4px 6px 0}
+
+/* ══ MODAL JOGADORES (lista completa, iframe) ══ */
+.jog-modal{position:fixed;inset:0;z-index:3500;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0);visibility:hidden;pointer-events:none;transition:background .3s,visibility 0s .38s}
+.jog-modal.open{background:rgba(0,0,0,.78);backdrop-filter:blur(6px);visibility:visible;pointer-events:all;transition:background .3s,visibility 0s 0s}
+.jog-modal-sheet{width:100%;max-width:600px;height:92dvh;background:var(--bg2);border-radius:20px 20px 0 0;border-top:1px solid var(--border2);display:flex;flex-direction:column;position:relative;transform:translateY(100%);transition:transform .35s cubic-bezier(.32,1,.32,1);box-shadow:0 -8px 40px rgba(0,0,0,.6)}
+.jog-modal.open .jog-modal-sheet{transform:translateY(0)}
+.jog-modal-close{position:absolute;top:10px;right:12px;width:32px;height:32px;border-radius:50%;border:1px solid var(--border2);background:rgba(30,30,30,.9);color:var(--txt2);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;line-height:1;padding:0}
+.jog-modal-close:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.jog-modal-body{flex:1;border-radius:20px 20px 0 0;overflow:hidden}
+.jog-modal-body iframe{width:100%;height:100%;border:none;display:block}
+
+/* ══════════════════════════════════════════════════
    HUB DO TORCEDOR — REDESIGN PREMIUM
 ══════════════════════════════════════════════════ */
 
@@ -1805,6 +1853,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <button class="tb-drawer-item" onclick="closeDrawer();showTab2('calendario')">
       <span class="tb-drawer-item-icon">📅</span>Calendário
     </button>
+    <button class="tb-drawer-item" onclick="closeDrawer();openJogadoresModal()">
+      <span class="tb-drawer-item-icon">👕</span>Lendas Tricolor
+    </button>
     <div class="tb-drawer-sep"></div>
     <button class="tb-drawer-item" onclick="closeDrawer();openSobre()">
       <span class="tb-drawer-item-icon">ℹ️</span>Sobre o App
@@ -1991,6 +2042,13 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   </div>
   <div class="day-cards-grid" id="todayList"></div>
   <div class="dcard-dots" id="dcardDots"></div>
+
+  <!-- ③.5 LENDAS TRICOLOR — CARROSSEL NETFLIX -->
+  <div class="sec-head-new">
+    <div class="sec-title-new">lendas tricolor</div>
+    <div class="sec-badge" id="legendsCount">0</div>
+  </div>
+  <div class="legends-scroll" id="legendsScroll"></div>
 
   <!-- ④ HUB DO TORCEDOR -->
   <div class="hub-section-head" style="padding-top:28px">
@@ -2209,6 +2267,27 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <button class="ev-modal-close" onclick="closeEvModal()">✕</button>
     <div class="ev-modal-scroll" id="evModalScroll">
       <div id="evModalContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PLAYER MODAL — Lendas Tricolor -->
+<div id="playerModal" class="ev-modal" onclick="closePlayerModal(event)">
+  <div class="ev-modal-sheet" id="playerModalSheet">
+    <div class="ev-modal-handle"></div>
+    <button class="ev-modal-close" onclick="closePlayerModal()">✕</button>
+    <div class="ev-modal-scroll" id="playerModalScroll">
+      <div id="playerModalContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- JOGADORES MODAL — lista completa (iframe) -->
+<div id="jogadoresModal" class="jog-modal" onclick="closeJogadoresModal(event)">
+  <div class="jog-modal-sheet" id="jogadoresModalSheet">
+    <button class="jog-modal-close" onclick="closeJogadoresModal()">✕</button>
+    <div class="jog-modal-body">
+      <iframe id="jogadoresIframe" src="" title="Lendas Tricolor"></iframe>
     </div>
   </div>
 </div>
@@ -4820,6 +4899,125 @@ function closePerfilModal(e) {
   modal.classList.remove('open');
   document.body.style.overflow = '';
 }
+
+/* ═══════════════════════════════════════════════
+   LENDAS TRICOLOR — carrossel + modal de jogador
+═══════════════════════════════════════════════ */
+let PLAYERS_DATA = [];
+let LEGENDS_LIST = [];
+
+async function loadPlayers(){
+  try{
+    const res = await fetch('/data/dados.json?v='+Date.now());
+    if(!res.ok) throw new Error('http '+res.status);
+    PLAYERS_DATA = await res.json();
+  }catch(e){
+    console.warn('dados.json não disponível:', e.message);
+    PLAYERS_DATA = [];
+  }
+  LEGENDS_LIST = [];
+  PLAYERS_DATA.forEach((p,i)=>{ if(p.foto) LEGENDS_LIST.push({...p, _idx:i}); });
+  renderLegends();
+}
+
+function renderLegends(){
+  const wrap = document.getElementById('legendsScroll');
+  const countEl = document.getElementById('legendsCount');
+  if(!wrap) return;
+  if(countEl) countEl.textContent = LEGENDS_LIST.length;
+  if(!LEGENDS_LIST.length){ wrap.innerHTML=''; return; }
+  wrap.innerHTML = LEGENDS_LIST.map(p=>`
+    <div class="legend-card" onclick="openPlayerModal(${p._idx})">
+      <img src="${p.foto}" alt="${p.nome}" loading="lazy" onerror="this.closest('.legend-card').style.display='none'">
+      <div class="legend-badge">${p.ano}</div>
+      <div class="legend-info">
+        <div class="legend-name">${p.nome}</div>
+        <div class="legend-pos">${p.posicao}</div>
+      </div>
+    </div>
+  `).join('') + `<div class="legends-more" onclick="openJogadoresModal()"><span>👕</span><span>Ver todos os jogadores</span></div>`;
+}
+
+function _pmInitials(nome){
+  return (nome||'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+
+function openPlayerModal(idx){
+  const p = PLAYERS_DATA[idx]; if(!p) return;
+  const foto = p.foto, ini = _pmInitials(p.nome);
+  const hasG = (p.golsMarcados>0) || (p.golsSofridos>0);
+  const titles = p.titulos||[];
+
+  let html = `
+    <div class="pm-header">
+      <div class="pm-photo">${foto?`<img src="${foto}" alt="" onerror="this.parentElement.innerHTML='<span class=pm-photo-ini>${ini}</span>'">`:`<span class="pm-photo-ini">${ini}</span>`}</div>
+      <div>
+        <div class="pm-badge">${p.posicao} · ${p.ano}</div>
+        <div class="pm-name">${p.nome}</div>
+        <div class="pm-full">${p.nomeCompleto||''}</div>
+      </div>
+    </div>
+    <div class="pm-grid">
+      <div class="pm-field"><div class="pm-flbl">Nascimento</div><div class="pm-fval">${p.nascimento||'—'}</div></div>
+      <div class="pm-field"><div class="pm-flbl">Local</div><div class="pm-fval">${p.localNascimento||'—'}</div></div>
+      <div class="pm-field"><div class="pm-flbl">Estreia</div><div class="pm-fval">${p.estreia||'—'}</div></div>
+      <div class="pm-field"><div class="pm-flbl">Último jogo</div><div class="pm-fval">${p.ultimoJogo||'—'}</div></div>
+      <div class="pm-field"><div class="pm-flbl">Contratado de</div><div class="pm-fval">${p.contratado||'—'}</div></div>
+      <div class="pm-field"><div class="pm-flbl">Transferido para</div><div class="pm-fval">${p.posterior||'—'}</div></div>
+    </div>
+    <div class="pm-stats">
+      <div class="pm-stat"><div class="pm-stat-num">${p.jogos||0}</div><div class="pm-stat-lbl">Jogos</div></div>
+      <div class="pm-stat"><div class="pm-stat-num pm-sv">${p.vitorias||0}</div><div class="pm-stat-lbl">Vitórias</div></div>
+      <div class="pm-stat"><div class="pm-stat-num pm-se">${p.empates||0}</div><div class="pm-stat-lbl">Empates</div></div>
+      <div class="pm-stat"><div class="pm-stat-num pm-sd">${p.derrotas||0}</div><div class="pm-stat-lbl">Derrotas</div></div>
+    </div>`;
+
+  if(hasG){
+    html += `
+    <div class="pm-stats" style="grid-template-columns:1fr 1fr">
+      <div class="pm-stat"><div class="pm-stat-num pm-sg">${p.golsMarcados||0}</div><div class="pm-stat-lbl">Gols marcados</div></div>
+      <div class="pm-stat"><div class="pm-stat-num">${p.golsSofridos||0}</div><div class="pm-stat-lbl">Gols sofridos</div></div>
+    </div>`;
+  }
+
+  if(titles.length){
+    const all = titles.join('; ').split('; ').map(t=>t.trim()).filter(Boolean);
+    html += `
+    <div class="pm-titles">
+      <div class="pm-titles-lbl">🏆 Títulos</div>
+      ${all.map(t=>`<span class="pm-tag">${t}</span>`).join('')}
+    </div>`;
+  }
+
+  document.getElementById('playerModalContent').innerHTML = html;
+  document.getElementById('playerModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePlayerModal(e){
+  if(e && e.target !== document.getElementById('playerModal')) return;
+  document.getElementById('playerModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+let _jogadoresLoaded = false;
+function openJogadoresModal(){
+  const modal = document.getElementById('jogadoresModal');
+  const iframe = document.getElementById('jogadoresIframe');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if(!_jogadoresLoaded){
+    _jogadoresLoaded = true;
+    iframe.src = 'jogadores.html';
+  }
+}
+function closeJogadoresModal(e){
+  if(e && e.target !== document.getElementById('jogadoresModal')) return;
+  document.getElementById('jogadoresModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+loadPlayers();
 
 </script>
 
