@@ -1983,7 +1983,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- ③ 3 CARDS DO DIA -->
   <div class="sec-head-new">
     <div class="sec-title-new">eventos do dia</div>
-    <div class="sec-badge" id="secCount">0</div>
   </div>
   <div class="day-cards-grid" id="todayList"></div>
   <div class="dcard-dots" id="dcardDots"></div>
@@ -1991,14 +1990,12 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- ③.5 LENDAS TRICOLOR — CARROSSEL NETFLIX -->
   <div class="sec-head-new">
     <div class="sec-title-new">eles vestiram o manto</div>
-    <div class="sec-badge" id="legendsCount">0</div>
   </div>
   <div class="legends-scroll" id="legendsScroll"></div>
 
   <!-- ④ HUB DO TORCEDOR -->
   <div class="hub-section-head" style="padding-top:28px">
     <div class="hub-section-label">área do torcedor</div>
-    <div class="hub-section-badge">HUB</div>
   </div>
 
   <div class="widgets-grid">
@@ -2718,7 +2715,8 @@ function renderHoje(){
   document.getElementById('heroCountLabel').textContent=events.length===1?'evento':'eventos';
   
   document.getElementById('heroDateLabel').textContent=`${MONTHS[TODAY_M-1].toUpperCase()} ${TODAY_D}, ${TODAY_Y}`;
-  document.getElementById('secCount').textContent=events.length;
+  const secCountEl=document.getElementById('secCount');
+  if(secCountEl) secCountEl.textContent=events.length;
 
   const list=document.getElementById('todayList');
   if(!events.length){
