@@ -959,7 +959,22 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 ══════════════════════════════════════════════════ */
 
 /* ── WIDGETS GRID ──────────────────────────────── */
-.widgets-grid{padding:0 14px 24px;display:flex;flex-direction:column;gap:10px}
+.widgets-grid{
+  display:flex;flex-direction:row;
+  overflow-x:auto;scroll-snap-type:x mandatory;
+  gap:10px;padding:0 14px 24px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.widgets-grid::-webkit-scrollbar{display:none}
+.widgets-grid > *{
+  flex-shrink:0;
+  width:calc(100vw - 40px);
+  scroll-snap-align:start;
+}
+/* dots indicadores */
+.games-dots{display:flex;justify-content:center;gap:6px;padding:0 0 16px;margin-top:-16px}
+.games-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:background .2s,width .2s}
+.games-dot.active{width:18px;border-radius:3px;background:var(--red)}
 
 /* Widget base */
 .widget{
@@ -1322,7 +1337,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 /* ── LINHA 3: PALPITÔMETRO + PRÓXIMO JOGO ─── */
 .hub-row-sm{
   display:grid;grid-template-columns:1fr 1fr;gap:10px;
-  align-items:stretch
+  align-items:stretch;
+  flex-shrink:0;
+  width:calc(100vw - 40px);
+  scroll-snap-align:start;
 }
 /* Próximo Jogo compacto na linha 3 */
 .hub-row-sm .widget-jogo{
@@ -1998,7 +2016,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="hub-section-label">área do torcedor</div>
   </div>
 
-  <div class="widgets-grid">
+  <div class="widgets-grid" id="widgetsGrid">
 
     <!-- ══ CARD QUIZ HERÓI ══ -->
     <div class="widget-quiz-hero" onclick="window.location.href='quiz.html'">
@@ -2070,7 +2088,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div>
 
     <!-- ══ LINHA 2: WORDLE (largura total) ══ -->
-    <div style="margin-bottom:10px">
+    <div style="margin-bottom:10px;flex-shrink:0;width:calc(100vw - 40px);scroll-snap-align:start">
 
       <!-- QUEM É ESSE JOGADOR -->
       <div class="widget-wordle">
@@ -2156,6 +2174,13 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div><!-- /hub-row-sm -->
 
   </div><!-- /widgets-grid -->
+
+  <!-- dots do carrossel de games -->
+  <div class="games-dots" id="gamesDots">
+    <div class="games-dot active"></div>
+    <div class="games-dot"></div>
+    <div class="games-dot"></div>
+  </div>
 
 </div><!-- /panel-hoje -->
 
@@ -5003,6 +5028,17 @@ function closeJogadoresModal(e){
   document.getElementById('jogadoresModal').classList.remove('open');
   document.body.style.overflow = '';
 }
+
+/* ── GAMES CAROUSEL DOTS ── */
+(function(){
+  const grid = document.getElementById('widgetsGrid') || document.querySelector('.widgets-grid');
+  const dots = document.querySelectorAll('.games-dot');
+  if(!grid || !dots.length) return;
+  grid.addEventListener('scroll', ()=>{
+    const idx = Math.round(grid.scrollLeft / grid.clientWidth);
+    dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+  }, {passive:true});
+})();
 
 loadPlayers();
 
