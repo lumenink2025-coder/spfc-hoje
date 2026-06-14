@@ -964,12 +964,14 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   overflow-x:auto;scroll-snap-type:x mandatory;
   gap:10px;padding:0 14px 24px;
   scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  touch-action:pan-x;
 }
 .widgets-grid::-webkit-scrollbar{display:none}
 .widgets-grid > *{
   flex-shrink:0;
   width:calc(100vw - 40px);
   scroll-snap-align:start;
+  touch-action:pan-x;
 }
 /* dots indicadores */
 .games-dots{display:flex;justify-content:center;gap:6px;padding:0 0 16px;margin-top:-16px}
@@ -987,7 +989,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   border-radius:18px;overflow:hidden;position:relative;
   border:1px solid rgba(204,0,0,.3);
   background:linear-gradient(150deg,#150000 0%,#0d0000 40%,#0a0a0a 100%);
-  cursor:pointer;touch-action:pan-y;
+  cursor:pointer;
   box-shadow:0 8px 40px rgba(204,0,0,.12),inset 0 1px 0 rgba(255,255,255,.06)
 }
 /* padrão geométrico de fundo */
@@ -1365,7 +1367,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   border-radius:16px;overflow:hidden;position:relative;
   border:1px solid rgba(204,0,0,.2);
   background:linear-gradient(135deg,#130000 0%,#0a0a0a 100%);
-  cursor:pointer;min-height:120px;touch-action:pan-y;
+  cursor:pointer;min-height:120px;
   display:flex;flex-direction:column
 }
 .widget-palp::before{
@@ -2153,7 +2155,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="hub-row-sm">
 
       <!-- PALPITÔMETRO -->
-      <div class="widget widget-palp" id="palpWrap" style="display:none" onclick="window.location.href='palpitometro.html'">
+      <div class="widget widget-palp" id="palpWrap" style="display:none">
         <div class="wp-inner">
           <div class="wp-eyebrow" id="palpBtnEyebrow">SÃO PAULO FC</div>
           <div class="wp-title" id="palpBtnLabel">PALPITÔMETRO</div>
@@ -3151,7 +3153,7 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
 
   // Reset classes
   wrap.classList.remove('s-sent','s-closed','s-result');
-  wrap.onclick = () => window.location.href = 'palpitometro.html';
+  swipeSafeClick(wrap, () => window.location.href = 'palpitometro.html');
   if (eyebrow) eyebrow.textContent = 'SÃO PAULO FC';
 
   if (jaPalpitou && resultPeriod) {
@@ -4058,7 +4060,7 @@ function updatePalpBtn(matchDate, isFinished, diffMs, matchId) {
 
   // Reset classes
   wrap.className = 'widget widget-palp';
-  wrap.onclick = () => window.location.href = 'palpitometro.html';
+  swipeSafeClick(wrap, () => window.location.href = 'palpitometro.html');
   if (eyebrow) eyebrow.textContent = 'SÃO PAULO FC';
 
   if (jaPalpitou && resultPeriod) {
@@ -5035,10 +5037,33 @@ function closeJogadoresModal(e){
   const dots = document.querySelectorAll('.games-dot');
   if(!grid || !dots.length) return;
   grid.addEventListener('scroll', ()=>{
-    const idx = Math.round(grid.scrollLeft / grid.clientWidth);
+    const firstChild = grid.children[0];
+    if(!firstChild) return;
+    const gap = parseFloat(getComputedStyle(grid).gap) || 10;
+    const cardW = firstChild.getBoundingClientRect().width + gap;
+    const idx = Math.round(grid.scrollLeft / cardW);
     dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
   }, {passive:true});
 })();
+
+/* ── SWIPE-SAFE CLICK ──
+   Registra touchstart e só navega se o dedo não se moveu (não foi swipe).
+   Substitui onclick em cards dentro de carrossel horizontal. */
+function swipeSafeClick(el, fn) {
+  el.onclick = null;
+  let startX = 0, startY = 0;
+  el.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, {passive: true});
+  el.addEventListener('touchend', e => {
+    const dx = Math.abs(e.changedTouches[0].clientX - startX);
+    const dy = Math.abs(e.changedTouches[0].clientY - startY);
+    if (dx < 10 && dy < 10) fn(); // toque parado = clique
+  }, {passive: true});
+  // fallback mouse (desktop)
+  el.addEventListener('click', fn);
+}
 
 loadPlayers();
 
