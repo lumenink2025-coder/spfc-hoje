@@ -977,8 +977,67 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 
   <!-- TAB: JOGOS -->
   <div id="tab-jogos" style="display:none">
+
+    <!-- ADICIONAR JOGO -->
+    <div class="form-card" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="form-title" style="margin-bottom:0">➕ Adicionar Jogo</div>
+        <button onclick="toggleAddJogo()" id="btnToggleAdd" style="padding:6px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);cursor:pointer;border-radius:6px;font-size:12px">▼ Expandir</button>
+      </div>
+      <div id="addJogoForm" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label class="form-label">Data (DD.MM.AAAA)</label>
+            <input id="njData" class="form-input" type="text" placeholder="ex: 14.06.2025">
+          </div>
+          <div>
+            <label class="form-label">Competição</label>
+            <select id="njComp" class="form-select">
+              <option>Campeonato Paulista</option>
+              <option>Campeonato Brasileiro</option>
+              <option>Libertadores</option>
+              <option>Copa do Brasil</option>
+              <option>C. Sul-Americana</option>
+              <option>Rio-São Paulo</option>
+              <option>Supercopa</option>
+              <option>Copa Conmebol</option>
+              <option>Copa Mercosul</option>
+              <option>Copa Paulista</option>
+              <option>Super Paulista</option>
+              <option>Mundial</option>
+              <option>Amistoso</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Gols SPFC</label>
+            <input id="njGolsSP" class="form-input" type="number" min="0" placeholder="0">
+          </div>
+          <div>
+            <label class="form-label">Gols Adversário</label>
+            <input id="njGolsAdv" class="form-input" type="number" min="0" placeholder="0">
+          </div>
+          <div>
+            <label class="form-label">Adversário</label>
+            <input id="njAdv" class="form-input" type="text" placeholder="ex: Santos-SP">
+          </div>
+          <div>
+            <label class="form-label">Estádio</label>
+            <input id="njEstadio" class="form-input" type="text" placeholder="ex: MorumBIS">
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <button onclick="addNovoJogo()" style="padding:10px 20px;background:var(--red);border:none;color:#fff;cursor:pointer;border-radius:6px;font-size:13px;font-weight:600">✓ Adicionar ao Arquivo</button>
+          <span id="addJogoMsg" style="font-size:12px;color:var(--green)"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS + TABELA -->
     <div class="form-card">
-      <div class="form-title">⚽ Arquivo de Jogos</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <div class="form-title" style="margin-bottom:0">⚽ Arquivo de Jogos</div>
+        <button onclick="exportarJogosJSON()" style="padding:8px 16px;background:var(--bg3);border:1px solid var(--green);color:var(--green);cursor:pointer;border-radius:6px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px">⬇ Exportar jogos.json</button>
+      </div>
 
       <!-- Stats por categoria -->
       <div id="jogosStats" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px"></div>
@@ -2880,6 +2939,83 @@ document.addEventListener('DOMContentLoaded', () => {
   if(cat) cat.addEventListener('change', applyJogosFilters);
   if(res) res.addEventListener('change', applyJogosFilters);
 });
+
+
+// ══ ADICIONAR JOGO ══
+window.toggleAddJogo = function() {
+  const form = document.getElementById('addJogoForm');
+  const btn = document.getElementById('btnToggleAdd');
+  const open = form.style.display === 'none';
+  form.style.display = open ? 'block' : 'none';
+  btn.textContent = open ? '▲ Recolher' : '▼ Expandir';
+};
+
+const catMap = {
+  'Campeonato Paulista':'Campeonato Paulista','Campeonato Brasileiro':'Campeonato Brasileiro',
+  'Libertadores':'Copa Libertadores','Copa do Brasil':'Copa do Brasil',
+  'C. Sul-Americana':'Copa Sul-Americana','Rio-São Paulo':'Rio-São Paulo',
+  'Supercopa':'Supercopa','Copa Conmebol':'Copa Conmebol','Copa Mercosul':'Copa Mercosul',
+  'Copa Paulista':'Copa Paulista','Super Paulista':'Super Paulista',
+  'Mundial':'Mundiais','Amistoso':'Amistosos',
+};
+
+window.addNovoJogo = function() {
+  const data   = document.getElementById('njData').value.trim();
+  const comp   = document.getElementById('njComp').value;
+  const golsSP = document.getElementById('njGolsSP').value;
+  const golsAdv= document.getElementById('njGolsAdv').value;
+  const adv    = document.getElementById('njAdv').value.trim();
+  const estadio= document.getElementById('njEstadio').value.trim();
+  const msg    = document.getElementById('addJogoMsg');
+
+  if (!data || !adv || golsSP === '' || golsAdv === '') {
+    msg.style.color = '#ef4444';
+    msg.textContent = '⚠ Preencha data, adversário e gols.';
+    return;
+  }
+  // Validate date format
+  if (!/^\d{2}\.\d{2}\.\d{4}$/.test(data)) {
+    msg.style.color = '#ef4444';
+    msg.textContent = '⚠ Data no formato DD.MM.AAAA';
+    return;
+  }
+
+  const resultado = `${golsSP} x ${golsAdv} ${adv}`;
+  const categoria = catMap[comp] || 'Outros';
+
+  const novoJogo = { data, competicao: comp, estadio: estadio || '—', resultado, categoria };
+  jogosAll.unshift(novoJogo);
+  jogosFiltered = [...jogosAll];
+  jogosPg = 1;
+  renderJogosStats();
+  renderJogosTable();
+
+  // Clear form
+  document.getElementById('njData').value = '';
+  document.getElementById('njGolsSP').value = '';
+  document.getElementById('njGolsAdv').value = '';
+  document.getElementById('njAdv').value = '';
+  document.getElementById('njEstadio').value = '';
+
+  msg.style.color = 'var(--green)';
+  msg.textContent = `✓ Jogo adicionado! (${jogosAll.length} total) — Exporte o JSON para salvar.`;
+  setTimeout(() => msg.textContent = '', 5000);
+};
+
+// ══ EXPORTAR JSON ══
+window.exportarJogosJSON = function() {
+  if (!jogosAll.length) {
+    alert('Carregue os jogos primeiro abrindo a aba Jogos.');
+    return;
+  }
+  const blob = new Blob([JSON.stringify(jogosAll, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'jogos.json';
+  a.click();
+  URL.revokeObjectURL(url);
+};
 
 </script>
 </body>
