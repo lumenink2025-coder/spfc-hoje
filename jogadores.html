@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SPFC — Fichário Histórico de Jogadores</title>
+<title>SPFC — Cartel Tricolor</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 :root{--r:#CC0000;--rd:#990000;--rl:#FF4444;--k:#0D0D0D;--k1:#161616;--k2:#1E1E1E;--k3:#2A2A2A;--k4:#383838;--w:#F0F0EB;--w2:#D8D8D2;--mu:#888;--bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.13);}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -19,10 +20,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--k);color:var(--w);min-hei
 
 #hdr{background:var(--k1);border-bottom:3px solid var(--r);position:sticky;top:0;z-index:200;}
 .htop{display:flex;align-items:center;gap:.9rem;padding:1rem 1rem .8rem;flex-wrap:wrap;}
-.escudo{width:46px;height:46px;flex-shrink:0;}
+.escudo{width:46px;height:46px;flex-shrink:0;object-fit:contain;filter:drop-shadow(0 0 8px rgba(204,0,0,0.35));}
 .htitle{min-width:0;}
 .htitle h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,6vw,1.9rem);letter-spacing:.06em;line-height:1.05;color:var(--w);white-space:nowrap;}
+.htitle h1 em{font-style:normal;color:var(--r);}
 .htitle p{font-size:.62rem;color:var(--mu);letter-spacing:.12em;text-transform:uppercase;margin-top:.15rem;white-space:nowrap;}
+.nav-back{display:flex;align-items:center;gap:6px;padding:6px 12px 6px 8px;border:1px solid var(--bd2);border-radius:50px;color:var(--w2);font-size:.68rem;font-weight:600;letter-spacing:.06em;text-decoration:none;cursor:pointer;transition:all .2s;flex-shrink:0;}
+.nav-back:hover{border-color:var(--r);color:var(--w);}
+.nav-back i{font-size:.65rem;color:var(--r);}
 .hsub{padding:0 1rem .8rem;font-size:.7rem;color:var(--w2);line-height:1.5;}
 .hsub .credit{display:block;margin-top:.25rem;font-size:.62rem;color:var(--mu);letter-spacing:.06em;}
 .hstats{display:flex;gap:1rem;align-items:center;padding:0 1rem .9rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
@@ -153,14 +158,12 @@ input[type=file]{display:none;}
 
 <header id="hdr" style="display:none">
 <div class="htop">
-  <svg class="escudo" viewBox="0 0 80 80" fill="none">
-    <path d="M40 4 L72 16 L72 44 Q72 62 40 76 Q8 62 8 44 L8 16 Z" fill="#CC0000"/>
-    <path d="M40 4 L72 16 L72 44 Q72 62 40 76 Q8 62 8 44 L8 16 Z" fill="none" stroke="#fff" stroke-width="1.5"/>
-    <path d="M14 19 L66 19 L66 44 Q66 59 40 71 Q14 59 14 44 Z" fill="#1A1A1A"/>
-    <text x="40" y="50" font-family="Bebas Neue,sans-serif" font-size="22" fill="white" text-anchor="middle">SPFC</text>
-  </svg>
+  <a class="nav-back" href="main.html" aria-label="Voltar">
+    <i class="fas fa-chevron-left"></i> Voltar
+  </a>
+  <img class="escudo" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" alt="SPFC">
   <div class="htitle">
-    <h1>ELES VESTIRAM O MANTO</h1>
+    <h1>Cartel <em>Tricolor</em></h1>
     <p>Histórico de Jogadores</p>
   </div>
 </div>
@@ -406,6 +409,13 @@ let st; document.getElementById('search').addEventListener('input',e=>{ clearTim
 document.getElementById('vg').addEventListener('click',()=>{ document.body.classList.remove('lv'); document.getElementById('vg').classList.add('on'); document.getElementById('vl').classList.remove('on'); });
 document.getElementById('vl').addEventListener('click',()=>{ document.body.classList.add('lv'); document.getElementById('vl').classList.add('on'); document.getElementById('vg').classList.remove('on'); });
 window.addEventListener('scroll',()=>{ document.getElementById('stb').classList.toggle('show',window.scrollY>400); });
+
+// esconde o botão "Voltar" quando a página está dentro do modal (iframe)
+if(window.self !== window.top){
+  const back = document.querySelector('.nav-back');
+  if(back) back.style.display = 'none';
+}
+
 </script>
 </body>
 </html>
