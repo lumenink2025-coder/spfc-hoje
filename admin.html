@@ -343,6 +343,9 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
       <button class="admin-tab" onclick="showTab('tematico',this);loadTematico()" data-tab="tematico">
         <span class="tab-icon">◇</span> Sexta Temática
       </button>
+      <button class="admin-tab" onclick="showTab('jogos',this);loadJogosTab()" data-tab="jogos">
+        <span class="tab-icon">⚽</span> Jogos
+      </button>
     </nav>
     <div class="sidebar-bottom">
       <button class="sidebar-bottom-btn">
@@ -969,6 +972,71 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
       <div id="tWeeksList"><div style="font-size:13px;color:var(--txt3)">Carregando...</div></div>
     </div>
 
+  </div>
+
+
+  <!-- TAB: JOGOS -->
+  <div id="tab-jogos" style="display:none">
+    <div class="form-card">
+      <div class="form-title">⚽ Arquivo de Jogos</div>
+
+      <!-- Stats por categoria -->
+      <div id="jogosStats" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px"></div>
+
+      <!-- Controles -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center">
+        <input id="jogosSrch" type="text" class="form-input" placeholder="🔍 buscar adversário, estádio..." style="flex:1;min-width:200px;font-size:13px">
+        <select id="jogosCat" class="form-select" style="width:180px;font-size:13px">
+          <option value="">Todas as categorias</option>
+          <option>Campeonato Paulista</option>
+          <option>Campeonato Brasileiro</option>
+          <option>Copa Libertadores</option>
+          <option>Copa do Brasil</option>
+          <option>Copa Sul-Americana</option>
+          <option>Rio-São Paulo</option>
+          <option>Supercopa</option>
+          <option>Copa Conmebol</option>
+          <option>Copa Mercosul</option>
+          <option>Copa Paulista</option>
+          <option>Super Paulista</option>
+          <option>Mundiais</option>
+          <option>Amistosos</option>
+          <option>Outros</option>
+        </select>
+        <select id="jogosRes" class="form-select" style="width:130px;font-size:13px">
+          <option value="">Todos os resultados</option>
+          <option value="v">Vitórias</option>
+          <option value="e">Empates</option>
+          <option value="d">Derrotas</option>
+        </select>
+      </div>
+
+      <div id="jogosInfo" style="font-size:11px;color:var(--txt3);margin-bottom:10px"></div>
+
+      <!-- Tabela -->
+      <div style="overflow-x:auto;border-radius:8px;border:1px solid var(--border)">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="background:var(--bg3);border-bottom:1px solid var(--border2)">
+              <th style="padding:10px 12px;text-align:left;color:var(--txt3);font-size:10px;letter-spacing:1px;font-weight:600">DATA</th>
+              <th style="padding:10px 12px;text-align:left;color:var(--txt3);font-size:10px;letter-spacing:1px;font-weight:600">COMPETIÇÃO</th>
+              <th style="padding:10px 12px;text-align:left;color:var(--txt3);font-size:10px;letter-spacing:1px;font-weight:600">ESTÁDIO</th>
+              <th style="padding:10px 12px;text-align:left;color:var(--txt3);font-size:10px;letter-spacing:1px;font-weight:600">PLACAR</th>
+              <th style="padding:10px 12px;text-align:left;color:var(--txt3);font-size:10px;letter-spacing:1px;font-weight:600">ADVERSÁRIO</th>
+              <th style="padding:10px 12px;text-align:left;color:var(--txt3);font-size:10px;letter-spacing:1px;font-weight:600">RESULTADO</th>
+              <th style="padding:10px 12px;text-align:left;color:var(--txt3);font-size:10px;letter-spacing:1px;font-weight:600">CAT.</th>
+            </tr>
+          </thead>
+          <tbody id="jogosTbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Paginação -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;flex-wrap:wrap;gap:8px">
+        <span id="jogosPgInfo" style="font-size:11px;color:var(--txt3)"></span>
+        <div id="jogosPgBtns" style="display:flex;gap:4px"></div>
+      </div>
+    </div>
   </div>
 
     </div><!-- admin-content -->
@@ -2678,6 +2746,140 @@ window.previewTematicoImg = function(url) {
     img.style.display = 'none';
   }
 };
+
+
+// ══════════════════════════════════════
+// ABA JOGOS
+// ══════════════════════════════════════
+let jogosAll = [], jogosFiltered = [], jogosPg = 1;
+const JOGOS_PER_PAGE = 50;
+
+const catColors = {
+  'Campeonato Paulista':'#C8102E','Campeonato Brasileiro':'#3B82F6',
+  'Copa Libertadores':'#C9A96E','Copa do Brasil':'#10B981',
+  'Copa Sul-Americana':'#8B5CF6','Rio-São Paulo':'#EC4899',
+  'Supercopa':'#F59E0B','Copa Conmebol':'#06B6D4',
+  'Copa Mercosul':'#14B8A6','Copa Paulista':'#FB7185',
+  'Super Paulista':'#F472B6','Mundiais':'#FBBF24',
+  'Amistosos':'#6B7280','Outros':'#374151',
+};
+
+window.loadJogosTab = async function() {
+  if (jogosAll.length) return; // already loaded
+  document.getElementById('jogosTbody').innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--txt3)">⏳ Carregando jogos...</td></tr>';
+  try {
+    const res = await fetch('data/jogos.json');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    jogosAll = await res.json();
+    jogosFiltered = [...jogosAll];
+    renderJogosStats();
+    renderJogosTable();
+  } catch(e) {
+    document.getElementById('jogosTbody').innerHTML = `<tr><td colspan="7" style="text-align:center;padding:30px;color:#CC0000">⚠ Erro: ${e.message}<br><small>Certifique-se que data.json está na mesma pasta</small></td></tr>`;
+  }
+};
+
+function renderJogosStats() {
+  const cats = {};
+  jogosAll.forEach(g => { cats[g.categoria] = (cats[g.categoria]||0)+1; });
+  const statsDiv = document.getElementById('jogosStats');
+  statsDiv.innerHTML = [
+    {l:'Total', v: jogosAll.length, c:'#C8102E'},
+    {l:'Vitórias', v: jogosAll.filter(g=>getJRes(g)==='v').length, c:'#22c55e'},
+    {l:'Empates', v: jogosAll.filter(g=>getJRes(g)==='e').length, c:'#C9A96E'},
+    {l:'Derrotas', v: jogosAll.filter(g=>getJRes(g)==='d').length, c:'#ef4444'},
+  ].map(s => `<div style="background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:12px 14px">
+    <div style="font-size:18px;font-weight:700;color:${s.c};font-family:'Inter',monospace">${s.v.toLocaleString('pt-BR')}</div>
+    <div style="font-size:10px;color:var(--txt3);letter-spacing:1px;margin-top:2px">${s.l}</div>
+  </div>`).join('');
+}
+
+function getJRes(g) {
+  const p = g.resultado.split(' x ');
+  if (p.length < 2) return 'n';
+  const a = parseInt(p[0].trim());
+  let bStr = p[1].trim(), bNum='';
+  for(const c of bStr){if(c>='0'&&c<='9')bNum+=c;else break;}
+  const b = parseInt(bNum);
+  if(isNaN(a)||isNaN(b)) return 'n';
+  return a>b?'v':a===b?'e':'d';
+}
+function getJScore(g) {
+  const p = g.resultado.split(' x ');
+  if (p.length<2) return '?';
+  const a = parseInt(p[0].trim());
+  let bStr=p[1].trim(),bNum='';
+  for(const c of bStr){if(c>='0'&&c<='9')bNum+=c;else break;}
+  const b=parseInt(bNum);
+  return (!isNaN(a)&&!isNaN(b))?`${a} × ${b}`:'?';
+}
+function getJAdv(g) {
+  const p=g.resultado.split(' x ');
+  if(p.length<2) return g.resultado;
+  return p[1].trim().replace(/^\d+\s*/,'');
+}
+
+function applyJogosFilters() {
+  const q = document.getElementById('jogosSrch').value.toLowerCase();
+  const cat = document.getElementById('jogosCat').value;
+  const res = document.getElementById('jogosRes').value;
+  jogosFiltered = jogosAll.filter(g => {
+    const cm = !cat || g.categoria===cat;
+    const rm = !res || getJRes(g)===res;
+    const sm = !q || g.resultado.toLowerCase().includes(q)||g.competicao.toLowerCase().includes(q)||g.estadio.toLowerCase().includes(q)||g.data.includes(q);
+    return cm&&rm&&sm;
+  });
+  jogosPg = 1;
+  renderJogosTable();
+}
+
+function renderJogosTable() {
+  const start = (jogosPg-1)*JOGOS_PER_PAGE;
+  const slice = jogosFiltered.slice(start, start+JOGOS_PER_PAGE);
+  const resColors = {v:'#22c55e',e:'#C9A96E',d:'#ef4444',n:'#666'};
+  const resLabels = {v:'VITÓRIA',e:'EMPATE',d:'DERROTA',n:'S/I'};
+  document.getElementById('jogosTbody').innerHTML = slice.map(g => {
+    const rt = getJRes(g);
+    const col = catColors[g.categoria]||'#666';
+    return `<tr style="border-bottom:1px solid var(--border);transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,0.03)'" onmouseout="this.style.background=''">
+      <td style="padding:9px 12px;font-family:monospace;font-size:11px;color:var(--txt3);white-space:nowrap">${g.data}</td>
+      <td style="padding:9px 12px;color:var(--txt2);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${g.competicao}</td>
+      <td style="padding:9px 12px;color:var(--txt3);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${g.estadio}</td>
+      <td style="padding:9px 12px;font-family:monospace;font-size:13px;font-weight:700;color:var(--txt)">${getJScore(g)}</td>
+      <td style="padding:9px 12px;color:var(--txt);font-weight:500">${getJAdv(g)}</td>
+      <td style="padding:9px 12px"><span style="display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.08em;background:${resColors[rt]}22;color:${resColors[rt]}">${resLabels[rt]}</span></td>
+      <td style="padding:9px 12px"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${col};margin-right:5px;vertical-align:middle"></span><span style="font-size:10px;color:var(--txt3)">${(g.categoria||'').split(' ')[0]}</span></td>
+    </tr>`;
+  }).join('');
+
+  const tot = jogosFiltered.length, pages = Math.ceil(tot/JOGOS_PER_PAGE);
+  const s = (jogosPg-1)*JOGOS_PER_PAGE+1, e2=Math.min(jogosPg*JOGOS_PER_PAGE,tot);
+  document.getElementById('jogosPgInfo').textContent = `${s.toLocaleString('pt-BR')}–${e2.toLocaleString('pt-BR')} de ${tot.toLocaleString('pt-BR')} jogos`;
+
+  let pgH = `<button onclick="jogosGoPage(${jogosPg-1})" ${jogosPg<=1?'disabled':''} style="padding:5px 10px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);cursor:pointer;border-radius:4px;font-size:11px">‹</button>`;
+  let ps=Math.max(1,jogosPg-2), pe=Math.min(pages,ps+4);
+  if(pe-ps<4) ps=Math.max(1,pe-4);
+  for(let p=ps;p<=pe;p++) pgH+=`<button onclick="jogosGoPage(${p})" style="padding:5px 10px;background:${p===jogosPg?'var(--red)':'var(--bg3)'};border:1px solid ${p===jogosPg?'var(--red)':'var(--border2)'};color:${p===jogosPg?'#fff':'var(--txt2)'};cursor:pointer;border-radius:4px;font-size:11px">${p}</button>`;
+  pgH+=`<button onclick="jogosGoPage(${jogosPg+1})" ${jogosPg>=pages?'disabled':''} style="padding:5px 10px;background:var(--bg3);border:1px solid var(--border2);color:var(--txt2);cursor:pointer;border-radius:4px;font-size:11px">›</button>`;
+  document.getElementById('jogosPgBtns').innerHTML = pgH;
+
+  document.getElementById('jogosInfo').textContent = `Mostrando ${s}–${e2} de ${tot.toLocaleString('pt-BR')} jogos encontrados`;
+}
+
+window.jogosGoPage = function(p) {
+  const pages = Math.ceil(jogosFiltered.length/JOGOS_PER_PAGE);
+  if(p<1||p>pages) return;
+  jogosPg=p; renderJogosTable();
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const srch = document.getElementById('jogosSrch');
+  const cat = document.getElementById('jogosCat');
+  const res = document.getElementById('jogosRes');
+  if(srch) srch.addEventListener('input', applyJogosFilters);
+  if(cat) cat.addEventListener('change', applyJogosFilters);
+  if(res) res.addEventListener('change', applyJogosFilters);
+});
 
 </script>
 </body>

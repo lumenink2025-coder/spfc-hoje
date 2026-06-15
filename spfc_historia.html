@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPFC — Arquivo Histórico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --red: #C8102E;
+            --red-deep: #9B0B23;
+            --red-glow: rgba(200,16,46,0.18);
+            --black: #080808;
+            --surface: #111111;
+            --surface2: #181818;
+            --border: rgba(255,255,255,0.07);
+            --border2: rgba(255,255,255,0.12);
+            --white: #F5F5F0;
+            --gray-1: #D0CFC8;
+            --gray-2: #8A8882;
+            --gray-3: #52514E;
+            --gold: #C9A96E;
+            --green: #2ECC71;
+            --green-dim: rgba(46,204,113,0.12);
+            --red-dim: rgba(200,16,46,0.12);
+            --draw-dim: rgba(201,169,110,0.12);
+        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); overflow-x: clip; -webkit-font-smoothing: antialiased; }
+
+        /* NAV */
+        .nav { position: fixed; top:0; left:0; right:0; z-index:1000; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; background: rgba(8,8,8,0.88); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); }
+        .nav-brand { display: flex; align-items: center; gap: 0.75rem; }
+        .nav-logo { height: 36px; width: auto; filter: drop-shadow(0 0 8px rgba(200,16,46,0.4)); }
+        .nav-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.02em; color: var(--white); }
+        .nav-credit { font-size: 0.6rem; color: var(--gray-3); letter-spacing: 0.06em; margin-top: 2px; font-style: italic; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { font-size: 0.72rem; font-weight: 500; color: var(--gray-2); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--white); }
+        .nav-links a.active { border-bottom: 1px solid var(--red); padding-bottom: 2px; }
+
+        /* HERO */
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 0 4rem 5rem; position: relative; overflow: hidden; }
+        .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 70% 30%, rgba(200,16,46,0.10) 0%, transparent 65%), linear-gradient(180deg, #080808 0%, #0f0508 60%, #080808 100%); }
+        .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px); background-size: 80px 80px; }
+        .hero-year { position: absolute; right: 4rem; top: 50%; transform: translateY(-50%); font-family: 'Playfair Display', serif; font-size: clamp(8rem, 18vw, 16rem); font-weight: 900; color: transparent; -webkit-text-stroke: 1px rgba(200,16,46,0.07); line-height: 1; pointer-events: none; letter-spacing: -0.04em; }
+        .hero-content { position: relative; z-index: 2; max-width: 680px; }
+        .hero-eyebrow { display: flex; align-items: center; gap: 0.75rem; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 1.5rem; }
+        .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--red); }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 8vw, 6.5rem); font-weight: 900; line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+        .hero-title em { font-style: normal; color: var(--red); }
+        .hero-sub { font-size: 0.95rem; color: var(--gray-2); line-height: 1.75; font-weight: 300; max-width: 500px; margin-bottom: 3rem; }
+        .hero-stats { display: flex; gap: 3.5rem; flex-wrap: wrap; }
+        .hstat-val { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 500; line-height: 1; letter-spacing: -0.02em; }
+        .hstat-lbl { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray-3); margin-top: 0.4rem; }
+
+        /* DIVIDER */
+        .sep { width: 100%; height: 1px; background: var(--border); }
+
+        /* SECTION */
+        .section { padding: 5.5rem 4rem; max-width: 1440px; margin: 0 auto; overflow: visible; }
+        .sec-eye { display: flex; align-items: center; gap: 0.75rem; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 0.9rem; }
+        .sec-eye::before { content: ''; display: block; width: 22px; height: 1px; background: var(--red); }
+        .sec-title { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 3.5vw, 2.8rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.6rem; line-height: 1.1; }
+        .sec-desc { font-size: 0.88rem; color: var(--gray-2); line-height: 1.75; font-weight: 300; max-width: 500px; }
+
+        /* BIG NUMBERS */
+        .big-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 3rem; }
+        .big-cell { background: var(--surface); padding: 2rem 1.75rem; position: relative; transition: background 0.2s; }
+        .big-cell:hover { background: var(--surface2); }
+        .big-cell::after { content: attr(data-label); position: absolute; top: 1.2rem; right: 1.2rem; font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray-3); font-weight: 600; }
+        .big-val { font-family: 'JetBrains Mono', monospace; font-size: clamp(2.3rem, 3.5vw, 3.8rem); font-weight: 500; line-height: 1; letter-spacing: -0.03em; }
+        .big-val.red { color: var(--red); }
+        .big-val.gold { color: var(--gold); }
+        .big-val.green { color: var(--green); }
+        .big-sub { font-size: 0.73rem; color: var(--gray-2); margin-top: 0.5rem; }
+
+        /* COMPETITIONS */
+        .comp-wrap { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 2px; }
+        .comp-total { background: rgba(200,16,46,0.06); border: 1px solid rgba(200,16,46,0.18); padding: 1.25rem 1.5rem; display: grid; grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; gap: 0.5rem; align-items: center; }
+        .comp-total-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); }
+        .comp-hdr { background: rgba(0,0,0,0.5); padding: 0.45rem 1.5rem; display: grid; grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; gap: 0.5rem; font-size: 0.56rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-3); border: 1px solid var(--border); border-bottom: none; margin-top: 1.5rem; }
+        .cat-block { border: 1px solid var(--border); }
+        .cat-head { display: flex; align-items: center; gap: 0.75rem; padding: 0.9rem 1.25rem; background: var(--surface); cursor: pointer; transition: background 0.2s; user-select: none; }
+        .cat-head:hover { background: var(--surface2); }
+        .cat-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+        .cat-name { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; flex: 1; }
+        .cat-count { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--gray-2); }
+        .cat-arr { font-size: 0.6rem; color: var(--gray-3); transition: transform 0.3s; }
+        .cat-head.open .cat-arr { transform: rotate(90deg); }
+        .cat-body { display: none; border-top: 1px solid var(--border); }
+        .cat-body.open { display: block; }
+        .cat-row { display: grid; grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; gap: 0.5rem; padding: 0.85rem 1.25rem; font-size: 0.8rem; align-items: center; background: rgba(0,0,0,0.25); }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .cv { color: var(--green); }
+        .cd { color: var(--red); }
+        .cg { color: var(--gold); }
+        .cgr { color: var(--gray-2); }
+
+        /* CHARTS — PREMIUM */
+        .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
+        .chart-card { background: var(--surface); border: 1px solid var(--border); padding: 2rem 2rem 1.5rem; position: relative; min-width: 0; overflow: hidden; }
+        .chart-card.wide { grid-column: 1 / -1; }
+        .chart-card-title { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray-3); margin-bottom: 1.75rem; }
+        .chart-legend { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1.25rem; }
+        .chart-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.7rem; color: var(--gray-2); }
+        .chart-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .big-aprov { position: absolute; top: 2rem; right: 2rem; text-align: right; }
+        .big-aprov-val { font-family: 'JetBrains Mono', monospace; font-size: 2.5rem; font-weight: 500; color: var(--red); line-height: 1; }
+        .big-aprov-lbl { font-size: 0.55rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray-3); margin-top: 4px; }
+
+        /* WIN-RATE BAR */
+        .wr-bars { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+        .wr-row { display: flex; align-items: center; gap: 1rem; }
+        .wr-label { font-size: 0.7rem; color: var(--gray-2); width: 160px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .wr-track { flex: 1; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+        .wr-fill { height: 100%; border-radius: 2px; background: var(--red); transition: width 0.8s ease; }
+        .wr-pct { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--gray-3); width: 40px; text-align: right; flex-shrink: 0; }
+
+        /* TIMELINE */
+        .tl { margin-top: 3rem; position: relative; padding-left: 3rem; }
+        .tl::before { content: ''; position: absolute; left: 0.85rem; top: 0; bottom: 0; width: 1px; background: var(--border2); }
+        .tl-item { padding-bottom: 2.5rem; position: relative; }
+        .tl-dot { position: absolute; left: -2.15rem; top: 0.3rem; width: 8px; height: 8px; background: var(--red); border: 2px solid var(--black); border-radius: 50%; box-shadow: 0 0 0 2px var(--red); }
+        .tl-dot.gold { background: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+        .tl-yr { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; color: var(--red); margin-bottom: 0.35rem; font-weight: 500; }
+        .tl-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.35rem; }
+        .tl-desc { font-size: 0.84rem; color: var(--gray-2); line-height: 1.7; font-weight: 300; max-width: 520px; }
+
+        /* DATABASE */
+        .db-top { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; padding: 1.2rem 1.5rem; background: var(--surface); border: 1px solid var(--border); border-bottom: none; }
+        .search { display: flex; align-items: center; gap: 0.7rem; flex: 1; min-width: 220px; background: var(--surface2); border: 1px solid var(--border2); padding: 0.55rem 1rem; transition: border-color 0.2s; }
+        .search:focus-within { border-color: var(--red); }
+        .search i { color: var(--gray-3); font-size: 0.78rem; }
+        .search input { background: none; border: none; outline: none; color: var(--white); font-size: 0.84rem; font-family: 'Inter', sans-serif; width: 100%; }
+        .search input::placeholder { color: var(--gray-3); }
+        .ftabs { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+        .ft { padding: 0.4rem 0.8rem; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; border: 1px solid var(--border2); background: none; color: var(--gray-2); cursor: pointer; transition: all 0.18s; }
+        .ft:hover { border-color: var(--red); color: var(--white); }
+        .ft.active { background: var(--red); border-color: var(--red); color: var(--white); }
+        .tbl-wrap { border: 1px solid var(--border); }
+        .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table.dt { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+        .dt thead tr { background: var(--surface2); border-bottom: 1px solid var(--border2); }
+        .dt th { padding: 0.75rem 1.1rem; text-align: left; font-size: 0.57rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gray-3); cursor: pointer; white-space: nowrap; transition: color 0.2s; user-select: none; }
+        .dt th:hover { color: var(--white); }
+        .dt td { padding: 0.7rem 1.1rem; border-bottom: 1px solid var(--border); color: var(--gray-1); white-space: nowrap; vertical-align: middle; }
+        .dt tbody tr:hover td { background: rgba(255,255,255,0.02); }
+        .dt tbody tr:last-child td { border-bottom: none; }
+        .pill { display: inline-flex; align-items: center; gap: 0.35rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; padding: 0.18rem 0.55rem; border-radius: 2px; }
+        .pill.v { background: var(--green-dim); color: var(--green); }
+        .pill.e { background: var(--draw-dim); color: var(--gold); }
+        .pill.d { background: var(--red-dim); color: var(--red); }
+        .pill.n { background: rgba(255,255,255,0.05); color: var(--gray-2); }
+        .badge { display: inline-block; font-size: 0.58rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.13rem 0.45rem; background: rgba(255,255,255,0.05); color: var(--gray-3); border-radius: 2px; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .pg-bar { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.4rem; background: var(--surface); border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--gray-2); }
+        .pg-btns { display: flex; gap: 0.3rem; }
+        .pb { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border2); background: none; color: var(--gray-2); cursor: pointer; font-size: 0.75rem; transition: all 0.18s; }
+        .pb:hover { border-color: var(--red); color: var(--white); }
+        .pb.active { background: var(--red); border-color: var(--red); color: var(--white); }
+        .pb:disabled { opacity: 0.3; cursor: default; }
+
+        /* FOOTER */
+        footer { padding: 3rem 4rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+        .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--red); }
+        .footer-info { font-size: 0.7rem; color: var(--gray-3); line-height: 1.9; text-align: right; }
+        .footer-info em { font-style: italic; color: var(--gray-2); }
+
+        /* FADE */
+        .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .fade-up.vis { opacity: 1; transform: translateY(0); }
+
+                /* MOBILE CARDS — hidden on desktop, shown on mobile */
+        .mobile-cards { display: none; }
+
+        @media (max-width: 900px) {
+            /* LAYOUT */
+            .hero, .section, footer { padding-left: 1.1rem; padding-right: 1.1rem; }
+            .hero { padding-bottom: 3.5rem; }
+            .hero-year, .nav-links { display: none; }
+            footer { flex-direction: column; padding: 2rem 1.1rem; }
+            .footer-info { text-align: left; }
+            .sec-title { font-size: 1.7rem; }
+
+            /* HERO */
+            .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+            .hstat-val { font-size: 1.5rem; }
+
+            /* BIG GRID */
+            .big-grid { grid-template-columns: 1fr 1fr; gap: 1px; }
+            .big-cell { padding: 0.9rem 0.8rem; display: flex; flex-direction: column; min-width: 0; }
+            .big-cell::after { position: static; display: block; order: -1; font-size: 0.42rem; letter-spacing: 0.12em; color: var(--gray-3); margin-bottom: 0.3rem; white-space: normal; line-height: 1.3; }
+            .big-val { font-size: clamp(1.3rem, 6.5vw, 2rem); letter-spacing: -0.02em; }
+            .big-sub { font-size: 0.65rem; margin-top: 0.3rem; }
+
+            /* COMPETITIONS */
+            .comp-hdr { display: none; }
+            .comp-total { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; padding: 0.9rem 1rem; }
+            .comp-total > * { font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+            .comp-total-lbl { width: 100%; font-size: 0.7rem; font-family: 'Inter', sans-serif; margin-bottom: 0.1rem; }
+            .cat-row { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; padding: 0.75rem 1rem; }
+            .cat-row span { font-size: 0.72rem; }
+
+            /* CHARTS */
+            .charts-grid { grid-template-columns: 1fr; }
+            .chart-card.wide { grid-column: 1; }
+            .big-aprov { position: static; text-align: left; margin-bottom: 1rem; }
+            .wr-label { width: 120px; font-size: 0.65rem; }
+
+            /* TIMELINE */
+            .tl { padding-left: 2rem; }
+            .tl-dot { left: -1.6rem; }
+            .tl-desc { max-width: 100%; }
+
+            /* DB CONTROLS */
+            .db-top { flex-direction: column; align-items: stretch; gap: 0.75rem; padding: 1rem; }
+            .search { width: 100%; }
+            .ftabs { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+            .ft { font-size: 0.62rem; padding: 0.38rem 0.65rem; }
+
+            /* HIDE TABLE, SHOW CARDS ON MOBILE */
+            .tbl-scroll { display: none !important; }
+            .mobile-cards { display: block !important; }
+
+            /* FIX CHARTS ON MOBILE */
+            .chart-card { padding: 1.25rem 1rem 1rem; overflow: hidden; }
+            canvas { max-width: 100% !important; height: auto !important; }
+            .wr-label { width: 100px; font-size: 0.6rem; }
+            .wr-bars { gap: 0.75rem; }
+            .chart-legend { gap: 0.75rem; }
+            .chart-legend-item { font-size: 0.65rem; }
+        }
+        
+
+        .m-card {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .m-card:last-child { border-bottom: none; }
+        .m-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.4rem;
+            gap: 0.5rem;
+        }
+        .m-card-adv {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--white);
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .m-card-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            flex-shrink: 0;
+        }
+        .m-card-score.v { color: var(--green); }
+        .m-card-score.e { color: var(--gold); }
+        .m-card-score.d { color: var(--red); }
+        .m-card-score.n { color: var(--gray-2); }
+        .m-card-meta {
+            display: flex;
+            gap: 0.6rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .m-card-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--gray-3);
+        }
+        .m-card-comp {
+            font-size: 0.65rem;
+            color: var(--gray-2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 160px;
+        }
+        .m-card-pill {
+            display: inline-block;
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.12rem 0.4rem;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        .m-card-pill.v { background: var(--green-dim); color: var(--green); }
+        .m-card-pill.e { background: var(--draw-dim); color: var(--gold); }
+        .m-card-pill.d { background: var(--red-dim); color: var(--red); }
+        .m-card-pill.n { background: rgba(255,255,255,0.05); color: var(--gray-2); }
+
+        
+        /* BACK BUTTON — inside nav */
+        .nav-back {
+            display: flex; align-items: center; gap: 6px;
+            padding: 6px 12px 6px 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            color: var(--gray-2);
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+        .nav-back:hover { border-color: var(--red); color: var(--white); }
+        .nav-back i { font-size: 0.65rem; color: var(--red); }
+
+        
+        /* LOADING STATE */
+        .loading-msg {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 3rem 1.5rem;
+            font-size: 0.85rem; color: var(--gray-2);
+            justify-content: center;
+        }
+        .loading-spin {
+            width: 18px; height: 18px;
+            border: 2px solid var(--border2);
+            border-top-color: var(--red);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            flex-shrink: 0;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-cell {
+            text-align: center; padding: 3rem !important;
+            color: var(--gray-2); font-size: 0.85rem;
+        }
+        .loading-cell .loading-spin { display: inline-block; margin-right: 0.75rem; vertical-align: middle; }
+
+        </style>
+</head>
+<body>
+
+
+<nav class="nav" id="nav">
+    <a class="nav-back" onclick="history.back()" href="main.html"><i class="fas fa-chevron-left"></i> Voltar</a>
+    <div class="nav-brand">
+        <img class="nav-logo" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" alt="SPFC">
+        <div>
+            <div class="nav-title">São Paulo FC</div>
+            <div class="nav-credit">Michael Serra / Arquivo Histórico João Farah</div>
+        </div>
+    </div>
+    <ul class="nav-links">
+        <li><a href="#overview" class="active" data-nav="overview">Visão Geral</a></li>
+        <li><a href="#competicoes" data-nav="competicoes">Competições</a></li>
+        <li><a href="#graficos" data-nav="graficos">Gráficos</a></li>
+        <li><a href="#historia" data-nav="historia">História</a></li>
+        <li><a href="#arquivo" data-nav="arquivo">Arquivo</a></li>
+    </ul>
+</nav>
+
+<section class="hero" id="overview">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-year">1930</div>
+    <div class="hero-content">
+        <div class="hero-eyebrow">Arquivo Histórico — Desde 16.03.1930</div>
+        <h1 class="hero-title"><em>Tricolor</em><br>Paulista</h1>
+        <p class="hero-sub">Mais de 95 anos de futebol compilados em um único registro. Cada partida, cada resultado, cada competição — da Chácara da Floresta ao MorumBIS.</p>
+        <div class="hero-stats">
+            <div><div class="hstat-val">6.079</div><div class="hstat-lbl">Jogos</div></div>
+            <div><div class="hstat-val">3.048</div><div class="hstat-lbl">Vitórias</div></div>
+            <div><div class="hstat-val">58,4<small style="font-size:1.1rem">%</small></div><div class="hstat-lbl">Aproveitamento</div></div>
+            <div><div class="hstat-val">10.886</div><div class="hstat-lbl">Gols Marcados</div></div>
+        </div>
+    </div>
+</section>
+
+<div class="sep"></div>
+
+<div class="section" id="overview-stats">
+    <div class="sec-eye">Números da História</div>
+    <h2 class="sec-title">Performance Geral</h2>
+    <p class="sec-desc">Resultado consolidado de todas as 6.079 partidas registradas desde 16 de março de 1930.</p>
+    <div class="big-grid fade-up">
+        <div class="big-cell" data-label="Total de Partidas"><div class="big-val">6.079</div><div class="big-sub">Em todas as competições</div></div>
+        <div class="big-cell" data-label="Vitórias"><div class="big-val green">3.048</div><div class="big-sub">50,1% das partidas</div></div>
+        <div class="big-cell" data-label="Empates"><div class="big-val gold">1.501</div><div class="big-sub">24,7% das partidas</div></div>
+        <div class="big-cell" data-label="Derrotas"><div class="big-val red">1.449</div><div class="big-sub">23,8% das partidas</div></div>
+        <div class="big-cell" data-label="Gols Marcados"><div class="big-val">10.886</div><div class="big-sub">Média 1,79 por jogo</div></div>
+        <div class="big-cell" data-label="Gols Sofridos"><div class="big-val">6.721</div><div class="big-sub">Saldo +4.165</div></div>
+        <div class="big-cell" data-label="Anos de História"><div class="big-val gold">95</div><div class="big-sub">1930 – 2025</div></div>
+        <div class="big-cell" data-label="Aproveitamento Geral"><div class="big-val red">58,4%</div><div class="big-sub">Pts obtidos / Pts possíveis</div></div>
+    </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="section" id="competicoes">
+    <div class="sec-eye">Competições</div>
+    <h2 class="sec-title">Desempenho por Categoria</h2>
+    <p class="sec-desc">Todas as competições organizadas por categoria, com resultado consolidado de jogos, vitórias, empates, derrotas, gols e aproveitamento.</p>
+    <div class="comp-wrap fade-up" id="compWrap"></div>
+</div>
+
+<div class="sep"></div>
+
+<div class="section" id="graficos">
+    <div class="sec-eye">Visualização</div>
+    <h2 class="sec-title">Análise Histórica</h2>
+    <p class="sec-desc">Distribuição de partidas por década, performance por competição e evolução do aproveitamento ao longo dos anos.</p>
+
+    <div class="charts-grid">
+        <div class="chart-card wide fade-up">
+            <div class="chart-card-title">Jogos por Década — 1930 a 2025</div>
+            <canvas id="decChart" style="max-height:220px"></canvas>
+        </div>
+        <div class="chart-card fade-up" style="position:relative">
+            <div class="chart-card-title">Resultado Geral</div>
+            <div class="big-aprov"><div class="big-aprov-val">58,4%</div><div class="big-aprov-lbl">Aproveitamento</div></div>
+            <canvas id="resChart" style="max-height:220px"></canvas>
+            <div class="chart-legend">
+                <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#2ECC71"></div> Vitórias (3.048)</div>
+                <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#C9A96E"></div> Empates (1.501)</div>
+                <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#C8102E"></div> Derrotas (1.449)</div>
+            </div>
+        </div>
+        <div class="chart-card fade-up">
+            <div class="chart-card-title">Aproveitamento por Competição</div>
+            <div class="wr-bars" id="wrBars"></div>
+        </div>
+    </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="section" id="historia">
+    <div class="sec-eye">Memória</div>
+    <h2 class="sec-title">Momentos Históricos</h2>
+    <p class="sec-desc">Os marcos que definiram a trajetória do maior clube do Brasil.</p>
+    <div class="tl fade-up">
+        <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-yr">16.03.1930</div>
+            <div class="tl-title">A Primeira Partida</div>
+            <div class="tl-desc">São Paulo 0×0 Ypiranga-SP na Chácara da Floresta, pelo Campeonato Paulista. O início de uma história que se tornaria a maior do futebol brasileiro.</div>
+        </div>
+        <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-yr">27.08.1933</div>
+            <div class="tl-title">Maior Goleada da História</div>
+            <div class="tl-desc">São Paulo 12×1 Sírio-SP, na Chácara da Floresta, pelo Campeonato Paulista. O maior placar da história do clube, um recorde que persiste por mais de 90 anos. Também houve 12×1 contra o Jabaquara em 1945.</div>
+        </div>
+        <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-yr">02.10.1960</div>
+            <div class="tl-title">Inauguração do Morumbi</div>
+            <div class="tl-desc">São Paulo 1×0 Sporting Lisboa. O Estádio Cícero Pompeu de Toledo abre suas portas — o maior construído por um clube no mundo inteiro.</div>
+        </div>
+        <div class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-yr">13.12.1992</div>
+            <div class="tl-title">Primeiro Mundial</div>
+            <div class="tl-desc">São Paulo 2×1 Barcelona no Nacional de Tóquio. Na era de Cruyff, o Tricolor de Telê Santana e Raí conquista seu primeiro título de Campeão do Mundo.</div>
+        </div>
+        <div class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-yr">12.12.1993</div>
+            <div class="tl-title">Bicampeão Mundial</div>
+            <div class="tl-desc">São Paulo 3×2 AC Milan no Nacional de Tóquio. O clube de Capello era favorito, mas o Tricolor impôs o bicampeonato inédito no futebol de clubes.</div>
+        </div>
+        <div class="tl-item">
+            <div class="tl-dot gold"></div>
+            <div class="tl-yr">18.12.2005</div>
+            <div class="tl-title">Tricampeão Mundial</div>
+            <div class="tl-desc">São Paulo 1×0 Liverpool no Internacional de Yokohama. Rogério Ceni decisivo, sob o comando de Paulo Autuori: o Tricolor se consagra tricampeão mundial, superando os campeões europeus.</div>
+        </div>
+        <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-yr">2025</div>
+            <div class="tl-title">O Arquivo Continua</div>
+            <div class="tl-desc">4 jogos em Mundiais FIFA, 4 vitórias. Nenhum empate, nenhuma derrota. 6.079 partidas registradas. A história não para.</div>
+        </div>
+    </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="section" id="arquivo">
+    <div class="sec-eye">Arquivo Completo</div>
+    <h2 class="sec-title">Banco de Dados</h2>
+    <p class="sec-desc">Todos os 6.079 jogos do São Paulo FC. Busque, filtre por competição e explore o arquivo histórico completo.</p>
+    <div style="margin-top:2rem">
+        <div class="db-top">
+            <div class="search"><i class="fas fa-search"></i><input type="text" id="srch" placeholder="Buscar adversário, estádio, data..."></div>
+            <div class="ftabs" id="ftabs">
+                <button class="ft active" data-cat="all">Todos</button>
+                <button class="ft" data-cat="Campeonato Paulista">Paulista</button>
+                <button class="ft" data-cat="Campeonato Brasileiro">Brasileiro</button>
+                <button class="ft" data-cat="Copa Libertadores">Libertadores</button>
+                <button class="ft" data-cat="Copa do Brasil">Copa BR</button>
+                <button class="ft" data-cat="Rio-São Paulo">Rio-SP</button>
+                <button class="ft" data-cat="Amistosos">Amistosos</button>
+                <button class="ft" data-cat="Mundiais">Mundiais</button>
+            </div>
+        </div>
+        <div class="tbl-wrap">
+            <div class="tbl-scroll">
+                <table class="dt" id="gt">
+                    <thead><tr>
+                        <th onclick="srt(0)">Data <i class="fas fa-sort fa-xs"></i></th>
+                        <th onclick="srt(1)">Competição <i class="fas fa-sort fa-xs"></i></th>
+                        <th onclick="srt(2)">Estádio <i class="fas fa-sort fa-xs"></i></th>
+                        <th>Placar SPFC</th>
+                        <th>Adversário</th>
+                        <th onclick="srt(3)">Resultado <i class="fas fa-sort fa-xs"></i></th>
+                        <th>Cat.</th>
+                    </tr></thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+            <div class="mobile-cards" id="mobileCards"></div>
+            <div class="pg-bar" id="pgbar">
+                <span id="pginfo"></span>
+                <div class="pg-btns" id="pgbtns"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-brand">SPFC</div>
+    <div class="footer-info">
+        <em>Arquivo Histórico João Farah</em><br>
+        Compilação: Michael Serra<br>
+        São Paulo Futebol Clube — 1930 – 2025
+    </div>
+</footer>
+
+<script>
+// Data loaded via fetch from data.json
+let G = [], CS = {};
+
+async function loadData() {
+  try {
+    showLoadingState();
+    const res = await fetch('data/jogos.json');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    G = await res.json();
+    
+    // Compute CS (category stats) from data
+    CS = {};
+    const catOrder2 = ['Campeonato Paulista','Campeonato Brasileiro','Copa Libertadores','Copa do Brasil',
+      'Copa Sul-Americana','Rio-São Paulo','Supercopa','Copa Conmebol','Copa Mercosul',
+      'Copa Paulista','Super Paulista','Mundiais','Amistosos','Outros'];
+    for (const cat of catOrder2) {
+      const games = G.filter(g => g.categoria === cat);
+      if (!games.length) continue;
+      let v=0,e=0,d=0,gp=0,gc=0;
+      games.forEach(g => {
+        const p = g.resultado.split(' x ');
+        if (p.length < 2) return;
+        const a = parseInt(p[0].trim());
+        let bStr = p[1].trim(), bNum = '';
+        for (const c of bStr) { if(c>='0'&&c<='9') bNum+=c; else break; }
+        const b = parseInt(bNum);
+        if (isNaN(a)||isNaN(b)) return;
+        gp+=a; gc+=b;
+        if(a>b) v++; else if(a===b) e++; else d++;
+      });
+      CS[cat] = {j:games.length, v, e, d, gp, gc};
+    }
+
+    hideLoadingState();
+    filtered = [...G];
+    renderComps();
+    renderTable();
+    initCharts();
+    document.querySelectorAll('.fade-up').forEach(el => el.classList.add('vis'));
+  } catch(err) {
+    showErrorState(err);
+  }
+}
+
+function showLoadingState() {
+  document.getElementById('compWrap').innerHTML = '<div class="loading-msg"><div class="loading-spin"></div>Carregando arquivo histórico...</div>';
+  document.getElementById('tbody').innerHTML = '<tr><td colspan="7" class="loading-cell"><div class="loading-spin"></div>Carregando 6.079 jogos...</td></tr>';
+}
+function hideLoadingState() {}
+function showErrorState(err) {
+  document.getElementById('compWrap').innerHTML = '<div class="loading-msg" style="color:var(--red)">⚠ Erro ao carregar dados: ' + err.message + '<br><small>Certifique-se que data.json está na mesma pasta.</small></div>';
+}
+
+const catCfg = {
+  'Campeonato Paulista':  { color:'#C8102E' },
+  'Campeonato Brasileiro':{ color:'#3B82F6' },
+  'Copa Libertadores':    { color:'#C9A96E' },
+  'Copa do Brasil':       { color:'#10B981' },
+  'Copa Sul-Americana':   { color:'#8B5CF6' },
+  'Rio-São Paulo':        { color:'#EC4899' },
+  'Supercopa':            { color:'#F59E0B' },
+  'Copa Conmebol':        { color:'#06B6D4' },
+  'Copa Mercosul':        { color:'#14B8A6' },
+  'Copa Paulista':        { color:'#FB7185' },
+  'Super Paulista':       { color:'#F472B6' },
+  'Mundiais':             { color:'#FBBF24' },
+  'Amistosos':            { color:'#6B7280' },
+  'Outros':               { color:'#374151' },
+};
+const catOrder = ['Campeonato Paulista','Campeonato Brasileiro','Copa Libertadores','Copa do Brasil',
+  'Copa Sul-Americana','Rio-São Paulo','Supercopa','Copa Conmebol','Copa Mercosul',
+  'Copa Paulista','Super Paulista','Mundiais','Amistosos','Outros'];
+
+// COMPETITIONS
+function renderComps() {
+  const wrap = document.getElementById('compWrap');
+  const tV = Object.values(CS).reduce((s,c)=>s+c.v,0);
+  const tE = Object.values(CS).reduce((s,c)=>s+c.e,0);
+  const tD = Object.values(CS).reduce((s,c)=>s+c.d,0);
+  const tJ = G.length;
+  const tGP = Object.values(CS).reduce((s,c)=>s+c.gp,0);
+  const tGC = Object.values(CS).reduce((s,c)=>s+c.gc,0);
+  const tAp = ((tV*3+tE)/(tJ*3)*100).toFixed(1);
+  let h = `<div class="comp-hdr" style="margin-top:0; border:1px solid rgba(200,16,46,0.2); background:rgba(200,16,46,0.04)">
+    <span>GERAL — Todas as competições</span><span>J</span><span>V</span><span>E</span><span>D</span><span>GP</span><span>GC</span><span>Aprov.</span></div>
+  <div class="comp-total">
+    <span class="cat-name" style="color:var(--white)">São Paulo FC</span>
+    <span class="mono">${tJ.toLocaleString('pt-BR')}</span>
+    <span class="mono cv">${tV.toLocaleString('pt-BR')}</span>
+    <span class="mono">${tE.toLocaleString('pt-BR')}</span>
+    <span class="mono cd">${tD.toLocaleString('pt-BR')}</span>
+    <span class="mono">${tGP.toLocaleString('pt-BR')}</span>
+    <span class="mono">${tGC.toLocaleString('pt-BR')}</span>
+    <span class="mono cg">${tAp}%</span>
+  </div>`;
+
+  h += `<div class="comp-hdr" style="margin-top:1.5rem">
+    <span>Por Competição</span><span>J</span><span>V</span><span>E</span><span>D</span><span>GP</span><span>GC</span><span>Aprov.</span></div>`;
+
+  for (const cat of catOrder) {
+    const s = CS[cat]; if (!s) continue;
+    const cfg = catCfg[cat] || {color:'#6B7280'};
+    const ap = s.j > 0 ? ((s.v*3+s.e)/(s.j*3)*100).toFixed(1) : '0.0';
+    h += `<div class="cat-block">
+      <div class="cat-head" onclick="tog(this)">
+        <span class="cat-dot" style="background:${cfg.color}"></span>
+        <span class="cat-name">${cat}</span>
+        <span class="cat-count">${s.j} jogos</span>
+        <i class="fas fa-chevron-right cat-arr"></i>
+      </div>
+      <div class="cat-body">
+        <div class="cat-row">
+          <span class="cgr">${cat}</span>
+          <span class="mono">${s.j}</span>
+          <span class="mono cv">${s.v}</span>
+          <span class="mono">${s.e}</span>
+          <span class="mono cd">${s.d}</span>
+          <span class="mono">${s.gp}</span>
+          <span class="mono">${s.gc}</span>
+          <span class="mono cg">${ap}%</span>
+        </div>
+      </div>
+    </div>`;
+  }
+  wrap.innerHTML = h;
+}
+function tog(el) { el.classList.toggle('open'); el.nextElementSibling.classList.toggle('open'); }
+
+// TABLE
+let page=1, PAGE=50, filtered=[...G], sortC=0, sortD=1, curCat='all';
+
+function parseScore(r) {
+  const p = r.split(' x '); if(p.length<2) return null;
+  const a = parseInt(p[0].trim());
+  let bStr = p[1].trim(), bNum='';
+  for(const c of bStr){ if(c>='0'&&c<='9') bNum+=c; else break; }
+  const b = parseInt(bNum);
+  if(isNaN(a)||isNaN(b)) return null;
+  return {a,b};
+}
+function resType(r) {
+  const s = parseScore(r); if(!s) return 'n';
+  return s.a>s.b?'v': s.a===s.b?'e':'d';
+}
+function getAdv(r) {
+  const p = r.split(' x '); if(p.length<2) return r;
+  return p[1].trim().replace(/^\d+\s*/,'');
+}
+function getScore(r) {
+  const p = r.split(' x '); if(p.length<2) return r;
+  const s = parseScore(r);
+  return s ? `${s.a} × ${s.b}` : '?';
+}
+
+function renderTable() {
+  const body = document.getElementById('tbody');
+  const start = (page-1)*PAGE;
+  body.innerHTML = filtered.slice(start, start+PAGE).map(g => {
+    const rt = resType(g.resultado);
+    const labels = {v:'VITÓRIA',e:'EMPATE',d:'DERROTA',n:'S/I'};
+    return `<tr>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:0.73rem;color:var(--gray-3)">${g.data}</td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis">${g.competicao}</td>
+      <td style="color:var(--gray-2);max-width:150px;overflow:hidden;text-overflow:ellipsis">${g.estadio}</td>
+      <td><span style="font-family:'JetBrains Mono',monospace;font-size:0.88rem;font-weight:600;letter-spacing:0.05em">${getScore(g.resultado)}</span></td>
+      <td style="color:var(--white)">${getAdv(g.resultado)}</td>
+      <td><span class="pill ${rt}">${labels[rt]}</span></td>
+      <td><span class="badge">${(g.categoria||'Outros').split(' ')[0]}</span></td>
+    </tr>`;
+  }).join('');
+  renderPg();
+  renderMobileCards();
+}
+
+function renderMobileCards() {
+  const mc = document.getElementById('mobileCards');
+  if (!mc) return;
+  const start = (page-1)*PAGE;
+  const slice = filtered.slice(start, start+PAGE);
+  mc.innerHTML = slice.map(g => {
+    const rt = resType(g.resultado);
+    const labels = {v:'V',e:'E',d:'D',n:'?'};
+    const score = getScore(g.resultado);
+    const adv = getAdv(g.resultado);
+    return `<div class="m-card">
+      <div class="m-card-top">
+        <span class="m-card-adv">${adv}</span>
+        <span class="m-card-score ${rt}">${score}</span>
+        <span class="m-card-pill ${rt}">${{v:'VITÓRIA',e:'EMPATE',d:'DERROTA',n:'S/I'}[rt]}</span>
+      </div>
+      <div class="m-card-meta">
+        <span class="m-card-date">${g.data}</span>
+        <span style="color:var(--gray-3);font-size:0.6rem">·</span>
+        <span class="m-card-comp">${g.competicao}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderPg() {
+  const tot = filtered.length, pages = Math.ceil(tot/PAGE);
+  const s = (page-1)*PAGE+1, e2 = Math.min(page*PAGE,tot);
+  document.getElementById('pginfo').textContent = `${s.toLocaleString('pt-BR')}–${e2.toLocaleString('pt-BR')} de ${tot.toLocaleString('pt-BR')} jogos`;
+  let h = `<button class="pb" onclick="goPg(${page-1})" ${page<=1?'disabled':''}><i class="fas fa-chevron-left"></i></button>`;
+  let ps = Math.max(1,page-2), pe = Math.min(pages,ps+4);
+  if(pe-ps<4) ps=Math.max(1,pe-4);
+  for(let p=ps;p<=pe;p++) h+=`<button class="pb ${p===page?'active':''}" onclick="goPg(${p})">${p}</button>`;
+  h+=`<button class="pb" onclick="goPg(${page+1})" ${page>=pages?'disabled':''}><i class="fas fa-chevron-right"></i></button>`;
+  document.getElementById('pgbtns').innerHTML = h;
+}
+function goPg(p) {
+  const pages = Math.ceil(filtered.length/PAGE);
+  if(p<1||p>pages) return;
+  page=p; renderTable();
+  document.getElementById('arquivo').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function applyFilters() {
+  const q = document.getElementById('srch').value.toLowerCase();
+  filtered = G.filter(g => {
+    const cm = curCat==='all'||g.categoria===curCat;
+    const sm = !q||g.resultado.toLowerCase().includes(q)||g.competicao.toLowerCase().includes(q)||g.estadio.toLowerCase().includes(q)||g.data.includes(q);
+    return cm&&sm;
+  });
+  page=1; renderTable();
+}
+function srt(c) {
+  if(sortC===c) sortD*=-1; else{sortC=c;sortD=1;}
+  const keys=['data','competicao','estadio','resultado'];
+  filtered.sort((a,b)=>a[keys[c]].localeCompare(b[keys[c]],'pt-BR')*sortD);
+  renderTable();
+}
+document.getElementById('srch').addEventListener('input',applyFilters);
+document.getElementById('ftabs').addEventListener('click',e=>{
+  const b=e.target.closest('.ft'); if(!b) return;
+  document.querySelectorAll('.ft').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); curCat=b.dataset.cat; applyFilters();
+});
+
+// CHARTS
+function initCharts() {
+  Chart.defaults.color = '#52514E';
+  Chart.defaults.font.family = "'Inter', sans-serif";
+  Chart.defaults.responsive = true;
+  Chart.defaults.maintainAspectRatio = true;
+
+  // Decade bar
+  const decs={};
+  G.forEach(g=>{const yr=parseInt(g.data.slice(-4));if(isNaN(yr))return;const d=Math.floor(yr/10)*10;decs[d]=(decs[d]||0)+1;});
+  const dKeys=Object.keys(decs).sort();
+  new Chart(document.getElementById('decChart'),{
+    type:'bar',
+    data:{
+      labels:dKeys.map(d=>`${d}s`),
+      datasets:[{
+        data:dKeys.map(d=>decs[d]),
+        backgroundColor:dKeys.map((_,i)=>i===dKeys.length-1?'rgba(200,16,46,0.4)':'rgba(200,16,46,0.55)'),
+        borderColor:'#C8102E', borderWidth:1,
+        hoverBackgroundColor:'#C8102E',
+        borderRadius:2
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>`${ctx.raw} jogos`},backgroundColor:'#111',borderColor:'#333',borderWidth:1,titleColor:'#F5F5F0',bodyColor:'#8A8882',padding:10}
+      },
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#52514E',font:{size:11,family:"'JetBrains Mono',monospace"}}},
+        y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#52514E',font:{size:11,family:"'JetBrains Mono',monospace"}}}
+      }
+    }
+  });
+
+  // Result donut
+  new Chart(document.getElementById('resChart'),{
+    type:'doughnut',
+    data:{
+      labels:['Vitórias','Empates','Derrotas'],
+      datasets:[{data:[3048,1501,1449],backgroundColor:['#2ECC71','#C9A96E','#C8102E'],borderColor:'#111111',borderWidth:3,hoverOffset:6}]
+    },
+    options:{
+      responsive:true,cutout:'72%',
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw.toLocaleString('pt-BR')}`},backgroundColor:'#111',borderColor:'#333',borderWidth:1,titleColor:'#F5F5F0',bodyColor:'#8A8882',padding:10}
+      }
+    }
+  });
+
+  // Win-rate bars
+  const mainCats = ['Campeonato Paulista','Campeonato Brasileiro','Copa Libertadores','Copa do Brasil','Copa Sul-Americana','Rio-São Paulo','Mundiais','Supercopa','Amistosos'];
+  const wrDiv = document.getElementById('wrBars');
+  wrDiv.innerHTML = mainCats.map(cat=>{
+    const s=CS[cat]; if(!s||s.j===0) return '';
+    const ap=((s.v*3+s.e)/(s.j*3)*100).toFixed(1);
+    const col=catCfg[cat]?.color||'#666';
+    return `<div class="wr-row">
+      <span class="wr-label">${cat}</span>
+      <div class="wr-track"><div class="wr-fill" style="width:${ap}%;background:${col}"></div></div>
+      <span class="wr-pct">${ap}%</span>
+    </div>`;
+  }).join('');
+}
+
+// NAV scroll
+window.addEventListener('scroll',()=>{
+  const secs=['overview','overview-stats','competicoes','graficos','historia','arquivo'];
+  const links=document.querySelectorAll('[data-nav]');
+  let cur='';
+  secs.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-80)cur=id;});
+  links.forEach(l=>l.classList.toggle('active',l.dataset.nav===cur||(cur==='overview-stats'&&l.dataset.nav==='overview')));
+  document.querySelectorAll('.fade-up').forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight-60)el.classList.add('vis');});
+});
+
+// Init via fetch
+loadData();
+</script>
+</body>
+</html>

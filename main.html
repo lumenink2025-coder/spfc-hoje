@@ -1799,6 +1799,62 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   width:100%;height:100%;
   border:none;display:block;
 }
+
+/* ══════════════════════════════════════════════════
+   CARROSSEL ARQUIVO — NETFLIX STYLE
+══════════════════════════════════════════════════ */
+.arquivo-scroll{
+  display:flex;gap:10px;overflow-x:auto;padding:0 14px 16px;
+  scroll-snap-type:x mandatory;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.arquivo-scroll::-webkit-scrollbar{display:none}
+
+.arq-card{
+  flex-shrink:0;
+  width:clamp(160px,44vw,200px);
+  aspect-ratio:2/3;
+  border-radius:10px;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  scroll-snap-align:start;
+  border:1px solid rgba(200,16,46,0.25);
+  background:#111;
+  transition:transform .22s, border-color .22s, box-shadow .22s;
+  text-decoration:none;
+  display:block;
+}
+.arq-card:active{ transform:scale(0.97); }
+.arq-card img{
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .4s;
+}
+.arq-card:hover img{ transform:scale(1.04); }
+.arq-card-overlay{
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 55%, transparent 100%);
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding:12px 10px;
+}
+.arq-card-title{
+  font-family:'Bebas Neue',Impact,sans-serif;
+  font-size:1.05rem; letter-spacing:0.05em;
+  color:#fff; line-height:1.1;
+}
+.arq-card-sub{
+  font-size:0.58rem; font-weight:600; letter-spacing:0.12em;
+  text-transform:uppercase; color:rgba(255,255,255,0.45);
+  margin-top:3px;
+}
+.arq-card-badge{
+  position:absolute; top:9px; right:9px;
+  background:#CC0000; color:#fff;
+  font-size:0.5rem; font-weight:700; letter-spacing:0.1em;
+  text-transform:uppercase; padding:3px 7px; border-radius:3px;
+}
 </style>
 </head>
 <body style="padding-top:calc(96px + env(safe-area-inset-top))">
@@ -2182,6 +2238,26 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="games-dot active"></div>
     <div class="games-dot"></div>
     <div class="games-dot"></div>
+  </div>
+
+
+  <!-- ⑤ ARQUIVO HISTÓRICO — CARROSSEL NETFLIX -->
+  <div class="hub-section-head" style="padding-top:24px">
+    <div class="hub-section-label">arquivo histórico</div>
+  </div>
+
+  <div class="arquivo-scroll" id="arquivoScroll">
+
+    <!-- Card: Todos os Jogos -->
+    <a class="arq-card" href="spfc_historia.html">
+      <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1781408554/todososjogos_mridx5.png" alt="Todos os Jogos" loading="lazy">
+      <div class="arq-card-overlay">
+        <div class="arq-card-title">Todos os<br>Jogos</div>
+        <div class="arq-card-sub">6.079 partidas</div>
+      </div>
+      <div class="arq-card-badge">NOVO</div>
+    </a>
+
   </div>
 
 </div><!-- /panel-hoje -->
