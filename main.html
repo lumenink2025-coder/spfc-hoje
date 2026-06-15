@@ -2258,6 +2258,16 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="arq-card-badge">NOVO</div>
     </a>
 
+    <!-- Card: Jogadores -->
+    <a class="arq-card" href="spfc_jogadores.html">
+      <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1781483350/jogadores_b2gr0s.png" alt="Jogadores" loading="lazy">
+      <div class="arq-card-overlay">
+        <div class="arq-card-title">Jogadores</div>
+        <div class="arq-card-sub">Elenco e história</div>
+      </div>
+      <div class="arq-card-badge">NOVO</div>
+    </a>
+
   </div>
 
 </div><!-- /panel-hoje -->
@@ -5141,8 +5151,59 @@ function swipeSafeClick(el, fn) {
   el.addEventListener('click', fn);
 }
 
-loadPlayers();
+/* ── ARQUIVO HISTÓRICO — CARROSSEL INFINITO (estilo Netflix) ──
+   Clona os cards originais antes e depois do conjunto real,
+   posiciona o scroll no bloco do meio e, quando o usuário arrasta
+   perto das pontas, "teleporta" o scroll de volta ao equivalente
+   no bloco do meio sem o usuário perceber (loop infinito). */
+(function(){
+  const scroller = document.getElementById('arquivoScroll');
+  if(!scroller) return;
+  const originalCards = Array.from(scroller.children);
+  if(originalCards.length < 1) return;
 
+  const cloneSet = () => originalCards.map(c => c.cloneNode(true));
+
+  scroller.innerHTML = '';
+  cloneSet().forEach(c => scroller.appendChild(c));   // bloco A (antes)
+  originalCards.forEach(c => scroller.appendChild(c)); // bloco B (original/meio)
+  cloneSet().forEach(c => scroller.appendChild(c));   // bloco C (depois)
+
+  let blockWidth = 0;
+
+  function measure(){
+    const gap = parseFloat(getComputedStyle(scroller).gap) || 10;
+    const first = scroller.children[0];
+    if(!first) return;
+    const cardW = first.getBoundingClientRect().width + gap;
+    blockWidth = cardW * originalCards.length;
+  }
+
+  function centerOnMiddleBlock(){
+    measure();
+    scroller.scrollLeft = blockWidth;
+  }
+
+  window.addEventListener('load', centerOnMiddleBlock);
+  requestAnimationFrame(centerOnMiddleBlock);
+
+  let resizeTimer;
+  window.addEventListener('resize', ()=>{
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(centerOnMiddleBlock, 150);
+  });
+
+  scroller.addEventListener('scroll', ()=>{
+    if(!blockWidth) measure();
+    if(!blockWidth) return;
+
+    if(scroller.scrollLeft < blockWidth * 0.5){
+      scroller.scrollLeft += blockWidth;
+    } else if(scroller.scrollLeft > blockWidth * 1.5){
+      scroller.scrollLeft -= blockWidth;
+    }
+  }, {passive:true});
+})();
 
 
 </script>
