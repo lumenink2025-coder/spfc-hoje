@@ -1258,7 +1258,7 @@
 // ============================================================
 const CONFIG = {
     // 🔴 ALTERE AQUI PARA O SEU JSON NO GITHUB RAW (quando subir)
-    jsonUrl: null, // ativar após subir data/spfc-enciclopedia-gols.json no GitHub
+    jsonUrl: 'https://raw.githubusercontent.com/lumenink2025-coder/spfc-hoje/main/data/spfc-enciclopedia-gols.json',
 
     // Cloudinary base URL (ajuste conforme seu setup)
     cloudinaryBase: 'https://res.cloudinary.com/seu-cloud/image/upload/spfc/jogadores/',
@@ -1268,6 +1268,7 @@ const CONFIG = {
 // STATE
 // ============================================================
 let appData = [];
+let jogadoresData = {}; // dicionário de fotos por player_id
 let currentCategory = null;
 
 // ============================================================
@@ -1285,9 +1286,14 @@ const getPlayerSlug = (nome) => {
     return slugify(cleanName);
 };
 
-const getPlayerPhoto = (nome) => {
-    const slug = getPlayerSlug(nome);
-    return `${CONFIG.cloudinaryBase}${slug}.jpg`;
+const getPlayerPhoto = (nome, playerIdOverride) => {
+    // Tenta buscar no dicionário de jogadores primeiro
+    const pid = playerIdOverride || getPlayerSlug(nome);
+    if (jogadoresData[pid] && jogadoresData[pid].foto) {
+        return jogadoresData[pid].foto;
+    }
+    // Fallback: Cloudinary genérico
+    return `${CONFIG.cloudinaryBase}${pid}.jpg`;
 };
 
 const getInitials = (nome) => {
@@ -1347,7 +1353,7 @@ const renderPodium = (category) => {
 
         const rank = idx + 1;
         const rankClass = rank === 1 ? 'first' : rank === 2 ? 'second' : 'third';
-        const photoUrl = getPlayerPhoto(player.NOME);
+        const photoUrl = getPlayerPhoto(player.NOME, player.player_id);
         const goals = player.GM || player['GOLS'] || player['GOLS COMO GOLEIRO'] || player['GOLS DE FALTA'] || '0';
         const metaMatch = player.NOME.match(/\(([^)]+)\)/);
         const meta = metaMatch ? metaMatch[1] : '';
@@ -1466,7 +1472,7 @@ const renderMainContent = (categoryIndex) => {
             const name = row.NOME.split('(')[0].trim();
             const metaMatch = row.NOME.match(/\(([^)]+)\)/);
             const meta = metaMatch ? metaMatch[1] : '';
-            const photoUrl = getPlayerPhoto(row.NOME);
+            const photoUrl = getPlayerPhoto(row.NOME, row.player_id);
             const goals = row.GM || row['GOLS'] || row['GOLS COMO GOLEIRO'] || row['GOLS DE FALTA'] || '0';
             const games = row.J || row['JOGOS'] || '';
             const rank = i + 4;
@@ -1549,7 +1555,7 @@ const openPlayerModal = (categoryTitle, rowIndex) => {
     const name = player.NOME.split('(')[0].trim();
     const metaMatch = player.NOME.match(/\(([^)]+)\)/);
     const meta = metaMatch ? metaMatch[1] : '';
-    const photoUrl = getPlayerPhoto(player.NOME);
+    const photoUrl = getPlayerPhoto(player.NOME, player.player_id);
 
     const keys = Object.keys(player).filter(k => k !== 'NOME');
 
@@ -1670,10 +1676,18 @@ const init = async () => {
         if (CONFIG.jsonUrl) {
             const response = await fetch(CONFIG.jsonUrl);
             if (!response.ok) throw new Error('Failed to load data');
-            appData = await response.json();
+            const parsed = await response.json();
+            if (Array.isArray(parsed)) {
+                appData = parsed;
+                jogadoresData = {};
+            } else {
+                appData = parsed.tabelas || [];
+                jogadoresData = parsed.jogadores || {};
+            }
         } else {
             // Use local embedded data for testing
             appData = LOCAL_DATA;
+            jogadoresData = {};
         }
 
         setTimeout(() => {
