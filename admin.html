@@ -3008,9 +3008,27 @@ window.jogosGoPage = function(p) {
 let goleadoresData = []; // array de categorias do JSON
 let goleadoresEditIndex = { cat: null, row: null }; // categoria e linha em edição
 
-window.loadGoleadores = function() {
-  // Só reseta UI, dados persistem enquanto a aba estiver aberta
-  if (goleadoresData.length) goleadoresRenderTable();
+window.loadGoleadores = async function() {
+  // Se já tem dados em memória, só renderiza
+  if (goleadoresData.length) { goleadoresRenderTable(); return; }
+
+  // Faz fetch do JSON no GitHub
+  const url = 'https://raw.githubusercontent.com/lumenink2025-coder/spfc-hoje/main/data/spfc-enciclopedia-gols.json';
+  const status = document.getElementById('goleadoresStatus');
+  status.textContent = 'Carregando dados...';
+  status.style.color = 'var(--txt3)';
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    goleadoresData = await res.json();
+    status.textContent = `✓ Dados carregados — ${goleadoresData.length} categorias`;
+    status.style.color = 'var(--green)';
+    goleadoresPopulateCats();
+    goleadoresRenderTable();
+  } catch(err) {
+    status.textContent = '⚠ Erro ao carregar: ' + err.message + ' — use o botão ABRIR JSON para carregar manualmente.';
+    status.style.color = '#ef4444';
+  }
 };
 
 window.goleadoresLoadFile = function(input) {
@@ -3039,7 +3057,7 @@ function goleadoresPopulateCats() {
   goleadoresData.forEach((cat, i) => {
     const opt = document.createElement('option');
     opt.value = i;
-    opt.textContent = cat.titulo || cat.cabecalhos?.[0] || `Categoria ${i+1}`;
+    opt.textContent = cat.titulo || `Tabela ${i+1}`;
     sel.appendChild(opt);
   });
   document.getElementById('goleadoresCatRow').style.display = 'flex';
