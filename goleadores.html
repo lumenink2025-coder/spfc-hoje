@@ -1130,26 +1130,31 @@
             .hero-subtitle { font-size: 13px; margin-bottom: 24px; }
             .hero-inner { padding: 0 14px; }
 
-            /* PÓDIO HORIZONTAL — menor mas mantém 2º|1º|3º lado a lado */
-            .podium { gap: 8px; align-items: flex-end; }
+            /* PÓDIO HORIZONTAL — cabe na tela sem vazar */
+            .podium { gap: 2vw; align-items: flex-end; padding: 0 2px; }
             .podium-item.first .podium-card-inner {
-                width: clamp(110px, 36vw, 160px);
-                padding: 14px 10px;
+                width: 36vw;
+                max-width: 160px;
+                padding: 12px 8px;
             }
             .podium-item.second .podium-card-inner,
             .podium-item.third .podium-card-inner {
-                width: clamp(85px, 27vw, 120px);
-                padding: 10px 8px;
+                width: 26vw;
+                max-width: 110px;
+                padding: 10px 6px;
             }
-            .podium-item.first .podium-goals { font-size: 32px; }
+            .podium-item.first .podium-goals { font-size: 28px; }
             .podium-item.second .podium-goals,
-            .podium-item.third .podium-goals { font-size: 22px; }
-            .podium-name { font-size: 11px; }
-            .podium-item.first .podium-name { font-size: 13px; }
-            .podium-meta { font-size: 10px; margin-bottom: 8px; }
-            .podium-goals-label { font-size: 9px; }
-            .podium-rank { width: 28px; height: 28px; font-size: 13px; top: -10px; }
-            .podium-item.first .podium-rank { width: 36px; height: 36px; font-size: 16px; }
+            .podium-item.third .podium-goals { font-size: 20px; }
+            .podium-name { font-size: 10px; white-space: normal; line-height: 1.2; }
+            .podium-item.first .podium-name { font-size: 12px; }
+            .podium-meta { font-size: 9px; margin-bottom: 6px; }
+            .podium-goals-label { font-size: 8px; letter-spacing: 1px; }
+            .podium-rank { width: 26px; height: 26px; font-size: 12px; top: -10px; }
+            .podium-item.first .podium-rank { width: 34px; height: 34px; font-size: 15px; }
+            /* Garantir que o hero não cause overflow horizontal */
+            .hero-section { overflow: hidden; }
+            .hero-inner { padding: 0 10px; }
 
             /* CATEGORY NAV — vira dropdown */
             .category-scroll { display: none !important; }
