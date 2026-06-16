@@ -1361,7 +1361,7 @@ const renderPodium = (category) => {
 
         return `
             <div class="podium-item ${rankClass} animate-in stagger-${i+1}">
-                <div class="podium-card" onclick="openPlayerModal('${category.titulo}', ${idx})">
+                <div class="podium-card" onclick="openPlayerModal('${category.titulo}', '${player.player_id || idx}')">
                     <div class="podium-rank">${rank}</div>
                     <div class="podium-card-inner">
                         <div class="podium-photo">
@@ -1478,7 +1478,7 @@ const renderMainContent = (categoryIndex) => {
             const rank = i + 4;
 
             return `
-                <div class="player-card animate-in stagger-${((i) % 5) + 1}" onclick="openPlayerModal('${category.titulo}', ${i + 3})">
+                <div class="player-card animate-in stagger-${((i) % 5) + 1}" onclick="openPlayerModal('${category.titulo}', '${row.player_id || (i + 3)}')">
                     <div class="player-card-photo">
                         <img src="${photoUrl}" alt="${name}" loading="lazy" 
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
@@ -1544,11 +1544,15 @@ const renderMainContent = (categoryIndex) => {
 // ============================================================
 // MODAL
 // ============================================================
-const openPlayerModal = (categoryTitle, rowIndex) => {
+const openPlayerModal = (categoryTitle, playerId) => {
     const category = appData.find(c => c.titulo === categoryTitle);
     if (!category) return;
 
-    const player = category.linhas[rowIndex];
+    // Busca pelo player_id ou pelo índice numérico (fallback legado)
+    const filteredLines = category.linhas.filter(r => r.NOME && r.NOME !== 'NOME' && r.GM !== 'GM');
+    const player = typeof playerId === 'number'
+        ? filteredLines[playerId]
+        : filteredLines.find(r => r.player_id === playerId);
     const modal = document.getElementById('playerModal');
     const content = document.getElementById('modalContent');
 
