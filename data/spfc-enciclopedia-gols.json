@@ -1,6 +1,6 @@
 [
   {
-    "titulo": "Tabela 1",
+    "titulo": "MAIS GOLS MARCADOS",
     "cabecalhos": [
       "NOME",
       "GM",
@@ -225,7 +225,7 @@
     ]
   },
   {
-    "titulo": "Tabela 2",
+    "titulo": "MAIS GOLS MARCADOS NO CAMPEONATO BRASILEIRO",
     "cabecalhos": [
       "NOME",
       "GM",
@@ -450,7 +450,7 @@
     ]
   },
   {
-    "titulo": "Tabela 3",
+    "titulo": "MAIS GOLS MARCADOS NO CAMPEONATO PAULISTA",
     "cabecalhos": [
       "NOME",
       "GM",
@@ -695,7 +695,7 @@
     ]
   },
   {
-    "titulo": "Tabela 4",
+    "titulo": "MAIS GOLS MARCADOS NA COPA LIBERTADORES",
     "cabecalhos": [
       "NOME",
       "GM",
@@ -930,7 +930,7 @@
     ]
   },
   {
-    "titulo": "Tabela 5",
+    "titulo": "MAIS GOLS MARCADOS NO SÉCULO XXI",
     "cabecalhos": [
       "NOME",
       "GM",
@@ -1155,7 +1155,7 @@
     ]
   },
   {
-    "titulo": "Tabela 6",
+    "titulo": "MAIS GOLS MARCADOS EM JOGOS ELIMINATÓRIOS (MATA-MATA)",
     "cabecalhos": [
       "NOME",
       "GM",
@@ -1390,7 +1390,7 @@
     ]
   },
   {
-    "titulo": "Tabela 7",
+    "titulo": "MAIS GOLS MARCADOS EM UM ÚNICO JOGO",
     "cabecalhos": [
       "NOME",
       "G",
@@ -1499,7 +1499,7 @@
     ]
   },
   {
-    "titulo": "Tabela 8",
+    "titulo": "MAIS GOLS MARCADOS EM UMA TEMPORADA",
     "cabecalhos": [
       "TEMP.",
       "NOME",
@@ -1724,7 +1724,7 @@
     ]
   },
   {
-    "titulo": "Tabela 9",
+    "titulo": "MAIS GOLS MARCADOS EM UMA EDIÇÃO DE CAMPEONATO BRASILEIRO",
     "cabecalhos": [
       "TEMP.",
       "NOME",
@@ -1971,7 +1971,7 @@
     ]
   },
   {
-    "titulo": "Tabela 10",
+    "titulo": "MAIS GOLS MARCADOS EM UMA EDIÇÃO DE CAMPEONATO PAULISTA",
     "cabecalhos": [
       "TEMP.",
       "NOME",
@@ -2207,7 +2207,7 @@
     ]
   },
   {
-    "titulo": "Tabela 11",
+    "titulo": "MAIS GOLS MARCADOS EM UMA EDIÇÃO DE COPA LIBERTADORES",
     "cabecalhos": [
       "TEMP.",
       "NOME",
@@ -2388,7 +2388,7 @@
     ]
   },
   {
-    "titulo": "Tabela 12",
+    "titulo": "MAIS GOLS MARCADOS A CADA TEMPORADA",
     "cabecalhos": [
       "TEMP.",
       "NOME",
@@ -3559,7 +3559,7 @@
     ]
   },
   {
-    "titulo": "Tabela 13",
+    "titulo": "MAIS GOLS MARCADOS A CADA EDIÇÃO DE CAMPEONATO BRASILEIRO",
     "cabecalhos": [
       "TEMP.",
       "NOME",
@@ -4279,7 +4279,7 @@
     ]
   },
   {
-    "titulo": "Tabela 14",
+    "titulo": "MAIS GOLS MARCADOS A CADA EDIÇÃO DE CAMPEONATO PAULISTA",
     "cabecalhos": [
       "TEMP.",
       "NOME",
@@ -5505,7 +5505,7 @@
     ]
   },
   {
-    "titulo": "Tabela 15",
+    "titulo": "MAIS GOLS MARCADOS A CADA EDIÇÃO DE COPA LIBERTADORES",
     "cabecalhos": [
       "TEMP.",
       "NOME",
@@ -5840,7 +5840,7 @@
     ]
   },
   {
-    "titulo": "Tabela 16",
+    "titulo": "MAIS VEZES SENDO O JOGADOR COM MAIS GOLS EM UMA TEMPORADA",
     "cabecalhos": [
       "NOME",
       "VEZES",
@@ -5910,7 +5910,7 @@
     ]
   },
   {
-    "titulo": "Tabela 17",
+    "titulo": "MAIS VEZES SENDO O JOGADOR COM MAIS GOLS EM UMA EDIÇÃO DE CAMPEONATO BRASILEIRO",
     "cabecalhos": [
       "NOME",
       "VEZES",
@@ -5990,7 +5990,7 @@
     ]
   },
   {
-    "titulo": "Tabela 18",
+    "titulo": "MAIS VEZES SENDO O JOGADOR COM MAIS GOLS EM UMA EDIÇÃO DE CAMPEONATO PAULISTA",
     "cabecalhos": [
       "NOME",
       "VEZES",
@@ -6055,7 +6055,7 @@
     ]
   },
   {
-    "titulo": "Tabela 19",
+    "titulo": "MAIS VEZES SENDO O JOGADOR COM MAIS GOLS EM UMA EDIÇÃO DE COPA LIBERTADORES",
     "cabecalhos": [
       "NOME",
       "VEZES",
@@ -6085,7 +6085,7 @@
     ]
   },
   {
-    "titulo": "Tabela 20",
+    "titulo": "MAIS GOLS NOS PRIMEIROS 100 JOGOS DISPUTADOS",
     "cabecalhos": [
       "NOME",
       "GM",
@@ -6310,7 +6310,7 @@
     ]
   },
   {
-    "titulo": "Tabela 21",
+    "titulo": "MAIS GOLS NOS PRIMEIROS 200 JOGOS DISPUTADOS",
     "cabecalhos": [
       "NOME",
       "GM",
@@ -6535,7 +6535,7 @@
     ]
   },
   {
-    "titulo": "Tabela 22",
+    "titulo": "MAIS GOLS DA VITÓRIA",
     "cabecalhos": [
       "NOME",
       "GOLS DA VITÓRIA",
@@ -6716,7 +6716,7 @@
     ]
   },
   {
-    "titulo": "Tabela 23",
+    "titulo": "MAIS GOLS DA VITÓRIA DESEMPATANDO UM JOGO",
     "cabecalhos": [
       "NOME",
       "GOLS DA VITÓRIA",
@@ -6897,7 +6897,7 @@
     ]
   },
   {
-    "titulo": "Tabela 24",
+    "titulo": "MAIS GOLS DA VITÓRIA EM UMA TEMPORADA",
     "cabecalhos": [
       "TEMP.",
       "NOME",
@@ -7055,7 +7055,7 @@
     ]
   },
   {
-    "titulo": "Tabela 25",
+    "titulo": "MAIS GOLS DE ABERTURA DE PLACAR",
     "cabecalhos": [
       "NOME",
       "GOLS DE ABERTURA",
@@ -7214,7 +7214,7 @@
     ]
   },
   {
-    "titulo": "Tabela 26",
+    "titulo": "MAIS GOLS DE ABERTURA DE PLACAR",
     "cabecalhos": [
       "NOME",
       "GOLS À FRENTE",
@@ -7380,7 +7380,7 @@
     ]
   },
   {
-    "titulo": "Tabela 27",
+    "titulo": "MAIS GOLS EM ESTREIA DE JOGADOR",
     "cabecalhos": [
       "NOME",
       "DATA",
@@ -7441,7 +7441,7 @@
     ]
   },
   {
-    "titulo": "Tabela 28",
+    "titulo": "MAIS GOLS NOS PRIMEIROS 15 MINUTOS DE JOGO",
     "cabecalhos": [
       "NOME",
       "GOLS ATÉ 15 MIN/1º T",
@@ -7600,7 +7600,7 @@
     ]
   },
   {
-    "titulo": "Tabela 29",
+    "titulo": "MAIS GOLS NOS ACRÉSCIMOS DO 2º TEMPO",
     "cabecalhos": [
       "NOME",
       "GOLS NOS ACRÉSCIMOS",
@@ -7675,7 +7675,7 @@
     ]
   },
   {
-    "titulo": "Tabela 30",
+    "titulo": "MAIS GOLS NO PRIMEIRO TEMPO",
     "cabecalhos": [
       "NOME",
       "GOLS NO 1º T",
@@ -7834,7 +7834,7 @@
     ]
   },
   {
-    "titulo": "Tabela 31",
+    "titulo": "MAIS GOLS NO SEGUNDO TEMPO",
     "cabecalhos": [
       "NOME",
       "GOLS NO 2º T",
@@ -7993,7 +7993,7 @@
     ]
   },
   {
-    "titulo": "Tabela 32",
+    "titulo": "MAIS GOLS MARCADOS DE PÊNALTI NO SÉCULO XXI",
     "cabecalhos": [
       "NOME",
       "GOLS",
@@ -8187,7 +8187,7 @@
     ]
   },
   {
-    "titulo": "Tabela 33",
+    "titulo": "MAIS GOLS DE FALTA MARCADOS NO SÉCULO XXI",
     "cabecalhos": [
       "NOME",
       "GOLS DE FALTA"
@@ -8236,7 +8236,7 @@
     ]
   },
   {
-    "titulo": "Tabela 34",
+    "titulo": "GOLEIROS COM MAIS GOLS MARCADOS",
     "cabecalhos": [
       "NOME",
       "GOLS COMO GOLEIRO"
