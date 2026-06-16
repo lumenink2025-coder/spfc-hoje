@@ -1343,7 +1343,7 @@ const renderPodium = (category) => {
     // Mostra/oculta o bloco do pódio conforme o tipo de categoria
     if (heroSection) heroSection.style.display = isRanking ? '' : 'none';
     if (!isRanking) return;
-    const top3 = category.linhas.slice(0, 3);
+    const top3 = category.linhas.filter(r => r.NOME && r.NOME !== 'NOME' && r.GM !== 'GM').slice(0, 3);
 
     const order = [1, 0, 2];
 
@@ -1451,7 +1451,7 @@ const renderMainContent = (categoryIndex) => {
     currentCategory = category;
 
     const headers = category.cabecalhos;
-    const rows = category.linhas;
+    const rows = category.linhas.filter(r => r.NOME && r.NOME !== 'NOME' && r.GM !== 'GM');
 
     const isRanking = headers.includes('GM') || headers.includes('GOLS') || headers.includes('GOLS COMO GOLEIRO');
 
