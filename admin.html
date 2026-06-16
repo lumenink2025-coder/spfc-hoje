@@ -3073,6 +3073,8 @@ window.goleadoresRenderTable = function() {
   cats.forEach((cat, ci) => {
     const realCi = catIdx !== '' ? parseInt(catIdx) : ci;
     (cat.linhas || []).forEach((row, ri) => {
+      // Ignorar linhas de cabeçalho duplicadas (onde NOME === 'NOME' ou GM === 'GM')
+      if (row.NOME === 'NOME' || row.GM === 'GM') return;
       rows.push({ cat, catIdx: realCi, rowIdx: ri, row });
     });
   });
