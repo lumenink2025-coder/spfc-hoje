@@ -69,6 +69,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
             z-index: 9999;
             transition: opacity 0.6s ease, visibility 0.6s ease;
         }
@@ -1627,19 +1628,15 @@ const selectCategory = (index) => {
     document.querySelectorAll('.category-btn').forEach((btn, i) => {
         btn.classList.toggle('active', i === index);
     });
-    // Atualizar label do dropdown mobile
     const activeBtn = document.querySelectorAll('.category-btn')[index];
+    // Atualizar label do dropdown mobile
     const dropLabel = document.getElementById('catDropdownLabel');
     if (dropLabel && activeBtn) dropLabel.textContent = activeBtn.textContent.trim();
     closeCatDropdown();
-
-    const activeBtn = document.querySelectorAll('.category-btn')[index];
     if (activeBtn) {
         activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
-
     renderMainContent(index);
-
     renderPodium(appData[index]);
 };
 
