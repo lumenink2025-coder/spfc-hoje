@@ -3005,8 +3005,9 @@ window.jogosGoPage = function(p) {
 };
 
 // ══ GOLEADORES ══
-let goleadoresData = []; // array de categorias do JSON
-let goleadoresEditIndex = { cat: null, row: null }; // categoria e linha em edição
+let goleadoresData = []; // array de tabelas
+let goleadoresJogadores = {}; // dicionário de jogadores { id: { nome, foto } }
+let goleadoresEditIndex = { cat: null, row: null };
 
 window.loadGoleadores = async function() {
   // Se já tem dados em memória, só renderiza
@@ -3020,7 +3021,12 @@ window.loadGoleadores = async function() {
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error('HTTP ' + res.status);
-    goleadoresData = await res.json();
+    const parsed = await res.json();
+    if (Array.isArray(parsed)) {
+      goleadoresData = parsed; goleadoresJogadores = {};
+    } else {
+      goleadoresData = parsed.tabelas || []; goleadoresJogadores = parsed.jogadores || {};
+    }
     status.textContent = `✓ Dados carregados — ${goleadoresData.length} categorias`;
     status.style.color = 'var(--green)';
     goleadoresPopulateCats();
@@ -3037,7 +3043,12 @@ window.goleadoresLoadFile = function(input) {
   const reader = new FileReader();
   reader.onload = (e) => {
     try {
-      goleadoresData = JSON.parse(e.target.result);
+      const parsed = JSON.parse(e.target.result);
+      if (Array.isArray(parsed)) {
+        goleadoresData = parsed; goleadoresJogadores = {};
+      } else {
+        goleadoresData = parsed.tabelas || []; goleadoresJogadores = parsed.jogadores || {};
+      }
       document.getElementById('goleadoresStatus').textContent =
         `✓ ${file.name} carregado — ${goleadoresData.length} categorias`;
       document.getElementById('goleadoresStatus').style.color = 'var(--green)';
@@ -3103,7 +3114,8 @@ window.goleadoresRenderTable = function() {
       </thead>
       <tbody>
         ${rows.map(({ cat, catIdx: ci, rowIdx: ri, row }, i) => {
-          const foto = row.foto;
+          const pid = row.player_id;
+          const foto = (pid && goleadoresJogadores[pid]?.foto) || row.foto;
           const gols = row.GM || row['GOLS'] || row['GOLS COMO GOLEIRO'] || row['GOLS DE FALTA'] || '—';
           const nome = (row.NOME || '').split('(')[0].trim();
           return `<tr style="border-bottom:1px solid var(--border);transition:background .1s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background=''">
@@ -3136,13 +3148,14 @@ window.goleadoresOpenModal = function(catIdx, rowIdx) {
   document.getElementById('goleadoresModalNome').textContent = nome;
   document.getElementById('goleadoresModalCat').textContent = cat.titulo || '';
 
-  const fotoUrl = row.foto || '';
+  const pid = row.player_id;
+  const fotoUrl = (pid && goleadoresJogadores[pid]?.foto) || row.foto || '';
   document.getElementById('goleadoresModalFotoUrl').value = fotoUrl;
   goleadoresPreviewFoto(fotoUrl);
 
-  // Stats editáveis: todas as keys exceto NOME e foto
+  // Stats editáveis: todas as keys exceto NOME, foto e player_id
   const statsEl = document.getElementById('goleadoresModalStats');
-  const skip = new Set(['NOME', 'foto']);
+  const skip = new Set(['NOME', 'foto', 'player_id']);
   statsEl.innerHTML = Object.entries(row)
     .filter(([k]) => !skip.has(k))
     .map(([k, v]) => `
@@ -3174,9 +3187,18 @@ window.goleadoresSaveModal = function() {
 
   const row = goleadoresData[ci].linhas[ri];
   const fotoUrl = document.getElementById('goleadoresModalFotoUrl').value.trim();
+  const pid = row.player_id;
 
-  if (fotoUrl) row.foto = fotoUrl;
-  else delete row.foto;
+  // Salva foto no dicionário central (serve para todas as tabelas do jogador)
+  if (pid) {
+    if (!goleadoresJogadores[pid]) goleadoresJogadores[pid] = { nome: (row.NOME || '').split('(')[0].trim(), foto: '' };
+    if (fotoUrl) goleadoresJogadores[pid].foto = fotoUrl;
+    else goleadoresJogadores[pid].foto = '';
+  } else {
+    // fallback: formato antigo sem player_id
+    if (fotoUrl) row.foto = fotoUrl;
+    else delete row.foto;
+  }
 
   // Salvar stats editados
   document.querySelectorAll('#goleadoresModalStats input[data-key]').forEach(inp => {
@@ -3193,7 +3215,10 @@ window.goleadoresExport = function() {
     toast('Carregue um JSON primeiro.', 'err');
     return;
   }
-  const blob = new Blob([JSON.stringify(goleadoresData, null, 2)], { type: 'application/json' });
+  const exportData = Object.keys(goleadoresJogadores).length
+    ? { jogadores: goleadoresJogadores, tabelas: goleadoresData }
+    : goleadoresData;
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
