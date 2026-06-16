@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Hoje na História — Goleadores SPFC</title>
+    <title>Artilharia Tricolor — SPFC</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <style>
@@ -83,25 +83,11 @@
             margin-bottom: 24px;
             position: relative;
         }
-        .loading-logo svg {
-            width: 100%;
-            height: 100%;
-        }
-        .loading-logo .shield-fill {
-            fill: none;
-            stroke: var(--spfc-red);
-            stroke-width: 2;
-            stroke-dasharray: 300;
-            stroke-dashoffset: 300;
-            animation: drawShield 1.5s ease forwards;
-        }
-        .loading-logo .shield-inner {
-            fill: var(--spfc-red);
-            opacity: 0;
-            animation: fadeIn 0.5s ease 1.2s forwards;
-        }
-        @keyframes drawShield {
-            to { stroke-dashoffset: 0; }
+        .loading-logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            animation: fadeIn 0.5s ease forwards;
         }
         @keyframes fadeIn {
             to { opacity: 1; }
@@ -1083,6 +1069,107 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--border-hover);
         }
+
+        /* ===== CATEGORY DROPDOWN (mobile) ===== */
+        .cat-dropdown-btn {
+            display: none;
+            width: 100%;
+            padding: 10px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cat-dropdown-btn svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        .cat-dropdown-btn.open svg {
+            transform: rotate(180deg);
+        }
+        .cat-dropdown-list {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 6px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 6px;
+        }
+        .cat-dropdown-list.open {
+            display: flex;
+        }
+        .cat-dropdown-list .category-btn {
+            border-radius: var(--radius-sm);
+            text-align: left;
+            padding: 10px 12px;
+        }
+
+        @media (max-width: 640px) {
+            /* HEADER */
+            .header-inner { padding: 0 14px; }
+            .header-brand h1 { font-size: 15px; }
+            .header-back { font-size: 12px; padding: 6px 10px; }
+
+            /* HERO */
+            .hero-label { font-size: 10px; }
+            .hero-title { font-size: clamp(22px, 6vw, 32px); }
+            .hero-subtitle { font-size: 13px; margin-bottom: 24px; }
+            .hero-inner { padding: 0 14px; }
+
+            /* PÓDIO HORIZONTAL — menor mas mantém 2º|1º|3º lado a lado */
+            .podium { gap: 8px; align-items: flex-end; }
+            .podium-item.first .podium-card-inner {
+                width: clamp(110px, 36vw, 160px);
+                padding: 14px 10px;
+            }
+            .podium-item.second .podium-card-inner,
+            .podium-item.third .podium-card-inner {
+                width: clamp(85px, 27vw, 120px);
+                padding: 10px 8px;
+            }
+            .podium-item.first .podium-goals { font-size: 32px; }
+            .podium-item.second .podium-goals,
+            .podium-item.third .podium-goals { font-size: 22px; }
+            .podium-name { font-size: 11px; }
+            .podium-item.first .podium-name { font-size: 13px; }
+            .podium-meta { font-size: 10px; margin-bottom: 8px; }
+            .podium-goals-label { font-size: 9px; }
+            .podium-rank { width: 28px; height: 28px; font-size: 13px; top: -10px; }
+            .podium-item.first .podium-rank { width: 36px; height: 36px; font-size: 16px; }
+
+            /* CATEGORY NAV — vira dropdown */
+            .category-scroll { display: none !important; }
+            .cat-dropdown-btn { display: flex; }
+
+            /* CARDS GRID */
+            .players-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .player-card-name { font-size: 12px; }
+            .player-card-stat-value { font-size: 16px; }
+            .player-card-stat-label { font-size: 9px; }
+
+            /* SECTION */
+            .section { padding: 20px 14px; }
+            .section-title { font-size: clamp(17px, 5vw, 22px); }
+
+            /* TABELA */
+            .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .data-table { font-size: 12px; min-width: 480px; }
+            .data-table th, .data-table td { padding: 8px 10px; white-space: nowrap; }
+        }
+
     </style>
 </head>
 <body>
@@ -1090,13 +1177,10 @@
 <!-- LOADING -->
 <div class="loading-screen" id="loadingScreen">
     <div class="loading-logo">
-        <svg viewBox="0 0 100 100" fill="none">
-            <path class="shield-fill" d="M50 5 L90 20 L85 65 Q80 85 50 95 Q20 85 15 65 L10 20 Z"/>
-            <path class="shield-inner" d="M50 5 L90 20 L85 65 Q80 85 50 95 Q20 85 15 65 L10 20 Z" fill="none"/>
-        </svg>
+        <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" alt="SPFC" style="width:80px;height:80px;object-fit:contain;">
     </div>
     <div class="loading-bar"></div>
-    <div class="loading-text">Carregando Enciclopédia</div>
+    <div class="loading-text">Artilharia Tricolor</div>
 </div>
 
 <!-- HEADER -->
@@ -1104,14 +1188,11 @@
     <div class="header-inner">
         <div class="header-brand">
             <div class="shield-icon">
-                <svg viewBox="0 0 36 36" fill="none">
-                    <path d="M18 2 L32 8 L30 24 Q28 32 18 35 Q8 32 6 24 L4 8 Z" fill="#C8102E"/>
-                    <path d="M18 6 L28 10 L26.5 22 Q25 28 18 30.5 Q11 28 9.5 22 L8 10 Z" fill="none" stroke="white" stroke-width="1.5" opacity="0.3"/>
-                </svg>
+                <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" alt="SPFC" style="width:36px;height:36px;object-fit:contain;">
             </div>
             <div>
-                <h1>Enciclopédia SPFC</h1>
-                <span>Goleadores</span>
+                <h1>Artilharia Tricolor</h1>
+                <span>São Paulo FC</span>
             </div>
         </div>
         <a href="/" class="header-back">
@@ -1138,6 +1219,13 @@
 <!-- CATEGORY NAV -->
 <nav class="category-nav">
     <div class="category-nav-inner">
+        <button class="cat-dropdown-btn" id="catDropdownBtn" onclick="toggleCatDropdown()">
+            <span id="catDropdownLabel">Selecionar categoria</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+            </svg>
+        </button>
+        <div class="cat-dropdown-list" id="catDropdownList"></div>
         <div class="category-scroll" id="categoryNav"></div>
     </div>
 </nav>
@@ -1164,7 +1252,7 @@
 // ============================================================
 const CONFIG = {
     // 🔴 ALTERE AQUI PARA O SEU JSON NO GITHUB RAW (quando subir)
-    jsonUrl: 'https://raw.githubusercontent.com/lumenink2025-coder/spfc-hoje/main/data/spfc-enciclopedia-gols.json',
+    jsonUrl: null, // ativar após subir data/spfc-enciclopedia-gols.json no GitHub
 
     // Cloudinary base URL (ajuste conforme seu setup)
     cloudinaryBase: 'https://res.cloudinary.com/seu-cloud/image/upload/spfc/jogadores/',
@@ -1249,7 +1337,7 @@ const renderPodium = (category) => {
 
     podium.innerHTML = order.map((idx, i) => {
         const player = top3[idx];
-        if (!player) return '';
+        if (!player || !player.NOME) return '';
 
         const rank = idx + 1;
         const rankClass = rank === 1 ? 'first' : rank === 2 ? 'second' : 'third';
@@ -1328,11 +1416,18 @@ const renderCategoryNav = () => {
             .replace('GOLEIROS COM MAIS GOLS', 'Goleiros')
     }));
 
-    nav.innerHTML = categories.map((cat, i) => `
+    const btnHtml = categories.map((cat, i) => `
         <button class="category-btn ${i === 0 ? 'active' : ''}" data-index="${i}" onclick="selectCategory(${i})">
             ${cat.short}
         </button>
     `).join('');
+    nav.innerHTML = btnHtml;
+
+    // Preencher dropdown mobile
+    const dropList = document.getElementById('catDropdownList');
+    if (dropList) dropList.innerHTML = btnHtml;
+    const dropLabel = document.getElementById('catDropdownLabel');
+    if (dropLabel) dropLabel.textContent = categories[0]?.short || 'Categoria';
 };
 
 // ============================================================
@@ -1532,6 +1627,11 @@ const selectCategory = (index) => {
     document.querySelectorAll('.category-btn').forEach((btn, i) => {
         btn.classList.toggle('active', i === index);
     });
+    // Atualizar label do dropdown mobile
+    const activeBtn = document.querySelectorAll('.category-btn')[index];
+    const dropLabel = document.getElementById('catDropdownLabel');
+    if (dropLabel && activeBtn) dropLabel.textContent = activeBtn.textContent.trim();
+    closeCatDropdown();
 
     const activeBtn = document.querySelectorAll('.category-btn')[index];
     if (activeBtn) {
@@ -1542,6 +1642,23 @@ const selectCategory = (index) => {
 
     renderPodium(appData[index]);
 };
+
+
+// ===== CATEGORY DROPDOWN =====
+const toggleCatDropdown = () => {
+    const btn = document.getElementById('catDropdownBtn');
+    const list = document.getElementById('catDropdownList');
+    btn.classList.toggle('open');
+    list.classList.toggle('open');
+};
+
+const closeCatDropdown = () => {
+    document.getElementById('catDropdownBtn')?.classList.remove('open');
+    document.getElementById('catDropdownList')?.classList.remove('open');
+};
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.category-nav-inner')) closeCatDropdown();
+});
 
 // ============================================================
 // INIT
