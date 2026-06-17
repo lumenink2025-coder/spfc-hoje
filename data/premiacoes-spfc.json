@@ -2,11 +2,35 @@
   "lendas": [
     {
       "nome": ".",
+      "titulo": "",
+      "ano": "",
+      "iniciais": "",
+      "cat": "",
+      "foto": "https://res.cloudinary.com/dwps392wa/image/upload/v1781670680/CENI_mubkxs.png"
+    },
+    {
+      "nome": ".",
+      "titulo": "",
+      "ano": "",
+      "iniciais": "",
+      "cat": "",
+      "foto": "https://res.cloudinary.com/dwps392wa/image/upload/v1781671827/ra%C3%AD_kfk5om.png"
+    },
+    {
+      "nome": ".",
       "titulo": ".",
       "ano": ".",
       "iniciais": ".",
-      "cat": ".",
-      "foto": "https://res.cloudinary.com/dwps392wa/image/upload/v1781670680/CENI_mubkxs.png"
+      "cat": "",
+      "foto": "https://res.cloudinary.com/dwps392wa/image/upload/v1781672478/CAFU_cxsxwt.png"
+    },
+    {
+      "nome": ".",
+      "titulo": "",
+      "ano": "",
+      "iniciais": "",
+      "cat": "",
+      "foto": "https://res.cloudinary.com/dwps392wa/image/upload/v1781673438/kak%C3%A1_nwwpdl.png"
     },
     {
       "nome": ".",
@@ -14,55 +38,31 @@
       "ano": ".",
       "iniciais": ".",
       "cat": ".",
-      "foto": "https://res.cloudinary.com/dwps392wa/image/upload/v1781671827/ra%C3%AD_kfk5om.png"
+      "foto": "https://res.cloudinary.com/dwps392wa/image/upload/v1781673856/TELE_SANTANA_hvfkjx.jpg"
     },
     {
-      "nome": "Cafu",
-      "titulo": "Jogadores do Time Ideal da América",
-      "ano": "1992–1995",
-      "iniciais": "C",
-      "cat": "Lateral",
-      "foto": ""
+      "nome": ".",
+      "titulo": ".",
+      "ano": ".",
+      "iniciais": ".",
+      "cat": ".",
+      "foto": "https://res.cloudinary.com/dwps392wa/image/upload/v1781673623/7665a5b5-87d9-44bc-ab14-e35d051c7727_jjjijw.png"
     },
     {
-      "nome": "Kaká",
-      "titulo": "Bola de Ouro do Campeonato Brasileiro",
-      "ano": "2002",
-      "iniciais": "K",
-      "cat": "Meio-campista",
-      "foto": ""
+      "nome": ".",
+      "titulo": "",
+      "ano": "",
+      "iniciais": "",
+      "cat": "",
+      "foto": "https://res.cloudinary.com/dwps392wa/image/upload/v1781674384/CARECA_lete3l.jpg"
     },
     {
-      "nome": "Telê Santana",
-      "titulo": "Melhor Técnico do Mundo · El País",
-      "ano": "1992–1993",
-      "iniciais": "TS",
-      "cat": "Treinador",
-      "foto": ""
-    },
-    {
-      "nome": "Éder Jofre",
-      "titulo": "Hall da Fama do Boxe Internacional",
-      "ano": "1992",
-      "iniciais": "ÉJ",
-      "cat": "Pugilista",
-      "foto": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780892428/images_oxgygm.jpg"
-    },
-    {
-      "nome": "Careca",
-      "titulo": "Seleção da Copa do Mundo · El Gráfico",
-      "ano": "1986",
-      "iniciais": "CA",
-      "cat": "Atacante",
-      "foto": ""
-    },
-    {
-      "nome": "Adhemar F. da Silva",
-      "titulo": "Hall da Fama do Atletismo",
-      "ano": "2012",
-      "iniciais": "AS",
-      "cat": "Atletismo",
-      "foto": ""
+      "nome": ".",
+      "titulo": "",
+      "ano": "",
+      "iniciais": "",
+      "cat": "",
+      "foto": "https://res.cloudinary.com/dwps392wa/image/upload/v1781674126/ADHEMAR_idunaa.jpg"
     }
   ],
   "premiacoes": [
