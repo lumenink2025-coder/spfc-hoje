@@ -814,17 +814,17 @@ function renderWorld(data) {
   const map={};
   items.forEach(r=>{
     const k=r.premiacao;
-    if(!map[k]) map[k]=[];
+    if(!map[k]) map[k]={ atletas:[], badgeUrl: r.badgeUrl||'' };
     const v=parseVencedor(r.vencedor);
-    map[k].push(`${v.nome}${v.ano?' ('+v.ano+')':''}`);
+    map[k].atletas.push(`${v.nome}${v.ano?' ('+v.ano+')':''}`);
   });
-  document.getElementById('world-grid').innerHTML = Object.entries(map).map(([prem,atletas])=>{
+  document.getElementById('world-grid').innerHTML = Object.entries(map).map(([prem,info])=>{
     const s=stripParen(prem);
     return `<div class="world-card">
-      <div class="world-card-icon">${r.badgeUrl ? `<img src="${r.badgeUrl}" alt="" style="width:32px;height:32px;object-fit:contain;border-radius:6px">` : '🏆'}</div>
+      <div class="world-card-icon">${info.badgeUrl ? `<img src="${info.badgeUrl}" alt="" style="width:32px;height:32px;object-fit:contain;border-radius:6px">` : '🏆'}</div>
       <div class="world-card-prem">${s.title}</div>
       ${s.fonte?`<div class="world-card-fonte">${s.fonte}</div>`:''}
-      <div class="world-card-atletas">${atletas.map(a=>`<span class="world-tag">${a}</span>`).join('')}</div>
+      <div class="world-card-atletas">${info.atletas.map(a=>`<span class="world-tag">${a}</span>`).join('')}</div>
     </div>`;
   }).join('');
 }
