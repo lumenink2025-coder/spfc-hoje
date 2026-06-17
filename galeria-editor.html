@@ -392,6 +392,11 @@ function markChanged() {
 }
 
 /* ─── INIT ─── */
+// Se o JSON embutido for o novo formato {lendas, premiacoes}, extrair
+if (!Array.isArray(DATA) && DATA.premiacoes) {
+  if (DATA.lendas && DATA.lendas.length) LENDAS = DATA.lendas;
+  DATA = DATA.premiacoes;
+}
 document.getElementById('statusCount').textContent = DATA.length;
 document.getElementById('premBadge').textContent = DATA.length;
 filterPrem();
@@ -635,8 +640,10 @@ function buildExportStats() {
 }
 
 function exportJSON() {
-  const clean = DATA.map(r => { const c={...r}; delete c._new; return c; });
-  const blob = new Blob([JSON.stringify(clean, null, 2)], {type:'application/json'});
+  const cleanLendas = LENDAS.map(l => ({...l}));
+  const cleanPrem   = DATA.map(r => { const c={...r}; delete c._new; return c; });
+  const output = { lendas: cleanLendas, premiacoes: cleanPrem };
+  const blob = new Blob([JSON.stringify(output, null, 2)], {type:'application/json'});
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href = url; a.download = 'premiacoes-spfc.json';

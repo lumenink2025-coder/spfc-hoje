@@ -706,25 +706,8 @@ a { color:inherit; text-decoration:none; }
 
 const JSON_URL = '/data/premiacoes-spfc.json';
 
-/* ── FOTOS DAS LENDAS ── edite aqui ──────────────────────────── */
-const LENDAS = [
-  { nome:'Rogério Ceni',   titulo:'Melhor Goleiro do Mundo · IFFHS',       ano:'2005–2008', iniciais:'RC',
-    foto:'', cat:'Goleiro' },
-  { nome:'Raí',            titulo:'Rei da América · El País',               ano:'1992',      iniciais:'R',
-    foto:'', cat:'Meio-campista' },
-  { nome:'Cafu',           titulo:'Jogadores do Time Ideal da América',      ano:'1992–1995', iniciais:'C',
-    foto:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780892428/images_oxgygm.jpg', cat:'Lateral' },
-  { nome:'Kaká',           titulo:'Bola de Ouro do Campeonato Brasileiro',   ano:'2002',      iniciais:'K',
-    foto:'', cat:'Meio-campista' },
-  { nome:'Telê Santana',   titulo:'Melhor Técnico do Mundo · El País',      ano:'1992–1993', iniciais:'TS',
-    foto:'', cat:'Treinador' },
-  { nome:'Éder Jofre',     titulo:'Hall da Fama do Boxe Internacional',     ano:'1992',      iniciais:'ÉJ',
-    foto:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780892428/images_oxgygm.jpg', cat:'Pugilista' },
-  { nome:'Careca',         titulo:'Seleção da Copa do Mundo · El Gráfico',  ano:'1986',      iniciais:'CA',
-    foto:'', cat:'Atacante' },
-  { nome:'Adhemar F. da Silva', titulo:'Hall da Fama do Atletismo',         ano:'2012',      iniciais:'AS',
-    foto:'', cat:'Atletismo' },
-];
+/* ── LENDAS ── carregadas do JSON ── */
+let LENDAS = [];
 
 /* ── CORES POR CATEGORIA ── */
 const CAT_ICON = {
@@ -930,7 +913,13 @@ async function init(){
   try{
     const r=await fetch(JSON_URL+'?v='+Date.now());
     if(!r.ok) throw new Error('HTTP '+r.status);
-    ALL_DATA=await r.json();
+    const json=await r.json();
+    if(Array.isArray(json)){
+      ALL_DATA=json;
+    } else {
+      ALL_DATA=json.premiacoes||[];
+      if(json.lendas && json.lendas.length) LENDAS=json.lendas;
+    }
   }catch(e){
     console.error(e);
     ALL_DATA=[];
