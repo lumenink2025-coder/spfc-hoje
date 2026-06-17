@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Editor · Galeria dos Imortais</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0d0d;--bg2:#161616;--bg3:#1e1e1e;--bg4:#282828;
+  --red:#C8102E;--gold:#d4af37;--gold2:#e8cc6a;
+  --txt:#F0F0EB;--txt2:#b0b0a8;--txt3:#666;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);
+  --green:#3ddc84;--green-bg:rgba(61,220,132,.08);
+  --f:'DM Sans',sans-serif;--d:'Bebas Neue',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--f);background:var(--bg);color:var(--txt);min-height:100vh;font-size:14px}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border2);padding:14px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.topbar-logo{height:32px;width:auto;opacity:.8}
+.topbar-title{font-family:var(--d);font-size:1.4rem;letter-spacing:.06em;flex:1}
+.topbar-title span{color:var(--red)}
+.btn{display:inline-flex;align-items:center;gap:7px;border:none;border-radius:7px;font-family:var(--f);font-size:.75rem;font-weight:600;letter-spacing:.05em;padding:9px 16px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--txt2)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.3);color:var(--txt)}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:#9c0b22}
+.btn-green{background:var(--green-bg);border:1px solid rgba(61,220,132,.25);color:var(--green)}
+.btn-green:hover{background:rgba(61,220,132,.14)}
+.btn-gold{background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.25);color:var(--gold2)}
+.btn-gold:hover{background:rgba(212,175,55,.18)}
+.btn:disabled{opacity:.35;cursor:default}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 57px)}
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:16px 0}
+.sidebar-section{padding:0 12px;margin-bottom:4px}
+.sidebar-label{font-size:.6rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--txt3);padding:12px 10px 6px}
+.sidebar-btn{width:100%;text-align:left;background:none;border:none;border-radius:8px;padding:10px 12px;font-family:var(--f);font-size:.82rem;color:var(--txt2);cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .15s}
+.sidebar-btn:hover{background:var(--bg3);color:var(--txt)}
+.sidebar-btn.active{background:rgba(200,16,46,.12);color:var(--red);font-weight:600}
+.sidebar-btn .badge{margin-left:auto;background:var(--bg4);color:var(--txt3);font-size:.62rem;border-radius:10px;padding:1px 7px}
+.sidebar-btn.active .badge{background:rgba(200,16,46,.2);color:var(--red)}
+
+.main{overflow-y:auto}
+.main-inner{padding:24px;max-width:1000px}
+
+/* ── PAINÉIS ── */
+.panel{display:none}
+.panel.active{display:block}
+
+/* ── LENDAS PANEL ── */
+.lendas-tip{background:rgba(212,175,55,.07);border:1px solid rgba(212,175,55,.15);border-radius:8px;padding:12px 16px;font-size:.78rem;color:var(--gold2);line-height:1.6;margin-bottom:20px}
+.lendas-tip code{background:rgba(255,255,255,.06);padding:1px 5px;border-radius:3px;font-size:.72rem}
+.lenda-row{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:8px;display:grid;grid-template-columns:60px 1fr 1fr;gap:12px;align-items:center}
+.lenda-row.changed{border-color:rgba(61,220,132,.3)}
+.lenda-preview{width:52px;height:52px;border-radius:50%;object-fit:cover;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--txt3);overflow:hidden;flex-shrink:0}
+.lenda-preview img{width:100%;height:100%;object-fit:cover}
+.lenda-nome{font-weight:600;font-size:.88rem;margin-bottom:2px}
+.lenda-cat{font-size:.7rem;color:var(--txt3)}
+.url-row{display:flex;gap:6px}
+.url-inp{flex:1;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);padding:8px 10px;border-radius:6px;font-family:var(--f);font-size:.75rem;outline:none;min-width:0}
+.url-inp:focus{border-color:var(--gold)}
+.url-inp::placeholder{color:var(--txt3)}
+.url-apply{background:var(--bg4);border:1px solid var(--border2);color:var(--txt2);padding:8px 10px;border-radius:6px;font-size:.7rem;cursor:pointer;white-space:nowrap}
+.url-apply:hover{border-color:var(--gold);color:var(--gold2)}
+.url-rm{background:rgba(200,16,46,.08);border:1px solid rgba(200,16,46,.2);color:#ff6b6b;padding:8px 9px;border-radius:6px;cursor:pointer}
+
+/* ── PREMIAÇÕES PANEL ── */
+.prem-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.search-box{position:relative;flex:1;min-width:200px}
+.search-box input{width:100%;background:var(--bg2);border:1px solid var(--border2);color:var(--txt);padding:9px 12px 9px 34px;border-radius:7px;font-family:var(--f);font-size:.8rem;outline:none}
+.search-box input:focus{border-color:rgba(255,255,255,.25)}
+.search-box::before{content:'🔎';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:.8rem;pointer-events:none}
+.filter-sel{background:var(--bg2);border:1px solid var(--border2);color:var(--txt2);padding:9px 10px;border-radius:7px;font-family:var(--f);font-size:.78rem;outline:none;cursor:pointer}
+
+.prem-list{display:flex;flex-direction:column;gap:4px;margin-bottom:16px}
+.prem-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;transition:border-color .15s}
+.prem-item:hover{border-color:var(--border2)}
+.prem-item.new-item{border-color:rgba(61,220,132,.3)}
+.pi-title{font-size:.83rem;font-weight:500;margin-bottom:3px;line-height:1.3}
+.pi-meta{font-size:.68rem;color:var(--txt3)}
+.pi-meta span{color:var(--txt2);margin-right:8px}
+.pi-actions{display:flex;gap:5px;flex-shrink:0}
+.pi-btn{background:var(--bg3);border:1px solid var(--border);color:var(--txt3);padding:6px 8px;border-radius:5px;font-size:.7rem;cursor:pointer;transition:all .15s}
+.pi-btn:hover{border-color:rgba(255,255,255,.2);color:var(--txt)}
+.pi-btn.danger:hover{border-color:rgba(200,16,46,.4);color:#ff6b6b;background:rgba(200,16,46,.06)}
+
+.pag{display:flex;align-items:center;gap:6px;justify-content:center;padding:8px 0}
+.pag-btn{background:var(--bg2);border:1px solid var(--border);color:var(--txt2);padding:7px 13px;border-radius:6px;font-size:.75rem;cursor:pointer;transition:all .15s}
+.pag-btn:hover:not(:disabled){border-color:rgba(255,255,255,.25);color:var(--txt)}
+.pag-btn:disabled{opacity:.3;cursor:default}
+.pag-info{font-size:.72rem;color:var(--txt3);min-width:100px;text-align:center}
+
+/* ── MODAL EDIÇÃO ── */
+.modal-ov{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(6px)}
+.modal-ov.open{display:flex}
+.modal-box{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:24px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto}
+.modal-title{font-family:var(--d);font-size:1.3rem;letter-spacing:.05em;margin-bottom:20px;color:var(--gold2)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--txt3);margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--txt);padding:9px 11px;border-radius:7px;font-family:var(--f);font-size:.82rem;outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
+.field textarea{resize:vertical;min-height:60px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+
+/* ── EXPORTAR ── */
+.export-panel{}
+.export-info{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
+.export-info h3{font-family:var(--d);font-size:1.1rem;letter-spacing:.05em;margin-bottom:8px;color:var(--gold2)}
+.export-info p{font-size:.8rem;color:var(--txt2);line-height:1.6;margin-bottom:12px}
+.export-info code{background:var(--bg3);padding:2px 7px;border-radius:4px;font-size:.72rem;color:var(--gold)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:16px}
+.stat-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.stat-num{font-family:var(--d);font-size:1.8rem;color:var(--gold2);line-height:1}
+.stat-lbl{font-size:.62rem;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg3);border:1px solid var(--border2);color:var(--txt);padding:10px 20px;border-radius:8px;font-size:.8rem;z-index:9999;transition:transform .25s;box-shadow:0 8px 24px rgba(0,0,0,.5);white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ok{border-color:rgba(61,220,132,.3);color:var(--green)}
+.toast.err{border-color:rgba(200,16,46,.3);color:#ff6b6b}
+
+/* ── CHANGES BADGE ── */
+.changes-badge{display:none;background:var(--red);color:#fff;font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:10px;margin-left:6px}
+.changes-badge.show{display:inline}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <img class="topbar-logo" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" alt="SPFC">
+  <div class="topbar-title">GALERIA <span>EDITOR</span></div>
+  <button class="btn btn-ghost" onclick="window.open('galeria-dos-imortais.html','_blank')">👁 Visualizar</button>
+  <button class="btn btn-green" id="exportBtn" disabled onclick="exportJSON()">⬇ Exportar JSON</button>
+</div>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-label">Seções</div>
+    <div class="sidebar-section">
+      <button class="sidebar-btn active" data-panel="lendas" onclick="showPanel('lendas',this)">
+        🌟 Ídolos Eternos
+      </button>
+      <button class="sidebar-btn" data-panel="premiacoes" onclick="showPanel('premiacoes',this)">
+        🏆 Premiações
+        <span class="badge" id="premBadge">0</span>
+      </button>
+      <button class="sidebar-btn" data-panel="exportar" onclick="showPanel('exportar',this)">
+        📦 Exportar
+        <span class="changes-badge" id="changesBadge">!</span>
+      </button>
+    </div>
+    <div class="sidebar-label" style="margin-top:16px">Status</div>
+    <div class="sidebar-section">
+      <div style="padding:10px;font-size:.72rem;color:var(--txt3);line-height:1.8">
+        JSON: <span id="statusJson" style="color:var(--gold2)">carregando…</span><br>
+        Registros: <span id="statusCount" style="color:var(--txt2)">—</span><br>
+        Alterações: <span id="statusChanges" style="color:var(--green)">0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="main-inner">
+
+      <!-- PAINEL LENDAS -->
+      <div class="panel active" id="panel-lendas">
+        <h2 style="font-family:var(--d);font-size:1.4rem;letter-spacing:.05em;margin-bottom:8px">Ídolos Eternos</h2>
+        <p style="font-size:.78rem;color:var(--txt3);margin-bottom:16px">Edite as fotos e informações exibidas nos cards pôster da galeria.</p>
+        <div class="lendas-tip">
+          💡 Suba a foto no <a href="https://cloudinary.com" target="_blank" style="color:var(--gold2)">Cloudinary</a> e cole o link direto abaixo.<br>
+          Tamanho ideal: <code>600×800px</code> (proporção 3:4). O rosto deve estar no terço superior.
+        </div>
+        <div id="lendas-list"></div>
+      </div>
+
+      <!-- PAINEL PREMIAÇÕES -->
+      <div class="panel" id="panel-premiacoes">
+        <h2 style="font-family:var(--d);font-size:1.4rem;letter-spacing:.05em;margin-bottom:8px">Premiações</h2>
+        <p style="font-size:.78rem;color:var(--txt3);margin-bottom:16px">Adicione, edite ou remova premiações do JSON.</p>
+        <div class="prem-toolbar">
+          <div class="search-box">
+            <input type="text" id="premSearch" placeholder="Buscar por premiação ou atleta…" oninput="filterPrem()">
+          </div>
+          <select class="filter-sel" id="premCat" onchange="filterPrem()">
+            <option value="">Todas as categorias</option>
+            <option value="GRANDES CONDECORAÇÕES">Grandes Condecorações</option>
+            <option value="PREMIAÇÕES DO FUTEBOL">Futebol</option>
+            <option value="PREMIAÇÕES DO BASQUETE">Basquete</option>
+          </select>
+          <select class="filter-sel" id="premNivel" onchange="filterPrem()">
+            <option value="">Todos os níveis</option>
+            <option value="Nível Mundial">Mundial</option>
+            <option value="Nível Continental">Continental</option>
+            <option value="Nível Nacional">Nacional</option>
+            <option value="Nível Interestadual">Interestadual</option>
+            <option value="Nível Estadual">Estadual</option>
+          </select>
+          <button class="btn btn-red" onclick="openAddModal()">+ Adicionar</button>
+        </div>
+        <div class="prem-list" id="prem-list"></div>
+        <div class="pag" id="pag"></div>
+      </div>
+
+      <!-- PAINEL EXPORTAR -->
+      <div class="panel" id="panel-exportar">
+        <div class="export-panel">
+          <div class="export-info">
+            <h3>Exportar dados.json</h3>
+            <p>Após todas as edições, exporte o arquivo abaixo e faça o upload na pasta <code>data/</code> do seu repositório no GitHub como <code>premiacoes-spfc.json</code>.</p>
+            <p>O arquivo exportado substitui o atual — as alterações ficam visíveis para todos os visitantes após o deploy.</p>
+            <div class="stat-grid" id="export-stats"></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-green" style="font-size:.85rem;padding:12px 24px" onclick="exportJSON()">⬇ Baixar premiacoes-spfc.json</button>
+            <button class="btn btn-ghost" onclick="showPanel('premiacoes',document.querySelector('[data-panel=premiacoes]'))">← Ver premiações</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- MODAL EDIÇÃO/ADIÇÃO -->
+<div class="modal-ov" id="editModal">
+  <div class="modal-box">
+    <div class="modal-title" id="modal-title">Editar Premiação</div>
+    <div class="field-row">
+      <div class="field">
+        <label>Categoria</label>
+        <select id="f-cat">
+          <option value="GRANDES CONDECORAÇÕES">Grandes Condecorações</option>
+          <option value="PREMIAÇÕES DO FUTEBOL" selected>Premiações do Futebol</option>
+          <option value="PREMIAÇÕES DO BASQUETE">Premiações do Basquete</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Nível</label>
+        <select id="f-nivel">
+          <option value="">—</option>
+          <option value="Nível Mundial">Nível Mundial</option>
+          <option value="Nível Continental">Nível Continental</option>
+          <option value="Nível Nacional">Nível Nacional</option>
+          <option value="Nível Interestadual">Nível Interestadual</option>
+          <option value="Nível Estadual">Nível Estadual</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Premiação</label>
+      <textarea id="f-prem" rows="2" placeholder="Nome completo da premiação (fonte entre parênteses se houver)"></textarea>
+    </div>
+    <div class="field">
+      <label>Vencedor</label>
+      <input type="text" id="f-venc" placeholder="Ex: Rogério Ceni, 2005">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Subcategoria</label>
+        <input type="text" id="f-subcat" placeholder="Opcional">
+      </div>
+      <div class="field">
+        <label>Grupo</label>
+        <input type="text" id="f-grupo" placeholder="Opcional">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-gold" onclick="saveModal()">✓ Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+const JSON_URL = '/data/premiacoes-spfc.json';
+
+/* ── LENDAS CONFIG — espelha galeria-dos-imortais.html ── */
+let LENDAS = [
+  { nome:'Rogério Ceni',        titulo:'Melhor Goleiro do Mundo · IFFHS',       ano:'2005–2008', iniciais:'RC', cat:'Goleiro',       foto:'' },
+  { nome:'Raí',                 titulo:'Rei da América · El País',               ano:'1992',      iniciais:'R',  cat:'Meio-campista', foto:'' },
+  { nome:'Cafu',                titulo:'Jogadores do Time Ideal da América',     ano:'1992–1995', iniciais:'C',  cat:'Lateral',       foto:'' },
+  { nome:'Kaká',                titulo:'Bola de Ouro do Campeonato Brasileiro',  ano:'2002',      iniciais:'K',  cat:'Meio-campista', foto:'' },
+  { nome:'Telê Santana',        titulo:'Melhor Técnico do Mundo · El País',     ano:'1992–1993', iniciais:'TS', cat:'Treinador',     foto:'' },
+  { nome:'Éder Jofre',          titulo:'Hall da Fama do Boxe Internacional',    ano:'1992',      iniciais:'ÉJ', cat:'Pugilista',     foto:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780892428/images_oxgygm.jpg' },
+  { nome:'Careca',              titulo:'Seleção da Copa do Mundo · El Gráfico', ano:'1986',      iniciais:'CA', cat:'Atacante',      foto:'' },
+  { nome:'Adhemar F. da Silva', titulo:'Hall da Fama do Atletismo',             ano:'2012',      iniciais:'AS', cat:'Atletismo',     foto:'' },
+];
+
+let DATA = [];
+let filteredData = [];
+let changedIdxs = new Set();
+let lendaChanged = new Set();
+let editingIdx = null;
+let curPage = 0;
+const PAGE_SIZE = 30;
+
+/* ── PANELS ── */
+function showPanel(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'exportar') buildExportStats();
+}
+
+/* ── TOAST ── */
+function toast(msg, type='') {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'toast show' + (type?' '+type:'');
+  clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 2400);
+}
+
+/* ── CHANGES ── */
+function markChanged(idx) {
+  changedIdxs.add(idx);
+  updateChangesUI();
+}
+function updateChangesUI() {
+  const n = changedIdxs.size + lendaChanged.size;
+  document.getElementById('statusChanges').textContent = n;
+  document.getElementById('exportBtn').disabled = n === 0;
+  const badge = document.getElementById('changesBadge');
+  badge.classList.toggle('show', n > 0);
+}
+
+/* ── LOAD ── */
+async function loadData() {
+  document.getElementById('statusJson').textContent = 'carregando…';
+  try {
+    const r = await fetch(JSON_URL + '?v=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    DATA = await r.json();
+    document.getElementById('statusJson').textContent = 'OK ✓';
+    document.getElementById('statusJson').style.color = 'var(--green)';
+  } catch(e) {
+    document.getElementById('statusJson').textContent = 'Erro: ' + e.message;
+    document.getElementById('statusJson').style.color = '#ff6b6b';
+    DATA = [];
+  }
+  document.getElementById('statusCount').textContent = DATA.length;
+  document.getElementById('premBadge').textContent = DATA.length;
+  filterPrem();
+  renderLendas();
+}
+loadData();
+
+/* ── LENDAS ── */
+function renderLendas() {
+  document.getElementById('lendas-list').innerHTML = LENDAS.map((l, i) => {
+    const hasFoto = !!l.foto.trim();
+    return `<div class="lenda-row${lendaChanged.has(i)?' changed':''}" id="lr-${i}">
+      <div class="lenda-preview" id="lprev-${i}">
+        ${hasFoto ? `<img src="${l.foto}" onerror="this.parentElement.textContent='${l.iniciais}'">` : l.iniciais}
+      </div>
+      <div>
+        <div class="lenda-nome">${l.nome}</div>
+        <div class="lenda-cat">${l.cat} · ${l.ano}</div>
+        <div style="font-size:.68rem;color:var(--txt3);margin-top:2px;font-style:italic">${l.titulo}</div>
+      </div>
+      <div>
+        <div class="url-row">
+          <input class="url-inp" id="linp-${i}" type="text" placeholder="URL da foto (Cloudinary…)" value="${l.foto.replace(/"/g,'&quot;')}">
+          <button class="url-apply" onclick="applyLendaFoto(${i})">✓</button>
+          <button class="url-apply url-rm" onclick="removeLendaFoto(${i})">🗑</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function applyLendaFoto(i) {
+  const url = document.getElementById('linp-' + i).value.trim();
+  if (!url) { toast('Cole uma URL antes', 'err'); return; }
+  LENDAS[i].foto = url;
+  lendaChanged.add(i);
+  const prev = document.getElementById('lprev-' + i);
+  prev.innerHTML = `<img src="${url}" onerror="this.parentElement.textContent='${LENDAS[i].iniciais}'">`;
+  document.getElementById('lr-' + i).classList.add('changed');
+  updateChangesUI();
+  toast(`Foto de ${LENDAS[i].nome} atualizada`, 'ok');
+}
+
+function removeLendaFoto(i) {
+  LENDAS[i].foto = '';
+  document.getElementById('linp-' + i).value = '';
+  document.getElementById('lprev-' + i).textContent = LENDAS[i].iniciais;
+  lendaChanged.add(i);
+  updateChangesUI();
+  toast(`Foto removida`, 'ok');
+}
+
+/* ── PREMIAÇÕES ── */
+function norm(s) { return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
+function filterPrem() {
+  const q = norm(document.getElementById('premSearch').value.trim());
+  const cat = document.getElementById('premCat').value;
+  const nivel = document.getElementById('premNivel').value;
+  filteredData = DATA.filter(r => {
+    if (cat && r.categoria !== cat) return false;
+    if (nivel && r.nivel !== nivel) return false;
+    if (q) return norm(r.premiacao||'').includes(q) || norm(r.vencedor||'').includes(q);
+    return true;
+  });
+  curPage = 0;
+  renderPrem();
+}
+
+function renderPrem() {
+  const start = curPage * PAGE_SIZE;
+  const page = filteredData.slice(start, start + PAGE_SIZE);
+  const total = filteredData.length;
+
+  document.getElementById('prem-list').innerHTML = page.map(r => {
+    const idx = DATA.indexOf(r);
+    const isNew = r._new;
+    return `<div class="prem-item${isNew?' new-item':''}">
+      <div>
+        <div class="pi-title">${r.premiacao||'—'}</div>
+        <div class="pi-meta">
+          <span>${r.vencedor||'—'}</span>
+          <span style="color:var(--txt3)">${r.nivel||r.categoria||''}</span>
+        </div>
+      </div>
+      <div class="pi-actions">
+        <button class="pi-btn" onclick="openEditModal(${idx})">✏️</button>
+        <button class="pi-btn danger" onclick="deleteItem(${idx})">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  // paginação
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  document.getElementById('pag').innerHTML = totalPages > 1 ? `
+    <button class="pag-btn" onclick="goPage(${curPage-1})" ${curPage===0?'disabled':''}>‹ Anterior</button>
+    <span class="pag-info">${start+1}–${Math.min(start+PAGE_SIZE,total)} de ${total}</span>
+    <button class="pag-btn" onclick="goPage(${curPage+1})" ${curPage>=totalPages-1?'disabled':''}>Próximo ›</button>
+  ` : `<span class="pag-info">${total} registros</span>`;
+}
+
+function goPage(p) { curPage = p; renderPrem(); window.scrollTo(0,0); }
+
+/* ── MODAL ── */
+function openEditModal(idx) {
+  editingIdx = idx;
+  const r = DATA[idx];
+  document.getElementById('modal-title').textContent = 'Editar Premiação';
+  document.getElementById('f-cat').value   = r.categoria || 'PREMIAÇÕES DO FUTEBOL';
+  document.getElementById('f-nivel').value = r.nivel || '';
+  document.getElementById('f-prem').value  = r.premiacao || '';
+  document.getElementById('f-venc').value  = r.vencedor || '';
+  document.getElementById('f-subcat').value= r.subcategoria || '';
+  document.getElementById('f-grupo').value = r.grupo || '';
+  document.getElementById('editModal').classList.add('open');
+}
+
+function openAddModal() {
+  editingIdx = null;
+  document.getElementById('modal-title').textContent = 'Adicionar Premiação';
+  ['f-cat','f-nivel','f-prem','f-venc','f-subcat','f-grupo'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el.tagName === 'SELECT') el.value = id==='f-cat' ? 'PREMIAÇÕES DO FUTEBOL' : '';
+    else el.value = '';
+  });
+  document.getElementById('editModal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('editModal').classList.remove('open'); }
+document.getElementById('editModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('editModal')) closeModal();
+});
+
+function saveModal() {
+  const prem = document.getElementById('f-prem').value.trim();
+  const venc = document.getElementById('f-venc').value.trim();
+  if (!prem || !venc) { toast('Preencha pelo menos premiação e vencedor', 'err'); return; }
+  const obj = {
+    categoria:    document.getElementById('f-cat').value,
+    nivel:        document.getElementById('f-nivel').value,
+    subcategoria: document.getElementById('f-subcat').value,
+    grupo:        document.getElementById('f-grupo').value || document.getElementById('f-cat').value,
+    premiacao:    prem,
+    vencedor:     venc,
+  };
+  if (editingIdx !== null) {
+    Object.assign(DATA[editingIdx], obj);
+    markChanged(editingIdx);
+    toast('Atualizado ✓', 'ok');
+  } else {
+    obj._new = true;
+    DATA.push(obj);
+    markChanged(DATA.length - 1);
+    document.getElementById('statusCount').textContent = DATA.length;
+    document.getElementById('premBadge').textContent = DATA.length;
+    toast('Adicionado ✓', 'ok');
+  }
+  closeModal();
+  filterPrem();
+}
+
+function deleteItem(idx) {
+  if (!confirm(`Remover "${DATA[idx]?.premiacao?.slice(0,60)}"?`)) return;
+  DATA.splice(idx, 1);
+  markChanged(idx);
+  document.getElementById('statusCount').textContent = DATA.length;
+  document.getElementById('premBadge').textContent = DATA.length;
+  filterPrem();
+  toast('Removido', 'ok');
+}
+
+/* ── EXPORT ── */
+function buildExportStats() {
+  const cats = {};
+  DATA.forEach(r => {
+    const k = r.nivel || r.categoria || 'Outros';
+    cats[k] = (cats[k]||0)+1;
+  });
+  document.getElementById('export-stats').innerHTML =
+    Object.entries(cats).map(([k,v]) => `
+      <div class="stat-box">
+        <div class="stat-num">${v}</div>
+        <div class="stat-lbl">${k.replace('Nível ','').replace('PREMIAÇÕES DO ','').replace('GRANDES ','')}</div>
+      </div>`).join('') +
+    `<div class="stat-box"><div class="stat-num">${DATA.length}</div><div class="stat-lbl">Total</div></div>`;
+}
+
+function exportJSON() {
+  // limpa campos internos
+  const clean = DATA.map(r => {
+    const c = {...r}; delete c._new; return c;
+  });
+  const blob = new Blob([JSON.stringify(clean, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'premiacoes-spfc.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  toast('JSON exportado — suba em /data/ no GitHub', 'ok');
+  changedIdxs.clear(); lendaChanged.clear(); updateChangesUI();
+}
+
+// também exporta config das lendas como comentário útil
+function exportLendasConfig() {
+  const out = LENDAS.map(l => `  { nome:'${l.nome}', titulo:'${l.titulo}', ano:'${l.ano}', iniciais:'${l.iniciais}', cat:'${l.cat}', foto:'${l.foto}' }`).join(',\n');
+  navigator.clipboard.writeText(`const LENDAS = [\n${out}\n];`).then(()=>toast('Config das lendas copiada!','ok'));
+}
+</script>
+</body>
+</html>

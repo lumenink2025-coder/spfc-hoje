@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Galeria dos Imortais — Mais de oito décadas de atletas e treinadores do São Paulo FC reconhecidos entre os melhores do planeta.">
+<title>Galeria dos Imortais · São Paulo FC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════════ */
+:root {
+  --ink:    #0a0a0a;
+  --ink2:   #1a1a1a;
+  --ink3:   #2e2e2e;
+  --paper:  #f5f2ec;
+  --white:  #ffffff;
+  --red:    #C8102E;
+  --red2:   #9c0b22;
+  --gold:   #b8940e;
+  --gold2:  #d4af37;
+  --gold3:  #e8cc6a;
+  --muted:  rgba(255,255,255,.45);
+  --muted2: rgba(255,255,255,.18);
+  --serif:  'Cormorant Garamond', Georgia, serif;
+  --sans:   'DM Sans', system-ui, sans-serif;
+  --disp:   'Bebas Neue', sans-serif;
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--ink);
+  color: var(--white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { display:block; max-width:100%; }
+a { color:inherit; text-decoration:none; }
+
+/* ═══════════════════════════════════════════════════
+   UTILITY
+═══════════════════════════════════════════════════ */
+.gold-line {
+  width:40px; height:1px;
+  background: linear-gradient(90deg, transparent, var(--gold2), transparent);
+}
+.eyebrow {
+  font-family: var(--sans);
+  font-size:.65rem; font-weight:600;
+  letter-spacing:.35em; text-transform:uppercase;
+  color: var(--gold2);
+}
+.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+
+/* ═══════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════ */
+.nav {
+  position: fixed; top:0; left:0; right:0; z-index:200;
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 16px 24px;
+  background: linear-gradient(to bottom, rgba(10,10,10,.95), transparent);
+  backdrop-filter: blur(0);
+  transition: backdrop-filter .3s, background .3s;
+}
+.nav.scrolled {
+  background: rgba(10,10,10,.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav-back {
+  display:flex; align-items:center; gap:8px;
+  font-size:.72rem; letter-spacing:.15em; text-transform:uppercase;
+  color: rgba(255,255,255,.5);
+  cursor:pointer; border:none; background:none;
+  transition: color .2s;
+}
+.nav-back:hover { color:#fff; }
+.nav-back svg { opacity:.6; transition:opacity .2s; }
+.nav-back:hover svg { opacity:1; }
+.nav-logo { height:36px; width:auto; }
+.nav-right { width:80px; display:flex; justify-content:flex-end; }
+
+/* ═══════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  aspect-ratio: 9/16;
+  max-height: 100dvh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 16px 32px;
+  overflow: hidden;
+  background:
+    url('https://res.cloudinary.com/dwps392wa/image/upload/v1781667768/924102ca-bd43-45de-b5b3-e92b85a638b7_qdwc1r.png')
+    no-repeat center top / cover;
+}
+
+/* overlay sobre a imagem */
+.hero::before {
+  content:'';
+  position:absolute; inset:0; z-index:0;
+  background:
+    linear-gradient(to bottom,
+      transparent 0%,
+      transparent 55%,
+      rgba(10,10,10,.6) 75%,
+      rgba(10,10,10,.97) 100%
+    );
+}
+
+/* silhueta decorativa */
+.hero-silhouette {
+  position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+  width:min(700px,100%); height:65%;
+  opacity:.04;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 700 460' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='350' cy='420' rx='320' ry='40' fill='white'/%3E%3Ccircle cx='200' cy='180' r='60' fill='white'/%3E%3Crect x='170' y='235' width='60' height='140' rx='8' fill='white'/%3E%3Ccircle cx='500' cy='160' r='70' fill='white'/%3E%3Crect x='465' y='225' width='70' height='160' rx='8' fill='white'/%3E%3Ccircle cx='350' cy='120' r='55' fill='white'/%3E%3Crect x='318' y='172' width='64' height='150' rx='8' fill='white'/%3E%3C/svg%3E") no-repeat bottom center / contain;
+  pointer-events:none; z-index:0;
+}
+
+/* grade de linhas */
+.hero-grid {
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+
+.hero-content { position:relative; z-index:1; width:100%; max-width:600px; }
+
+/* stats animados */
+.hero-stats {
+  display: flex; gap:0; justify-content:center;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 14px;
+  overflow:hidden;
+  backdrop-filter: blur(12px);
+  background: rgba(10,10,10,.55);
+  width:100%;
+}
+.hstat {
+  flex:1; min-width:0;
+  padding:14px 8px;
+  text-align:center;
+  border-right: 1px solid rgba(255,255,255,.08);
+  position:relative;
+}
+.hstat:last-child { border-right:none; }
+.hstat-num {
+  font-family: var(--serif);
+  font-size: 1.6rem; font-weight:600; line-height:1;
+  color: var(--gold2);
+  display:block;
+}
+.hstat-lbl {
+  font-size:.6rem; font-weight:500; letter-spacing:.18em;
+  text-transform:uppercase; color:rgba(255,255,255,.35);
+  margin-top:5px; display:block;
+}
+
+/* scroll cue */
+.hero-scroll {
+  position:absolute; bottom:120px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  color:rgba(255,255,255,.3); font-size:.58rem; letter-spacing:.2em; text-transform:uppercase;
+  z-index:1;
+}
+.scroll-line {
+  width:1px; height:40px;
+  background:linear-gradient(to bottom, transparent, rgba(255,255,255,.3));
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse { 0%,100%{opacity:.2} 50%{opacity:.8} }
+
+/* ═══════════════════════════════════════════════════
+   SECTION BASE
+═══════════════════════════════════════════════════ */
+.section {
+  padding: 64px 0;
+  position:relative;
+}
+.section-inner { max-width:600px; margin:0 auto; padding:0 20px; }
+
+.section-header { margin-bottom:40px; }
+.section-chapter {
+  font-size:.6rem; font-weight:600; letter-spacing:.4em; text-transform:uppercase;
+  color:var(--red); display:flex; align-items:center; gap:10px; margin-bottom:14px;
+}
+.section-chapter::before { content:''; display:block; width:20px; height:1px; background:var(--red); }
+.section-h2 {
+  font-family:var(--serif);
+  font-size:clamp(2rem,8vw,3.2rem);
+  font-weight:300; line-height:1.05; letter-spacing:-.01em;
+}
+.section-h2 em { font-style:italic; color:rgba(255,255,255,.45); }
+.section-desc {
+  font-family:var(--serif);
+  font-size:.95rem; font-weight:300; font-style:italic;
+  color:rgba(255,255,255,.4); line-height:1.75;
+  margin-top:16px;
+}
+
+/* separador */
+.section-sep {
+  width:100%; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.06) 30%, rgba(255,255,255,.06) 70%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════
+   CAPÍTULO 1 — GRANDES CONDECORAÇÕES
+═══════════════════════════════════════════════════ */
+#cap1 { background:linear-gradient(to bottom, var(--ink), #0f0a04, var(--ink)); }
+
+.cond-list { display:flex; flex-direction:column; gap:1px; }
+.cond-item {
+  display:grid; grid-template-columns:36px 1fr;
+  align-items:center; gap:14px;
+  padding:18px 16px;
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:12px;
+  transition:background .25s, border-color .25s;
+  cursor:default;
+  position:relative; overflow:hidden;
+}
+.cond-item::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:linear-gradient(to bottom, var(--gold), var(--gold2), var(--gold));
+  opacity:0; transition:opacity .25s;
+}
+.cond-item:hover { background:rgba(212,175,55,.04); border-color:rgba(212,175,55,.15); transform:translateX(4px); }
+.cond-item:hover::before { opacity:1; }
+
+.cond-num {
+  font-family:var(--serif); font-size:2rem; font-weight:300;
+  color:rgba(212,175,55,.2); line-height:1; text-align:center;
+}
+.cond-body {}
+.cond-title {
+  font-family:var(--serif); font-size:1.1rem; font-weight:600;
+  line-height:1.3; margin-bottom:6px;
+}
+.cond-fonte { font-size:.72rem; color:rgba(255,255,255,.35); letter-spacing:.05em; }
+.cond-right { text-align:right; flex-shrink:0; }
+.cond-nome { font-size:.8rem; font-weight:600; color:var(--gold2); }
+.cond-ano { font-family:var(--serif); font-size:1.5rem; font-weight:300; color:rgba(255,255,255,.2); }
+
+/* ═══════════════════════════════════════════════════
+   LENDAS — CARDS PÔSTER
+═══════════════════════════════════════════════════ */
+#lendas { background:var(--ink2); padding:100px 0; }
+
+.lendas-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:2px;
+}
+
+.lenda-card {
+  position:relative; overflow:hidden;
+  aspect-ratio:3/4;
+  cursor:pointer;
+  background:var(--ink3);
+}
+
+/* foto de fundo */
+.lenda-photo {
+  position:absolute; inset:0;
+  background-size:cover; background-position:center top;
+  transition:transform .6s cubic-bezier(.25,.46,.45,.94);
+  filter:grayscale(.3) contrast(1.05);
+}
+.lenda-card:hover .lenda-photo { transform:scale(1.06); }
+
+/* overlay gradiente */
+.lenda-card::before {
+  content:''; position:absolute; inset:0; z-index:1;
+  background:linear-gradient(
+    to top,
+    rgba(10,10,10,.98) 0%,
+    rgba(10,10,10,.7) 40%,
+    rgba(10,10,10,.1) 75%,
+    transparent 100%
+  );
+  transition:opacity .3s;
+}
+
+/* linha dourada vela — assinatura da página */
+.lenda-candle {
+  position:absolute; left:24px; bottom:0; top:40%; z-index:2;
+  width:1px;
+  background:linear-gradient(to bottom, transparent, var(--gold2), var(--gold));
+  opacity:0;
+  transition:opacity .4s, top .4s;
+}
+.lenda-card:hover .lenda-candle { opacity:1; top:20%; }
+
+.lenda-body {
+  position:absolute; bottom:0; left:0; right:0; z-index:3;
+  padding:28px 24px 24px 40px;
+}
+.lenda-cat {
+  font-size:.6rem; font-weight:600; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--gold2); margin-bottom:8px; opacity:.8;
+}
+.lenda-nome {
+  font-family:var(--serif);
+  font-size:clamp(1.6rem,4vw,2.2rem);
+  font-weight:700; line-height:1; margin-bottom:12px;
+}
+.lenda-titulo {
+  font-family:var(--serif); font-style:italic;
+  font-size:.9rem; color:rgba(255,255,255,.55);
+  line-height:1.5; margin-bottom:12px;
+  max-height:0; overflow:hidden;
+  transition:max-height .4s, opacity .4s;
+  opacity:0;
+}
+.lenda-card:hover .lenda-titulo { max-height:80px; opacity:1; }
+.lenda-ano {
+  font-family:var(--serif); font-size:1.1rem; font-weight:300;
+  color:var(--gold2);
+}
+/* placeholder de foto — iniciais */
+.lenda-initials {
+  position:absolute; inset:0; z-index:0;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--serif); font-size:6rem; font-weight:300;
+  color:rgba(255,255,255,.05);
+}
+
+/* ═══════════════════════════════════════════════════
+   CAPÍTULO 2 — RECONHECIMENTO MUNDIAL
+═══════════════════════════════════════════════════ */
+#cap2 {
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(200,16,46,.06) 0%, transparent 60%),
+    var(--ink);
+}
+
+/* grid de cards mundial */
+.world-grid {
+  display:grid; grid-template-columns:1fr;
+  gap:12px;
+}
+.world-card {
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  padding:24px 24px 20px;
+  position:relative; overflow:hidden;
+  transition:background .25s, border-color .25s;
+}
+.world-card::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--red), transparent);
+  opacity:0; transition:opacity .25s;
+}
+.world-card:hover { background:rgba(200,16,46,.05); border-color:rgba(200,16,46,.2); }
+.world-card:hover::after { opacity:1; }
+.world-card-icon { font-size:1.5rem; margin-bottom:14px; line-height:1; }
+.world-card-prem {
+  font-family:var(--serif); font-size:1rem; font-weight:600;
+  line-height:1.35; margin-bottom:8px;
+}
+.world-card-fonte { font-size:.68rem; color:rgba(255,255,255,.3); margin-bottom:16px; }
+.world-card-atletas { display:flex; flex-wrap:wrap; gap:6px; }
+.world-tag {
+  font-size:.65rem; font-weight:500;
+  background:rgba(212,175,55,.1); border:1px solid rgba(212,175,55,.2);
+  color:var(--gold3); border-radius:999px; padding:3px 10px;
+}
+
+/* ═══════════════════════════════════════════════════
+   TIMELINE HORIZONTAL
+═══════════════════════════════════════════════════ */
+#timeline { padding:100px 0; overflow:hidden; }
+.timeline-header { max-width:600px; margin:0 auto 40px; padding:0 20px; }
+
+.timeline-scroll {
+  display:flex; gap:0;
+  overflow-x:auto; scroll-snap-type:x mandatory;
+  padding:0 24px 32px;
+  scrollbar-width:thin; scrollbar-color:rgba(212,175,55,.3) transparent;
+  cursor:grab;
+}
+.timeline-scroll:active { cursor:grabbing; }
+.timeline-scroll::-webkit-scrollbar { height:3px; }
+.timeline-scroll::-webkit-scrollbar-thumb { background:rgba(212,175,55,.3); border-radius:999px; }
+
+.decade {
+  flex-shrink:0; width:280px;
+  scroll-snap-align:start;
+  padding:32px 24px 24px;
+  border-left:1px solid rgba(255,255,255,.06);
+  position:relative;
+}
+.decade:first-child { border-left:none; }
+.decade::before {
+  content:''; position:absolute; top:0; left:0; width:8px; height:8px;
+  border-radius:50%; background:var(--gold2); opacity:.4;
+  transform:translate(-50%,-50%); top:0;
+}
+.decade-year {
+  font-family:var(--serif); font-size:3rem; font-weight:300;
+  color:rgba(255,255,255,.08); line-height:1; margin-bottom:20px;
+}
+.decade-count {
+  font-size:.62rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--gold2); margin-bottom:16px; opacity:.7;
+}
+.decade-items { display:flex; flex-direction:column; gap:8px; }
+.decade-item {
+  font-size:.78rem; line-height:1.4; color:rgba(255,255,255,.45);
+  padding-left:12px; border-left:1px solid rgba(255,255,255,.1);
+}
+.decade-item strong { color:rgba(255,255,255,.75); display:block; font-size:.75rem; }
+
+/* timeline track */
+.timeline-track {
+  height:1px; margin:0 24px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.08) 10%, rgba(255,255,255,.08) 90%, transparent);
+  position:relative; margin-bottom:-1px;
+}
+
+/* ═══════════════════════════════════════════════════
+   MURAL DE CONQUISTAS
+═══════════════════════════════════════════════════ */
+#mural { background:var(--ink2); padding:100px 0; }
+
+.mural-tabs {
+  display:flex; gap:4px; margin-bottom:48px;
+  border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:4px;
+  width:fit-content;
+}
+.mural-tab {
+  padding:9px 20px; border:none; border-radius:8px;
+  background:transparent; color:rgba(255,255,255,.4);
+  font-family:var(--sans); font-size:.75rem; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase;
+  cursor:pointer; transition:all .2s; white-space:nowrap;
+}
+.mural-tab.active { background:rgba(255,255,255,.08); color:#fff; }
+
+.mural-grid {
+  columns:1; gap:10px;
+}
+.badge-card {
+  break-inside:avoid; margin-bottom:10px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px; padding:18px 18px 16px;
+  transition:border-color .2s, background .2s;
+  position:relative; overflow:hidden;
+}
+.badge-card:hover { background:rgba(212,175,55,.04); border-color:rgba(212,175,55,.15); }
+.badge-card-cat { font-size:1rem; margin-bottom:10px; }
+.badge-card-title {
+  font-family:var(--serif); font-size:.92rem; font-weight:600;
+  line-height:1.35; color:rgba(255,255,255,.85); margin-bottom:8px;
+}
+.badge-card-atleta { font-size:.72rem; color:var(--gold2); font-weight:500; }
+.badge-card-ano { font-size:.68rem; color:rgba(255,255,255,.3); margin-top:2px; }
+
+/* ═══════════════════════════════════════════════════
+   SEÇÃO FINAL — CTA
+═══════════════════════════════════════════════════ */
+#final {
+  min-height:70vh; display:flex; align-items:center; justify-content:center;
+  text-align:center; padding:100px 24px;
+  position:relative; overflow:hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(200,16,46,.1) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(180,140,14,.05) 0%, transparent 60%),
+    var(--ink);
+}
+#final::before {
+  content:''; position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+}
+.final-content { position:relative; z-index:1; max-width:640px; }
+.final-h2 {
+  font-family:var(--serif);
+  font-size:clamp(2.5rem,8vw,5rem);
+  font-weight:300; line-height:1.05; margin-bottom:24px;
+}
+.final-h2 em { font-style:italic; color:rgba(255,255,255,.35); }
+.final-p {
+  font-family:var(--serif); font-style:italic;
+  font-size:1.05rem; color:rgba(255,255,255,.4);
+  line-height:1.8; margin-bottom:48px;
+}
+.final-cta {
+  display:inline-flex; align-items:center; gap:12px;
+  font-size:.8rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--gold2);
+  border:1px solid rgba(212,175,55,.3); border-radius:999px;
+  padding:16px 32px;
+  cursor:pointer; background:none;
+  transition:border-color .25s, background .25s, color .25s;
+}
+.final-cta:hover {
+  background:rgba(212,175,55,.08); border-color:var(--gold2); color:var(--gold3);
+}
+.final-cta svg { transition:transform .25s; }
+.final-cta:hover svg { transform:translateX(4px); }
+
+/* ═══════════════════════════════════════════════════
+   LOADING
+═══════════════════════════════════════════════════ */
+.loading-screen {
+  position:fixed; inset:0; background:var(--ink); z-index:9999;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px;
+  transition:opacity .6s, visibility .6s;
+}
+.loading-screen.gone { opacity:0; visibility:hidden; pointer-events:none; }
+.loading-logo { height:52px; width:auto; opacity:.6; }
+.loading-bar-wrap { width:180px; height:1px; background:rgba(255,255,255,.1); border-radius:1px; overflow:hidden; }
+.loading-bar { height:100%; width:0%; background:linear-gradient(90deg,var(--red),var(--gold2)); transition:width .05s linear; }
+.loading-txt { font-size:.62rem; letter-spacing:.3em; color:rgba(255,255,255,.3); text-transform:uppercase; }
+
+/* ═══════════════════════════════════════════════════
+   REVEAL ANIMATION
+═══════════════════════════════════════════════════ */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in { opacity:1; transform:translateY(0); }
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media(max-width:640px) {
+  .hero-stats { flex-wrap:wrap; }
+  .hstat { min-width:calc(50% - 1px); }
+  .lendas-grid { grid-template-columns:repeat(2,1fr); }
+  .world-grid { grid-template-columns:1fr; }
+  .mural-grid { columns:1; }
+  .mural-tabs { overflow-x:auto; }
+  .cond-item { grid-template-columns:40px 1fr; }
+  .cond-right { display:none; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *, *::before, *::after { animation:none!important; transition:none!important; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-screen" id="ls">
+  <img class="loading-logo" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" alt="SPFC">
+  <div class="loading-bar-wrap"><div class="loading-bar" id="lbar"></div></div>
+  <span class="loading-txt">Carregando o legado…</span>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <button class="nav-back" onclick="window.location.href='main.html'">
+    <svg width="8" height="13" viewBox="0 0 8 13" fill="none">
+      <path d="M7 1L1 6.5 7 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Voltar
+  </button>
+  <img class="nav-logo" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" alt="São Paulo FC">
+  <div class="nav-right"></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-stats" role="list">
+      <div class="hstat" role="listitem">
+        <span class="hstat-num" data-target="30" id="stat0">0</span>
+        <span class="hstat-lbl">Mundial</span>
+      </div>
+      <div class="hstat" role="listitem">
+        <span class="hstat-num" data-target="52" id="stat1">0</span>
+        <span class="hstat-lbl">Continental</span>
+      </div>
+      <div class="hstat" role="listitem">
+        <span class="hstat-num" data-target="216" id="stat2">0</span>
+        <span class="hstat-lbl">Nacional</span>
+      </div>
+      <div class="hstat" role="listitem">
+        <span class="hstat-num" data-target="5" id="stat3">0</span>
+        <span class="hstat-lbl">Condecorações</span>
+      </div>
+      <div class="hstat" role="listitem">
+        <span class="hstat-num" data-target="580" id="stat4">0</span>
+        <span class="hstat-lbl">Total</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <span>Descer</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- CAP 1 — GRANDES CONDECORAÇÕES -->
+<section class="section" id="cap1">
+  <div class="section-inner">
+    <header class="section-header reveal">
+      <div class="section-chapter">Capítulo I</div>
+      <h2 class="section-h2">Grandes<br><em>Condecorações</em></h2>
+      <p class="section-desc">Os mais raros reconhecimentos da história do esporte — honrarias que transcendem o futebol e marcam a eternidade.</p>
+    </header>
+    <div class="cond-list reveal" id="cond-list"></div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- LENDAS -->
+<section class="section" id="lendas" aria-labelledby="lendas-title">
+  <div class="section-inner">
+    <header class="section-header reveal">
+      <div class="section-chapter">Destaques</div>
+      <h2 class="section-h2" id="lendas-title">Ídolos<br><em>Eternos</em></h2>
+      <p class="section-desc">Oito nomes que elevaram o São Paulo FC à condição de clube de excelência global.</p>
+    </header>
+  </div>
+  <div class="lendas-grid" id="lendas-grid"></div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- CAP 2 — MUNDIAL -->
+<section class="section" id="cap2">
+  <div class="section-inner">
+    <header class="section-header reveal">
+      <div class="section-chapter">Capítulo II</div>
+      <h2 class="section-h2">Reconhecimento<br><em>Mundial</em></h2>
+      <p class="section-desc">Premiações concedidas por FIFA, IFFHS e imprensa internacional — os maiores palcos do planeta.</p>
+    </header>
+    <div class="world-grid reveal" id="world-grid"></div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- TIMELINE -->
+<section class="section" id="timeline">
+  <div class="timeline-header reveal">
+    <div class="section-chapter">Jornada</div>
+    <h2 class="section-h2">Uma história<br><em>por décadas</em></h2>
+  </div>
+  <div class="timeline-track"></div>
+  <div class="timeline-scroll" id="timeline-scroll"></div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- MURAL -->
+<section class="section" id="mural">
+  <div class="section-inner">
+    <header class="section-header reveal">
+      <div class="section-chapter">Capítulo III</div>
+      <h2 class="section-h2">Mural de<br><em>Conquistas</em></h2>
+      <p class="section-desc">Cada cartão é um momento gravado na história. Uma conquista real, de pessoas reais, por um clube único.</p>
+    </header>
+    <div class="mural-tabs" role="tablist">
+      <button class="mural-tab active" data-cat="" role="tab" aria-selected="true">Todos</button>
+      <button class="mural-tab" data-cat="mundial" role="tab">🏆 Mundial</button>
+      <button class="mural-tab" data-cat="continental" role="tab">🌎 Continental</button>
+      <button class="mural-tab" data-cat="nacional" role="tab">🇧🇷 Nacional</button>
+      <button class="mural-tab" data-cat="honra" role="tab">⭐ Honrarias</button>
+    </div>
+    <div class="mural-grid" id="mural-grid"></div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section id="final">
+  <div class="final-content reveal">
+    <h2 class="final-h2">O legado<br><em>continua</em></h2>
+    <p class="final-p">
+      Cada medalha, cada troféu, cada menção honrosa carrega o peso de uma história construída com dedicação, técnica e amor ao manto tricolor. O São Paulo FC não apenas vence — ele inspira gerações.
+    </p>
+    <button class="final-cta" onclick="window.location.href='jogadores.html'">
+      Explorar os grandes ídolos
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</section>
+
+<script>
+'use strict';
+
+const JSON_URL = '/data/premiacoes-spfc.json';
+
+/* ── FOTOS DAS LENDAS ── edite aqui ──────────────────────────── */
+const LENDAS = [
+  { nome:'Rogério Ceni',   titulo:'Melhor Goleiro do Mundo · IFFHS',       ano:'2005–2008', iniciais:'RC',
+    foto:'', cat:'Goleiro' },
+  { nome:'Raí',            titulo:'Rei da América · El País',               ano:'1992',      iniciais:'R',
+    foto:'', cat:'Meio-campista' },
+  { nome:'Cafu',           titulo:'Jogadores do Time Ideal da América',      ano:'1992–1995', iniciais:'C',
+    foto:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780892428/images_oxgygm.jpg', cat:'Lateral' },
+  { nome:'Kaká',           titulo:'Bola de Ouro do Campeonato Brasileiro',   ano:'2002',      iniciais:'K',
+    foto:'', cat:'Meio-campista' },
+  { nome:'Telê Santana',   titulo:'Melhor Técnico do Mundo · El País',      ano:'1992–1993', iniciais:'TS',
+    foto:'', cat:'Treinador' },
+  { nome:'Éder Jofre',     titulo:'Hall da Fama do Boxe Internacional',     ano:'1992',      iniciais:'ÉJ',
+    foto:'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780892428/images_oxgygm.jpg', cat:'Pugilista' },
+  { nome:'Careca',         titulo:'Seleção da Copa do Mundo · El Gráfico',  ano:'1986',      iniciais:'CA',
+    foto:'', cat:'Atacante' },
+  { nome:'Adhemar F. da Silva', titulo:'Hall da Fama do Atletismo',         ano:'2012',      iniciais:'AS',
+    foto:'', cat:'Atletismo' },
+];
+
+/* ── CORES POR CATEGORIA ── */
+const CAT_ICON = {
+  'Nível Mundial':       '🏆',
+  'Nível Continental':   '🌎',
+  'Nível Nacional':      '🇧🇷',
+  'Nível Interestadual': '🔶',
+  'Nível Estadual':      '🏅',
+  'GRANDES CONDECORAÇÕES': '⭐',
+  'PREMIAÇÕES DO BASQUETE': '🏀',
+};
+const CAT_MURAL = {
+  'Nível Mundial':       'mundial',
+  'Nível Continental':   'continental',
+  'Nível Nacional':      'nacional',
+  'Nível Interestadual': 'nacional',
+  'Nível Estadual':      'nacional',
+  'GRANDES CONDECORAÇÕES': 'honra',
+  'PREMIAÇÕES DO BASQUETE': 'nacional',
+};
+
+/* ── PARSE ── */
+function parseVencedor(raw) {
+  raw = (raw||'').trim().replace(/\.$/, '');
+  const m = raw.match(/^(.+?),\s*(\d{4}(?:\/\d{4})?)(.*)$/);
+  if (m) return { nome:m[1].trim(), ano:m[2].trim(), det:m[3].trim().replace(/^\s*[–-]\s*/,'') };
+  const m2 = raw.match(/^(.+?)\s+(\d{4}(?:\/\d{4})?)(.*)$/);
+  if (m2) return { nome:m2[1].trim(), ano:m2[2].trim(), det:m2[3].trim().replace(/^\s*[–-]\s*/,'') };
+  return { nome:raw, ano:'', det:'' };
+}
+function getYear(v) {
+  const m=(v||'').match(/\b(1[89]\d\d|20\d\d)\b/); return m?parseInt(m[1]):0;
+}
+function stripParen(s) {
+  const m=s.match(/^(.+?)\s*\(([^)]+)\)\s*(.*)$/);
+  return m ? { title:(m[1]+' '+(m[3]||'')).trim(), fonte:m[2] } : { title:s, fonte:'' };
+}
+
+/* ── LOADING ── */
+const lbar=document.getElementById('lbar');
+function setLoad(pct){ lbar.style.width=pct+'%'; }
+
+/* ── RENDER FUNCS ── */
+function renderCond(data) {
+  const items = data.filter(r=>r.categoria==='GRANDES CONDECORAÇÕES');
+  document.getElementById('cond-list').innerHTML = items.map((r,i)=>{
+    const v=parseVencedor(r.vencedor), s=stripParen(r.premiacao);
+    return `<div class="cond-item reveal">
+      <div class="cond-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="cond-body">
+        <div class="cond-title">${s.title}</div>
+        ${s.fonte?`<div class="cond-fonte">${s.fonte}</div>`:''}
+      </div>
+      <div class="cond-right">
+        <div class="cond-nome">${v.nome}</div>
+        <div class="cond-ano">${v.ano}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderLendas() {
+  document.getElementById('lendas-grid').innerHTML = LENDAS.map(l=>{
+    const bg = l.foto
+      ? `style="background-image:url('${l.foto}')"` : '';
+    return `<article class="lenda-card" tabindex="0">
+      ${l.foto ? `<div class="lenda-photo" ${bg}></div>` : `<div class="lenda-initials">${l.iniciais}</div>`}
+      <div class="lenda-candle" aria-hidden="true"></div>
+      <div class="lenda-body">
+        <div class="lenda-cat">${l.cat}</div>
+        <h3 class="lenda-nome">${l.nome}</h3>
+        <p class="lenda-titulo">${l.titulo}</p>
+        <div class="lenda-ano">${l.ano}</div>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+function renderWorld(data) {
+  const items = data.filter(r=>r.nivel==='Nível Mundial');
+  // agrupar por premiação
+  const map={};
+  items.forEach(r=>{
+    const k=r.premiacao;
+    if(!map[k]) map[k]=[];
+    const v=parseVencedor(r.vencedor);
+    map[k].push(`${v.nome}${v.ano?' ('+v.ano+')':''}`);
+  });
+  document.getElementById('world-grid').innerHTML = Object.entries(map).map(([prem,atletas])=>{
+    const s=stripParen(prem);
+    return `<div class="world-card">
+      <div class="world-card-icon">🏆</div>
+      <div class="world-card-prem">${s.title}</div>
+      ${s.fonte?`<div class="world-card-fonte">${s.fonte}</div>`:''}
+      <div class="world-card-atletas">${atletas.map(a=>`<span class="world-tag">${a}</span>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderTimeline(data) {
+  const decades={};
+  data.forEach(r=>{
+    const y=getYear(r.vencedor);
+    if(!y) return;
+    const dec=(Math.floor(y/10)*10);
+    if(!decades[dec]) decades[dec]=[];
+    decades[dec].push(r);
+  });
+  const scroll=document.getElementById('timeline-scroll');
+  scroll.innerHTML = Object.keys(decades).sort().map(dec=>{
+    const items=decades[dec];
+    const sample=items.slice(0,4);
+    return `<div class="decade">
+      <div class="decade-year">${dec}s</div>
+      <div class="decade-count">${items.length} distinção${items.length!==1?'ões':''}</div>
+      <div class="decade-items">${sample.map(r=>{
+        const v=parseVencedor(r.vencedor), s=stripParen(r.premiacao);
+        return `<div class="decade-item"><strong>${v.nome}</strong>${s.title.length>50?s.title.slice(0,48)+'…':s.title}</div>`;
+      }).join('')}${items.length>4?`<div class="decade-item" style="color:rgba(255,255,255,.25);font-style:italic">+ ${items.length-4} mais</div>`:''}</div>
+    </div>`;
+  }).join('');
+
+  // drag to scroll
+  let isDown=false, startX, scrollLeft;
+  scroll.addEventListener('mousedown',e=>{isDown=true;startX=e.pageX-scroll.offsetLeft;scrollLeft=scroll.scrollLeft;});
+  scroll.addEventListener('mouseleave',()=>isDown=false);
+  scroll.addEventListener('mouseup',()=>isDown=false);
+  scroll.addEventListener('mousemove',e=>{if(!isDown)return;e.preventDefault();const x=e.pageX-scroll.offsetLeft;scroll.scrollLeft=scrollLeft-(x-startX)*1.2;});
+}
+
+let ALL_DATA=[], curMuralCat='';
+function renderMural(cat) {
+  let d=ALL_DATA;
+  if(cat==='mundial')     d=d.filter(r=>r.nivel==='Nível Mundial');
+  else if(cat==='continental') d=d.filter(r=>r.nivel==='Nível Continental');
+  else if(cat==='nacional') d=d.filter(r=>['Nível Nacional','Nível Interestadual','Nível Estadual'].includes(r.nivel));
+  else if(cat==='honra')  d=d.filter(r=>r.categoria==='GRANDES CONDECORAÇÕES'||r.categoria==='PREMIAÇÕES DO BASQUETE');
+
+  // limitar para performance visual
+  const shown=d.slice(0,120);
+  document.getElementById('mural-grid').innerHTML = shown.map(r=>{
+    const v=parseVencedor(r.vencedor), s=stripParen(r.premiacao);
+    const icon=CAT_ICON[r.nivel]||CAT_ICON[r.categoria]||'🏅';
+    return `<div class="badge-card">
+      <div class="badge-card-cat">${icon}</div>
+      <div class="badge-card-title">${s.title.length>70?s.title.slice(0,68)+'…':s.title}</div>
+      <div class="badge-card-atleta">${v.nome}</div>
+      <div class="badge-card-ano">${v.ano}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ── TABS ── */
+document.querySelectorAll('.mural-tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.mural-tab').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-selected','false');});
+    btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+    curMuralCat=btn.dataset.cat;
+    renderMural(curMuralCat);
+  });
+});
+
+/* ── NAV SCROLL ── */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',window.scrollY>60);
+});
+
+/* ── REVEAL ── */
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}});
+},{threshold:.12});
+function observeReveal(){document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));}
+
+/* ── COUNTER ANIMATION ── */
+function animCount(el,target,dur=1800){
+  const start=performance.now();
+  function tick(now){
+    const t=Math.min((now-start)/dur,1);
+    const ease=1-Math.pow(1-t,4);
+    el.textContent=Math.round(ease*target);
+    if(t<1) requestAnimationFrame(tick);
+    else el.textContent=target;
+  }
+  requestAnimationFrame(tick);
+}
+const statsObs=new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    document.querySelectorAll('.hstat-num').forEach(el=>animCount(el,+el.dataset.target));
+    statsObs.disconnect();
+  }
+},{threshold:.5});
+statsObs.observe(document.querySelector('.hero-stats'));
+
+/* ── FETCH & INIT ── */
+async function init(){
+  setLoad(20);
+  try{
+    const r=await fetch(JSON_URL+'?v='+Date.now());
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    ALL_DATA=await r.json();
+  }catch(e){
+    console.error(e);
+    ALL_DATA=[];
+  }
+  setLoad(60);
+  renderCond(ALL_DATA);
+  setLoad(72);
+  renderLendas();
+  setLoad(80);
+  renderWorld(ALL_DATA);
+  setLoad(88);
+  renderTimeline(ALL_DATA);
+  setLoad(94);
+  renderMural('');
+  setLoad(100);
+  setTimeout(()=>{
+    document.getElementById('ls').classList.add('gone');
+    observeReveal();
+  },400);
+}
+init();
+</script>
+</body>
+</html>
