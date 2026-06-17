@@ -741,6 +741,7 @@ function badgeIcon(r) {
   const icon = CAT_ICON[r.nivel] || CAT_ICON[r.categoria] || '🏅';
   return `<span style="font-size:1.5rem">${icon}</span>`;
 }
+const LEVEL_MAP = {
   'Nível Mundial':       'mundial',
   'Nível Continental':   'continental',
   'Nível Nacional':      'nacional',
