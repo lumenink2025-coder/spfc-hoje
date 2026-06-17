@@ -736,7 +736,11 @@ const CAT_ICON = {
   'GRANDES CONDECORAÇÕES': '⭐',
   'PREMIAÇÕES DO BASQUETE': '🏀',
 };
-const CAT_MURAL = {
+function badgeIcon(r) {
+  if (r.badgeUrl) return `<img src="${r.badgeUrl}" alt="" style="width:28px;height:28px;object-fit:contain;border-radius:4px">`;
+  const icon = CAT_ICON[r.nivel] || CAT_ICON[r.categoria] || '🏅';
+  return `<span style="font-size:1.5rem">${icon}</span>`;
+}
   'Nível Mundial':       'mundial',
   'Nível Continental':   'continental',
   'Nível Nacional':      'nacional',
@@ -816,7 +820,7 @@ function renderWorld(data) {
   document.getElementById('world-grid').innerHTML = Object.entries(map).map(([prem,atletas])=>{
     const s=stripParen(prem);
     return `<div class="world-card">
-      <div class="world-card-icon">🏆</div>
+      <div class="world-card-icon">${r.badgeUrl ? `<img src="${r.badgeUrl}" alt="" style="width:32px;height:32px;object-fit:contain;border-radius:6px">` : '🏆'}</div>
       <div class="world-card-prem">${s.title}</div>
       ${s.fonte?`<div class="world-card-fonte">${s.fonte}</div>`:''}
       <div class="world-card-atletas">${atletas.map(a=>`<span class="world-tag">${a}</span>`).join('')}</div>
@@ -869,7 +873,7 @@ function renderMural(cat) {
     const v=parseVencedor(r.vencedor), s=stripParen(r.premiacao);
     const icon=CAT_ICON[r.nivel]||CAT_ICON[r.categoria]||'🏅';
     return `<div class="badge-card">
-      <div class="badge-card-cat">${icon}</div>
+      <div class="badge-card-cat">${badgeIcon(r)}</div>
       <div class="badge-card-title">${s.title.length>70?s.title.slice(0,68)+'…':s.title}</div>
       <div class="badge-card-atleta">${v.nome}</div>
       <div class="badge-card-ano">${v.ano}</div>

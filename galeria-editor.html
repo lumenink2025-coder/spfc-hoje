@@ -254,6 +254,10 @@ body{font-family:var(--f);background:var(--bg);color:var(--txt);min-height:100vh
       </div>
     </div>
     <div class="field">
+      <label>Badge URL (logo da entidade — ex: FIFA, IFFHS)</label>
+      <input type="text" id="f-badge" placeholder="https://res.cloudinary.com/…">
+    </div>
+    <div class="field">
       <label>Premiação</label>
       <textarea id="f-prem" rows="2" placeholder="Nome completo da premiação (fonte entre parênteses se houver)"></textarea>
     </div>
@@ -455,7 +459,7 @@ function openEditModal(idx) {
   editingIdx = idx;
   const r = DATA[idx];
   document.getElementById('modal-title').textContent = 'Editar Premiação';
-  document.getElementById('f-cat').value   = r.categoria || 'PREMIAÇÕES DO FUTEBOL';
+  document.getElementById('f-badge').value  = r.badgeUrl || '';
   document.getElementById('f-nivel').value = r.nivel || '';
   document.getElementById('f-prem').value  = r.premiacao || '';
   document.getElementById('f-venc').value  = r.vencedor || '';
@@ -467,7 +471,7 @@ function openEditModal(idx) {
 function openAddModal() {
   editingIdx = null;
   document.getElementById('modal-title').textContent = 'Adicionar Premiação';
-  ['f-cat','f-nivel','f-prem','f-venc','f-subcat','f-grupo'].forEach(id => {
+  ['f-cat','f-nivel','f-prem','f-venc','f-subcat','f-grupo','f-badge'].forEach(id => {
     const el = document.getElementById(id);
     if (el.tagName === 'SELECT') el.value = id==='f-cat' ? 'PREMIAÇÕES DO FUTEBOL' : '';
     else el.value = '';
@@ -491,6 +495,7 @@ function saveModal() {
     grupo:        document.getElementById('f-grupo').value || document.getElementById('f-cat').value,
     premiacao:    prem,
     vencedor:     venc,
+    badgeUrl:     document.getElementById('f-badge').value.trim(),
   };
   if (editingIdx !== null) {
     Object.assign(DATA[editingIdx], obj);
