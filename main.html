@@ -987,10 +987,93 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   scroll-snap-align:start;
   touch-action:pan-x;
 }
+/* setas do carrossel de widgets — ocultas por padrão (mobile não usa) */
+.wg-arrow{display:none}
+.widgets-grid-wrap{} /* placeholder; estilos reais no @media desktop */
+
 /* dots indicadores */
 .games-dots{display:flex;justify-content:center;gap:6px;padding:0 0 16px;margin-top:-16px}
 .games-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:background .2s,width .2s}
 .games-dot.active{width:18px;border-radius:3px;background:var(--red)}
+
+/* ── DESKTOP: carrossel horizontal com setas de navegação ── */
+@media(min-width:900px){
+  /* wrapper relativo para posicionar as setas */
+  .widgets-grid-wrap{
+    position:relative;
+    max-width:100%;       /* ocupa a largura total do desktop-content */
+    margin:0;
+    padding:0 52px;
+  }
+  .widgets-grid{
+    display:flex;
+    flex-direction:row;
+    overflow-x:hidden;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+    gap:10px;
+    padding:0 0 24px;
+    max-width:100%;
+    margin:0;
+  }
+  .widgets-grid > *{
+    flex-shrink:0;
+    width:100% !important;
+    scroll-snap-align:start;
+  }
+  /* setas */
+  .wg-arrow{
+    display:flex !important;
+    position:absolute;
+    top:50%;transform:translateY(-60%);
+    width:40px;height:40px;
+    background:rgba(20,0,0,.85);
+    border:1px solid rgba(204,0,0,.35);
+    border-radius:50%;
+    align-items:center;justify-content:center;
+    cursor:pointer;
+    font-size:16px;color:#fff;
+    transition:background .18s,border-color .18s,transform .18s;
+    z-index:10;
+    user-select:none;
+  }
+  .wg-arrow:hover{background:rgba(204,0,0,.75);border-color:var(--red);transform:translateY(-60%) scale(1.08)}
+  .wg-arrow:active{transform:translateY(-60%) scale(.94)}
+  .wg-arrow.disabled{opacity:.25;pointer-events:none}
+  .wg-arrow-prev{left:4px}
+  .wg-arrow-next{right:4px}
+  /* dots voltam a aparecer no desktop */
+  .games-dots{display:flex}
+
+  /* ── CONTAINER DESKTOP: centraliza e limita largura de todo o panel-hoje ── */
+  #panel-hoje{
+    max-width:960px;
+    margin:0 auto;
+    padding-left:0;
+    padding-right:0;
+  }
+  /* ajusta paddings internos das seções para ficarem alinhados */
+  .destaque-wrap{padding-left:20px;padding-right:20px}
+  .lineup-section .lineup-label{padding-left:20px}
+  .lineup-section .lineup-scroll{padding-left:20px;padding-right:20px}
+  .sec-head-new{padding-left:20px;padding-right:20px}
+  .day-cards-grid{padding-left:20px;padding-right:20px}
+  .legends-scroll{padding-left:20px;padding-right:20px}
+  .hub-section-head{padding-left:20px;padding-right:20px}
+  /* eventos do dia: grid ao invés de carrossel — 3 cards lado a lado */
+  .day-cards-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    overflow-x:visible;
+    scroll-snap-type:none;
+    gap:12px;
+  }
+  .day-ev-card{
+    width:100% !important;
+    flex-shrink:unset;
+  }
+  .dcard-dots{display:none} /* dots não fazem sentido em grid */
+}
 
 /* Widget base */
 .widget{
@@ -2032,6 +2115,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="hub-section-label">área do torcedor</div>
   </div>
 
+  <div class="widgets-grid-wrap">
+  <button class="wg-arrow wg-arrow-prev" id="wgPrev" aria-label="Anterior">&#8592;</button>
+  <button class="wg-arrow wg-arrow-next" id="wgNext" aria-label="Pr&#243;ximo">&#8594;</button>
+
   <div class="widgets-grid" id="widgetsGrid">
 
     <!-- ══ CARD QUIZ HERÓI ══ -->
@@ -2197,6 +2284,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="games-dot"></div>
     <div class="games-dot"></div>
   </div>
+
+  </div><!-- /widgets-grid-wrap -->
 
   <!-- ⑤ ARQUIVO HISTÓRICO — CARROSSEL NETFLIX -->
   <div class="hub-section-head" style="padding-top:24px">
@@ -5102,19 +5191,56 @@ function closeJogadoresModal(e){
   document.body.style.overflow = '';
 }
 
-/* ── GAMES CAROUSEL DOTS ── */
+/* ── GAMES CAROUSEL DOTS + DESKTOP ARROWS ── */
 (function(){
   const grid = document.getElementById('widgetsGrid') || document.querySelector('.widgets-grid');
   const dots = document.querySelectorAll('.games-dot');
-  if(!grid || !dots.length) return;
-  grid.addEventListener('scroll', ()=>{
+  const btnPrev = document.getElementById('wgPrev');
+  const btnNext = document.getElementById('wgNext');
+  if(!grid) return;
+
+  function getCardWidth(){
     const firstChild = grid.children[0];
-    if(!firstChild) return;
+    if(!firstChild) return 0;
     const gap = parseFloat(getComputedStyle(grid).gap) || 10;
-    const cardW = firstChild.getBoundingClientRect().width + gap;
-    const idx = Math.round(grid.scrollLeft / cardW);
-    dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
-  }, {passive:true});
+    return firstChild.getBoundingClientRect().width + gap;
+  }
+
+  function currentIndex(){
+    const cardW = getCardWidth();
+    return cardW ? Math.round(grid.scrollLeft / cardW) : 0;
+  }
+
+  function totalSlides(){
+    return grid.children.length;
+  }
+
+  function goTo(idx){
+    const cardW = getCardWidth();
+    const total = totalSlides();
+    idx = Math.max(0, Math.min(idx, total - 1));
+    grid.scrollTo({left: cardW * idx, behavior:'smooth'});
+  }
+
+  function updateArrows(idx){
+    if(!btnPrev || !btnNext) return;
+    btnPrev.classList.toggle('disabled', idx === 0);
+    btnNext.classList.toggle('disabled', idx >= totalSlides() - 1);
+  }
+
+  if(dots.length){
+    grid.addEventListener('scroll', ()=>{
+      const idx = currentIndex();
+      dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+      updateArrows(idx);
+    }, {passive:true});
+  }
+
+  if(btnPrev) btnPrev.addEventListener('click', ()=>goTo(currentIndex() - 1));
+  if(btnNext) btnNext.addEventListener('click', ()=>goTo(currentIndex() + 1));
+
+  // estado inicial das setas
+  requestAnimationFrame(()=>updateArrows(0));
 })();
 
 /* ── SWIPE-SAFE CLICK ──
