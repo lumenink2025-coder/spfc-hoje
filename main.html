@@ -1075,6 +1075,56 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   .dcard-dots{display:none} /* dots não fazem sentido em grid */
 }
 
+/* ══════════════════════════════════════════════════
+   DESKTOP — CARROSSEL INFINITO AUTOMÁTICO
+   Legends + Arquivo: CSS marquee com pausa no hover.
+   SOMENTE @media desktop — mobile não é afetado.
+══════════════════════════════════════════════════ */
+@media(min-width:900px){
+  /* ── LEGENDS ───────────────────────────── */
+  .legends-scroll{
+    overflow:hidden !important;
+    scroll-snap-type:none !important;
+    cursor:default;
+  }
+  .legends-scroll-inner{
+    display:flex;
+    gap:10px;
+    width:max-content;
+    animation:legendsMarquee var(--legends-dur,40s) linear infinite;
+    will-change:transform;
+  }
+  .legends-scroll:hover .legends-scroll-inner{
+    animation-play-state:paused;
+  }
+  @keyframes legendsMarquee{
+    0%  { transform:translateX(0); }
+    100%{ transform:translateX(var(--legends-shift,0px)); }
+  }
+
+  /* ── ARQUIVO ───────────────────────────── */
+  .arquivo-scroll{
+    overflow:hidden !important;
+    scroll-snap-type:none !important;
+    cursor:default;
+    padding-bottom:16px;
+  }
+  .arquivo-scroll-inner{
+    display:flex;
+    gap:10px;
+    width:max-content;
+    animation:arquivoMarquee var(--arquivo-dur,48s) linear infinite;
+    will-change:transform;
+  }
+  .arquivo-scroll:hover .arquivo-scroll-inner{
+    animation-play-state:paused;
+  }
+  @keyframes arquivoMarquee{
+    0%  { transform:translateX(0); }
+    100%{ transform:translateX(var(--arquivo-shift,0px)); }
+  }
+}
+
 /* Widget base */
 .widget{
   border-radius:16px;overflow:hidden;position:relative;
@@ -5095,6 +5145,7 @@ function legendCardHtml(p){
 }
 
 function setupInfiniteScroll(wrap, n){
+  if(window.matchMedia('(min-width:900px)').matches) return; // desktop: usa CSS marquee
   requestAnimationFrame(()=>{
     const card = wrap.querySelector('.legend-card');
     if(!card) return;
@@ -5264,12 +5315,77 @@ function swipeSafeClick(el, fn) {
 
 loadPlayers();
 
+/* ══════════════════════════════════════════════════
+   DESKTOP — CARROSSEL INFINITO AUTOMÁTICO
+   Wraps the existing scroll content in a ..-inner div
+   and drives it with a CSS marquee animation.
+   Only runs when viewport >= 900px. Mobile untouched.
+══════════════════════════════════════════════════ */
+(function desktopInfiniteCarousel(){
+  if(window.matchMedia('(max-width:899px)').matches) return; // mobile: sai imediatamente
+
+  /* helper: wrap children in an inner div, clone for seamless loop */
+  function initMarquee(scrollEl, innerClass, durVar, shiftVar, speed){
+    if(!scrollEl) return;
+    if(scrollEl.querySelector('.'+innerClass)) return; // ja inicializado
+
+    const inner = document.createElement('div');
+    inner.className = innerClass;
+    while(scrollEl.firstChild) inner.appendChild(scrollEl.firstChild);
+    scrollEl.appendChild(inner);
+
+    const clone = inner.cloneNode(true);
+    scrollEl.appendChild(clone);
+
+    function measure(){
+      const gap = parseFloat(getComputedStyle(scrollEl).gap)||10;
+      const w = inner.scrollWidth + gap;
+      const dur = Math.max(20, Math.round(w / speed));
+      scrollEl.style.setProperty(durVar, dur+'s');
+      scrollEl.style.setProperty(shiftVar, '-'+w+'px');
+    }
+
+    measure();
+    let rto;
+    window.addEventListener('resize', ()=>{ clearTimeout(rto); rto=setTimeout(measure,200); });
+  }
+
+  /* LEGENDS */
+  const legsEl = document.getElementById('legendsScroll');
+  if(legsEl){
+    function tryLegends(){
+      if(legsEl.children.length > 0 && !legsEl.querySelector('.legends-scroll-inner')){
+        initMarquee(legsEl, 'legends-scroll-inner', '--legends-dur', '--legends-shift', 60);
+      } else if(!legsEl.querySelector('.legends-scroll-inner')){
+        requestAnimationFrame(tryLegends);
+      }
+    }
+    setTimeout(tryLegends, 600);
+  }
+
+  /* ARQUIVO */
+  const arqEl = document.getElementById('arquivoScroll');
+  if(arqEl){
+    function tryArquivo(){
+      if(arqEl.children.length > 0 && !arqEl.querySelector('.arquivo-scroll-inner')){
+        initMarquee(arqEl, 'arquivo-scroll-inner', '--arquivo-dur', '--arquivo-shift', 50);
+      } else if(!arqEl.querySelector('.arquivo-scroll-inner')){
+        requestAnimationFrame(tryArquivo);
+      }
+    }
+    setTimeout(tryArquivo, 300);
+  }
+})();
+
 /* ── ARQUIVO HISTÓRICO — CARROSSEL INFINITO (estilo Netflix) ──
    Clona os cards originais antes e depois do conjunto real,
    posiciona o scroll no bloco do meio e, quando o usuário arrasta
    perto das pontas, "teleporta" o scroll de volta ao equivalente
-   no bloco do meio sem o usuário perceber (loop infinito). */
+   no bloco do meio sem o usuário perceber (loop infinito).
+   Em desktop (>= 900px) este comportamento é gerenciado pelo
+   desktopInfiniteCarousel acima — este IIFE só roda em mobile. */
 (function(){
+  if(window.matchMedia('(min-width:900px)').matches) return; // desktop: usa CSS marquee
   const scroller = document.getElementById('arquivoScroll');
   if(!scroller) return;
   const originalCards = Array.from(scroller.children);
