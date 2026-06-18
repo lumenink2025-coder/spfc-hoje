@@ -5092,7 +5092,7 @@ async function loadPlayers(){
   renderLegends();
 }
 
-const MANTO_KEY = 'spfc_manto_diario_v1';
+const MANTO_KEY = 'spfc_manto_diario_v2';
 const MANTO_N = 12; // 11 + técnico
 
 /* ── Mapa de siglas de posição → grupo da linha 3-5-2 ──
@@ -5128,8 +5128,8 @@ function shuffle(arr){
 }
 
 /* Monta a escalação do dia: 1 GOL, 3 ZAG, 5 MEI, 2 ATA.
-   Se faltar gente num grupo, completa com qualquer jogador restante
-   pra sempre fechar 11 nomes. */
+   Se faltar gente num grupo, completa com jogadores de linha
+   restantes (nunca duplica goleiro) pra sempre fechar 11 nomes. */
 function buildDailyLineup(list){
   const byGroup = {GOL:[],ZAG:[],MEI:[],ATA:[]};
   list.forEach(p=>{ byGroup[posGroup(p.posicao)].push(p); });
@@ -5137,20 +5137,28 @@ function buildDailyLineup(list){
 
   const usedIdx = new Set();
   const lineup = [];
+  const missing = []; // quantos faltam por slot, na ordem dos slots
 
   LINE_SLOTS.forEach(slot=>{
     const pool = byGroup[slot.group].filter(p=>!usedIdx.has(p._idx));
     const picked = pool.slice(0, slot.n);
     picked.forEach(p=>{ usedIdx.add(p._idx); lineup.push(p); });
+    const falta = slot.n - picked.length;
+    if(falta > 0) missing.push(falta);
   });
 
-  // Completa até 11 caso algum grupo não tenha jogadores suficientes
-  if(lineup.length < 11){
-    const rest = shuffle(list.filter(p=>!usedIdx.has(p._idx)));
-    for(const p of rest){
-      if(lineup.length>=11) break;
+  // Completa as vagas que faltaram, mas SOMENTE com jogadores de linha
+  // (nunca GOL) — evita ter 2 goleiros quando falta gente em outro grupo.
+  let totalMissing = missing.reduce((a,b)=>a+b, 0);
+  if(totalMissing > 0){
+    const restLine = shuffle(
+      list.filter(p=>!usedIdx.has(p._idx) && posGroup(p.posicao) !== 'GOL')
+    );
+    for(const p of restLine){
+      if(totalMissing<=0) break;
       usedIdx.add(p._idx);
       lineup.push(p);
+      totalMissing--;
     }
   }
 
