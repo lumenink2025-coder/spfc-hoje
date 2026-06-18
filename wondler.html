@@ -1320,7 +1320,7 @@ function renderClues(){
     </div>
     <div class="clue-list">
     ${dicas.map((d,i)=>{
-      const active=STATE.dicas>i||i===0||gameEnded;
+      const active=STATE.dicas>=i||gameEnded;
       return `
       <div class="clue-card ${active?'revealed':'locked'}">
         <div class="clue-num">${i+1}</div>
