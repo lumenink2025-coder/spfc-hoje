@@ -5092,7 +5092,7 @@ async function loadPlayers(){
   renderLegends();
 }
 
-const MANTO_KEY = 'spfc_manto_diario_v2';
+const MANTO_KEY = 'spfc_manto_diario_v3';
 const MANTO_N = 12; // 11 + técnico
 
 /* ── Mapa de siglas de posição → grupo da linha 3-5-2 ──
@@ -5103,7 +5103,7 @@ const MANTO_N = 12; // 11 + técnico
    Formação "em linha": 1 GOL + 3 ZAG + 5 MEI + 2 ATA = 11 */
 const POS_GROUPS = {
   // goleiro
-  'GOL':'GOL','G':'GOL',
+  'GL':'GOL','GOL':'GOL','G':'GOL','GK':'GOL',
   // zaga / laterais
   'ZG':'ZAG','ZAG':'ZAG','LD':'ZAG','LE':'ZAG','LAT':'ZAG','D':'ZAG','DF':'ZAG',
   // meio-campo (volantes, meias, pontas mais recuados)
