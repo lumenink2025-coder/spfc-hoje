@@ -5095,20 +5095,80 @@ async function loadPlayers(){
 const MANTO_KEY = 'spfc_manto_diario_v1';
 const MANTO_N = 12; // 11 + técnico
 
+/* ── Mapa de siglas de posição → grupo da linha 3-5-2 ──
+   GOL: goleiro
+   ZAG: zagueiros e laterais (linha de fundo)
+   MEI: volantes, meias e laterais ofensivos (meio-campo)
+   ATA: atacantes e pontas
+   Formação "em linha": 1 GOL + 3 ZAG + 5 MEI + 2 ATA = 11 */
+const POS_GROUPS = {
+  // goleiro
+  'GOL':'GOL','G':'GOL',
+  // zaga / laterais
+  'ZG':'ZAG','ZAG':'ZAG','LD':'ZAG','LE':'ZAG','LAT':'ZAG','D':'ZAG','DF':'ZAG',
+  // meio-campo (volantes, meias, pontas mais recuados)
+  'VL':'MEI','VOL':'MEI','MC':'MEI','MEI':'MEI','M':'MEI','MD':'MEI','ME':'MEI','MEIA':'MEI','PE':'MEI','PD':'MEI',
+  // ataque
+  'AT':'ATA','ATA':'ATA','CA':'ATA','SA':'ATA'
+};
+const LINE_SLOTS = [
+  {group:'GOL', n:1},
+  {group:'ZAG', n:3},
+  {group:'MEI', n:5},
+  {group:'ATA', n:2},
+];
+
+function posGroup(posicao){
+  const key = (posicao||'').trim().toUpperCase();
+  return POS_GROUPS[key] || 'MEI'; // posição desconhecida cai no meio-campo
+}
+
+function shuffle(arr){
+  return [...arr].sort(()=>Math.random()-0.5);
+}
+
+/* Monta a escalação do dia: 1 GOL, 3 ZAG, 5 MEI, 2 ATA.
+   Se faltar gente num grupo, completa com qualquer jogador restante
+   pra sempre fechar 11 nomes. */
+function buildDailyLineup(list){
+  const byGroup = {GOL:[],ZAG:[],MEI:[],ATA:[]};
+  list.forEach(p=>{ byGroup[posGroup(p.posicao)].push(p); });
+  Object.keys(byGroup).forEach(g=> byGroup[g] = shuffle(byGroup[g]) );
+
+  const usedIdx = new Set();
+  const lineup = [];
+
+  LINE_SLOTS.forEach(slot=>{
+    const pool = byGroup[slot.group].filter(p=>!usedIdx.has(p._idx));
+    const picked = pool.slice(0, slot.n);
+    picked.forEach(p=>{ usedIdx.add(p._idx); lineup.push(p); });
+  });
+
+  // Completa até 11 caso algum grupo não tenha jogadores suficientes
+  if(lineup.length < 11){
+    const rest = shuffle(list.filter(p=>!usedIdx.has(p._idx)));
+    for(const p of rest){
+      if(lineup.length>=11) break;
+      usedIdx.add(p._idx);
+      lineup.push(p);
+    }
+  }
+
+  return lineup;
+}
+
 function pickDailyLegends(list, n){
-  if(list.length<=n) return list;
   const today = new Date().toISOString().slice(0,10);
   let cache=null;
   try{ cache = JSON.parse(localStorage.getItem(MANTO_KEY)||'null'); }catch(e){}
-  if(cache && cache.date===today && Array.isArray(cache.idxs) && cache.idxs.length){
+  if(cache && cache.date===today && cache.formation==='352' && Array.isArray(cache.idxs) && cache.idxs.length){
     const byIdx = {}; list.forEach(p=>byIdx[p._idx]=p);
     const picked = cache.idxs.map(i=>byIdx[i]).filter(Boolean);
     if(picked.length) return picked;
   }
-  const shuffled = [...list].sort(()=>Math.random()-0.5);
-  const picked = shuffled.slice(0,n);
-  try{ localStorage.setItem(MANTO_KEY, JSON.stringify({date:today, idxs:picked.map(p=>p._idx)})); }catch(e){}
-  return picked;
+  const lineup = buildDailyLineup(list);
+  try{ localStorage.setItem(MANTO_KEY, JSON.stringify({date:today, formation:'352', idxs:lineup.map(p=>p._idx)})); }catch(e){}
+  return lineup;
 }
 
 function renderLegends(){
@@ -5117,7 +5177,7 @@ function renderLegends(){
   if(!wrap) return;
   if(countEl) countEl.textContent = LEGENDS_LIST.length;
   if(!LEGENDS_LIST.length){ wrap.innerHTML=''; return; }
-  const daily = pickDailyLegends(LEGENDS_LIST, MANTO_N);
+  const daily = pickDailyLegends(LEGENDS_LIST);
   const moreHtml = `<div class="legends-more" onclick="openJogadoresModal()"><span>👕</span><span>Ver todos os jogadores</span></div>`;
   const cardsHtml = daily.map(legendCardHtml).join('');
   if(daily.length>1){
