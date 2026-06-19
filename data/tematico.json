@@ -1,63 +1,63 @@
 {
-  "2026-W24": {
-    "tema": "Copa do Mundo",
+  "026-W25": {
+    "tema": "Copa 2026",
     "emoji": "🔥",
-    "descricao": "COPA DO MUNDO E SPFC",
+    "descricao": "A relação seleção brasileira e o SPFC",
     "imagem": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780353488/4e28dfe7-13ac-4490-8298-8f3143224c69_uohump.png",
     "perguntas": [
       {
-        "q": "Qual jogador, enquanto estava vinculado contratualmente ao São Paulo FC, marcou o maior número de gols em uma única edição de Copa do Mundo?",
-        "o": [
-          "Leônidas da Silva (1938)",
-          "Luis Fabiano (2010)",
-          "Careca (1986)",
-          "Müller (1990)"
-        ],
-        "c": 2,
-        "diff": 4
-      },
-      {
-        "q": "Na Copa de 1950, o famoso \"Trio de Ferro\" do São Paulo foi a base da Seleção. Qual desses jogadores foi o único brasileiro eleito para a Seleção Ideal (All-Star Team) da FIFA naquela edição?",
+        "q": "Qual ídolo tricolor foi o capitão da Seleção Brasileira na Copa do Mundo de 1954, na Suíça?",
         "o": [
           "Bauer",
-          "Rui",
-          "Noronha",
-          "Ademir Menezes"
+          "Mauro Ramos",
+          "De Sordi",
+          "Bellini"
         ],
         "c": 0,
         "diff": 2
       },
       {
-        "q": "Quem foi o primeiro jogador estrangeiro da história do São Paulo FC a disputar uma Copa do Mundo enquanto defendia as cores do clube?",
+        "q": "Qual craque era o único representante do São Paulo FC no elenco do Tri em 1970?",
         "o": [
-          "Pedro Rocha (Uruguai, 1974)",
-          "Pablo Forlán (Uruguai, 1970)",
-          "Darío Pereyra (Uruguai, 1986)",
-          "Aristizábal (Colômbia, 1994)"
+          "Terto",
+          "Toninho Guerreiro",
+          "Gérson",
+          "Paraná"
+        ],
+        "c": 2,
+        "diff": 4
+      },
+      {
+        "q": "Qual zagueiro do São Paulo foi convocado para a Copa de 1994 para substituir o cortado Ricardo Gomes?",
+        "o": [
+          "Válber",
+          "Ronaldão",
+          "Oscar",
+          "MIranda"
         ],
         "c": 1,
         "diff": 2
       },
       {
-        "q": "Um lendário goleiro do São Paulo detém um recorde raro na Seleção Brasileira: ele disputou 17 partidas oficiais como titular da Amarelinha e jamais sofreu uma derrota (16 vitórias e 1 empate). Quem é ele?",
+        "q": "Quem foi o goleiro titular da Seleção Brasileira na Copa da Espanha, em 1982, pertencendo ao São Paulo?",
         "o": [
-          "Rogério Ceni",
-          "Waldir Peres",
-          "Gilmar Rinaldi",
-          "Zetti"
+          "Zetti",
+          "Gilmar",
+          "King",
+          "Waldir Peres"
         ],
         "c": 3,
         "diff": 2
       },
       {
-        "q": "Qual técnico estrangeiro do São Paulo FC teve a honra de comandar a Seleção Brasileira em partidas oficiais, vencendo o Uruguai por duas vezes em 1944?",
+        "q": "Qual lateral-direito do São Paulo foi titular em 5 dos 6 jogos da Copa de 1958, perdendo apenas a final?",
         "o": [
-          "Béla Guttmann",
-          "Joreca",
-          "Jim Lopes",
-          "José Poy"
+          "Djalma Santos",
+          "Oreco",
+          "De Sordi",
+          "Belleti"
         ],
-        "c": 1,
+        "c": 2,
         "diff": 2
       }
     ]
