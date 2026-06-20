@@ -938,25 +938,33 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .arq-card-badge{position:absolute;top:9px;right:9px;background:#CC0000;color:#fff;font-size:0.5rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 7px;border-radius:3px}
 
 
-.pm-header{display:flex;gap:14px;align-items:center;padding:0 18px 14px}
-.pm-photo{width:76px;height:76px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center}
-.pm-photo img{width:100%;height:100%;object-fit:cover}
-.pm-photo-ini{font-family:var(--font-title);font-size:24px;color:var(--txt3)}
-.pm-name{font-family:var(--font-title);font-size:22px;color:#fff;line-height:1.1}
-.pm-badge{display:inline-block;font-family:var(--font-title);font-size:11px;letter-spacing:1px;background:rgba(204,0,0,.85);color:#fff;padding:2px 8px;border-radius:4px;margin-bottom:4px}
-.pm-full{font-size:11px;color:var(--txt2);margin-top:2px}
-.pm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px;margin-bottom:12px}
-.pm-field{background:var(--bg3);border-radius:8px;padding:8px 10px;border:1px solid var(--border)}
+.pm-wrap{display:flex;align-items:flex-start;width:100%}
+.pm-photo{width:38%;min-width:110px;flex-shrink:0;aspect-ratio:3/4;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--bg4),var(--bg2));border-right:1px solid var(--border2)}
+.pm-photo img{width:100%;height:100%;object-fit:cover;object-position:center 18%;display:block}
+.pm-photo-ini{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:2.6rem;color:rgba(255,255,255,.18)}
+.pm-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,0) 38%);pointer-events:none}
+.pm-box{flex:1;min-width:0;background:var(--bg2) url('https://res.cloudinary.com/dkjlv0hcs/image/upload/v1781910919/background_j8xvaw.png') center/cover no-repeat;overflow:hidden;display:flex;flex-direction:column}
+.pm-top{background-color:#1a1a1a;background-image:linear-gradient(90deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.1) 45%,rgba(0,0,0,.1) 65%,rgba(0,0,0,.5) 100%),url('https://res.cloudinary.com/dkjlv0hcs/image/upload/v1781911798/header_ghu7nb.png');background-position:center 20%;background-size:cover;background-repeat:no-repeat;padding:.8rem .9rem;min-height:120px;display:flex;flex-direction:column;justify-content:center}
+.pm-name{font-family:var(--font-title);font-size:18px;color:#fff;line-height:1.1;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.pm-badge{display:inline-block;font-family:var(--font-title);font-size:11px;letter-spacing:1px;background:rgba(0,0,0,.35);color:#fff;padding:2px 8px;border-radius:4px;margin-bottom:4px}
+.pm-full{font-size:10px;color:rgba(255,255,255,.75);margin-top:2px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.pm-grid{display:grid;grid-template-columns:1fr;gap:6px;padding:10px;margin-bottom:0;background:rgba(13,13,13,.78)}
+.pm-field{background:rgba(40,40,40,.82);border-radius:8px;padding:6px 9px;border:1px solid var(--border)}
 .pm-flbl{font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
-.pm-fval{font-size:12px;color:var(--txt);font-weight:500;word-break:break-word}
-.pm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 18px;margin-bottom:12px}
-.pm-stat{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center}
-.pm-stat-num{font-family:var(--font-title);font-size:20px;line-height:1}
+.pm-fval{font-size:11px;color:var(--txt);font-weight:500;word-break:break-word}
+.pm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 10px;margin-bottom:10px;background:rgba(13,13,13,.78)}
+.pm-stat{background:rgba(40,40,40,.82);border:1px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center}
+.pm-stat-num{font-family:var(--font-title);font-size:18px;line-height:1}
 .pm-stat-lbl{font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
 .pm-sv{color:#7fff6a}.pm-se{color:#e2c97e}.pm-sd{color:#ff5a5a}.pm-sg{color:var(--red2)}
-.pm-titles{padding:0 18px 20px}
+.pm-titles{padding:0 10px 14px;background:rgba(13,13,13,.78)}
 .pm-titles-lbl{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
 .pm-tag{display:inline-block;background:rgba(204,0,0,.15);color:#ff7a7a;border:1px solid rgba(204,0,0,.3);border-radius:4px;font-size:11px;padding:3px 8px;margin:0 4px 6px 0}
+@media(max-width:380px){
+  .pm-photo{width:34%;min-width:90px}
+  .pm-name{font-size:15px}
+  .pm-top{min-height:100px;padding:.6rem .7rem}
+}
 
 /* ══ MODAL JOGADORES (lista completa, iframe) ══ */
 .jog-modal{position:fixed;inset:0;z-index:3500;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,0);visibility:hidden;pointer-events:none;transition:background .3s,visibility 0s .38s}
@@ -5242,45 +5250,49 @@ function openPlayerModal(idx){
   const titles = p.titulos||[];
 
   let html = `
-    <div class="pm-header">
+    <div class="pm-wrap">
       <div class="pm-photo">${foto?`<img src="${foto}" alt="" onerror="this.parentElement.innerHTML='<span class=pm-photo-ini>${ini}</span>'">`:`<span class="pm-photo-ini">${ini}</span>`}</div>
-      <div>
-        <div class="pm-badge">${p.posicao} · ${p.ano}</div>
-        <div class="pm-name">${p.nome}</div>
-        <div class="pm-full">${p.nomeCompleto||''}</div>
-      </div>
-    </div>
-    <div class="pm-grid">
-      <div class="pm-field"><div class="pm-flbl">Nascimento</div><div class="pm-fval">${p.nascimento||'—'}</div></div>
-      <div class="pm-field"><div class="pm-flbl">Local</div><div class="pm-fval">${p.localNascimento||'—'}</div></div>
-      <div class="pm-field"><div class="pm-flbl">Estreia</div><div class="pm-fval">${p.estreia||'—'}</div></div>
-      <div class="pm-field"><div class="pm-flbl">Último jogo</div><div class="pm-fval">${p.ultimoJogo||'—'}</div></div>
-      <div class="pm-field"><div class="pm-flbl">Contratado de</div><div class="pm-fval">${p.contratado||'—'}</div></div>
-      <div class="pm-field"><div class="pm-flbl">Transferido para</div><div class="pm-fval">${p.posterior||'—'}</div></div>
-    </div>
-    <div class="pm-stats">
-      <div class="pm-stat"><div class="pm-stat-num">${p.jogos||0}</div><div class="pm-stat-lbl">Jogos</div></div>
-      <div class="pm-stat"><div class="pm-stat-num pm-sv">${p.vitorias||0}</div><div class="pm-stat-lbl">Vitórias</div></div>
-      <div class="pm-stat"><div class="pm-stat-num pm-se">${p.empates||0}</div><div class="pm-stat-lbl">Empates</div></div>
-      <div class="pm-stat"><div class="pm-stat-num pm-sd">${p.derrotas||0}</div><div class="pm-stat-lbl">Derrotas</div></div>
-    </div>`;
+      <div class="pm-box">
+        <div class="pm-top">
+          <div class="pm-badge">${p.posicao} · ${p.ano}</div>
+          <div class="pm-name">${p.nome}</div>
+          <div class="pm-full">${p.nomeCompleto||''}</div>
+        </div>
+        <div class="pm-grid">
+          <div class="pm-field"><div class="pm-flbl">Nascimento</div><div class="pm-fval">${p.nascimento||'—'}</div></div>
+          <div class="pm-field"><div class="pm-flbl">Local</div><div class="pm-fval">${p.localNascimento||'—'}</div></div>
+          <div class="pm-field"><div class="pm-flbl">Estreia</div><div class="pm-fval">${p.estreia||'—'}</div></div>
+          <div class="pm-field"><div class="pm-flbl">Último jogo</div><div class="pm-fval">${p.ultimoJogo||'—'}</div></div>
+          <div class="pm-field"><div class="pm-flbl">Contratado de</div><div class="pm-fval">${p.contratado||'—'}</div></div>
+          <div class="pm-field"><div class="pm-flbl">Transferido para</div><div class="pm-fval">${p.posterior||'—'}</div></div>
+        </div>
+        <div class="pm-stats">
+          <div class="pm-stat"><div class="pm-stat-num">${p.jogos||0}</div><div class="pm-stat-lbl">Jogos</div></div>
+          <div class="pm-stat"><div class="pm-stat-num pm-sv">${p.vitorias||0}</div><div class="pm-stat-lbl">Vitórias</div></div>
+          <div class="pm-stat"><div class="pm-stat-num pm-se">${p.empates||0}</div><div class="pm-stat-lbl">Empates</div></div>
+          <div class="pm-stat"><div class="pm-stat-num pm-sd">${p.derrotas||0}</div><div class="pm-stat-lbl">Derrotas</div></div>
+        </div>`;
 
   if(hasG){
     html += `
-    <div class="pm-stats" style="grid-template-columns:1fr 1fr">
-      <div class="pm-stat"><div class="pm-stat-num pm-sg">${p.golsMarcados||0}</div><div class="pm-stat-lbl">Gols marcados</div></div>
-      <div class="pm-stat"><div class="pm-stat-num">${p.golsSofridos||0}</div><div class="pm-stat-lbl">Gols sofridos</div></div>
-    </div>`;
+        <div class="pm-stats" style="grid-template-columns:1fr 1fr">
+          <div class="pm-stat"><div class="pm-stat-num pm-sg">${p.golsMarcados||0}</div><div class="pm-stat-lbl">Gols marcados</div></div>
+          <div class="pm-stat"><div class="pm-stat-num">${p.golsSofridos||0}</div><div class="pm-stat-lbl">Gols sofridos</div></div>
+        </div>`;
   }
 
   if(titles.length){
     const all = titles.join('; ').split('; ').map(t=>t.trim()).filter(Boolean);
     html += `
-    <div class="pm-titles">
-      <div class="pm-titles-lbl">🏆 Títulos</div>
-      ${all.map(t=>`<span class="pm-tag">${t}</span>`).join('')}
-    </div>`;
+        <div class="pm-titles">
+          <div class="pm-titles-lbl">🏆 Títulos</div>
+          ${all.map(t=>`<span class="pm-tag">${t}</span>`).join('')}
+        </div>`;
   }
+
+  html += `
+      </div>
+    </div>`;
 
   document.getElementById('playerModalContent').innerHTML = html;
   document.getElementById('playerModal').classList.add('open');
