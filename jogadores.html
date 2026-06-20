@@ -93,7 +93,7 @@ body.lv .pcard{padding:.45rem .9rem;}
 
 /* foto grande, grudada ao card */
 .mphoto{width:230px;flex-shrink:0;border-radius:12px 0 0 12px;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--k3),var(--k1));border:1px solid var(--bd2);border-right:none;}
-.mphoto img{width:100%;height:100%;object-fit:cover;display:block;}
+.mphoto img{width:100%;height:100%;object-fit:cover;object-position:center 18%;display:block;}
 .mphoto .mfoto-ini-big{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:5rem;color:rgba(255,255,255,.18);}
 .mphoto::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 38%);pointer-events:none;}
 .mphoto .mpnum-big{position:absolute;left:.7rem;top:.7rem;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:rgba(255,255,255,.85);background:rgba(0,0,0,.4);padding:.1rem .55rem;border-radius:4px;letter-spacing:.05em;z-index:1;}
@@ -110,19 +110,20 @@ body.lv .pcard{padding:.45rem .9rem;}
 .mclose:hover{background:rgba(0,0,0,.65);}
 .mbody{padding:1.2rem 1.5rem;overflow-y:auto;flex:1;background:rgba(13,13,13,.78);}
 
-/* mantém lado a lado em telas estreitas, só encolhe a foto */
+/* mantém lado a lado em telas estreitas, com foto em proporção retrato (sem esticar/cortar demais) */
 @media(max-width:680px){
-  #overlay{padding:1rem .6rem;}
-  .mwrap{max-width:100%;}
-  .mphoto{width:34%;min-width:90px;}
+  #overlay{padding:1rem .6rem;align-items:center;}
+  .mwrap{max-width:100%;align-items:flex-start;max-height:90vh;}
+  .mphoto{width:38%;min-width:110px;align-self:flex-start;aspect-ratio:3/4;height:auto;max-height:100%;}
+  .mbox{max-height:90vh;}
   .mtop{padding:.9rem .8rem;min-height:150px;flex-wrap:wrap;}
   .mname{font-size:1.25rem;}
-  .mbody{padding:.9rem .8rem;}
+  .mbody{padding:.9rem .8rem;min-height:0;}
   .mgrid2{grid-template-columns:1fr;gap:.4rem;}
   .mstats{grid-template-columns:repeat(4,1fr);gap:.3rem;}
 }
 @media(max-width:430px){
-  .mphoto{width:30%;min-width:78px;}
+  .mphoto{width:36%;min-width:100px;}
   .mphoto .mfoto-ini-big{font-size:3rem;}
   .mpbadge{font-size:.7rem;padding:.15rem .45rem;}
   .mname{font-size:1.05rem;}
