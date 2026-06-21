@@ -938,17 +938,18 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .arq-card-badge{position:absolute;top:9px;right:9px;background:#CC0000;color:#fff;font-size:0.5rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 7px;border-radius:3px}
 
 
-.pm-wrap{display:flex;align-items:flex-start;width:100%}
-.pm-photo{width:38%;min-width:110px;flex-shrink:0;aspect-ratio:3/4;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--bg4),var(--bg2));border-right:1px solid var(--border2)}
+.pm-wrap{width:100%;background:var(--bg2);border-radius:10px;overflow:hidden;border:1px solid var(--border2)}
+.pm-head{display:flex;align-items:stretch;width:100%}
+.pm-photo{width:38%;min-width:110px;flex-shrink:0;aspect-ratio:3/4;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--bg4),var(--bg2))}
 .pm-photo img{width:100%;height:100%;object-fit:cover;object-position:center 18%;display:block}
 .pm-photo-ini{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:2.6rem;color:rgba(255,255,255,.18)}
 .pm-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,0) 38%);pointer-events:none}
-.pm-box{flex:1;min-width:0;background:var(--bg2) url('https://res.cloudinary.com/dkjlv0hcs/image/upload/v1781910919/background_j8xvaw.png') center/cover no-repeat;overflow:hidden;display:flex;flex-direction:column}
-.pm-top{background-color:#1a1a1a;background-image:linear-gradient(90deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.1) 45%,rgba(0,0,0,.1) 65%,rgba(0,0,0,.5) 100%),url('https://res.cloudinary.com/dkjlv0hcs/image/upload/v1781911798/header_ghu7nb.png');background-position:center 20%;background-size:cover;background-repeat:no-repeat;padding:.8rem .9rem;min-height:120px;display:flex;flex-direction:column;justify-content:center}
+.pm-top{flex:1;min-width:0;background-color:#1a1a1a;background-image:linear-gradient(90deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.1) 45%,rgba(0,0,0,.1) 65%,rgba(0,0,0,.5) 100%),url('https://res.cloudinary.com/dkjlv0hcs/image/upload/v1781911798/header_ghu7nb.png');background-position:center 20%;background-size:cover;background-repeat:no-repeat;padding:.8rem .9rem;min-height:120px;display:flex;flex-direction:column;justify-content:center}
 .pm-name{font-family:var(--font-title);font-size:18px;color:#fff;line-height:1.1;text-shadow:0 1px 4px rgba(0,0,0,.5)}
 .pm-badge{display:inline-block;font-family:var(--font-title);font-size:11px;letter-spacing:1px;background:rgba(0,0,0,.35);color:#fff;padding:2px 8px;border-radius:4px;margin-bottom:4px}
 .pm-full{font-size:10px;color:rgba(255,255,255,.75);margin-top:2px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
-.pm-grid{display:grid;grid-template-columns:1fr;gap:6px;padding:10px;margin-bottom:0;background:rgba(13,13,13,.78)}
+.pm-body{width:100%;background:var(--bg2) url('https://res.cloudinary.com/dkjlv0hcs/image/upload/v1781910919/background_j8xvaw.png') center/cover no-repeat;overflow:hidden;display:flex;flex-direction:column}
+.pm-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px;margin-bottom:0;background:rgba(13,13,13,.78)}
 .pm-field{background:rgba(40,40,40,.82);border-radius:8px;padding:6px 9px;border:1px solid var(--border)}
 .pm-flbl{font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
 .pm-fval{font-size:11px;color:var(--txt);font-weight:500;word-break:break-word}
@@ -5251,13 +5252,15 @@ function openPlayerModal(idx){
 
   let html = `
     <div class="pm-wrap">
-      <div class="pm-photo">${foto?`<img src="${foto}" alt="" onerror="this.parentElement.innerHTML='<span class=pm-photo-ini>${ini}</span>'">`:`<span class="pm-photo-ini">${ini}</span>`}</div>
-      <div class="pm-box">
+      <div class="pm-head">
+        <div class="pm-photo">${foto?`<img src="${foto}" alt="" onerror="this.parentElement.innerHTML='<span class=pm-photo-ini>${ini}</span>'">`:`<span class="pm-photo-ini">${ini}</span>`}</div>
         <div class="pm-top">
           <div class="pm-badge">${p.posicao} · ${p.ano}</div>
           <div class="pm-name">${p.nome}</div>
           <div class="pm-full">${p.nomeCompleto||''}</div>
         </div>
+      </div>
+      <div class="pm-body">
         <div class="pm-grid">
           <div class="pm-field"><div class="pm-flbl">Nascimento</div><div class="pm-fval">${p.nascimento||'—'}</div></div>
           <div class="pm-field"><div class="pm-flbl">Local</div><div class="pm-fval">${p.localNascimento||'—'}</div></div>
