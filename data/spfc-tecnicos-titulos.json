@@ -1,0 +1,1725 @@
+[
+  {
+    "tabela": 1,
+    "linhas": [
+      {
+        "col_0": "TÉCNICO",
+        "col_1": "TÍTULOS",
+        "col_2": "RELAÇÃO"
+      },
+      {
+        "col_0": "Telê Santana",
+        "col_1": "10",
+        "col_2": "Campeonato Brasileiro – 1991, Campeonato Paulista – 1991, Campeonato Paulista – 1992, Copa Libertadores – 1992, Copa Libertadores – 1993, Mundial Interclubes – 1992, Mundial Interclubes – 1993, Recopa Sul-Americana – 1993, Recopa Sul-Americana – 1994, Supercopa João Havelange – 1993",
+        "stats": {
+          "geral": {
+            "J": "410",
+            "V": "198",
+            "E": "121",
+            "D": "91",
+            "GM": "610",
+            "GS": "388",
+            "pct": "58,13",
+            "MM": "1,49",
+            "MS": "0,95"
+          },
+          "competicao": {
+            "J": "410",
+            "V": "198",
+            "E": "121",
+            "D": "91",
+            "GM": "610",
+            "GS": "388",
+            "pct": "58,13"
+          },
+          "morumbi": {
+            "J": "363",
+            "V": "177",
+            "E": "107",
+            "D": "79",
+            "GM": "542",
+            "GS": "338",
+            "pct": "58,59"
+          },
+          "brasileiro": {
+            "J": "176",
+            "V": "111",
+            "E": "41",
+            "D": "24",
+            "GM": "323",
+            "GS": "146",
+            "pct": "70,83"
+          },
+          "libertadores": {
+            "J": "63",
+            "V": "16",
+            "E": "24",
+            "D": "23",
+            "GM": "",
+            "GS": "",
+            "pct": "38,10"
+          }
+        },
+        "periodo": "1973, 1990-96",
+        "total_jogos_historico": 410
+      },
+      {
+        "col_0": "Muricy Ramalho",
+        "col_1": "5",
+        "col_2": "Campeonato Brasileiro – 2006, Campeonato Brasileiro – 2007, Campeonato Brasileiro – 2008, Copa Conmebol – 1994, Copa Master Conmebol – 1996",
+        "stats": {
+          "geral": {
+            "J": "474",
+            "V": "255",
+            "E": "124",
+            "D": "95",
+            "GM": "803",
+            "GS": "463",
+            "pct": "62,52",
+            "MM": "1,69",
+            "MS": "0,98"
+          },
+          "competicao": {
+            "J": "474",
+            "V": "255",
+            "E": "124",
+            "D": "95",
+            "GM": "803",
+            "GS": "463",
+            "pct": "62,52"
+          },
+          "morumbi": {
+            "J": "458",
+            "V": "246",
+            "E": "117",
+            "D": "95",
+            "GM": "778",
+            "GS": "453",
+            "pct": "62,23"
+          },
+          "brasileiro": {
+            "J": "209",
+            "V": "135",
+            "E": "50",
+            "D": "24",
+            "GM": "402",
+            "GS": "168",
+            "pct": "72,57"
+          },
+          "libertadores": {
+            "J": "90",
+            "V": "38",
+            "E": "29",
+            "D": "23",
+            "GM": "",
+            "GS": "",
+            "pct": "52,96"
+          }
+        },
+        "periodo": "1994-95, 1996, 1996-97, 2006-09, 2013-15",
+        "total_jogos_historico": 474
+      },
+      {
+        "col_0": "Joreca",
+        "col_1": "3",
+        "col_2": "Campeonato Paulista – 1943, Campeonato Paulista – 1945, Campeonato Paulista – 1946",
+        "stats": {
+          "geral": {
+            "J": "172",
+            "V": "115",
+            "E": "31",
+            "D": "26",
+            "GM": "521",
+            "GS": "245",
+            "pct": "72,87",
+            "MM": "3,03",
+            "MS": "1,42"
+          },
+          "competicao": {
+            "J": "172",
+            "V": "115",
+            "E": "31",
+            "D": "26",
+            "GM": "521",
+            "GS": "245",
+            "pct": "72,87"
+          },
+          "morumbi": {
+            "J": "172",
+            "V": "115",
+            "E": "31",
+            "D": "26",
+            "GM": "521",
+            "GS": "245",
+            "pct": "72,87"
+          },
+          "brasileiro": {
+            "J": "172",
+            "V": "115",
+            "E": "31",
+            "D": "26",
+            "GM": "521",
+            "GS": "245",
+            "pct": "72,87"
+          },
+          "libertadores": {
+            "J": "172",
+            "V": "115",
+            "E": "31",
+            "D": "26",
+            "GM": "521",
+            "GS": "245",
+            "pct": "72,87"
+          }
+        },
+        "periodo": "1943-47",
+        "total_jogos_historico": 172
+      },
+      {
+        "col_0": "Carlos Alberto Silva",
+        "col_1": "2",
+        "col_2": "Campeonato Paulista – 1980, Campeonato Paulista – 1989",
+        "stats": {
+          "geral": {
+            "J": "154",
+            "V": "67",
+            "E": "58",
+            "D": "29",
+            "GM": "203",
+            "GS": "124",
+            "pct": "56,06",
+            "MM": "1,32",
+            "MS": "0,81"
+          },
+          "competicao": {
+            "J": "154",
+            "V": "67",
+            "E": "58",
+            "D": "29",
+            "GM": "203",
+            "GS": "124",
+            "pct": "56,06"
+          },
+          "morumbi": {
+            "J": "134",
+            "V": "58",
+            "E": "50",
+            "D": "26",
+            "GM": "170",
+            "GS": "104",
+            "pct": "55,72"
+          },
+          "brasileiro": {
+            "J": "78",
+            "V": "49",
+            "E": "17",
+            "D": "12",
+            "GM": "125",
+            "GS": "54",
+            "pct": "70,09"
+          },
+          "libertadores": {
+            "J": "24",
+            "V": "3",
+            "E": "17",
+            "D": "4",
+            "GM": "",
+            "GS": "",
+            "pct": "36,11"
+          }
+        },
+        "periodo": "1980-81, 1989-90",
+        "total_jogos_historico": 154
+      },
+      {
+        "col_0": "Cilinho",
+        "col_1": "2",
+        "col_2": "Campeonato Paulista – 1985, Campeonato Paulista – 1987",
+        "stats": {
+          "geral": {
+            "J": "249",
+            "V": "111",
+            "E": "87",
+            "D": "51",
+            "GM": "375",
+            "GS": "232",
+            "pct": "56,22",
+            "MM": "1,51",
+            "MS": "0,93"
+          },
+          "competicao": {
+            "J": "249",
+            "V": "111",
+            "E": "87",
+            "D": "51",
+            "GM": "375",
+            "GS": "232",
+            "pct": "56,22"
+          },
+          "morumbi": {
+            "J": "228",
+            "V": "100",
+            "E": "80",
+            "D": "48",
+            "GM": "336",
+            "GS": "214",
+            "pct": "55,56"
+          },
+          "brasileiro": {
+            "J": "110",
+            "V": "59",
+            "E": "33",
+            "D": "18",
+            "GM": "174",
+            "GS": "87",
+            "pct": "63,64"
+          },
+          "libertadores": {
+            "J": "249",
+            "V": "111",
+            "E": "87",
+            "D": "51",
+            "GM": "375",
+            "GS": "232",
+            "pct": "56,22"
+          }
+        },
+        "periodo": "1984-86, 1987-89",
+        "total_jogos_historico": 249
+      },
+      {
+        "col_0": "Paulo Autuori",
+        "col_1": "2",
+        "col_2": "Copa Libertadores – 2005, Mundial Interclubes – 2005",
+        "stats": {
+          "geral": {
+            "J": "32",
+            "V": "17",
+            "E": "7",
+            "D": "8",
+            "GM": "62",
+            "GS": "39",
+            "pct": "60,42",
+            "MM": "1,94",
+            "MS": "1,22"
+          },
+          "competicao": {
+            "J": "32",
+            "V": "17",
+            "E": "7",
+            "D": "8",
+            "GM": "62",
+            "GS": "39",
+            "pct": "60,42"
+          },
+          "morumbi": {
+            "J": "32",
+            "V": "17",
+            "E": "7",
+            "D": "8",
+            "GM": "62",
+            "GS": "39",
+            "pct": "60,42"
+          },
+          "brasileiro": {
+            "J": "32",
+            "V": "17",
+            "E": "7",
+            "D": "8",
+            "GM": "62",
+            "GS": "39",
+            "pct": "60,42"
+          },
+          "libertadores": {
+            "J": "32",
+            "V": "17",
+            "E": "7",
+            "D": "8",
+            "GM": "62",
+            "GS": "39",
+            "pct": "60,42"
+          }
+        },
+        "periodo": "2005, 2013",
+        "total_jogos_historico": 72
+      },
+      {
+        "col_0": "Vicente Feola",
+        "col_1": "2",
+        "col_2": "Campeonato Paulista – 1948, Campeonato Paulista – 1949",
+        "stats": {
+          "geral": {
+            "J": "532",
+            "V": "299",
+            "E": "106",
+            "D": "127",
+            "GM": "1249",
+            "GS": "723",
+            "pct": "62,84",
+            "MM": "2,35",
+            "MS": "1,36"
+          },
+          "competicao": {
+            "J": "532",
+            "V": "299",
+            "E": "106",
+            "D": "127",
+            "GM": "1249",
+            "GS": "723",
+            "pct": "62,84"
+          },
+          "morumbi": {
+            "J": "532",
+            "V": "299",
+            "E": "106",
+            "D": "127",
+            "GM": "1249",
+            "GS": "723",
+            "pct": "62,84"
+          },
+          "brasileiro": {
+            "J": "532",
+            "V": "299",
+            "E": "106",
+            "D": "127",
+            "GM": "1249",
+            "GS": "723",
+            "pct": "62,84"
+          },
+          "libertadores": {
+            "J": "532",
+            "V": "299",
+            "E": "106",
+            "D": "127",
+            "GM": "1249",
+            "GS": "723",
+            "pct": "62,84"
+          }
+        },
+        "periodo": "1937-38, 1938-39, 1941-42, 1944-45, 1947-51, 1951-53, 1954, 1955-57, 1959-60, 1964-65",
+        "total_jogos_historico": 532
+      },
+      {
+        "col_0": "Béla Guttmann",
+        "col_1": "1",
+        "col_2": "Campeonato Paulista – 1957",
+        "stats": {
+          "geral": {
+            "J": "39",
+            "V": "26",
+            "E": "10",
+            "D": "3",
+            "GM": "116",
+            "GS": "47",
+            "pct": "75,21",
+            "MM": "2,97",
+            "MS": "1,21"
+          },
+          "competicao": {
+            "J": "39",
+            "V": "26",
+            "E": "10",
+            "D": "3",
+            "GM": "116",
+            "GS": "47",
+            "pct": "75,21"
+          },
+          "morumbi": {
+            "J": "39",
+            "V": "26",
+            "E": "10",
+            "D": "3",
+            "GM": "116",
+            "GS": "47",
+            "pct": "75,21"
+          },
+          "brasileiro": {
+            "J": "39",
+            "V": "26",
+            "E": "10",
+            "D": "3",
+            "GM": "116",
+            "GS": "47",
+            "pct": "75,21"
+          },
+          "libertadores": {
+            "J": "39",
+            "V": "26",
+            "E": "10",
+            "D": "3",
+            "GM": "116",
+            "GS": "47",
+            "pct": "75,21"
+          }
+        },
+        "periodo": "1957-58",
+        "total_jogos_historico": 97
+      },
+      {
+        "col_0": "Chico Formiga",
+        "col_1": "1",
+        "col_2": "Campeonato Paulista – 1981",
+        "stats": {
+          "geral": {
+            "J": "71",
+            "V": "42",
+            "E": "10",
+            "D": "19",
+            "GM": "126",
+            "GS": "65",
+            "pct": "63,85",
+            "MM": "1,77",
+            "MS": "0,92"
+          },
+          "competicao": {
+            "J": "71",
+            "V": "42",
+            "E": "10",
+            "D": "19",
+            "GM": "126",
+            "GS": "65",
+            "pct": "63,85"
+          },
+          "morumbi": {
+            "J": "64",
+            "V": "37",
+            "E": "10",
+            "D": "17",
+            "GM": "111",
+            "GS": "57",
+            "pct": "63,02"
+          },
+          "brasileiro": {
+            "J": "71",
+            "V": "42",
+            "E": "10",
+            "D": "19",
+            "GM": "126",
+            "GS": "65",
+            "pct": "63,85"
+          },
+          "libertadores": {
+            "J": "71",
+            "V": "42",
+            "E": "10",
+            "D": "19",
+            "GM": "126",
+            "GS": "65",
+            "pct": "63,85"
+          }
+        },
+        "periodo": "1932",
+        "total_jogos_historico": 6
+      },
+      {
+        "col_0": "Dorival Júnior",
+        "col_1": "1",
+        "col_2": "Copa do Brasil – 2023",
+        "stats": {
+          "geral": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": "",
+            "MM": "",
+            "MS": ""
+          },
+          "competicao": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "morumbi": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "brasileiro": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "libertadores": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          }
+        },
+        "periodo": "",
+        "total_jogos_historico": ""
+      },
+      {
+        "col_0": "Emerson Leão",
+        "col_1": "1",
+        "col_2": "Campeonato Paulista – 2005",
+        "stats": {
+          "geral": {
+            "J": "89",
+            "V": "53",
+            "E": "18",
+            "D": "18",
+            "GM": "185",
+            "GS": "95",
+            "pct": "66,29",
+            "MM": "2,08",
+            "MS": "1,07"
+          },
+          "competicao": {
+            "J": "89",
+            "V": "53",
+            "E": "18",
+            "D": "18",
+            "GM": "185",
+            "GS": "95",
+            "pct": "66,29"
+          },
+          "morumbi": {
+            "J": "89",
+            "V": "53",
+            "E": "18",
+            "D": "18",
+            "GM": "185",
+            "GS": "95",
+            "pct": "66,29"
+          },
+          "brasileiro": {
+            "J": "43",
+            "V": "35",
+            "E": "6",
+            "D": "2",
+            "GM": "109",
+            "GS": "32",
+            "pct": "86,05"
+          },
+          "libertadores": {
+            "J": "89",
+            "V": "53",
+            "E": "18",
+            "D": "18",
+            "GM": "185",
+            "GS": "95",
+            "pct": "66,29"
+          }
+        },
+        "periodo": "2004-05, 2011-12",
+        "total_jogos_historico": 89
+      },
+      {
+        "col_0": "Hernán Crespo",
+        "col_1": "1",
+        "col_2": "Campeonato Paulista – 2021",
+        "stats": {
+          "geral": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": "",
+            "MM": "",
+            "MS": ""
+          },
+          "competicao": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "morumbi": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "brasileiro": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "libertadores": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          }
+        },
+        "periodo": "",
+        "total_jogos_historico": ""
+      },
+      {
+        "col_0": "Jim Lopes",
+        "col_1": "1",
+        "col_2": "Campeonato Paulista – 1953",
+        "stats": {
+          "geral": {
+            "J": "111",
+            "V": "70",
+            "E": "19",
+            "D": "22",
+            "GM": "221",
+            "GS": "103",
+            "pct": "68,77",
+            "MM": "1,99",
+            "MS": "0,93"
+          },
+          "competicao": {
+            "J": "111",
+            "V": "70",
+            "E": "19",
+            "D": "22",
+            "GM": "221",
+            "GS": "103",
+            "pct": "68,77"
+          },
+          "morumbi": {
+            "J": "76",
+            "V": "49",
+            "E": "12",
+            "D": "15",
+            "GM": "152",
+            "GS": "68",
+            "pct": "69,74"
+          },
+          "brasileiro": {
+            "J": "111",
+            "V": "70",
+            "E": "19",
+            "D": "22",
+            "GM": "221",
+            "GS": "103",
+            "pct": "68,77"
+          },
+          "libertadores": {
+            "J": "111",
+            "V": "70",
+            "E": "19",
+            "D": "22",
+            "GM": "221",
+            "GS": "103",
+            "pct": "68,77"
+          }
+        },
+        "periodo": "1953-54, 1965",
+        "total_jogos_historico": 111
+      },
+      {
+        "col_0": "José Poy",
+        "col_1": "1",
+        "col_2": "Campeonato Paulista – 1975",
+        "stats": {
+          "geral": {
+            "J": "422",
+            "V": "213",
+            "E": "129",
+            "D": "80",
+            "GM": "662",
+            "GS": "361",
+            "pct": "60,66",
+            "MM": "1,57",
+            "MS": "0,86"
+          },
+          "competicao": {
+            "J": "422",
+            "V": "213",
+            "E": "129",
+            "D": "80",
+            "GM": "662",
+            "GS": "361",
+            "pct": "60,66"
+          },
+          "morumbi": {
+            "J": "369",
+            "V": "179",
+            "E": "117",
+            "D": "73",
+            "GM": "558",
+            "GS": "311",
+            "pct": "59,08"
+          },
+          "brasileiro": {
+            "J": "152",
+            "V": "76",
+            "E": "48",
+            "D": "28",
+            "GM": "234",
+            "GS": "116",
+            "pct": "60,53"
+          },
+          "libertadores": {
+            "J": "87",
+            "V": "34",
+            "E": "38",
+            "D": "15",
+            "GM": "",
+            "GS": "",
+            "pct": "53,64"
+          }
+        },
+        "periodo": "1964, 1964-65, 1970, 1971, 1972, 1973-76, 1982-83",
+        "total_jogos_historico": 422
+      },
+      {
+        "col_0": "Levir Culpi",
+        "col_1": "1",
+        "col_2": "Campeonato Paulista – 2000",
+        "stats": {
+          "geral": {
+            "J": "78",
+            "V": "42",
+            "E": "18",
+            "D": "18",
+            "GM": "161",
+            "GS": "110",
+            "pct": "61,54",
+            "MM": "2,06",
+            "MS": "1,41"
+          },
+          "competicao": {
+            "J": "78",
+            "V": "42",
+            "E": "18",
+            "D": "18",
+            "GM": "161",
+            "GS": "110",
+            "pct": "61,54"
+          },
+          "morumbi": {
+            "J": "78",
+            "V": "42",
+            "E": "18",
+            "D": "18",
+            "GM": "161",
+            "GS": "110",
+            "pct": "61,54"
+          },
+          "brasileiro": {
+            "J": "78",
+            "V": "42",
+            "E": "18",
+            "D": "18",
+            "GM": "161",
+            "GS": "110",
+            "pct": "61,54"
+          },
+          "libertadores": {
+            "J": "78",
+            "V": "42",
+            "E": "18",
+            "D": "18",
+            "GM": "161",
+            "GS": "110",
+            "pct": "61,54"
+          }
+        },
+        "periodo": "2000",
+        "total_jogos_historico": 78
+      },
+      {
+        "col_0": "Nelsinho Baptista",
+        "col_1": "1",
+        "col_2": "Campeonato Paulista – 1998",
+        "stats": {
+          "geral": {
+            "J": "108",
+            "V": "52",
+            "E": "22",
+            "D": "34",
+            "GM": "231",
+            "GS": "160",
+            "pct": "54,94",
+            "MM": "2,14",
+            "MS": "1,48"
+          },
+          "competicao": {
+            "J": "108",
+            "V": "52",
+            "E": "22",
+            "D": "34",
+            "GM": "231",
+            "GS": "160",
+            "pct": "54,94"
+          },
+          "morumbi": {
+            "J": "108",
+            "V": "52",
+            "E": "22",
+            "D": "34",
+            "GM": "231",
+            "GS": "160",
+            "pct": "54,94"
+          },
+          "brasileiro": {
+            "J": "108",
+            "V": "52",
+            "E": "22",
+            "D": "34",
+            "GM": "231",
+            "GS": "160",
+            "pct": "54,94"
+          },
+          "libertadores": {
+            "J": "21",
+            "V": "8",
+            "E": "4",
+            "D": "9",
+            "GM": "",
+            "GS": "",
+            "pct": "44,44"
+          }
+        },
+        "periodo": "1998, 2001-02",
+        "total_jogos_historico": 108
+      },
+      {
+        "col_0": "Ney Franco",
+        "col_1": "1",
+        "col_2": "Copa Sul-Americana – 2012",
+        "stats": {
+          "geral": {
+            "J": "79",
+            "V": "40",
+            "E": "17",
+            "D": "22",
+            "GM": "127",
+            "GS": "73",
+            "pct": "57,81",
+            "MM": "1,61",
+            "MS": "0,92"
+          },
+          "competicao": {
+            "J": "79",
+            "V": "40",
+            "E": "17",
+            "D": "22",
+            "GM": "127",
+            "GS": "73",
+            "pct": "57,81"
+          },
+          "morumbi": {
+            "J": "77",
+            "V": "39",
+            "E": "17",
+            "D": "21",
+            "GM": "125",
+            "GS": "71",
+            "pct": "58,01"
+          },
+          "brasileiro": {
+            "J": "37",
+            "V": "23",
+            "E": "7",
+            "D": "7",
+            "GM": "65",
+            "GS": "23",
+            "pct": "68,47"
+          },
+          "libertadores": {
+            "J": "18",
+            "V": "5",
+            "E": "6",
+            "D": "7",
+            "GM": "",
+            "GS": "",
+            "pct": "38,89"
+          }
+        },
+        "periodo": "2012-13",
+        "total_jogos_historico": 79
+      },
+      {
+        "col_0": "Osvaldo Brandão",
+        "col_1": "1",
+        "col_2": "Campeonato Paulista – 1971",
+        "stats": {
+          "geral": {
+            "J": "142",
+            "V": "84",
+            "E": "29",
+            "D": "29",
+            "GM": "262",
+            "GS": "157",
+            "pct": "65,96",
+            "MM": "1,85",
+            "MS": "1,11"
+          },
+          "competicao": {
+            "J": "142",
+            "V": "84",
+            "E": "29",
+            "D": "29",
+            "GM": "262",
+            "GS": "157",
+            "pct": "65,96"
+          },
+          "morumbi": {
+            "J": "142",
+            "V": "84",
+            "E": "29",
+            "D": "29",
+            "GM": "262",
+            "GS": "157",
+            "pct": "65,96"
+          },
+          "brasileiro": {
+            "J": "41",
+            "V": "26",
+            "E": "8",
+            "D": "7",
+            "GM": "73",
+            "GS": "37",
+            "pct": "69,92"
+          },
+          "libertadores": {
+            "J": "142",
+            "V": "84",
+            "E": "29",
+            "D": "29",
+            "GM": "262",
+            "GS": "157",
+            "pct": "65,96"
+          }
+        },
+        "periodo": "1962-64, 1971",
+        "total_jogos_historico": 142
+      },
+      {
+        "col_0": "Oswaldo Alvarez",
+        "col_1": "1",
+        "col_2": "Torneio Rio-São Paulo – 2001",
+        "stats": {
+          "geral": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": "",
+            "MM": "",
+            "MS": ""
+          },
+          "competicao": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "morumbi": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "brasileiro": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "libertadores": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          }
+        },
+        "periodo": "2001",
+        "total_jogos_historico": 29
+      },
+      {
+        "col_0": "Oswaldo de Oliveira",
+        "col_1": "1",
+        "col_2": "Supercampeonato Paulista – 2002",
+        "stats": {
+          "geral": {
+            "J": "57",
+            "V": "31",
+            "E": "12",
+            "D": "14",
+            "GM": "130",
+            "GS": "81",
+            "pct": "61,40",
+            "MM": "2,28",
+            "MS": "1,42"
+          },
+          "competicao": {
+            "J": "57",
+            "V": "31",
+            "E": "12",
+            "D": "14",
+            "GM": "130",
+            "GS": "81",
+            "pct": "61,40"
+          },
+          "morumbi": {
+            "J": "57",
+            "V": "31",
+            "E": "12",
+            "D": "14",
+            "GM": "130",
+            "GS": "81",
+            "pct": "61,40"
+          },
+          "brasileiro": {
+            "J": "57",
+            "V": "31",
+            "E": "12",
+            "D": "14",
+            "GM": "130",
+            "GS": "81",
+            "pct": "61,40"
+          },
+          "libertadores": {
+            "J": "57",
+            "V": "31",
+            "E": "12",
+            "D": "14",
+            "GM": "130",
+            "GS": "81",
+            "pct": "61,40"
+          }
+        },
+        "periodo": "2002",
+        "total_jogos_historico": 58
+      },
+      {
+        "col_0": "Pepe",
+        "col_1": "1",
+        "col_2": "Campeonato Brasileiro – 1986",
+        "stats": {
+          "geral": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": "",
+            "MM": "",
+            "MS": ""
+          },
+          "competicao": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "morumbi": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "brasileiro": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "libertadores": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          }
+        },
+        "periodo": "1986-87",
+        "total_jogos_historico": 45
+      },
+      {
+        "col_0": "Rubens Minelli",
+        "col_1": "1",
+        "col_2": "Campeonato Brasileiro – 1977",
+        "stats": {
+          "geral": {
+            "J": "166",
+            "V": "79",
+            "E": "47",
+            "D": "40",
+            "GM": "245",
+            "GS": "142",
+            "pct": "57,03",
+            "MM": "1,48",
+            "MS": "0,86"
+          },
+          "competicao": {
+            "J": "166",
+            "V": "79",
+            "E": "47",
+            "D": "40",
+            "GM": "245",
+            "GS": "142",
+            "pct": "57,03"
+          },
+          "morumbi": {
+            "J": "151",
+            "V": "72",
+            "E": "42",
+            "D": "37",
+            "GM": "225",
+            "GS": "132",
+            "pct": "56,95"
+          },
+          "brasileiro": {
+            "J": "166",
+            "V": "79",
+            "E": "47",
+            "D": "40",
+            "GM": "245",
+            "GS": "142",
+            "pct": "57,03"
+          },
+          "libertadores": {
+            "J": "19",
+            "V": "6",
+            "E": "5",
+            "D": "8",
+            "GM": "",
+            "GS": "",
+            "pct": "40,35"
+          }
+        },
+        "periodo": "1977-1979",
+        "total_jogos_historico": 166
+      },
+      {
+        "col_0": "Rubens Salles",
+        "col_1": "1",
+        "col_2": "Campeonato Paulista – 1931",
+        "stats": {
+          "geral": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": "",
+            "MM": "",
+            "MS": ""
+          },
+          "competicao": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "morumbi": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "brasileiro": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "libertadores": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          }
+        },
+        "periodo": "1931-32",
+        "total_jogos_historico": 13
+      },
+      {
+        "col_0": "Thiago Carpini",
+        "col_1": "1",
+        "col_2": "Supercopa do Brasil – 2024",
+        "stats": {
+          "geral": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": "",
+            "MM": "",
+            "MS": ""
+          },
+          "competicao": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "morumbi": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "brasileiro": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "libertadores": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          }
+        },
+        "periodo": "",
+        "total_jogos_historico": ""
+      },
+      {
+        "col_0": "Zezé Moreira",
+        "col_1": "1",
+        "col_2": "Campeonato Paulista – 1970",
+        "stats": {
+          "geral": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": "",
+            "MM": "",
+            "MS": ""
+          },
+          "competicao": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "morumbi": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "brasileiro": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          },
+          "libertadores": {
+            "J": "",
+            "V": "",
+            "E": "",
+            "D": "",
+            "GM": "",
+            "GS": "",
+            "pct": ""
+          }
+        },
+        "periodo": "1970",
+        "total_jogos_historico": 59
+      }
+    ]
+  },
+  {
+    "tabela": 2,
+    "linhas": [
+      {
+        "col_0": "TÉCNICO",
+        "col_1": "ANOS",
+        "col_2": "NASC.",
+        "col_3": "DATA",
+        "col_4": "JOGO"
+      },
+      {
+        "col_0": "Muricy Ramalho",
+        "col_1": "39,1",
+        "col_2": "30/11/1955",
+        "col_3": "21/12/94",
+        "col_4": "Copa Conmebol 1994, Centenário M.: 0x3 Peñarol-URU"
+      },
+      {
+        "col_0": "Vicente Feola",
+        "col_1": "39,1",
+        "col_2": "01/11/1909",
+        "col_3": "18/12/48",
+        "col_4": "Camp. Paulista 1948, Pacaembu: 4×2 Nacional-SP"
+      },
+      {
+        "col_0": "Thiago Carpini",
+        "col_1": "39,6",
+        "col_2": "16/07/1984",
+        "col_3": "04/02/24",
+        "col_4": "Supercopa Br. 2024, Mineirão: 0x0 Palmeiras-SP"
+      },
+      {
+        "col_0": "Joreca",
+        "col_1": "39,7",
+        "col_2": "07/01/1904",
+        "col_3": "03/10/43",
+        "col_4": "Camp. Paulista 1943, Pacaembu: 0x0 Palmeiras-SP"
+      },
+      {
+        "col_0": "Vicente Feola",
+        "col_1": "40,1",
+        "col_2": "01/11/1909",
+        "col_3": "20/11/49",
+        "col_4": "Camp. Paulista 1949, Pacaembu: 3×1 Santos-SP"
+      },
+      {
+        "col_0": "Muricy Ramalho",
+        "col_1": "40,2",
+        "col_2": "30/11/1955",
+        "col_3": "12/02/96",
+        "col_4": "Master Conmebol 1996, Verdão: 3×0 Atlético-MG"
+      },
+      {
+        "col_0": "Rubens Salles",
+        "col_1": "40,2",
+        "col_2": "14/10/1891",
+        "col_3": "10/01/32",
+        "col_4": "Camp. Paulista 1931, Pq. São Jorge: 4×1 Corinthians-SP"
+      },
+      {
+        "col_0": "Carlos Alberto Silva",
+        "col_1": "41,3",
+        "col_2": "14/08/1939",
+        "col_3": "19/11/80",
+        "col_4": "Camp. Paulista 1980, Morumbi: 1×0 Santos-SP"
+      },
+      {
+        "col_0": "Jim Lopes",
+        "col_1": "41,6",
+        "col_2": "06/07/1912",
+        "col_3": "24/01/54",
+        "col_4": "Camp. Paulista 1953, Vila Belmiro: 3×1 Santos-SP"
+      },
+      {
+        "col_0": "Joreca",
+        "col_1": "41,7",
+        "col_2": "07/01/1904",
+        "col_3": "16/09/45",
+        "col_4": "Camp. Paulista 1945, Pacaembu: 3×2 Ypiranga-SP"
+      },
+      {
+        "col_0": "Joreca",
+        "col_1": "42,8",
+        "col_2": "07/01/1904",
+        "col_3": "10/11/46",
+        "col_4": "Camp. Paulista 1946, Pacaembu: 1×0 Palmeiras-SP"
+      },
+      {
+        "col_0": "Oswaldo Alvarez",
+        "col_1": "44,5",
+        "col_2": "21/08/1956",
+        "col_3": "07/03/01",
+        "col_4": "Rio-São Paulo 2001, Morumbi: 2×1 Botafogo-RJ"
+      },
+      {
+        "col_0": "Hernán Crespo",
+        "col_1": "45,9",
+        "col_2": "05/07/1975",
+        "col_3": "23/05/21",
+        "col_4": "Camp. Paulista 2021, Morumbi: 2×0 Palmeiras-SP"
+      },
+      {
+        "col_0": "Ney Franco",
+        "col_1": "46,4",
+        "col_2": "22/07/1966",
+        "col_3": "12/12/12",
+        "col_4": "C. Sul-Americana 2012, Morumbi: 2×0 Tigre-ARG"
+      },
+      {
+        "col_0": "Cilinho",
+        "col_1": "46,9",
+        "col_2": "09/02/1939",
+        "col_3": "22/12/85",
+        "col_4": "Camp. Paulista 1985, Morumbi: 2×1 Portuguesa-SP"
+      },
+      {
+        "col_0": "Levir Culpi",
+        "col_1": "47,3",
+        "col_2": "28/02/1953",
+        "col_3": "18/06/00",
+        "col_4": "Camp. Paulista 2000, Morumbi: 2×2 Santos-SP"
+      },
+      {
+        "col_0": "Nelsinho Baptista",
+        "col_1": "47,8",
+        "col_2": "22/07/1950",
+        "col_3": "10/05/98",
+        "col_4": "Camp. Paulista 1998, Morumbi: 3×1 Corinthians-SP"
+      },
+      {
+        "col_0": "Cilinho",
+        "col_1": "48,6",
+        "col_2": "09/02/1939",
+        "col_3": "30/08/87",
+        "col_4": "Camp. Paulista 1987, Morumbi: 0x0 Corinthians-SP"
+      },
+      {
+        "col_0": "Paulo Autuori",
+        "col_1": "48,9",
+        "col_2": "25/08/1956",
+        "col_3": "14/07/05",
+        "col_4": "Libertadores 2005, Morumbi: 4×0 Atlético-PR"
+      },
+      {
+        "col_0": "Rubens Minelli",
+        "col_1": "49,2",
+        "col_2": "19/12/1928",
+        "col_3": "05/03/78",
+        "col_4": "Camp. Brasileiro 1977, Mineirão: 0x0 Atlético-MG"
+      },
+      {
+        "col_0": "Paulo Autuori",
+        "col_1": "49,3",
+        "col_2": "25/08/1956",
+        "col_3": "18/12/05",
+        "col_4": "Mundial 2005, International Y.: 1×0 Liverpool-ING"
+      },
+      {
+        "col_0": "Carlos Alberto Silva",
+        "col_1": "49,9",
+        "col_2": "14/08/1939",
+        "col_3": "02/07/89",
+        "col_4": "Camp. Paulista 1989, Morumbi: 0x0 São José-SP"
+      },
+      {
+        "col_0": "Muricy Ramalho",
+        "col_1": "51,0",
+        "col_2": "30/11/1955",
+        "col_3": "19/11/06",
+        "col_4": "Camp. Brasileiro 2006, Morumbi: 1×1 Atlético-PR"
+      },
+      {
+        "col_0": "Oswaldo de Oliveira",
+        "col_1": "51,5",
+        "col_2": "05/12/1950",
+        "col_3": "30/05/02",
+        "col_4": "Super Paulista 2002, Morumbi: 4×1 Ituano-SP"
+      },
+      {
+        "col_0": "Chico Formiga",
+        "col_1": "51,5",
+        "col_2": "11/11/1930",
+        "col_3": "29/11/81",
+        "col_4": "Camp. Paulista 1981, Morumbi: 2×0 Ponte Preta-SP"
+      },
+      {
+        "col_0": "Muricy Ramalho",
+        "col_1": "51,9",
+        "col_2": "30/11/1955",
+        "col_3": "31/10/07",
+        "col_4": "Camp. Brasileiro 2007, Morumbi: 3×0 América-RN"
+      },
+      {
+        "col_0": "Pepe",
+        "col_1": "52,0",
+        "col_2": "25/02/1935",
+        "col_3": "25/02/87",
+        "col_4": "Camp. Brasileiro 1986, B. de Ouro: 3×3 Guarani-SP"
+      },
+      {
+        "col_0": "Muricy Ramalho",
+        "col_1": "53,0",
+        "col_2": "30/11/1955",
+        "col_3": "07/12/08",
+        "col_4": "Camp. Brasileiro 2008, Bezerrão: 1×0 Goiás-GO"
+      },
+      {
+        "col_0": "Osvaldo Brandão",
+        "col_1": "54,8",
+        "col_2": "18/09/1916",
+        "col_3": "27/06/71",
+        "col_4": "Camp. Paulista 1971, Morumbi: 1×0 Palmeiras-SP"
+      },
+      {
+        "col_0": "Emerson Leão",
+        "col_1": "55,7",
+        "col_2": "11/07/1949",
+        "col_3": "03/04/05",
+        "col_4": "Camp. Paulista 2005, Vail Chaves: 0x0 Santos-SP"
+      },
+      {
+        "col_0": "Béla Guttmann",
+        "col_1": "58,9",
+        "col_2": "26/01/1899",
+        "col_3": "29/12/57",
+        "col_4": "Camp. Paulista 1957, Pacaembu: 3×1 Corinthians-SP"
+      },
+      {
+        "col_0": "Telê Santana",
+        "col_1": "59,9",
+        "col_2": "26/07/1931",
+        "col_3": "09/06/91",
+        "col_4": "Camp. Brasileiro 1991, M. Stéfani: 0x0 Bragantino-SP"
+      },
+      {
+        "col_0": "Telê Santana",
+        "col_1": "60,4",
+        "col_2": "26/07/1931",
+        "col_3": "15/12/91",
+        "col_4": "Camp. Paulista 1991, Morumbi: 0x0 Corinthians-SP"
+      },
+      {
+        "col_0": "Telê Santana",
+        "col_1": "60,9",
+        "col_2": "26/07/1931",
+        "col_3": "17/06/92",
+        "col_4": "Libertadores 1992, Morumbi: 1×0 Newell’s OB-ARG"
+      },
+      {
+        "col_0": "Telê Santana",
+        "col_1": "61,4",
+        "col_2": "26/07/1931",
+        "col_3": "13/12/92",
+        "col_4": "Mundial 1992, Nacional T.: 2×1 Barcelona-ESP"
+      },
+      {
+        "col_0": "Telê Santana",
+        "col_1": "61,4",
+        "col_2": "26/07/1931",
+        "col_3": "20/12/92",
+        "col_4": "Camp. Paulista 1992, Morumbi: 2×1 Palmeiras-SP"
+      },
+      {
+        "col_0": "Dorival Júnior",
+        "col_1": "61,4",
+        "col_2": "25/04/1962",
+        "col_3": "24/09/23",
+        "col_4": "Copa do Brasil 2023, Morumbi: 1×1 Flamengo-RJ"
+      },
+      {
+        "col_0": "Telê Santana",
+        "col_1": "61,8",
+        "col_2": "26/07/1931",
+        "col_3": "26/05/93",
+        "col_4": "Libertadores 1993, Nacional S.: 0x2 Univ. Católica-CHL"
+      },
+      {
+        "col_0": "Telê Santana",
+        "col_1": "62,2",
+        "col_2": "26/07/1931",
+        "col_3": "29/09/93",
+        "col_4": "Recopa 1993, Mineirão: 0x0 Cruzeiro-MG"
+      },
+      {
+        "col_0": "Telê Santana",
+        "col_1": "62,3",
+        "col_2": "26/07/1931",
+        "col_3": "24/11/93",
+        "col_4": "Supercopa 1993, Morumbi: 2×2 Flamengo-RJ"
+      },
+      {
+        "col_0": "Telê Santana",
+        "col_1": "62,4",
+        "col_2": "26/07/1931",
+        "col_3": "12/12/93",
+        "col_4": "Mundial 1993, Nacional T.: 3×2 Milan-ITA"
+      },
+      {
+        "col_0": "Telê Santana",
+        "col_1": "62,7",
+        "col_2": "26/07/1931",
+        "col_3": "03/04/94",
+        "col_4": "Recopa 1994, Univ. Kobe: 3×1 Botafogo-RJ"
+      },
+      {
+        "col_0": "Zezé Moreira",
+        "col_1": "62,9",
+        "col_2": "16/10/1907",
+        "col_3": "09/09/70",
+        "col_4": "Camp. Paulista 1970, B. de Ouro: 2×1 Guarani-SP"
+      }
+    ]
+  }
+]
