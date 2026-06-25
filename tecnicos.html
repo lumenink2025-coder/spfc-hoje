@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#080808"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="SPFC Técnicos"/>
+  <meta name="description" content="Técnicos Campeões do São Paulo Futebol Clube"/>
+  <title>Técnicos Campeões – SPFC</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    :root {
+      --red:    #C9A84C;
+      --gold:   #C8102E;
+      --black:  #0E0E0E;
+      --white:  #FFFFFF;
+      --bg:     #F2F2F2;
+      --card:   #FFFFFF;
+      --border: #E5E5E5;
+      --text:   #1A1A1A;
+      --muted:  #888888;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bot: env(safe-area-inset-bottom, 0px);
+    }
+
+    html, body { height: 100%; background: var(--bg); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+    body { padding-bottom: calc(70px + var(--safe-bot)); }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--black);
+      padding: calc(14px + var(--safe-top)) 16px 14px;
+      display: flex; align-items: center; gap: 12px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .btn-back {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 8px;
+      color: rgba(255,255,255,.8);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      padding: 8px 12px; text-decoration: none; flex-shrink: 0;
+      transition: background .15s;
+    }
+    .btn-back:active { background: rgba(255,255,255,.15); }
+    .btn-back svg { width: 14px; height: 14px; }
+    .header-logo { width: 36px; height: 41px; flex-shrink: 0; object-fit: contain; }
+    .header-text { flex: 1; min-width: 0; }
+    .header-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px; font-weight: 900; color: var(--white);
+      text-transform: uppercase; letter-spacing: -.01em; line-height: 1;
+    }
+    .header-sub { font-size: 11px; font-weight: 300; color: rgba(255,255,255,.4); margin-top: 2px; }
+    .header-trophy { width: 36px; height: 36px; flex-shrink: 0; opacity: .7; }
+
+    /* ── TABS ── */
+    .tabs {
+      background: var(--card); display: flex;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: calc(69px + var(--safe-top)); z-index: 90;
+    }
+    .tab {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 13px 8px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); cursor: pointer; border: none; background: none;
+      position: relative; transition: color .2s;
+    }
+    .tab.active { color: var(--gold); }
+    .tab.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: var(--gold); }
+    .tab svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ── PANELS ── */
+    .panel { display: none; padding: 14px 14px 0; }
+    .panel.active { display: block; }
+
+    /* ── SECTION CARD ── */
+    .section-card { background: var(--card); border-radius: 6px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.07); margin-bottom: 14px; }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em;
+      color: var(--text); padding: 16px 14px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── TABLE HEADER ── */
+    .table-header {
+      display: grid; grid-template-columns: 1fr 60px 1fr;
+      padding: 7px 14px 7px 68px;
+      background: #FAFAFA; border-bottom: 1px solid var(--border);
+    }
+    .th { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .th:nth-child(2) { text-align: center; }
+
+    /* ── COACH ROW ── */
+    .coach-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 12px; min-height: 68px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer; transition: background .15s;
+      text-decoration: none; color: inherit;
+    }
+    .coach-row:last-child { border-bottom: none; }
+    .coach-row:active { background: #F5F5F5; }
+    .coach-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--black); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .coach-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    .avatar-initials { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: rgba(255,255,255,.35); text-transform: uppercase; }
+    .coach-avatar.rank-1 { box-shadow: 0 0 0 2px #C9A84C; }
+    .coach-avatar.rank-2 { box-shadow: 0 0 0 2px #AAAAAA; }
+    .coach-avatar.rank-3 { box-shadow: 0 0 0 2px #CD7F32; }
+    .coach-name { flex: 1; font-size: 14px; font-weight: 600; color: var(--text); min-width: 0; line-height: 1.3; }
+    .coach-period { font-size: 10px; color: var(--muted); margin-top: 2px; }
+    .coach-count { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 900; color: var(--gold); width: 38px; text-align: center; flex-shrink: 0; }
+    .coach-trophies { display: flex; align-items: center; gap: 2px; flex: 1; }
+    .trophy-icon { width: 16px; height: 16px; color: #555; flex-shrink: 0; }
+    .trophy-more { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; color: #555; background: #EFEFEF; border-radius: 3px; padding: 2px 4px; margin-left: 2px; }
+    .row-arrow { color: #CCC; flex-shrink: 0; }
+    .row-arrow svg { width: 14px; height: 14px; display: block; }
+
+    /* ── SEE ALL ── */
+    .see-all {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px; border-top: 1px solid var(--border);
+      text-decoration: none; color: inherit; cursor: pointer;
+      transition: background .15s;
+    }
+    .see-all:active { background: #FAFAFA; }
+    .see-all-icon { color: var(--gold); }
+    .see-all-icon svg { width: 17px; height: 17px; display: block; }
+    .see-all-text { flex: 1; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text); }
+    .see-all-arrow svg { width: 14px; height: 14px; color: #CCC; display: block; }
+
+    /* ── STATS BANNER ── */
+    .stats-banner {
+      background: var(--black); border-radius: 6px;
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 14px; margin-bottom: 14px;
+      text-decoration: none; cursor: pointer;
+      transition: background .2s; -webkit-tap-highlight-color: transparent;
+    }
+    .stats-banner:active { background: #1a1a1a; }
+    .banner-icon {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1.5px solid var(--gold); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .banner-icon svg { width: 18px; height: 18px; color: var(--gold); }
+    .banner-text { flex: 1; }
+    .banner-main { font-size: 14px; font-weight: 700; color: var(--white); }
+    .banner-sub { font-size: 11px; font-weight: 300; color: rgba(255,255,255,.4); margin-top: 2px; }
+    .banner-arrow svg { width: 16px; height: 16px; color: rgba(255,255,255,.3); display: block; }
+
+    /* ── AGE LIST ── */
+    .age-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px; border-bottom: 1px solid var(--border);
+      text-decoration: none; color: inherit; cursor: pointer;
+      transition: background .15s;
+    }
+    .age-row:last-child { border-bottom: none; }
+    .age-row:active { background: #F5F5F5; }
+    .age-rank { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; color: var(--muted); width: 20px; text-align: center; flex-shrink: 0; }
+    .age-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--black); flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .age-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .age-info { flex: 1; min-width: 0; }
+    .age-name { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .age-game { font-size: 10px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+    .age-val { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 900; color: var(--gold); flex-shrink: 0; white-space: nowrap; }
+    .age-unit { font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 400; color: var(--muted); }
+
+    /* ── BOTTOM NAV ── */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--card); border-top: 1px solid var(--border);
+      display: flex; z-index: 100;
+      padding-bottom: var(--safe-bot);
+      box-shadow: 0 -2px 12px rgba(0,0,0,.07);
+    }
+    .bottom-item {
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 10px 4px 12px; gap: 4px; cursor: pointer; border: none; background: none;
+      color: var(--muted); font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      transition: color .15s; text-decoration: none;
+    }
+    .bottom-item.active { color: var(--gold); }
+    .bottom-item svg { width: 20px; height: 20px; display: block; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,.65); display: none; align-items: flex-end;
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-sheet {
+      background: var(--card); width: 100%;
+      max-height: 85svh; border-radius: 14px 14px 0 0;
+      display: flex; flex-direction: column; overflow: hidden;
+      padding-bottom: var(--safe-bot);
+    }
+    .modal-handle-wrap { padding: 12px 0 6px; display: flex; justify-content: center; flex-shrink: 0; }
+    .modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; }
+    .modal-header { padding: 4px 14px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .modal-title { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--text); }
+    .modal-body { overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
+    .modal-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 14px; border-bottom: 1px solid var(--border);
+      text-decoration: none; color: inherit; cursor: pointer;
+      transition: background .15s;
+    }
+    .modal-row:last-child { border-bottom: none; }
+    .modal-row:active { background: #F5F5F5; }
+    .modal-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--black); flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .modal-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .modal-avatar .avatar-initials { font-size: 11px; }
+    .modal-name { flex: 1; font-size: 13px; font-weight: 600; color: var(--text); }
+    .modal-count { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 900; color: var(--gold); }
+    .modal-t svg { width: 13px; height: 13px; color: var(--muted); margin-left: 4px; }
+
+    /* ── LOADING ── */
+    .loading-wrap { display: flex; align-items: center; justify-content: center; padding: 60px 20px; }
+    .loading-spinner { width: 32px; height: 32px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (min-width: 600px) {
+      .section-card { max-width: 540px; margin-left: auto; margin-right: auto; }
+      .stats-banner { max-width: 540px; margin-left: auto; margin-right: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="main.html" class="btn-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Início
+  </a>
+  <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" class="header-logo" alt="SPFC"/>
+  <div class="header-text">
+    <div class="header-title">Técnicos Campeões</div>
+    <div class="header-sub">A história de quem fez o Tricolor vencer</div>
+  </div>
+  <svg class="header-trophy" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 3H5v3H3v4a4 4 0 004 4v.17A3 3 0 005 17v1h14v-1a3 3 0 00-2-2.83V14a4 4 0 004-4V6h-2V3h-2v3H7V3z"/>
+  </svg>
+</header>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" id="tabTitulos" onclick="switchTab('titulos')">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3H5v3H3v4a4 4 0 004 4v.17A3 3 0 005 17v1h14v-1a3 3 0 00-2-2.83V14a4 4 0 004-4V6h-2V3h-2v3H7V3zM7 10V8h10v2a2 2 0 01-2 2H9a2 2 0 01-2-2z"/></svg>
+    Por Títulos
+  </button>
+  <button class="tab" id="tabIdade" onclick="switchTab('idade')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Por Idade na Conquista
+  </button>
+</div>
+
+<!-- PANEL: POR TÍTULOS -->
+<div class="panel active" id="panelTitulos">
+  <div class="loading-wrap" id="loadingTitulos"><div class="loading-spinner"></div></div>
+
+  <div class="section-card" id="cardTitulos" style="display:none">
+    <div class="section-title">Técnicos por Número de Títulos</div>
+    <div class="table-header">
+      <span class="th">Técnico</span>
+      <span class="th" style="text-align:center">Títulos</span>
+      <span class="th">Relação</span>
+    </div>
+    <div id="coachList"></div>
+    <a class="see-all" href="#" onclick="openModal(event)">
+      <span class="see-all-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 20c0-3.3 2.7-6 6-6"/><circle cx="17" cy="7" r="4"/><path d="M21 20c0-3.3-2.7-6-6-6"/></svg></span>
+      <span class="see-all-text">Ver Todos os Técnicos Campeões</span>
+      <span class="see-all-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+    </a>
+  </div>
+
+  <div class="stats-banner" id="statsBanner" style="display:none" href="#" onclick="openModal(event)">
+    <div class="banner-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3H5v3H3v4a4 4 0 004 4v.17A3 3 0 005 17v1h14v-1a3 3 0 00-2-2.83V14a4 4 0 004-4V6h-2V3h-2v3H7V3z"/></svg></div>
+    <div class="banner-text">
+      <div class="banner-main" id="bannerMain">–</div>
+      <div class="banner-sub" id="bannerSub">–</div>
+    </div>
+    <div class="banner-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+  </div>
+</div>
+
+<!-- PANEL: POR IDADE -->
+<div class="panel" id="panelIdade">
+  <div class="loading-wrap" id="loadingIdade"><div class="loading-spinner"></div></div>
+  <div class="section-card" id="cardIdade" style="display:none">
+    <div class="section-title">Técnicos por Idade na Conquista</div>
+    <div id="ageList"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="main.html" class="bottom-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+    Início
+  </a>
+  <button class="bottom-item" onclick="openModal(event)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    Todos
+  </button>
+  <button class="bottom-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 20c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6"/></svg>
+    Técnicos
+  </button>
+  <button class="bottom-item" onclick="switchTab('titulos')">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3H5v3H3v4a4 4 0 004 4v.17A3 3 0 005 17v1h14v-1a3 3 0 00-2-2.83V14a4 4 0 004-4V6h-2V3h-2v3H7V3z"/></svg>
+    Títulos
+  </button>
+  <button class="bottom-item" onclick="switchTab('idade')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Idade
+  </button>
+</nav>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle-wrap"><div class="modal-handle"></div></div>
+    <div class="modal-header"><div class="modal-title">Todos os Técnicos Campeões</div></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const JSON_URL = 'data/spfc-tecnicos-titulos.json';
+const LOGO = 'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png';
+
+let COACHES = [], AGE_DATA = [];
+
+const TROPHY_SVG = `<svg viewBox="0 0 24 24" fill="currentColor" class="trophy-icon"><path d="M7 3H5v3H3v4a4 4 0 004 4v.17A3 3 0 005 17v1h14v-1a3 3 0 00-2-2.83V14a4 4 0 004-4V6h-2V3h-2v3H7V3z"/></svg>`;
+
+function initials(name) {
+  const p = name.trim().split(/\s+/);
+  return p.length === 1 ? p[0].slice(0,2).toUpperCase() : (p[0][0]+p[p.length-1][0]).toUpperCase();
+}
+
+function avatarHTML(coach, size='normal') {
+  const foto = coach.foto || '';
+  const cls = size === 'small' ? 'age-avatar' : 'coach-avatar';
+  const init = `<span class="avatar-initials">${initials(coach.col_0)}</span>`;
+  return `<div class="${cls}">${foto ? `<img src="${foto}" alt="${coach.col_0}" loading="lazy" onerror="this.parentNode.innerHTML='${init}'"/>` : init}</div>`;
+}
+
+function trophyIcons(n) {
+  const show = Math.min(n, 5), extra = n - show;
+  return Array(show).fill(TROPHY_SVG).join('') + (extra > 0 ? `<span class="trophy-more">+${extra}</span>` : '');
+}
+
+function rankClass(i) {
+  return i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
+}
+
+async function init() {
+  try {
+    const res = await fetch(JSON_URL);
+    if (!res.ok) throw new Error(res.status);
+    const json = await res.json();
+    const t1 = json.find(t => t.tabela === 1);
+    const t2 = json.find(t => t.tabela === 2);
+    COACHES = t1.linhas.filter(r => r.col_0 !== 'TÉCNICO');
+    AGE_DATA = t2.linhas.filter(r => r.col_0 !== 'TÉCNICO');
+    render();
+  } catch(e) {
+    document.getElementById('loadingTitulos').innerHTML = '<p style="color:#888;font-size:13px;text-align:center;padding:40px">Erro ao carregar dados.</p>';
+  }
+}
+
+function render() {
+  // ── TITLES TAB ──
+  const list = document.getElementById('coachList');
+  const TOP = 6;
+  COACHES.slice(0, TOP).forEach((c, i) => {
+    const n = parseInt(c.col_1);
+    const a = document.createElement('a');
+    a.className = 'coach-row';
+    a.href = `tecnico.html?name=${encodeURIComponent(c.col_0)}`;
+    const av = `<div class="coach-avatar ${rankClass(i)}">${c.foto ? `<img src="${c.foto}" alt="${c.col_0}" loading="lazy"/>` : `<span class="avatar-initials">${initials(c.col_0)}</span>`}</div>`;
+    a.innerHTML = `${av}
+      <span class="coach-name">${c.col_0}${c.periodo ? `<div class="coach-period">${c.periodo}</div>` : ''}</span>
+      <span class="coach-count">${n}</span>
+      <div class="coach-trophies">${trophyIcons(n)}</div>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>`;
+    list.appendChild(a);
+  });
+
+  const total = COACHES.reduce((s,c) => s+parseInt(c.col_1), 0);
+  document.getElementById('bannerMain').textContent = COACHES.length + ' técnicos campeões';
+  document.getElementById('bannerSub').textContent = total + ' títulos conquistados';
+
+  document.getElementById('loadingTitulos').style.display = 'none';
+  document.getElementById('cardTitulos').style.display = 'block';
+  document.getElementById('statsBanner').style.display = 'flex';
+
+  // ── AGE TAB ──
+  const seen = new Set(), unique = [];
+  AGE_DATA.forEach(r => { if (!seen.has(r.col_0)) { seen.add(r.col_0); unique.push(r); } });
+
+  const ageList = document.getElementById('ageList');
+  unique.forEach((r, i) => {
+    const coach = COACHES.find(c => c.col_0 === r.col_0) || {};
+    const a = document.createElement('a');
+    a.className = 'age-row';
+    a.href = `tecnico.html?name=${encodeURIComponent(r.col_0)}`;
+    const av = `<div class="age-avatar">${coach.foto ? `<img src="${coach.foto}" alt="${r.col_0}" loading="lazy"/>` : `<span class="avatar-initials" style="font-size:11px">${initials(r.col_0)}</span>`}</div>`;
+    a.innerHTML = `<span class="age-rank">${i+1}</span>${av}
+      <div class="age-info"><div class="age-name">${r.col_0}</div><div class="age-game">${r.col_4}</div></div>
+      <div><span class="age-val">${r.col_1}</span> <span class="age-unit">anos</span></div>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>`;
+    ageList.appendChild(a);
+  });
+
+  document.getElementById('loadingIdade').style.display = 'none';
+  document.getElementById('cardIdade').style.display = 'block';
+
+  // ── MODAL ──
+  const mb = document.getElementById('modalBody');
+  COACHES.forEach(c => {
+    const a = document.createElement('a');
+    a.className = 'modal-row';
+    a.href = `tecnico.html?name=${encodeURIComponent(c.col_0)}`;
+    const av = `<div class="modal-avatar">${c.foto ? `<img src="${c.foto}" alt="${c.col_0}" loading="lazy"/>` : `<span class="avatar-initials" style="font-size:11px">${initials(c.col_0)}</span>`}</div>`;
+    a.innerHTML = `${av}<span class="modal-name">${c.col_0}</span><span class="modal-count">${c.col_1}</span><span class="modal-t">${TROPHY_SVG}</span>`;
+    mb.appendChild(a);
+  });
+}
+
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab' + (id==='titulos'?'Titulos':'Idade')).classList.add('active');
+  document.getElementById('panel' + (id==='titulos'?'Titulos':'Idade')).classList.add('active');
+}
+
+function openModal(e) { if(e) e.preventDefault(); document.getElementById('modalOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(e) { if(e && e.target !== document.getElementById('modalOverlay')) return; document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow=''; }
+
+init();
+</script>
+</body>
+</html>

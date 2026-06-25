@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#080808"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="SPFC Técnicos"/>
+  <title>Técnico – SPFC</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    :root {
+      --red:    #C9A84C;
+      --gold:   #C8102E;
+      --black:  #080808;
+      --dark:   #111111;
+      --panel:  #181818;
+      --border: #222222;
+      --muted:  #555555;
+      --text:   #E8E8E8;
+      --white:  #FFFFFF;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bot: env(safe-area-inset-bottom, 0px);
+      --hero-h: min(100svh, 680px);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100svh;
+      overflow-x: hidden;
+      padding-bottom: calc(72px + var(--safe-bot));
+    }
+
+    /* ── LOADING ── */
+    #loading {
+      position: fixed; inset: 0;
+      background: var(--black);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+      transition: opacity .5s ease, visibility .5s ease;
+    }
+    #loading.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-emblem { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .loader-logo { width: 52px; height: 60px; object-fit: contain; animation: pulse 1.2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+    .loader-bar { width: 120px; height: 2px; background: #222; position: relative; overflow: hidden; }
+    .loader-bar::after { content: ''; position: absolute; inset-y: 0; left: -60%; width: 60%; background: var(--red); animation: load 1s ease-in-out infinite; }
+    @keyframes load { to { left: 160%; } }
+
+    /* ── TOP NAV ── */
+    .top-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0; z-index: 100;
+      padding: calc(12px + var(--safe-top)) 20px 12px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(8,8,8,.95) 0%, transparent 100%);
+    }
+    .btn-back {
+      display: flex; align-items: center; gap: 7px;
+      color: var(--white); text-decoration: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      opacity: .85; transition: opacity .2s;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 8px; padding: 8px 12px;
+    }
+    .btn-back:active { opacity: 1; background: rgba(255,255,255,.15); }
+    .btn-back svg { width: 14px; height: 14px; }
+    .nav-logo { width: 32px; height: 37px; object-fit: contain; opacity: .7; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; height: var(--hero-h);
+      overflow: hidden; display: flex; align-items: flex-end;
+    }
+    .hero-bg { position: absolute; inset: 0; background: var(--dark); }
+    .hero-bg::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 80% at 60% 20%, rgba(201,168,76,.08) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 30% 80%, rgba(200,16,46,.06) 0%, transparent 60%);
+      z-index: 1;
+    }
+    .hero-photo-wrap {
+      position: absolute; right: 0; bottom: 0;
+      height: 100%; width: 65%;
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+    .hero-photo {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+      display: block; filter: grayscale(15%) contrast(1.05);
+    }
+    .hero-placeholder {
+      width: 70%; aspect-ratio: 1/1.5;
+      background: linear-gradient(180deg, #222 0%, transparent 100%);
+      clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+      opacity: .12; align-self: flex-end;
+    }
+    .hero-fade-left {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, var(--black) 0%, rgba(8,8,8,.85) 35%, rgba(8,8,8,.25) 62%, transparent 100%);
+      z-index: 2;
+    }
+    .hero-fade-bottom {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 300px;
+      background: linear-gradient(to top, var(--black) 0%, transparent 100%);
+      z-index: 3;
+    }
+    .hero-grain {
+      position: absolute; inset: 0; z-index: 4; opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px; pointer-events: none;
+    }
+    .hero-badge {
+      position: absolute; top: calc(60px + var(--safe-top)); right: 20px; z-index: 10;
+      display: flex; flex-direction: column; align-items: center;
+      opacity: 0; transform: translateY(-8px);
+      transition: opacity .6s ease .8s, transform .6s ease .8s;
+    }
+    .hero-badge.visible { opacity: 1; transform: translateY(0); }
+    .badge-number {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 52px; font-weight: 900; color: var(--red); line-height: 1;
+      text-shadow: 0 0 40px rgba(201,168,76,.35);
+    }
+    .badge-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9px; font-weight: 700; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .hero-content { position: relative; z-index: 10; padding: 0 24px 32px; width: 100%; }
+    .hero-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px; font-weight: 700; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 4px;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity .5s ease .3s, transform .5s ease .3s;
+    }
+    .hero-eyebrow.visible { opacity: 1; transform: translateY(0); }
+    .hero-name {
+      line-height: .9; margin-bottom: 14px;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity .6s ease .4s, transform .6s ease .4s;
+    }
+    .hero-name.visible { opacity: 1; transform: translateY(0); }
+    .name-first {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(48px, 13vw, 76px); font-weight: 300; font-style: italic;
+      color: var(--red); letter-spacing: -.01em;
+    }
+    .name-last {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(60px, 17vw, 96px); font-weight: 900;
+      color: var(--white); letter-spacing: -.02em; text-transform: uppercase;
+    }
+    .hero-meta {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity .5s ease .55s, transform .5s ease .55s;
+    }
+    .hero-meta.visible { opacity: 1; transform: translateY(0); }
+    .meta-years { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 400; color: var(--muted); letter-spacing: .04em; }
+    .meta-sep { width: 1px; height: 12px; background: var(--border); }
+    .meta-titles {
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--red);
+    }
+    .meta-titles svg { width: 13px; height: 13px; }
+
+    /* ── SCROLL PROGRESS ── */
+    .scroll-progress { position: sticky; top: 0; z-index: 50; height: 2px; background: var(--border); }
+    .scroll-fill { height: 100%; width: 0%; background: linear-gradient(to right, var(--red), var(--gold)); transition: width .05s linear; }
+
+    /* ── BODY ── */
+    .body-wrap { background: var(--black); position: relative; z-index: 5; }
+    .content-grid { max-width: 680px; margin: 0 auto; padding: 0 20px 20px; }
+
+    .section { padding-top: 44px; }
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, var(--border), transparent); }
+
+    .bio-text { font-size: 15px; font-weight: 300; color: #A0A0A0; line-height: 1.78; }
+    .bio-text p + p { margin-top: 14px; }
+
+    /* ── TITLES ── */
+    .titles-list { list-style: none; display: flex; flex-direction: column; }
+    .title-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 0; border-bottom: 1px solid var(--border);
+      opacity: 0; transform: translateX(-8px);
+      transition: opacity .4s ease, transform .4s ease;
+    }
+    .title-item.visible { opacity: 1; transform: translateX(0); }
+    .title-item:last-child { border-bottom: none; }
+    .title-trophy { width: 15px; height: 15px; flex-shrink: 0; color: var(--red); }
+    .title-name { flex: 1; font-size: 13px; font-weight: 400; color: var(--text); }
+    .title-year { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: var(--gold); letter-spacing: .04em; }
+
+    /* ── STATS GRID ── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+      margin-bottom: 8px;
+    }
+    .stat-card {
+      background: var(--panel); border: 1px solid var(--border);
+      padding: 14px 10px; text-align: center;
+    }
+    .stat-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px; font-weight: 900; color: var(--white); line-height: 1;
+    }
+    .stat-lbl {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--muted); margin-top: 4px;
+    }
+    .stat-pct { color: var(--red); }
+
+    /* ── CONQUEST CARD ── */
+    .conquest-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-left: 3px solid var(--gold); padding: 20px;
+      position: relative; overflow: hidden; margin-top: 16px;
+    }
+    .conquest-card::before {
+      content: ''; position: absolute; top: 0; right: 0; width: 100px; height: 100%;
+      background: linear-gradient(to left, rgba(200,16,46,.04), transparent);
+    }
+    .conquest-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+    .conquest-age {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 38px; font-weight: 900; color: var(--white); line-height: 1; margin-bottom: 2px;
+    }
+    .conquest-age span { font-size: 15px; font-weight: 300; color: var(--muted); margin-left: 4px; }
+    .conquest-game {
+      font-size: 12px; color: var(--muted); line-height: 1.5;
+      margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);
+    }
+    .conquest-game strong { color: var(--text); font-weight: 500; }
+
+    /* ── BOTTOM NAV ── */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(8,8,8,.97); border-top: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 20px calc(12px + var(--safe-bot));
+      min-height: calc(64px + var(--safe-bot));
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-btn {
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); cursor: pointer; padding: 10px 0;
+      text-decoration: none; transition: color .2s; flex-shrink: 0; border: none; background: none;
+    }
+    .nav-btn:active { color: var(--white); }
+    .nav-btn svg { width: 15px; height: 15px; }
+    .nav-center { flex: 1; text-align: center; }
+    .nav-all-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--red); cursor: pointer; text-decoration: none;
+      border: 1px solid rgba(201,168,76,.3); padding: 6px 14px;
+      transition: background .2s; background: none;
+    }
+    .nav-all-btn:active { background: rgba(201,168,76,.08); }
+
+    /* ── ERROR ── */
+    .error-state {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 60svh; gap: 14px; text-align: center; padding: 40px 24px;
+    }
+    .error-state h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; color: var(--gold); text-transform: uppercase; }
+    .error-state p { color: var(--muted); font-size: 13px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      .hero-eyebrow, .hero-name, .hero-meta, .hero-badge, .title-item { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loading" aria-hidden="true">
+  <div class="loader-emblem">
+    <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" class="loader-logo" alt="SPFC"/>
+    <div class="loader-bar"></div>
+  </div>
+</div>
+
+<!-- Top nav -->
+<nav class="top-nav">
+  <a href="tecnicos.html" class="btn-back" id="btnBack">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Técnicos
+  </a>
+  <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" class="nav-logo" alt="SPFC"/>
+</nav>
+
+<main id="app"></main>
+
+<!-- Bottom nav -->
+<nav class="bottom-nav" id="bottomNav" style="display:none">
+  <button class="nav-btn" id="navPrev" onclick="navigate(-1)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Anterior
+  </button>
+  <div class="nav-center">
+    <a href="tecnicos.html" class="nav-all-btn">Todos os Técnicos</a>
+  </div>
+  <button class="nav-btn" id="navNext" onclick="navigate(1)">
+    Próximo
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</nav>
+
+<script>
+const JSON_URL = 'data/spfc-tecnicos-titulos.json';
+
+const BIOS = {
+  'Telê Santana': ['Telê Santana chegou ao São Paulo em 1990 e transformou o clube em uma potência mundial. Com sua visão revolucionária, disciplina tática e futebol ofensivo, montou uma equipe que encantou o Brasil e o mundo.','Sob seu comando, o Tricolor conquistou duas Libertadores e dois Mundiais consecutivos, entrando para a história como uma das maiores gerações do futebol sul-americano.','Mais do que títulos, Telê deixou um legado de inovação, profissionalismo e amor pelo jogo — um nome gravado na alma tricolor para sempre.'],
+  'Muricy Ramalho': ['Muricy Ramalho foi o arquiteto da segunda grande era vitoriosa do São Paulo. Com três Campeonatos Brasileiros consecutivos entre 2006 e 2008, igualou um feito histórico e consolidou seu nome entre os maiores técnicos do clube.'],
+  'Joreca': ['Pioneiro do futebol tricolor, Joreca construiu as bases de uma identidade vencedora no Paulistão dos anos 40. Três títulos estaduais em quatro anos revelaram um treinador meticuloso e à frente de seu tempo.'],
+  'Paulo Autuori': ['Paulo Autuori conduziu o São Paulo ao seu momento de maior glória internacional. A Copa Libertadores e o Mundial Interclubes de 2005 foram a síntese de um trabalho técnico refinado.','O 1×0 sobre o Liverpool na final em Yokohama ficou gravado na memória de toda uma geração tricolor.'],
+  'Dorival Júnior': ['Dorival Júnior chegou ao São Paulo em um momento de transição e deixou uma marca permanente: a Copa do Brasil de 2023, reconquistada com determinação e identidade tática clara.'],
+  'Thiago Carpini': ['O mais jovem técnico campeão da história recente do São Paulo, Thiago Carpini surpreendeu ao conquistar a Supercopa do Brasil de 2024 com apenas 39 anos.'],
+  'Hernán Crespo': ['Ex-jogador de elite europeia, Hernán Crespo trouxe ao São Paulo uma linguagem tática moderna. O Campeonato Paulista de 2021 foi o resultado de um trabalho breve, mas marcante.'],
+  'Ney Franco': ['Ney Franco ficará eternamente ligado à Copa Sul-Americana de 2012, o único título continental do Tricolor fora do eixo Libertadores/Mundial.'],
+};
+const DEFAULT_BIO = ['Um dos técnicos campeões da história do São Paulo Futebol Clube, com contribuição indelével para o palmares tricolor.'];
+
+let COACHES = [], AGE_DATA = [], currentIdx = 0;
+
+function parseTitle(rel) {
+  const parts = rel.split(/\s*[–-]\s*/);
+  if (parts.length >= 2) return { name: parts.slice(0,-1).join(' – ').trim(), year: parts[parts.length-1].trim() };
+  return { name: rel, year: '' };
+}
+
+function getParam(k) { return new URLSearchParams(window.location.search).get(k); }
+
+function statVal(v) { return v && v !== '' ? v : '—'; }
+
+async function init() {
+  try {
+    const res = await fetch(JSON_URL);
+    if (!res.ok) throw new Error(res.status);
+    const json = await res.json();
+    const t1 = json.find(t => t.tabela === 1);
+    const t2 = json.find(t => t.tabela === 2);
+    COACHES = t1.linhas.filter(r => r.col_0 !== 'TÉCNICO');
+    AGE_DATA = t2.linhas.filter(r => r.col_0 !== 'TÉCNICO');
+
+    const nameParam = getParam('name') || COACHES[0].col_0;
+    currentIdx = COACHES.findIndex(c => c.col_0 === nameParam);
+    if (currentIdx < 0) currentIdx = 0;
+
+    renderPage(currentIdx);
+  } catch(e) {
+    document.getElementById('app').innerHTML = `<div class="error-state"><h2>Erro ao carregar</h2><p>Não foi possível carregar os dados.</p></div>`;
+    document.getElementById('loading').classList.add('hidden');
+  }
+}
+
+function renderPage(idx) {
+  currentIdx = idx;
+  const c = COACHES[idx];
+  const ageRow = AGE_DATA.find(r => r.col_0 === c.col_0) || null;
+  const bios = (c.bios && c.bios.length) ? c.bios : (BIOS[c.col_0] || DEFAULT_BIO);
+  const titles = c.col_2.split(',').map(s => parseTitle(s.trim())).filter(t => t.name);
+  const stats = c.stats || {};
+  const sg = stats.geral || {};
+
+  const nameParts = c.col_0.trim().split(/\s+/);
+  const firstName = nameParts.slice(0, nameParts.length - 1).join(' ');
+  const lastName  = nameParts[nameParts.length - 1];
+
+  // Update page title & meta
+  document.title = `${c.col_0} – Técnico Campeão SPFC`;
+
+  // Update URL without reload
+  history.replaceState(null, '', `?name=${encodeURIComponent(c.col_0)}`);
+
+  const hasStats = sg.J && sg.J !== '';
+  const hasConquest = ageRow !== null;
+
+  document.getElementById('app').innerHTML = `
+    <section class="hero">
+      <div class="hero-bg">
+        <div class="hero-photo-wrap">
+          ${c.foto
+            ? `<img class="hero-photo" src="${c.foto}" alt="${c.col_0}" loading="eager"/>`
+            : `<div class="hero-placeholder"></div>`}
+        </div>
+      </div>
+      <div class="hero-fade-left"></div>
+      <div class="hero-fade-bottom"></div>
+      <div class="hero-grain"></div>
+      <div class="hero-badge" id="heroBadge">
+        <div class="badge-number">${c.col_1}</div>
+        <div class="badge-label">Títulos</div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-eyebrow" id="heroEyebrow">Técnico Campeão</div>
+        <h1 class="hero-name" id="heroName">
+          <span class="name-first">${firstName}</span>
+          <span class="name-last">${lastName}</span>
+        </h1>
+        <div class="hero-meta" id="heroMeta">
+          ${c.periodo ? `<span class="meta-years">${c.periodo}</span><div class="meta-sep"></div>` : ''}
+          <div class="meta-titles">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3H5v3H3v4a4 4 0 004 4v.17A3 3 0 005 17v1h14v-1a3 3 0 00-2-2.83V14a4 4 0 004-4V6h-2V3h-2v3H7V3z"/></svg>
+            ${c.col_1} ${parseInt(c.col_1) === 1 ? 'título' : 'títulos'} pelo São Paulo
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="scroll-progress"><div class="scroll-fill" id="scrollFill"></div></div>
+
+    <div class="body-wrap">
+      <div class="content-grid">
+
+        <div class="section">
+          <div class="section-label">Biografia</div>
+          <div class="bio-text">${bios.map(p => `<p>${p}</p>`).join('')}</div>
+        </div>
+
+        <div class="section">
+          <div class="section-label">Títulos</div>
+          <ul class="titles-list">
+            ${titles.map((t, i) => `
+              <li class="title-item" style="transition-delay:${i*55}ms">
+                <svg class="title-trophy" viewBox="0 0 24 24" fill="currentColor"><path d="M7 3H5v3H3v4a4 4 0 004 4v.17A3 3 0 005 17v1h14v-1a3 3 0 00-2-2.83V14a4 4 0 004-4V6h-2V3h-2v3H7V3z"/></svg>
+                <span class="title-name">${t.name}</span>
+                <span class="title-year">${t.year}</span>
+              </li>`).join('')}
+          </ul>
+        </div>
+
+        ${hasStats ? `
+        <div class="section">
+          <div class="section-label">Desempenho Geral pelo SPFC</div>
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-val">${statVal(sg.J)}</div><div class="stat-lbl">Jogos</div></div>
+            <div class="stat-card"><div class="stat-val">${statVal(sg.V)}</div><div class="stat-lbl">Vitórias</div></div>
+            <div class="stat-card"><div class="stat-val">${statVal(sg.E)}</div><div class="stat-lbl">Empates</div></div>
+            <div class="stat-card"><div class="stat-val">${statVal(sg.D)}</div><div class="stat-lbl">Derrotas</div></div>
+            <div class="stat-card"><div class="stat-val">${statVal(sg.GM)}</div><div class="stat-lbl">Gols Marcados</div></div>
+            <div class="stat-card"><div class="stat-val stat-pct">${statVal(sg.pct)}%</div><div class="stat-lbl">Aproveitamento</div></div>
+          </div>
+        </div>` : ''}
+
+        ${hasConquest ? `
+        <div class="conquest-card">
+          <div class="conquest-label">Momento da Conquista</div>
+          <div class="conquest-age">${ageRow.col_1}<span>anos</span></div>
+          <div class="conquest-game">
+            <strong>${ageRow.col_4.split(',').slice(0,2).join(', ')}</strong>
+            ${ageRow.col_4.split(',').length > 2 ? '<br>' + ageRow.col_4.split(',').slice(2).join(',').trim() : ''}
+          </div>
+        </div>` : ''}
+
+      </div>
+    </div>`;
+
+  // Animate in
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.getElementById('heroEyebrow')?.classList.add('visible');
+      document.getElementById('heroName')?.classList.add('visible');
+      document.getElementById('heroMeta')?.classList.add('visible');
+      document.getElementById('heroBadge')?.classList.add('visible');
+    }, 80);
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: .1 });
+    document.querySelectorAll('.title-item').forEach(el => obs.observe(el));
+  });
+
+  // Scroll progress
+  const fill = document.getElementById('scrollFill');
+  window.addEventListener('scroll', () => {
+    const total = document.body.scrollHeight - window.innerHeight;
+    if (fill) fill.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
+  }, { passive: true });
+
+  // Show bottom nav
+  document.getElementById('bottomNav').style.display = 'flex';
+
+  // Scroll to top
+  window.scrollTo(0, 0);
+
+  // Hide loading
+  document.getElementById('loading').classList.add('hidden');
+}
+
+function navigate(dir) {
+  const next = (currentIdx + dir + COACHES.length) % COACHES.length;
+  document.getElementById('loading').classList.remove('hidden');
+  setTimeout(() => renderPage(next), 150);
+}
+
+init();
+</script>
+</body>
+</html>
