@@ -12,7 +12,7 @@
         "col_1": "10",
         "col_2": "Campeonato Brasileiro – 1991, Campeonato Paulista – 1991, Campeonato Paulista – 1992, Copa Libertadores – 1992, Copa Libertadores – 1993, Mundial Interclubes – 1992, Mundial Interclubes – 1993, Recopa Sul-Americana – 1993, Recopa Sul-Americana – 1994, Supercopa João Havelange – 1993",
         "foto": "https://res.cloudinary.com/dwps392wa/image/upload/v1782431382/PHOTO-2026-06-23-21-17-42_1_t170c9.jpg",
-        "fotoBg": "",
+        "fotoBg": "https://res.cloudinary.com/dwps392wa/image/upload/v1782436448/tele_header_ktxihy.jpg",
         "anos": "",
         "nasc": "26/07/1931",
         "bios": [],
@@ -1588,7 +1588,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1999, 2010-11",
         "total_jogos_historico": 114,
         "stats": {}
@@ -1601,7 +1603,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2009-10, 2016",
         "total_jogos_historico": 91,
         "stats": {}
@@ -1614,7 +1618,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1967-68",
         "total_jogos_historico": 85,
         "stats": {}
@@ -1627,7 +1633,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1968-69",
         "total_jogos_historico": 85,
         "stats": {}
@@ -1640,7 +1648,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1976, 1977-1978, 1978-1979, 1979",
         "total_jogos_historico": 77,
         "stats": {}
@@ -1653,7 +1663,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1933-35",
         "total_jogos_historico": 74,
         "stats": {}
@@ -1666,7 +1678,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1950, 1951, 1954-55",
         "total_jogos_historico": 73,
         "stats": {}
@@ -1679,7 +1693,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1960-61",
         "total_jogos_historico": 65,
         "stats": {}
@@ -1692,7 +1708,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1983",
         "total_jogos_historico": 64,
         "stats": {}
@@ -1705,7 +1723,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1962, 1966",
         "total_jogos_historico": 63,
         "stats": {}
@@ -1718,7 +1738,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1997-98",
         "total_jogos_historico": 63,
         "stats": {}
@@ -1731,7 +1753,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1958-59",
         "total_jogos_historico": 56,
         "stats": {}
@@ -1744,7 +1768,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1930, 1940",
         "total_jogos_historico": 54,
         "stats": {}
@@ -1757,7 +1783,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2003, 2003",
         "total_jogos_historico": 52,
         "stats": {}
@@ -1770,7 +1798,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2004",
         "total_jogos_historico": 51,
         "stats": {}
@@ -1783,7 +1813,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1942-43",
         "total_jogos_historico": 49,
         "stats": {}
@@ -1796,7 +1828,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2016",
         "total_jogos_historico": 48,
         "stats": {}
@@ -1809,7 +1843,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1999, 2004, 2005, 2007, 2009, 2010, 2010, 2011, 2011, 2012, 2013, 2014-15, 2015, 2015, 2015",
         "total_jogos_historico": 43,
         "stats": {}
@@ -1822,7 +1858,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1936-37",
         "total_jogos_historico": 42,
         "stats": {}
@@ -1835,7 +1873,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1972",
         "total_jogos_historico": 42,
         "stats": {}
@@ -1848,7 +1888,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1957, 1961, 1961, 1962, 1962",
         "total_jogos_historico": 39,
         "stats": {}
@@ -1861,7 +1903,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1964",
         "total_jogos_historico": 30,
         "stats": {}
@@ -1874,7 +1918,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1990",
         "total_jogos_historico": 29,
         "stats": {}
@@ -1887,7 +1933,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1983, 1986, 1986, 1987",
         "total_jogos_historico": 26,
         "stats": {}
@@ -1900,7 +1948,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2015",
         "total_jogos_historico": 26,
         "stats": {}
@@ -1913,7 +1963,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1930/1931",
         "total_jogos_historico": 22,
         "stats": {}
@@ -1926,7 +1978,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1938",
         "total_jogos_historico": 22,
         "stats": {}
@@ -1939,7 +1993,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1961",
         "total_jogos_historico": 22,
         "stats": {}
@@ -1952,7 +2008,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2011",
         "total_jogos_historico": 22,
         "stats": {}
@@ -1965,7 +2023,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1996",
         "total_jogos_historico": 21,
         "stats": {}
@@ -1978,7 +2038,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1939-1940",
         "total_jogos_historico": 19,
         "stats": {}
@@ -1991,7 +2053,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1980-81, 1981",
         "total_jogos_historico": 18,
         "stats": {}
@@ -2004,7 +2068,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1988, 1989, 1989, 1990",
         "total_jogos_historico": 18,
         "stats": {}
@@ -2017,7 +2083,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1983, 1984, 1993",
         "total_jogos_historico": 17,
         "stats": {}
@@ -2030,7 +2098,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1951",
         "total_jogos_historico": 16,
         "stats": {}
@@ -2043,7 +2113,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1939",
         "total_jogos_historico": 15,
         "stats": {}
@@ -2056,7 +2128,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1958, 1958, 1961",
         "total_jogos_historico": 15,
         "stats": {}
@@ -2069,7 +2143,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1960",
         "total_jogos_historico": 14,
         "stats": {}
@@ -2082,7 +2158,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2010",
         "total_jogos_historico": 14,
         "stats": {}
@@ -2095,7 +2173,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1932-33",
         "total_jogos_historico": 13,
         "stats": {}
@@ -2108,7 +2188,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2016, 2016, 2016",
         "total_jogos_historico": 13,
         "stats": {}
@@ -2121,7 +2203,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1991, 2007",
         "total_jogos_historico": 12,
         "stats": {}
@@ -2134,7 +2218,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1972",
         "total_jogos_historico": 10,
         "stats": {}
@@ -2147,7 +2233,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1998",
         "total_jogos_historico": 10,
         "stats": {}
@@ -2160,7 +2248,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1993",
         "total_jogos_historico": 8,
         "stats": {}
@@ -2173,7 +2263,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2015",
         "total_jogos_historico": 7,
         "stats": {}
@@ -2186,7 +2278,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2016",
         "total_jogos_historico": 7,
         "stats": {}
@@ -2199,7 +2293,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1930",
         "total_jogos_historico": 6,
         "stats": {}
@@ -2212,7 +2308,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1963",
         "total_jogos_historico": 6,
         "stats": {}
@@ -2225,7 +2323,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1939",
         "total_jogos_historico": 5,
         "stats": {}
@@ -2238,7 +2338,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1947",
         "total_jogos_historico": 5,
         "stats": {}
@@ -2251,7 +2353,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1981",
         "total_jogos_historico": 5,
         "stats": {}
@@ -2264,7 +2368,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2016, 2016",
         "total_jogos_historico": 3,
         "stats": {}
@@ -2277,7 +2383,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1972",
         "total_jogos_historico": 2,
         "stats": {}
@@ -2290,7 +2398,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1998",
         "total_jogos_historico": 2,
         "stats": {}
@@ -2303,7 +2413,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1939",
         "total_jogos_historico": 1,
         "stats": {}
@@ -2316,7 +2428,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1948",
         "total_jogos_historico": 1,
         "stats": {}
@@ -2329,7 +2443,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1961",
         "total_jogos_historico": 1,
         "stats": {}
@@ -2342,7 +2458,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1971",
         "total_jogos_historico": 1,
         "stats": {}
@@ -2355,7 +2473,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1978",
         "total_jogos_historico": 1,
         "stats": {}
@@ -2368,7 +2488,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1984",
         "total_jogos_historico": 1,
         "stats": {}
@@ -2381,7 +2503,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "1999",
         "total_jogos_historico": 1,
         "stats": {}
@@ -2394,7 +2518,9 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2001",
         "total_jogos_historico": 1,
         "stats": {}
@@ -2407,217 +2533,11 @@
         "fotoBg": "",
         "anos": "",
         "nasc": "",
-        "bios": [],
+        "bios": [
+          ""
+        ],
         "periodo": "2003",
         "total_jogos_historico": 1,
-        "stats": {}
-      },
-      {
-        "col_0": "Luiz de Oliveira Barros",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "1931",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Arthur Friedenreich",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "1936",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "José de Godoy",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "1940",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Ponzoníbio",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "1940",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Luiz Matter",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "2000",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Waldemar de Oliveira",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "2003",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Rogério Ceni",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "2017, 2021-23",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Diego Aguirre",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "2018",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Vagner Mancini",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "2019",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Fernando Diniz",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "2019-21",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Juan Branda",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "2021",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Leandro Macagnan",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "2022",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Lucas Silvestre",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "2023",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Luis Zubeldía",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "2024-25",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Maxi Cuberas",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "2024-25",
-        "total_jogos_historico": 0,
-        "stats": {}
-      },
-      {
-        "col_0": "Carlos Gruezo",
-        "col_1": "0",
-        "col_2": "",
-        "foto": "",
-        "fotoBg": "",
-        "anos": "",
-        "nasc": "",
-        "bios": [],
-        "periodo": "2024",
-        "total_jogos_historico": 0,
         "stats": {}
       }
     ]
