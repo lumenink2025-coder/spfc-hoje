@@ -85,10 +85,11 @@
       position: relative; height: var(--hero-h);
       overflow: hidden; display: flex; align-items: flex-end;
     }
-    .hero-bg { position: absolute; inset: 0; background: var(--dark); }
+    .hero-bg { position: absolute; inset: 0; background: var(--dark); background-size: cover; background-position: center top; }
     .hero-bg::before {
       content: ''; position: absolute; inset: 0;
       background:
+        rgba(8,8,8,.55),
         radial-gradient(ellipse 70% 80% at 60% 20%, rgba(201,168,76,.08) 0%, transparent 60%),
         radial-gradient(ellipse 50% 50% at 30% 80%, rgba(200,16,46,.06) 0%, transparent 60%);
       z-index: 1;
@@ -342,7 +343,7 @@
 </nav>
 
 <script>
-const JSON_URL = 'data/spfc-tecnicos-titulos.json';
+const JSON_URL = 'spfc-tecnicos-titulos.json';
 
 const BIOS = {
   'Telê Santana': ['Telê Santana chegou ao São Paulo em 1990 e transformou o clube em uma potência mundial. Com sua visão revolucionária, disciplina tática e futebol ofensivo, montou uma equipe que encantou o Brasil e o mundo.','Sob seu comando, o Tricolor conquistou duas Libertadores e dois Mundiais consecutivos, entrando para a história como uma das maiores gerações do futebol sul-americano.','Mais do que títulos, Telê deixou um legado de inovação, profissionalismo e amor pelo jogo — um nome gravado na alma tricolor para sempre.'],
@@ -413,7 +414,7 @@ function renderPage(idx) {
 
   document.getElementById('app').innerHTML = `
     <section class="hero">
-      <div class="hero-bg">
+      <div class="hero-bg" ${c.fotoBg ? `style="background-image:url('${c.fotoBg}');background-size:cover;background-position:center top;"` : ''}>
         <div class="hero-photo-wrap">
           ${c.foto
             ? `<img class="hero-photo" src="${c.foto}" alt="${c.col_0}" loading="eager"/>`
