@@ -11,6 +11,13 @@
         "col_0": "Telê Santana",
         "col_1": "10",
         "col_2": "Campeonato Brasileiro – 1991, Campeonato Paulista – 1991, Campeonato Paulista – 1992, Copa Libertadores – 1992, Copa Libertadores – 1993, Mundial Interclubes – 1992, Mundial Interclubes – 1993, Recopa Sul-Americana – 1993, Recopa Sul-Americana – 1994, Supercopa João Havelange – 1993",
+        "foto": "https://res.cloudinary.com/dwps392wa/image/upload/v1782431382/PHOTO-2026-06-23-21-17-42_1_t170c9.jpg",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "26/07/1931",
+        "bios": [],
+        "periodo": "1973, 1990-96",
+        "total_jogos_historico": 410,
         "stats": {
           "geral": {
             "J": "410",
@@ -59,14 +66,21 @@
             "GS": "",
             "pct": "38,10"
           }
-        },
-        "periodo": "1973, 1990-96",
-        "total_jogos_historico": 410
+        }
       },
       {
         "col_0": "Muricy Ramalho",
         "col_1": "5",
         "col_2": "Campeonato Brasileiro – 2006, Campeonato Brasileiro – 2007, Campeonato Brasileiro – 2008, Copa Conmebol – 1994, Copa Master Conmebol – 1996",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1994-95, 1996, 1996-97, 2006-09, 2013-15",
+        "total_jogos_historico": 474,
         "stats": {
           "geral": {
             "J": "474",
@@ -115,14 +129,21 @@
             "GS": "",
             "pct": "52,96"
           }
-        },
-        "periodo": "1994-95, 1996, 1996-97, 2006-09, 2013-15",
-        "total_jogos_historico": 474
+        }
       },
       {
         "col_0": "Joreca",
         "col_1": "3",
         "col_2": "Campeonato Paulista – 1943, Campeonato Paulista – 1945, Campeonato Paulista – 1946",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1943-47",
+        "total_jogos_historico": 172,
         "stats": {
           "geral": {
             "J": "172",
@@ -171,14 +192,21 @@
             "GS": "245",
             "pct": "72,87"
           }
-        },
-        "periodo": "1943-47",
-        "total_jogos_historico": 172
+        }
       },
       {
         "col_0": "Carlos Alberto Silva",
         "col_1": "2",
         "col_2": "Campeonato Paulista – 1980, Campeonato Paulista – 1989",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1980-81, 1989-90",
+        "total_jogos_historico": 154,
         "stats": {
           "geral": {
             "J": "154",
@@ -227,14 +255,21 @@
             "GS": "",
             "pct": "36,11"
           }
-        },
-        "periodo": "1980-81, 1989-90",
-        "total_jogos_historico": 154
+        }
       },
       {
         "col_0": "Cilinho",
         "col_1": "2",
         "col_2": "Campeonato Paulista – 1985, Campeonato Paulista – 1987",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1984-86, 1987-89",
+        "total_jogos_historico": 249,
         "stats": {
           "geral": {
             "J": "249",
@@ -283,14 +318,21 @@
             "GS": "232",
             "pct": "56,22"
           }
-        },
-        "periodo": "1984-86, 1987-89",
-        "total_jogos_historico": 249
+        }
       },
       {
         "col_0": "Paulo Autuori",
         "col_1": "2",
         "col_2": "Copa Libertadores – 2005, Mundial Interclubes – 2005",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "2005, 2013",
+        "total_jogos_historico": 72,
         "stats": {
           "geral": {
             "J": "32",
@@ -339,14 +381,21 @@
             "GS": "39",
             "pct": "60,42"
           }
-        },
-        "periodo": "2005, 2013",
-        "total_jogos_historico": 72
+        }
       },
       {
         "col_0": "Vicente Feola",
         "col_1": "2",
         "col_2": "Campeonato Paulista – 1948, Campeonato Paulista – 1949",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1937-38, 1938-39, 1941-42, 1944-45, 1947-51, 1951-53, 1954, 1955-57, 1959-60, 1964-65",
+        "total_jogos_historico": 532,
         "stats": {
           "geral": {
             "J": "532",
@@ -395,14 +444,21 @@
             "GS": "723",
             "pct": "62,84"
           }
-        },
-        "periodo": "1937-38, 1938-39, 1941-42, 1944-45, 1947-51, 1951-53, 1954, 1955-57, 1959-60, 1964-65",
-        "total_jogos_historico": 532
+        }
       },
       {
         "col_0": "Béla Guttmann",
         "col_1": "1",
         "col_2": "Campeonato Paulista – 1957",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1957-58",
+        "total_jogos_historico": 97,
         "stats": {
           "geral": {
             "J": "39",
@@ -451,14 +507,21 @@
             "GS": "47",
             "pct": "75,21"
           }
-        },
-        "periodo": "1957-58",
-        "total_jogos_historico": 97
+        }
       },
       {
         "col_0": "Chico Formiga",
         "col_1": "1",
         "col_2": "Campeonato Paulista – 1981",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1932",
+        "total_jogos_historico": 71,
         "stats": {
           "geral": {
             "J": "71",
@@ -507,14 +570,21 @@
             "GS": "65",
             "pct": "63,85"
           }
-        },
-        "periodo": "1932",
-        "total_jogos_historico": 6
+        }
       },
       {
         "col_0": "Dorival Júnior",
         "col_1": "1",
         "col_2": "Copa do Brasil – 2023",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "",
+        "total_jogos_historico": "",
         "stats": {
           "geral": {
             "J": "",
@@ -563,14 +633,21 @@
             "GS": "",
             "pct": ""
           }
-        },
-        "periodo": "",
-        "total_jogos_historico": ""
+        }
       },
       {
         "col_0": "Emerson Leão",
         "col_1": "1",
         "col_2": "Campeonato Paulista – 2005",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "2004-05, 2011-12",
+        "total_jogos_historico": 89,
         "stats": {
           "geral": {
             "J": "89",
@@ -619,14 +696,21 @@
             "GS": "95",
             "pct": "66,29"
           }
-        },
-        "periodo": "2004-05, 2011-12",
-        "total_jogos_historico": 89
+        }
       },
       {
         "col_0": "Hernán Crespo",
         "col_1": "1",
         "col_2": "Campeonato Paulista – 2021",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "",
+        "total_jogos_historico": "",
         "stats": {
           "geral": {
             "J": "",
@@ -675,14 +759,21 @@
             "GS": "",
             "pct": ""
           }
-        },
-        "periodo": "",
-        "total_jogos_historico": ""
+        }
       },
       {
         "col_0": "Jim Lopes",
         "col_1": "1",
         "col_2": "Campeonato Paulista – 1953",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1953-54, 1965",
+        "total_jogos_historico": 111,
         "stats": {
           "geral": {
             "J": "111",
@@ -731,14 +822,21 @@
             "GS": "103",
             "pct": "68,77"
           }
-        },
-        "periodo": "1953-54, 1965",
-        "total_jogos_historico": 111
+        }
       },
       {
         "col_0": "José Poy",
         "col_1": "1",
         "col_2": "Campeonato Paulista – 1975",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1964, 1964-65, 1970, 1971, 1972, 1973-76, 1982-83",
+        "total_jogos_historico": 422,
         "stats": {
           "geral": {
             "J": "422",
@@ -787,14 +885,21 @@
             "GS": "",
             "pct": "53,64"
           }
-        },
-        "periodo": "1964, 1964-65, 1970, 1971, 1972, 1973-76, 1982-83",
-        "total_jogos_historico": 422
+        }
       },
       {
         "col_0": "Levir Culpi",
         "col_1": "1",
         "col_2": "Campeonato Paulista – 2000",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "2000",
+        "total_jogos_historico": 78,
         "stats": {
           "geral": {
             "J": "78",
@@ -843,14 +948,21 @@
             "GS": "110",
             "pct": "61,54"
           }
-        },
-        "periodo": "2000",
-        "total_jogos_historico": 78
+        }
       },
       {
         "col_0": "Nelsinho Baptista",
         "col_1": "1",
         "col_2": "Campeonato Paulista – 1998",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1998, 2001-02",
+        "total_jogos_historico": 108,
         "stats": {
           "geral": {
             "J": "108",
@@ -899,14 +1011,21 @@
             "GS": "",
             "pct": "44,44"
           }
-        },
-        "periodo": "1998, 2001-02",
-        "total_jogos_historico": 108
+        }
       },
       {
         "col_0": "Ney Franco",
         "col_1": "1",
         "col_2": "Copa Sul-Americana – 2012",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "2012-13",
+        "total_jogos_historico": 79,
         "stats": {
           "geral": {
             "J": "79",
@@ -955,14 +1074,21 @@
             "GS": "",
             "pct": "38,89"
           }
-        },
-        "periodo": "2012-13",
-        "total_jogos_historico": 79
+        }
       },
       {
         "col_0": "Osvaldo Brandão",
         "col_1": "1",
         "col_2": "Campeonato Paulista – 1971",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1962-64, 1971",
+        "total_jogos_historico": 142,
         "stats": {
           "geral": {
             "J": "142",
@@ -1011,14 +1137,21 @@
             "GS": "157",
             "pct": "65,96"
           }
-        },
-        "periodo": "1962-64, 1971",
-        "total_jogos_historico": 142
+        }
       },
       {
         "col_0": "Oswaldo Alvarez",
         "col_1": "1",
         "col_2": "Torneio Rio-São Paulo – 2001",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "2001",
+        "total_jogos_historico": 29,
         "stats": {
           "geral": {
             "J": "",
@@ -1067,14 +1200,21 @@
             "GS": "",
             "pct": ""
           }
-        },
-        "periodo": "2001",
-        "total_jogos_historico": 29
+        }
       },
       {
         "col_0": "Oswaldo de Oliveira",
         "col_1": "1",
         "col_2": "Supercampeonato Paulista – 2002",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "2002",
+        "total_jogos_historico": 58,
         "stats": {
           "geral": {
             "J": "57",
@@ -1123,14 +1263,21 @@
             "GS": "81",
             "pct": "61,40"
           }
-        },
-        "periodo": "2002",
-        "total_jogos_historico": 58
+        }
       },
       {
         "col_0": "Pepe",
         "col_1": "1",
         "col_2": "Campeonato Brasileiro – 1986",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1986-87",
+        "total_jogos_historico": 45,
         "stats": {
           "geral": {
             "J": "",
@@ -1179,14 +1326,21 @@
             "GS": "",
             "pct": ""
           }
-        },
-        "periodo": "1986-87",
-        "total_jogos_historico": 45
+        }
       },
       {
         "col_0": "Rubens Minelli",
         "col_1": "1",
         "col_2": "Campeonato Brasileiro – 1977",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1977-1979",
+        "total_jogos_historico": 166,
         "stats": {
           "geral": {
             "J": "166",
@@ -1235,14 +1389,21 @@
             "GS": "",
             "pct": "40,35"
           }
-        },
-        "periodo": "1977-1979",
-        "total_jogos_historico": 166
+        }
       },
       {
         "col_0": "Rubens Salles",
         "col_1": "1",
         "col_2": "Campeonato Paulista – 1931",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1931-32",
+        "total_jogos_historico": 13,
         "stats": {
           "geral": {
             "J": "",
@@ -1291,14 +1452,21 @@
             "GS": "",
             "pct": ""
           }
-        },
-        "periodo": "1931-32",
-        "total_jogos_historico": 13
+        }
       },
       {
         "col_0": "Thiago Carpini",
         "col_1": "1",
         "col_2": "Supercopa do Brasil – 2024",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "",
+        "total_jogos_historico": "",
         "stats": {
           "geral": {
             "J": "",
@@ -1347,14 +1515,21 @@
             "GS": "",
             "pct": ""
           }
-        },
-        "periodo": "",
-        "total_jogos_historico": ""
+        }
       },
       {
         "col_0": "Zezé Moreira",
         "col_1": "1",
         "col_2": "Campeonato Paulista – 1970",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [
+          ""
+        ],
+        "periodo": "1970",
+        "total_jogos_historico": 59,
         "stats": {
           "geral": {
             "J": "",
@@ -1403,9 +1578,839 @@
             "GS": "",
             "pct": ""
           }
-        },
-        "periodo": "1970",
-        "total_jogos_historico": 59
+        }
+      },
+      {
+        "col_0": "Paulo César Carpegiani",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1999, 2010-11",
+        "total_jogos_historico": 114,
+        "stats": {}
+      },
+      {
+        "col_0": "Ricardo Gomes",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2009-10, 2016",
+        "total_jogos_historico": 91,
+        "stats": {}
+      },
+      {
+        "col_0": "Sylvio Pirillo",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1967-68",
+        "total_jogos_historico": 85,
+        "stats": {}
+      },
+      {
+        "col_0": "Diede Lameiro",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1968-69",
+        "total_jogos_historico": 85,
+        "stats": {}
+      },
+      {
+        "col_0": "Mário Juliato",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1976, 1977-1978, 1978-1979, 1979",
+        "total_jogos_historico": 77,
+        "stats": {}
+      },
+      {
+        "col_0": "Clodoaldo Caldeira (Clodô)",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1933-35",
+        "total_jogos_historico": 74,
+        "stats": {}
+      },
+      {
+        "col_0": "Leônidas da Silva",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1950, 1951, 1954-55",
+        "total_jogos_historico": 73,
+        "stats": {}
+      },
+      {
+        "col_0": "Flávio Costa",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1960-61",
+        "total_jogos_historico": 65,
+        "stats": {}
+      },
+      {
+        "col_0": "Mário Travaglini",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1983",
+        "total_jogos_historico": 64,
+        "stats": {}
+      },
+      {
+        "col_0": "Aymoré Moreira",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1962, 1966",
+        "total_jogos_historico": 63,
+        "stats": {}
+      },
+      {
+        "col_0": "Darío Pereyra",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1997-98",
+        "total_jogos_historico": 63,
+        "stats": {}
+      },
+      {
+        "col_0": "Armando Renganeschi",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1958-59",
+        "total_jogos_historico": 56,
+        "stats": {}
+      },
+      {
+        "col_0": "Ramón Platero",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1930, 1940",
+        "total_jogos_historico": 54,
+        "stats": {}
+      },
+      {
+        "col_0": "Roberto Rojas",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2003, 2003",
+        "total_jogos_historico": 52,
+        "stats": {}
+      },
+      {
+        "col_0": "Cuca",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2004",
+        "total_jogos_historico": 51,
+        "stats": {}
+      },
+      {
+        "col_0": "Conrado Ross",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1942-43",
+        "total_jogos_historico": 49,
+        "stats": {}
+      },
+      {
+        "col_0": "Edgardo Bauza",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2016",
+        "total_jogos_historico": 48,
+        "stats": {}
+      },
+      {
+        "col_0": "Mílton Cruz",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1999, 2004, 2005, 2007, 2009, 2010, 2010, 2011, 2011, 2012, 2013, 2014-15, 2015, 2015, 2015",
+        "total_jogos_historico": 43,
+        "stats": {}
+      },
+      {
+        "col_0": "Armando del Debbio",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1936-37",
+        "total_jogos_historico": 42,
+        "stats": {}
+      },
+      {
+        "col_0": "Alfredo Ramos",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1972",
+        "total_jogos_historico": 42,
+        "stats": {}
+      },
+      {
+        "col_0": "Caxambu",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1957, 1961, 1961, 1962, 1962",
+        "total_jogos_historico": 39,
+        "stats": {}
+      },
+      {
+        "col_0": "Oto Vieira",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1964",
+        "total_jogos_historico": 30,
+        "stats": {}
+      },
+      {
+        "col_0": "Pablo Forlán",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1990",
+        "total_jogos_historico": 29,
+        "stats": {}
+      },
+      {
+        "col_0": "José Carlos Serrão",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1983, 1986, 1986, 1987",
+        "total_jogos_historico": 26,
+        "stats": {}
+      },
+      {
+        "col_0": "Juan Carlos Osorio",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2015",
+        "total_jogos_historico": 26,
+        "stats": {}
+      },
+      {
+        "col_0": "Desconhecido",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1930/1931",
+        "total_jogos_historico": 22,
+        "stats": {}
+      },
+      {
+        "col_0": "Tito Rodrigues",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1938",
+        "total_jogos_historico": 22,
+        "stats": {}
+      },
+      {
+        "col_0": "Cláudio Cardoso",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1961",
+        "total_jogos_historico": 22,
+        "stats": {}
+      },
+      {
+        "col_0": "Adílson Batista",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2011",
+        "total_jogos_historico": 22,
+        "stats": {}
+      },
+      {
+        "col_0": "Carlos Alberto Parreira",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1996",
+        "total_jogos_historico": 21,
+        "stats": {}
+      },
+      {
+        "col_0": "Amílcar Barbuy",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1939-1940",
+        "total_jogos_historico": 19,
+        "stats": {}
+      },
+      {
+        "col_0": "João Leal Neto",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1980-81, 1981",
+        "total_jogos_historico": 18,
+        "stats": {}
+      },
+      {
+        "col_0": "Pupo Gimenez",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1988, 1989, 1989, 1990",
+        "total_jogos_historico": 18,
+        "stats": {}
+      },
+      {
+        "col_0": "Waldir de Moraes",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1983, 1984, 1993",
+        "total_jogos_historico": 17,
+        "stats": {}
+      },
+      {
+        "col_0": "Ariston de Oliveira",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1951",
+        "total_jogos_historico": 16,
+        "stats": {}
+      },
+      {
+        "col_0": "Ignác Amsel",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1939",
+        "total_jogos_historico": 15,
+        "stats": {}
+      },
+      {
+        "col_0": "Manoel Raymundo Paes de Almeida",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1958, 1958, 1961",
+        "total_jogos_historico": 15,
+        "stats": {}
+      },
+      {
+        "col_0": "Remo Januzzi",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1960",
+        "total_jogos_historico": 14,
+        "stats": {}
+      },
+      {
+        "col_0": "Sérgio Baresi",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2010",
+        "total_jogos_historico": 14,
+        "stats": {}
+      },
+      {
+        "col_0": "Eugenio Medgyessy (Marinetti)",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1932-33",
+        "total_jogos_historico": 13,
+        "stats": {}
+      },
+      {
+        "col_0": "André Jardine",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2016, 2016, 2016",
+        "total_jogos_historico": 13,
+        "stats": {}
+      },
+      {
+        "col_0": "Silva",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1991, 2007",
+        "total_jogos_historico": 12,
+        "stats": {}
+      },
+      {
+        "col_0": "Vail Mota",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1972",
+        "total_jogos_historico": 10,
+        "stats": {}
+      },
+      {
+        "col_0": "Mário Sergio",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1998",
+        "total_jogos_historico": 10,
+        "stats": {}
+      },
+      {
+        "col_0": "Márcio Araújo",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1993",
+        "total_jogos_historico": 8,
+        "stats": {}
+      },
+      {
+        "col_0": "Doriva",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2015",
+        "total_jogos_historico": 7,
+        "stats": {}
+      },
+      {
+        "col_0": "Vizolli",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2016",
+        "total_jogos_historico": 7,
+        "stats": {}
+      },
+      {
+        "col_0": "Mário Cunha Bueno",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1930",
+        "total_jogos_historico": 6,
+        "stats": {}
+      },
+      {
+        "col_0": "Jair Rosa Pinto",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1963",
+        "total_jogos_historico": 6,
+        "stats": {}
+      },
+      {
+        "col_0": "Décio Pedroso",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1939",
+        "total_jogos_historico": 5,
+        "stats": {}
+      },
+      {
+        "col_0": "Zarzur",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1947",
+        "total_jogos_historico": 5,
+        "stats": {}
+      },
+      {
+        "col_0": "Íthon Fritzen",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1981",
+        "total_jogos_historico": 5,
+        "stats": {}
+      },
+      {
+        "col_0": "Pintado",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2016, 2016",
+        "total_jogos_historico": 3,
+        "stats": {}
+      },
+      {
+        "col_0": "Cosme Damião Geraldino",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1972",
+        "total_jogos_historico": 2,
+        "stats": {}
+      },
+      {
+        "col_0": "Pita",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1998",
+        "total_jogos_historico": 2,
+        "stats": {}
+      },
+      {
+        "col_0": "Armando Gomes",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1939",
+        "total_jogos_historico": 1,
+        "stats": {}
+      },
+      {
+        "col_0": "Jaime Janessi",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1948",
+        "total_jogos_historico": 1,
+        "stats": {}
+      },
+      {
+        "col_0": "Comissão de Atletas",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1961",
+        "total_jogos_historico": 1,
+        "stats": {}
+      },
+      {
+        "col_0": "Hélio José Maffia",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1971",
+        "total_jogos_historico": 1,
+        "stats": {}
+      },
+      {
+        "col_0": "Alcides Romano Jr",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1978",
+        "total_jogos_historico": 1,
+        "stats": {}
+      },
+      {
+        "col_0": "Bebeto de Oliveira",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1984",
+        "total_jogos_historico": 1,
+        "stats": {}
+      },
+      {
+        "col_0": "Fernando Soares",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "1999",
+        "total_jogos_historico": 1,
+        "stats": {}
+      },
+      {
+        "col_0": "Ivo Secchi",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2001",
+        "total_jogos_historico": 1,
+        "stats": {}
+      },
+      {
+        "col_0": "Waldemar Lemos de Oliveira",
+        "col_1": "0",
+        "col_2": "",
+        "foto": "",
+        "fotoBg": "",
+        "anos": "",
+        "nasc": "",
+        "bios": [],
+        "periodo": "2003",
+        "total_jogos_historico": 1,
+        "stats": {}
       }
     ]
   },
@@ -1448,20 +2453,6 @@
         "col_4": "Camp. Paulista 1943, Pacaembu: 0x0 Palmeiras-SP"
       },
       {
-        "col_0": "Vicente Feola",
-        "col_1": "40,1",
-        "col_2": "01/11/1909",
-        "col_3": "20/11/49",
-        "col_4": "Camp. Paulista 1949, Pacaembu: 3×1 Santos-SP"
-      },
-      {
-        "col_0": "Muricy Ramalho",
-        "col_1": "40,2",
-        "col_2": "30/11/1955",
-        "col_3": "12/02/96",
-        "col_4": "Master Conmebol 1996, Verdão: 3×0 Atlético-MG"
-      },
-      {
         "col_0": "Rubens Salles",
         "col_1": "40,2",
         "col_2": "14/10/1891",
@@ -1481,20 +2472,6 @@
         "col_2": "06/07/1912",
         "col_3": "24/01/54",
         "col_4": "Camp. Paulista 1953, Vila Belmiro: 3×1 Santos-SP"
-      },
-      {
-        "col_0": "Joreca",
-        "col_1": "41,7",
-        "col_2": "07/01/1904",
-        "col_3": "16/09/45",
-        "col_4": "Camp. Paulista 1945, Pacaembu: 3×2 Ypiranga-SP"
-      },
-      {
-        "col_0": "Joreca",
-        "col_1": "42,8",
-        "col_2": "07/01/1904",
-        "col_3": "10/11/46",
-        "col_4": "Camp. Paulista 1946, Pacaembu: 1×0 Palmeiras-SP"
       },
       {
         "col_0": "Oswaldo Alvarez",
@@ -1539,13 +2516,6 @@
         "col_4": "Camp. Paulista 1998, Morumbi: 3×1 Corinthians-SP"
       },
       {
-        "col_0": "Cilinho",
-        "col_1": "48,6",
-        "col_2": "09/02/1939",
-        "col_3": "30/08/87",
-        "col_4": "Camp. Paulista 1987, Morumbi: 0x0 Corinthians-SP"
-      },
-      {
         "col_0": "Paulo Autuori",
         "col_1": "48,9",
         "col_2": "25/08/1956",
@@ -1558,27 +2528,6 @@
         "col_2": "19/12/1928",
         "col_3": "05/03/78",
         "col_4": "Camp. Brasileiro 1977, Mineirão: 0x0 Atlético-MG"
-      },
-      {
-        "col_0": "Paulo Autuori",
-        "col_1": "49,3",
-        "col_2": "25/08/1956",
-        "col_3": "18/12/05",
-        "col_4": "Mundial 2005, International Y.: 1×0 Liverpool-ING"
-      },
-      {
-        "col_0": "Carlos Alberto Silva",
-        "col_1": "49,9",
-        "col_2": "14/08/1939",
-        "col_3": "02/07/89",
-        "col_4": "Camp. Paulista 1989, Morumbi: 0x0 São José-SP"
-      },
-      {
-        "col_0": "Muricy Ramalho",
-        "col_1": "51,0",
-        "col_2": "30/11/1955",
-        "col_3": "19/11/06",
-        "col_4": "Camp. Brasileiro 2006, Morumbi: 1×1 Atlético-PR"
       },
       {
         "col_0": "Oswaldo de Oliveira",
@@ -1595,25 +2544,11 @@
         "col_4": "Camp. Paulista 1981, Morumbi: 2×0 Ponte Preta-SP"
       },
       {
-        "col_0": "Muricy Ramalho",
-        "col_1": "51,9",
-        "col_2": "30/11/1955",
-        "col_3": "31/10/07",
-        "col_4": "Camp. Brasileiro 2007, Morumbi: 3×0 América-RN"
-      },
-      {
         "col_0": "Pepe",
         "col_1": "52,0",
         "col_2": "25/02/1935",
         "col_3": "25/02/87",
         "col_4": "Camp. Brasileiro 1986, B. de Ouro: 3×3 Guarani-SP"
-      },
-      {
-        "col_0": "Muricy Ramalho",
-        "col_1": "53,0",
-        "col_2": "30/11/1955",
-        "col_3": "07/12/08",
-        "col_4": "Camp. Brasileiro 2008, Bezerrão: 1×0 Goiás-GO"
       },
       {
         "col_0": "Osvaldo Brandão",
@@ -1644,74 +2579,11 @@
         "col_4": "Camp. Brasileiro 1991, M. Stéfani: 0x0 Bragantino-SP"
       },
       {
-        "col_0": "Telê Santana",
-        "col_1": "60,4",
-        "col_2": "26/07/1931",
-        "col_3": "15/12/91",
-        "col_4": "Camp. Paulista 1991, Morumbi: 0x0 Corinthians-SP"
-      },
-      {
-        "col_0": "Telê Santana",
-        "col_1": "60,9",
-        "col_2": "26/07/1931",
-        "col_3": "17/06/92",
-        "col_4": "Libertadores 1992, Morumbi: 1×0 Newell’s OB-ARG"
-      },
-      {
-        "col_0": "Telê Santana",
-        "col_1": "61,4",
-        "col_2": "26/07/1931",
-        "col_3": "13/12/92",
-        "col_4": "Mundial 1992, Nacional T.: 2×1 Barcelona-ESP"
-      },
-      {
-        "col_0": "Telê Santana",
-        "col_1": "61,4",
-        "col_2": "26/07/1931",
-        "col_3": "20/12/92",
-        "col_4": "Camp. Paulista 1992, Morumbi: 2×1 Palmeiras-SP"
-      },
-      {
         "col_0": "Dorival Júnior",
         "col_1": "61,4",
         "col_2": "25/04/1962",
         "col_3": "24/09/23",
         "col_4": "Copa do Brasil 2023, Morumbi: 1×1 Flamengo-RJ"
-      },
-      {
-        "col_0": "Telê Santana",
-        "col_1": "61,8",
-        "col_2": "26/07/1931",
-        "col_3": "26/05/93",
-        "col_4": "Libertadores 1993, Nacional S.: 0x2 Univ. Católica-CHL"
-      },
-      {
-        "col_0": "Telê Santana",
-        "col_1": "62,2",
-        "col_2": "26/07/1931",
-        "col_3": "29/09/93",
-        "col_4": "Recopa 1993, Mineirão: 0x0 Cruzeiro-MG"
-      },
-      {
-        "col_0": "Telê Santana",
-        "col_1": "62,3",
-        "col_2": "26/07/1931",
-        "col_3": "24/11/93",
-        "col_4": "Supercopa 1993, Morumbi: 2×2 Flamengo-RJ"
-      },
-      {
-        "col_0": "Telê Santana",
-        "col_1": "62,4",
-        "col_2": "26/07/1931",
-        "col_3": "12/12/93",
-        "col_4": "Mundial 1993, Nacional T.: 3×2 Milan-ITA"
-      },
-      {
-        "col_0": "Telê Santana",
-        "col_1": "62,7",
-        "col_2": "26/07/1931",
-        "col_3": "03/04/94",
-        "col_4": "Recopa 1994, Univ. Kobe: 3×1 Botafogo-RJ"
       },
       {
         "col_0": "Zezé Moreira",
