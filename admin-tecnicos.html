@@ -170,6 +170,15 @@
       border-left: 2px solid var(--gold);
     }
     .coach-item.active .ci-name { color: var(--gold); }
+    .coach-item .ci-del {
+      display: none; margin-left: auto; flex-shrink: 0;
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); padding: 4px; border-radius: 4px;
+      line-height: 0;
+    }
+    .coach-item .ci-del:hover { color: #C05050; background: rgba(200,16,46,.1); }
+    .coach-item:hover .ci-del { display: flex; }
+    .coach-item.active .ci-del { display: flex; }
     .ci-num {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 18px; font-weight: 900;
@@ -624,7 +633,9 @@ function renderSidebar(list) {
         <div class="ci-name">${c.col_0}</div>
         <div class="ci-sub">${firstTitle(c.col_2)}</div>
       </div>
-      <span class="ci-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>`;
+      <button class="ci-del" title="Excluir técnico" onclick="event.stopPropagation();deleteCoach(${realIdx})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+      </button>`;
     el.appendChild(div);
   });
 }
@@ -1045,6 +1056,25 @@ function markUnsaved() {
   unsaved = true;
   const dot = document.getElementById('unsavedDot');
   if (dot) dot.classList.add('visible');
+}
+
+function deleteCoach(idx) {
+  const c = COACHES[idx];
+  if (!confirm(`Excluir "${c.col_0}"? Esta ação não pode ser desfeita.`)) return;
+  localStorage.removeItem('extra_' + c.col_0);
+  delete EXTRA[c.col_0];
+  delete AGE_MAP[c.col_0];
+  COACHES.splice(idx, 1);
+  if (currentIdx >= COACHES.length) currentIdx = COACHES.length - 1;
+  renderSidebar(COACHES);
+  updateStats();
+  if (COACHES.length > 0) {
+    loadCoach(currentIdx);
+  } else {
+    document.getElementById('editorContent').style.display = 'none';
+    document.getElementById('editorEmpty').style.display = 'flex';
+  }
+  showToast(`Técnico "${c.col_0}" excluído.`);
 }
 
 function addCoach() {
