@@ -2,12 +2,12 @@
 <!-- saved from url=(0044)file:///C:/Users/vitor/Downloads/quiz_1.html -->
 <html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#CC0000">
 <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;&gt;&lt;text y=&#39;.9em&#39; font-size=&#39;90&#39;&gt;%F0%9F%8F%86&lt;/text&gt;&lt;/svg&gt;">
 <title>SPFC Quiz — Quem Quer Ser Torcedor Milionário?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
-<link href="./quiz_files/css2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
 <!-- ══ FIREBASE SDK ══ -->
 <script type="module">
@@ -1436,51 +1436,39 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 }
 
 </style>
-</head>
-<body>
+<link rel="stylesheet" href="quiz-premium.css?v=sports-4"><link rel="stylesheet" href="quiz-sports.css?v=5"></head>
+<body class="premium-quiz"><div class="arena-shellbar"><a href="index.html"><img src="assets/logo-original.png" alt="SPFC Hoje"><span>SPFC HOJE <small>MEMÓRIA TRICOLOR</small></span></a><span class="arena-shelltag">ARENA TRICOLOR <i> / </i> QUIZ</span><a class="arena-return" href="index.html">← Voltar ao calendário</a></div>
 
 <!-- ══ SCREEN: HOME ═══════════════════════════════ -->
-<div class="screen active" id="screen-home">
+<div class="screen active" id="screen-home">      <!-- TOPBAR -->
+      <div class="home-topbar">
+        <div class="home-tb-logo"><small>O SEU LUGAR NA TORCIDA</small><strong>Vamos jogar?</strong></div>
+        <div class="home-tb-right">
+          <div class="home-tb-bell" onclick="toggleMusic()" id="musicToggleHome">🔔</div>
+          <div class="home-tb-avatar" id="userChipHome" onclick="irParaCadastro()">
+            <img src="assets/logo-original.png" alt="SPFC" id="homeAvatarImg" style="display: none;">
+          </div>
+        </div>
+      </div>
+
+<div class="sports-modes" aria-label="Modos e desafios"><button onclick="startGame()"><span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m12 7 5 4-2 6H9l-2-6 5-4Z M12 3v4m9 5-4-1m0 9-2-3M7 20l2-3m-6-5 4-1"/></svg></span><b>Quiz</b></button><button onclick="goScreenWordle()"><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><b>Wondler</b></button><button onclick="goScreenDesafios()"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 2-9 12h6l-1 8 9-12h-6l1-8Z"/></svg></span><b>Desafios</b></button><button onclick="goScreen('screen-ranking')"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8v7a4 4 0 0 1-8 0ZM8 5H4v3a4 4 0 0 0 4 4m8-7h4v3a4 4 0 0 1-4 4m-4 2v6m-4 1h8"/></svg></span><b>Ranking</b></button></div>
 
   <!-- ===== HERO SECTION (NOVO DESIGN) ===== -->
   <div class="home-hero-bg">
     <div class="home-hero-overlay"></div>
     <div class="home-hero-content">
 
-      <!-- TOPBAR -->
-      <div class="home-topbar">
-        <div class="home-tb-logo"><span>SPFC</span> QUIZ</div>
-        <div class="home-tb-right">
-          <div class="home-tb-bell" onclick="toggleMusic()" id="musicToggleHome">🔔</div>
-          <div class="home-tb-avatar" id="userChipHome" onclick="irParaCadastro()">
-            <img src="./quiz_files/Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" id="homeAvatarImg" onerror="this.src=&#39;https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png&#39;" style="display: none;">
-          </div>
-        </div>
-      </div>
-
-      <!-- SHIELD + STARS -->
-      <div class="home-shield-wrap">
-        <div class="home-stars">
-          <span class="star-gold">⭐</span>
-          <span class="star-red">⭐</span>
-          <span class="star-red">⭐</span>
-          <span class="star-red">⭐</span>
-          <span class="star-gold">⭐</span>
-        </div>
-        <img class="home-shield" src="./quiz_files/Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC" onerror="this.src=&#39;https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Brasao_do_Sao_Paulo_Futebol_Clube.svg/120px-Brasao_do_Sao_Paulo_Futebol_Clube.svg.png&#39;">
-      </div>
-
       <!-- TITLE -->
       <div class="home-title-group">
-        <div class="home-title-line1">VOCÊ É</div>
-        <div class="home-title-line2">TRICOLOR</div>
-        <div class="home-title-line3">DE VERDADE?</div>
+        <div class="home-title-line1">DESAFIO CLÁSSICO <span>6 NÍVEIS</span></div>
+        <div class="home-title-line2">A CAMISA<br>PESA.</div>
+        <div class="home-title-line3">Sua memória decide.</div>
       </div>
 
       <!-- SUBTITLE -->
       <div class="home-subtitle">
-        Prove seu conhecimento sobre<br>
-        <span>a história do São Paulo FC</span>
+        Entre em campo com a história<br>
+        <span>do São Paulo FC.</span>
       </div>
 
       <!-- CTA BUTTON -->
@@ -1499,6 +1487,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div>
   </div>
 
+  <div class="sports-section"><h2>Sua jornada</h2><span>Cada acerto conta.</span></div>
   <!-- ===== STATS ROW (NOVO DESIGN) ===== -->
   <div class="home-stats-row">
     <div class="home-stat-card">
@@ -1511,7 +1500,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="home-stat-icon">🏆</div>
       <div class="home-stat-num" id="statPergs">180+</div>
       <div class="home-stat-label">QUESTÕES</div>
-      <div class="home-stat-sublabel">RESPONDIDAS</div>
+      <div class="home-stat-sublabel">NO ACERVO</div>
     </div>
     <div class="home-stat-card">
       <div class="home-stat-icon">🔷</div>
@@ -1556,21 +1545,21 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="home-ranking-list" id="homeRankingList">
     <div class="home-rank-item">
       <span class="home-rank-num">1</span>
-      <img class="home-rank-avatar" src="./quiz_files/juju_rw3xvq.png" alt="" onerror="this.style.display=&#39;none&#39;">
+      <img class="home-rank-avatar" src="assets/logo-original.png" alt="">
       <span class="home-rank-name">BlackRedWhite</span>
       <span class="home-rank-pts">29.256</span>
     </div>
   
     <div class="home-rank-item">
       <span class="home-rank-num">2</span>
-      <img class="home-rank-avatar" src="./quiz_files/sara_obqp7y.png" alt="" onerror="this.style.display=&#39;none&#39;">
+      <img class="home-rank-avatar" src="assets/logo-original.png" alt="">
       <span class="home-rank-name">Astronauta633</span>
       <span class="home-rank-pts">12.850</span>
     </div>
   
     <div class="home-rank-item">
       <span class="home-rank-num">3</span>
-      <img class="home-rank-avatar" src="./quiz_files/keanu_vronzk.png" alt="" onerror="this.style.display=&#39;none&#39;">
+      <img class="home-rank-avatar" src="assets/logo-original.png" alt="">
       <span class="home-rank-name">QueAnoHorrivis</span>
       <span class="home-rank-pts">9.780</span>
     </div>
@@ -1863,7 +1852,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="avatar-title">SEU AVATAR</div>
     <div class="avatar-sub">ESCOLHA SEU PERSONAGEM TRICOLOR</div>
     <div class="avatar-preview">
-      <img class="avatar-selected-img" id="avatarPreviewImg" src="./quiz_files/quiz_1.html" alt="avatar" style="display:none">
+      <img class="avatar-selected-img" id="avatarPreviewImg" src="assets/logo-original.png" alt="avatar" style="display:none">
       <div class="avatar-placeholder" id="avatarPlaceholder">👤</div>
     </div>
 
@@ -1899,7 +1888,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="quiz-lives-mini" id="quizLivesMini"></div>
     </div>
     <div class="quiz-header-center">
-      <img class="quiz-header-logo" src="./quiz_files/Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC">
+      <img class="quiz-header-logo" src="assets/logo-original.png" alt="SPFC">
     </div>
     <div class="quiz-header-right">
       <div class="quiz-ranking-badge">🏆 <span>RANKING</span></div>
@@ -1974,7 +1963,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="quiz-bottom-bar">
     <button class="quiz-bottom-btn" onclick="usePular()" id="quizBtnPular">⏭ PULAR</button>
     <div class="quiz-bottom-player">
-      <img class="quiz-player-shield" src="./quiz_files/Brasao_do_Sao_Paulo_Futebol_Clube.svg.png" alt="SPFC">
+      <img class="quiz-player-shield" src="assets/logo-original.png" alt="SPFC">
       <div class="quiz-player-info">
         <div class="quiz-player-label">TORCEDOR</div>
         <div class="quiz-player-level" id="quizPlayerLevel">NÍVEL 1</div>

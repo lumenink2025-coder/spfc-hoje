@@ -176,7 +176,7 @@ input[type=file]{display:none;}
 #stb:hover{background:var(--rd);transform:scale(1.1);}
 #stb.show{display:flex;}
 </style>
-</head>
+<link rel="stylesheet" href="cartel-premium.css?v=1"></head>
 <body>
 
 <!-- LOADING -->
@@ -187,13 +187,13 @@ input[type=file]{display:none;}
 
 <header id="hdr" style="display:none">
 <div class="htop">
-  <a class="nav-back" href="main.html" aria-label="Voltar">
+  <a class="nav-back" href="index.html" aria-label="Voltar">
     <i class="fas fa-chevron-left"></i> Voltar
   </a>
-  <img class="escudo" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" alt="SPFC">
+  <img class="escudo" src="assets/logo-original.png" alt="SPFC">
   <div class="htitle">
     <h1>Cartel <em>Tricolor</em></h1>
-    <p>Histórico de Jogadores</p>
+    <p>Eles vestiram o manto</p>
   </div>
 </div>
 <div class="hsub">
@@ -212,7 +212,7 @@ input[type=file]{display:none;}
   <div class="sitem"><div class="snum" id="sgames">0</div><div class="slbl">Total Jogos</div></div>
 </div>
 <div id="ctrl">
-  <div class="sbox"><span class="sicon">🔍</span><input type="text" id="search" placeholder="Buscar jogador..." autocomplete="off"></div>
+  <div class="sbox"><span class="sicon">🔍</span><input type="text" id="search" aria-label="Buscar jogador" placeholder="Buscar jogador..." autocomplete="off"></div>
   <div class="fgrp" id="pfilt">
     <button class="fbtn on" data-p="ALL">Todos</button>
     <button class="fbtn" data-p="TEC">TEC</button>
@@ -221,13 +221,13 @@ input[type=file]{display:none;}
     <button class="fbtn" data-p="DF">DF</button><button class="fbtn" data-p="VL">VL</button>
     <button class="fbtn" data-p="MC">MC</button><button class="fbtn" data-p="AT">AT</button>
   </div>
-  <select class="sel" id="dfilt">
+  <select class="sel" id="dfilt" aria-label="Filtrar por década">
     <option value="ALL">Todas as décadas</option>
     <option value="1930">1930s</option><option value="1940">1940s</option><option value="1950">1950s</option>
     <option value="1960">1960s</option><option value="1970">1970s</option><option value="1980">1980s</option>
     <option value="1990">1990s</option><option value="2000">2000s</option><option value="2010">2010s</option><option value="2020">2020s</option>
   </select>
-  <select class="sel" id="sfilt">
+  <select class="sel" id="sfilt" aria-label="Ordenar jogadores">
     <option value="alfa">Ordenar: Alfabético</option>
     <option value="jogos">Mais jogos</option>
     <option value="vitorias">Mais vitórias</option>
@@ -235,8 +235,8 @@ input[type=file]{display:none;}
     <option value="ano">Por ano</option>
   </select>
   <div class="vtog">
-    <button class="vbtn on" id="vg">⊞</button>
-    <button class="vbtn" id="vl">☰</button>
+    <button class="vbtn on" id="vg" aria-label="Visualizar em grade">⊞</button>
+    <button class="vbtn" id="vl" aria-label="Visualizar em lista">☰</button>
   </div>
 </div>
 </header>
@@ -377,8 +377,8 @@ function render(){
       gN++;
       const idx=p._idx, foto=getFoto(idx), hasT=(p.titulos||[]).length>0, ini=initials(p.nome);
       const firstT=hasT?(p.titulos[0].length>42?p.titulos[0].substring(0,40)+'…':p.titulos[0]):'';
-      html+=`<div class="pcard${hasT?' has-titles':''}${foto?' has-foto':''}" data-idx="${idx}">
-<div class="pthumb">${foto?`<img src="${foto}" alt="" onerror="this.style.display='none'">`:`<span class="ini">${ini}</span>`}</div>
+      html+=`<div class="pcard${hasT?' has-titles':''}${foto?' has-foto':''}" data-idx="${idx}" tabindex="0" role="button">
+<div class="pthumb">${foto?`<img src="${foto}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">`:`<span class="ini">${ini}</span>`}</div>
 <div class="pnum">${String(gN).padStart(3,'0')}</div>
 <div class="pinfo"><div class="pnome">${p.nome}</div><div class="pmeta"><span>${p.ano}</span> · ${p.jogos} jogo${p.jogos!==1?'s':''}</div>${hasT?`<div class="ptrofeu">🏆 ${firstT}</div>`:''}</div>
 </div>`;
@@ -400,7 +400,7 @@ function openModal(idx){
   curModalIdx=idx;
   const foto=getFoto(idx), ini=initials(p.nome);
   document.getElementById('mphoto').innerHTML=(foto
-    ?`<img src="${foto}" alt="" onerror="this.parentElement.innerHTML='<span class=mfoto-ini-big>${ini}</span>'">`
+    ?`<img src="${foto}" alt="" loading="lazy" decoding="async" onerror="this.parentElement.innerHTML='<span class=mfoto-ini-big>${ini}</span>'">`
     :`<span class="mfoto-ini-big">${ini}</span>`)
     +`<div class="mpnum-big">${p.posicao}</div>`;
   document.getElementById('mpbadge').textContent=p.posicao+' · '+p.ano;
@@ -452,5 +452,5 @@ if(window.self !== window.top){
 }
 
 </script>
-</body>
+<script>document.getElementById("content").addEventListener("keydown",e=>{const c=e.target.closest(".pcard");if(c&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openModal(Number(c.dataset.idx));}});</script></body>
 </html>

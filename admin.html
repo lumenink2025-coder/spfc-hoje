@@ -290,14 +290,14 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
   <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js">
   <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js">
   <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js">
-</head>
-<body>
+<link rel="stylesheet" href="suite-premium.css?v=20261023"><link rel="stylesheet" href="admin-premium.css?v=editorial-fix2"></head>
+<body data-suite="admin">
 
 <!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-box">
-    <div class="login-logo">SPFC</div>
-    <div class="login-sub">PAINEL ADMIN</div>
+    <img class="admin-brand" src="assets/logo-original.png" alt="SPFC Hoje"><div class="login-logo">Seu acervo.<br>Sua história.</div>
+    <div class="login-sub">SPFC HOJE · ESTÚDIO DE CONTEÚDO</div>
     <label for="loginPass" style="display:none">Senha de acesso</label>
     <input class="login-input" id="loginPass" type="password" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter')window._doLogin&&window._doLogin()">
     <button class="login-btn" onclick="window._doLogin&&window._doLogin()">ENTRAR</button>
@@ -311,7 +311,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-logo-area">
-      <div class="sidebar-logo">ADMIN</div>
+      <div class="sidebar-logo">SPFC <span>STUDIO</span></div>
       <div class="sidebar-sub">SPFC — HISTÓRICO</div>
     </div>
     <div class="sidebar-sep"></div>
@@ -351,9 +351,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
       </button>
     </nav>
     <div class="sidebar-bottom">
-      <button class="sidebar-bottom-btn">
-        <span class="tab-icon">⚙</span> Configurações
-      </button>
+      
       <button class="sidebar-bottom-btn" onclick="doLogout()">
         <span class="tab-icon">→</span> Sair
       </button>
@@ -362,17 +360,17 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 
   <!-- MAIN -->
   <div class="admin-main">
-    <div class="admin-topbar">
+    <div class="admin-topbar"><button id="adminMenu" class="admin-menu" aria-label="Abrir navegação" aria-expanded="false">☰</button>
       <div id="pageHeaderArea">
         <div class="admin-page-title" id="pageTitle">Novo Evento</div>
         <div class="admin-page-sub" id="pageSubtitle">Crie um novo evento para o histórico.</div>
       </div>
-      <button class="theme-btn">
+      <a class="theme-btn" href="main.html" style="text-decoration:none">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        Tema Escuro
-      </button>
+        Abrir aplicativo
+      </a>
     </div>
-    <div class="admin-content">
+    <div class="admin-content"><nav class="admin-quicknav" aria-label="Todas as funções do admin"><button type="button" data-admin-target="add">+ Novo Evento</button><button type="button" data-admin-target="list">📋 Eventos</button><button type="button" data-admin-target="migrate">⚙️ Migrar Dados</button><button type="button" data-admin-target="perguntas">? Perguntas</button><button type="button" data-admin-target="wordle">W Wordle</button><button type="button" data-admin-target="relatos">📄 Relatos</button><button type="button" data-admin-target="destaque">☆ Destaque</button><button type="button" data-admin-target="palpite">↗ Palpitômetro</button><button type="button" data-admin-target="tematico">◇ Sexta Temática</button><button type="button" data-admin-target="jogos">⚽ Jogos</button><button type="button" data-admin-target="goleadores">🥅 Goleadores</button></nav><div class="workspace-note"><span>SEU ESPAÇO DE CRIAÇÃO</span><a href="main.html" target="_blank" rel="noopener">Ver aplicativo ↗</a></div>
 
   <!-- hidden legacy tabs wrapper (shown below) -->
 
@@ -1254,7 +1252,8 @@ window._doLogin = window.doLogin = async function() {
   }
 };
 
-window.doLogout = function() {
+window.doLogout = async function() {
+  await signOut(auth);
   document.getElementById('loginScreen').style.display = 'flex';
   const as = document.getElementById('adminScreen');
   as.style.display = 'none';
@@ -3322,5 +3321,5 @@ window.exportarJogosJSON = function() {
 };
 
 </script>
-</body>
+<button id="adminScrim" class="admin-scrim" aria-label="Fechar navegação"></button><script src="admin-ui.js?v=editorial-fix2"></script></body>
 </html>

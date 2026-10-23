@@ -1,0 +1,65 @@
+{
+  "026-W25": {
+    "tema": "Copa 2026",
+    "emoji": "🔥",
+    "descricao": "A relação seleção brasileira e o SPFC",
+    "imagem": "https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780353488/4e28dfe7-13ac-4490-8298-8f3143224c69_uohump.png",
+    "perguntas": [
+      {
+        "q": "Qual ídolo tricolor foi o capitão da Seleção Brasileira na Copa do Mundo de 1954, na Suíça?",
+        "o": [
+          "Bauer",
+          "Mauro Ramos",
+          "De Sordi",
+          "Bellini"
+        ],
+        "c": 0,
+        "diff": 2
+      },
+      {
+        "q": "Qual craque era o único representante do São Paulo FC no elenco do Tri em 1970?",
+        "o": [
+          "Terto",
+          "Toninho Guerreiro",
+          "Gérson",
+          "Paraná"
+        ],
+        "c": 2,
+        "diff": 4
+      },
+      {
+        "q": "Qual zagueiro do São Paulo foi convocado para a Copa de 1994 para substituir o cortado Ricardo Gomes?",
+        "o": [
+          "Válber",
+          "Ronaldão",
+          "Oscar",
+          "MIranda"
+        ],
+        "c": 1,
+        "diff": 2
+      },
+      {
+        "q": "Quem foi o goleiro titular da Seleção Brasileira na Copa da Espanha, em 1982, pertencendo ao São Paulo?",
+        "o": [
+          "Zetti",
+          "Gilmar",
+          "King",
+          "Waldir Peres"
+        ],
+        "c": 3,
+        "diff": 2
+      },
+      {
+        "q": "Qual lateral-direito do São Paulo foi titular em 5 dos 6 jogos da Copa de 1958, perdendo apenas a final?",
+        "o": [
+          "Djalma Santos",
+          "Oreco",
+          "De Sordi",
+          "Belleti"
+        ],
+        "c": 2,
+        "diff": 2
+      }
+    ]
+  }
+}
