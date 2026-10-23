@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-const CACHE_NAME='spfc-hoje-premium-20261023-profile-about-4';
+const CACHE_NAME='spfc-hoje-premium-20261023-profile-about-5';
 const ASSETS=['./index.html','./main.html','./style.css','./app.js','./account.js','./events.js','./manifest.json','./assets/logo-original.png'];
 =======
 const CACHE_NAME='spfc-hoje-premium-20261023-editorial-3';
