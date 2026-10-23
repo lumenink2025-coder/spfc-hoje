@@ -1,4 +1,4 @@
-const CACHE_NAME='spfc-hoje-premium-20261023-editorial-2';
+const CACHE_NAME='spfc-hoje-premium-20261023-editorial-3';
 const ASSETS=['./index.html','./main.html','./style.css','./app.js','./events.js','./manifest.json','./assets/logo-original.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('spfc-hoje-')&&k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
