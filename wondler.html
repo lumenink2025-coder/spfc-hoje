@@ -1023,7 +1023,7 @@ html,body{
   }
 }
 </style>
-<link rel="stylesheet" href="suite-premium.css?v=20261023"></head>
+<link rel="stylesheet" href="suite-premium.css?v=20261025-r6"><link rel="stylesheet" href="pwa.css?v=20261025-r6"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"><script src="js/data-service.js?v=20261025-r6"></script></head>
 <body data-suite="wondler">
 
 <div class="app" id="app">
@@ -1268,12 +1268,10 @@ async function init(){
 }
 
 async function loadDB(){
-  try{
-    const res=await fetch('/data/wordle.json?v='+Date.now(),{signal:AbortSignal.timeout(6000)});
-    if(!res.ok)throw new Error('not found');
-    const lista=await res.json();
-    if(lista&&lista.length>0)DB=lista;
-  }catch(e){console.warn('Usando DB local:',e.message);}
+  try {
+    const items = await SPFCData.list('wordle_jogadores', 'data/wordle.json');
+    if (items?.length) DB = items;
+  } catch(e) { console.warn('Usando base local:', e.message); }
 }
 
 /* ── SCROLL HEADER ── */
@@ -1444,7 +1442,7 @@ function showResult(){
   const isWin=STATE.won;
   const EMJI={hit:'🟡',near:'🟠',miss:'🔴'};
   const emojiGrid=STATE.guesses.map(g=>g.cells.map(c=>EMJI[c.cls]).join('')).join('\n');
-  const shareText=`🔴 WONDLER #${STATE.edition+1} ${isWin?STATE.guesses.length+'/6':'X/6'}\n${emojiGrid}\nspfc-hoje.vercel.app/wondler.html`;
+  const shareText=`🔴 WONDLER #${STATE.edition+1} ${isWin?STATE.guesses.length+'/6':'X/6'}\n${emojiGrid}\n${new URL("wondler.html",location.href).href}`;
 
   const el=document.getElementById('resultSection');
   el.innerHTML=`
@@ -1615,5 +1613,5 @@ setTimeout(()=>{
   }
 },3000);
 </script>
-</body>
+<script src="pwa.js?v=20261025-r6"></script></body>
 </html>

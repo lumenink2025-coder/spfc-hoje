@@ -290,7 +290,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
   <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js">
   <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js">
   <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js">
-<link rel="stylesheet" href="suite-premium.css?v=20261023"><link rel="stylesheet" href="admin-premium.css?v=editorial-fix2"></head>
+<link rel="stylesheet" href="suite-premium.css?v=20261025-r6"><link rel="stylesheet" href="admin-premium.css?v=editorial-fix2"><link rel="stylesheet" href="pwa.css?v=20261025-r6"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head>
 <body data-suite="admin">
 
 <!-- LOGIN -->
@@ -337,9 +337,6 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
       <button class="admin-tab" onclick="showTab('destaque',this);loadDestaqueTab()" data-tab="destaque">
         <span class="tab-icon">☆</span> Destaque
       </button>
-      <button class="admin-tab" onclick="showTab('palpite',this);loadPalpiteAdmin()" data-tab="palpite">
-        <span class="tab-icon">↗</span> Palpitômetro
-      </button>
       <button class="admin-tab" onclick="showTab('tematico',this);loadTematico()" data-tab="tematico">
         <span class="tab-icon">◇</span> Sexta Temática
       </button>
@@ -370,7 +367,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
         Abrir aplicativo
       </a>
     </div>
-    <div class="admin-content"><nav class="admin-quicknav" aria-label="Todas as funções do admin"><button type="button" data-admin-target="add">+ Novo Evento</button><button type="button" data-admin-target="list">📋 Eventos</button><button type="button" data-admin-target="migrate">⚙️ Migrar Dados</button><button type="button" data-admin-target="perguntas">? Perguntas</button><button type="button" data-admin-target="wordle">W Wordle</button><button type="button" data-admin-target="relatos">📄 Relatos</button><button type="button" data-admin-target="destaque">☆ Destaque</button><button type="button" data-admin-target="palpite">↗ Palpitômetro</button><button type="button" data-admin-target="tematico">◇ Sexta Temática</button><button type="button" data-admin-target="jogos">⚽ Jogos</button><button type="button" data-admin-target="goleadores">🥅 Goleadores</button></nav><div class="workspace-note"><span>SEU ESPAÇO DE CRIAÇÃO</span><a href="main.html" target="_blank" rel="noopener">Ver aplicativo ↗</a></div>
+    <div class="admin-content"><nav class="admin-quicknav" aria-label="Todas as funções do admin"><button type="button" data-admin-target="add">+ Novo Evento</button><button type="button" data-admin-target="list">📋 Eventos</button><button type="button" data-admin-target="migrate">⚙️ Migrar Dados</button><button type="button" data-admin-target="perguntas">? Perguntas</button><button type="button" data-admin-target="wordle">W Wordle</button><button type="button" data-admin-target="relatos">📄 Relatos</button><button type="button" data-admin-target="destaque">☆ Destaque</button><button type="button" data-admin-target="tematico">◇ Sexta Temática</button><button type="button" data-admin-target="jogos">⚽ Jogos</button><button type="button" data-admin-target="goleadores">🥅 Goleadores</button></nav><div class="workspace-note"><span>SEU ESPAÇO DE CRIAÇÃO</span><a href="main.html" target="_blank" rel="noopener">Ver aplicativo ↗</a></div>
 
   <!-- hidden legacy tabs wrapper (shown below) -->
 
@@ -780,45 +777,6 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 
   </div>
 
-  <!-- TAB: PALPITÔMETRO ADMIN -->
-  <div id="tab-palpite" style="display:none">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;margin-bottom:20px">⚽ PROCESSAR RESULTADO</div>
-
-    <!-- Palpites pendentes -->
-    <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px;margin-bottom:16px">
-      <div style="font-size:11px;letter-spacing:3px;color:var(--txt3);margin-bottom:16px">PALPITES PENDENTES (SEM RESULTADO)</div>
-      <div id="palpitesPendentesInfo" style="font-size:13px;color:var(--txt2);margin-bottom:16px">Carregando...</div>
-    </div>
-
-    <!-- Formulário de resultado manual -->
-    <div style="background:var(--bg2);border:1px solid rgba(204,0,0,.3);border-radius:12px;padding:20px;margin-bottom:16px">
-      <div style="font-size:11px;letter-spacing:3px;color:var(--txt3);margin-bottom:16px">INSERIR RESULTADO MANUALMENTE</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-        <div class="form-group">
-          <label class="form-label">Gols São Paulo</label>
-          <input type="number" id="palGolsSP" min="0" max="20" value="0" class="form-input">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Gols Adversário</label>
-          <input type="number" id="palGolsAdv" min="0" max="20" value="0" class="form-input">
-        </div>
-      </div>
-      <div class="form-group" style="margin-bottom:16px">
-        <label class="form-label">Match ID (TheSportsDB) — deixe vazio para processar todos pendentes</label>
-        <input type="text" id="palMatchId" placeholder="ex: 1234567" class="form-input">
-      </div>
-      <button onclick="processarResultadoManual()" style="width:100%;padding:14px;background:var(--red);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:2px;font-family:'Bebas Neue',sans-serif">
-        ⚡ PROCESSAR RESULTADO AGORA
-      </button>
-    </div>
-
-    <!-- Histórico de jogos processados -->
-    <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:20px">
-      <div style="font-size:11px;letter-spacing:3px;color:var(--txt3);margin-bottom:12px">HISTÓRICO DE JOGOS</div>
-      <div id="palpiteHistorico" style="font-size:13px;color:var(--txt2)">Carregando...</div>
-    </div>
-  </div>
-
   <!-- TAB: MIGRAR -->
   <div id="tab-migrate" style="display:none">
     <div class="migrate-card">
@@ -1197,7 +1155,6 @@ setPersistence(auth, inMemoryPersistence);
 // ── SENHA ADMIN ─────────────────────────────────────
 // Email do usuário admin criado no Firebase Authentication
 const ADMIN_EMAIL = 'admin@spfchoje.com'; // ← troque pelo email que criou
-const ADMIN_PASS  = 'Spfc1930*';          // ← senha do Firebase Auth
 
 // ── BIND SEGURO DOS BOTÕES (module carrega async) ──
 document.addEventListener('DOMContentLoaded', () => {
@@ -1270,8 +1227,8 @@ const TAB_TITLES = {
   wordle:   ['Wordle',            'Gerencie os jogadores do Wordle.'],
   relatos:  ['Relatos',           'Relatos de erro enviados pelos usuários.'],
   destaque: ['Destaque',          'Configure o destaque semanal.'],
-  palpite:  ['Palpitômetro',      'Processe resultados e gerencie palpites.'],
   tematico: ['Sexta Temática',    'Configure o tema e perguntas da semana.'],
+  jogos: ['Jogos', 'Gerencie e exporte o arquivo de partidas.'],
   goleadores: ['Goleadores', 'Edite fotos e dados dos goleadores históricos.'],
 };
 
@@ -1291,7 +1248,6 @@ window.showTab = function(tab, btn) {
   if (tab === 'wordle') loadWordle();
   if (tab === 'relatos') loadRelatos();
   if (tab === 'destaque') loadDestaqueTab();
-  if (tab === 'palpite') loadPalpiteAdmin();
   if (tab === 'tematico') loadTematico();
   if (tab === 'goleadores') loadGoleadores();
 };
@@ -1401,7 +1357,7 @@ window.dsmSelectDay = async function(dateStr) {
   _dsmActiveDay = dateStr;
   // Reatualiza grade (highlight)
   document.querySelectorAll('.dsm-day').forEach(el => el.classList.remove('active'));
-  event?.currentTarget?.classList.add('active');
+
   // Rebusca atualizado
   const monday = dsmWeekStart(_dsmWeekOffset);
   dsmRenderDays(monday);
@@ -1656,11 +1612,7 @@ window.submitEvent = async function() {
   const ev = {
     mes, dia, t: tipo, y: ano, n: titulo, d: desc,
     e: EMOJIS[tipo] || '⚽',
-    ...(ctx && {ctx}),
-    ...(img && {image: img}),
-    ...(imgCap && {imgCap}),
-    ...(vid && {video: vid}),
-    ...(stats.length && {stats}),
+    ctx, image: img, imgCap, video: vid, stats,
     createdAt: new Date().toISOString()
   };
 
@@ -1836,7 +1788,7 @@ window.migrateDB = async function() {
     // DB completo inline para migração
     const DB_MIGRATE = await fetchDBFromIndex();
     if (!DB_MIGRATE) {
-      progress.textContent = '❌ Não foi possível carregar o banco. Verifique se o index.html está na mesma pasta.';
+      progress.textContent = '❌ Não foi possível carregar o banco. Verifique o arquivo data/eventos.json.';
       btn.disabled = false;
       return;
     }
@@ -1882,18 +1834,16 @@ window.migrateDB = async function() {
 };
 
 async function fetchDBFromIndex() {
-  try {
-    const res = await fetch('index.html');
-    const text = await res.text();
-    const match = text.match(/const DB = ({[\s\S]*?}); \/\/ fim DB/);
-    if (!match) return null;
-    // Evalua o objeto DB do index.html
-    const fn = new Function('return ' + match[1]);
-    return fn();
-  } catch(e) {
-    console.error(e);
-    return null;
+  const response = await fetch('data/eventos.json', { cache: 'no-cache' });
+  if (!response.ok) throw new Error('Não foi possível carregar data/eventos.json');
+  const events = await response.json();
+  if (!Array.isArray(events)) throw new Error('Formato de eventos inválido');
+  const grouped = {};
+  for (const event of events) {
+    if (!event.mes || !event.dia || !event.n) continue;
+    ((grouped[event.mes] ||= {})[event.dia] ||= []).push(event);
   }
+  return grouped;
 }
 
 // ── PERGUNTAS ────────────────────────────────────────
@@ -2073,28 +2023,11 @@ window.migratePerguntas = async function() {
       }
     }
 
-    progress.textContent = '⏳ Buscando perguntas do quiz.html...';
-    const res = await fetch('quiz.html');
-    const text = await res.text();
-
-    // Busca o array QUESTIONS de forma robusta
-    const startMarker = 'const QUESTIONS = [';
-    const startIdx = text.indexOf(startMarker);
-    if (startIdx === -1) {
-      progress.textContent = '❌ Não encontrou o array QUESTIONS no quiz.html. Verifique se estão na mesma pasta.';
-      btn.disabled = false;
-      return;
-    }
-
-    // Encontra o fechamento do array contando colchetes
-    let depth = 0, endIdx = startIdx + startMarker.length - 1;
-    for (let i = endIdx; i < text.length; i++) {
-      if (text[i] === '[') depth++;
-      else if (text[i] === ']') { depth--; if (depth === 0) { endIdx = i; break; } }
-    }
-    const arrStr = text.slice(startIdx + 'const QUESTIONS = '.length, endIdx + 1);
-    const fn = new Function('return ' + arrStr);
-    const qs = fn();
+    progress.textContent = '⏳ Buscando perguntas do pacote...';
+    const res = await fetch('data/perguntas.json', { cache: 'no-cache' });
+    if (!res.ok) throw new Error('data/perguntas.json indisponível');
+    const qs = await res.json();
+    if (!Array.isArray(qs) || !qs.length) throw new Error('Nenhuma pergunta válida no pacote');
 
     progress.textContent = `⏳ Enviando ${qs.length} perguntas...`;
     let batch = writeBatch(db), count = 0, total = 0;
@@ -2291,26 +2224,11 @@ window.migrateWordle = async function() {
       }
     }
 
-    progress.textContent = '⏳ Buscando jogadores do index.html...';
-    const res = await fetch('index.html');
-    const text = await res.text();
-
-    const startMarker = 'const WORDLE_DB = [';
-    const startIdx = text.indexOf(startMarker);
-    if (startIdx === -1) {
-      progress.textContent = '❌ Não encontrou WORDLE_DB no index.html.';
-      btn.disabled = false;
-      return;
-    }
-
-    let depth = 0, endIdx = startIdx + startMarker.length - 1;
-    for (let i = endIdx; i < text.length; i++) {
-      if (text[i] === '[') depth++;
-      else if (text[i] === ']') { depth--; if (depth === 0) { endIdx = i; break; } }
-    }
-    const arrStr = text.slice(startIdx + 'const WORDLE_DB = '.length, endIdx + 1);
-    const fn = new Function('return ' + arrStr);
-    const jogadores = fn();
+    progress.textContent = '⏳ Buscando jogadores do pacote...';
+    const res = await fetch('data/wordle.json', { cache: 'no-cache' });
+    if (!res.ok) throw new Error('data/wordle.json indisponível');
+    const jogadores = await res.json();
+    if (!Array.isArray(jogadores) || !jogadores.length) throw new Error('Nenhum jogador válido no pacote');
 
     progress.textContent = `⏳ Enviando ${jogadores.length} jogadores...`;
     let batch = writeBatch(db), count = 0, total = 0;
@@ -2420,124 +2338,6 @@ window.excluirRelato = async function(id) {
     loadRelatos();
   } catch(e) {
     toast('Erro: ' + e.message, 'err');
-  }
-};
-
-// ── PALPITÔMETRO ADMIN ────────────────────────────
-window.loadPalpiteAdmin = async function() {
-  // Carrega palpites pendentes
-  const infoEl = document.getElementById('palpitesPendentesInfo');
-  const histEl = document.getElementById('palpiteHistorico');
-  try {
-    const qPend = query(collection(db, 'palpitometroPalpites'), where('pontos', '==', null));
-    const snapPend = await getDocs(qPend);
-    const pendentes = [];
-    snapPend.forEach(d => pendentes.push({ id: d.id, ...d.data() }));
-
-    if (!pendentes.length) {
-      infoEl.innerHTML = '<span style="color:var(--green)">✅ Nenhum palpite pendente.</span>';
-    } else {
-      // Agrupa por matchId
-      const porJogo = {};
-      pendentes.forEach(p => {
-        if (!porJogo[p.matchId]) porJogo[p.matchId] = [];
-        porJogo[p.matchId].push(p);
-      });
-      infoEl.innerHTML = Object.entries(porJogo).map(([mid, pals]) =>
-        `<div style="background:rgba(204,0,0,.08);border:1px solid rgba(204,0,0,.2);border-radius:8px;padding:12px;margin-bottom:8px">
-          <div style="font-weight:600;color:var(--txt);margin-bottom:4px">Match ID: <code style="color:var(--red)">${mid}</code></div>
-          <div style="font-size:12px;color:var(--txt3)">${pals.length} palpite(s) pendente(s): ${pals.map(p=>p.displayName||p.userId).join(', ')}</div>
-          <button onclick="document.getElementById('palMatchId').value='${mid}'" style="margin-top:8px;padding:5px 12px;background:transparent;border:1px solid var(--border2);color:var(--txt2);border-radius:6px;font-size:11px;cursor:pointer">Usar este ID</button>
-        </div>`
-      ).join('');
-    }
-
-    // Histórico de jogos processados
-    const qHist = query(collection(db, 'palpitometroJogos'), orderBy('processadoEm', 'desc'));
-    const snapHist = await getDocs(qHist).catch(()=>null);
-    if (!snapHist || snapHist.empty) {
-      histEl.innerHTML = '<span style="color:var(--txt3)">Nenhum jogo processado ainda.</span>';
-    } else {
-      histEl.innerHTML = snapHist.docs.map(d => {
-        const j = d.data();
-        const cor = j.resultado === 'vitoria' ? 'var(--green)' : j.resultado === 'empate' ? 'var(--yellow)' : '#ef4444';
-        const status = j.processado ? '✅' : '⏳';
-        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
-          <div>
-            <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:${cor}">${j.golsSpfc} × ${j.golsAdv ?? j.golsOpp}</span>
-            <span style="font-size:11px;color:var(--txt3);margin-left:8px">${j.resultado?.toUpperCase()||''}</span>
-          </div>
-          <div style="font-size:11px;color:var(--txt3)">${status} ID: ${j.matchId}</div>
-        </div>`;
-      }).join('');
-    }
-  } catch(e) {
-    infoEl.innerHTML = `<span style="color:#ef4444">Erro: ${e.message}</span>`;
-  }
-};
-
-window.processarResultadoManual = async function() {
-  const golsSP  = parseInt(document.getElementById('palGolsSP').value)  || 0;
-  const golsAdv = parseInt(document.getElementById('palGolsAdv').value) || 0;
-  const matchIdInput = document.getElementById('palMatchId').value.trim();
-
-  if (!confirm(`Processar: São Paulo ${golsSP} × ${golsAdv} Adversário?`)) return;
-
-  try {
-    toast('⏳ Processando...', 'ok');
-
-    const resultado = golsSP > golsAdv ? 'vitoria' : golsSP === golsAdv ? 'empate' : 'derrota';
-    const ptsBase   = resultado === 'vitoria' ? 10 : resultado === 'empate' ? 5 : 0;
-
-    // Busca palpites pendentes — filtra por matchId se fornecido
-    let qPend = matchIdInput
-      ? query(collection(db, 'palpitometroPalpites'), where('matchId','==', matchIdInput), where('pontos','==',null))
-      : query(collection(db, 'palpitometroPalpites'), where('pontos','==', null));
-
-    const snapPend = await getDocs(qPend);
-    if (snapPend.empty) { toast('Nenhum palpite pendente encontrado.', 'ok'); return; }
-
-    const batch = writeBatch(db);
-    let count = 0;
-
-    snapPend.forEach(d => {
-      const p = d.data();
-      const acertouResultado = p.resultado === resultado;
-      const acertouPlacar    = p.golsSpfc === golsSP && p.golsOpp === golsAdv;
-      let pontos = 0;
-      if (acertouResultado) pontos += ptsBase;
-      if (acertouPlacar)    pontos += 50;
-
-      batch.update(d.ref, { pontos, placareExato: acertouPlacar, resultado_final: resultado });
-
-      const rankRef = doc(db, 'ranking', p.userId);
-      batch.set(rankRef, {
-        totalPontos:   increment(pontos),
-        totalPalpites: increment(1),
-        totalAcertos:  increment(acertouResultado ? 1 : 0),
-        totalErros:    increment(acertouResultado ? 0 : 1),
-        placareExatos: increment(acertouPlacar ? 1 : 0),
-        pontosMes:     increment(pontos),
-        displayName:   p.displayName || p.userId,
-        photoURL:      p.photoURL || ''
-      }, { merge: true });
-      count++;
-    });
-
-    // Marca o jogo como processado
-    const mid = matchIdInput || snapPend.docs[0].data().matchId;
-    const jogoRef = doc(db, 'palpitometroJogos', String(mid));
-    batch.set(jogoRef, {
-      matchId: String(mid), golsSpfc: golsSP, golsAdv, resultado,
-      processado: true, processadoEm: serverTimestamp()
-    }, { merge: true });
-
-    await batch.commit();
-    toast(`✅ ${count} palpite(s) processado(s)! Resultado: ${resultado.toUpperCase()}`, 'ok');
-    loadPalpiteAdmin();
-
-  } catch(e) {
-    toast('❌ Erro: ' + e.message, 'err');
   }
 };
 
@@ -3013,7 +2813,7 @@ window.loadGoleadores = async function() {
   if (goleadoresData.length) { goleadoresRenderTable(); return; }
 
   // Faz fetch do JSON no GitHub
-  const url = 'https://raw.githubusercontent.com/lumenink2025-coder/spfc-hoje/main/data/spfc-enciclopedia-gols.json';
+  const url = 'data/spfc-enciclopedia-gols.json';
   const status = document.getElementById('goleadoresStatus');
   status.textContent = 'Carregando dados...';
   status.style.color = 'var(--txt3)';
@@ -3321,5 +3121,5 @@ window.exportarJogosJSON = function() {
 };
 
 </script>
-<button id="adminScrim" class="admin-scrim" aria-label="Fechar navegação"></button><script src="admin-ui.js?v=editorial-fix2"></script></body>
+<button id="adminScrim" class="admin-scrim" aria-label="Fechar navegação"></button><script src="admin-ui.js?v=editorial-fix2"></script><script src="pwa.js?v=20261025-r6"></script></body>
 </html>

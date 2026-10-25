@@ -176,7 +176,7 @@ input[type=file]{display:none;}
 #stb:hover{background:var(--rd);transform:scale(1.1);}
 #stb.show{display:flex;}
 </style>
-<link rel="stylesheet" href="cartel-premium.css?v=1"></head>
+<link rel="stylesheet" href="cartel-premium.css?v=1"><link rel="stylesheet" href="pwa.css?v=20261025-r6"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head>
 <body>
 
 <!-- LOADING -->
@@ -306,7 +306,7 @@ function countFotos(){ return DATA.filter(p=>p.foto).length }
 // ── INIT: fetch JSON (tenta /data/dados.json, depois local) ────────
 async function loadData(){
   let json=null, err=null;
-  for(const url of ['/data/dados.json','dados.json']){
+  for(const url of ['data/dados.json','dados.json']){
     try{
       const r=await fetch(url+'?v='+Date.now());
       if(!r.ok) throw new Error(r.status);
@@ -452,5 +452,5 @@ if(window.self !== window.top){
 }
 
 </script>
-<script>document.getElementById("content").addEventListener("keydown",e=>{const c=e.target.closest(".pcard");if(c&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openModal(Number(c.dataset.idx));}});</script></body>
+<script>document.getElementById("content").addEventListener("keydown",e=>{const c=e.target.closest(".pcard");if(c&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openModal(Number(c.dataset.idx));}});</script><script src="pwa.js?v=20261025-r6"></script></body>
 </html>

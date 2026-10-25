@@ -263,7 +263,7 @@ onAuthStateChanged(auth, async user => {
   }
 });
 </script>
-<link rel="stylesheet" href="suite-premium.css?v=20261023"></head>
+<link rel="stylesheet" href="suite-premium.css?v=20261025-r6"><link rel="stylesheet" href="pwa.css?v=20261025-r6"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head>
 <body data-suite="cadastro">
 
 <div class="cad-bg"></div>
@@ -287,7 +287,7 @@ onAuthStateChanged(auth, async user => {
     <img
       src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779945135/c5a68f93-009e-465c-94a8-c6a5e8e54e79_xofudf.png"
       alt="SPFC Hoje" class="s1-shield">
-    <div class="s1-sub">Quiz, Palpitômetro e Wordle num só lugar.<br>Entre com sua conta para competir no ranking.</div>
+    <div class="s1-sub">Quiz e Wordle num só lugar.<br>Entre com sua conta para competir no ranking.</div>
   </div>
 
   <!-- Google -->
@@ -367,7 +367,7 @@ onAuthStateChanged(auth, async user => {
     </div>
     <div id="nickErr" class="cad-field-err"></div>
     <div id="nickOk"  class="cad-field-ok"></div>
-    <div class="cad-hint">Único e imutável. Aparece no Quiz, Wordle e Palpitômetro.</div>
+    <div class="cad-hint">Único e imutável. Aparece no Quiz e no Wordle.</div>
   </div>
 
   <!-- Avatar -->
@@ -715,7 +715,6 @@ async function salvarPerfil() {
     streak: 0, bestStreak: 0, lastPlayedDate: null, wonToday: false,
     quiz_score_geral: 0, quiz_score_mensal: 0, quiz_score_semanal: 0, quiz_score_diario: 0,
     totalPontos: 0, totalAcertos: 0, totalErros: 0,
-    totalPalpites: 0, placareExatos: 0, pontosMes: 0,
     wordle_streak: 0, wordle_bestStreak: 0, wordle_lastDate: null, wordle_totalAcertos: 0,
     createdAt: now,
     updatedAt: now,
@@ -775,7 +774,6 @@ function entrarComoVisitante() {
     const map = {
       quiz:         ['⚡ QUIZ TRICOLOR — EXCLUSIVO',    'Crie sua conta grátis para jogar o Quiz e subir no ranking.'],
       wordle:       ['🔍 WORDLE — EXCLUSIVO',           'Cadastre-se para revelar a identidade oculta e manter sua sequência.'],
-      palpitometro: ['🎯 PALPITÔMETRO — EXCLUSIVO',     'Entre com sua conta para dar palpites e disputar o ranking de acertos.'],
     };
     const key = Object.keys(map).find(k => orig.includes(k));
     if (key) {
@@ -888,5 +886,5 @@ function dismissBanner() {
   localStorage.setItem('pwa_banner_dismissed', '1');
 }
 </script>
-</body>
+<script src="pwa.js?v=20261025-r6"></script></body>
 </html>

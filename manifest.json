@@ -1,12 +1,12 @@
 {
-  "name": "São Paulo FC — Hoje na História",
+  "name": "SPFC Hoje — Memória Tricolor",
   "short_name": "SPFC Hoje",
   "description": "O que aconteceu hoje na história do São Paulo Futebol Clube",
-  "start_url": "./main.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#111113",
-  "theme_color": "#8b0000",
+  "background_color": "#111114",
+  "theme_color": "#111114",
   "lang": "pt-BR",
   "categories": [
     "sports",
@@ -52,5 +52,6 @@
       ]
     }
   ],
-  "scope": "./"
+  "scope": "./",
+  "id": "./"
 }

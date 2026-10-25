@@ -557,7 +557,7 @@ a { color:inherit; text-decoration:none; }
   *, *::before, *::after { animation:none!important; transition:none!important; }
 }
 </style>
-<link rel="stylesheet" href="suite-premium.css?v=20261023"></head>
+<link rel="stylesheet" href="suite-premium.css?v=20261025-r6"><link rel="stylesheet" href="pwa.css?v=20261025-r6"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head>
 <body data-suite="galeria-dos-imortais">
 
 <!-- LOADING -->
@@ -704,7 +704,7 @@ a { color:inherit; text-decoration:none; }
 <script>
 'use strict';
 
-const JSON_URL = '/data/premiacoes-spfc.json';
+const JSON_URL = 'data/premiacoes-spfc.json';
 
 /* ── LENDAS ── carregadas do JSON ── */
 let LENDAS = [];
@@ -942,5 +942,5 @@ async function init(){
 }
 init();
 </script>
-</body>
+<script src="pwa.js?v=20261025-r6"></script></body>
 </html>

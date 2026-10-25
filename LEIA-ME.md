@@ -1,52 +1,70 @@
-# SPFC Hoje — versão premium
+# SPFC Hoje — Premium R6
 
-Pacote para substituir os arquivos do site, mantendo as contas e dados do Firebase existente.
+Projeto completo para substituir os arquivos do site. Revisado em 25/10/2026.
+Identificador do código e do cache: `20261025-r6`.
 
-## Publicar na Vercel
+## Publicação
 
-1. Guarde uma cópia do projeto atualmente publicado.
-2. Extraia o ZIP. Envie o conteúdo de `spfc-hoje-premium/` para a raiz do repositório conectado à Vercel.
-3. Use o preset **Other**, sem comando de build e sem diretório de saída adicional. `index.html`, `main.html`, `admin.html` e `vercel.json` devem estar na raiz.
-4. Publique. `index.html` e `main.html` abrem diretamente o layout editorial, sem redirecionamento; `admin.html` é o painel de administração.
-5. Em um domínio novo, autorize-o em Firebase Authentication → Settings → Authorized domains. As regras e permissões atuais do Firestore continuam obrigatórias.
+1. Guarde uma cópia da versão atualmente publicada.
+2. Extraia o ZIP e envie **todo o conteúdo** da pasta `spfc-hoje-premium/` para a raiz do projeto de hospedagem. Mantenha a estrutura de pastas.
+3. Na Vercel, use o preset **Other**, sem comando de build e sem diretório de saída adicional. `index.html` e `vercel.json` ficam na raiz.
+4. No GitHub Pages, publique a pasta que contém `index.html`. Os caminhos relativos funcionam também em uma subpasta como `/spfc-hoje/`. O endpoint opcional `api/news.js` exige uma hospedagem com funções; o RSS atual usa o intermediário já configurado no projeto.
+5. No Firebase Hosting, use a configuração `firebase.json` incluída e publique somente o Hosting para atualizar o site. Não é necessário republicar as Cloud Functions para trocar a interface.
+6. Se usar um domínio novo, inclua-o nos domínios autorizados do Firebase Authentication.
 
-## Telas
+Abra o site por HTTP/HTTPS, não por duplo clique no arquivo HTML. O funcionamento do service worker exige HTTPS, ou localhost durante desenvolvimento. Não há etapa de compilação.
 
-- `main.html`: layout editorial aprovado, calendário lateral no desktop, destaques, RSS e links para os catálogos completos.
-- `calendario.html`: endereço adicional para o mesmo layout editorial.
-- `quiz.html`: quiz completo com o visual aprovado e correção do banner.
-- `jogadores.html`: Cartel Tricolor; 1.534 registros e filtros originais.
-- `spfc_historia.html`: arquivo com 6.079 partidas.
-- `tecnicos.html` e `tecnico.html`: catálogo e ficha de técnicos.
-- `goleadores.html`: artilharia.
-- `galeria-dos-imortais.html`: condecorações.
-- `wondler.html`, `palpitometro.html`, `cadastro.html`, `perfil.html`: modos e conta.
-- `admin.html`: eventos, perguntas, Wordle, relatos, destaques, palpites, temas e goleadores.
+## Interface e recursos
 
-## Senha do admin
+A página inicial tem identidade tricolor, destaque editorial, navegação lateral no desktop e barra inferior no celular. O calendário tem endereço próprio, `calendario.html`, e pode ser acessado pelo menu. Foram mantidos pesquisa, acervo, favoritos, compartilhamento e detalhes das memórias, incluindo estatísticas, créditos das imagens e vídeos.
 
-A senha pedida foi mantida no valor `ADMIN_PASS` do código, conforme solicitado. O login real usa `signInWithEmailAndPassword` e o e-mail administrativo já existente. A constante `ADMIN_PASS` não define nem altera a senha da conta no Firebase.
+Também foram mantidos:
 
-**A senha do Firebase não foi alterada nesta entrega.** Para usar a nova senha no login, altere a senha dessa conta pelo fluxo de redefinição do Firebase Authentication. A autenticação e as regras do banco não foram contornadas. O logout agora encerra a sessão Firebase.
+- Quiz tradicional, quiz temático, ranking, ajudas e modos existentes.
+- Wondler, RSS e respectivos acessos.
+- Cartel Tricolor com 1.534 jogadores, busca, filtros e fichas.
+- Arquivo de 6.079 partidas, técnicos, goleadores e Galeria dos Imortais.
+- Cadastro, perfil, progresso e conquistas. O perfil mostra os dados da conta; visitantes recebem um convite para entrar.
+- Sobre, com os créditos do Magazine Tricolor, de Michael Serra, do Calendário Histórico SPFC 2025 e do spfcpedia.
+- As 10 seções do admin: novo evento, eventos, migração, perguntas, Wordle, relatos, destaque, sexta temática, jogos e goleadores.
 
-## Notícias, imagens e notificações
+## Versão final R6
 
-O RSS mantém o serviço intermediário existente. Sua disponibilidade depende desse serviço externo; não foi substituído por um provedor pago. O endpoint opcional `/api/news` lê `NEWS_API_KEY` das variáveis da Vercel; não é necessário configurá-lo para o RSS atual. Nenhuma chave privada desse provedor foi incluída no pacote.
+O Palpitômetro foi retirado da home, do perfil, do cadastro, do admin e da integração de identidade. Os cards restantes foram reorganizados para desktop e celular. O cache passou para `20261025-r6`.
 
-As imagens remotas, Firebase, fontes, YouTube e o serviço de notificações exigem internet. Os dados JSON de jogadores, jogos, técnicos, artilharia e condecorações estão incluídos.
+O arquivo `palpitometro.html` contém somente um redirecionamento para a página inicial, para que favoritos e links antigos continuem funcionando. Ele não contém o jogo nem acessa o Firebase. Os dados históricos já existentes no banco não foram apagados.
 
-`functions/` mantém as Cloud Functions originais, para publicação separada no Firebase caso necessário. Publicar este ZIP na Vercel não publica funções Firebase nem altera suas regras. Não é necessário republicá-las apenas para trocar o visual.
+## Correções principais
 
-## Atualização e cache
+- Um ponto de registro do service worker por página, cache separado por pasta de publicação e versão, e busca na rede antes de usar uma cópia salva.
+- Atualização oferecida ao usuário, com ativação explícita e uma única recarga da aba que aceitou a atualização.
+- Admin, autenticação, perfil, chamadas externas e requisições autenticadas fora do cache de conteúdo. O arquivo do OneSignal original foi preservado.
+- Caminhos locais corrigidos para publicação em subpastas.
+- Quiz com bloqueio de resposta repetida, limpeza das alternativas ao avançar, cancelamento de transições ao sair, correção da ajuda Pular e proteção contra gravações simultâneas das estatísticas.
+- Eventos, perguntas, Wordle e tema consultam os dados atuais do Firestore, com os JSON incluídos como alternativa quando a leitura remota falha. Uma coleção remota vazia é respeitada.
+- Os importadores do admin leem os arquivos JSON reais. Os 6 relatos que acompanham o arquivo de eventos não são importados como eventos.
+- Alterações e remoções de imagem feitas pelo admin são respeitadas. Favoritos de eventos novos são mantidos entre visitas.
 
-O service worker usa cache versionado e busca a versão atual na rede antes de recorrer ao cache. O admin, login, perfil, API e requisições externas não entram nesse cache. Apenas caches antigos com prefixo `spfc-hoje-` são limpos. Em próximas atualizações, altere a versão em `sw.js`.
+## Contas e dados
 
-## Validação desta entrega
+A configuração pública do Firebase original permanece. A senha de uma conta é gerida pelo Firebase Authentication, não por uma constante no HTML. Não foram alterados usuários, senhas, regras, permissões ou registros em produção.
 
-Verificados: sintaxe JavaScript, arquivos JSON, caminhos locais referenciados por HTML, catálogo e filtros dos jogadores. Os IDs dos controles e manipuladores existentes foram preservados nas páginas funcionais.
+Os arquivos de dados, imagens, ícones, notificações e Cloud Functions originais foram preservados. O admin continua dependendo das permissões existentes no Firestore. Não execute migrações sobre uma base já preenchida sem verificar o destino e guardar seu backup.
 
-Não houve teste visual de navegador nesta sessão. Login real, gravações do admin, pagamentos (se houver), pontuação e notificações em produção não foram executados. Nenhum registro do Firebase foi criado, apagado ou modificado durante a preparação. Valide esses fluxos com sua conta após publicar antes de anunciar a atualização.
+## Cache e próximas versões
 
-## Correção desta versão
+Publique o pacote completo para manter HTML, scripts, estilos e cache na mesma versão. Quando uma atualização estiver pronta, o visitante verá o aviso **Uma nova versão está pronta**. Pode concluir a atividade antes de tocar em **Atualizar**.
 
-Removido o ciclo index → main → index de visitantes sem login. Restaurada a página principal editorial aprovada. As 11 seções do admin têm atalhos visíveis, inclusive no celular. Nenhuma permissão de banco foi alterada. Testes isolados confirmaram abertura dos 11 painéis, presença dos atalhos e ausência dos redirecionamentos de entrada. A validação visual e as gravações reais continuam pendentes.
+Em uma próxima entrega, altere `RELEASE` em `sw.js` e as versões nas URLs dos arquivos modificados. Preserve a mesma pasta de publicação. A limpeza é limitada ao cache do aplicativo nesse escopo; o prefixo legado `spfc-hoje-premium-` é removido apenas na instalação da raiz.
+
+O cache offline cobre os recursos locais preparados e visitados. Firebase, RSS, fontes, fotos externas e vídeos exigem internet. `OneSignalSDKWorker.js` mantém a integração original; qualquer configuração adicional do painel do provedor continua externa a este pacote.
+
+## Verificação
+
+Consulte `VERIFICACAO.md` para resultados e limites da revisão. Para repetir os testes isolados do service worker, execute, na pasta do projeto:
+
+```bash
+node tests/sw.test.cjs
+```
+
+O projeto não foi publicado automaticamente. Login, gravações reais, notificações e atualização de uma instalação PWA existente devem ser conferidos no domínio de produção após a publicação.

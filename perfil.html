@@ -720,7 +720,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 /* ── STAT CARDS GRID ── */
 .stats-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 8px;
 }
@@ -735,6 +735,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   -webkit-tap-highlight-color: transparent;
 }
 .stat-card:active { transform: scale(0.97); }
+@media(max-width:400px){.stats-grid{grid-template-columns:1fr 1fr}.stats-grid .wordle{grid-column:1/-1}}
 .stat-card::after {
   content: '';
   position: absolute;
@@ -744,7 +745,6 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 .stat-card.streak::after { background: linear-gradient(90deg, transparent, rgba(255,107,43,0.7), transparent); }
 .stat-card.acertos::after { background: linear-gradient(90deg, transparent, rgba(78,205,196,0.7), transparent); }
 .stat-card.wordle::after { background: linear-gradient(90deg, transparent, rgba(200,168,75,0.7), transparent); }
-.stat-card.palpites::after { background: linear-gradient(90deg, transparent, rgba(155,93,229,0.7), transparent); }
 .stat-card.quiz::after { background: linear-gradient(90deg, transparent, rgba(204,0,0,0.7), transparent); }
 
 .sc-icon-wrap {
@@ -762,7 +762,6 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 .sc-icon-wrap.streak {}
 .sc-icon-wrap.acertos {}
 .sc-icon-wrap.wordle {}
-.sc-icon-wrap.palpites {}
 .sc-icon-wrap.quiz {}
 
 .sc-val {
@@ -775,7 +774,6 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 .sc-val.streak { color: #FF6B2B; }
 .sc-val.acertos { color: #4ECDC4; }
 .sc-val.wordle { color: var(--gold); }
-.sc-val.palpites { color: #9B5DE5; }
 .sc-val.quiz { color: #FF4444; }
 .sc-name { font-size: 9px; letter-spacing: 2px; color: var(--txt3); text-transform: uppercase; margin-bottom: 6px; }
 .sc-sub { font-size: 11px; color: var(--txt2); line-height: 1.4; }
@@ -841,8 +839,8 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 .stats-grid { animation: fadeUp .5s .2s ease both; }
 .stat-card-full { animation: fadeUp .5s .25s ease both; }
 </style>
-<link rel="stylesheet" href="suite-premium.css?v=20261023"></head>
-<body data-suite="perfil">
+<link rel="stylesheet" href="suite-premium.css?v=20261025-r6"><link rel="stylesheet" href="pwa.css?v=20261025-r6"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"><script src="js/data-service.js?v=20261025-r6"></script></head>
+<body data-suite="perfil"><nav class="profile-nav" aria-label="Navegação do perfil"><a href="index.html">← SPFC Hoje</a><a href="quiz.html#ranking">Ver ranking ↗</a></nav>
 
 <!-- ════════════ HERO ════════════ -->
 <div class="hero">
@@ -857,10 +855,10 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
     <div class="avatar-halo-outer"></div>
     <div class="avatar-ring-gold"></div>
     <div class="avatar-ring-inner"></div>
-    <div class="avatar-photo" id="heroAvatar">R</div>
+    <div class="avatar-photo" id="heroAvatar">T</div>
     <img class="avatar-shield" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt="SPFC">
     <div class="avatar-level-badge">
-      <div class="level-badge-inner" id="heroLevel">NÍVEL 9</div>
+      <div class="level-badge-inner" id="heroLevel">NÍVEL 1</div>
     </div>
   </div>
 
@@ -868,29 +866,29 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   <div class="hero-identity">
     <div class="identity-rule"></div>
     <div class="identity-name">
-      <span id="firstName">RAFAEL</span>
-      <span class="ln" id="lastName">TORCEDOR</span>
+      <span id="firstName">TORCEDOR</span>
+      <span class="ln" id="lastName"></span>
     </div>
     <div class="identity-cargo">
       <img class="cargo-icon" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt="">
       <div class="cargo-text">
-        <span class="cargo-title" id="cargoTitle">GUARDIÃO DO MORUMBI</span>
+        <span class="cargo-title" id="cargoTitle">TORCEDOR</span>
         <span class="cargo-sub">FÉ · TRADIÇÃO · PAIXÃO</span>
       </div>
     </div>
     <div class="identity-since">
       <span>Membro desde</span>
-      <span id="sinceDate" style="color:rgba(255,255,255,0.4)">Fev 2024</span>
+      <span id="sinceDate" style="color:rgba(255,255,255,0.4)">—</span>
       <div class="since-dot"></div>
-      <span id="sinceDays">486 dias</span>
+      <span id="sinceDays">—</span>
     </div>
   </div>
 
   <!-- XP Strip -->
   <div class="hero-xp">
     <div class="xp-meta">
-      <span class="xp-meta-left" id="xpMetaLeft">2.840 / 3.000 XP · 160 para o próximo</span>
-      <span class="xp-meta-right" id="xpMetaPct">63%</span>
+      <span class="xp-meta-left" id="xpMetaLeft">0 XP</span>
+      <span class="xp-meta-right" id="xpMetaPct">0%</span>
     </div>
     <div class="xp-track">
       <div class="xp-fill" id="xpHeroFill" style="width:0%"></div>
@@ -900,15 +898,15 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   <!-- Numbers -->
   <div class="hero-numbers">
     <div class="hn-item">
-      <div class="hn-val red" id="hn1">🔥 47</div>
+      <div class="hn-val red" id="hn1">0</div>
       <div class="hn-label">Streak dias</div>
     </div>
     <div class="hn-item">
-      <div class="hn-val" id="hn2">312</div>
-      <div class="hn-label">Quiz jogados</div>
+      <div class="hn-val" id="hn2">0</div>
+      <div class="hn-label">Perguntas respondidas</div>
     </div>
     <div class="hn-item">
-      <div class="hn-val gold" id="hn3">74%</div>
+      <div class="hn-val gold" id="hn3">0%</div>
       <div class="hn-label">Taxa acertos</div>
     </div>
   </div>
@@ -927,16 +925,16 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   <div class="xp-card">
     <div class="xp-card-top">
       <div class="xp-card-level">
-        <div class="xp-card-lvlnum" id="xpCardLvl">NÍVEL 9</div>
-        <div class="xp-tier-badge" id="xpTier">ÉPICO</div>
+        <div class="xp-card-lvlnum" id="xpCardLvl">NÍVEL 1</div>
+        <div class="xp-tier-badge" id="xpTier">—</div>
       </div>
-      <div class="hex-next" id="xpHexNext">10</div>
+      <div class="hex-next" id="xpHexNext">2</div>
     </div>
-    <div class="xp-card-vals"><span id="xpCardCurr">2.840</span> / <span id="xpCardNext">3.000</span> XP</div>
-    <div class="xp-card-rem">Faltam <b id="xpCardDiff">160 XP</b> para o próximo nível</div>
+    <div class="xp-card-vals"><span id="xpCardCurr">0</span> / <span id="xpCardNext">—</span> XP</div>
+    <div class="xp-card-rem">Faltam <b id="xpCardDiff">—</b> para o próximo nível</div>
     <div class="xp-card-bar">
       <div class="xp-card-fill" id="xpCardFill" style="width:0%"></div>
-      <div class="xp-pct-label" id="xpCardPct">63%</div>
+      <div class="xp-pct-label" id="xpCardPct">0%</div>
     </div>
   </div>
 
@@ -956,7 +954,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
         <div class="laurel-wrap">
           <img class="laurel-img" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417254/left_vgohzf.png" alt="">
           <div class="ranking-number-wrap">
-            <span class="ranking-num" id="rankNum">#12</span>
+            <span class="ranking-num" id="rankNum">—</span>
             <span class="ranking-num-label">RANKING</span>
           </div>
           <img class="laurel-img" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417391/image_err3hg.png" alt="">
@@ -964,8 +962,8 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
       </div>
       <div class="ranking-right">
         <div class="ranking-title">RANKING GERAL</div>
-        <div class="ranking-top-badge" id="rankTop">TOP 1%</div>
-        <div class="ranking-desc">Entre os melhores<br>torcedores do Brasil</div>
+        <div class="ranking-top-badge" id="rankTop">Ver ranking no quiz</div>
+        <div class="ranking-desc">Acompanhe sua posição<br>no ranking do quiz</div>
       </div>
     </div>
   </div>
@@ -982,9 +980,9 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
       <div class="sc-icon-wrap streak">
         <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417811/de823f35-5371-4482-9eb8-4543f1349e11_kyvv5z.png" alt="">
       </div>
-      <div class="sc-val streak" id="scStreak">47</div>
+      <div class="sc-val streak" id="scStreak">0</div>
       <div class="sc-name">Streak dias</div>
-      <div class="sc-sub">Melhor sequência<br><b>47 dias</b></div>
+      <div class="sc-sub">Melhor sequência<br><b id="bestStreakDays">—</b></div>
     </div>
 
     <!-- Acertos -->
@@ -992,9 +990,9 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
       <div class="sc-icon-wrap acertos">
         <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780419535/8b87ee5e-72d4-49c5-b4ea-14ffb9ccb138_mcqetr.png" alt="">
       </div>
-      <div class="sc-val acertos" id="scAcertos">74%</div>
+      <div class="sc-val acertos" id="scAcertos">0%</div>
       <div class="sc-name">% Acertos quiz</div>
-      <div class="sc-sub">Você está voando!<br>Continue assim!</div>
+      <div class="sc-sub">Cada acerto<br>faz a diferença.</div>
     </div>
 
     <!-- Wordle -->
@@ -1012,23 +1010,14 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
           <rect x="17" y="17" width="4" height="4" rx="1" fill="#C8A84B" opacity=".9"/>
         </svg>
       </div>
-      <div class="sc-val wordle" id="scWordle">18</div>
+      <div class="sc-val wordle" id="scWordle">0</div>
       <div class="sc-name">Wordle vencidos</div>
       <div class="sc-sub">Vocabulário de<br><b>craque!</b></div>
     </div>
 
-    <!-- Palpites -->
-    <div class="stat-card palpites">
-      <div class="sc-icon-wrap palpites">
-        <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780419959/ee6549f4-21ed-44a6-9eb4-dfa77b7c82c5_acjuza.png" alt="">
-      </div>
-      <div class="sc-val palpites" id="scPalpites">9</div>
-      <div class="sc-name">Palpites certos</div>
-      <div class="sc-sub">Intuição tricolor<br>aflorada!</div>
-    </div>
   </div>
 
-  <!-- Quiz jogados — full width -->
+  <!-- Perguntas respondidas — full width -->
   <div class="stat-card-full">
     <div class="sc-icon-wrap quiz" style="width:80px;height:80px">
       <svg class="quiz-icon-svg" viewBox="0 0 24 24" fill="none">
@@ -1039,9 +1028,9 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
       </svg>
     </div>
     <div class="scf-info">
-      <div class="scf-val" id="scQuiz">312</div>
-      <div class="scf-name">Quiz jogados</div>
-      <div class="scf-sub">Incrível! Você é uma máquina!</div>
+      <div class="scf-val" id="scQuiz">0</div>
+      <div class="scf-name">Perguntas respondidas</div>
+      <div class="scf-sub">Sua trajetória no quiz tricolor.</div>
       <div class="scf-bar"><div class="scf-bar-fill" id="quizBarFill" style="width:0%"></div></div>
     </div>
   </div>
@@ -1049,9 +1038,9 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   <!-- Zona de perigo -->
   <div class="danger-zone">
     <div class="danger-zone-title">⚠ Dados locais</div>
-    <button class="btn-clear-data" onclick="showClearConfirm()">Limpar cache e dados locais</button>
+    <button class="btn-clear-data" onclick="showClearConfirm()">Redefinir dados locais</button>
     <div class="clear-confirm" id="clearConfirm">
-      Isso remove todos os dados salvos neste dispositivo (cache, ranking, streak local).
+      Isso remove o progresso e as preferências locais do aplicativo neste dispositivo.
       Seus pontos no servidor <strong>não</strong> são apagados.
       <div class="clear-confirm-btns">
         <button class="btn-confirm-yes" onclick="clearAllLocalData()">Limpar</button>
@@ -1145,12 +1134,9 @@ const TIERS = [
 ];
 
 const DATA = {
-  name:'Rafael Torcedor', initial:'R', avatarUrl:'',
-  sinceDate:'Fev 2024', sinceMs:new Date('2024-02-01').getTime(),
-  xp:2840, streak:47, streakMax:47,
-  rankPos:12, rankTotal:1200,
-  quizAcertos:231, quizTotal:312,
-  wordleWins:18, palpitesCertos:9, cardsTotal:26,
+  name:'Torcedor', initial:'T', avatarUrl:'', sinceDate:'—', sinceMs:null,
+  xp:0, streak:0, streakMax:0, rankPos:null, rankTotal:null,
+  quizAcertos:0, quizTotal:0, wordleWins:0, cardsTotal:0,
 };
 
 function getLvl(xp){
@@ -1170,12 +1156,12 @@ function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
 
 function render(){
   const d=DATA, info=getLvl(d.xp);
-  const days=Math.floor((Date.now()-d.sinceMs)/86400000)||486;
+  const days=d.sinceMs ? Math.max(0,Math.floor((Date.now()-d.sinceMs)/86400000)) : null;
   const parts=d.name.trim().split(' ');
 
   // Avatar
   if(d.avatarUrl){
-    document.getElementById('heroAvatar').innerHTML=`<img src="${d.avatarUrl}">`;
+    const image=document.createElement('img'); image.src=d.avatarUrl; image.alt='Seu avatar'; document.getElementById('heroAvatar').replaceChildren(image);
   } else {
     set('heroAvatar', d.initial.toUpperCase());
   }
@@ -1186,7 +1172,7 @@ function render(){
   set('lastName', parts.slice(1).join(' ').toUpperCase());
   set('cargoTitle', info.title.toUpperCase());
   set('sinceDate', d.sinceDate);
-  set('sinceDays', fmt(days)+' dias');
+  set('sinceDays', days === null ? '—' : fmt(days)+' dias');
 
   // XP hero strip
   const diff=info.diff>0?` · ${fmt(info.diff)} para o próximo`:'';
@@ -1209,14 +1195,14 @@ function render(){
   set('xpCardPct', info.pct+'%');
 
   // Ranking
-  set('rankNum','#'+d.rankPos);
-  set('rankTop', getRankTop(d.rankPos,d.rankTotal));
+  set('rankNum',d.rankPos?'#'+d.rankPos:'—');
+  set('rankTop',d.rankPos&&d.rankTotal?getRankTop(d.rankPos,d.rankTotal):'Ver ranking no quiz');
 
   // Stats
   set('scStreak', d.streak);
+  set('bestStreakDays',fmt(d.streakMax)+' dias');
   set('scAcertos', qpct+'%');
   set('scWordle', d.wordleWins);
-  set('scPalpites', d.palpitesCertos);
   set('scQuiz', fmt(d.quizTotal));
   set('colCount', d.cardsTotal);
 
@@ -1242,17 +1228,17 @@ function hideClearConfirm() {
 function clearAllLocalData() {
   try {
     // Remove todas as chaves do localStorage que pertencem ao app
-    const keys = Object.keys(localStorage).filter(k => k.startsWith('spfc_'));
+    const keys = Object.keys(localStorage).filter(k => /^spfc[_-]/i.test(k));
     keys.forEach(k => localStorage.removeItem(k));
     hideClearConfirm();
     // Feedback visual
     const btn = document.querySelector('.btn-clear-data');
     if (btn) {
-      btn.textContent = '✓ Cache limpo!';
+      btn.textContent = '✓ Dados locais redefinidos!';
       btn.style.color = '#22c55e';
       btn.style.borderColor = 'rgba(34,197,94,0.4)';
       setTimeout(() => {
-        btn.textContent = 'Limpar cache e dados locais';
+        btn.textContent = 'Redefinir dados locais';
         btn.style.color = '';
         btn.style.borderColor = '';
       }, 3000);
@@ -1273,8 +1259,8 @@ window.fillPerfilFromCache = async function(data, user){
   DATA.streakMax = data.bestStreak || DATA.streak;
 
   // Ranking — lido da coleção ranking/{uid}_geral (passado opcionalmente)
-  DATA.rankPos = data.rankPos || 999;
-  DATA.rankTotal = data.rankTotal || 1000;
+  DATA.rankPos = data.rankPos || null;
+  DATA.rankTotal = data.rankTotal || null;
 
   // Quiz stats — quiz.html salva como quizAcertos/quizTotal no users doc
   // mas também podem vir como totalAcertos/totalRespostas (campos legados)
@@ -1282,7 +1268,6 @@ window.fillPerfilFromCache = async function(data, user){
   DATA.quizTotal   = data.quizTotal   || data.totalRespostas || 0;
 
   DATA.wordleWins     = data.wordleWins    || 0;
-  DATA.palpitesCertos = data.palpitesExatos || data.palpitesCertos || 0;
   DATA.cardsTotal     = data.cardsTotal    || 0;
 
   // Data de membro: tenta createdAt, depois firstLogin, depois updatedAt
@@ -1304,5 +1289,5 @@ window.fillPerfilFromCache = async function(data, user){
   render();
 };
 </script>
-</body>
+<script src="pwa.js?v=20261025-r6"></script><script src="js/profile-auth.js?v=20261025-r6"></script></body>
 </html>
