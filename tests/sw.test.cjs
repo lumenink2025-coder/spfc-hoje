@@ -30,7 +30,7 @@ function environment(base){
   e.network({online:false});r=await e.request('app.js?v=456');check(await r.text()==='versão nova','Offline encontra o asset mesmo com versão na URL');
   r=await e.request('./',{mode:'navigate'});check(r.ok,'Início abre pelo shell salvo sem rede');
   r=await e.request('nao-salvo.html',{mode:'navigate'});check(r.status===503&&(await r.text()).includes('Você está sem conexão'),'Página não salva recebe aviso offline claro');
-  for(const target of ['admin.html','admin-ui.js','cadastro.html','perfil.html','api/news','OneSignalSDKWorker.js','https://www.gstatic.com/firebase.js'])check((await e.request(target))===null,'Sem interceptação de '+target);
+  for(const target of ['admin.html','admin-auth.js','admin-config.js','admin-ui.js','cadastro.html','perfil.html','api/news','OneSignalSDKWorker.js','https://www.gstatic.com/firebase.js'])check((await e.request(target))===null,'Sem interceptação de '+target);
   check(await e.request('app.js',{method:'POST'})===null,'POST não entra no cache');
   check(await e.request('app.js',{headers:{Authorization:'test'}})===null,'Requisição autenticada não entra no cache');
   check(await e.request('assets/hero.jpg',{headers:{Range:'bytes=0-10'}})===null,'Range não recebe resposta integral do cache');

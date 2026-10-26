@@ -1,53 +1,50 @@
-# Relatório de verificação — SPFC Hoje R6
+# Relatório de verificação — SPFC Hoje R7
 
-Revisão concluída em 25/10/2026. Base: ZIP fornecido pelo usuário.
+Revisão de 26/10/2026. Base: SPFC-Hoje-final-R6.zip. Cache: `20261026-r7-dark1`.
 
-## Arquivos
+## Atualização visual do admin
 
-- 29 scripts JavaScript externos e blocos inline aprovados na verificação de sintaxe do Node.js; o teste `.cjs` foi executado separadamente.
-- Arquivos JSON parseados sem erro.
-- Referências locais `src` e `href` dos HTML conferidas; nenhum arquivo local referenciado ausente.
-- Nenhum ID duplicado encontrado nas páginas HTML.
-- 42 arquivos originais de dados, imagens, ícones, notificações e Cloud Functions comparados byte a byte com o ZIP de origem, sem alteração.
-- ZIP final submetido à verificação de integridade e conferência de seus arquivos contra a pasta revisada.
+- Tema cinza-escuro conferido em navegador desktop e em quadro mobile de 375 pixels, sem transbordamento horizontal na tela inicial do painel.
+- Formulário de evento, tabela de partidas, janela de edição de goleador e navegação mobile conferidos usando uma cópia isolada com dados locais e gravações desabilitadas. Essa cópia não integra o ZIP.
+- Fundos de página, cartões e campos verificados no navegador: `#17181b`, `#202226` e `#191b1f`. Textos principais: `#eceef2`. Controles nativos com `color-scheme: dark`.
+- Nenhuma alteração nos scripts de autenticação nem nos comandos de edição. Esta atualização não substitui a validação de login real descrita abaixo.
 
-## Cache: 41 verificações aprovadas
+## Arquivos e preservação
 
-O teste `tests/sw.test.cjs` executa o worker em ambiente isolado, nas instalações da raiz e da subpasta `/spfc-hoje/`.
+- 31 scripts JavaScript externos e blocos inline aprovados na verificação de sintaxe do Node.js.
+- Arquivos JSON válidos e referências locais `src`/`href` dos HTML conferidas, sem arquivos ausentes.
+- 41 arquivos de dados, imagens, ícones, notificações, integrações e funções comparados byte a byte com a R6, sem alteração.
+- As 10 seções administrativas continuam presentes. O bloco funcional do admin, a partir de `// Page titles for each tab`, foi comparado com a R6 e permanece idêntico.
+- Calendário, quiz, Wondler, RSS, Cartel Tricolor, perfil, Sobre e créditos mantidos. O Palpitômetro continua removido.
+- Arquivo ZIP conferido quanto à integridade e correspondência dos bytes com os arquivos revisados. Páginas temporárias de inspeção visual excluídas do pacote.
 
-Cobre atualização mediante escolha do usuário, arquivos relativos ao escopo, ativação, preservação dos caches de outros serviços, prioridade da rede, busca offline de arquivos com query de versão, página inicial offline, aviso de página não salva, exclusão de admin/login/perfil/API/OneSignal/Firebase, exclusão de POST e requisições autenticadas ou parciais, resposta 404 sem ocultação, alternativa em erro 5xx e isolamento entre projetos.
+## Login: 25 verificações aprovadas
 
-## Quiz e admin: 28 verificações aprovadas no navegador
+Executadas com o arquivo real `admin-auth.js` em ambiente isolado, com DOM e Firebase simulados. Os testes não enviam tentativas de login nem gravações ao projeto de produção.
 
-Foram usados os scripts reais em páginas de teste com Firebase simulado. Nenhuma gravação de teste foi enviada ao banco de produção.
+Cobertura: disponibilidade do SDK, conta configurada, campos vazios, rejeição de e-mail diferente da conta configurada, envio duplicado, resposta lenta sem cancelamento artificial, painel oculto durante espera, sucesso tardio, limpeza do campo de senha, saída da conta, erros persistentes, nova tentativa, diagnóstico sem senha, falhas de rede/configuração e recuperação após carregamento lento do SDK.
 
-As 13 verificações do quiz cobrem resposta dupla, bloqueio das ajudas durante o feedback, avanço único, reinício das alternativas, descarte de clique antigo, cancelamento ao sair, eliminação de duas alternativas, Pular, os mesmos estados do quiz temático e gravação concorrente ou falha das estatísticas.
+Para repetir: `node tests/admin-auth.test.cjs`.
 
-As 15 verificações do admin cobrem a presença e abertura das 10 seções restantes, a ausência dos controles e comandos do Palpitômetro, a leitura de 542 eventos sem confundir os 6 relatos do arquivo, e a preparação das 230 perguntas e 58 registros de Wordle pelos importadores.
+## Cache: 45 verificações aprovadas
 
-## Revisão visual e interação
+Executadas com `sw.js` em ambiente isolado, nas instalações da raiz e da subpasta `/spfc-hoje/`.
 
-A interface da R5 foi inspecionada em navegador desktop e em quadros com larguras de 390 e 320 pixels. Essa revisão cobriu:
+Cobertura: atualização por escolha do usuário, recursos relativos ao escopo, limpeza dos caches da versão anterior, preservação dos caches de outros serviços e do OneSignal, prioridade da rede, uso offline, erros 404/5xx, isolamento entre projetos, exclusão de admin e seus novos scripts, login/perfil/API/Firebase, POST e requisições autenticadas ou parciais.
 
-- Home, navegação inferior, calendário mensal e seleção de dia, sem transbordamento horizontal nas larguras conferidas.
-- Abertura de memória, estatísticas, ação de favorito e créditos do Sobre.
-- Carregamento de notícias via RSS.
-- Perguntas reais do quiz e reinício das alternativas entre perguntas.
-- Cartel Tricolor com 1.534 registros, busca por Rogério Ceni e abertura da ficha resultante.
-- Acesso ao perfil e tratamento do visitante sem conta conectada.
+Para repetir: `node tests/sw.test.cjs`.
 
-## Verificação adicional da R6
+## Conferência no navegador
 
-- Home com exatamente dois jogos: Quiz e Wondler, em duas colunas no desktop e uma coluna no celular.
-- Perfil com três estatísticas restantes, sem o card de palpites e sem transbordamento horizontal na largura de 320 pixels.
-- Cadastro e integração de identidade sem promoção, migração ou campos novos específicos do Palpitômetro.
-- Navegação para o endereço antigo redirecionando corretamente para `index.html`.
-- Removidos os painéis e comandos administrativos do recurso; preservadas as 10 outras seções.
-- Reexecutadas as 41 verificações do service worker e as 28 verificações de quiz/admin, todas aprovadas.
-- Referências aos arquivos e sintaxe conferidas novamente antes de gerar o ZIP.
+- Home sem imagem de logo no cabeçalho do computador e do celular.
+- Quadro mobile de 375 pixels: largura do conteúdo e largura de rolagem iguais a 375 pixels, sem transbordamento horizontal.
+- Admin local carregando o SDK real do Firebase, mostrando **Conexão pronta**, botão **ENTRAR** habilitado e diagnóstico disponível.
+- Página administrativa publicada na Vercel acessível em leitura; seu HTML correspondia à base R6 antes desta entrega.
 
-## Limites da validação
+## Limites
 
-Os testes isolados verificam a lógica do service worker; não substituem uma atualização PWA real em HTTPS. A prévia local não foi usada para instalar ou atualizar uma instalação de produção.
+Não foi realizado login com a conta do proprietário. O erro exato informado pelo Firebase na tentativa do usuário ainda precisa ser coletado. A conexão pronta confirma o carregamento dos componentes, não valida a senha nem as permissões do banco.
 
-Não foram executados login com a conta do proprietário, gravações reais do admin, disparo de notificações, publicação de Cloud Functions ou mudanças nas regras do Firebase. Esses fluxos mantêm as integrações existentes e precisam ser conferidos no domínio publicado com uma conta autorizada. A disponibilidade de RSS, imagens, vídeos e demais serviços externos depende dos respectivos provedores.
+Não foram feitas gravações reais do admin, alterações de contas, senhas ou regras, disparos de notificações, publicação de Cloud Functions ou deploy do site. A atualização de uma instalação PWA de produção ainda deve ser conferida após publicar o pacote completo.
+
+Os testes de quiz e das seções de conteúdo registrados na R6 não foram repetidos integralmente nesta revisão. O código dessas funções foi preservado. Serviços externos como RSS, imagens e vídeos dependem dos respectivos provedores.

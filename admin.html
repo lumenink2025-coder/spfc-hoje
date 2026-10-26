@@ -2,6 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#17181b">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admin — SPFC Histórico</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -290,18 +292,26 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
   <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js">
   <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js">
   <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js">
-<link rel="stylesheet" href="suite-premium.css?v=20261025-r6"><link rel="stylesheet" href="admin-premium.css?v=editorial-fix2"><link rel="stylesheet" href="pwa.css?v=20261025-r6"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head>
+<link rel="stylesheet" href="suite-premium.css?v=20261026-r7"><link rel="stylesheet" href="admin-premium.css?v=20261026-r7-dark1"><link rel="stylesheet" href="pwa.css?v=20261026-r7"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head>
 <body data-suite="admin">
 
 <!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-box">
-    <img class="admin-brand" src="assets/logo-original.png" alt="SPFC Hoje"><div class="login-logo">Seu acervo.<br>Sua história.</div>
+    <div class="login-logo">Seu acervo.<br>Sua história.</div>
     <div class="login-sub">SPFC HOJE · ESTÚDIO DE CONTEÚDO</div>
-    <label for="loginPass" style="display:none">Senha de acesso</label>
-    <input class="login-input" id="loginPass" type="password" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter')window._doLogin&&window._doLogin()">
-    <button class="login-btn" onclick="window._doLogin&&window._doLogin()">ENTRAR</button>
-    <div class="login-err" id="loginErr"></div>
+    <form id="adminLoginForm">
+      <label for="loginEmail" class="admin-field-label">E-mail administrativo</label>
+      <input class="login-input" id="loginEmail" type="email" autocomplete="username" value="admin@spfchoje.com" required>
+      <label for="loginPass" class="admin-field-label">Senha</label>
+      <input class="login-input" id="loginPass" type="password" placeholder="Senha da conta administrativa" autocomplete="current-password" required>
+      <button class="login-btn" id="adminLoginButton" type="submit" disabled>PREPARANDO CONEXÃO…</button>
+    </form>
+    <p id="adminConnection" class="admin-connection" role="status">Carregando o acesso seguro…</p>
+    <div class="login-err" id="loginErr" role="alert" aria-live="polite"></div>
+    <button type="button" class="admin-retry" id="retryAdminConnection">Recarregar conexão</button>
+    <details id="diagnosticDetails" class="admin-diagnostic"><summary>Diagnóstico de acesso</summary><pre id="adminDiagnostic" tabindex="0"></pre><button type="button" id="copyAdminDiagnostic">Copiar diagnóstico</button><p>Este diagnóstico não inclui sua senha.</p></details>
+    <p class="admin-login-help">Use a conta administrativa cadastrada no Firebase. A senha da Vercel não dá acesso a este painel.</p>
   </div>
 </div>
 
@@ -1131,10 +1141,11 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-he
 
 <div class="toast" id="toast"></div>
 
+<script src="admin-config.js?v=20261026-r7"></script><script src="admin-auth.js?v=20261026-r7"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, where, orderBy, writeBatch, updateDoc, setDoc, getDoc, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, signOut, inMemoryPersistence, setPersistence } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, signOut, inMemoryPersistence, setPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
@@ -1149,74 +1160,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// Usa memória em vez de IndexedDB — evita lentidão no Chrome
-setPersistence(auth, inMemoryPersistence);
-
-// ── SENHA ADMIN ─────────────────────────────────────
-// Email do usuário admin criado no Firebase Authentication
-const ADMIN_EMAIL = 'admin@spfchoje.com'; // ← troque pelo email que criou
-
-// ── BIND SEGURO DOS BOTÕES (module carrega async) ──
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.querySelector('.login-btn');
-  const inp = document.getElementById('loginPass');
-  if (btn) btn.onclick = () => window._doLogin && window._doLogin();
-  if (inp) inp.onkeydown = (e) => { if (e.key === 'Enter') window._doLogin && window._doLogin(); };
-});
-
-window._doLogin = window.doLogin = async function() {
-  const pass = document.getElementById('loginPass').value;
-  const errEl = document.getElementById('loginErr');
-  const btn = document.querySelector('.login-btn');
-
-  if (!pass) { errEl.textContent = 'Digite a senha'; return; }
-
-  // feedback visual imediato
-  btn.textContent = 'ENTRANDO...';
-  btn.disabled = true;
-  errEl.textContent = '';
-
-  try {
-    // timeout de 5s para não travar
-    const authPromise = signInWithEmailAndPassword(auth, ADMIN_EMAIL, pass);
-    const timeout = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('timeout')), 5000)
-    );
-
-    await Promise.race([authPromise, timeout]);
-
-    // sucesso
-    document.getElementById('loginScreen').style.display = 'none';
-    const as = document.getElementById('adminScreen');
-    as.style.display = 'flex';
-    as.classList.add('visible');
-
-  } catch(e) {
-    btn.textContent = 'ENTRAR';
-    btn.disabled = false;
-
-    if (e.message === 'timeout') {
-      errEl.textContent = 'Servidor demorou — tente pelo Live Server (não file://)';
-    } else if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') {
-      errEl.textContent = 'Senha incorreta';
-    } else if (e.code === 'auth/user-not-found') {
-      errEl.textContent = 'Usuário não encontrado no Firebase';
-    } else {
-      errEl.textContent = `Erro: ${e.message}`;
-      console.error('Login error:', e);
-    }
-    setTimeout(() => errEl.textContent = '', 4000);
-  }
-};
-
-window.doLogout = async function() {
-  await signOut(auth);
-  document.getElementById('loginScreen').style.display = 'flex';
-  const as = document.getElementById('adminScreen');
-  as.style.display = 'none';
-  as.classList.remove('visible');
-  document.getElementById('loginPass').value = '';
-};
+// Authentication errors remain visible even if modules are slow or unavailable.
+window.SPFCAdminAuth.mount({auth,signInWithEmailAndPassword,signOut,inMemoryPersistence,setPersistence,onAuthStateChanged});
 
 // Page titles for each tab
 const TAB_TITLES = {
@@ -3121,5 +3066,5 @@ window.exportarJogosJSON = function() {
 };
 
 </script>
-<button id="adminScrim" class="admin-scrim" aria-label="Fechar navegação"></button><script src="admin-ui.js?v=editorial-fix2"></script><script src="pwa.js?v=20261025-r6"></script></body>
+<button id="adminScrim" class="admin-scrim" aria-label="Fechar navegação"></button><script src="admin-ui.js?v=editorial-fix2"></script><script src="pwa.js?v=20261026-r7"></script></body>
 </html>

@@ -1,0 +1,43 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
+const source=fs.readFileSync(__dirname+'/../admin-auth.js','utf8');
+function fixture(){
+ const elements=new Map(),timers=new Map();let seq=0,observer;
+ const el=id=>{if(!elements.has(id))elements.set(id,{value:'',textContent:'',disabled:false,style:{},dataset:{},classList:{value:false,toggle(k,v){this.value=v}},listeners:{},addEventListener(k,fn){this.listeners[k]=fn},focus(){},open:false});return elements.get(id)};
+ const ctx={document:{readyState:'complete',getElementById:el,addEventListener(){}},location:{origin:'https://example.vercel.app',pathname:'/admin.html',reload(){}},navigator:{onLine:true,clipboard:{writeText:async()=>{}}},setTimeout(fn,ms){const id=++seq;timers.set(id,{fn,ms});return id},clearTimeout(id){timers.delete(id)},console,SPFCAdminConfig:{email:'admin@spfchoje.com'},addEventListener(){}};
+ ctx.window=ctx;vm.createContext(ctx);vm.runInContext(source,ctx);
+ const api={auth:{currentUser:null},inMemoryPersistence:{},setPersistence:async()=>{},onAuthStateChanged(auth,fn){observer=fn;fn(null)},signInWithEmailAndPassword:async(auth,email)=>{auth.currentUser={email};return {user:auth.currentUser}},signOut:async(auth)=>{auth.currentUser=null;observer?.(null)}};
+ return {ctx,el,api,timers,emit:u=>observer(u),advance(ms){for(const [id,t]of [...timers])if(t.ms<=ms){timers.delete(id);t.fn();}}};
+}
+(async()=>{
+ let n=0;const ok=(v,label)=>{assert(v,label);n++};
+ const f=fixture();await f.ctx.SPFCAdminAuth.mount(f.api);
+ ok(!f.el('adminLoginButton').disabled,'Login habilitado após SDK e persistência');
+ ok(f.el('loginEmail').value==='admin@spfchoje.com','Conta original preservada');
+ await f.ctx._doLogin();ok(f.el('loginErr').textContent.includes('Preencha'),'Validação de campos vazios');
+ f.el('loginEmail').value='outra@example.com';f.el('loginPass').value='only-test-value';let calls=0;
+ f.api.signInWithEmailAndPassword=async(auth,email)=>{calls++;auth.currentUser={email};return {user:auth.currentUser}};
+ await f.ctx._doLogin();ok(calls===0,'Conta não autorizada não inicia autenticação');
+ ok(f.el('loginErr').dataset.code==='auth/unauthorized-email','Erro de conta identifica configuração');
+ f.el('loginEmail').value='admin@spfchoje.com';
+ let resolveSignIn;f.api.signInWithEmailAndPassword=()=>{calls++;return new Promise(r=>resolveSignIn=r)};
+ const pending=f.ctx._doLogin();await f.ctx._doLogin();ok(calls===1,'Cliques repetidos não duplicam login');
+ f.advance(13000);ok(f.el('loginErr').textContent.includes('Aguardando'),'Conexão lenta mostra estado sem rejeitar login');
+ ok(f.el('adminScreen').style.display==='none','Painel oculto enquanto autenticação está pendente');
+ const user={email:'admin@spfchoje.com'};f.api.auth.currentUser=user;resolveSignIn({user});await pending;
+ ok(f.el('adminScreen').style.display==='flex','Resposta tardia abre painel com sucesso');
+ ok(f.el('loginPass').value==='','Senha apagada do formulário após sucesso');
+ await f.ctx.doLogout();ok(f.el('adminScreen').style.display==='none','Logout fecha painel');
+ ok(f.el('adminConnection').textContent==='Conexão pronta','Logout atualiza o estado da conexão');
+ f.el('loginPass').value='only-test-value';f.api.signInWithEmailAndPassword=async()=>{throw {code:'auth/invalid-credential'}};
+ await f.ctx._doLogin();ok(f.el('loginErr').textContent.includes('E-mail ou senha'),'Mensagem correta para credencial inválida');
+ f.advance(60000);ok(f.el('loginErr').textContent.includes('E-mail ou senha'),'Erro não desaparece sozinho');
+ ok(!f.el('adminLoginButton').disabled,'Nova tentativa disponível após falha');
+ ok(!f.ctx.SPFCAdminAuth.diagnostic().includes('only-test-value'),'Diagnóstico não inclui a senha');
+ for(const code of ['auth/network-request-failed','auth/operation-not-allowed','auth/unauthorized-domain','auth/app-not-authorized','auth/too-many-requests'])ok(f.ctx.SPFCAdminAuth.errorText({code}).length>40,code+' explicado');
+ f.emit({email:'visitante@example.com'});ok(f.el('adminScreen').style.display==='none','Sessão de visitante não abre o admin');
+ const broken=fixture();broken.advance(15000);ok(broken.el('loginErr').dataset.code==='admin/sdk-unavailable','SDK indisponível recebe diagnóstico');
+ await broken.ctx.SPFCAdminAuth.mount(broken.api);ok(broken.el('loginErr').textContent===''&&!broken.el('adminLoginButton').disabled,'SDK carregado com atraso libera nova tentativa sem erro antigo');
+ const persist=fixture();persist.api.setPersistence=async()=>{throw {code:'admin/setup-failed'}};await persist.ctx.SPFCAdminAuth.mount(persist.api);ok(persist.el('loginErr').dataset.code==='admin/setup-failed','Falha de persistência não é silenciosa');
+ console.log('PASS: '+n+' testes de login administrativo. Nenhuma chamada ao Firebase real.');
+ fs.writeFileSync(__dirname+'/admin-auth-results.json',JSON.stringify({passed:n,failed:0,productionWrites:0},null,2));
+})().catch(e=>{console.error(e);process.exit(1)});
