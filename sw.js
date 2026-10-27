@@ -1,6 +1,10 @@
 'use strict';
 /* Change RELEASE with each complete deployment. Never unregister notification workers. */
-const RELEASE = '20261027-r9-news1';
+<<<<<<< HEAD
+const RELEASE = '20261027-r9-news2';
+=======
+const RELEASE = '20261027-r8-push5';
+>>>>>>> bc9e1e0627beccff157682a9be0cdeec9cb0ab7f
 const SCOPE_URL = new URL(self.registration.scope);
 const SCOPE_KEY = SCOPE_URL.pathname.replace(/[^a-z0-9]/gi, '_');
 const CACHE_PREFIX = 'spfc-hoje-app-' + SCOPE_KEY + '-';
