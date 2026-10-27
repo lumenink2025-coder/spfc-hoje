@@ -1,7 +1,7 @@
 'use strict';
 /* Change RELEASE with each complete deployment. Never unregister notification workers. */
 <<<<<<< HEAD
-const RELEASE = '20261027-r9-news2';
+const RELEASE = '20261027-r9-news3';
 =======
 const RELEASE = '20261027-r8-push5';
 >>>>>>> bc9e1e0627beccff157682a9be0cdeec9cb0ab7f
