@@ -1,0 +1,18 @@
+SPFC HOJE — AJUSTE DA PÁGINA DE NOTÍCIAS
+Versão de cache: 20261027-r9-news1
+
+ALTERAÇÃO
+Removidos “A história continua.” e “Notícias dos feeds do projeto, com link para a publicação original.” da página de notícias. Espaçamento ajustado para aproximar o título Notícias do Tricolor dos cards.
+
+COMO PUBLICAR
+1. Extraia este ZIP.
+2. Substitua na raiz do seu repositório os seis arquivos: app.js, style.css, sw.js, index.html, main.html e calendario.html.
+3. Faça o commit e aguarde a conclusão do deploy no Vercel/GitHub Pages.
+4. Abra novamente o site. Se o app oferecer uma atualização, confirme Atualizar.
+
+Este é um pacote de atualização para o site existente; não é um projeto completo para publicar sozinho.
+
+VERIFICAÇÃO
+JavaScript validado; 49 verificações do service worker aprovadas; layout conferido no desktop e nas larguras mobile de 390 e 320 pixels. Feeds e botão Atualizar conferidos na prévia.
+
+Base: repositório lumenink2025-coder/spfc-hoje, commit bc9e1e0627beccff157682a9be0cdeec9cb0ab7f.
