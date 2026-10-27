@@ -1,15 +1,25 @@
-# SPFC Hoje — Premium R7
+# SPFC Hoje — R8 · Preparação do novo push
 
-Projeto completo para substituir os arquivos do site. Revisado em 26/10/2026.
-Identificador do cache desta atualização: `20261026-r7-dark1`.
+Projeto completo para substituir os arquivos do site. Revisado em 27/10/2026.
+Identificador do cache desta atualização: `20261027-r8-push2`.
+
+## Novo sistema de notificações
+
+Esta entrega mantém o site da R7 e acrescenta a página `notificacoes.html`, a inscrição OneSignal com consentimento explícito, o worker de push com escopo separado e o emissor diário para Cloudflare. O destaque segue a mesma regra da Home e respeita a escolha do admin.
+
+**O envio está desligado.** Leia `../COMECE-AQUI.md`: o App ID público fornecido já está preenchido e a inscrição por botão está habilitada. Ainda é necessário salvar a configuração Web Push no OneSignal, publicar o site, cadastrar a chave somente como Secret na Cloudflare e testar em aparelhos reais antes de usar `PUSH_MODE=live`. O site foi preparado para a origem `https://spfc-hoje.vercel.app`; confirme essa origem antes de cadastrar inscrições.
+
+A rotina Firebase antiga foi movida para `../referencia-legada-nao-publicar/`, e sua configuração de deploy foi retirada do `firebase.json`. Isso não desativa um agendamento que já esteja na nuvem. O guia explica a transição.
+
+No celular, abra **Mais → Notificações**. No computador, use o menu lateral. O perfil e o rodapé também têm acesso. O admin escuro, calendário, quiz, RSS, Cartel, perfil e Sobre foram preservados.
 
 ## Admin em cinza-escuro
 
-Esta atualização da R7 aplica o tema escuro ao login e a todo o painel: cabeçalho, navegação, cartões, campos, listas, tabelas e janelas de edição. Os textos usam cinza-claro, com bordas visíveis e foco de teclado destacado. O tema escuro também é aplicado aos controles nativos e ao preenchimento automático do navegador.
+O tema herdado da R7 aplica o tema escuro ao login e a todo o painel: cabeçalho, navegação, cartões, campos, listas, tabelas e janelas de edição. Os textos usam cinza-claro, com bordas visíveis e foco de teclado destacado. O tema escuro também é aplicado aos controles nativos e ao preenchimento automático do navegador.
 
-As funções e a autenticação da R7 foram preservadas. Para instalar, publique o conteúdo completo deste ZIP atualizado; a referência do CSS do admin e a versão do cache já foram alteradas.
+As funções e a autenticação do admin da R7 foram preservadas. Para instalar, publique somente o conteúdo da pasta `spfc-hoje-premium/`; o emissor Cloudflare é implantado separadamente.
 
-## O que mudou nesta entrega
+## Correções preservadas da R7
 
 - Logo em imagem retirada dos cabeçalhos, incluindo a Home no computador e no celular. O nome SPFC Hoje permanece em texto; os ícones de instalação e da aba do navegador continuam disponíveis.
 - Login administrativo com e-mail visível, tratamento de falha no carregamento do Firebase e mensagens de erro persistentes.

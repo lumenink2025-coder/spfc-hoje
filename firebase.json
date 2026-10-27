@@ -1,17 +1,14 @@
 {
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default"
-    }
-  ],
   "hosting": {
     "public": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
-      "functions/**"
+      "functions/**",
+      "tests/**",
+      "qa/**",
+      "*.md"
     ],
     "headers": [
       {
@@ -38,6 +35,33 @@
       },
       {
         "source": "sw.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-store"
+          }
+        ]
+      },
+      {
+        "source": "push-config.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-store"
+          }
+        ]
+      },
+      {
+        "source": "push/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-store"
+          }
+        ]
+      },
+      {
+        "source": "OneSignalSDKWorker.js",
         "headers": [
           {
             "key": "Cache-Control",

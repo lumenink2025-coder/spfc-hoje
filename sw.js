@@ -1,15 +1,16 @@
 'use strict';
 /* Change RELEASE with each complete deployment. Never unregister notification workers. */
-const RELEASE = '20261026-r7-dark2';
+const RELEASE = '20261027-r8-push2';
 const SCOPE_URL = new URL(self.registration.scope);
 const SCOPE_KEY = SCOPE_URL.pathname.replace(/[^a-z0-9]/gi, '_');
 const CACHE_PREFIX = 'spfc-hoje-app-' + SCOPE_KEY + '-';
 const CACHE_NAME = CACHE_PREFIX + RELEASE;
 const SHELL = [
   'index.html', 'main.html', 'calendario.html', 'style.css', 'app.js', 'account.js',
-  'events.js', 'pwa.js', 'pwa.css', 'js/data-service.js', 'manifest.json', 'assets/app-icon.png'
+  'events.js', 'js/daily-highlight.js', 'pwa.js', 'pwa.css', 'js/data-service.js', 'manifest.json', 'assets/app-icon.png'
 ];
 const OPTIONAL = [
+  'notificacoes.html', 'notificacoes.css', 'js/push-client.js',
   'quiz.html', 'quiz-premium.css', 'quiz-sports.css', 'quiz-fixes.css',
   'jogadores.html', 'cartel-premium.css', 'spfc_historia.html', 'tecnicos.html', 'tecnico.html',
   'goleadores.html', 'galeria-dos-imortais.html', 'wondler.html', 'suite-premium.css',
@@ -17,7 +18,7 @@ const OPTIONAL = [
   'data/jogos.json', 'data/tematico.json', 'data/spfc-tecnicos-titulos.json',
   'data/spfc-enciclopedia-gols.json', 'data/premiacoes-spfc.json', 'assets/hero.jpg', 'assets/paulista.webp'
 ];
-const EXCLUDED = /^(?:api\/|functions\/|admin(?:\.|-)|cadastro\.html$|perfil\.html$|palpitometro\.html$|sw\.js$|OneSignal|js\/profile-auth\.js$)/;
+const EXCLUDED = /^(?:api\/|functions\/|push\/|push-config\.js$|admin(?:\.|-)|cadastro\.html$|perfil\.html$|palpitometro\.html$|sw\.js$|OneSignal|js\/profile-auth\.js$)/;
 function keyFor(url) { const key = new URL(url); key.search = ''; key.hash = ''; if (key.pathname === SCOPE_URL.pathname) key.pathname += 'index.html'; return key.href; }
 async function store(cache, request, response) {
   if (!response.ok || response.type !== 'basic' || response.headers.get('Cache-Control')?.includes('no-store')) return;
