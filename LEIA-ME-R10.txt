@@ -9,9 +9,9 @@ PUBLICAÇÃO NO PROJETO EXISTENTE
 
 ENDEREÇOS
 Site público: / ou /index.html
-Admin: /main.html — digite diretamente na barra do navegador.
+Admin: /admin.html ou /main.html — digite diretamente na barra do navegador.
 O painel continua exigindo a conta administrativa. Seus controles e funções foram preservados.
-O antigo /admin.html leva ao site público. Os menus, o rodapé e a opção Mais não contêm links para o admin.
+O endereço /admin.html abre o painel administrativo. Os menus, o rodapé e a opção Mais não contêm links para o admin.
 Links antigos de memórias com main.html#memoria=... continuam abrindo a história no site público.
 
 O QUE FOI CORRIGIDO
