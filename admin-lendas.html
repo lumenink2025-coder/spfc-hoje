@@ -6,7 +6,7 @@
 <title>SPFC — Admin de Fotos · Lendas Tricolor</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--r:#CC0000;--rd:#990000;--rl:#FF4444;--k:#0D0D0D;--k1:#161616;--k2:#1E1E1E;--k3:#2A2A2A;--k4:#383838;--w:#F0F0EB;--w2:#D8D8D2;--mu:#888;--bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.13);}
+:root{--r:#a60000;--rd:#760000;--rl:#eeeeee;--k:#0D0D0D;--k1:#161616;--k2:#1E1E1E;--k3:#2A2A2A;--k4:#383838;--w:#F0F0EB;--w2:#D8D8D2;--mu:#888;--bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.13);}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--k);color:var(--w);min-height:100vh;font-size:14px;}
 #loading{position:fixed;inset:0;background:var(--k);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:1rem;}
@@ -27,8 +27,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--k);color:var(--w);min-hei
 .fbtn{background:var(--k3);border:1px solid var(--bd);color:var(--mu);padding:.55rem 1rem;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;}
 .fbtn:hover{border-color:var(--r);color:var(--w);}
 .fbtn.on{background:var(--r);border-color:var(--r);color:#fff;}
-.fbtn.export{background:#0d2a40;border-color:#1e4a6a;color:#5bc8f0;}
-.fbtn.export:hover{background:#1a4060;}
+.fbtn.export{background:#282828;border-color:#1e4a6a;color:#5bc8f0;}
+.fbtn.export:hover{background:#3e3e3e;}
 .fbtn.export:disabled{opacity:.4;cursor:default;}
 .fcount{font-family:'Bebas Neue',sans-serif;font-size:.85rem;color:var(--rl);letter-spacing:.05em;}
 
@@ -49,10 +49,10 @@ main{padding:1.2rem 1.5rem 3rem;}
 .urlrow{display:flex;gap:.35rem;}
 .urlrow input{flex:1;min-width:0;background:var(--k1);border:1px solid var(--bd2);color:var(--w);padding:.4rem .6rem;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:.72rem;outline:none;}
 .urlrow input:focus{border-color:#5bc8f0;}
-.urlrow button{flex-shrink:0;background:#0d2a40;border:1px solid #1e4a6a;color:#5bc8f0;padding:.4rem .55rem;border-radius:5px;font-size:.68rem;cursor:pointer;white-space:nowrap;}
-.urlrow button:hover{background:#1a4060;}
-.urlrow .rm{background:#350d0d;border-color:#5a1e1e;color:var(--rl);width:30px;}
-.urlrow .rm:hover{background:#4a1414;}
+.urlrow button{flex-shrink:0;background:#282828;border:1px solid #1e4a6a;color:#5bc8f0;padding:.4rem .55rem;border-radius:5px;font-size:.68rem;cursor:pointer;white-space:nowrap;}
+.urlrow button:hover{background:#3e3e3e;}
+.urlrow .rm{background:#241111;border-color:#760000;color:var(--rl);width:30px;}
+.urlrow .rm:hover{background:#241111;}
 .savedtag{font-size:.62rem;color:var(--rl);margin-top:.25rem;letter-spacing:.06em;}
 .toast{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--r);color:#fff;padding:.7rem 1.4rem;border-radius:8px;font-size:.8rem;font-weight:600;z-index:999;transition:transform .25s;box-shadow:0 8px 24px rgba(0,0,0,.5);}
 .toast.show{transform:translateX(-50%) translateY(0);}
@@ -69,7 +69,7 @@ main{padding:1.2rem 1.5rem 3rem;}
 .modal-actions button{flex:1;padding:.6rem;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;}
 .mbtn-cancel{background:var(--k3);border:1px solid var(--bd);color:var(--w2);}
 .mbtn-save{background:#1a3a1a;border:1px solid #2a5a2a;color:#7fe07f;}
-.mbtn-save:hover{background:#244a24;}
+.mbtn-save:hover{background:#313131;}
 </style>
 </head>
 <body>

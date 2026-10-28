@@ -12,22 +12,22 @@
 
     :root {
       --red:        #C9A84C;
-      --gold:       #C8102E;
-      --gold-dim:   #8A1F1F;
-      --gold-pale:  #E0A0A0;
+      --gold:       #a60000;
+      --gold-dim:   #760000;
+      --gold-pale:  #eeeeee;
       --black:      #0A0A0A;
       --ink:        #0D0D0D;
       --panel:      #141209;
-      --panel-warm: #1A1610;
-      --surface:    #201D14;
-      --border:     #2A2518;
-      --border-lt:  #3A3220;
+      --panel-warm: #151515;
+      --surface:    #1b1b1b;
+      --border:     #222222;
+      --border-lt:  #2f2f2f;
       --muted:      #5A5240;
       --text:       #E0D8C8;
       --text-dim:   #8A8070;
       --white:      #FFFFFF;
       --success:    #3A7A3A;
-      --danger:     #8A1A1A;
+      --danger:     #760000;
 
       --sidebar-w: 280px;
       --header-h:  58px;
@@ -101,10 +101,10 @@
     .btn-gold:hover { background: #D9B85C; }
     .btn-danger {
       background: transparent;
-      color: #C05050;
-      border: 1px solid #3A1818;
+      color: #a60000;
+      border: 1px solid #241111;
     }
-    .btn-danger:hover { background: #1A0808; }
+    .btn-danger:hover { background: #241111; }
     .btn-success {
       background: var(--success);
       color: var(--white);
@@ -176,7 +176,7 @@
       color: var(--muted); padding: 4px; border-radius: 4px;
       line-height: 0;
     }
-    .coach-item .ci-del:hover { color: #C05050; background: rgba(200,16,46,.1); }
+    .coach-item .ci-del:hover { color: #a60000; background: rgba(166,0,0,.1); }
     .coach-item:hover .ci-del { display: flex; }
     .coach-item.active .ci-del { display: flex; }
     .ci-num {
@@ -360,7 +360,7 @@
       position: absolute; top: 8px; right: 8px;
       background: rgba(0,0,0,.7);
       border: 1px solid var(--border-lt);
-      color: #C05050;
+      color: #a60000;
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 10px; font-weight: 700;
       letter-spacing: .12em; text-transform: uppercase;
@@ -384,7 +384,7 @@
       align-items: center; justify-content: center;
       transition: all .15s; flex-shrink: 0;
     }
-    .btn-icon:hover { border-color: #3A1818; color: #C05050; background: #0D0505; }
+    .btn-icon:hover { border-color: #241111; color: #a60000; background: #241111; }
     .btn-icon svg { width: 14px; height: 14px; }
     .btn-add-trophy {
       display: flex; align-items: center; gap: 8px;
@@ -498,7 +498,7 @@
 
 <!-- ══ TOPBAR ══ -->
 <header class="topbar">
-  <a href="main.html" class="btn-back-admin">
+  <a href="index.html" class="btn-back-admin">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     Início
   </a>

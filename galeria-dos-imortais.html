@@ -18,8 +18,8 @@
   --ink3:   #2e2e2e;
   --paper:  #f5f2ec;
   --white:  #ffffff;
-  --red:    #C8102E;
-  --red2:   #9c0b22;
+  --red:    #a60000;
+  --red2:   #760000;
   --gold:   #b8940e;
   --gold2:  #d4af37;
   --gold3:  #e8cc6a;
@@ -345,7 +345,7 @@ a { color:inherit; text-decoration:none; }
 ═══════════════════════════════════════════════════ */
 #cap2 {
   background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(200,16,46,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(166,0,0,.06) 0%, transparent 60%),
     var(--ink);
 }
 
@@ -367,7 +367,7 @@ a { color:inherit; text-decoration:none; }
   background:linear-gradient(90deg, transparent, var(--red), transparent);
   opacity:0; transition:opacity .25s;
 }
-.world-card:hover { background:rgba(200,16,46,.05); border-color:rgba(200,16,46,.2); }
+.world-card:hover { background:rgba(166,0,0,.05); border-color:rgba(166,0,0,.2); }
 .world-card:hover::after { opacity:1; }
 .world-card-icon { font-size:1.5rem; margin-bottom:14px; line-height:1; }
 .world-card-prem {
@@ -481,7 +481,7 @@ a { color:inherit; text-decoration:none; }
   text-align:center; padding:100px 24px;
   position:relative; overflow:hidden;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(200,16,46,.1) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(166,0,0,.1) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 50% 50%, rgba(180,140,14,.05) 0%, transparent 60%),
     var(--ink);
 }
@@ -557,7 +557,7 @@ a { color:inherit; text-decoration:none; }
   *, *::before, *::after { animation:none!important; transition:none!important; }
 }
 </style>
-<link rel="stylesheet" href="suite-premium.css?v=20261026-r7"><link rel="stylesheet" href="pwa.css?v=20261026-r7"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head>
+<link rel="stylesheet" href="suite-premium.css?v=20261028-r10"><link rel="stylesheet" href="pwa.css?v=20261028-r10"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head>
 <body data-suite="galeria-dos-imortais">
 
 <!-- LOADING -->
@@ -569,7 +569,7 @@ a { color:inherit; text-decoration:none; }
 
 <!-- NAV -->
 <nav class="nav" id="nav">
-  <button class="nav-back" onclick="window.location.href='main.html'">
+  <button class="nav-back" onclick="window.location.href='index.html'">
     <svg width="8" height="13" viewBox="0 0 8 13" fill="none">
       <path d="M7 1L1 6.5 7 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
@@ -942,5 +942,5 @@ async function init(){
 }
 init();
 </script>
-<script src="pwa.js?v=20261026-r7"></script></body>
+<script src="pwa.js?v=20261028-r10"></script></body>
 </html>

@@ -1,19 +1,16 @@
 'use strict';
 /* Change RELEASE with each complete deployment. Never unregister notification workers. */
-<<<<<<< HEAD
-const RELEASE = '20261027-r9-news3';
-=======
-const RELEASE = '20261027-r8-push5';
->>>>>>> bc9e1e0627beccff157682a9be0cdeec9cb0ab7f
+const RELEASE = '20261028-r10';
 const SCOPE_URL = new URL(self.registration.scope);
 const SCOPE_KEY = SCOPE_URL.pathname.replace(/[^a-z0-9]/gi, '_');
 const CACHE_PREFIX = 'spfc-hoje-app-' + SCOPE_KEY + '-';
 const CACHE_NAME = CACHE_PREFIX + RELEASE;
 const SHELL = [
-  'index.html', 'main.html', 'calendario.html', 'style.css', 'app.js', 'account.js',
-  'events.js', 'js/daily-highlight.js', 'pwa.js', 'pwa.css', 'js/data-service.js', 'manifest.json', 'assets/app-icon.png'
+  'index.html', 'calendario.html', 'style.css', 'app.js', 'account.js',
+  'js/events-summary.js', 'js/home-data.js', 'js/news-sources.js', 'js/news.js', 'js/daily-highlight.js', 'pwa.js', 'pwa.css', 'js/data-service.js', 'manifest.json', 'assets/app-icon.png'
 ];
 const OPTIONAL = [
+  'events.js',
   'notificacoes.html', 'notificacoes.css', 'js/push-client.js',
   'quiz.html', 'quiz-premium.css', 'quiz-sports.css', 'quiz-fixes.css',
   'jogadores.html', 'cartel-premium.css', 'spfc_historia.html', 'tecnicos.html', 'tecnico.html',
@@ -22,7 +19,7 @@ const OPTIONAL = [
   'data/jogos.json', 'data/tematico.json', 'data/spfc-tecnicos-titulos.json',
   'data/spfc-enciclopedia-gols.json', 'data/premiacoes-spfc.json', 'assets/hero.jpg', 'assets/paulista.webp'
 ];
-const EXCLUDED = /^(?:api\/|functions\/|push\/|push-config\.js$|admin(?:\.|-)|cadastro\.html$|perfil\.html$|palpitometro\.html$|sw\.js$|OneSignal|js\/profile-auth\.js$)/;
+const EXCLUDED = /^(?:api\/|functions\/|push\/|push-config\.js$|main\.html$|admin(?:\.|-)|cadastro\.html$|perfil\.html$|palpitometro\.html$|sw\.js$|OneSignal|js\/profile-auth\.js$)/;
 function keyFor(url) { const key = new URL(url); key.search = ''; key.hash = ''; if (key.pathname === SCOPE_URL.pathname) key.pathname += 'index.html'; return key.href; }
 async function store(cache, request, response) {
   if (!response.ok || response.type !== 'basic' || response.headers.get('Cache-Control')?.includes('no-store')) return;
@@ -76,7 +73,7 @@ self.addEventListener('fetch', event => {
     } catch {
       const cached = await cache.match(keyFor(url));
       if (cached) return cached;
-      if (request.mode === 'navigate') return new Response('<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SPFC Hoje · Offline</title><body style="background:#17141d;color:#eee;font:16px/1.6 system-ui;padding:32px"><h1>Você está sem conexão.</h1><p>Esta página ainda não foi salva para uso offline.</p><a style="color:#ff7998" href="' + SCOPE_URL.pathname + 'index.html">Voltar ao início</a><p><button onclick="location.reload()">Tentar novamente</button></p></body></html>', { status: 503, headers: {'Content-Type':'text/html; charset=utf-8'} });
+      if (request.mode === 'navigate') return new Response('<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SPFC Hoje · Offline</title><body style="background:#111111;color:#eee;font:16px/1.6 system-ui;padding:32px"><h1>Você está sem conexão.</h1><p>Esta página ainda não foi salva para uso offline.</p><a style="color:#eeeeee" href="' + SCOPE_URL.pathname + 'index.html">Voltar ao início</a><p><button onclick="location.reload()">Tentar novamente</button></p></body></html>', { status: 503, headers: {'Content-Type':'text/html; charset=utf-8'} });
       return Response.error();
     }
   })();

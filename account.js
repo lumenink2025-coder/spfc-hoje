@@ -20,7 +20,7 @@
       try { await fb.signOut(fb.auth); } catch { state = 'error'; paint(); }
     });
   }
-  function open() { showing = true; if (!modal.open) modal.showModal(); paint(); modal.scrollTop = 0; }
+  function open() { delete modal.dataset.eventId; showing = true; if (!modal.open) modal.showModal(); paint(); modal.scrollTop = 0; }
   window.openAccount = open;
   document.getElementById('about').onclick = open;
   document.addEventListener('click', event => { if (event.target.closest('[data-open-account]')) { event.preventDefault(); open(); } });

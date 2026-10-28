@@ -79,6 +79,20 @@
           "value": "no-store"
         }
       ]
+    },
+    {
+      "source": "/main.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
     }
-  ]
+  ],
+  "functions": {
+    "api/rss.js": {
+      "maxDuration": 15
+    }
+  }
 }

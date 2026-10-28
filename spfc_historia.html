@@ -9,9 +9,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         :root {
-            --red: #C8102E;
-            --red-deep: #9B0B23;
-            --red-glow: rgba(200,16,46,0.18);
+            --red: #a60000;
+            --red-deep: #760000;
+            --red-glow: rgba(166,0,0,0.18);
             --black: #080808;
             --surface: #111111;
             --surface2: #181818;
@@ -24,7 +24,7 @@
             --gold: #C9A96E;
             --green: #2ECC71;
             --green-dim: rgba(46,204,113,0.12);
-            --red-dim: rgba(200,16,46,0.12);
+            --red-dim: rgba(166,0,0,0.12);
             --draw-dim: rgba(201,169,110,0.12);
         }
         *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -34,7 +34,7 @@
         /* NAV */
         .nav { position: fixed; top:0; left:0; right:0; z-index:1000; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; background: rgba(8,8,8,0.88); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); }
         .nav-brand { display: flex; align-items: center; gap: 0.75rem; }
-        .nav-logo { height: 36px; width: auto; filter: drop-shadow(0 0 8px rgba(200,16,46,0.4)); }
+        .nav-logo { height: 36px; width: auto; filter: drop-shadow(0 0 8px rgba(166,0,0,0.4)); }
         .nav-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.02em; color: var(--white); }
         .nav-credit { font-size: 0.6rem; color: var(--gray-3); letter-spacing: 0.06em; margin-top: 2px; font-style: italic; }
         .nav-links { display: flex; gap: 2rem; list-style: none; }
@@ -44,9 +44,9 @@
 
         /* HERO */
         .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 0 4rem 5rem; position: relative; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 70% 30%, rgba(200,16,46,0.10) 0%, transparent 65%), linear-gradient(180deg, #080808 0%, #0f0508 60%, #080808 100%); }
+        .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 70% 30%, rgba(166,0,0,0.10) 0%, transparent 65%), linear-gradient(180deg, #080808 0%, #241111 60%, #080808 100%); }
         .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px); background-size: 80px 80px; }
-        .hero-year { position: absolute; right: 4rem; top: 50%; transform: translateY(-50%); font-family: 'Playfair Display', serif; font-size: clamp(8rem, 18vw, 16rem); font-weight: 900; color: transparent; -webkit-text-stroke: 1px rgba(200,16,46,0.07); line-height: 1; pointer-events: none; letter-spacing: -0.04em; }
+        .hero-year { position: absolute; right: 4rem; top: 50%; transform: translateY(-50%); font-family: 'Playfair Display', serif; font-size: clamp(8rem, 18vw, 16rem); font-weight: 900; color: transparent; -webkit-text-stroke: 1px rgba(166,0,0,0.07); line-height: 1; pointer-events: none; letter-spacing: -0.04em; }
         .hero-content { position: relative; z-index: 2; max-width: 680px; }
         .hero-eyebrow { display: flex; align-items: center; gap: 0.75rem; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 1.5rem; }
         .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--red); }
@@ -80,7 +80,7 @@
 
         /* COMPETITIONS */
         .comp-wrap { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 2px; }
-        .comp-total { background: rgba(200,16,46,0.06); border: 1px solid rgba(200,16,46,0.18); padding: 1.25rem 1.5rem; display: grid; grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; gap: 0.5rem; align-items: center; }
+        .comp-total { background: rgba(166,0,0,0.06); border: 1px solid rgba(166,0,0,0.18); padding: 1.25rem 1.5rem; display: grid; grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; gap: 0.5rem; align-items: center; }
         .comp-total-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); }
         .comp-hdr { background: rgba(0,0,0,0.5); padding: 0.45rem 1.5rem; display: grid; grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; gap: 0.5rem; font-size: 0.56rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-3); border: 1px solid var(--border); border-bottom: none; margin-top: 1.5rem; }
         .cat-block { border: 1px solid var(--border); }
@@ -346,12 +346,12 @@
         .loading-cell .loading-spin { display: inline-block; margin-right: 0.75rem; vertical-align: middle; }
 
         </style>
-<link rel="stylesheet" href="suite-premium.css?v=20261026-r7"><link rel="stylesheet" href="pwa.css?v=20261026-r7"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head>
+<link rel="stylesheet" href="suite-premium.css?v=20261028-r10"><link rel="stylesheet" href="pwa.css?v=20261028-r10"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"></head>
 <body data-suite="spfc_historia">
 
 
 <nav class="nav" id="nav">
-    <a class="nav-back" onclick="history.back()" href="main.html"><i class="fas fa-chevron-left"></i> Voltar</a>
+    <a class="nav-back" onclick="history.back()" href="index.html"><i class="fas fa-chevron-left"></i> Voltar</a>
     <div class="nav-brand">
         <img class="nav-logo" src="assets/logo-original.png" alt="SPFC">
         <div>
@@ -431,7 +431,7 @@
             <div class="chart-legend">
                 <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#2ECC71"></div> Vitórias (3.048)</div>
                 <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#C9A96E"></div> Empates (1.501)</div>
-                <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#C8102E"></div> Derrotas (1.449)</div>
+                <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#a60000"></div> Derrotas (1.449)</div>
             </div>
         </div>
         <div class="chart-card fade-up">
@@ -630,7 +630,7 @@ function renderComps() {
   const tGP = Object.values(CS).reduce((s,c)=>s+c.gp,0);
   const tGC = Object.values(CS).reduce((s,c)=>s+c.gc,0);
   const tAp = ((tV*3+tE)/(tJ*3)*100).toFixed(1);
-  let h = `<div class="comp-hdr" style="margin-top:0; border:1px solid rgba(200,16,46,0.2); background:rgba(200,16,46,0.04)">
+  let h = `<div class="comp-hdr" style="margin-top:0; border:1px solid rgba(166,0,0,0.2); background:rgba(166,0,0,0.04)">
     <span>GERAL — Todas as competições</span><span>J</span><span>V</span><span>E</span><span>D</span><span>GP</span><span>GC</span><span>Aprov.</span></div>
   <div class="comp-total">
     <span class="cat-name" style="color:var(--white)">São Paulo FC</span>
@@ -865,5 +865,5 @@ window.addEventListener('scroll',()=>{
 // Init via fetch
 loadData();
 </script>
-<script src="pwa.js?v=20261026-r7"></script></body>
+<script src="pwa.js?v=20261028-r10"></script></body>
 </html>

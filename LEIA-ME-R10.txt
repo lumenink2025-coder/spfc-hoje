@@ -1,0 +1,32 @@
+SPFC HOJE — R10 | 28 DE OUTUBRO DE 2026
+Preto fosco, vermelho sangue, notícias e carregamento do destaque
+
+PUBLICAÇÃO NO PROJETO EXISTENTE
+1. Extraia o ZIP.
+2. Envie o conteúdo extraído para a raiz do mesmo repositório usado no Vercel, substituindo os arquivos correspondentes. Inclua as pastas api, js, data, assets, icons e push, junto com os arquivos da raiz e vercel.json.
+3. Faça o commit e aguarde o deploy do Vercel concluir.
+4. Abra o site novamente. Se aparecer “Uma nova versão está pronta”, toque em Atualizar. A versão R10 aparece no rodapé.
+
+ENDEREÇOS
+Site público: / ou /index.html
+Admin: /main.html — digite diretamente na barra do navegador.
+O painel continua exigindo a conta administrativa. Seus controles e funções foram preservados.
+O antigo /admin.html leva ao site público. Os menus, o rodapé e a opção Mais não contêm links para o admin.
+Links antigos de memórias com main.html#memoria=... continuam abrindo a história no site público.
+
+O QUE FOI CORRIGIDO
+• Tema: fundo preto fosco #111111 e vermelho sangue #a60000, com tons neutros nas superfícies e nos textos.
+• RSS: fontes inválidas substituídas, atualização progressiva e reaproveitamento das notícias salvas. A falha de uma fonte não impede as outras.
+• Oito fontes: São Paulo FC, São Paulo Blog, Gazeta Esportiva, São Paulo Sempre, SPFC 24 Horas, Avante Meu Tricolor, Bolavip Brasil e Trivela (filtrada para o São Paulo).
+• No Vercel, o RSS usa /api/rss e não exige chave de API. Em hospedagem somente estática, usa o intermediário já existente no projeto.
+• Destaque: resumo inicial de aproximadamente 110 KB, consulta rápida do dia, imagens otimizadas e acervo completo carregado em segundo plano. Notícias não recriam o destaque.
+• Base local atualizada com 565 registros, mantendo os relatos, fotos, estatísticas e vídeos completos.
+• Service worker: conflito de Git removido; cache atualizado para 20261028-r10. O painel administrativo fica fora do cache offline.
+
+VERIFICAÇÃO
+102 verificações automatizadas aprovadas: service worker, login administrativo simulado, leitura/cache do acervo, API RSS e parser RSS/Atom.
+Prévia conferida no computador e em telas estreitas: destaque e relato, notícias, menu Mais, painel de login, quiz e Cartel Tricolor.
+As fontes externas podem oscilar; nesses casos, o app conserva as notícias disponíveis e informa atualização parcial.
+O envio de alterações dentro do admin exige o seu login e não foi executado durante a revisão.
+
+Este ZIP contém o site para o Vercel e as instruções desta versão.

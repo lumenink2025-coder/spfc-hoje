@@ -1,8 +1,8 @@
 /* Answer feedback is a state, never a sticky hover or a leftover focus effect. */
 .premium-quiz .q-opt{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-.premium-quiz .q-opt:not(.correct):not(.wrong) .q-opt-inner{background:#25252e!important;border-color:#47434e!important;box-shadow:none!important}
-.premium-quiz .q-opt:not(.correct):not(.wrong) .q-opt-letter{background:#37323f!important;border-color:#5b5265!important;color:#eee!important}
+.premium-quiz .q-opt:not(.correct):not(.wrong) .q-opt-inner{background:#282828!important;border-color:#484848!important;box-shadow:none!important}
+.premium-quiz .q-opt:not(.correct):not(.wrong) .q-opt-letter{background:#383838!important;border-color:#5b5b5b!important;color:#eee!important}
 .premium-quiz .q-opt:focus{outline:none}
-.premium-quiz .q-opt:focus-visible{outline:2px solid #f69ab0;outline-offset:4px}
+.premium-quiz .q-opt:focus-visible{outline:2px solid #eeeeee;outline-offset:4px}
 .premium-quiz .q-opt-text{overflow-wrap:anywhere}
 @media(max-width:700px){.premium-quiz .q-opt-text{font-size:14px!important;line-height:1.5!important}.premium-quiz .q-opt-inner{min-height:64px!important}.premium-quiz .quiz-question{font-size:22px!important;line-height:1.35!important}.premium-quiz .helper-btn{min-height:48px!important}.premium-quiz input{font-size:16px}.premium-quiz .arena-shelltag{display:none}}
