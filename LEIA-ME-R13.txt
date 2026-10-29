@@ -1,0 +1,34 @@
+MAGAZINE TRICOLOR — R13
+Versão: 20261029-r13
+
+NOVIDADE: TRICOLOR FAT
+A home agora apresenta uma faixa compacta de parceria logo abaixo do destaque
+principal e antes da área de perfil. O botão Acompanhar no YouTube abre o canal
+https://www.youtube.com/@tricolor_fat em uma nova aba.
+O parceiro também aparece em Sobre e créditos.
+
+A faixa apresenta as narrações ao vivo como atividade do canal. Não consulta
+o status do YouTube e não mostra uma indicação automática de Ao vivo agora.
+Não há player incorporado, reprodução automática, pop-up, animação ou download
+de imagens do canal. A inclusão usa HTML, CSS e ícones vetoriais leves.
+
+PUBLICAR
+1. Extraia o ZIP.
+2. Substitua os arquivos na raiz do mesmo projeto da Vercel, incluindo as pastas.
+3. Faça o deploy completo.
+4. Abra o site e use Atualizar quando aparecer o aviso da nova versão.
+
+index.html: site público.
+main.html: painel administrativo, com autenticação.
+O cache foi atualizado para 20261029-r13.
+
+PRESERVADO
+Ícone R12 com M vermelho e T branco; RSS com 12 fontes; calendário; quiz;
+Cartel Tricolor; perfil; Sobre e créditos; todas as funções administrativas.
+Nenhuma migração ou alteração no banco de dados é necessária.
+
+VERIFICAÇÃO
+Sintaxe JavaScript, referências locais, imagens e integridade do ZIP conferidas.
+Faixa e link conferidos na prévia desktop e em larguras de celular.
+O parceiro ocupa um único espaço na home e está identificado nos créditos.
+Esta entrega é o pacote completo para publicação; não altera o site em produção.
