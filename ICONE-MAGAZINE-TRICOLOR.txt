@@ -1,12 +1,19 @@
-Ícone criado com o recurso integrado image_gen.
-Arquivo mestre: assets/magazine-tricolor-icon.png.
-Conversão técnica para tamanhos PNG e ICO; a variante maskable recebe margem adicional para preservar o monograma quando o sistema aplica sua própria máscara.
+Ícone MAGAZINE TRICOLOR — R12
+M vermelho sangue à esquerda; T branco à direita; fundo preto fosco.
+Novo monograma com textura, acabamento em relevo e contornos iluminados.
+Criado com image_gen em modo de geração de nova imagem.
+Arquivo mestre: assets/magazine-tricolor-icon.png (1024×1024).
+A conversão técnica gera PNGs opacos, favicon ICO e variantes maskable com margem de segurança.
+Os novos caminhos icons/mt-r12-* e o cache 20261029-r12 substituem o ícone anterior.
+Os caminhos antigos também contêm a arte corrigida para manter compatibilidade.
 
 Prompt utilizado:
 Use case: logo-brand.
-Asset type: a final production square mobile PWA app icon for MAGAZINE TRICOLOR, a São Paulo FC fan magazine.
-Primary request: create a single original, very bold MT monogram, ultra legible at small icon sizes, with premium sports editorial identity.
-Composition: one centered connected geometric MT symbol. Clearly readable M in warm white and T in deep blood red #A60000, angular confident heavy strokes and clean negative space. The symbol occupies the central 56% of the square so all of it stays inside a circle with radius 40% of the square width. No words beyond the two letters MT. Subtle suggestion of tricolor horizontal bands can be integrated into the letter construction, only if it keeps the MT clear.
-Background: perfectly uniform opaque matte near black #111111 covering the ENTIRE square, including corners, flat colors, no texture. Image 1024 by 1024 pixels.
-Style: polished minimal geometric graphic, precise edges, flat vector-like design, high contrast, balanced sports magazine monogram. Deliver the icon artwork itself, not a device mockup.
-Constraints: exactly one icon; square full bleed; no rounded outer corners, no border or outline around the background; no extra text or tiny lettering, no football club shield, no stars, no ball, no gradients, no shine, no 3D, no shadow, no pink or magenta.
+Asset type: finished premium mobile app icon for MAGAZINE TRICOLOR, a São Paulo FC fan magazine.
+Create an original, striking, professionally art-directed MT monogram with the sophistication of a major premium sports media brand. This is a completely new design, with character and crafted detail.
+MANDATORY COLOR ASSIGNMENT: the M on the LEFT is entirely BLOOD RED (#A60000 to rich crimson #C40000), and the T on the RIGHT is entirely WHITE / pearl white (#F7F7F7). Never swap these colors. No white M, no red T. Only the two letters MT, extremely legible.
+Typography: custom sculpted bold angular letterforms, compact architectural interlocking structure with deliberate negative space and energetic diagonal cuts. It must read unequivocally as M and T, not N or any other letters. Preserve each letter's own color where they interlock.
+Finish: restrained shallow dimensional bevels, expertly controlled highlights on precision-cut edges, subtle tactile red enamel on the M, refined satin-white ceramic on the T. Premium manufactured emblem, rich material depth, confident and elegant rather than a generic flat font. Balanced frontal view, absolutely no perspective distortion. A soft narrow dark-red rim light behind the emblem adds life without overpowering the silhouette.
+Backdrop: full-bleed very dark matte graphite / near black square, extremely subtle microtexture and studio falloff, calm dark corners, no rounded outer corners, no decorative frame. The real icon artwork itself, no phone mockup.
+Composition: one centered unified emblem, visually balanced, using the middle 60% of the image, ample breathing room for circular and rounded-square operating-system masks. Both letters equally prominent. Crisp quality and readable even at 32 px. Square high resolution.
+Avoid: pink or magenta, neon glow, generic clip art, extra text, stars, official club crest, football, ornamental clutter, cheap shiny chrome, gold, giant lens flares, excessive extrusion, outlines, outer border, transparent background.

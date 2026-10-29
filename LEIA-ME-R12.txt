@@ -1,0 +1,46 @@
+MAGAZINE TRICOLOR — R12
+Versão: 20261029-r12
+
+PACOTE COMPLETO DO APP
+Inclui o novo ícone com M vermelho sangue e T branco sobre preto fosco,
+com textura e relevo. Esta atualização mantém o conteúdo, as funções e o banco
+do pacote R11. Não é necessário recriar o projeto.
+
+COMO APLICAR
+1. Extraia o ZIP.
+2. Substitua os arquivos na raiz do mesmo projeto, incluindo as pastas assets/,
+   icons/, js/, data/ e api/. Não coloque o ZIP inteiro dentro do site.
+3. Faça o deploy completo do projeto na Vercel.
+4. Abra o site e use Atualizar quando o aviso de nova versão aparecer.
+
+index.html continua sendo a página pública.
+main.html continua sendo o painel administrativo, com autenticação.
+
+FORMATOS DO ÍCONE
+- PNG 192, 512 e 1024 para a instalação do app.
+- Maskable 512 e 1024 com margem para os recortes dos sistemas.
+- Apple touch icon 120, 152, 167 e 180.
+- Favicon PNG 16, 32 e 48; ICO com 16, 32, 48, 64, 128 e 256.
+- Tile 150 para Windows.
+Mestre: assets/magazine-tricolor-icon.png.
+Variações atualizadas: icons/mt-r12-*.
+Os caminhos antigos de ícones também foram atualizados por compatibilidade.
+
+ATUALIZAÇÃO
+O service worker usa a nova versão 20261029-r12 e os novos links de ícone.
+A identidade do aplicativo no manifest foi mantida.
+O ícone na tela inicial pode depender da atualização feita pelo sistema.
+Se continuar antigo após o deploy, remova apenas o atalho da tela inicial e
+adicione o site novamente. Não é necessário limpar os dados do navegador.
+
+PRESERVADO DA R11
+RSS com 12 fontes; calendário; quiz; Cartel Tricolor; perfil; Sobre e créditos;
+funções administrativas; carregamento otimizado do destaque.
+A lista de notícias continua alternando fontes, filtrando por veículo e
+carregando mais artigos quando solicitado.
+
+CONFERÊNCIA DESTA ATUALIZAÇÃO
+Tamanhos, opacidade, margens dos ícones adaptativos, caminhos locais,
+referências no manifest, versão do cache e integridade do ZIP foram conferidos.
+A alteração foi limitada aos ícones, suas referências, versão e documentação.
+Não foi realizada instalação física em cada sistema operacional.
