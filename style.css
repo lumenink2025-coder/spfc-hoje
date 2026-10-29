@@ -39,3 +39,24 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline-color:#eee}.tex
 @media(min-width:701px) and (max-width:900px){.brand .brand-name{display:none}.brand-mini{display:block;font:800 25px/1 var(--display);color:#eee;border-bottom:3px solid #a60000;padding-bottom:5px}}
 @media(max-width:700px){.mobile-brand strong{display:flex;flex-direction:column;gap:3px;font-size:24px;line-height:.95}.mobile-brand strong small{font:600 8px/1.2 var(--body);letter-spacing:3px;color:#eee}.mobile-brand strong span{display:block}.news-filters{flex-wrap:nowrap;overflow-x:auto;padding:0 0 9px;scrollbar-width:thin;scrollbar-color:#5c1a1a #171717;margin-bottom:15px}.news-filters button{flex-shrink:0;min-height:42px}.news-coverage{font-size:9px;max-width:250px}.news-section .section-title>.button{padding:10px 12px;font-size:10px}.feed-source-grid{grid-template-columns:1fr 1fr}.hero-edition{max-width:108px;font-size:6px;letter-spacing:1px}}
 @media(max-width:360px){.feed-source-grid{grid-template-columns:1fr}.news-section .section-title h1{font-size:25px}.news-section .section-title .rss-badge{display:none}.news-coverage{font-size:8px}.mobile-brand strong{font-size:23px}}
+
+
+/* R13 · a compact partner slot, without a player or automatic network requests. */
+.partner-broadcast{display:grid;grid-template-columns:48px minmax(0,1fr) auto;align-items:center;column-gap:16px;row-gap:14px;margin-top:18px;padding:17px 20px;border:1px solid #333;border-left:3px solid var(--red);border-radius:12px;background:#181818}
+.partner-symbol{display:grid;place-items:center;width:48px;height:48px;border:1px solid #a600004d;border-radius:12px;background:#281313;color:#f1f1f1}
+.partner-symbol svg{width:24px;height:24px;stroke-width:1.7}
+.partner-copy{min-width:0}
+.partner-eyebrow{display:flex;align-items:center;gap:8px;font:650 8px/1.4 var(--body);letter-spacing:1.5px;color:#ababab}
+.partner-eyebrow>span{color:#666}
+.partner-copy h2{font:700 28px/1.1 var(--display);letter-spacing:.2px;color:#f5f5f5;margin:4px 0}
+.partner-copy p{font:400 11px/1.5 var(--body);color:#b8b8b8;margin:0}
+.partner-link{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:11px 15px;border:1px solid #4a4a4a;border-radius:8px;background:#232323;color:#f5f5f5;font:650 11px/1.4 var(--body);white-space:nowrap}
+.partner-link .partner-play{width:22px;height:22px;stroke:none}
+.partner-play rect{fill:#a60000}
+.partner-play path{fill:#fff}
+.partner-link .partner-external{width:15px;height:15px;color:#c4c4c4}
+.partner-link:focus-visible{outline:2px solid #fff;outline-offset:4px}
+@media(hover:hover) and (pointer:fine){.partner-link:hover{background:#2b2b2b;border-color:#a60000;color:#fff}}
+@media(max-width:1150px){.partner-broadcast{column-gap:13px;padding:16px}.partner-link{padding:11px 12px;font-size:10px;gap:8px}.partner-copy p{font-size:10px}}
+@media(max-width:580px){.partner-broadcast{grid-template-columns:42px minmax(0,1fr);margin-top:16px;padding:15px 16px;column-gap:12px;row-gap:13px}.partner-symbol{width:42px;height:42px;border-radius:10px}.partner-symbol svg{width:22px;height:22px}.partner-eyebrow{font-size:7px;letter-spacing:1.2px;gap:6px}.partner-copy h2{font-size:27px;margin:4px 0}.partner-copy p{font-size:10px;line-height:1.6}.partner-link{grid-column:1/-1;width:100%;font-size:11px;min-height:44px}.partner-link .partner-external{margin-left:3px}}
+@media(prefers-contrast:more){.partner-broadcast,.partner-link{border-color:#aaa}.partner-eyebrow,.partner-copy p{color:#eee}}
