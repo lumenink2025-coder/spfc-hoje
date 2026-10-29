@@ -79,7 +79,7 @@
   document.addEventListener('visibilitychange', () => { if (!document.hidden) render(); });
   async function start() {
     if (!config.enabled || !uuid.test(config.appId || '')) {
-      show('unavailable', 'Avisos em preparação', 'Estamos preparando as notificações do SPFC Hoje. Volte em breve para ativar neste aparelho.');
+      show('unavailable', 'Avisos em preparação', 'Estamos preparando as notificações do MAGAZINE TRICOLOR. Volte em breve para ativar neste aparelho.');
       return;
     }
     let canonical;
@@ -88,7 +88,7 @@
       if (canonical.protocol !== 'https:' || canonical.username || canonical.password || canonical.pathname !== '/' || canonical.search || canonical.hash) throw Error();
     } catch { fail(); return; }
     if (location.origin !== canonical.origin) {
-      show('unavailable', 'Ative no endereço principal', 'As notificações pertencem ao endereço em que você se inscreve. Continue no site principal do SPFC Hoje.');
+      show('unavailable', 'Ative no endereço principal', 'As notificações pertencem ao endereço em que você se inscreve. Continue no site principal do MAGAZINE TRICOLOR.');
       $('push-canonical').href = new URL('/notificacoes.html', canonical).href;
       $('push-canonical').hidden = false;
       return;

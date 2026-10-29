@@ -23,7 +23,7 @@
     };
     return messages[error?.code]||'Não foi possível entrar. Copie o diagnóstico abaixo para identificar a causa.';
   }
-  function diagnostic(){return 'SPFC Hoje · Admin R7\nPágina: '+location.origin+location.pathname+'\nConexão do navegador: '+(navigator.onLine?'online':'offline')+'\nLogin carregado: '+(ready?'sim':'não')+'\nConta configurada: '+account()+'\nCódigo: '+lastCode;}
+  function diagnostic(){return 'MAGAZINE TRICOLOR · Admin R7\nPágina: '+location.origin+location.pathname+'\nConexão do navegador: '+(navigator.onLine?'online':'offline')+'\nLogin carregado: '+(ready?'sim':'não')+'\nConta configurada: '+account()+'\nCódigo: '+lastCode;}
   function updateDiagnostic(){if($('adminDiagnostic'))$('adminDiagnostic').textContent=diagnostic();}
   function fail(error){lastCode=error?.code||'admin/unknown';$('loginErr').textContent=errorText(error);$('loginErr').dataset.code=lastCode;updateDiagnostic();}
   function showScreen(user){

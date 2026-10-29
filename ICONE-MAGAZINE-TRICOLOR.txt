@@ -1,0 +1,12 @@
+Ícone criado com o recurso integrado image_gen.
+Arquivo mestre: assets/magazine-tricolor-icon.png.
+Conversão técnica para tamanhos PNG e ICO; a variante maskable recebe margem adicional para preservar o monograma quando o sistema aplica sua própria máscara.
+
+Prompt utilizado:
+Use case: logo-brand.
+Asset type: a final production square mobile PWA app icon for MAGAZINE TRICOLOR, a São Paulo FC fan magazine.
+Primary request: create a single original, very bold MT monogram, ultra legible at small icon sizes, with premium sports editorial identity.
+Composition: one centered connected geometric MT symbol. Clearly readable M in warm white and T in deep blood red #A60000, angular confident heavy strokes and clean negative space. The symbol occupies the central 56% of the square so all of it stays inside a circle with radius 40% of the square width. No words beyond the two letters MT. Subtle suggestion of tricolor horizontal bands can be integrated into the letter construction, only if it keeps the MT clear.
+Background: perfectly uniform opaque matte near black #111111 covering the ENTIRE square, including corners, flat colors, no texture. Image 1024 by 1024 pixels.
+Style: polished minimal geometric graphic, precise edges, flat vector-like design, high contrast, balanced sports magazine monogram. Deliver the icon artwork itself, not a device mockup.
+Constraints: exactly one icon; square full bleed; no rounded outer corners, no border or outline around the background; no extra text or tiny lettering, no football club shield, no stars, no ball, no gradients, no shine, no 3D, no shadow, no pink or magenta.

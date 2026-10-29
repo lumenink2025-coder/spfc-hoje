@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     for (let redirects = 0; redirects <= 3; redirects++) {
       upstream = await fetch(url, { signal: controller.signal, redirect: 'manual', headers: {
         Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml',
-        'User-Agent': 'SPFC-Hoje-RSS/1.0 (+https://spfc-hoje.vercel.app/)'
+        'User-Agent': 'Magazine-Tricolor-RSS/1.1 (+https://spfc-hoje.vercel.app/)'
       } });
       if (![301, 302, 303, 307, 308].includes(upstream.status)) break;
       const next = new URL(upstream.headers.get('location') || '', url);

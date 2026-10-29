@@ -2584,14 +2584,20 @@
   },
   {
     "id": "JPNDKlJI4nGfaorXy6TI",
-    "e": "⚽",
+    "t": "vitoria",
+    "createdAt": "2026-10-29T03:23:41.468Z",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793244173/Soccer_publishing_banner_celebra__f2a6f320.jpg",
     "dia": 3,
+    "e": "⚽",
     "y": 1940,
     "mes": 11,
-    "n": "7x2 no Comercial-SP",
-    "t": "vitoria",
-    "createdAt": "2026-05-16T14:18:17.773Z",
-    "d": "Goleada histórica"
+    "stats": [],
+    "imgCap": "",
+    "updatedAt": "2026-10-29T03:23:41.472Z",
+    "d": "Goleada histórica",
+    "n": "SPFC 7x2 no Comercial-SP",
+    "ctx": "",
+    "video": ""
   },
   {
     "id": "JUZxKeZfOljv6VurW9Ue",
@@ -2785,6 +2791,23 @@
     "t": "aniversario",
     "dia": 3,
     "n": "Pedro Rocha"
+  },
+  {
+    "id": "KkqPFGPzFputi2iK4gAh",
+    "mes": 11,
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793245005/Banner_estreia_Vitor_04.11.1990_8a295a22.jpg",
+    "createdAt": "2026-10-29T03:40:37.202Z",
+    "d": "A estreia de Vítor e o início de uma trajetória histórica no São Paulo",
+    "ctx": "Alguns jogadores entram em campo para disputar uma partida. Outros começam ali uma história que os levará a conquistar o mundo. Em 4 de novembro de 1990, o São Paulo Futebol Clube viu estrear no time profissional um jovem lateral-direito que se tornaria peça importante de uma das eras mais gloriosas de sua história: Vítor.\n\nRevelado nas categorias de base tricolores, Vítor fez sua primeira partida pelo profissional aos 18 anos, na vitória por 2 a 1 sobre o Cruzeiro, pelo Campeonato Brasileiro. Era o começo de uma trajetória que o colocaria entre os nomes importantes do São Paulo dos anos 1990, período em que o clube alcançou o topo do futebol brasileiro e mundial.\n\nA ascensão do lateral aconteceu em uma equipe que se preparava para viver tempos extraordinários. Sob o comando de Telê Santana, o Tricolor desenvolvia um futebol de técnica, disciplina tática e intensidade. Vítor encontrou espaço nesse cenário graças à força física, à regularidade e à capacidade de cumprir suas funções defensivas sem deixar de apoiar o ataque.\n\nSua presença na lateral-direita também tornou ainda mais interessante a disputa por posições com Cafu. O talento e a versatilidade dos dois permitiam diferentes alternativas para Telê, que em determinadas ocasiões utilizou Cafu mais adiantado, no meio-campo. Em um elenco repleto de jogadores de qualidade, Vítor conquistou seu espaço e participou de campanhas inesquecíveis.\n\nEm 1991, ajudou o São Paulo a conquistar o Campeonato Brasileiro e o Campeonato Paulista. No ano seguinte, integrou a equipe campeã paulista e, sobretudo, o time que conquistou a América e o mundo.\n\nA Libertadores de 1992 marcou o início de uma sequência que mudaria definitivamente a dimensão internacional do clube. Naquele mesmo ano, o São Paulo venceu o Barcelona por 2 a 1 e conquistou o Mundial Interclubes, em Tóquio. Vítor fazia parte daquele grupo que levou o nome tricolor ao topo do futebol mundial.\n\nEm 1993, o São Paulo voltou a conquistar a Copa Libertadores. Na decisão contra a Universidad Católica, do Chile, o Tricolor construiu uma vantagem expressiva no jogo de ida: 5 a 1, no Morumbi. Vítor marcou um dos gols daquela goleada, deixando sua contribuição registrada em uma das noites mais emblemáticas da campanha continental.\n\nA equipe voltou a conquistar o Mundial Interclubes naquele ano, derrotando o Milan por 3 a 2, em uma final dramática. A vitória confirmou a força de um São Paulo que não se contentava em conquistar títulos: queria provar sua capacidade diante dos melhores times do planeta.\n\nO desempenho de Vítor também despertou o interesse do futebol europeu. Em 1993, o lateral foi emprestado ao Real Madrid, experiência que representou mais um capítulo de uma carreira marcada pela passagem por grandes clubes.\n\nDepois do São Paulo, construiu uma trajetória que o levou a uma marca histórica na Copa Libertadores: tornou-se o único jogador brasileiro a conquistar a competição por três clubes diferentes, defendendo também o Cruzeiro e o Vasco da Gama. Um feito que demonstra a dimensão de sua carreira no futebol sul-americano.\n\nMas, para o torcedor são-paulino, sua história está eternamente ligada àquela geração comandada por Telê Santana. Vítor não era apenas o lateral que ocupava um setor do campo. Era parte de um elenco que reunia talento, competitividade e a ambição de transformar o São Paulo em referência mundial.\n\nEm 4 de novembro de 1990, Vítor começou sua trajetória profissional com uma vitória tricolor sobre o Cruzeiro. Nos anos seguintes, ajudaria a escrever capítulos de uma era em que o São Paulo conquistou o Brasil, a América e o mundo.\n\nAlguns jogadores passam pelo Morumbi. Outros deixam sua marca em uma geração inteira. Vítor pertence à história daqueles que ajudaram a transformar a camisa tricolor em símbolo de conquistas inesquecíveis.",
+    "destaqueData": "2026-11-04",
+    "n": "Estreia do lateral, Vitor",
+    "video": "OS-a-4RQtFk",
+    "stats": [],
+    "dia": 4,
+    "e": "⭐",
+    "t": "estreia",
+    "y": 1990,
+    "imgCap": ""
   },
   {
     "id": "KmIkkLqpKHkm1FQgZ5K0",
@@ -3692,6 +3715,22 @@
     "n": "2x1 no Santos",
     "dia": 12,
     "t": "vitoria"
+  },
+  {
+    "id": "R4GkGYdfLXSatuYaWe1S",
+    "video": "",
+    "mes": 11,
+    "stats": [],
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793244413/Soccer_match_score_banner_6abbebb9.jpg",
+    "createdAt": "2026-10-29T03:30:57.337Z",
+    "ctx": "O futebol também escreve sua história longe dos grandes palcos da capital. Em São Carlos, no interior paulista, o dia da inauguração de um estádio entrou para a memória local com um clássico entre São Paulo e Palmeiras, dois gigantes que levaram sua rivalidade a uma ocasião especial: a abertura oficial do Estádio Luís Augusto de Oliveira, o tradicional Luisão.\n\nA partida foi disputada em caráter amistoso e fez parte da rodada dupla que marcou a inauguração do estádio. Antes do confronto entre os profissionais, a Seleção Amadora de São Carlos enfrentou a Associação Atlética Itapuí e venceu por 5 a 0. Depois, chegou a vez de a cidade receber um duelo que dificilmente passaria despercebido pelos apaixonados por futebol.\n\nDentro de campo, o São Paulo levou a melhor: vitória tricolor por 3 a 2 sobre o Palmeiras.\n\nOs gols são-paulinos foram marcados por Antoninho, Miruca e Nenê. Antoninho entrou para um registro especial: foi o autor do primeiro gol do São Paulo na história do estádio. Pelo lado palmeirense, Júlio Amaral marcou os dois gols da equipe alviverde.\n\nO placar apertado deu emoção ao encontro e garantiu ao Tricolor a honra de vencer o principal jogo da inauguração. Mais do que o resultado, aquele amistoso representou a participação de dois dos maiores clubes paulistas em um momento importante para o esporte de São Carlos.\n\nNaquele período, partidas desse tipo tinham um significado que ultrapassava a preparação das equipes. Levar clubes de grande expressão ao interior ajudava a aproximar torcedores, fortalecer a cultura futebolística regional e transformar a inauguração de um estádio em uma verdadeira celebração popular.\n\nPara o São Paulo, havia ainda um ingrediente adicional: segundo os registros históricos associados ao confronto, a vitória também teve o sabor de interromper uma sequência incômoda sem vencer o rival. Assim, o triunfo no Luisão ganhou um significado especial para o torcedor tricolor.\n\nO Estádio Luís Augusto de Oliveira se tornaria uma referência esportiva de São Carlos, recebendo partidas e ajudando a preservar a tradição do futebol no interior paulista. E o São Paulo ficou ligado à memória de sua inauguração por meio de uma vitória sobre o Palmeiras, com Antoninho assinando o primeiro gol tricolor naquele gramado.\n\nSão Paulo 3, Palmeiras 2. Um amistoso, três gols tricolores e uma lembrança que une a história são-paulina à de um estádio construído para fazer parte da vida esportiva de uma cidade inteira.\n\nPorque a grandeza de um clube também se mede pelos lugares onde sua história deixa marcas — e, em São Carlos, o Tricolor ajudou a inaugurar uma nova casa para o futebol.",
+    "t": "vitoria",
+    "imgCap": "",
+    "d": "São Paulo 3 x 2 Palmeiras — O Tricolor na inauguração do Estádio Luisão",
+    "n": "SPFC 3x2 PALMEIRAS",
+    "e": "⚽",
+    "y": 1968,
+    "dia": 3
   },
   {
     "id": "R84kOZRn9xLw306ybwcQ",
@@ -4621,6 +4660,22 @@
     "n": "4x1 no Olimpia-PAR",
     "d": "Quando o Morumbi virou palco de uma avalanche tricolor",
     "ctx": "Há noites em que o futebol parece conspirar a favor da história. Noites em que a camisa pesa, o estádio pulsa e o adversário descobre, dentro das quatro linhas, que enfrentar o São Paulo no Morumbi pode ser uma tarefa ingrata.\n\nNaquela quarta-feira, 29 de outubro de 1997, o Tricolor recebeu o Olimpia, do Paraguai, pela Supercopa Libertadores. Era uma competição que reunia os antigos campeões da América, um torneio de tradição continental que colocava frente a frente clubes acostumados a escrever capítulos importantes na história do futebol sul-americano.\n\nO São Paulo de Darío Pereyra tinha uma missão: vencer para seguir firme na disputa. E foi justamente quando a partida se aproximava do intervalo que a história começou a ganhar contornos de goleada.\n\nO placar que terminaria em 4 a 1 não foi apenas uma vitória expressiva. Foi a demonstração de força de um time que ainda carregava o peso de sua tradição internacional e queria continuar entre os protagonistas do continente.\nDois minutos que mudaram a temperatura do jogo\nO primeiro golpe veio aos 13 minutos, com Mauro Caballero marcando contra a própria meta. Aos 35, Nelson Zelaya também desviou para dentro do próprio gol. E o São Paulo, que já tinha colocado o adversário em desvantagem, tratou de transformar a superioridade em futebol ofensivo: Edmílson ampliou aos 37, e Víctor Aristizábal fez o quarto aos 41 minutos do primeiro tempo, segundo o registro histórico da RSSSF. \nRSSSF Brasil+1\n\n\nQuatro gols antes do intervalo! O Morumbi assistia a uma atuação que não deixava dúvidas sobre a ambição tricolor naquela noite.\n\nEdmílson, chegando para marcar, e Aristizábal, colocando sua assinatura na goleada, representavam a força de um elenco que tinha ainda nomes como Rogério Ceni, Bordon, Serginho, Marcelinho Paraíba e Dodô. Um time de jogadores talentosos, comandado por Darío Pereyra, que buscava seu espaço em uma competição continental de peso. \nRSSSF Brasil+1\n\n\nO Olimpia ainda descontou na segunda etapa, com Gabriel González, mas a noite já tinha dono. O placar final de 4 a 1 confirmou a vitória são-paulina e reforçou a candidatura do clube à conquista da Supercopa. \nRSSSF Brasil+1\n\nA grandeza também mora nas noites que não viraram taça\nO São Paulo chegaria à decisão daquela edição da Supercopa contra o River Plate. Depois do empate sem gols no Morumbi, perderia por 2 a 1 na Argentina e encerraria a competição como vice-campeão. \nSPFC+1\n\n\nMas há uma diferença entre não levantar a taça e não deixar história.\n\nA Supercopa de 1997 foi a última edição do torneio. E aquela goleada sobre o Olimpia permanece como um registro expressivo da trajetória internacional tricolor: quatro gols, uma noite de afirmação e um Morumbi que viu seu time avançar com autoridade.\n\nPorque ser são-paulino também é isso: guardar com carinho as conquistas, mas não esquecer as grandes atuações que ajudaram a construir a identidade de um clube acostumado a enfrentar gigantes.\n\nEm 29 de outubro de 1997, o São Paulo não conquistou a Supercopa. Mas venceu o Olimpia com a autoridade de quem sabia que sua história continental ainda merecia muitos capítulos.\n\nE para quem ama essa camisa, certas noites não precisam de uma taça para serem eternas."
+  },
+  {
+    "id": "YKfu3acipkzCSLKagETB",
+    "mes": 11,
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793245837/Translating_image_prompt_into_Po__c5f524ac.jpg",
+    "d": "Borges se despede do São Paulo após fazer história no ataque tricolor",
+    "createdAt": "2026-10-29T03:51:44.385Z",
+    "t": "despedida",
+    "y": 2009,
+    "video": "n_KZ1diiSpM",
+    "ctx": "Nem toda despedida acontece diante de milhares de torcedores, com aplausos, faixas e uma última volta pelo gramado. Algumas acontecem longe dos holofotes, dentro de um vestiário, entre apertos de mão, abraços e lembranças de tudo o que foi vivido. Para Borges, o encerramento de sua passagem pelo São Paulo Futebol Clube teve um pouco desse sentimento: o fim de um ciclo marcado por gols, títulos e uma despedida que não aconteceu da maneira que o atacante gostaria.\n\nEm 7 de dezembro de 2009, foi anunciada oficialmente sua saída do Tricolor. Depois de três temporadas no clube, o atacante não renovaria seu contrato e seguiria para um novo capítulo da carreira. Ficava para trás uma passagem importante pelo Morumbi, especialmente durante o período em que o São Paulo dominou o Campeonato Brasileiro.\n\nContratado em 2007, Borges chegou para reforçar o setor ofensivo de uma equipe que já possuía uma estrutura sólida e ambições de continuar no topo do futebol nacional. Com presença de área, força física e faro de gol, conquistou espaço e rapidamente se tornou uma das principais opções ofensivas do elenco.\n\nSua primeira temporada foi coroada com o título brasileiro de 2007. Borges marcou 13 gols naquele campeonato e contribuiu para a campanha que levou o São Paulo ao pentacampeonato brasileiro — considerando os títulos reconhecidos pelo clube naquele momento. O Tricolor demonstrava novamente sua capacidade de unir organização defensiva e eficiência ofensiva para superar os adversários ao longo de uma competição extensa.\n\nEm 2008, o atacante viveu uma temporada ainda mais produtiva. Foram 26 gols, que o colocaram entre os principais artilheiros da equipe. O São Paulo conquistou o Campeonato Brasileiro pela terceira vez consecutiva, alcançando o histórico hexacampeonato nacional. Borges fazia parte de um grupo que transformou regularidade em taças e consolidou uma das fases mais vitoriosas da história do clube.\n\nAo longo de sua passagem, seus números também ajudam a explicar sua importância: foram aproximadamente 150 partidas e 54 gols com a camisa são-paulina, conforme os levantamentos estatísticos utilizados. Não era apenas um atacante que aparecia em jogos isolados. Era um jogador que contribuía com frequência e que teve papel relevante em duas campanhas históricas.\n\nMas 2009 terminaria com um episódio amargo.\n\nSua última partida pelo São Paulo aconteceu em 4 de novembro, no empate por 1 a 1 contra o Grêmio, no Estádio Olímpico, em Porto Alegre. Naquela noite, Borges acabou expulso após um lance envolvendo o volante Túlio. A punição aplicada pelo Superior Tribunal de Justiça Desportiva o afastou das partidas seguintes e impediu que participasse da reta final do Campeonato Brasileiro.\n\nO Tricolor ainda lutava por uma posição de destaque na competição, mas o atacante acompanharia os últimos compromissos de fora do campo. No encerramento do campeonato, diante do Sport, em 6 de dezembro, Borges não entrou em campo. Depois da partida, foi ao vestiário, recolheu seus pertences e se despediu do técnico Ricardo Gomes e dos companheiros.\n\nNo dia seguinte, sua saída foi confirmada publicamente.\n\nO destino seria o Grêmio, onde daria continuidade à carreira em 2010. Para o São Paulo, ficava a lembrança de um atacante que havia ajudado a construir uma das maiores sequências de conquistas do futebol brasileiro.\n\nA despedida pode ter sido discreta, mas sua contribuição não foi pequena. Borges fez parte de um time que marcou época, conquistou o Brasil por três temporadas consecutivas e colocou o São Paulo em um patamar de consistência que poucos clubes conseguiram alcançar.\n\nEm 7 de dezembro de 2009, Borges encerrou oficialmente sua história no Morumbi. Saiu sem uma grande festa de despedida, mas levando consigo dois títulos brasileiros e dezenas de gols que ajudaram a escrever uma das páginas mais vitoriosas do Tricolor.\n\nPorque, no futebol, nem todo ídolo precisa de uma despedida grandiosa para deixar sua marca. Às vezes, a história fala pelos gols, pelas conquistas e pelo lugar que o jogador ocupa na memória da torcida.",
+    "e": "👋",
+    "dia": 4,
+    "n": "Despedida, Borges",
+    "stats": [],
+    "imgCap": ""
   },
   {
     "id": "YLwW5uesEarAQCuXeuWL",
@@ -5588,6 +5643,23 @@
     "mes": 2,
     "y": 1949,
     "e": "⚽"
+  },
+  {
+    "id": "h0mTkg1A9euxgspDV3Ui",
+    "e": "⭐",
+    "createdAt": "2026-10-29T03:20:27.572Z",
+    "y": 1973,
+    "imgCap": "",
+    "ctx": "Há goleiros que defendem bolas. Há goleiros que defendem títulos. E há aqueles que, com o passar dos anos, se transformam em parte inseparável da própria história de um clube. Waldir Peres pertence a essa última categoria.\n\nNo dia 3 de novembro de 1973, o São Paulo Futebol Clube iniciava uma trajetória que se tornaria histórica. Contratado junto à Ponte Preta em agosto daquele ano, Waldir Peres fez sua estreia com a camisa tricolor diante do Coritiba, no Morumbi, em uma partida válida pelo Campeonato Brasileiro que terminou empatada em 0 a 0.\n\nNaquela tarde, o placar não saiu do zero. Mas o futebol tricolor começava a escrever um capítulo que duraria mais de uma década.\n\nWaldir não precisou de muito tempo para conquistar seu espaço. Apenas dois jogos depois da estreia, assumiu a titularidade e passou a construir uma relação de confiança com a torcida são-paulina. Debaixo das traves, demonstrava personalidade, segurança e uma capacidade de decisão que o transformariam em um dos grandes goleiros de sua geração.\n\nSua história no São Paulo atravessou anos de grandes desafios e conquistas inesquecíveis. Em 1975, Waldir foi peça importante na campanha do título paulista e recebeu a Bola de Ouro da revista Placar, reconhecimento concedido ao melhor jogador do Campeonato Brasileiro daquele ano. Era a consagração de um goleiro que já não se destacava apenas por defender o gol: sua qualidade o colocava entre os grandes nomes do futebol brasileiro.\n\nDois anos depois, veio uma das conquistas mais marcantes de sua carreira. Em 1977, Waldir Peres integrou a equipe que levou o São Paulo ao seu primeiro título do Campeonato Brasileiro. Na decisão contra o Atlético-MG, no Mineirão, o Tricolor venceu nos pênaltis após empate sem gols no tempo regulamentar. Waldir foi protagonista ao defender a cobrança de Márcio e ajudar a garantir uma conquista que entrou para sempre na memória são-paulina.\n\nEm 1981, voltou a celebrar o Campeonato Paulista com o clube. Ao longo daquela trajetória, também se tornou uma referência de longevidade, regularidade e identificação com a camisa que vestia.\n\nOs números ajudam a dimensionar sua importância. Waldir Peres disputou mais de 600 partidas pelo São Paulo — as contagens históricas variam entre 611 e 617 jogos, conforme o levantamento utilizado. Durante muitos anos, foi o recordista de atuações pelo clube, até ser ultrapassado por Rogério Ceni, em 2005.\n\nMas reduzir Waldir a uma estatística seria ignorar o que ele representou. Foram quase 12 anos defendendo o gol tricolor, enfrentando adversários, decidindo partidas e participando de uma das épocas fundamentais para a consolidação do São Paulo entre as grandes forças do futebol nacional.\n\nWaldir Peres encerrou sua passagem pelo clube em 1984, deixando uma marca que atravessaria gerações. Seu nome permaneceu ligado à história dos grandes goleiros são-paulinos, uma linhagem de ídolos que encontraria continuidade em outros gigantes da posição.\n\nEm 3 de novembro de 1973, Waldir Peres estreou pelo São Paulo. Mais do que o início de uma carreira vitoriosa no Morumbi, começava ali a história de um ídolo que ajudaria a transformar defesas em conquistas e partidas em lembranças eternas.\n\nPorque, para o torcedor tricolor, alguns goleiros não ficam apenas debaixo das traves. Eles ficam para sempre na história.",
+    "t": "estreia",
+    "dia": 3,
+    "video": "eg3y3-uFeRk",
+    "mes": 11,
+    "n": "Estreia do Waldir Peres",
+    "destaqueData": "2026-11-03",
+    "stats": [],
+    "d": "O início da história de Waldir Peres no São Paulo",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793243972/Creating_1970s_retro_banner_75a41081.jpg"
   },
   {
     "id": "h4c1AZgFhzf5Kkfn91LH",
@@ -7106,14 +7178,20 @@
   },
   {
     "id": "txSXyFockGRgczMMcHsd",
-    "y": 1945,
-    "mes": 11,
+    "video": "",
+    "d": "partida de Amistoso, no estádio Nacional de Lima",
+    "createdAt": "2026-10-29T03:46:13.097Z",
     "e": "⚽",
+    "mes": 11,
+    "ctx": "",
+    "y": 1945,
     "dia": 4,
-    "createdAt": "2026-05-16T14:18:17.773Z",
-    "d": "Goleada na Libertadores",
-    "n": "5x1 no Universitário-PER",
-    "t": "vitoria"
+    "imgCap": "",
+    "stats": [],
+    "n": "SPFC 5x1 no Universitário-PER",
+    "t": "vitoria",
+    "updatedAt": "2026-10-29T03:46:13.112Z",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793245491/SPFC_win_against_Universitario_m__dbe0b154.jpg"
   },
   {
     "id": "u5rbQZBSYKqEHlaSwOKE",

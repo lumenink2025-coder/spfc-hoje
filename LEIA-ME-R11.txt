@@ -1,0 +1,43 @@
+MAGAZINE TRICOLOR — R11
+Versão: 20261029-r11
+
+PUBLICAR NA VERCEL
+1. Extraia este ZIP.
+2. Substitua os arquivos na raiz do mesmo projeto, incluindo assets/, icons/, js/, data/ e api/.
+3. Faça o deploy completo. index.html é o site público; main.html continua sendo o painel administrativo, com autenticação.
+4. Abra o site e toque em Atualizar, se o aviso da nova versão aparecer.
+
+NOVO NOME E ÍCONE
+O nome MAGAZINE TRICOLOR foi aplicado às páginas, títulos, instalação, perfil e créditos.
+O monograma MT usa branco e vermelho sobre preto fosco. Não há uma imagem grande de logo na home.
+- Android / Chromium: PNG 192, 512 e 1024; ícones adaptativos separados, com margem de segurança.
+- iPhone / iPad: apple-touch-icon em 120, 152, 167 e 180 pixels.
+- Windows / Linux / navegadores: favicon ICO com vários tamanhos e PNG 16/32/48.
+- macOS / Safari: PNG 1024, incluindo versão adaptativa opaca.
+Mestre: assets/magazine-tricolor-icon.png. Variações: icons/mt-*.
+A identidade do aplicativo instalado foi mantida no manifest; favoritos, login e dados continuam usando o mesmo projeto.
+Atalhos já instalados podem manter o nome ou ícone antigo até o sistema atualizar. Se necessário, adicione o site novamente à Tela de Início. Não é preciso limpar os dados do navegador.
+
+RSS — 12 FONTES
+São Paulo FC (oficial), ge · São Paulo, Arquibancada Tricolor, São Paulo Blog, Gazeta Esportiva, São Paulo Sempre, SPFC 24 Horas, Avante Meu Tricolor, Bolavip Brasil, ESPN Brasil, Trivela e Placar.
+
+A lista alterna os veículos em vez de ser ocupada por quem publica mais. Há filtros por fonte, contagem de artigos, botão para carregar mais e indicação de disponibilidade. Na home, os três cartões priorizam fontes diferentes.
+ESPN, Trivela e Placar são filtrados por assuntos relacionados ao São Paulo. Nem toda fonte terá uma notícia do clube em cada atualização. Artigos datados com mais de 30 dias e datas muito à frente são descartados.
+O RSS da Arquibancada tem uma declaração de namespace repetida; o leitor corrige apenas duplicatas idênticas. Outros XMLs inválidos continuam sendo rejeitados.
+Foi descartado o feed do Antenados no Futebol: as URLs encontradas retornavam conteúdo desatualizado.
+A rota api/rss usa uma lista fixa de fontes, cache e limite de tempo. Uma fonte indisponível não bloqueia as demais. O proxy RSS já existente continua atendendo a publicação estática e falhas temporárias da rota principal.
+
+CONFERÊNCIA
+- 48 arquivos/blocos JavaScript passaram pela verificação de sintaxe.
+- Testes do leitor RSS: diversidade, filtros, paginação, duplicatas, conteúdo antigo, RSS/Atom e links seguros.
+- Feeds reais das 12 fontes aceitos pelo leitor; no teste havia notícias recentes de dez veículos.
+- Testes de isolamento e atualização do service worker e de autenticação administrativa simulada aprovados.
+- Prévia visual conferida em desktop e larguras de 390 e 320 pixels, sem transbordamento horizontal da página.
+- Tamanhos, transparência, referências locais, margem dos ícones adaptativos e integridade do ZIP verificados.
+- Calendário, quiz, Cartel Tricolor, perfil, Sobre e funções administrativas preservados.
+Os testes não incluem instalação física em cada sistema operacional nem alterações reais no banco com credenciais de administrador. A disponibilidade de feeds externos pode variar.
+
+REFERÊNCIAS DOS FORMATOS DE ÍCONE
+https://web.dev/learn/pwa/web-app-manifest
+https://developer.apple.com/documentation/safari-release-notes/safari-17_2-release-notes
+https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html

@@ -1,7 +1,7 @@
 {
-  "name": "SPFC Hoje — Memória Tricolor",
-  "short_name": "SPFC Hoje",
-  "description": "O que aconteceu hoje na história do São Paulo Futebol Clube",
+  "name": "MAGAZINE TRICOLOR",
+  "short_name": "MAGAZINE TRICOLOR",
+  "description": "Notícias, memória, calendário histórico e jogos para quem vive o São Paulo FC.",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
@@ -14,26 +14,32 @@
   ],
   "icons": [
     {
-      "src": "icons/android-chrome-192x192.png",
+      "src": "icons/mt-icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/android-chrome-192x192.png",
-      "sizes": "192x192",
+      "src": "icons/mt-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/mt-icon-1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/mt-maskable-512.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "icons/android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/android-chrome-512x512.png",
-      "sizes": "512x512",
+      "src": "icons/mt-maskable-1024.png",
+      "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "maskable"
     }
@@ -46,8 +52,9 @@
       "url": "./?utm_source=shortcut",
       "icons": [
         {
-          "src": "icons/android-chrome-192x192.png",
-          "sizes": "192x192"
+          "src": "icons/mt-icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
         }
       ]
     }

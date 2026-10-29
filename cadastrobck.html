@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<title>Entrar — SPFC Hoje</title>
+
+
+<title>Entrar — MAGAZINE TRICOLOR</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -272,6 +272,22 @@ onAuthStateChanged(auth, async user => {
 
 console.log('[DEBUG] Módulo Firebase finalizado');
 </script>
+
+<meta name="theme-color" content="#111111">
+<meta name="application-name" content="MAGAZINE TRICOLOR">
+<meta name="apple-mobile-web-app-title" content="MAGAZINE TRICOLOR">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="msapplication-TileColor" content="#111111">
+<meta name="msapplication-TileImage" content="icons/mt-tile-150.png">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/x-icon" href="icons/mt-favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/mt-favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/mt-favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/mt-apple-180.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/mt-apple-167.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/mt-apple-152.png">
+<link rel="apple-touch-icon" sizes="120x120" href="icons/mt-apple-120.png">
 </head>
 <body>
 
@@ -294,8 +310,8 @@ console.log('[DEBUG] Módulo Firebase finalizado');
 
   <div class="s1-hero">
     <img
-      src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779945135/c5a68f93-009e-465c-94a8-c6a5e8e54e79_xofudf.png"
-      alt="SPFC Hoje" class="s1-shield">
+      src="assets/app-icon.png"
+      alt="MAGAZINE TRICOLOR" class="s1-shield">
     <div class="s1-sub">Entre com sua conta para competir no ranking.</div>
   </div>
 
@@ -383,7 +399,7 @@ console.log('[DEBUG] Módulo Firebase finalizado');
   <div id="s2GlobalErr" class="err-msg" style="margin-bottom:14px"></div>
 
   <button id="btnCriar" class="btn-submit" onclick="salvarPerfil()">
-    ENTRAR NO SPFC HOJE
+    ENTRAR NO MAGAZINE TRICOLOR
   </button>
 </div>
 
@@ -788,7 +804,7 @@ async function salvarPerfil() {
   } catch(e) {
     console.error('[DEBUG] Erro ao salvar perfil:', e);
     hideLoading();
-    btn.textContent = 'ENTRAR NO SPFC HOJE'; 
+    btn.textContent = 'ENTRAR NO MAGAZINE TRICOLOR'; 
     btn.disabled = false;
     if (e.message === 'NICK_TAKEN') {
       showFieldErr('nickErr', 'Este apelido já está em uso. Escolha outro.');

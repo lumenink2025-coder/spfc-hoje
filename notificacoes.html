@@ -3,22 +3,38 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#111111">
-  <meta name="description" content="Receba o destaque do dia do SPFC Hoje. Você escolhe quando ativar ou pausar as notificações.">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Notificações — SPFC Hoje</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="assets/app-icon.png">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="notificacoes.css?v=20261028-r10">
-  <link rel="stylesheet" href="pwa.css?v=20261028-r10">
-  <script src="push-config.js?v=20261028-r10" defer></script>
-  <script src="js/push-client.js?v=20261028-r10" defer></script>
-  <script src="pwa.js?v=20261028-r10" defer></script>
+  
+  <meta name="description" content="Receba o destaque do dia do MAGAZINE TRICOLOR. Você escolhe quando ativar ou pausar as notificações.">
+  
+  <title>Notificações — MAGAZINE TRICOLOR</title>
+  
+  
+  
+  <link rel="stylesheet" href="notificacoes.css?v=20261029-r11">
+  <link rel="stylesheet" href="pwa.css?v=20261029-r11">
+  <script src="push-config.js?v=20261029-r11" defer></script>
+  <script src="js/push-client.js?v=20261029-r11" defer></script>
+  <script src="pwa.js?v=20261029-r11" defer></script>
+
+<meta name="theme-color" content="#111111">
+<meta name="application-name" content="MAGAZINE TRICOLOR">
+<meta name="apple-mobile-web-app-title" content="MAGAZINE TRICOLOR">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="msapplication-TileColor" content="#111111">
+<meta name="msapplication-TileImage" content="icons/mt-tile-150.png">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/x-icon" href="icons/mt-favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/mt-favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/mt-favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/mt-apple-180.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/mt-apple-167.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/mt-apple-152.png">
+<link rel="apple-touch-icon" sizes="120x120" href="icons/mt-apple-120.png">
 </head>
 <body>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-  <header class="push-header"><a class="wordmark" href="index.html" aria-label="SPFC Hoje, início">SPFC<span>HOJE</span></a><a class="back" href="index.html">← Voltar ao site</a></header>
+  <header class="push-header"><a class="wordmark" href="index.html" aria-label="MAGAZINE TRICOLOR, início">MAGAZINE<span>TRICOLOR</span></a><a class="back" href="index.html">← Voltar ao site</a></header>
   <main id="conteudo">
     <div class="intro"><p class="eyebrow">A PAIXÃO ACOMPANHA VOCÊ</p><h1>Uma história.<br>Um aviso.<br><em>Todos os dias.</em></h1><p class="lead">O destaque do dia do São Paulo, direto no seu dispositivo. Toque na notificação para reviver essa memória.</p><div class="platforms"><span>iPhone e iPad</span><span>Android</span><span>Computador</span></div></div>
     <section class="settings" aria-labelledby="settings-title">
@@ -30,13 +46,13 @@
       <button class="secondary" id="push-disable" type="button" hidden>Pausar neste dispositivo</button>
       <button class="secondary" id="push-retry" type="button" hidden>Tentar novamente</button>
       <a class="secondary" id="push-canonical" hidden>Abrir o site principal ↗</a>
-      <div class="ios-help" id="ios-help" hidden><h3>No iPhone ou iPad</h3><ol><li>Abra este endereço no Safari.</li><li>Toque em <strong>Compartilhar</strong> e em <strong>Adicionar à Tela de Início</strong>.</li><li>Abra o SPFC Hoje pelo ícone instalado, volte a Notificações e toque em <strong>Ativar notificações</strong>.</li></ol><p>Requer iOS ou iPadOS 16.4 ou mais recente.</p></div>
+      <div class="ios-help" id="ios-help" hidden><h3>No iPhone ou iPad</h3><ol><li>Abra este endereço no Safari.</li><li>Toque em <strong>Compartilhar</strong> e em <strong>Adicionar à Tela de Início</strong>.</li><li>Abra o MAGAZINE TRICOLOR pelo ícone instalado, volte a Notificações e toque em <strong>Ativar notificações</strong>.</li></ol><p>Requer iOS ou iPadOS 16.4 ou mais recente.</p></div>
       <p class="consent">Você decide. A permissão só será solicitada ao tocar em ativar. As preferências valem para este navegador ou app instalado.</p>
       <details class="diagnostic" id="push-diagnostic" hidden><summary>Informações para testar este aparelho</summary><p>Use este ID para selecionar apenas este aparelho no teste do OneSignal.</p><label for="push-subscription-id">ID da inscrição</label><input id="push-subscription-id" readonly autocomplete="off"><p id="copy-status" role="status"></p><button class="secondary" id="push-copy" type="button">Copiar ID</button></details>
       <noscript><p class="noscript">Ative o JavaScript para configurar as notificações.</p></noscript>
     </section>
-    <section class="faq" aria-labelledby="faq-title"><p class="eyebrow">DO SEU JEITO</p><h2 id="faq-title">Você mantém o controle.</h2><div class="faq-grid"><article><span>01</span><h3>Só o destaque</h3><p>O acontecimento escolhido no SPFC Hoje, com um link para a história completa.</p></article><article><span>02</span><h3>Pausa quando quiser</h3><p>Volte aqui para pausar. Para bloquear a permissão, use também os ajustes do navegador ou do sistema.</p></article><article><span>03</span><h3>Cada aparelho é seu</h3><p>Ative nos aparelhos em que deseja receber. Internet, permissões e o modo Foco podem afetar a entrega.</p></article></div></section>
+    <section class="faq" aria-labelledby="faq-title"><p class="eyebrow">DO SEU JEITO</p><h2 id="faq-title">Você mantém o controle.</h2><div class="faq-grid"><article><span>01</span><h3>Só o destaque</h3><p>O acontecimento escolhido no MAGAZINE TRICOLOR, com um link para a história completa.</p></article><article><span>02</span><h3>Pausa quando quiser</h3><p>Volte aqui para pausar. Para bloquear a permissão, use também os ajustes do navegador ou do sistema.</p></article><article><span>03</span><h3>Cada aparelho é seu</h3><p>Ative nos aparelhos em que deseja receber. Internet, permissões e o modo Foco podem afetar a entrega.</p></article></div></section>
   </main>
-  <footer><span>SPFC HOJE · MEMÓRIA TRICOLOR</span><a href="index.html">Voltar para a história ↗</a></footer>
+  <footer><span>MAGAZINE TRICOLOR · MEMÓRIA TRICOLOR</span><a href="index.html">Voltar para a história ↗</a></footer>
 </body>
 </html>

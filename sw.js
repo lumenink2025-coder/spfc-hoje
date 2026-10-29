@@ -1,16 +1,16 @@
 'use strict';
 /* Change RELEASE with each complete deployment. Never unregister notification workers. */
-const RELEASE = '20261028-r12';
+const RELEASE = '20261029-r11';
 const SCOPE_URL = new URL(self.registration.scope);
 const SCOPE_KEY = SCOPE_URL.pathname.replace(/[^a-z0-9]/gi, '_');
 const CACHE_PREFIX = 'spfc-hoje-app-' + SCOPE_KEY + '-';
 const CACHE_NAME = CACHE_PREFIX + RELEASE;
 const SHELL = [
   'index.html', 'calendario.html', 'style.css', 'app.js', 'account.js',
-  'js/events-summary.js', 'js/home-data.js', 'js/news-sources.js', 'js/news.js', 'js/daily-highlight.js', 'pwa.js', 'pwa.css', 'js/data-service.js', 'manifest.json', 'assets/app-icon.png'
+  'js/events-summary.js', 'js/home-data.js', 'js/news-sources.js', 'js/news.js', 'js/daily-highlight.js', 'pwa.js', 'pwa.css', 'js/data-service.js', 'manifest.json', 'assets/app-icon.png', 'icons/mt-icon-192.png', 'icons/mt-icon-512.png', 'icons/mt-maskable-512.png', 'icons/mt-apple-180.png', 'icons/mt-favicon-32.png', 'icons/mt-favicon-16.png', 'icons/mt-favicon.ico'
 ];
 const OPTIONAL = [
-  'events.js',
+  'events.js', 'icons/mt-icon-1024.png', 'icons/mt-maskable-1024.png', 'icons/mt-apple-167.png', 'icons/mt-apple-152.png', 'icons/mt-apple-120.png', 'icons/mt-tile-150.png',
   'notificacoes.html', 'notificacoes.css', 'js/push-client.js',
   'quiz.html', 'quiz-premium.css', 'quiz-sports.css', 'quiz-fixes.css',
   'jogadores.html', 'cartel-premium.css', 'spfc_historia.html', 'tecnicos.html', 'tecnico.html',
@@ -73,7 +73,7 @@ self.addEventListener('fetch', event => {
     } catch {
       const cached = await cache.match(keyFor(url));
       if (cached) return cached;
-      if (request.mode === 'navigate') return new Response('<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SPFC Hoje · Offline</title><body style="background:#111111;color:#eee;font:16px/1.6 system-ui;padding:32px"><h1>Você está sem conexão.</h1><p>Esta página ainda não foi salva para uso offline.</p><a style="color:#eeeeee" href="' + SCOPE_URL.pathname + 'index.html">Voltar ao início</a><p><button onclick="location.reload()">Tentar novamente</button></p></body></html>', { status: 503, headers: {'Content-Type':'text/html; charset=utf-8'} });
+      if (request.mode === 'navigate') return new Response('<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MAGAZINE TRICOLOR · Offline</title><body style="background:#111111;color:#eee;font:16px/1.6 system-ui;padding:32px"><h1>Você está sem conexão.</h1><p>Esta página ainda não foi salva para uso offline.</p><a style="color:#eeeeee" href="' + SCOPE_URL.pathname + 'index.html">Voltar ao início</a><p><button onclick="location.reload()">Tentar novamente</button></p></body></html>', { status: 503, headers: {'Content-Type':'text/html; charset=utf-8'} });
       return Response.error();
     }
   })();
