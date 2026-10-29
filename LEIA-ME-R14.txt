@@ -1,0 +1,37 @@
+MAGAZINE TRICOLOR — R14
+Versão: 20261029-r14
+
+BANNER TRICOLOR FAT
+Novo banner na home, logo abaixo do destaque do dia, com a imagem enviada pelo
+usuário como ícone do parceiro. O arquivo original foi preservado integralmente:
+assets/tricolor-fat-parceiro.png (253 × 241 pixels).
+
+A moldura circular é feita pela interface e apenas enquadra a margem existente
+da imagem. O rosto, a arte e as cores originais não foram redesenhados.
+
+O banner usa preto fosco, detalhe vermelho e botão amplo para o YouTube.
+No celular, o formato horizontal 16:9 é a referência; em telas muito estreitas,
+a altura mínima preserva a leitura e o tamanho do botão. No desktop, a composição
+se organiza em uma faixa horizontal.
+A mesma imagem também aparece na identificação do parceiro em Sobre e créditos.
+Link: https://www.youtube.com/@tricolor_fat
+
+PUBLICAR
+1. Extraia o ZIP.
+2. Substitua os arquivos na raiz do mesmo projeto, incluindo assets/, js/ e icons/.
+3. Faça o deploy completo na Vercel.
+4. Abra o site e use Atualizar quando o aviso da nova versão aparecer.
+
+O service worker usa 20261029-r14 e inclui o novo ícone no cache.
+index.html continua sendo o site público; main.html é o painel administrativo.
+Não é necessário alterar o banco de dados.
+
+PRESERVADO
+Nome MAGAZINE TRICOLOR, ícone do app com M vermelho e T branco, RSS com 12 fontes,
+calendário, quiz, Cartel Tricolor, perfil, Sobre, créditos e funções do admin.
+
+CONFERÊNCIA
+Banner e link conferidos no desktop e em larguras de 390 e 320 pixels, sem
+rolagem horizontal. Imagem do parceiro comparada com o original, byte a byte.
+Referências locais, sintaxe JavaScript, cache, imagens e integridade do ZIP
+verificados. Pacote completo para publicação; o site em produção não foi alterado.

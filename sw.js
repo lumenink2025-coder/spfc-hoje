@@ -1,13 +1,13 @@
 'use strict';
 /* Change RELEASE with each complete deployment. Never unregister notification workers. */
-const RELEASE = '20261029-r13';
+const RELEASE = '20261029-r14';
 const SCOPE_URL = new URL(self.registration.scope);
 const SCOPE_KEY = SCOPE_URL.pathname.replace(/[^a-z0-9]/gi, '_');
 const CACHE_PREFIX = 'spfc-hoje-app-' + SCOPE_KEY + '-';
 const CACHE_NAME = CACHE_PREFIX + RELEASE;
 const SHELL = [
   'index.html', 'calendario.html', 'style.css', 'app.js', 'account.js',
-  'js/events-summary.js', 'js/home-data.js', 'js/news-sources.js', 'js/news.js', 'js/daily-highlight.js', 'pwa.js', 'pwa.css', 'js/data-service.js', 'manifest.json', 'assets/app-icon.png', 'icons/mt-r12-icon-192.png', 'icons/mt-r12-icon-512.png', 'icons/mt-r12-maskable-512.png', 'icons/mt-r12-apple-180.png', 'icons/mt-r12-favicon-32.png', 'icons/mt-r12-favicon-16.png', 'icons/mt-r12-favicon.ico'
+  'js/events-summary.js', 'js/home-data.js', 'js/news-sources.js', 'js/news.js', 'js/daily-highlight.js', 'pwa.js', 'pwa.css', 'js/data-service.js', 'manifest.json', 'assets/app-icon.png', 'assets/tricolor-fat-parceiro.png', 'icons/mt-r12-icon-192.png', 'icons/mt-r12-icon-512.png', 'icons/mt-r12-maskable-512.png', 'icons/mt-r12-apple-180.png', 'icons/mt-r12-favicon-32.png', 'icons/mt-r12-favicon-16.png', 'icons/mt-r12-favicon.ico'
 ];
 const OPTIONAL = [
   'events.js', 'icons/mt-r12-icon-1024.png', 'icons/mt-r12-maskable-1024.png', 'icons/mt-r12-apple-167.png', 'icons/mt-r12-apple-152.png', 'icons/mt-r12-apple-120.png', 'icons/mt-r12-tile-150.png',
