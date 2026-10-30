@@ -76,7 +76,6 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline-color:#eee}.tex
 
 /* Tricolor FAT: destaque ativado pelo estado de transmissão. */
 .partner-live-badge{display:none;align-items:center;gap:5px;width:max-content;margin:5px 0 3px;padding:3px 8px;border-radius:999px;background:#4a2020;color:#ff5454;font:750 10px/1 var(--body);letter-spacing:.4px}
-.partner-live-badge::first-letter{font-size:8px}
 .partner-broadcast.is-live{border-color:#ff3434;box-shadow:0 0 0 1px #ff3434,0 0 12px #ff343480,0 0 28px #ff20204a;animation:partner-live-pulse 1.6s ease-in-out infinite}
 .partner-broadcast.is-live::after{background:#ff3434;box-shadow:0 0 8px #ff3434,0 0 16px #ff3434}
 .partner-broadcast.is-live .partner-live-badge{display:inline-flex}
