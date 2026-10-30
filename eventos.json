@@ -1,14 +1,20 @@
 [
   {
     "id": "00yXXHLu3lCodnRh0KAN",
-    "createdAt": "2026-05-16T14:18:17.773Z",
-    "y": 1984,
-    "t": "estreia",
-    "n": "Estreia de Müller",
-    "e": "⭐",
-    "d": "Luis Müller estreia pelo São Paulo",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793326759/SPFC_defeats_Santos_in_1989_542e5844.jpg",
+    "updatedAt": "2026-10-30T02:19:47.232Z",
+    "d": "São Paulo 3 x 0 Santos: uma tarde de autoridade no Morumbi",
+    "dia": 11,
+    "imgCap": "",
     "mes": 11,
-    "dia": 11
+    "stats": [],
+    "y": 1988,
+    "createdAt": "2026-10-30T02:19:47.226Z",
+    "n": "SPFC 3x0 SANTOS",
+    "e": "⚽",
+    "t": "vitoria",
+    "video": "4OUJ4_kH_nY",
+    "ctx": "Em 11 de novembro de 1989, o Morumbi foi palco de mais uma vitória marcante do São Paulo sobre o Santos. Pela terceira rodada da segunda fase do Campeonato Brasileiro, o Tricolor venceu o clássico por 3 a 0, diante de 13.180 torcedores pagantes.\n\nO São Paulo não demorou para mostrar suas intenções. Aos cinco minutos do primeiro tempo, Ney Bala abriu o placar e colocou o time comandado por Carlos Alberto Silva em vantagem.\n\nAos 25 minutos, foi a vez de Edivaldo ampliar. Com dois gols ainda na primeira etapa, o Tricolor construiu uma vantagem importante e passou a controlar o andamento da partida.\n\nO Santos tentou reagir, mas encontrou um São Paulo organizado e determinado a confirmar o resultado. Já aos 41 minutos do segundo tempo, Flávio marcou o terceiro e transformou a vitória em uma goleada incontestável.\n\nO Tricolor foi a campo com Gilmar; Neto, Adilson, Ricardo Rocha e Nelsinho; Flávio, Raí e Bobô; Anílton, Ney Bala e Edivaldo. Um elenco que reunia nomes importantes e representava uma equipe competitiva, preparada para grandes desafios.\n\nAquele triunfo aconteceu em uma temporada especial. O São Paulo já havia conquistado o Campeonato Paulista de 1989 e, no Campeonato Brasileiro, avançaria até a decisão, terminando como vice-campeão diante do Vasco da Gama.\n\nO 3 a 0 sobre o Santos foi mais uma demonstração da força tricolor naquele ano, reforçando a confiança de uma equipe que encerrava a década com protagonismo no futebol nacional.\n\nNey Bala abriu o caminho, Edivaldo ampliou e Flávio fechou a conta. Três gols, uma vitória sobre o rival e mais uma tarde para a história do Morumbi."
   },
   {
     "id": "09tMTlyjXVuVT17YI3Jp",
@@ -1476,6 +1482,22 @@
     "n": "6x1 no São José"
   },
   {
+    "id": "Bc7KtPK4iuvZpuB5H9x8",
+    "e": "⭐",
+    "y": 1937,
+    "n": "Estreia, PIOLIM",
+    "ctx": "Em 15 de novembro de 1937, Laurindo Furlani, eternizado no futebol pelo apelido de Piolim, fez sua estreia oficial com a camisa do São Paulo Futebol Clube. Era o primeiro capítulo de uma trajetória que o colocaria entre os personagens de uma das épocas mais importantes dos primeiros anos do Tricolor.\n\nSua história no clube teve uma particularidade: depois daquela primeira passagem, Piolim retornou ao São Paulo em 1942 e encontrou seu espaço em uma equipe que começava a construir uma geração vencedora. Com técnica, dedicação e regularidade, tornou-se parte do elenco que marcou época no futebol paulista.\n\nEm 1943, participou da conquista do Campeonato Paulista, título que abriu uma sequência extraordinária. O São Paulo voltaria a levantar a taça em 1945 e 1946, consolidando a força de um time que ficaria conhecido como Rolo Compressor.\n\nAquele elenco reunia nomes históricos, como Leônidas da Silva, Bauer, Noronha, Rui e Teixeirinha. Fazer parte de um grupo dessa dimensão significava integrar uma geração que ajudou a estabelecer o São Paulo entre as grandes forças do futebol brasileiro.\n\nOs números de Piolim também ajudam a dimensionar sua passagem: foram 152 partidas, 100 vitórias e três títulos paulistas — 1943, 1945 e 1946. Sua trajetória tricolor chegou ao fim em 1947.\n\nPiolim não foi apenas mais um jogador daquele período. Foi um dos integrantes de uma geração que transformou ambição em conquistas e ajudou a construir a identidade vencedora do clube.\n\nEm 15 de novembro, recordamos a estreia de um tricolor que participou de uma das páginas mais gloriosas da nossa história. Piolim: três vezes campeão paulista, para sempre parte do Rolo Compressor!",
+    "mes": 11,
+    "createdAt": "2026-10-30T03:10:06.335Z",
+    "imgCap": "",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793329751/Piolim_banner_premiere_in_Portug__5915bcf3.jpg",
+    "video": "",
+    "t": "estreia",
+    "dia": 15,
+    "d": "Piolim: o início de uma história campeã no Tricolor",
+    "stats": []
+  },
+  {
     "id": "BfvXROCg3HKNSIhIKDeG",
     "d": "Aniversário de Mário",
     "e": "🎂",
@@ -2164,6 +2186,23 @@
     "mes": 4,
     "d": "Aniversário do técnico Aymoré Moreira",
     "e": "🎂"
+  },
+  {
+    "id": "GJEQ2lE6PzabYePQ73QH",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793330089/Banner_creation_in_Portuguese_e780655a.jpg",
+    "imgCap": "",
+    "n": "Estreia do Müller",
+    "stats": [],
+    "e": "⭐",
+    "dia": 15,
+    "video": "vZUBOHewW5o",
+    "y": 1984,
+    "t": "estreia",
+    "d": "Começava a história de Müller com a camisa tricolor",
+    "destaqueData": "2026-11-15",
+    "createdAt": "2026-10-30T03:15:12.405Z",
+    "mes": 11,
+    "ctx": "Em 15 de novembro de 1984, um jovem atacante vindo do Operário de Mato Grosso do Sul fazia sua estreia pelo São Paulo Futebol Clube. Seu nome era Luís Antônio Corrêa da Costa, mas o futebol brasileiro aprenderia a chamá-lo simplesmente de Müller.\n\nAinda jovem, Müller chegava ao Morumbi para iniciar uma trajetória que se transformaria em uma das mais marcantes da história do clube. Sua velocidade, habilidade, movimentação e capacidade de decidir partidas logo chamariam a atenção.\n\nA partir de 1985, sob o comando de Cilinho, tornou-se um dos protagonistas dos famosos Menudos do Morumbi. Ao lado de Silas, Sidney, Careca e outros talentos, ajudou a formar uma equipe jovem, ofensiva e que encantou o torcedor são-paulino.\n\nOs resultados vieram rapidamente. Müller participou das conquistas dos Campeonatos Paulistas de 1985 e 1987 e do Campeonato Brasileiro de 1986, quando o São Paulo protagonizou uma campanha histórica e venceu o Guarani na decisão.\n\nUm dos detalhes curiosos de sua trajetória foi a precocidade: Müller tornou-se o jogador mais jovem da história do São Paulo a marcar gols contra os quatro grandes rivais estaduais.\n\nMas sua história com o Tricolor não terminaria naquela primeira passagem. Anos depois, retornaria para viver outros capítulos gloriosos, participando das conquistas da Libertadores e do Mundial Interclubes de 1992 e 1993.\n\nAo todo, foram 386 partidas e 160 gols, números que o colocam entre os maiores artilheiros da história são-paulina.\n\nMüller foi velocidade, talento e decisão. Um atacante que marcou época nos Menudos, brilhou nas conquistas nacionais e voltou para ajudar o São Paulo a conquistar o mundo.\n\nEm 15 de novembro, celebramos o início da trajetória de um dos grandes atacantes que já vestiram o manto tricolor. A história de Müller começou em 1984, mas sua marca no São Paulo permanece eterna!"
   },
   {
     "id": "GQm1fTC2nHbwYStY1Xub",
@@ -2857,13 +2896,19 @@
   },
   {
     "id": "L5HggeuauXZUp3VpjGuB",
-    "d": "Aniversário de Wagner Basílio",
-    "e": "🎂",
-    "createdAt": "2026-05-16T14:18:17.773Z",
     "dia": 16,
+    "e": "🎂",
+    "video": "8G2l7dQntp8",
+    "d": "Wagner Basílio: o zagueiro que bateu o último pênalti e deu o título ao Tricolor",
+    "imgCap": "",
     "mes": 11,
+    "createdAt": "2026-10-30T03:22:06.414Z",
     "t": "aniversario",
-    "n": "Wagner Basílio",
+    "updatedAt": "2026-10-30T03:22:06.428Z",
+    "n": "Aniversário, Wagner Basílio",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793330494/Translate_image_prompt_with_text_67548f32.jpg",
+    "stats": [],
+    "ctx": "Nascimento: 16 de novembro de 1959 · Falecimento: 15 de julho de 2025\n\nNascido em São Paulo, em 16 de novembro de 1959, Wágner Basílio construiu uma carreira marcada pela versatilidade, pela dedicação e por um capítulo que jamais será esquecido pelo torcedor são-paulino: foi dele a cobrança que confirmou o título brasileiro de 1986.\n\nAntes de chegar ao Morumbi, começou sua trajetória no Corinthians. Atuou pelo clube entre 1977 e 1985 e participou das conquistas dos Campeonatos Paulistas de 1979, 1982 e 1983. Curiosamente, iniciou a carreira como volante, mas acabou transformado em zagueiro, posição na qual se destacou no futebol brasileiro.\n\nEm 1986, foi contratado pelo São Paulo e fez sua estreia em 2 de março, no Pacaembu, na vitória por 3 a 0 sobre o Botafogo de Ribeirão Preto. Rapidamente passou a integrar o elenco tricolor e participou de uma temporada que terminaria com uma das decisões mais dramáticas da história do clube.\n\nA grande consagração veio na final do Campeonato Brasileiro de 1986, disputada em 25 de fevereiro de 1987, contra o Guarani, no Brinco de Ouro da Princesa, em Campinas.\n\nDepois de dois confrontos equilibrados, a decisão terminou empatada e foi para os pênaltis. Na cobrança decisiva, Wagner Basílio mostrou personalidade: caminhou até a marca da cal e converteu a última penalidade são-paulina. O Tricolor era campeão brasileiro! Aquele chute entrou definitivamente para a história do clube. \nSPFC+1\n\n\nMas sua participação naquela final não se resumiu à cobrança. Durante a partida, Wagner também foi responsável pelo lançamento que encontrou Careca na jogada do gol tricolor marcado aos 14 minutos da prorrogação. Uma atuação que reforçou sua importância naquela conquista. \nTerceiro Tempo\n\n\nEm 1987, Wagner Basílio ainda participou de outra campanha vitoriosa, conquistando o Campeonato Paulista. Despediu-se do São Paulo em agosto daquele ano, depois de disputar 96 partidas, com 36 vitórias, 42 empates, 18 derrotas e quatro gols marcados. \nSPFC+1\n\n\nDepois do Morumbi, passou por Coritiba, Sport e Bahia, onde também conquistou títulos e teve momentos importantes. Encerrou sua carreira como jogador em 1993, defendendo o Fortaleza. Em 1979, ainda jovem, havia integrado a seleção brasileira que conquistou a medalha de ouro nos Jogos Pan-Americanos de San Juan. \nTerceiro Tempo+1\n\n\nInfelizmente, Wagner Basílio faleceu em 15 de julho de 2025, aos 65 anos, em São Paulo. Ele enfrentava problemas renais e havia passado por um transplante em 2021. Sua morte foi lamentada oficialmente pelo São Paulo, que recordou sua participação nas conquistas de 1986 e 1987. \nSPFC+2\n\n\nHoje, na data em que celebramos seu nascimento, a lembrança vai para aquele zagueiro que chegou ao Morumbi, conquistou seu espaço e escreveu seu nome em uma das decisões mais emocionantes da história são-paulina.\n\nWagner Basílio não apenas participou da conquista do Brasileiro de 1986: teve em seus pés a cobrança que transformou o sonho em realidade.\n\nUma cobrança, um título, uma história eterna.",
     "y": 1959
   },
   {
@@ -2904,14 +2949,20 @@
   },
   {
     "id": "LPqpCJl4KZhmpfrG32kb",
-    "mes": 11,
-    "e": "⚽",
-    "d": "DEZ A ZERO histórico",
+    "updatedAt": "2026-10-30T02:49:27.766Z",
     "dia": 13,
-    "createdAt": "2026-05-16T14:18:17.773Z",
-    "y": 1943,
+    "ctx": "Em 13 de novembro de 1938, o São Paulo entrou em campo no tradicional Campo da Rua da Mooca para mais um compromisso pelo Campeonato Paulista. Diante do Luzitano-SP, o Tricolor fez valer sua força ofensiva e construiu uma goleada expressiva: 8 a 1.\n\nA partida aconteceu em uma edição atípica do estadual, disputada em turno único. Mesmo sem conquistar o título, o São Paulo realizou uma campanha consistente e terminou na segunda colocação, com 14 pontos, atrás apenas do Corinthians, campeão com 17.\n\nO resultado diante do Luzitano foi uma das grandes goleadas tricolores daquela década. Uma demonstração da capacidade ofensiva de uma equipe que, mesmo em uma temporada sem taça, deixou sua marca no campeonato.\n\nE há uma curiosidade que torna essa história ainda mais interessante: exatamente um ano depois, em 12 de novembro de 1939, o São Paulo voltaria a aplicar o mesmo placar de 8 a 1, dessa vez sobre a Portuguesa Santista, novamente no Campo da Rua da Mooca.\n\nDuas goleadas, dois anos consecutivos e um mesmo endereço. Mais um capítulo dos primeiros anos de uma história que começava a ganhar proporções gigantescas.\n\nO São Paulo ainda construía sua trajetória, mas já mostrava que sua vocação para grandes goleadas vinha de longe! 🔴⚪⚫",
+    "video": "",
+    "n": "SPFC 8x1 LUZITANO (SP)",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793328518/Sports_history_banner_commemorat__500097fb.jpg",
+    "y": 1938,
     "t": "vitoria",
-    "n": "10x0 no Operário"
+    "d": "São Paulo aplica goleada de 8 a 1 sobre o Luzitano",
+    "mes": 11,
+    "createdAt": "2026-10-30T02:49:27.762Z",
+    "stats": [],
+    "e": "⚽",
+    "imgCap": ""
   },
   {
     "id": "LSpJ7HwXkHgGYdxJ1IQl",
@@ -3370,14 +3421,20 @@
   },
   {
     "id": "PGXH0KbNkUH3lLg15SC5",
-    "d": "Goleada histórica",
-    "e": "⚽",
-    "n": "8x0 no Juventus",
-    "t": "vitoria",
+    "updatedAt": "2026-10-30T02:30:14.536Z",
+    "video": "",
+    "ctx": "Em 12 de novembro de 1939, o São Paulo Futebol Clube protagonizou uma das grandes goleadas de sua história nos primeiros anos de existência. Pelo Campeonato Paulista, o Tricolor derrotou a Portuguesa Santista por impressionantes 8 a 1, no antigo Estádio Antônio Alonso, localizado na Rua da Mooca.\n\nNaquele período, o São Paulo ainda construía sua identidade e consolidava seu espaço entre as grandes forças do futebol paulista. Mesmo em seus primeiros anos, o clube já demonstrava uma característica que se tornaria tradicional: a capacidade de produzir grandes atuações ofensivas.\n\nA goleada sobre a equipe santista foi o resultado mais expressivo do Tricolor em toda a temporada de 1939 e também a maior goleada daquela edição do Campeonato Paulista.\n\nO placar ganhou ainda mais importância por ter sido construído diante de sua torcida, em uma época na qual o clube mandava suas partidas no antigo estádio da Rua da Mooca, antes de estabelecer sua trajetória no Pacaembu e, posteriormente, no Morumbi.\n\nEmbora o Campeonato Paulista daquele ano tenha terminado com o título do Corinthians, a atuação tricolor contra a Portuguesa Santista ficou registrada nos almanaques como uma das grandes demonstrações de força ofensiva daquela temporada.\n\nE a história reservava uma curiosidade: em 30 de maio de 1943, o São Paulo voltaria a aplicar exatamente o mesmo placar sobre a Portuguesa Santista, novamente vencendo por 8 a 1, dessa vez com dois gols de Leônidas da Silva.\n\nOito gols em 1939, oito gols novamente em 1943. Desde os primeiros capítulos de sua história, o São Paulo já mostrava que sua camisa carregava uma tradição de grandes goleadas!",
+    "imgCap": "",
     "dia": 12,
-    "y": 1948,
-    "mes": 11,
-    "createdAt": "2026-05-16T14:18:17.773Z"
+    "createdAt": "2026-10-30T02:30:14.529Z",
+    "t": "vitoria",
+    "n": "SPFC 8x1 PORTUGUESA (ST)",
+    "e": "⚽",
+    "d": "São Paulo 8 x 1 Portuguesa Santista: uma goleada histórica na Rua da Mooca",
+    "y": 1939,
+    "stats": [],
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793327198/SPFC_sports_match_banner_transla__697127a5.jpg",
+    "mes": 11
   },
   {
     "id": "PGxXrlB5ZyefkAwufii8",
@@ -3956,6 +4013,23 @@
     "mes": 6,
     "ctx": "Nasceu em 20 de junho de 1954, em Monte Sião, Minas Gerais, um pequeno município perto da fronteira com Águas de Lindoia. José Oscar Bernardi não era um menino destinado à grandeza. Era apenas um menino do interior, um menino que sonhava em jogar futebol. Mas o destino tinha outros planos para esse garoto que se tornaria um dos maiores zagueiros que o Brasil jamais teve.\nOscar começou sua carreira profissional na Ponte Preta, em 1972. Lá, ele se destacou a ponto de ser convocado para a Seleção Brasileira juvenil que foi campeã sul-americana em 1974. Lá, ele aprendeu o ofício de zagueiro. Lá, ele se tornou um jogador que misturava técnica e garra de forma rara.\nEra impressionante sua capacidade de roubar a bola do adversário sem cometer faltas. Mesmo com pouca habilidade com a bola nos pés, Oscar era um dos zagueiros que mais brilhava. Sua inteligência tática compensava qualquer deficiência técnica. Sua leitura de jogo era impecável. Sua capacidade de antecipação era genial.\nDurante o Campeonato Paulista de 1977, Oscar foi convocado para a Seleção Brasileira pela primeira vez. Defenderia pela primeira vez a Seleção em 1 de abril de 1978, em amistoso contra a França. Falhou no gol de Michel Platini que deu a vitória aos franceses por 1 a 0. Mas isso era apenas o começo.\nQuando foi convocado para a Copa do Mundo de 1978, na Argentina, ganhou a posição, foi titular e foi chamado de \"uma das maiores expressões da equipe brasileira naquela Copa\". Naquela altura, era considerado o melhor zagueiro central do Brasil. A zaga que formava com Amaral na Seleção era considerada a ideal.\nMas Oscar queria mais. Queria jogar em um grande clube. Queria conquistar títulos. Queria deixar sua marca na história do futebol. E em 23 de julho de 1980, chegou ao São Paulo Futebol Clube. Chegou comprado com o superávit do time, especialmente depois da saída de Aílton Lira. Chegou com um salário que comparou ao que recebia no Cosmos, de Nova York. Chegou como um dos jogadores mais bem pagos do futebol brasileiro.\nSeu primeiro jogo oficial foi no início do returno do Campeonato Paulista: já com a faixa de capitão, ele ajudou o Tricolor a golear o rival Corinthians por 4 a 0. Cinco dias antes, em um amistoso contra o também rival Palmeiras, ele tinha estreado com a nova camisa, e o placar terminara com os mesmos 4 a 0. O time embalou. E Oscar seria o capitão de praticamente todos os times do São Paulo até deixar o clube.\nMas o maior momento de Oscar no Tricolor seria quando formou uma dupla de zaga com Darío Pereyra. Juntos, eles criaram uma das maiores duplas de zaga da história do São Paulo. Juntos, eles ajudaram o Tricolor a conquistar quatro Campeonatos Paulistas (1980, 1981, 1985 e 1986) e um Campeonato Brasileiro (1986). Juntos, eles provaram que a defesa é a base de um grande time.\nOscar era bom principalmente nas bolas altas. Sua capacidade de cabeceio era impressionante. Não eram raros os gols de cabeça do zagueiro. Quando partia para o ataque, Oscar era praticamente inarquível. Sua altura, sua força, sua técnica — tudo se combinava para criar um jogador praticamente perfeito.\nMas o momento mais memorável de Oscar na Seleção Brasileira foi na Copa do Mundo de 1982, na Espanha. Ele foi convocado, jogou bem, sem cometer uma única falha. Mas o Brasil foi eliminado pela Itália nas quartas-de-final. Por pouco Oscar não foi herói naquele jogo. Nos últimos minutos, acertou uma cabeçada que foi aparada em cima da linha pelo goleiro italiano Dino Zoff. Aquela cabeçada teria sido o gol da classificação. Aquela cabeçada teria levado o Brasil às semifinais. Mas não foi.\nOscar foi convocado para a Copa do Mundo de 1986, no México, mas desta vez ficou na reserva. Suas atuações não vinham agradando, e Júlio César ganhou a posição. Oscar não entraria em campo naquela Copa. Mas havia conquistado o que poucos conseguem: ser capitão da Seleção Brasileira. Ser capitão em três Copas do Mundo. Ser reconhecido como um dos maiores zagueiros de sua geração.\nNo São Paulo, Oscar conquistaria títulos. Conquistaria a admiração da torcida. Conquistaria o respeito de seus companheiros. Conquistaria a certeza de que havia deixado sua marca na história do clube. Mas em 1987, após desentendimentos com o técnico Cilinho, Oscar pediu a rescisão de seu contrato. Saiu criticando bastante seu novo desafeto. Saiu com o coração partido, mas com a cabeça erguida.\nDepois de deixar o São Paulo, Oscar foi para o Japão, para o Nissan Motors FC. Virou ídolo da torcida japonesa. Abriu as portas para muitos brasileiros no futebol japonês. Quando encerrou a carreira, seguiu como técnico naquele país. Depois, retornou ao Brasil e se tornou empresário. Hoje, é proprietário do Oscar Inn Eco Resort, em Águas de Lindoia, quase na divisa com Monte Sião, a cidade onde nasceu.\nPorque há jogadores que são apenas nomes. Mas há jogadores que são símbolos. Oscar foi um símbolo. Foi a prova de que o São Paulo era grande. Que o Tricolor era capaz de revelar talentos. Que o futebol paulista tinha qualidade.\nOscar começou como um garoto do interior. Terminou como uma lenda. Começou em um pequeno município de Minas Gerais. Terminou defendendo o Brasil em três Copas do Mundo. Começou como uma promessa. Terminou como uma realidade.\nE aquela cabeçada que Dino Zoff aparou em cima da linha? Aquela cabeçada que teria sido o gol da classificação? Aquela cabeçada ficou para a história. Ficou como símbolo de um jogador que fez tudo certo, que jogou tudo certo, mas que o futebol, às vezes, não recompensa como deveria. Ficou como prova de que Oscar Bernardi foi, de fato, um dos maiores zagueiros que o Brasil jamais teve.",
     "d": "José Oscar Bernardi: O Capitão que Defendeu o Brasil com Garra e Técnica"
+  },
+  {
+    "id": "SaHIURqkapkGlRLodCSt",
+    "d": "A bicicleta de Leônidas e a goleada histórica sobre o Juventus",
+    "createdAt": "2026-10-30T02:43:33.224Z",
+    "ctx": "No dia 13 de novembro de 1948, o São Paulo protagonizou uma daquelas partidas que atravessam gerações e permanecem vivas na memória do torcedor tricolor. No Estádio do Pacaembu, pelo Campeonato Paulista, o Tricolor enfrentou o Juventus e venceu por impressionantes 8 a 0.\n\nNaquele período, o São Paulo era conhecido como Rolo Compressor. Uma equipe poderosa, repleta de grandes jogadores e que tinha em Leônidas da Silva, o eterno Diamante Negro, um de seus principais símbolos. Ao lado de nomes como Bauer, o time construía uma campanha marcante no futebol paulista.\n\nA goleada teve um significado especial: era também uma resposta à derrota sofrida diante do Juventus no primeiro turno, quando o Moleque Travesso havia surpreendido o Tricolor. No reencontro, o São Paulo não deixou dúvidas e transformou a revanche em uma atuação memorável.\n\nMas um lance ajudaria a eternizar aquela tarde: a bicicleta de Leônidas da Silva. Conhecido por sua habilidade, criatividade e capacidade de executar movimentos extraordinários, o Diamante Negro protagonizou um gol que se tornou um dos símbolos de sua genialidade. A jogada atravessou o tempo e até inspirou uma escultura no Memorial do São Paulo.\n\nAquela vitória fazia parte de uma campanha que terminaria em festa. Em 18 de dezembro de 1948, o São Paulo confirmaria a conquista do Campeonato Paulista, levantando o quinto título estadual de sua história.\n\nO placar de 8 a 0 foi muito mais do que uma goleada. Foi a demonstração da força de um time que marcou época e ajudou a construir a identidade vencedora do São Paulo Futebol Clube.\n\nE, naquela tarde de novembro, Leônidas deixou mais uma obra de arte para a eternidade. Porque algumas jogadas não ficam apenas na história de uma partida: tornam-se parte da história de um clube.",
+    "t": "vitoria",
+    "y": 1948,
+    "dia": 13,
+    "stats": [],
+    "video": "tKbwELePTiY",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793328186/Banner_of_Vit%C3%B3ria_versus_Juventus_788c1786.jpg",
+    "n": "SPFC 8x0 JUVENTUS",
+    "destaqueData": "2026-11-13",
+    "mes": 11,
+    "e": "⚽",
+    "imgCap": ""
   },
   {
     "id": "SjvZseHln6xfeOGiWqer",
@@ -4918,29 +4992,21 @@
   },
   {
     "id": "Z7VH0ac9Wv1y5lzqIAa0",
-    "stats": [
-      {
-        "v": "10 x 0",
-        "l": "Placar"
-      },
-      {
-        "v": "Guarani",
-        "l": "Adversário"
-      },
-      {
-        "v": "1950",
-        "l": "Ano"
-      }
-    ],
-    "mes": 11,
-    "ctx": "Uma das maiores goleadas de toda a história do São Paulo Futebol Clube. Dez gols em uma única partida contra o Guarani.",
-    "n": "10x0 no Guarani",
+    "video": "",
+    "createdAt": "2026-10-30T02:06:46.251Z",
     "e": "⚽",
-    "d": "DEZ A ZERO — goleada histórica absurda",
-    "createdAt": "2026-05-16T14:18:17.773Z",
-    "y": 1950,
+    "n": "10x0 no Guarani",
+    "stats": [],
+    "ctx": "Em 11 de novembro de 1950, o São Paulo protagonizou uma das maiores goleadas de sua história. No Estádio do Pacaembu, pelo Campeonato Paulista, o Tricolor não tomou conhecimento do Guarani e aplicou um impressionante 10 a 0, em uma atuação de enorme superioridade.\n\nA tarde teve um protagonista absoluto: Augusto. O atacante viveu um dia inesquecível, balançando as redes cinco vezes e comandando o massacre tricolor. Teixeirinha também brilhou, com três gols, enquanto Leopoldo completou a goleada com outros dois.\n\nO placar foi construído por um ataque inspirado, mas também por uma equipe que reunia jogadores de grande qualidade. O São Paulo entrou em campo com Mário; Savério e Mauro; Alfredo Ramos, Bauer e Noronha; Friaça, Ponce de León, Augusto, Leopoldo e Teixeirinha.\n\nEra uma formação que carregava a tradição de uma geração vencedora. Bauer, Mauro e Friaça, por exemplo, haviam representado o Brasil na Copa do Mundo de 1950. Ao lado de seus companheiros, ajudaram a construir uma atuação que entrou para a memória do clube.\n\nO Guarani não conseguiu encontrar respostas para o volume ofensivo são-paulino. Augusto castigou a defesa adversária, Teixeirinha deixou sua marca três vezes e Leopoldo também participou da festa. Quando o árbitro encerrou a partida, o placar já havia alcançado dois dígitos.\n\nO 10 a 0 entrou para o seleto grupo das maiores goleadas da história do São Paulo, reafirmando a tradição ofensiva que acompanha o clube desde suas primeiras décadas.\n\nCinco gols de Augusto, três de Teixeirinha e dois de Leopoldo. Dez vezes a rede balançou no Pacaembu. Em 1950, o São Paulo transformou uma partida do Campeonato Paulista em uma exibição inesquecível de força e futebol!",
     "t": "vitoria",
-    "dia": 11
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793325969/Banner_of_SPFC_historic_match_593ab30c.jpg",
+    "updatedAt": "2026-10-30T02:06:46.253Z",
+    "mes": 11,
+    "dia": 11,
+    "imgCap": "",
+    "d": "São Paulo 10 x 0 Guarani: uma chuva de gols no Pacaembu",
+    "destaqueData": "2026-11-11",
+    "y": 1950
   },
   {
     "id": "ZJWykTQbS2rCUvt4GJoT",
@@ -5222,6 +5288,22 @@
     "mes": 1
   },
   {
+    "id": "bX7JSNsvKTJQ4442CxOc",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793328841/Modern_banner_for_birthday_67a98e20.jpg",
+    "createdAt": "2026-10-30T02:57:37.783Z",
+    "imgCap": "",
+    "e": "🎂",
+    "t": "aniversario",
+    "dia": 14,
+    "stats": [],
+    "y": 1974,
+    "ctx": "Nascido em 14 de novembro de 1974, em São Paulo, André Luiz Moreira construiu seu nome no futebol brasileiro como um lateral-esquerdo de muita qualidade técnica, personalidade e vocação ofensiva. Revelado pelo São Paulo, fez parte de uma geração que viveu momentos inesquecíveis com a camisa tricolor.\n\nSua história no clube começou nas categorias de base. Em 1993, conquistou a Copa São Paulo de Futebol Júnior e chamou a atenção da comissão técnica. Sob o comando de Telê Santana, chegou ao elenco profissional e, ainda muito jovem, passou a ganhar espaço em uma equipe repleta de jogadores experientes e vencedores.\n\nAndré Luiz tinha características que o diferenciavam. Além da segurança pelo lado esquerdo, possuía habilidade para avançar, construir jogadas e atuar também como meia-esquerda. Era um jogador técnico, capaz de participar ativamente das ações ofensivas sem abandonar suas responsabilidades defensivas.\n\nEntre 1993 e 1996, esteve presente em uma das fases mais vitoriosas da história do São Paulo. Participou de conquistas como a Libertadores de 1993, o Mundial Interclubes de 1993, a Supercopa Libertadores de 1993, as Recopas Sul-Americanas de 1993 e 1994 e a Copa Conmebol de 1994.\n\nEra uma época em que o Tricolor conquistava o continente e o mundo, e André Luiz teve a oportunidade de fazer parte desse grupo que marcou gerações de são-paulinos.\n\nEm 1997, deixou o Morumbi e seguiu carreira no Corinthians. Depois, defendeu diversos clubes no Brasil e no exterior, passando por equipes como Cruzeiro, Fluminense, Santos, Tenerife, Olympique de Marselha e Paris Saint-Germain.\n\nTambém vestiu a camisa da Seleção Brasileira. Em 1996, integrou a equipe que conquistou a medalha de bronze nos Jogos Olímpicos de Atlanta, um dos momentos importantes de sua trajetória internacional.\n\nAndré Luiz foi um daqueles jovens talentos que surgiram em meio a uma geração extraordinária. Sua passagem pelo São Paulo ficou marcada pela técnica, pela versatilidade e pela participação em conquistas que ajudaram a consolidar o clube entre os grandes do futebol mundial.\n\nParabéns, André Luiz! Sua história também faz parte da memória de uma geração tricolor que conquistou o Brasil, a América e o mundo.",
+    "d": "André Luiz: talento e juventude em uma era de conquistas",
+    "video": "",
+    "n": "Aniversário, André Luiz",
+    "mes": 11
+  },
+  {
     "id": "bYf9dlsgLTvPTlFvkvfu",
     "d": "Aniversário do capitão Raí, símbolo do tricampeonato",
     "e": "🎂",
@@ -5271,14 +5353,21 @@
   },
   {
     "id": "c0RmFPthxMT9WEkNLt49",
-    "d": "Goleada histórica",
-    "e": "⚽",
+    "stats": [],
     "mes": 11,
-    "createdAt": "2026-05-16T14:18:17.773Z",
-    "t": "vitoria",
-    "n": "8x1 na Portuguesa Santista",
+    "imgCap": "",
+    "t": "aniversario",
+    "ctx": "Em 12 de novembro de 1940, nascia em Marília, no interior de São Paulo, Jurandir de Freitas, um dos grandes defensores da história do São Paulo Futebol Clube. Alto, veloz, firme e dono de um posicionamento privilegiado, construiu uma trajetória de respeito com a camisa tricolor e entrou para a história também como campeão mundial pela Seleção Brasileira.\n\nJurandir chegou ao São Paulo em fevereiro de 1962, contratado após se destacar no futebol do interior. O que começou como uma aposta rapidamente se transformou em uma história de uma década. Entre 1962 e 1972, tornou-se uma das principais referências do sistema defensivo são-paulino.\n\nSua parceria com Roberto Dias ficou especialmente marcada. Juntos, formaram uma dupla de zaga que atravessou anos e conquistou o respeito da torcida. Enquanto muitos jogadores eram lembrados pelos gols e pelas jogadas de efeito, Jurandir fazia seu nome na segurança defensiva, na antecipação e na capacidade de neutralizar os ataques adversários.\n\nForam 418 partidas pelo São Paulo, segundo os registros apresentados em sua trajetória, sem marcar gols. Uma curiosidade que combina com seu perfil: sua missão era defender, proteger a área e impedir que os adversários chegassem ao gol tricolor.\n\nPouco depois de chegar ao clube, também alcançou um dos maiores feitos que um jogador pode conquistar. Jurandir integrou a Seleção Brasileira campeã da Copa do Mundo de 1962, no Chile. Mesmo sem ser titular naquela campanha, fez parte do grupo que conquistou o bicampeonato mundial e eternizou seu nome na história do futebol brasileiro.\n\nPelo São Paulo, viveu o momento de consagração com as conquistas dos Campeonatos Paulistas de 1970 e 1971. Títulos importantes para um clube que voltava a conquistar o estadual depois de um longo período de espera.\n\nApós deixar o Tricolor em 1972, ainda passou por outras equipes antes de encerrar sua carreira. Jurandir faleceu em 6 de março de 1996, aos 55 anos, deixando uma história que merece ser lembrada.\n\nSeu legado não está nos gols marcados, mas nos tantos que ajudou a evitar. Foi um defensor de presença imponente, parceiro de uma das grandes duplas de zaga do clube e integrante de uma geração que recolocou o São Paulo no caminho das conquistas.\n\nJurandir: 418 jogos, dois títulos paulistas e uma Copa do Mundo no currículo. Um gigante que talvez não tenha balançado as redes, mas ajudou a proteger a história do Tricolor!",
+    "updatedAt": "2026-10-30T02:37:45.470Z",
+    "y": 1940,
     "dia": 12,
-    "y": 1939
+    "e": "🎂",
+    "n": "Aniversário Jurandir",
+    "video": "jH5l3xFtDL4",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793327747/Birthday_banner_for_Jurandir_a1ecbf20.jpg",
+    "destaqueData": "2026-11-12",
+    "createdAt": "2026-10-30T02:37:45.466Z",
+    "d": "Jurandir: o gigante da defesa tricolor"
   },
   {
     "id": "cgRw2iAKWwxd9gA7dgIv",
@@ -6157,6 +6246,22 @@
     "createdAt": "2026-05-16T14:18:16.839Z",
     "n": "SUPERCOPA REI 2024",
     "dia": 8
+  },
+  {
+    "id": "kclkAr8QeyqAp8kcKQzL",
+    "mes": 11,
+    "dia": 16,
+    "t": "vitoria",
+    "y": 2014,
+    "n": "SPFC 2X0 PALMEIRAS",
+    "d": "Tricolor vence o Choque-Rei e mantém a perseguição ao líder",
+    "e": "⚽",
+    "ctx": "Em 16 de novembro de 2014, o Morumbi recebeu mais um capítulo da rivalidade entre São Paulo e Palmeiras. Pela 34ª rodada do Campeonato Brasileiro, o Tricolor de Muricy Ramalho fez valer sua força diante da torcida e venceu o rival por 2 a 0.\n\nCom 36.850 torcedores presentes, o São Paulo entrou em campo sabendo da importância dos três pontos para continuar na disputa pelo título nacional. A equipe vivia uma boa campanha e não podia desperdiçar a oportunidade de seguir na perseguição ao Cruzeiro, líder da competição.\n\nO primeiro golpe veio aos 21 minutos do primeiro tempo. Luis Fabiano apareceu para balançar as redes e colocar o Tricolor em vantagem. O Fabuloso, sempre identificado com a torcida são-paulina, deixou sua marca em mais um clássico.\n\nO Palmeiras tentou reagir, mas encontrou dificuldades diante da equipe tricolor. No segundo tempo, aos 33 minutos, veio o golpe definitivo: Rafael Tolói marcou o segundo gol e confirmou a vitória são-paulina no Morumbi.\n\nO time entrou em campo com Rogério Ceni no gol e uma formação que reunia nomes importantes daquela temporada, como Kaká, Alexandre Pato, Alan Kardec, Michel Bastos e Luis Fabiano. Era um São Paulo experiente, comandado por Muricy, que ainda sonhava com a conquista brasileira.\n\nCom o resultado, o Tricolor chegou aos 66 pontos e permaneceu na vice-liderança, mantendo a perseguição ao Cruzeiro. Ao final do campeonato, o São Paulo terminaria como vice-campeão brasileiro.\n\nDo outro lado, a derrota aumentou a preocupação palmeirense na luta contra o rebaixamento, em uma reta final de campeonato bastante tensa para o rival.\n\nNaquele domingo, o Morumbi viu Luis Fabiano abrir o caminho e Rafael Tolói fechar a conta. Dois gols, três pontos e mais uma vitória para a coleção de clássicos tricolores.\n\nPorque vencer o rival no Morumbi tem sempre um sabor especial. E, em novembro de 2014, o São Paulo fez questão de deixar isso bem claro!",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793330821/Soccer_match_banner_creation_c0654796.jpg",
+    "imgCap": "",
+    "video": "b-_MJOJ9UnU",
+    "stats": [],
+    "createdAt": "2026-10-30T03:27:26.986Z"
   },
   {
     "id": "khUuV7TFDTeXfZCi6upD",
@@ -7515,6 +7620,23 @@
     "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1792983145/Translating_image_generation_prompt_20261025235214.jpg",
     "ctx": "Há lendas que nascem em noites de glória. Outras começam discretamente, longe dos holofotes, quando ninguém imagina o tamanho da história que está prestes a começar.\n\nEm 15 de julho de 1990, o São Paulo entrou em campo para enfrentar o Pouso Alegre, em um amistoso disputado em Cambuí, Minas Gerais. Era mais um compromisso no calendário do futebol. Uma partida que, à primeira vista, não parecia destinada a ocupar um lugar especial na memória tricolor.\n\nMas a história do futebol tem dessas coisas. Às vezes, o começo de uma eternidade acontece em um dia aparentemente comum.\n\nNaquele jogo, um goleiro chamado Zetti vestiu pela primeira vez a camisa do São Paulo.\n\nSeu nome era Armelino Donizetti Quagliatto. Um homem que carregava nas mãos a responsabilidade de defender uma meta e, sem saber, estava prestes a conquistar um lugar definitivo no coração de uma das torcidas mais apaixonadas do mundo.\n\nZetti não chegou ao Morumbi cercado pela certeza de que se tornaria uma lenda. Sua carreira havia sofrido um golpe duro. Depois de uma grave lesão no Palmeiras, viu o caminho de volta ao futebol se tornar difícil. O espaço que antes parecia seu já pertencia a outro goleiro. Era preciso recomeçar.\n\nE recomeçar nunca é fácil.\n\nÉ necessário engolir a frustração, recuperar a confiança e continuar acreditando quando o mundo parece ter seguido em frente sem esperar por você. É preciso entender que uma porta fechada não significa, necessariamente, o fim da estrada.\n\nFoi no São Paulo que Zetti encontrou a oportunidade de escrever um novo capítulo.\n\nNaquela estreia, Gilmar começou como titular. Zetti entrou durante a partida e participou da vitória por 1 a 0, construída com um gol de Cafu. Não houve taça levantada, não houve uma defesa eternizada em uma final continental, não houve uma multidão gritando seu nome como aconteceria nos anos seguintes.\n\nHouve apenas o primeiro passo.\n\nE como são misteriosos os primeiros passos!\n\nNaquele momento, ninguém poderia resumir o futuro em uma fotografia. Ninguém poderia olhar para aquele goleiro e enxergar, com absoluta certeza, o homem que enfrentaria os maiores desafios do futebol sul-americano, que levantaria a América duas vezes e que ajudaria o São Paulo a conquistar o mundo.\n\nMas o futuro estava sendo construído.\n\nMeses depois, Zetti assumiria a titularidade. E, sob o comando de Telê Santana, passaria a fazer parte de uma equipe que mudaria para sempre a história do clube.\n\nVieram o Campeonato Brasileiro de 1991 e os Paulistas de 1991 e 1992. Vieram as noites inesquecíveis da Libertadores. Vieram as decisões mundiais contra Barcelona e Milan, quando o São Paulo mostrou ao planeta a força de sua camisa.\n\nE lá estava Zetti.\n\nSeguro, concentrado, corajoso. Um goleiro que entendia que defender não era apenas impedir que a bola cruzasse a linha. Era proteger o sonho de quem estava atrás dele. Era transmitir tranquilidade quando o adversário avançava. Era permanecer de pé quando o estádio inteiro parecia prender a respiração.\n\nEm 1992, contra o Barcelona, o São Paulo conquistou o mundo. Em 1993, diante do Milan, voltou a provar que a primeira conquista não havia sido um acaso. Zetti estava no centro daquela história, como um dos protagonistas de uma geração que transformou o Tricolor em referência mundial.\n\nDuas Libertadores. Dois Mundiais.\n\nConquistas que parecem pertencer a um filme, mas foram vividas por homens de verdade, que treinaram, sofreram, acreditaram e entraram em campo carregando o peso de uma camisa histórica.\n\nE pensar que tudo começou com uma estreia em um amistoso!\n\nÉ por isso que o dia 15 de julho merece ser lembrado. Não apenas porque marca a primeira partida de um dos maiores goleiros da história são-paulina, mas porque nos recorda de uma verdade que vale para o futebol e para a vida: nunca sabemos até onde uma nova oportunidade pode nos levar.\n\nZetti chegou ao São Paulo precisando reconstruir sua trajetória. Encontrou um clube que lhe abriu as portas e acabou se tornando um dos rostos mais emblemáticos de uma das eras mais gloriosas do Tricolor.\n\nForam 432 jogos com a camisa são-paulina. Mais do que uma estatística, uma longa caminhada de dedicação, conquistas e identificação com o clube.\n\nE existe algo especialmente bonito nessa história: Zetti não precisou nascer são-paulino para se tornar eterno para nós. O amor de uma torcida também se constrói assim — com entrega, respeito e momentos que ficam guardados para sempre.\n\nHoje, quando lembramos daquele goleiro, não enxergamos apenas o homem que entrou em campo em Cambuí. Enxergamos o campeão que levantou taças, o gigante que defendeu nossa meta nas noites mais importantes e o ídolo que ajudou a escrever páginas douradas da história do São Paulo.\n\nO tempo passou. Outras gerações chegaram. Novos goleiros vestiram a camisa número 1. Mas certas lembranças não aceitam aposentadoria.\n\nBasta mencionar Zetti para que a memória nos leve de volta àquela equipe de Telê, às finais mundiais, à Libertadores e à sensação indescritível de ver o São Paulo no topo do planeta.\n\nE tudo isso nos conduz novamente àquela data.\n\n15 de julho de 1990.\n\nNaquele dia, não nasceu apenas uma trajetória dentro do São Paulo. Começou uma história de confiança, superação e glória que atravessaria gerações.\n\nTalvez os torcedores que acompanharam aquela estreia não imaginassem o que estava por vir. Talvez nem o próprio Zetti pudesse prever a dimensão do legado que construiria.\n\nMas nós, que conhecemos o desfecho dessa história, podemos olhar para trás e reconhecer a grandeza daquele primeiro passo.\n\nObrigado, Zetti, por cada defesa, cada conquista e cada noite em que nos ajudou a sonhar mais alto.\n\nObrigado por mostrar que a grandeza também nasce da capacidade de se levantar depois de uma queda.\n\nE obrigado por fazer parte de uma geração que nos ensinou que o São Paulo não nasceu para olhar o mundo de longe. Nasceu para enfrentá-lo.\n\nHá goleiros que defendem o gol. Há goleiros que defendem títulos. E há aqueles que entram para a história de um clube para sempre.\n\nZetti foi um desses.\n\nEm 15 de julho, celebramos o início de uma jornada que nos deu motivos de sobra para sentir orgulho de nossa camisa.\n\nPorque algumas estreias duram noventa minutos.\n\nOutras permanecem eternas.\n\nZetti e São Paulo: uma história que começou com uma oportunidade e se transformou em lenda.\n\nSaudações tricolores!",
     "d": "15 de julho de 1990: o dia em que o destino vestiu luvas tricolores"
+  },
+  {
+    "id": "vwC1krlsKM6txv3Jhx3T",
+    "image": "https://res.cloudinary.com/tlpscgnx/image/upload/v1793329388/Luiz%C3%A3o_birthday_modern_banner_4d471888.jpg",
+    "n": "Aniversário do Luizão",
+    "dia": 14,
+    "stats": [],
+    "ctx": "Nascido em 14 de novembro de 1975, em Rubineia, no interior paulista, Luiz Carlos Bombonato Goulart, o Luizão, construiu uma carreira marcada por gols decisivos, personalidade forte e títulos importantes. Centroavante de presença física, faro de gol e muita entrega, passou por grandes clubes do futebol brasileiro e também deixou sua marca na história do São Paulo.\n\nSua chegada ao Morumbi, em janeiro de 2005, foi cercada de desconfiança. O atacante vinha de uma grave cirurgia na cartilagem do joelho esquerdo e precisava provar que ainda tinha condições de atuar em alto nível. Com dedicação durante a recuperação no REFFIS, Luizão superou as dificuldades e conquistou seu espaço no elenco.\n\nA mudança no comando técnico, com a chegada de Paulo Autuori, também marcou um novo momento para o centroavante. Luizão ganhou protagonismo e se tornou uma peça fundamental na caminhada tricolor rumo à conquista da Libertadores de 2005.\n\nNa campanha continental, marcou cinco gols, dividindo a artilharia são-paulina da competição com Rogério Ceni. Mais do que os números, porém, sua importância estava nos momentos em que aparecia para decidir.\n\nNa grande final contra o Athletico Paranaense, no Morumbi, Luizão marcou de cabeça um dos gols da goleada por 4 a 0. Foi o gol que ampliou a vantagem tricolor e deixou ainda mais próxima a conquista do terceiro título da Libertadores.\n\nA passagem foi curta, mas intensa. Em aproximadamente seis meses, Luizão disputou a competição mais importante do continente, conquistou a América e marcou 11 gols com a camisa são-paulina. Depois, seguiu para o futebol japonês.\n\nSua carreira também foi repleta de conquistas por outros clubes. Foi campeão da Libertadores pelo Vasco, conquistou títulos nacionais e mundiais pelo Corinthians e integrou a Seleção Brasileira campeã da Copa do Mundo de 2002.\n\nMas, para o torcedor são-paulino, Luizão estará sempre ligado àquela campanha inesquecível de 2005. Um atacante que chegou cercado de dúvidas, venceu as dificuldades e terminou sua breve passagem pelo Morumbi levantando a taça mais desejada da América.\n\nHá jogadores que passam anos por um clube. Outros precisam de poucos meses para entrar definitivamente em sua história. Luizão é um deles.",
+    "createdAt": "2026-10-30T03:03:50.135Z",
+    "d": "Luizão: poucos meses, uma conquista eterna",
+    "imgCap": "",
+    "y": 1975,
+    "video": "VWzGes7lWV4",
+    "e": "🎂",
+    "mes": 11,
+    "destaqueData": "2026-11-14",
+    "t": "aniversario"
   },
   {
     "id": "vwpUR9yVDBBDh1eeYFWd",
