@@ -1,0 +1,68 @@
+MAGAZINE TRICOLOR — R15 / ARENA TRICOLOR
+
+Esta entrega reformula a experiência do quiz: lobby, partida, áudio, feedback,
+passagem de nível e resultado. O pacote contém o site completo atualizado.
+
+COMO ATUALIZAR
+1. Guarde uma cópia da sua versão atual.
+2. Extraia este ZIP e substitua os arquivos do projeto pelos arquivos extraídos,
+   mantendo index.html e quiz.html na mesma pasta em que já estavam.
+3. Publique pelo seu fluxo habitual do GitHub/Vercel.
+4. Abra o site conectado à internet. Se aparecer o aviso de nova versão,
+   conclua a partida em andamento e toque em Atualizar.
+5. Entre em quiz.html. Você verá ARENA TRICOLOR na entrada.
+
+O service worker já foi atualizado para 20261029-r15, com os novos arquivos
+do quiz no cache. Não é necessário editar o sw.js manualmente.
+Nenhuma publicação em produção foi realizada durante esta entrega.
+
+O QUE MUDOU
+- Lobby com preto fosco, vermelho sangue, perfil, XP, missões e atalhos.
+- Partida com painel de tempo, pontos, sequência, perguntas e alternativas.
+- Acerto/erro com indicação de texto e símbolo, além de cor.
+- Botão para avançar após conferir a resposta; proteção contra toque duplo
+  e contra cliques reaproveitados da pergunta anterior.
+- Sequência de 3 acertos ativa o bônus de 20% já usado pelo cálculo do jogo.
+  A interface agora explica esse bônus, sem confundi-lo com multiplicação 3x.
+- Sons originais sintetizados: entrada, acerto, erro, contagem final,
+  mudança de nível, vitória e fim de jogo; trilha e ambiente de arquibancada.
+- Um único contexto de áudio; volumes separados e mute para todos os efeitos.
+  As preferências ficam salvas neste dispositivo. O áudio começa após interação.
+- O áudio é suspenso quando o app vai para segundo plano.
+- Cronômetro baseado em prazo real, evitando desacelerar a partida ao trocar de aba.
+- Resultado com acertos, precisão, melhor sequência, tempo médio, recorde local
+  e evolução de XP. Compartilhar gera um card PNG de 1080 x 1350 pixels.
+- Progresso de visitante salvo localmente, separado dos dados da conta.
+- Ajustes na contagem das missões: pontos não são somados novamente no fim;
+  vitória conta uma partida; a meta de partidas cabe nas 3 tentativas diárias.
+- Opção de reduzir animações e atalhos de teclado: 1 a 4 para responder,
+  Enter para continuar após o feedback.
+
+REGRAS MANTIDAS
+O clássico tem 6 níveis e 26 perguntas por partida: 5 em cada um dos cinco
+primeiros níveis e 1 na final. Uma resposta errada ou tempo esgotado encerra
+a tentativa. São 3 tentativas diárias. As ajudas permanecem disponíveis.
+Wondler, Sexta Temática, ranking, perfil e relatos de perguntas foram preservados.
+Treino livre, um novo desafio diário e duelos não fazem parte desta primeira etapa.
+
+OUTROS MÓDULOS
+Calendário, RSS, destaques, Cartel Tricolor, Sobre/créditos, administração,
+ícone MT e banner Tricolor Fat permanecem no pacote da R14.
+
+VERIFICAÇÃO
+- 29 verificações de fluxo no navegador, incluindo uma partida até a vitória,
+  dupla resposta, bônus, ajudas, erro, timeout, limite e controle de áudio.
+- 51 verificações do service worker para raiz e subpasta.
+- Revisão visual no desktop e em larguras móveis de 390 e 320 pixels.
+- Exportação do card de resultado conferida.
+- Sintaxe JavaScript, arquivos de cache e integridade do ZIP conferidos.
+
+Os testes de jogo foram executados como visitante, sem gravar partidas de teste
+no Firebase. Login e envio autenticado ao ranking usam a integração existente;
+não foram exercitados com uma conta real nesta revisão. A revisão mobile foi
+feita em viewports de navegador, não em aparelhos físicos iOS/Android.
+
+ÁUDIO
+Use o botão de áudio no topo do lobby para ajustar efeitos, trilha e arquibancada.
+Durante a partida, o botão de nota musical ativa/silencia o conjunto.
+Som e compartilhamento podem depender das permissões e capacidades do navegador.

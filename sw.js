@@ -12,7 +12,7 @@ const SHELL = [
 const OPTIONAL = [
   'events.js', 'icons/mt-r12-icon-1024.png', 'icons/mt-r12-maskable-1024.png', 'icons/mt-r12-apple-167.png', 'icons/mt-r12-apple-152.png', 'icons/mt-r12-apple-120.png', 'icons/mt-r12-tile-150.png',
   'notificacoes.html', 'notificacoes.css', 'js/push-client.js',
-  'quiz.html', 'quiz-premium.css', 'quiz-sports.css', 'quiz-fixes.css',
+  'quiz.html', 'quiz-arena.css', 'js/arena-audio.js', 'js/quiz-arena.js', 'quiz-premium.css', 'quiz-sports.css', 'quiz-fixes.css',
   'jogadores.html', 'cartel-premium.css', 'spfc_historia.html', 'tecnicos.html', 'tecnico.html',
   'goleadores.html', 'galeria-dos-imortais.html', 'wondler.html', 'suite-premium.css',
   'data/eventos.json', 'data/perguntas.json', 'data/wordle.json', 'data/dados.json',
