@@ -67,7 +67,7 @@ window.dispatchEvent(new Event('wfb-ready'));
   --accent-soft:rgba(166,0,0,.12);
   --gold:#C8A84B;
   --gold-soft:rgba(200,168,75,.12);
-  --success:#30D158;
+  --success:#eeeeee;
   --warning:#FF9F0A;
   --error:#a60000;
   --font-display:'Bebas Neue',Impact,sans-serif;
@@ -1602,7 +1602,7 @@ async function doLogin(){
   try{
     await signInWithPopup(auth,provider);
     const el=document.getElementById('loginPrompt');if(el)el.style.display='none';
-    toast('✅ Conectado!','Seu streak será salvo automaticamente');
+    toast('✓ Conectado!','Seu streak será salvo automaticamente');
   }catch(e){toast('Erro ao conectar',e.message);}
 }
 

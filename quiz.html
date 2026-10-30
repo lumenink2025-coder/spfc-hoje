@@ -61,7 +61,7 @@ window.dispatchEvent(new Event('firebase-ready'));
   --bg:#080808; --bg2:#111; --bg3:#191919; --bg4:#222;
   --border:#2a2a2a; --border2:#383838;
   --txt:#F0EBE3; --txt2:#AAA; --txt3:#666;
-  --green:#22c55e; --blue:#3b82f6;
+  --success:#eeeeee; --blue:#3b82f6;
   --font-t:'Bebas Neue',Impact,sans-serif;
   --font-u:'Oswald',sans-serif;
   --font-b:'Inter',sans-serif;
@@ -178,7 +178,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .timer-ring-wrap{position:relative;width:80px;height:80px;flex-shrink:0}
 .timer-ring-svg{width:80px;height:80px;transform:rotate(-90deg)}
 .timer-ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:6}
-.timer-ring-fill{fill:none;stroke:#22c55e;stroke-width:6;stroke-linecap:round;stroke-dasharray:207;stroke-dashoffset:0;transition:stroke-dashoffset .9s linear,stroke .5s}
+.timer-ring-fill{fill:none;stroke:#eeeeee;stroke-width:6;stroke-linecap:round;stroke-dasharray:207;stroke-dashoffset:0;transition:stroke-dashoffset .9s linear,stroke .5s}
 .timer-ring-fill.danger{stroke:#a60000}
 .timer-ring-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .timer-num-val{font-family:var(--font-t);font-size:28px;color:#fff;line-height:1}
@@ -192,7 +192,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .level-progress{width:100%;padding:4px 14px 6px;background:transparent}
 .lp-steps{display:flex;gap:3px}
 .lp-step{flex:1;height:3px;background:rgba(255,255,255,.06);border-radius:3px;transition:.4s}
-.lp-step.done{background:var(--green);box-shadow:0 0 6px rgba(34,197,94,.5)}
+.lp-step.done{background:var(--success);box-shadow:0 0 6px rgba(220,220,220,.5)}
 .lp-step.current{background:var(--gold);animation:pulse-bar .8s ease-in-out infinite}
 @keyframes pulse-bar{0%,100%{opacity:1}50%{opacity:.3}}
 
@@ -223,8 +223,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .q-opt-text{font-size:15px;color:var(--txt);line-height:1.3;flex:1;font-weight:500}
 .q-opt.selected .q-opt-inner{background:rgba(166,0,0,.3);border-color:var(--red);box-shadow:0 0 20px rgba(166,0,0,.4)}
 .q-opt.selected .q-opt-letter{background:var(--red);border-color:var(--red)}
-.q-opt.correct .q-opt-inner{background:rgba(34,197,94,.18)!important;border-color:#22c55e!important;box-shadow:0 0 20px rgba(34,197,94,.4)!important}
-.q-opt.correct .q-opt-letter{background:#22c55e;border-color:#22c55e;color:#fff}
+.q-opt.correct .q-opt-inner{background:rgba(220,220,220,.18)!important;border-color:#eeeeee!important;box-shadow:0 0 20px rgba(220,220,220,.4)!important}
+.q-opt.correct .q-opt-letter{background:#eeeeee;border-color:#eeeeee;color:#111}
 .q-opt.wrong .q-opt-inner{background:rgba(166,0,0,.18)!important;border-color:#a60000!important;box-shadow:0 0 20px rgba(166,0,0,.35)!important}
 .q-opt.wrong .q-opt-letter{background:#a60000;border-color:#a60000;color:#fff}
 
@@ -251,7 +251,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .feedback-overlay.show{opacity:1}
 .feedback-text{font-family:var(--font-t);font-size:clamp(48px,16vw,80px);letter-spacing:4px;text-shadow:0 0 40px currentColor;animation:feedpop .35s cubic-bezier(.34,1.56,.64,1)}
 @keyframes feedpop{0%{transform:scale(.3) rotate(-8deg)}100%{transform:scale(1) rotate(0deg)}}
-.feedback-text.correct{color:#22c55e}
+.feedback-text.correct{color:#eeeeee}
 .feedback-text.wrong{color:#a60000}
 
 /* SCORE POPUP */
@@ -279,7 +279,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .gameover-answer{background:var(--bg3);border:1px solid var(--border2);border-left:3px solid var(--red);padding:14px 16px;border-radius:2px;margin-bottom:24px;text-align:left}
 .ga-label{font-size:10px;color:var(--txt3);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
 .ga-text{font-size:13px;color:var(--txt);line-height:1.5}
-.ga-correct{font-size:12px;color:var(--green);margin-top:6px}
+.ga-correct{font-size:12px;color:var(--success);margin-top:6px}
 
 /* ══ VICTORY SCREEN ═══════════════════════════════ */
 .victory-wrap{width:100%;max-width:380px;padding:40px 20px;text-align:center}
@@ -400,8 +400,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .wrd-cell{border-radius:6px;padding:6px 3px;text-align:center;border:1px solid transparent;min-width:0;transition:all .25s}
 .wrd-cv{font-size:9px;font-weight:600;line-height:1.3;word-break:break-word}
 .wrd-ci{font-size:11px;margin-bottom:1px}
-.wrd-cell.hit{background:#0a2a0a;border-color:#22c55e}
-.wrd-cell.hit .wrd-cv{color:#22c55e}
+.wrd-cell.hit{background:#252525;border-color:#eeeeee}
+.wrd-cell.hit .wrd-cv{color:#eeeeee}
 .wrd-cell.near{background:#2a1e00;border-color:#f59e0b}
 .wrd-cell.near .wrd-cv{color:#f59e0b}
 .wrd-cell.miss{background:#241111;border-color:#760000}
@@ -1327,8 +1327,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 }
 
 .desafios-mission-card.completed {
-  border-color: rgba(34,197,94,0.3);
-  background: rgba(34,197,94,0.05);
+  border-color: rgba(220,220,220,0.3);
+  background: rgba(220,220,220,0.05);
 }
 
 .desafios-mission-info {
@@ -1381,8 +1381,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--green);
-  color: #fff;
+  background: var(--success);
+  color: #111;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1436,7 +1436,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 }
 
 </style>
-<link rel="stylesheet" href="quiz-premium.css?v=20261029-r15"><link rel="stylesheet" href="pwa.css?v=20261029-r15"><script src="js/data-service.js?v=20261029-r15"></script>
+<link rel="stylesheet" href="quiz-premium.css?v=20261030-r16"><link rel="stylesheet" href="pwa.css?v=20261030-r16"><script src="js/data-service.js?v=20261030-r16"></script>
 <meta name="theme-color" content="#111111">
 <meta name="application-name" content="MAGAZINE TRICOLOR">
 <meta name="apple-mobile-web-app-title" content="MAGAZINE TRICOLOR">
@@ -1452,7 +1452,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <link rel="apple-touch-icon" sizes="167x167" href="icons/mt-r12-apple-167.png">
 <link rel="apple-touch-icon" sizes="152x152" href="icons/mt-r12-apple-152.png">
 <link rel="apple-touch-icon" sizes="120x120" href="icons/mt-r12-apple-120.png">
-<link rel="stylesheet" href="quiz-arena.css?v=20261029-r15">
+<link rel="stylesheet" href="quiz-arena.css?v=20261030-r16">
 </head>
 <body class="premium-quiz arena-v15"><div class="arena-shellbar"><a href="index.html"><span>MAGAZINE TRICOLOR <small>MEMÓRIA TRICOLOR</small></span></a><span class="arena-shelltag">ARENA TRICOLOR <i> / </i> QUIZ</span><a class="arena-return" href="index.html">← Voltar ao calendário</a></div>
 
@@ -1859,8 +1859,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 </nav>
 
-<dialog id="arenaSettings" class="arena-settings"><form method="dialog"><div class="arena-section-title"><div><span class="arena-eyebrow">AJUSTE SUA EXPERIÊNCIA</span><h2>SOM DA ARENA</h2></div><button class="arena-icon-button" aria-label="Fechar configurações">×</button></div></form><label class="arena-setting-switch"><span>Áudio ativado</span><input id="arenaSoundEnabled" type="checkbox"></label><label class="arena-slider-label" for="arenaEffectsVolume">Efeitos <output id="arenaEffectsValue">70%</output></label><input id="arenaEffectsVolume" type="range" min="0" max="100" step="1"><label class="arena-slider-label" for="arenaMusicVolume">Trilha <output id="arenaMusicValue">18%</output></label><input id="arenaMusicVolume" type="range" min="0" max="100" step="1"><label class="arena-slider-label" for="arenaCrowdVolume">Arquibancada <output id="arenaCrowdValue">20%</output></label><input id="arenaCrowdVolume" type="range" min="0" max="100" step="1"><button class="arena-outline" onclick="ArenaAudio.preview()">OUVIR PRÉVIA</button><label class="arena-setting-switch"><span>Reduzir animações</span><input id="arenaReduceMotion" type="checkbox"></label><p class="arena-muted">Suas preferências ficam salvas neste dispositivo.</p></dialog>
-<script src="js/arena-audio.js?v=20261029-r15"></script><script src="js/quiz-arena.js?v=20261029-r15"></script>
+<dialog id="arenaSettings" class="arena-settings"><form method="dialog"><div class="arena-section-title"><div><span class="arena-eyebrow">AJUSTE SUA EXPERIÊNCIA</span><h2>SOM DA ARENA</h2></div><button class="arena-icon-button" aria-label="Fechar configurações">×</button></div></form><label class="arena-setting-switch"><span>Áudio ativado</span><input id="arenaSoundEnabled" type="checkbox"></label><label class="arena-slider-label" for="arenaEffectsVolume">Efeitos <output id="arenaEffectsValue">70%</output></label><input id="arenaEffectsVolume" type="range" min="0" max="100" step="1"><label class="arena-slider-label" for="arenaMusicVolume">Trilha · Quiz Show Fever <output id="arenaMusicValue">55%</output></label><input id="arenaMusicVolume" type="range" min="0" max="100" step="1"><label class="arena-slider-label" for="arenaCrowdVolume">Arquibancada <output id="arenaCrowdValue">12%</output></label><input id="arenaCrowdVolume" type="range" min="0" max="100" step="1"><button class="arena-outline" onclick="ArenaAudio.preview()">OUVIR PRÉVIA</button><label class="arena-setting-switch"><span>Reduzir animações</span><input id="arenaReduceMotion" type="checkbox"></label><p class="arena-muted">A trilha começa após seu primeiro toque e acompanha o quiz. Volume e silêncio ficam salvos neste dispositivo.</p></dialog>
+<script src="js/arena-audio.js?v=20261030-r16"></script><script src="js/quiz-arena.js?v=20261030-r16"></script>
 <script>
 'use strict';
 
@@ -2419,9 +2419,9 @@ async function checkNickname(val) {
   // Se não tem Firebase, libera direto
   if (!window.FB) {
     nickAvailable = true;
-    status.textContent = '✅';
+    status.textContent = '✓';
     msg.textContent = 'Disponível';
-    msg.style.color = 'var(--green)';
+    msg.style.color = 'var(--success)';
     return;
   }
 
@@ -2442,10 +2442,10 @@ async function checkNickname(val) {
 
       if (!snap.exists() || isOwn) {
         nickAvailable = true;
-        status.textContent = '✅';
+        status.textContent = '✓';
         msg.textContent = isOwn ? 'Seu nick atual' : 'Disponível! 🔴';
-        msg.style.color = 'var(--green)';
-        input.style.borderColor = 'var(--green)';
+        msg.style.color = 'var(--success)';
+        input.style.borderColor = 'var(--success)';
       } else {
         nickAvailable = false;
         status.textContent = '❌';
@@ -3131,7 +3131,7 @@ function handleWrong(q) {
   goScreen('screen-gameover');
   document.getElementById('goScore').textContent = STATE.score;
   document.getElementById('goQuestion').textContent = q.q;
-  document.getElementById('goCorrect').textContent = `✅ Resposta correta: ${q.o[q.c]}`;
+  document.getElementById('goCorrect').textContent = `✓ Resposta correta: ${q.o[q.c]}`;
   renderDailyAttemptsDisplay('goLives');
 
   const left = getDailyAttemptsLeft();
@@ -3311,9 +3311,9 @@ function useHelper(type) {
       const orig = parseInt(btn.dataset.orig);
       const pct = orig === q.c ? correctPct : wrongPcts[wrongIdx++];
       const bar = document.createElement('div');
-      bar.style.cssText = `position:absolute;bottom:0;left:0;height:3px;width:${pct}%;background:${orig === q.c ? 'var(--green)' : 'rgba(255,255,255,.2)'};border-radius:0 0 14px 14px;transition:width .6s ease`;
+      bar.style.cssText = `position:absolute;bottom:0;left:0;height:3px;width:${pct}%;background:${orig === q.c ? 'var(--success)' : 'rgba(255,255,255,.2)'};border-radius:0 0 14px 14px;transition:width .6s ease`;
       const label = document.createElement('span');
-      label.style.cssText = `position:absolute;top:6px;right:8px;font-size:10px;color:${orig === q.c ? 'var(--green)' : 'var(--txt3)'};font-weight:700`;
+      label.style.cssText = `position:absolute;top:6px;right:8px;font-size:10px;color:${orig === q.c ? 'var(--success)' : 'var(--txt3)'};font-weight:700`;
       label.textContent = pct + '%';
       btn.style.position = 'relative';
       btn.style.overflow = 'hidden';
@@ -3411,7 +3411,7 @@ async function enviarRelato() {
       const id = 'relato_' + Date.now();
       await setDoc(doc(db, 'eventos', id), {...relato, tipo: 'relato_erro'});
       closeReportModal();
-      toast('✅ Enviado!', 'Obrigado! Vamos verificar essa pergunta.');
+      toast('✓ Enviado!', 'Obrigado! Vamos verificar essa pergunta.');
     } catch(e) {
       toast('Erro ao enviar', 'Tente novamente');
     }
@@ -3782,7 +3782,7 @@ function renderProfile() {
             <div class="ach-name">${a.name}</div>
             <div class="ach-desc">${a.desc}</div>
           </div>
-          ${a.unlocked ? '<span style="color:var(--green);font-size:16px">✓</span>' : '<span style="color:var(--txt3);font-size:12px">🔒</span>'}
+          ${a.unlocked ? '<span style="color:var(--success);font-size:16px">✓</span>' : '<span style="color:var(--txt3);font-size:12px">🔒</span>'}
         </div>`).join('')}
     </div>
     <button class="btn-secondary" style="max-width:100%;margin-top:20px" onclick="goScreen('screen-avatar')">✏️ EDITAR AVATAR</button>
@@ -3801,7 +3801,7 @@ function unlockAdmin() {
   if (pass === ADMIN_PASSWORD) {
     document.getElementById('adminLock').style.display = 'none';
     document.getElementById('adminPanel').style.display = 'block';
-    adminLog('✅ Acesso liberado. Bem-vindo, administrador.');
+    adminLog('✓ Acesso liberado. Bem-vindo, administrador.');
   } else {
     toast('Senha incorreta ❌', 'Verifique a senha de administrador');
     document.getElementById('adminPass').value = '';
@@ -3847,8 +3847,8 @@ async function adminClearAll() {
     batches.push(batch.commit());
     await Promise.all(batches);
 
-    adminLog(`✅ ${count} registros removidos. Ranking limpo!`);
-    toast('Ranking limpo! ✅', `${count} registros removidos`);
+    adminLog(`✓ ${count} registros removidos. Ranking limpo!`);
+    toast('Ranking limpo! ✓', `${count} registros removidos`);
   } catch(e) {
     adminLog('❌ Erro: ' + e.message);
     toast('Erro ❌', e.message);
@@ -3872,8 +3872,8 @@ async function adminClearType(type) {
     snap.forEach(d => { batch.delete(d.ref); count++; });
     await batch.commit();
 
-    adminLog(`✅ ${count} registros "${type}" removidos.`);
-    toast(`Ranking ${type} limpo! ✅`, `${count} registros removidos`);
+    adminLog(`✓ ${count} registros "${type}" removidos.`);
+    toast(`Ranking ${type} limpo! ✓`, `${count} registros removidos`);
   } catch(e) {
     adminLog('❌ Erro: ' + e.message);
   }
@@ -3907,8 +3907,8 @@ async function adminRemoveUser() {
     }
 
     await batch.commit();
-    adminLog(`✅ ${count} registro(s) de "${nick}" removidos.`);
-    toast(`"${nick}" removido! ✅`, `${count} entradas removidas do ranking`);
+    adminLog(`✓ ${count} registro(s) de "${nick}" removidos.`);
+    toast(`"${nick}" removido! ✓`, `${count} entradas removidas do ranking`);
     document.getElementById('adminNickInput').value = '';
   } catch(e) {
     adminLog('❌ Erro: ' + e.message);
@@ -3926,8 +3926,8 @@ async function adminFreeNick() {
 
   try {
     await deleteDoc(doc(db, 'nicknames', nickKey));
-    adminLog(`✅ Nickname "${nick}" liberado com sucesso.`);
-    toast(`Nick liberado! ✅`, `"${nick}" pode ser usado por outro torcedor`);
+    adminLog(`✓ Nickname "${nick}" liberado com sucesso.`);
+    toast(`Nick liberado! ✓`, `"${nick}" pode ser usado por outro torcedor`);
     document.getElementById('adminNickFree').value = '';
   } catch(e) {
     adminLog('❌ Erro: ' + e.message);
@@ -3959,19 +3959,19 @@ async function adminCarregarRelatos() {
       const resolvido = r.status === 'resolvido';
       const data = r.criadoEm ? new Date(r.criadoEm).toLocaleString('pt-BR') : '—';
       html += `
-        <div style="background:var(--bg3);border:1px solid ${resolvido ? 'rgba(34,197,94,.3)' : 'rgba(166,0,0,.3)'};border-radius:8px;padding:12px;font-size:12px">
+        <div style="background:var(--bg3);border:1px solid ${resolvido ? 'rgba(220,220,220,.3)' : 'rgba(166,0,0,.3)'};border-radius:8px;padding:12px;font-size:12px">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <span style="color:var(--txt3);font-size:10px;letter-spacing:1px">${data} · ${r.usuario || 'Anônimo'}</span>
-            <span style="color:${resolvido ? 'var(--green)' : 'var(--red)'};font-size:10px;font-weight:700">${resolvido ? '✅ RESOLVIDO' : '⚠️ PENDENTE'}</span>
+            <span style="color:${resolvido ? 'var(--success)' : 'var(--red)'};font-size:10px;font-weight:700">${resolvido ? '✓ RESOLVIDO' : '⚠️ PENDENTE'}</span>
           </div>
           <div style="color:var(--txt);margin-bottom:4px;line-height:1.5"><strong>Pergunta:</strong> ${r.pergunta || '—'}</div>
           <div style="color:var(--txt2);margin-bottom:4px"><strong>Resposta marcada como correta:</strong> ${r.respostaCorreta || '—'}</div>
           <div style="color:var(--gold);margin-bottom:10px"><strong>Mensagem:</strong> ${r.mensagem || '—'}</div>
-          ${!resolvido ? `<button onclick="adminResolverRelato('${id}')" style="width:100%;padding:7px;background:var(--green);color:#fff;border:none;border-radius:4px;font-size:11px;cursor:pointer;font-family:var(--font-b);letter-spacing:1px">✅ MARCAR COMO RESOLVIDO</button>` : ''}
+          ${!resolvido ? `<button onclick="adminResolverRelato('${id}')" style="width:100%;padding:7px;background:var(--success);color:#111;border:none;border-radius:4px;font-size:11px;cursor:pointer;font-family:var(--font-b);letter-spacing:1px">✓ MARCAR COMO RESOLVIDO</button>` : ''}
         </div>`;
     });
     container.innerHTML = html;
-    adminLog(`✅ ${snap.size} relato(s) carregado(s).`);
+    adminLog(`✓ ${snap.size} relato(s) carregado(s).`);
   } catch(e) {
     container.innerHTML = '<div style="color:var(--red);font-size:12px;padding:8px">Erro ao carregar. Verifique as regras do Firestore.</div>';
     adminLog('❌ Erro ao carregar relatos: ' + e.message);
@@ -3983,7 +3983,7 @@ async function adminResolverRelato(id) {
   const {db, doc, updateDoc} = window.FB;
   try {
     await updateDoc(doc(db, 'eventos', id), { status: 'resolvido', resolvidoEm: new Date().toISOString() });
-    adminLog(`✅ Relato ${id} marcado como resolvido.`);
+    adminLog(`✓ Relato ${id} marcado como resolvido.`);
     adminCarregarRelatos(); // recarrega lista
   } catch(e) {
     adminLog('❌ Erro ao resolver: ' + e.message);
@@ -4336,7 +4336,7 @@ function renderWordle() {
     </div>
 
     <div class="wrd-leg">
-      <div class="wrd-li"><div class="wrd-ld" style="background:#22c55e"></div>Correto</div>
+      <div class="wrd-li"><div class="wrd-ld" style="background:#eeeeee"></div>Correto</div>
       <div class="wrd-li"><div class="wrd-ld" style="background:#f59e0b"></div>Quase</div>
       <div class="wrd-li"><div class="wrd-ld" style="background:#760000"></div>Errado</div>
       <div class="wrd-li"><div class="wrd-ld" style="background:var(--border2)"></div>⬆⬇ direção</div>
@@ -4463,7 +4463,7 @@ function wrdGuess() {
 function showWrdResult() {
   const s = wordleState.secret;
   const isWin = wordleState.won;
-  const EMJI = {hit:'🟢',near:'🟡',miss:'🔴'};
+  const EMJI = {hit:'⬜',near:'🟥',miss:'⬛'};
   const eg = wordleState.guesses.map(g=>g.cells.map(c=>EMJI[c.cls]).join('')).join('\n');
   const shareText = `🔴 SPFC Wordle #${wordleState.edition+1} ${isWin?wordleState.guesses.length+'/6':'X/6'}\n${eg}\n${new URL("quiz.html#wondler",location.href).href}`;
 
@@ -4923,7 +4923,7 @@ function renderDesafios() {
           <div class="desafios-ach-name">Primeiro Jogo</div>
           <div class="desafios-ach-desc">Complete sua primeira partida</div>
         </div>
-        ${(STATE.totalScore||0) > 0 ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
+        ${(STATE.totalScore||0) > 0 ? '<span style="color:var(--success)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
       </div>
       <div class="desafios-ach${(STATE.userData?.level||1) >= 10 ? '' : ' locked'}">
         <span class="desafios-ach-icon">🔥</span>
@@ -4931,7 +4931,7 @@ function renderDesafios() {
           <div class="desafios-ach-name">Veterano</div>
           <div class="desafios-ach-desc">Alcance o nível 10</div>
         </div>
-        ${(STATE.userData?.level||1) >= 10 ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
+        ${(STATE.userData?.level||1) >= 10 ? '<span style="color:var(--success)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
       </div>
       <div class="desafios-ach${(STATE.userData?.level||1) >= 50 ? '' : ' locked'}">
         <span class="desafios-ach-icon">💎</span>
@@ -4939,7 +4939,7 @@ function renderDesafios() {
           <div class="desafios-ach-name">Lenda Viva</div>
           <div class="desafios-ach-desc">Alcance o nível 50</div>
         </div>
-        ${(STATE.userData?.level||1) >= 50 ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
+        ${(STATE.userData?.level||1) >= 50 ? '<span style="color:var(--success)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
       </div>
       <div class="desafios-ach${(STATE.streak||0) >= 7 ? '' : ' locked'}">
         <span class="desafios-ach-icon">⚡</span>
@@ -4947,7 +4947,7 @@ function renderDesafios() {
           <div class="desafios-ach-name">Semana Perfeita</div>
           <div class="desafios-ach-desc">7 dias seguidos jogando</div>
         </div>
-        ${(STATE.streak||0) >= 7 ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
+        ${(STATE.streak||0) >= 7 ? '<span style="color:var(--success)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
       </div>
       <div class="desafios-ach${(STATE.userData?.level||1) >= 100 ? '' : ' locked'}">
         <span class="desafios-ach-icon">👑</span>
@@ -4955,7 +4955,7 @@ function renderDesafios() {
           <div class="desafios-ach-name">DEUS DO SPFC</div>
           <div class="desafios-ach-desc">Alcance o nível 100 — Nível Máximo!</div>
         </div>
-        ${(STATE.userData?.level||1) >= 100 ? '<span style="color:var(--green)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
+        ${(STATE.userData?.level||1) >= 100 ? '<span style="color:var(--success)">✓</span>' : '<span style="color:var(--txt3)">🔒</span>'}
       </div>
     </div>
   `;
@@ -4978,7 +4978,7 @@ function renderDesafios() {
   // Botão Sexta Temática
   const tematicoPlayed = hasPlayedTematico();
   const tematicoAvailable = isFriday() && !tematicoPlayed && TEMATICO_STATE.perguntas?.length > 0;
-  const tematicoLabel = tematicoPlayed ? '✅ Concluído esta semana' : isFriday() ? '⚡ Disponível hoje!' : '🗓 Disponível na sexta';
+  const tematicoLabel = tematicoPlayed ? '✓ Concluído esta semana' : isFriday() ? '⚡ Disponível hoje!' : '🗓 Disponível na sexta';
   html += `
     <div class="desafios-section-title">🔥 SEXTA TEMÁTICA</div>
     <div style="padding:0 0 8px">
@@ -5187,8 +5187,8 @@ async function initSextaTematicaCard() {
     if (themeEl) themeEl.textContent = `TEMA: ${(data.tema || '').toUpperCase()}`;
 
     if (played) {
-      if (statusEl) statusEl.innerHTML = `<span style="font-size:11px;color:var(--green)">✅ Desafio concluído esta semana!</span>`;
-      if (btn) { btn.disabled = true; btn.textContent = '✅ JÁ PARTICIPOU'; btn.style.background = 'rgba(34,197,94,.2)'; btn.style.color = 'var(--green)'; btn.style.border = '1px solid rgba(34,197,94,.3)'; }
+      if (statusEl) statusEl.innerHTML = `<span style="font-size:11px;color:var(--success)">✓ Desafio concluído esta semana!</span>`;
+      if (btn) { btn.disabled = true; btn.textContent = '✓ JÁ PARTICIPOU'; btn.style.background = 'rgba(220,220,220,.2)'; btn.style.color = 'var(--success)'; btn.style.border = '1px solid rgba(220,220,220,.3)'; }
     } else if (today !== 5) {
       const daysLeft = ((5 - today + 7) % 7) || 7;
       if (statusEl) statusEl.innerHTML = `<span style="font-size:11px;color:rgba(255,255,255,.6)">🗓 Disponível na próxima sexta-feira · ${daysLeft} dia${daysLeft > 1 ? 's' : ''}</span>`;
@@ -5216,7 +5216,7 @@ async function initSextaTematicaCard() {
 // ── Entrar na tela temática ──────────────────────────────────────
 function goScreenTematico() {
   if (hasPlayedTematico()) {
-    toast('Já participou! ✅', 'Você já jogou a Sexta Temática desta semana.');
+    toast('Já participou! ✓', 'Você já jogou a Sexta Temática desta semana.');
     return;
   }
   if (!isFriday()) {
@@ -5279,7 +5279,7 @@ function renderTematicoQuestion() {
   for (let i = 0; i < 5; i++) {
     const step = document.getElementById('tematicoStep' + i);
     if (!step) continue;
-    if (i < idx) step.style.background = 'var(--green)';
+    if (i < idx) step.style.background = 'var(--success)';
     else if (i === idx) step.style.background = 'var(--gold)';
     else step.style.background = 'rgba(255,255,255,.08)';
   }
@@ -5376,7 +5376,7 @@ function selectTematicoAnswer(origIdx, event) {
     const pts = 500 + Math.floor(TEMATICO_STATE.timeLeft * 25); // 500 base + bônus de tempo
     TEMATICO_STATE.score += pts;
     showFeedback('correct');
-    toast(`✅ Correto! +${pts}`, TEMATICO_STATE.acertos === 5 ? '🏆 Todas acertadas!' : `${5 - TEMATICO_STATE.acertos} perguntas restantes`);
+    toast(`✓ Correto! +${pts}`, TEMATICO_STATE.acertos === 5 ? '🏆 Todas acertadas!' : `${5 - TEMATICO_STATE.acertos} perguntas restantes`);
 
     scheduleQuestionTransition(() => {
       TEMATICO_STATE.questionIdx++;
@@ -5647,4 +5647,4 @@ if (window.location.hash === '#wondler') {
 </script>
 
 
-<script src="pwa.js?v=20261029-r15"></script></body></html>
+<script src="pwa.js?v=20261030-r16"></script></body></html>

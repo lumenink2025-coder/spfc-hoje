@@ -1,15 +1,18 @@
-/* Arena Tricolor · one audio context, original procedural sounds, no audio downloads. */
+/* Arena Tricolor · one audio context, original effects and the supplied Quiz Show Fever track. */
 (() => {
   'use strict';
   const KEY = 'mt_arena_audio_v1';
-  const defaults = { enabled: true, effects: .7, music: .18, crowd: .2 };
+  const defaults = { enabled: true, effects: .7, music: .55, crowd: .12 };
+  const musicURL = new URL('../assets/audio/quiz-show-fever.mp3', document.currentScript?.src || new URL('js/arena-audio.js', document.baseURI)).href;
   let saved = {};
   try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch {}
   const settings = { ...defaults };
   if (typeof saved.enabled === 'boolean') settings.enabled = saved.enabled;
   for (const k of ['effects', 'music', 'crowd']) if (Number.isFinite(saved[k])) settings[k] = Math.max(0, Math.min(1, saved[k]));
-  let ctx, master, buses, noiseBuffer, crowdSource, crowdGain, musicLoop;
-  let sceneActive = false, unlocked = false, chord = 0;
+  // Upgrade only the old default; preserve intentional silence and custom levels.
+  if (!saved.trackVersion && saved.music === .18) settings.music = defaults.music;
+  let ctx, master, buses, noiseBuffer, crowdSource, crowdGain, musicElement, musicSource;
+  let sceneActive = false, unlocked = false, pageActive = true, musicPending = false, musicError = '';
   const playing = new Set();
 
   function notify() {
@@ -27,29 +30,48 @@
     node.gain.setTargetAtTime(value, ctx.currentTime, .025);
   }
   function apply() {
-    gainTo(master, settings.enabled && !document.hidden ? .65 : 0);
-    if (buses) for (const k of ['effects', 'music', 'crowd']) gainTo(buses[k], k === 'music' && !sceneActive ? 0 : settings[k]);
+    gainTo(master, settings.enabled && !document.hidden && pageActive ? .65 : 0);
+    if (buses) for (const k of ['effects', 'music', 'crowd']) gainTo(buses[k], settings[k]);
     notify();
   }
-  function persist() { try { localStorage.setItem(KEY, JSON.stringify(settings)); } catch {} }
+  function persist() { try { localStorage.setItem(KEY, JSON.stringify({ ...settings, trackVersion: 1 })); } catch {} }
+  function wantsMusic() { return settings.enabled && settings.music > 0 && !document.hidden && pageActive; }
+  function startMusic() {
+    if (!musicElement || !wantsMusic() || musicPending || !musicElement.paused) return;
+    musicPending = true;
+    // Called synchronously from unlock as well, while a real user gesture is active.
+    Promise.resolve(musicElement.play()).then(() => {
+      musicError = '';
+      if (!wantsMusic()) musicElement.pause();
+    }).catch(error => {
+      musicError = error.name === 'NotAllowedError' ? 'blocked' : error.name === 'AbortError' ? '' : 'load-error';
+    }).finally(() => { musicPending = false; notify(); });
+  }
   async function unlock() {
     try {
       if (!ctx) {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (!AudioContext) return false;
         ctx = new AudioContext();
-        master = ctx.createGain();
+        master = ctx.createGain(); master.gain.value = settings.enabled && !document.hidden ? .65 : 0;
         const limiter = ctx.createDynamicsCompressor();
         limiter.threshold.value = -10; limiter.ratio.value = 8;
         master.connect(limiter); limiter.connect(ctx.destination);
         buses = {};
-        for (const k of ['effects', 'music', 'crowd']) { buses[k] = ctx.createGain(); buses[k].connect(master); }
+        for (const k of ['effects', 'music', 'crowd']) { buses[k] = ctx.createGain(); buses[k].gain.value = settings[k]; buses[k].connect(master); }
+        musicElement = new Audio();
+        musicElement.preload = 'none'; musicElement.loop = true;
+        musicElement.setAttribute('playsinline', ''); musicElement.src = musicURL;
+        musicElement.addEventListener('error', () => { musicError = 'load-error'; notify(); });
+        musicSource = ctx.createMediaElementSource(musicElement); musicSource.connect(buses.music);
         noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
         const data = noiseBuffer.getChannelData(0);
         let last = 0;
         for (let i = 0; i < data.length; i++) { last = (last + Math.random() * .04 - .02) / 1.02; data[i] = last * 12; }
       }
-      if (ctx.state === 'suspended' && !document.hidden) await ctx.resume();
+      const resumed = ctx.state === 'suspended' && !document.hidden && pageActive ? ctx.resume() : Promise.resolve();
+      startMusic();
+      await resumed;
       unlocked = ctx.state === 'running';
       apply(); updateBed();
       return unlocked;
@@ -96,27 +118,20 @@
       case 'victory': [293.66, 392, 493.88, 587.33, 783.99].forEach((f, i) => tone(f, .6, .2, i * .12, 'triangle')); noise(.9, .3, 1800, .15); break;
     }
   }
-  function musicPhrase() {
-    if (!settings.music || !sceneActive || !settings.enabled || document.hidden) return;
-    const progression = [[146.83, 220, 293.66], [130.81, 196, 261.63], [116.54, 174.61, 233.08], [130.81, 196, 261.63]];
-    const notes = progression[chord++ % progression.length];
-    notes.forEach((f, i) => tone(f, 2.2, .12, i * .06, 'sine', 'music'));
-    tone(notes[0] / 2, .7, .2, 0, 'sine', 'music');
-    tone(notes[0] / 2, .55, .13, 1.2, 'sine', 'music');
-  }
-  function stopBed() {
-    clearInterval(musicLoop); musicLoop = null;
+  function stopCrowd() {
     if (crowdSource) { try { crowdSource.stop(); } catch {} crowdSource.disconnect(); crowdSource = null; }
     if (crowdGain) { crowdGain.disconnect(); crowdGain = null; }
   }
+  function stopBed() { musicElement?.pause(); stopCrowd(); }
   function updateBed() {
-    if (!ctx || !unlocked || ctx.state !== 'running' || !sceneActive || !settings.enabled || document.hidden) { stopBed(); return; }
+    if (!ctx || !unlocked || ctx.state !== 'running' || !settings.enabled || document.hidden || !pageActive) { stopBed(); return; }
+    if (wantsMusic()) startMusic(); else musicElement?.pause();
+    if (!sceneActive || !settings.crowd) { stopCrowd(); return; }
     if (!crowdSource) {
       crowdSource = ctx.createBufferSource(); crowdSource.buffer = noiseBuffer; crowdSource.loop = true;
       crowdGain = ctx.createBiquadFilter(); crowdGain.type = 'lowpass'; crowdGain.frequency.value = 720;
       crowdSource.connect(crowdGain); crowdGain.connect(buses.crowd); crowdSource.start();
     }
-    if (!musicLoop) { musicPhrase(); musicLoop = setInterval(musicPhrase, 2400); }
   }
   function set(key, value) {
     if (!(key in settings)) return;
@@ -127,13 +142,13 @@
     if (document.hidden) { stopBed(); playing.forEach(source => { try { source.stop(); } catch {} }); gainTo(master, 0); if (ctx?.state === 'running') ctx.suspend().catch(() => {}); }
     else if (unlocked) unlock();
   });
-  window.addEventListener('pagehide', () => { stopBed(); if (ctx?.state === 'running') ctx.suspend().catch(() => {}); });
-  window.addEventListener('pageshow', () => { if (unlocked && !document.hidden) unlock(); });
+  window.addEventListener('pagehide', () => { pageActive = false; stopBed(); if (ctx?.state === 'running') ctx.suspend().catch(() => {}); });
+  window.addEventListener('pageshow', () => { pageActive = true; if (unlocked && !document.hidden) unlock(); });
   window.ArenaAudio = {
     unlock, play, set, get settings() { return { ...settings }; },
     scene(active) { sceneActive = Boolean(active); apply(); updateBed(); },
     async toggleMute() { set('enabled', !settings.enabled); if (settings.enabled) await unlock(); },
     async preview() { if (!settings.enabled) set('enabled', true); if (await unlock()) play('correct', 3); },
-    get diagnostics() { return { contexts: ctx ? 1 : 0, state: ctx?.state || 'uninitialized', activeSources: playing.size, ambience: Boolean(crowdSource), enabled: settings.enabled }; }
+    get diagnostics() { return { contexts: ctx ? 1 : 0, state: ctx?.state || 'uninitialized', activeSources: playing.size, ambience: Boolean(crowdSource), enabled: settings.enabled, music: musicError || (musicElement && !musicElement.paused ? 'playing' : 'paused'), musicTime: musicElement?.currentTime || 0, musicDuration: Number.isFinite(musicElement?.duration) ? musicElement.duration : 0, musicLoop: Boolean(musicElement?.loop), musicElements: musicElement ? 1 : 0 }; }
   };
 })();

@@ -1,7 +1,7 @@
 /* Arena Tricolor R15 · focused match layout and shared game presentation. */
 :root { --arena-red:#a60000; --arena-hot:#c41616; --arena-ink:#0c0c0c; --arena-panel:#161616; --arena-line:#303030; --arena-muted:#a8a8a8; }
 html:has(body.arena-v15) { background:var(--arena-ink); height:100%; overflow:hidden; }
-body.arena-v15 { --red:#a60000; --red2:#c41616; --red3:#760000; --gold:#ece7db; --gold2:#fff; --gold3:#fff; --green:#a6d7bc; --txt:#f7f5f1; --txt2:#b9b9b9; --txt3:#a0a0a0; --bg:#0c0c0c; --bg2:#161616; --bg3:#202020; --border:#303030; --font-t:'Barlow Condensed',Impact,sans-serif; --font-u:'DM Sans',Arial,sans-serif; --font-b:'DM Sans',Arial,sans-serif; background:radial-gradient(ellipse at 85% -20%,#40000030,transparent 60%),#0c0c0c; color:var(--txt); font-family:var(--font-b); display:flex; flex-direction:column; height:100vh; height:100dvh; overflow:hidden; }
+body.arena-v15 { --red:#a60000; --red2:#c41616; --red3:#760000; --gold:#ece7db; --gold2:#fff; --gold3:#fff; --success:#eeeeee; --txt:#f7f5f1; --txt2:#b9b9b9; --txt3:#a0a0a0; --bg:#0c0c0c; --bg2:#161616; --bg3:#202020; --border:#303030; --font-t:'Barlow Condensed',Impact,sans-serif; --font-u:'DM Sans',Arial,sans-serif; --font-b:'DM Sans',Arial,sans-serif; background:radial-gradient(ellipse at 85% -20%,#40000030,transparent 60%),#0c0c0c; color:var(--txt); font-family:var(--font-b); display:flex; flex-direction:column; height:100vh; height:100dvh; overflow:hidden; }
 .arena-v15 *, .arena-v15 *::before, .arena-v15 *::after { box-sizing:border-box; }
 .arena-v15 [hidden] { display:none!important; }
 .arena-v15 button, .arena-v15 a { -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
@@ -85,7 +85,7 @@ body.arena-v15 { --red:#a60000; --red2:#c41616; --red3:#760000; --gold:#ece7db; 
 .arena-panel>.arena-section-title { margin:0 0 16px; }
 .arena-mission { display:flex; align-items:center; gap:10px; padding:13px 0; border-top:1px solid #292929; }
 .arena-mission-check { width:24px; height:24px; border:1px solid #454545; border-radius:5px; display:grid; place-items:center; color:#ddd; font-size:17px; flex-shrink:0; }
-.arena-mission.completed .arena-mission-check { color:#b6d9c6; border-color:#536f60; background:#26382c; }
+.arena-mission.completed .arena-mission-check { color:#ffffff; border-color:#bdbdbd; background:#252525; }
 .arena-mission>div { flex:1; min-width:0; }
 .arena-mission strong { display:block; font-size:11px; font-weight:500; }
 .arena-mission div>span { display:block; font-size:9px; color:#aaa; margin-top:5px; }
@@ -156,8 +156,8 @@ body.arena-v15 { --red:#a60000; --red2:#c41616; --red3:#760000; --gold:#ece7db; 
 .arena-v15 #screen-quiz .q-opt-inner { display:flex; align-items:center; gap:12px; padding:16px 36px 16px 14px; min-height:80px; height:100%; border:1px solid #414141!important; border-bottom:3px solid #2b2b2b!important; border-radius:9px; background:#202020!important; box-shadow:none!important; clip-path:none; transform:none; }
 .arena-v15 #screen-quiz .q-opt-letter { display:grid; place-items:center; flex-shrink:0; width:29px; height:29px; background:#2d2d2d!important; color:#c8c8c8!important; border:1px solid #4d4d4d!important; border-radius:5px; font:700 14px var(--font-t); box-shadow:none; }
 .arena-v15 #screen-quiz .q-opt-text { font:500 14px/1.45 var(--font-b)!important; text-align:left; color:inherit; overflow-wrap:anywhere; }
-.arena-v15 #screen-quiz .q-opt.correct .q-opt-inner { background:#223329!important; border-color:#7ca38b!important; color:#f3fff7; }
-.arena-v15 #screen-quiz .q-opt.correct .q-opt-letter { background:#486250!important; color:#fff!important; border-color:#91b29c!important; }
+.arena-v15 #screen-quiz .q-opt.correct .q-opt-inner { background:#efefef!important; border-color:#ffffff!important; color:#111111; }
+.arena-v15 #screen-quiz .q-opt.correct .q-opt-letter { background:#161616!important; color:#fff!important; border-color:#161616!important; }
 .arena-v15 #screen-quiz .q-opt.wrong .q-opt-inner { background:#3b1515!important; border-color:#c15454!important; }
 .arena-v15 #screen-quiz .q-opt.wrong .q-opt-letter { background:#852323!important; color:#fff!important; border-color:#c15454!important; }
 .arena-v15 #screen-quiz .q-opt:disabled { opacity:1; }
@@ -165,9 +165,9 @@ body.arena-v15 { --red:#a60000; --red2:#c41616; --red3:#760000; --gold:#ece7db; 
 .arena-answer-status { position:absolute; right:13px; top:50%; transform:translateY(-50%); font-size:20px; color:inherit; }
 @media(hover:hover) { .arena-v15 #screen-quiz .q-opt:not(:disabled):hover .q-opt-inner { border-color:#888!important; background:#292929!important; } }
 .arena-answer-feedback { border:1px solid #5d2929; background:#201414; border-radius:10px; padding:18px; margin:16px 0 0; }
-.arena-answer-feedback.is-correct { border-color:#3a5443; background:#18241c; }
+.arena-answer-feedback.is-correct { border-color:#bdbdbd; background:#1e1e1e; }
 .arena-answer-feedback #arenaFeedbackLabel { font-size:10px; font-weight:700; letter-spacing:1px; color:#ddc7c7; }
-.arena-answer-feedback.is-correct #arenaFeedbackLabel { color:#b9d8c4; }
+.arena-answer-feedback.is-correct #arenaFeedbackLabel { color:#ffffff; }
 .arena-answer-feedback strong { display:block; font:700 26px/1.1 var(--font-t); margin:7px 0; }
 .arena-answer-feedback p { margin:0 0 15px; font-size:11px; line-height:1.6; color:#c3c3c3; white-space:pre-line; overflow-wrap:anywhere; }
 .arena-answer-feedback .arena-play { min-height:48px; font-size:11px; padding:12px 16px; }
@@ -203,7 +203,7 @@ body.arena-v15 { --red:#a60000; --red2:#c41616; --red3:#760000; --gold:#ece7db; 
 .arena-result-xp small { font-size:9px; color:#aaa; display:block; margin-top:9px; }
 .arena-result-card .gameover-answer { margin:0 0 20px; background:transparent; border:1px solid #333; border-radius:8px; text-align:left; padding:16px; }
 .arena-result-card .gameover-answer p { font-size:12px; line-height:1.6; color:#ccc; margin:8px 0; }
-.arena-result-card .gameover-answer strong { font-size:12px; line-height:1.6; color:#c0dbc9; }
+.arena-result-card .gameover-answer strong { font-size:12px; line-height:1.6; color:#eeeeee; }
 .arena-result-attempts { margin:15px 0; color:#aaa; font-size:10px; }
 .arena-result-attempts #goLives { display:none; }
 .arena-result-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
@@ -330,3 +330,13 @@ body.arena-v15 { --red:#a60000; --red2:#c41616; --red3:#760000; --gold:#ece7db; 
 }
 .arena-v15.arena-reduce-motion *, .arena-v15.arena-reduce-motion *::before, .arena-v15.arena-reduce-motion *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; }
 @media(prefers-reduced-motion:reduce) { .arena-v15 *, .arena-v15 *::before, .arena-v15 *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+
+/* R16: success is white + a check; mistakes are red + a cross. Never green. */
+.arena-v15 #screen-quiz .q-opt.correct .q-opt-text,
+.arena-v15 #screen-quiz .q-opt.correct .arena-answer-status { color:#111!important; }
+.arena-v15 .wrd-cell.hit { background:#eeeeee; border-color:#fff; }
+.arena-v15 .wrd-cell.hit .wrd-cv,.arena-v15 .wrd-cell.hit .wrd-cl { color:#111; }
+.arena-v15 .wrd-cell.near { background:#510000; border-color:#a60000; }
+.arena-v15 .wrd-cell.near .wrd-cv,.arena-v15 .wrd-cell.near .wrd-cl { color:#fff; }
+.arena-v15 .wrd-cell.miss { background:#202020; border-color:#4a4a4a; }
+.arena-v15 .wrd-cell.miss .wrd-cv { color:#bdbdbd; }

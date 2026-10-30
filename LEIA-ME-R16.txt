@@ -1,0 +1,56 @@
+MAGAZINE TRICOLOR — R16 / ARENA TRICOLOR
+
+CORREÇÕES DESTA VERSÃO
+- Verde retirado do quiz: acertos, missões, feedback, mensagens, dicas,
+  Wondler e estilos de reserva. Acerto usa branco com ✓; erro, vermelho com ×.
+- Trilha real: Quiz Show Fever, enviada pelo proprietário do projeto.
+- Música completa, cerca de 2min59s, MP3 estéreo de 64 kbps (1,43 MB).
+  A capa embutida foi removida para economizar espaço. O original não foi alterado.
+- A música substitui os acordes sintetizados da R15 e toca em loop pelo quiz,
+  inclusive no lobby, nas partidas e no resultado, após o primeiro toque/clique.
+- A passagem entre perguntas e telas não reinicia a faixa nem sobrepõe players.
+- Volume independente para música, efeitos e arquibancada; botão para silenciar.
+- Som pausado em segundo plano ou ao sair da página; retomada ao voltar.
+- Música no cache opcional e suporte a solicitações parciais de áudio,
+  necessárias para reprodução de mídia em navegadores como o Safari.
+
+COMO ATUALIZAR
+1. Guarde uma cópia do projeto atual.
+2. Extraia o ZIP e substitua os arquivos do projeto, mantendo a estrutura
+   de pastas. O ZIP contém o site completo, não apenas uma correção.
+3. Publique pelo fluxo habitual do GitHub/Vercel.
+4. Abra o site com internet e aceite Atualizar se o aviso aparecer.
+   Finalize qualquer partida em andamento antes de atualizar.
+5. Entre no quiz e toque em JOGAR AGORA ou no botão de áudio.
+
+O sw.js já está na versão 20261030-r16. Não é necessário editá-lo manualmente.
+A trilha fica em assets/audio/quiz-show-fever.mp3. Publique essa pasta também.
+A música pode ser usada offline depois de ser baixada e salva no cache.
+Nenhuma publicação em produção foi feita durante esta entrega.
+
+AJUSTES DE SOM
+Abra o botão de áudio no lobby. A trilha começa em 55%, os efeitos em 70% e
+arquibancada em 12%. Preferências pessoais existentes são preservadas,
+exceto o antigo volume padrão de trilha de 18%, que passa para 55%.
+Volume zero e áudio desativado continuam sendo respeitados.
+O botão OUVIR PRÉVIA também ativa a faixa e um efeito de acerto.
+
+PRESERVADO
+Regras do clássico, seis níveis, ajudas, pontuação, XP, três tentativas diárias,
+ranking, Sexta Temática, Wondler, compartilhamento do card e controles de conta.
+Calendário, RSS, destaques, Cartel Tricolor, Sobre/créditos, administração,
+ícone MT e banner Tricolor Fat permanecem no pacote.
+
+VERIFICAÇÃO
+- Reprodução real da música no navegador, loop, volume, mute, persistência,
+  retomada, único player e contexto de áudio, estados de acerto/erro/resultado.
+- 73 verificações do service worker, incluindo intervalos de áudio e cache
+  na raiz do site e em subpastas.
+- Revisão visual mobile; sintaxe JavaScript, referências locais, paleta
+  do quiz e integridade do ZIP conferidas.
+
+Os testes do jogo usam visitante e dados locais, sem gravar partidas no Firebase.
+Autenticação e ranking mantêm a integração existente, não exercitada com conta
+real nesta revisão. Mobile foi conferido em viewport do navegador; aparelhos
+físicos iOS/Android não foram testados. A liberação de áudio requer uma interação
+com o site e depende das permissões do navegador.
