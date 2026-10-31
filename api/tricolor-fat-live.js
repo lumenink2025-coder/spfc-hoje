@@ -81,7 +81,7 @@ export default async function handler(req, res) {
   try {
     const response = await fetch(CHANNEL_URL, {
       signal: controller.signal,
-      headers: { Accept: 'text/html', 'Accept-Language': 'pt-BR,pt;q=0.9,en;q=0.8', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Safari/537.36' }
+      headers: { Accept: 'text/html', 'Accept-Language': 'pt-BR,pt;q=0.9,en;q=0.8', 'User-Agent': 'Mozilla/5.0' }
     });
     if (!response.ok) throw new Error('Canal do YouTube indisponível');
     const html = await response.text();
@@ -97,8 +97,8 @@ export default async function handler(req, res) {
     }
 
     res.setHeader('Cache-Control', 'no-store');
-    res.setHeader('X-Tricolor-Live-Detector', 'player-r22');
-    return res.status(200).json({ live, detector: 'player-r22', checkedAt: new Date().toISOString() });
+    res.setHeader('X-Tricolor-Live-Detector', 'player-r23');
+    return res.status(200).json({ live, detector: 'player-r23', checkedAt: new Date().toISOString() });
   } catch {
     res.setHeader('Cache-Control', 'no-store');
     return res.status(502).json({ error: 'Não foi possível consultar o status do Tricolor FAT.' });
