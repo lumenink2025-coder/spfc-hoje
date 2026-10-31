@@ -9,7 +9,17 @@
     const initials = user ? name.slice(0, 1).toUpperCase() : '◎';
     const avatar = data?.avatarUrl || data?.avatar?.url || '';
     const safeAvatar = /^https:\/\//i.test(avatar) ? avatar : '';
-    document.getElementById('about').textContent = initials;
+    const avatarButton = document.getElementById('about');
+    const accountLink = document.querySelector('.account-link');
+    avatarButton.replaceChildren();
+    if (safeAvatar && user) {
+      const image = document.createElement('img');
+      image.src = safeAvatar;
+      image.alt = '';
+      avatarButton.append(image);
+    } else avatarButton.textContent = initials;
+    avatarButton.setAttribute('aria-label', user ? `Perfil de ${name}` : 'Meu perfil e Sobre');
+    if (accountLink) accountLink.textContent = user ? name : 'Minha conta';
     window.SPFCAccount = { user, data, name, state };
     window.dispatchEvent(new Event('spfc-account'));
     if (!showing || !modal.open) return;
@@ -28,8 +38,16 @@
   (async () => {
     try {
       fb = await SPFCData.firebase();
-      fb.onAuthStateChanged(fb.auth, current => {
-        user = current; data = {}; state = current ? 'ready' : 'guest'; paint();
+      fb.onAuthStateChanged(fb.auth, async current => {
+        user = current; data = {}; state = current ? 'loading' : 'guest'; paint();
+        if (current) {
+          try {
+            const profile = await fb.getDoc(fb.doc(fb.db, 'users', current.uid));
+            data = profile.exists() ? profile.data() : {};
+            state = 'ready';
+          } catch (error) { state = 'error'; console.warn('Não foi possível carregar o perfil:', error); }
+          paint();
+        }
       }, () => { state = 'error'; paint(); });
     } catch { state = 'error'; paint(); }
   })();

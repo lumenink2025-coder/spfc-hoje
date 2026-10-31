@@ -5,9 +5,9 @@
   let authConnection;
   const firebaseConfig = { apiKey:'AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY', authDomain:'spfc-hoje-da329.firebaseapp.com', projectId:'spfc-hoje-da329', appId:'1:116174859005:web:b1e54b040aef23c9c16c94' };
   async function firebase() {
-    if (!authConnection) authConnection = Promise.all([import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'), import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js')]).then(([appSDK, authSDK]) => {
+    if (!authConnection) authConnection = Promise.all([import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'), import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'), import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js')]).then(([appSDK, authSDK, firestoreSDK]) => {
       const app = appSDK.getApps().find(a => a.name === '[DEFAULT]') || appSDK.initializeApp(firebaseConfig);
-      return { ...authSDK, auth:authSDK.getAuth(app) };
+      return { ...authSDK, auth:authSDK.getAuth(app), db:firestoreSDK.getFirestore(app), doc:firestoreSDK.doc, getDoc:firestoreSDK.getDoc };
     }).catch(error => { authConnection=null; throw error; });
     return authConnection;
   }
