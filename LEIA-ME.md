@@ -1,52 +1,103 @@
-# SPFC Hoje — versão premium
+# SPFC Hoje — R8 · Preparação do novo push
 
-Pacote para substituir os arquivos do site, mantendo as contas e dados do Firebase existente.
+Projeto completo para substituir os arquivos do site. Revisado em 27/10/2026.
+Identificador do cache desta atualização: `20261027-r8-push2`.
 
-## Publicar na Vercel
+## Novo sistema de notificações
 
-1. Guarde uma cópia do projeto atualmente publicado.
-2. Extraia o ZIP. Envie o conteúdo de `spfc-hoje-premium/` para a raiz do repositório conectado à Vercel.
-3. Use o preset **Other**, sem comando de build e sem diretório de saída adicional. `index.html`, `main.html`, `admin.html` e `vercel.json` devem estar na raiz.
-4. Publique. `index.html` e `main.html` abrem diretamente o layout editorial, sem redirecionamento; `admin.html` é o painel de administração.
-5. Em um domínio novo, autorize-o em Firebase Authentication → Settings → Authorized domains. As regras e permissões atuais do Firestore continuam obrigatórias.
+Esta entrega mantém o site da R7 e acrescenta a página `notificacoes.html`, a inscrição OneSignal com consentimento explícito, o worker de push com escopo separado e o emissor diário para Cloudflare. O destaque segue a mesma regra da Home e respeita a escolha do admin.
 
-## Telas
+**O envio está desligado.** Leia `../COMECE-AQUI.md`: o App ID público fornecido já está preenchido e a inscrição por botão está habilitada. Ainda é necessário salvar a configuração Web Push no OneSignal, publicar o site, cadastrar a chave somente como Secret na Cloudflare e testar em aparelhos reais antes de usar `PUSH_MODE=live`. O site foi preparado para a origem `https://spfc-hoje.vercel.app`; confirme essa origem antes de cadastrar inscrições.
 
-- `main.html`: layout editorial aprovado, calendário lateral no desktop, destaques, RSS e links para os catálogos completos.
-- `calendario.html`: endereço adicional para o mesmo layout editorial.
-- `quiz.html`: quiz completo com o visual aprovado e correção do banner.
-- `jogadores.html`: Cartel Tricolor; 1.534 registros e filtros originais.
-- `spfc_historia.html`: arquivo com 6.079 partidas.
-- `tecnicos.html` e `tecnico.html`: catálogo e ficha de técnicos.
-- `goleadores.html`: artilharia.
-- `galeria-dos-imortais.html`: condecorações.
-- `wondler.html`, `palpitometro.html`, `cadastro.html`, `perfil.html`: modos e conta.
-- `admin.html`: eventos, perguntas, Wordle, relatos, destaques, palpites, temas e goleadores.
+A rotina Firebase antiga foi movida para `../referencia-legada-nao-publicar/`, e sua configuração de deploy foi retirada do `firebase.json`. Isso não desativa um agendamento que já esteja na nuvem. O guia explica a transição.
 
-## Senha do admin
+No celular, abra **Mais → Notificações**. No computador, use o menu lateral. O perfil e o rodapé também têm acesso. O admin escuro, calendário, quiz, RSS, Cartel, perfil e Sobre foram preservados.
 
-A senha pedida foi mantida no valor `ADMIN_PASS` do código, conforme solicitado. O login real usa `signInWithEmailAndPassword` e o e-mail administrativo já existente. A constante `ADMIN_PASS` não define nem altera a senha da conta no Firebase.
+## Admin em cinza-escuro
 
-**A senha do Firebase não foi alterada nesta entrega.** Para usar a nova senha no login, altere a senha dessa conta pelo fluxo de redefinição do Firebase Authentication. A autenticação e as regras do banco não foram contornadas. O logout agora encerra a sessão Firebase.
+O tema herdado da R7 aplica o tema escuro ao login e a todo o painel: cabeçalho, navegação, cartões, campos, listas, tabelas e janelas de edição. Os textos usam cinza-claro, com bordas visíveis e foco de teclado destacado. O tema escuro também é aplicado aos controles nativos e ao preenchimento automático do navegador.
 
-## Notícias, imagens e notificações
+As funções e a autenticação do admin da R7 foram preservadas. Para instalar, publique somente o conteúdo da pasta `spfc-hoje-premium/`; o emissor Cloudflare é implantado separadamente.
 
-O RSS mantém o serviço intermediário existente. Sua disponibilidade depende desse serviço externo; não foi substituído por um provedor pago. O endpoint opcional `/api/news` lê `NEWS_API_KEY` das variáveis da Vercel; não é necessário configurá-lo para o RSS atual. Nenhuma chave privada desse provedor foi incluída no pacote.
+## Correções preservadas da R7
 
-As imagens remotas, Firebase, fontes, YouTube e o serviço de notificações exigem internet. Os dados JSON de jogadores, jogos, técnicos, artilharia e condecorações estão incluídos.
+- Logo em imagem retirada dos cabeçalhos, incluindo a Home no computador e no celular. O nome SPFC Hoje permanece em texto; os ícones de instalação e da aba do navegador continuam disponíveis.
+- Login administrativo com e-mail visível, tratamento de falha no carregamento do Firebase e mensagens de erro persistentes.
+- Removido o limite artificial de cinco segundos que interrompia a interface enquanto o Firebase ainda autenticava. Respostas lentas agora continuam sendo aguardadas.
+- Botão para recarregar a conexão e diagnóstico copiável, sem senha ou token.
+- Cache atualizado para R7. O admin e seus scripts ficam fora do cache; a Vercel recebe o cabeçalho `Cache-Control: no-store` para os recursos do admin.
 
-`functions/` mantém as Cloud Functions originais, para publicação separada no Firebase caso necessário. Publicar este ZIP na Vercel não publica funções Firebase nem altera suas regras. Não é necessário republicá-las apenas para trocar o visual.
+O teste com a conta administrativa real ainda está pendente. Esta entrega corrige problemas encontrados no fluxo da página; não confirma se a senha, o provedor de autenticação ou as restrições do projeto Firebase estão corretos em produção.
 
-## Atualização e cache
+## Publicação
 
-O service worker usa cache versionado e busca a versão atual na rede antes de recorrer ao cache. O admin, login, perfil, API e requisições externas não entram nesse cache. Apenas caches antigos com prefixo `spfc-hoje-` são limpos. Em próximas atualizações, altere a versão em `sw.js`.
+1. Guarde uma cópia da versão atualmente publicada.
+2. Extraia o ZIP e copie **todo o conteúdo** da pasta `spfc-hoje-premium/` para a raiz do projeto de hospedagem. Mantenha a estrutura de pastas. Se a Vercel usa um repositório Git, envie os arquivos atualizados para esse repositório e aguarde o novo deploy.
+3. Na Vercel, use o preset **Other**, sem comando de build e sem diretório de saída adicional. `index.html` e `vercel.json` ficam na raiz.
+4. No GitHub Pages, publique a pasta que contém `index.html`. Os caminhos relativos funcionam também em uma subpasta como `/spfc-hoje/`. O endpoint opcional `api/news.js` exige uma hospedagem com funções; o RSS atual usa o intermediário já configurado no projeto.
+5. No Firebase Hosting, use a configuração `firebase.json` incluída e publique somente o Hosting para atualizar o site. Não é necessário republicar as Cloud Functions para trocar a interface.
+6. Se usar um domínio novo, inclua-o nos domínios autorizados do Firebase Authentication.
 
-## Validação desta entrega
+Abra o site por HTTP/HTTPS, não por duplo clique no arquivo HTML. O funcionamento do service worker exige HTTPS, ou localhost durante desenvolvimento. Não há etapa de compilação.
 
-Verificados: sintaxe JavaScript, arquivos JSON, caminhos locais referenciados por HTML, catálogo e filtros dos jogadores. Os IDs dos controles e manipuladores existentes foram preservados nas páginas funcionais.
+## Interface e recursos
 
-Não houve teste visual de navegador nesta sessão. Login real, gravações do admin, pagamentos (se houver), pontuação e notificações em produção não foram executados. Nenhum registro do Firebase foi criado, apagado ou modificado durante a preparação. Valide esses fluxos com sua conta após publicar antes de anunciar a atualização.
+A página inicial tem identidade tricolor, destaque editorial, navegação lateral no desktop e barra inferior no celular. O calendário tem endereço próprio, `calendario.html`, e pode ser acessado pelo menu. Foram mantidos pesquisa, acervo, favoritos, compartilhamento e detalhes das memórias, incluindo estatísticas, créditos das imagens e vídeos.
 
-## Correção desta versão
+Também foram mantidos:
 
-Removido o ciclo index → main → index de visitantes sem login. Restaurada a página principal editorial aprovada. As 11 seções do admin têm atalhos visíveis, inclusive no celular. Nenhuma permissão de banco foi alterada. Testes isolados confirmaram abertura dos 11 painéis, presença dos atalhos e ausência dos redirecionamentos de entrada. A validação visual e as gravações reais continuam pendentes.
+- Quiz tradicional, quiz temático, ranking, ajudas e modos existentes.
+- Wondler, RSS e respectivos acessos.
+- Cartel Tricolor com 1.534 jogadores, busca, filtros e fichas.
+- Arquivo de 6.079 partidas, técnicos, goleadores e Galeria dos Imortais.
+- Cadastro, perfil, progresso e conquistas. O perfil mostra os dados da conta; visitantes recebem um convite para entrar.
+- Sobre, com os créditos do Magazine Tricolor, de Michael Serra, do Calendário Histórico SPFC 2025 e do spfcpedia.
+- As 10 seções do admin: novo evento, eventos, migração, perguntas, Wordle, relatos, destaque, sexta temática, jogos e goleadores.
+
+## Palpitômetro
+
+O Palpitômetro foi retirado da home, do perfil, do cadastro, do admin e da integração de identidade. Os cards restantes foram reorganizados para desktop e celular. A remoção feita na R6 foi mantida.
+
+O arquivo `palpitometro.html` contém somente um redirecionamento para a página inicial, para que favoritos e links antigos continuem funcionando. Ele não contém o jogo nem acessa o Firebase. Os dados históricos já existentes no banco não foram apagados.
+
+## Correções principais
+
+- Um ponto de registro do service worker por página, cache separado por pasta de publicação e versão, e busca na rede antes de usar uma cópia salva.
+- Atualização oferecida ao usuário, com ativação explícita e uma única recarga da aba que aceitou a atualização.
+- Admin, autenticação, perfil, chamadas externas e requisições autenticadas fora do cache de conteúdo. O arquivo do OneSignal original foi preservado.
+- Caminhos locais corrigidos para publicação em subpastas.
+- Quiz com bloqueio de resposta repetida, limpeza das alternativas ao avançar, cancelamento de transições ao sair, correção da ajuda Pular e proteção contra gravações simultâneas das estatísticas.
+- Eventos, perguntas, Wordle e tema consultam os dados atuais do Firestore, com os JSON incluídos como alternativa quando a leitura remota falha. Uma coleção remota vazia é respeitada.
+- Os importadores do admin leem os arquivos JSON reais. Os 6 relatos que acompanham o arquivo de eventos não são importados como eventos.
+- Alterações e remoções de imagem feitas pelo admin são respeitadas. Favoritos de eventos novos são mantidos entre visitas.
+
+## Contas e dados
+
+A configuração pública do Firebase original permanece. A senha de uma conta é gerida pelo Firebase Authentication, não por uma constante no HTML. Não foram alterados usuários, senhas, regras, permissões ou registros em produção.
+
+Os arquivos de dados, imagens, ícones, notificações e Cloud Functions originais foram preservados. O admin continua dependendo das permissões existentes no Firestore. Não execute migrações sobre uma base já preenchida sem verificar o destino e guardar seu backup.
+
+## Testar o acesso administrativo
+
+O painel usa a conta administrativa original `admin@spfchoje.com`, agora configurada em `admin-config.js`. Use a senha dessa conta no Firebase. Alterar esse arquivo não cria uma conta nem concede permissões no banco. Se o e-mail correto do administrador for outro, ele precisa corresponder à conta autorizada no projeto Firebase.
+
+Após publicar, abra `admin.html`, aguarde **Conexão pronta** e tente entrar. Se falhar, abra **Diagnóstico de acesso**, copie o diagnóstico e informe o código exibido. Não compartilhe a senha. O diagnóstico distingue falha de credenciais, provedor desativado, conexão, carregamento do SDK e autorização. A sessão continua em memória, como na versão anterior; recarregar a página pede novo login.
+
+## Cache e próximas versões
+
+Publique o pacote completo para manter HTML, scripts, estilos e cache na mesma versão. Quando uma atualização estiver pronta, o visitante verá o aviso **Uma nova versão está pronta**. Pode concluir a atividade antes de tocar em **Atualizar**.
+
+Em uma próxima entrega, altere `RELEASE` em `sw.js` e as versões nas URLs dos arquivos modificados. Preserve a mesma pasta de publicação. A limpeza é limitada ao cache do aplicativo nesse escopo; o prefixo legado `spfc-hoje-premium-` é removido apenas na instalação da raiz.
+
+O cache offline cobre os recursos locais preparados e visitados. Firebase, RSS, fontes, fotos externas e vídeos exigem internet. `OneSignalSDKWorker.js` mantém a integração original; qualquer configuração adicional do painel do provedor continua externa a este pacote.
+
+## Verificação
+
+Consulte `VERIFICACAO.md` para resultados e limites da revisão. Para repetir os testes isolados, execute, na pasta do projeto:
+
+```bash
+node tests/sw.test.cjs
+node tests/admin-auth.test.cjs
+```
+
+O projeto não foi publicado automaticamente. Login, gravações reais, notificações e atualização de uma instalação PWA existente devem ser conferidos no domínio de produção após a publicação.
