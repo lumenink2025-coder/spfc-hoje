@@ -1,9 +1,6 @@
 const CHANNEL_URL = 'https://www.youtube.com/@tricolor_fat/live';
 
-function extractAssignedJson(html, name) {
-  const marker = new RegExp(`${name}\\s*=\\s*`).exec(html);
-  if (!marker) return null;
-  let start = marker.index + marker[0].length;
+function parseObjectAt(html, start) {
   while (/\s/.test(html[start] || '')) start++;
   if (html[start] !== '{') return null;
   let depth = 0, quoted = false, escaped = false;
@@ -20,6 +17,18 @@ function extractAssignedJson(html, name) {
     else if (char === '}' && --depth === 0) return JSON.parse(html.slice(start, i + 1));
   }
   return null;
+}
+
+function extractAssignedJsonAll(html, name) {
+  const marker = new RegExp(`${name}\\s*=\\s*`, 'g');
+  const values = [];
+  let match;
+  while ((match = marker.exec(html))) {
+    const value = parseObjectAt(html, match.index + match[0].length);
+    if (value) values.push(value);
+    if (value) marker.lastIndex = Math.max(marker.lastIndex, match.index + match[0].length + JSON.stringify(value).length);
+  }
+  return values;
 }
 
 function playerSaysLive(player) {
@@ -66,7 +75,7 @@ function channelStreamBadge(data) {
       const badges = JSON.stringify(video.badges || []);
       const overlays = video.thumbnailOverlays || [];
       const live = video.isLiveNow === true || /BADGE_STYLE_TYPE_LIVE_NOW|"label":"(?:LIVE|AO VIVO)"/i.test(badges) || overlays.some(item => ['LIVE', 'LIVE_NOW'].includes(item.thumbnailOverlayTimeStatusRenderer?.style));
-      if (live && /tricolor\s*fat/i.test(owner)) return true;
+      if (live && /tricolor[\s_-]*fat/i.test(owner)) return true;
     }
     stack.push(...Object.values(value));
   }
@@ -87,18 +96,23 @@ export default async function handler(req, res) {
     const html = await response.text();
     if (html.length > 8_000_000) throw new Error('Resposta do YouTube muito grande');
 
-    const player = extractAssignedJson(html, 'ytInitialPlayerResponse');
-    let live = playerSaysLive(player);
-    if (live === null) live = playerHtmlSaysLive(html);
-    if (live === null) {
-      const data = extractAssignedJson(html, 'ytInitialData');
-      if (!data) throw new Error('Status de transmissão indisponível');
-      live = channelStreamBadge(data);
-    }
+    const players = extractAssignedJsonAll(html, 'ytInitialPlayerResponse');
+    const states = players.map(playerSaysLive).filter(value => value !== null);
+    const rawLive = playerHtmlSaysLive(html) === true;
+    const data = extractAssignedJsonAll(html, 'ytInitialData')[0];
+    const streamBadge = data ? channelStreamBadge(data) : false;
+    const live = rawLive || states.includes(true) || streamBadge;
+    if (!players.length && !data) throw new Error('Status de transmissão indisponível');
 
     res.setHeader('Cache-Control', 'no-store');
-    res.setHeader('X-Tricolor-Live-Detector', 'player-r23');
-    return res.status(200).json({ live, detector: 'player-r23', checkedAt: new Date().toISOString() });
+    res.setHeader('X-Tricolor-Live-Detector', 'player-r24');
+    const result = { live, detector: 'player-r24', checkedAt: new Date().toISOString() };
+    if (req.query?.debug === '1') result.diagnostics = {
+      playerResponses: players.length,
+      playerStates: players.map(player => ({ videoId: player.videoDetails?.videoId || null, isLive: player.videoDetails?.isLive ?? null, isLiveNow: player.microformat?.playerMicroformatRenderer?.liveBroadcastDetails?.isLiveNow ?? null })),
+      channelLiveBadge: streamBadge
+    };
+    return res.status(200).json(result);
   } catch {
     res.setHeader('Cache-Control', 'no-store');
     return res.status(502).json({ error: 'Não foi possível consultar o status do Tricolor FAT.' });
