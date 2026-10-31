@@ -93,9 +93,6 @@
   "functions": {
     "api/rss.js": {
       "maxDuration": 15
-    },
-    "api/tricolor-fat-live.js": {
-      "maxDuration": 15
     }
   }
 }
