@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Galeria dos Imortais — Mais de oito décadas de atletas e treinadores do São Paulo FC reconhecidos entre os melhores do planeta.">
-<title>Galeria dos Imortais · São Paulo FC</title>
+<title>Galeria dos Imortais · São Paulo FC — MAGAZINE TRICOLOR</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -18,8 +18,8 @@
   --ink3:   #2e2e2e;
   --paper:  #f5f2ec;
   --white:  #ffffff;
-  --red:    #C8102E;
-  --red2:   #9c0b22;
+  --red:    #a60000;
+  --red2:   #760000;
   --gold:   #b8940e;
   --gold2:  #d4af37;
   --gold3:  #e8cc6a;
@@ -345,7 +345,7 @@ a { color:inherit; text-decoration:none; }
 ═══════════════════════════════════════════════════ */
 #cap2 {
   background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(200,16,46,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(166,0,0,.06) 0%, transparent 60%),
     var(--ink);
 }
 
@@ -367,7 +367,7 @@ a { color:inherit; text-decoration:none; }
   background:linear-gradient(90deg, transparent, var(--red), transparent);
   opacity:0; transition:opacity .25s;
 }
-.world-card:hover { background:rgba(200,16,46,.05); border-color:rgba(200,16,46,.2); }
+.world-card:hover { background:rgba(166,0,0,.05); border-color:rgba(166,0,0,.2); }
 .world-card:hover::after { opacity:1; }
 .world-card-icon { font-size:1.5rem; margin-bottom:14px; line-height:1; }
 .world-card-prem {
@@ -481,7 +481,7 @@ a { color:inherit; text-decoration:none; }
   text-align:center; padding:100px 24px;
   position:relative; overflow:hidden;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(200,16,46,.1) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(166,0,0,.1) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 50% 50%, rgba(180,140,14,.05) 0%, transparent 60%),
     var(--ink);
 }
@@ -557,19 +557,35 @@ a { color:inherit; text-decoration:none; }
   *, *::before, *::after { animation:none!important; transition:none!important; }
 }
 </style>
-<link rel="stylesheet" href="suite-premium.css?v=20261023"></head>
+<link rel="stylesheet" href="suite-premium.css?v=20261029-r14"><link rel="stylesheet" href="pwa.css?v=20261029-r14">
+<meta name="theme-color" content="#111111">
+<meta name="application-name" content="MAGAZINE TRICOLOR">
+<meta name="apple-mobile-web-app-title" content="MAGAZINE TRICOLOR">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="msapplication-TileColor" content="#111111">
+<meta name="msapplication-TileImage" content="icons/mt-r12-tile-150.png">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/x-icon" href="icons/mt-r12-favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/mt-r12-favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/mt-r12-favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/mt-r12-apple-180.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/mt-r12-apple-167.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/mt-r12-apple-152.png">
+<link rel="apple-touch-icon" sizes="120x120" href="icons/mt-r12-apple-120.png">
+</head>
 <body data-suite="galeria-dos-imortais">
 
 <!-- LOADING -->
 <div class="loading-screen" id="ls">
-  <img class="loading-logo" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" alt="SPFC">
+  <img class="loading-logo" src="assets/app-icon.png" alt="SPFC">
   <div class="loading-bar-wrap"><div class="loading-bar" id="lbar"></div></div>
   <span class="loading-txt">Carregando o legado…</span>
 </div>
 
 <!-- NAV -->
 <nav class="nav" id="nav">
-  <button class="nav-back" onclick="window.location.href='main.html'">
+  <button class="nav-back" onclick="window.location.href='index.html'">
     <svg width="8" height="13" viewBox="0 0 8 13" fill="none">
       <path d="M7 1L1 6.5 7 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
@@ -704,7 +720,7 @@ a { color:inherit; text-decoration:none; }
 <script>
 'use strict';
 
-const JSON_URL = '/data/premiacoes-spfc.json';
+const JSON_URL = 'data/premiacoes-spfc.json';
 
 /* ── LENDAS ── carregadas do JSON ── */
 let LENDAS = [];
@@ -942,5 +958,5 @@ async function init(){
 }
 init();
 </script>
-</body>
+<script src="pwa.js?v=20261029-r14"></script></body>
 </html>

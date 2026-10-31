@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <meta name="theme-color" content="#080808"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  
+  
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="SPFC Técnicos"/>
-  <title>Técnico – SPFC</title>
-  <link rel="manifest" href="manifest.json"/>
+  
+  <title>Técnico – SPFC — MAGAZINE TRICOLOR</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
@@ -17,7 +17,7 @@
 
     :root {
       --red:    #C9A84C;
-      --gold:   #C8102E;
+      --gold:   #a60000;
       --black:  #080808;
       --dark:   #111111;
       --panel:  #181818;
@@ -97,7 +97,7 @@
       background:
         rgba(8,8,8,.45),
         radial-gradient(ellipse 70% 80% at 60% 20%, rgba(201,168,76,.08) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 50% at 30% 80%, rgba(200,16,46,.06) 0%, transparent 60%);
+        radial-gradient(ellipse 50% 50% at 30% 80%, rgba(166,0,0,.06) 0%, transparent 60%);
       z-index: 1;
     }
     .hero-photo-wrap {
@@ -252,7 +252,7 @@
     }
     .conquest-card::before {
       content: ''; position: absolute; top: 0; right: 0; width: 100px; height: 100%;
-      background: linear-gradient(to left, rgba(200,16,46,.04), transparent);
+      background: linear-gradient(to left, rgba(166,0,0,.04), transparent);
     }
     .conquest-label {
       font-family: 'Barlow Condensed', sans-serif;
@@ -311,13 +311,29 @@
       .hero-eyebrow, .hero-name, .hero-meta, .hero-badge, .title-item { opacity: 1 !important; transform: none !important; }
     }
   </style>
-<link rel="stylesheet" href="suite-premium.css?v=20261023"></head>
+<link rel="stylesheet" href="suite-premium.css?v=20261029-r14"><link rel="stylesheet" href="pwa.css?v=20261029-r14">
+<meta name="theme-color" content="#111111">
+<meta name="application-name" content="MAGAZINE TRICOLOR">
+<meta name="apple-mobile-web-app-title" content="MAGAZINE TRICOLOR">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="msapplication-TileColor" content="#111111">
+<meta name="msapplication-TileImage" content="icons/mt-r12-tile-150.png">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/x-icon" href="icons/mt-r12-favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/mt-r12-favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/mt-r12-favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/mt-r12-apple-180.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/mt-r12-apple-167.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/mt-r12-apple-152.png">
+<link rel="apple-touch-icon" sizes="120x120" href="icons/mt-r12-apple-120.png">
+</head>
 <body data-suite="tecnico">
 
 <!-- Loading -->
 <div id="loading" aria-hidden="true">
   <div class="loader-emblem">
-    <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" class="loader-logo" alt="SPFC"/>
+    <img src="assets/app-icon.png" class="loader-logo" alt="SPFC"/>
     <div class="loader-bar"></div>
   </div>
 </div>
@@ -328,7 +344,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     Técnicos
   </a>
-  <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" class="nav-logo" alt="SPFC"/>
+  <img src="assets/app-icon.png" class="nav-logo" alt="SPFC"/>
 </nav>
 
 <main id="app"></main>
@@ -534,5 +550,5 @@ function navigate(dir) {
 
 init();
 </script>
-</body>
+<script src="pwa.js?v=20261029-r14"></script></body>
 </html>

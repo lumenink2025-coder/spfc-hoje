@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#050505">
-<meta name="apple-mobile-web-app-capable" content="yes">
+
+
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="WONDLER">
+
 <meta name="description" content="Descubra o Ídolo Tricolor — Desafio Diário SPFC">
-<title>WONDLER</title>
+<title>WONDLER — MAGAZINE TRICOLOR</title>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
@@ -62,14 +62,14 @@ window.dispatchEvent(new Event('wfb-ready'));
   --txt:#ffffff;
   --txt-secondary:rgba(255,255,255,.55);
   --txt-tertiary:rgba(255,255,255,.3);
-  --accent:#CC0000;
-  --accent-bright:#FF1a1a;
-  --accent-soft:rgba(204,0,0,.12);
+  --accent:#a60000;
+  --accent-bright:#a60000;
+  --accent-soft:rgba(166,0,0,.12);
   --gold:#C8A84B;
   --gold-soft:rgba(200,168,75,.12);
-  --success:#30D158;
+  --success:#eeeeee;
   --warning:#FF9F0A;
-  --error:#FF453A;
+  --error:#a60000;
   --font-display:'Bebas Neue',Impact,sans-serif;
   --font-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
   --radius-sm:10px;
@@ -344,8 +344,8 @@ html,body{
 }
 .clue-card.revealed::before{opacity:1}
 .clue-card.revealed{
-  border-color:rgba(204,0,0,.25);
-  background:linear-gradient(90deg, rgba(204,0,0,.06) 0%, var(--bg-card) 100%);
+  border-color:rgba(166,0,0,.25);
+  background:linear-gradient(90deg, rgba(166,0,0,.06) 0%, var(--bg-card) 100%);
 }
 .clue-card.locked{
   opacity:.5;
@@ -376,7 +376,7 @@ html,body{
 }
 .clue-card.revealed .clue-icon{
   background:var(--accent-soft);
-  border-color:rgba(204,0,0,.2);
+  border-color:rgba(166,0,0,.2);
 }
 
 .clue-body{flex:1;min-width:0}
@@ -388,7 +388,7 @@ html,body{
   color:var(--txt-tertiary);
   margin-bottom:4px;
 }
-.clue-card.revealed .clue-label{color:rgba(204,0,0,.7)}
+.clue-card.revealed .clue-label{color:rgba(166,0,0,.7)}
 .clue-value{
   font-size:16px;
   font-weight:700;
@@ -413,7 +413,7 @@ html,body{
 .clue-status.revealed{
   background:var(--accent-soft);
   color:var(--accent);
-  border:1px solid rgba(204,0,0,.2);
+  border:1px solid rgba(166,0,0,.2);
 }
 .clue-status.locked{
   background:var(--surface);
@@ -590,7 +590,7 @@ html,body{
 .tentativa-dot.active{
   border-color:var(--accent);
   color:var(--accent);
-  box-shadow:0 0 12px rgba(204,0,0,.2);
+  box-shadow:0 0 12px rgba(166,0,0,.2);
 }
 .tentativa-dot.used{
   border-color:var(--border-strong);
@@ -604,7 +604,7 @@ html,body{
 }
 .tentativa-dot.miss{
   border-color:var(--error);
-  background:rgba(255,69,58,.1);
+  background:rgba(166,0,0,.1);
   color:var(--error);
 }
 
@@ -723,9 +723,9 @@ html,body{
   border:1px solid rgba(200,168,75,.3);
 }
 .result-badge.lose{
-  background:rgba(255,69,58,.1);
+  background:rgba(166,0,0,.1);
   color:var(--error);
-  border:1px solid rgba(255,69,58,.2);
+  border:1px solid rgba(166,0,0,.2);
 }
 .result-outcome-text{
   font-size:14px;
@@ -836,8 +836,8 @@ html,body{
   transition:all .2s;
 }
 .rank-item.my-rank{
-  border-color:rgba(204,0,0,.3);
-  background:linear-gradient(90deg, rgba(204,0,0,.08) 0%, var(--bg-card) 100%);
+  border-color:rgba(166,0,0,.3);
+  background:linear-gradient(90deg, rgba(166,0,0,.08) 0%, var(--bg-card) 100%);
 }
 .rank-pos{
   font-family:var(--font-display);
@@ -1023,7 +1023,23 @@ html,body{
   }
 }
 </style>
-<link rel="stylesheet" href="suite-premium.css?v=20261023"></head>
+<link rel="stylesheet" href="suite-premium.css?v=20261029-r14"><link rel="stylesheet" href="pwa.css?v=20261029-r14"><script src="js/data-service.js?v=20261029-r14"></script>
+<meta name="theme-color" content="#111111">
+<meta name="application-name" content="MAGAZINE TRICOLOR">
+<meta name="apple-mobile-web-app-title" content="MAGAZINE TRICOLOR">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="msapplication-TileColor" content="#111111">
+<meta name="msapplication-TileImage" content="icons/mt-r12-tile-150.png">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/x-icon" href="icons/mt-r12-favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/mt-r12-favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/mt-r12-favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/mt-r12-apple-180.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/mt-r12-apple-167.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/mt-r12-apple-152.png">
+<link rel="apple-touch-icon" sizes="120x120" href="icons/mt-r12-apple-120.png">
+</head>
 <body data-suite="wondler">
 
 <div class="app" id="app">
@@ -1268,12 +1284,10 @@ async function init(){
 }
 
 async function loadDB(){
-  try{
-    const res=await fetch('/data/wordle.json?v='+Date.now(),{signal:AbortSignal.timeout(6000)});
-    if(!res.ok)throw new Error('not found');
-    const lista=await res.json();
-    if(lista&&lista.length>0)DB=lista;
-  }catch(e){console.warn('Usando DB local:',e.message);}
+  try {
+    const items = await SPFCData.list('wordle_jogadores', 'data/wordle.json');
+    if (items?.length) DB = items;
+  } catch(e) { console.warn('Usando base local:', e.message); }
 }
 
 /* ── SCROLL HEADER ── */
@@ -1444,7 +1458,7 @@ function showResult(){
   const isWin=STATE.won;
   const EMJI={hit:'🟡',near:'🟠',miss:'🔴'};
   const emojiGrid=STATE.guesses.map(g=>g.cells.map(c=>EMJI[c.cls]).join('')).join('\n');
-  const shareText=`🔴 WONDLER #${STATE.edition+1} ${isWin?STATE.guesses.length+'/6':'X/6'}\n${emojiGrid}\nspfc-hoje.vercel.app/wondler.html`;
+  const shareText=`🔴 WONDLER #${STATE.edition+1} ${isWin?STATE.guesses.length+'/6':'X/6'}\n${emojiGrid}\n${new URL("wondler.html",location.href).href}`;
 
   const el=document.getElementById('resultSection');
   el.innerHTML=`
@@ -1588,7 +1602,7 @@ async function doLogin(){
   try{
     await signInWithPopup(auth,provider);
     const el=document.getElementById('loginPrompt');if(el)el.style.display='none';
-    toast('✅ Conectado!','Seu streak será salvo automaticamente');
+    toast('✓ Conectado!','Seu streak será salvo automaticamente');
   }catch(e){toast('Erro ao conectar',e.message);}
 }
 
@@ -1615,5 +1629,5 @@ setTimeout(()=>{
   }
 },3000);
 </script>
-</body>
+<script src="pwa.js?v=20261029-r14"></script></body>
 </html>

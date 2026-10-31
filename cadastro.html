@@ -3,33 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
+
+
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SPFC Hoje">
-<meta name="theme-color" content="#CC0000">
-<meta name="application-name" content="SPFC Hoje">
-<meta name="msapplication-TileImage" content="icons/android-chrome-512x512.png">
-<meta name="msapplication-TileColor" content="#CC0000">
-<title>Entrar — SPFC Hoje</title>
+
+
+
+
+
+<title>Entrar — MAGAZINE TRICOLOR</title>
 <!-- ══ ÍCONES ══ -->
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="152x152" href="icons/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="144x144" href="icons/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="120x120" href="icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icons/android-chrome-512x512.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
-<link rel="icon" type="image/x-icon" href="icons/favicon.ico">
-<link rel="manifest" href="manifest.json">
+
+
+
+
+
+
+
+
+
+
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --red:#CC0000;--red2:#8B0000;
+  --red:#a60000;--red2:#760000;
   --bg:#060606;--bg2:#111;--bg3:#1a1a1a;
   --txt:#F0EBE3;--txt2:#9a9a9a;--txt3:#555;
   --gold:#C8A84B;
@@ -43,8 +43,8 @@ html,body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min
 /* BG */
 .cad-bg{position:fixed;inset:0;z-index:0;
   background:
-    radial-gradient(ellipse 120% 40% at 50% 0%,rgba(180,0,0,.22) 0%,transparent 60%),
-    radial-gradient(ellipse 80% 60% at 80% 100%,rgba(100,0,0,.12) 0%,transparent 60%),
+    radial-gradient(ellipse 120% 40% at 50% 0%,rgba(166,0,0,.22) 0%,transparent 60%),
+    radial-gradient(ellipse 80% 60% at 80% 100%,rgba(166,0,0,.12) 0%,transparent 60%),
     var(--bg)}
 
 /* TOPBAR */
@@ -55,7 +55,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min
 .cad-back{background:none;border:1px solid var(--border2);border-radius:8px;
   color:var(--txt2);font-size:12px;padding:7px 14px;cursor:pointer;
   font-family:var(--font-body);letter-spacing:1px;transition:.2s}
-.cad-back:hover{border-color:rgba(204,0,0,.5);color:var(--txt)}
+.cad-back:hover{border-color:rgba(166,0,0,.5);color:var(--txt)}
 .cad-top-title{font-family:var(--font-title);font-size:22px;letter-spacing:3px;color:#fff}
 .cad-top-title span{color:var(--red)}
 
@@ -77,7 +77,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min
   border-radius:20px;padding:24px 20px;margin-bottom:12px}
 .s1-divider{font-size:10px;letter-spacing:4px;color:var(--txt3);text-align:center;
   margin:0 0 18px;display:flex;align-items:center;gap:10px}
-.s1-divider::before,.s1-divider::after{content:'';flex:1;height:1px;background:rgba(204,0,0,.2)}
+.s1-divider::before,.s1-divider::after{content:'';flex:1;height:1px;background:rgba(166,0,0,.2)}
 .s1-divider span{color:var(--red);font-weight:700}
 
 .s1-btn{width:100%;padding:16px 20px;border-radius:12px;font-size:15px;font-weight:600;
@@ -93,9 +93,9 @@ html,body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min
 .s1-btn-google:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.28);transform:translateY(-1px)}
 .s1-btn-google .s1-btn-icon{background:rgba(255,255,255,.08)}
 
-.s1-btn-email{background:var(--red);color:#fff;border-color:rgba(255,80,80,.3);
-  box-shadow:0 4px 20px rgba(204,0,0,.35)}
-.s1-btn-email:hover{background:var(--red2);transform:translateY(-1px);box-shadow:0 8px 28px rgba(204,0,0,.5)}
+.s1-btn-email{background:var(--red);color:#fff;border-color:rgba(166,0,0,.3);
+  box-shadow:0 4px 20px rgba(166,0,0,.35)}
+.s1-btn-email:hover{background:var(--red2);transform:translateY(-1px);box-shadow:0 8px 28px rgba(166,0,0,.5)}
 .s1-btn-email .s1-btn-icon{background:rgba(0,0,0,.2)}
 
 .email-form{margin-top:14px;display:none;flex-direction:column;gap:8px}
@@ -104,10 +104,10 @@ html,body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min
   background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);
   border-radius:12px;color:var(--txt);font-size:15px;font-family:var(--font-body);
   outline:none;transition:.2s}
-.cad-input:focus{border-color:rgba(204,0,0,.6);background:rgba(255,255,255,.06)}
+.cad-input:focus{border-color:rgba(166,0,0,.6);background:rgba(255,255,255,.06)}
 .cad-input::placeholder{color:var(--txt3)}
 .cad-input.ok{border-color:rgba(34,197,94,.5)}
-.cad-input.err{border-color:rgba(255,80,80,.5)}
+.cad-input.err{border-color:rgba(166,0,0,.5)}
 
 .s1-submit{width:100%;padding:14px;background:var(--red);color:#fff;border:none;
   border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:.2s;
@@ -117,7 +117,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min
 .s1-link{font-size:11px;color:var(--txt3);text-align:center;margin-top:6px;cursor:pointer;transition:.2s}
 .s1-link:hover{color:var(--gold)}
 
-.err-msg{font-size:12px;color:#ff7777;padding:10px 14px;background:rgba(204,0,0,.08);
+.err-msg{font-size:12px;color:#eeeeee;padding:10px 14px;background:rgba(166,0,0,.08);
   border-radius:8px;display:none}
 .err-msg.show{display:block}
 
@@ -135,7 +135,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min
   color:var(--txt2);margin-bottom:10px;display:flex;align-items:center;gap:10px}
 .cad-label::after{content:'';flex:1;height:1px;background:var(--border)}
 .cad-hint{font-size:11px;color:var(--txt3);margin-top:6px;padding-left:2px;letter-spacing:.3px;line-height:1.5}
-.cad-field-err{font-size:11px;color:#ff7777;margin-top:5px;padding-left:2px;display:none}
+.cad-field-err{font-size:11px;color:#eeeeee;margin-top:5px;padding-left:2px;display:none}
 .cad-field-ok{font-size:11px;color:var(--green);margin-top:5px;padding-left:2px;display:none}
 
 /* nick status */
@@ -150,7 +150,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:var(--font-body);min
   box-shadow:0 2px 8px rgba(0,0,0,.5)}
 .av-item:hover{transform:scale(1.06);border-color:rgba(255,255,255,.3)}
 .av-item.selected{border-color:#fff!important;transform:scale(1.1)!important;
-  box-shadow:0 0 0 3px rgba(204,0,0,.6),0 4px 20px rgba(0,0,0,.6)!important}
+  box-shadow:0 0 0 3px rgba(166,0,0,.6),0 4px 20px rgba(0,0,0,.6)!important}
 .av-item img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 
 /* birthday */
@@ -161,8 +161,8 @@ input[type="date"].cad-input{color-scheme:dark}
   background:linear-gradient(135deg,var(--red),var(--red2));
   color:#fff;border:none;border-radius:14px;
   font-family:var(--font-title);font-size:26px;letter-spacing:3px;
-  cursor:pointer;transition:all .2s;box-shadow:0 8px 32px rgba(204,0,0,.4)}
-.btn-submit:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(204,0,0,.55)}
+  cursor:pointer;transition:all .2s;box-shadow:0 8px 32px rgba(166,0,0,.4)}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(166,0,0,.55)}
 .btn-submit:disabled{background:rgba(255,255,255,.06);color:var(--txt3);
   box-shadow:none;transform:none;cursor:not-allowed}
 
@@ -171,7 +171,7 @@ input[type="date"].cad-input{color-scheme:dark}
   background:rgba(6,6,6,.94);align-items:center;justify-content:center;
   flex-direction:column;gap:16px}
 .loading-overlay.active{display:flex}
-.loading-spinner{width:48px;height:48px;border:3px solid rgba(204,0,0,.2);
+.loading-spinner{width:48px;height:48px;border:3px solid rgba(166,0,0,.2);
   border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-msg{font-family:var(--font-title);font-size:20px;letter-spacing:3px;color:var(--txt2)}
@@ -248,7 +248,7 @@ onAuthStateChanged(auth, async user => {
   try {
     const snap = await getDoc(doc(db, 'users', user.uid));
     if (snap.exists() && snap.data().displayName) {
-      const dest = sessionStorage.getItem('_cadOrigem') || 'main.html';
+      const dest = (sessionStorage.getItem('_cadOrigem') || 'index.html').replace(/(^|\/)(?:main|admin)\.html(?=[?#]|$)/, '$1index.html');
       sessionStorage.removeItem('_cadOrigem');
       window.location.href = dest;
     } else {
@@ -263,7 +263,23 @@ onAuthStateChanged(auth, async user => {
   }
 });
 </script>
-<link rel="stylesheet" href="suite-premium.css?v=20261023"></head>
+<link rel="stylesheet" href="suite-premium.css?v=20261029-r14"><link rel="stylesheet" href="pwa.css?v=20261029-r14">
+<meta name="theme-color" content="#111111">
+<meta name="application-name" content="MAGAZINE TRICOLOR">
+<meta name="apple-mobile-web-app-title" content="MAGAZINE TRICOLOR">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="msapplication-TileColor" content="#111111">
+<meta name="msapplication-TileImage" content="icons/mt-r12-tile-150.png">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/x-icon" href="icons/mt-r12-favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/mt-r12-favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/mt-r12-favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/mt-r12-apple-180.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/mt-r12-apple-167.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/mt-r12-apple-152.png">
+<link rel="apple-touch-icon" sizes="120x120" href="icons/mt-r12-apple-120.png">
+</head>
 <body data-suite="cadastro">
 
 <div class="cad-bg"></div>
@@ -285,9 +301,9 @@ onAuthStateChanged(auth, async user => {
 
   <div class="s1-hero">
     <img
-      src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779945135/c5a68f93-009e-465c-94a8-c6a5e8e54e79_xofudf.png"
-      alt="SPFC Hoje" class="s1-shield">
-    <div class="s1-sub">Quiz, Palpitômetro e Wordle num só lugar.<br>Entre com sua conta para competir no ranking.</div>
+      src="assets/app-icon.png"
+      alt="MAGAZINE TRICOLOR" class="s1-shield">
+    <div class="s1-sub">Quiz e Wordle num só lugar.<br>Entre com sua conta para competir no ranking.</div>
   </div>
 
   <!-- Google -->
@@ -329,7 +345,7 @@ onAuthStateChanged(auth, async user => {
   </div>
 
   <!-- Banner de feature bloqueada (visível só quando veio de lock) -->
-  <div id="lockBanner" style="display:none;background:rgba(204,0,0,.1);border:1px solid rgba(204,0,0,.3);border-radius:12px;padding:14px 16px;margin-bottom:4px;text-align:center">
+  <div id="lockBanner" style="display:none;background:rgba(166,0,0,.1);border:1px solid rgba(166,0,0,.3);border-radius:12px;padding:14px 16px;margin-bottom:4px;text-align:center">
     <div style="font-family:'Bebas Neue',Impact,sans-serif;font-size:16px;letter-spacing:2px;color:#fff;margin-bottom:4px" id="lockBannerTitle">🔒 RECURSO EXCLUSIVO</div>
     <div style="font-size:12px;color:rgba(240,235,227,.65);line-height:1.5" id="lockBannerSub">Cadastre-se grátis para desbloquear.</div>
   </div>
@@ -367,7 +383,7 @@ onAuthStateChanged(auth, async user => {
     </div>
     <div id="nickErr" class="cad-field-err"></div>
     <div id="nickOk"  class="cad-field-ok"></div>
-    <div class="cad-hint">Único e imutável. Aparece no Quiz, Wordle e Palpitômetro.</div>
+    <div class="cad-hint">Único e imutável. Aparece no Quiz e no Wordle.</div>
   </div>
 
   <!-- Avatar -->
@@ -388,7 +404,7 @@ onAuthStateChanged(auth, async user => {
   <div id="s2GlobalErr" class="err-msg" style="margin-bottom:14px"></div>
 
   <button id="btnCriar" class="btn-submit" onclick="salvarPerfil()">
-    ENTRAR NO SPFC HOJE
+    ENTRAR NO MAGAZINE TRICOLOR
   </button>
 </div>
 
@@ -715,7 +731,6 @@ async function salvarPerfil() {
     streak: 0, bestStreak: 0, lastPlayedDate: null, wonToday: false,
     quiz_score_geral: 0, quiz_score_mensal: 0, quiz_score_semanal: 0, quiz_score_diario: 0,
     totalPontos: 0, totalAcertos: 0, totalErros: 0,
-    totalPalpites: 0, placareExatos: 0, pontosMes: 0,
     wordle_streak: 0, wordle_bestStreak: 0, wordle_lastDate: null, wordle_totalAcertos: 0,
     createdAt: now,
     updatedAt: now,
@@ -738,13 +753,13 @@ async function salvarPerfil() {
     hideLoading();
     btn.textContent = 'BEM-VINDO! 🔴⚫⚪';
 
-    const dest = sessionStorage.getItem('_cadOrigem') || 'main.html';
+    const dest = (sessionStorage.getItem('_cadOrigem') || 'index.html').replace(/(^|\/)(?:main|admin)\.html(?=[?#]|$)/, '$1index.html');
     sessionStorage.removeItem('_cadOrigem');
     setTimeout(() => { window.location.href = dest; }, 900);
 
   } catch(e) {
     hideLoading();
-    btn.textContent = 'ENTRAR NO SPFC HOJE'; btn.disabled = false;
+    btn.textContent = 'ENTRAR NO MAGAZINE TRICOLOR'; btn.disabled = false;
     if (e.message === 'NICK_TAKEN') {
       showFieldErr('nickErr', 'Este apelido já está em uso. Escolha outro.');
       document.getElementById('nickStatus').textContent = '❌';
@@ -759,9 +774,9 @@ async function salvarPerfil() {
 // ══ MODO VISITANTE ══
 function entrarComoVisitante() {
   localStorage.setItem('spfc_visitante', '1');
-  const dest = sessionStorage.getItem('_cadOrigem');
+  const dest = (sessionStorage.getItem('_cadOrigem') || 'index.html').replace(/(^|\/)(?:main|admin)\.html(?=[?#]|$)/, '$1index.html');
   sessionStorage.removeItem('_cadOrigem');
-  window.location.href = dest || 'main.html';
+  window.location.href = dest || 'index.html';
 }
 
 // Mostra banner contextual se veio de feature bloqueada
@@ -775,7 +790,6 @@ function entrarComoVisitante() {
     const map = {
       quiz:         ['⚡ QUIZ TRICOLOR — EXCLUSIVO',    'Crie sua conta grátis para jogar o Quiz e subir no ranking.'],
       wordle:       ['🔍 WORDLE — EXCLUSIVO',           'Cadastre-se para revelar a identidade oculta e manter sua sequência.'],
-      palpitometro: ['🎯 PALPITÔMETRO — EXCLUSIVO',     'Entre com sua conta para dar palpites e disputar o ranking de acertos.'],
     };
     const key = Object.keys(map).find(k => orig.includes(k));
     if (key) {
@@ -794,8 +808,8 @@ function entrarComoVisitante() {
 <style>
 #pwa-banner{
   position:fixed;bottom:0;left:0;right:0;z-index:99999;
-  background:linear-gradient(135deg,#1a0000,#0a0a0a);
-  border-top:1px solid rgba(204,0,0,.35);
+  background:linear-gradient(135deg,#241111,#0a0a0a);
+  border-top:1px solid rgba(166,0,0,.35);
   padding:14px 16px 20px;
   display:flex;align-items:center;gap:12px;
   box-shadow:0 -4px 24px rgba(0,0,0,.6);
@@ -808,12 +822,12 @@ function entrarComoVisitante() {
 #pwa-banner-text strong{display:block;font-size:13px;color:#fff;font-family:'Bebas Neue',Impact,sans-serif;letter-spacing:2px;margin-bottom:2px}
 #pwa-banner-text span{font-size:11px;color:#888;line-height:1.4}
 #pwa-banner-btn{
-  background:var(--red,#CC0000);color:#fff;border:none;border-radius:10px;
+  background:var(--red,#a60000);color:#fff;border:none;border-radius:10px;
   padding:10px 14px;font-size:12px;font-weight:700;cursor:pointer;
   white-space:nowrap;font-family:'Inter',sans-serif;letter-spacing:.5px;
   flex-shrink:0;transition:.2s;
 }
-#pwa-banner-btn:hover{background:#8B0000}
+#pwa-banner-btn:hover{background:#760000}
 #pwa-banner-close{
   background:none;border:none;color:#555;font-size:18px;cursor:pointer;
   padding:4px;line-height:1;flex-shrink:0;
@@ -823,7 +837,7 @@ function entrarComoVisitante() {
 <div id="pwa-banner">
   <div id="pwa-banner-icon">📲</div>
   <div id="pwa-banner-text">
-    <strong>INSTALE O SPFC HOJE</strong>
+    <strong>INSTALE O MAGAZINE TRICOLOR</strong>
     <span id="pwa-banner-sub">Funciona melhor instalado na tela inicial</span>
   </div>
   <button id="pwa-banner-btn">INSTALAR</button>
@@ -888,5 +902,5 @@ function dismissBanner() {
   localStorage.setItem('pwa_banner_dismissed', '1');
 }
 </script>
-</body>
+<script src="pwa.js?v=20261029-r14"></script></body>
 </html>
