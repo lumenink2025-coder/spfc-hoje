@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Perfil — MAGAZINE TRICOLOR</title>
+<title>Perfil — SPFC Hoje</title>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
-  --red: #a60000;
-  --red-dark: #760000;
-  --red-glow: rgba(166,0,0,0.7);
+  --red: #CC0000;
+  --red-dark: #8B0000;
+  --red-glow: rgba(204,0,0,0.7);
   --gold: #C8A84B;
   --gold-bright: #FFD060;
   --gold-glow: rgba(200,168,75,0.6);
@@ -60,7 +60,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   background:
     linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 30%, rgba(13,13,13,0.7) 65%, #0D0D0D 100%),
     linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 50%, rgba(0,0,0,0.4) 100%),
-    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(166,0,0,0.25) 0%, transparent 70%);
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(139,0,0,0.25) 0%, transparent 70%);
 }
 
 /* Scan lines overlay */
@@ -110,7 +110,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   width: 320px;
   height: 320px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(166,0,0,0.25) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(204,0,0,0.25) 0%, transparent 65%);
   animation: haloBreath 4s ease-in-out infinite;
 }
 @keyframes haloBreath {
@@ -126,7 +126,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   transform: translateX(-50%);
   width: 2px;
   height: 280px;
-  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,220,180,0.6) 50%, rgba(166,0,0,0.3) 100%);
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,220,180,0.6) 50%, rgba(204,0,0,0.3) 100%);
   filter: blur(4px);
   animation: spotBreath 4s ease-in-out infinite;
   z-index: 1;
@@ -191,17 +191,17 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   height: 160px;
   border-radius: 50%;
   overflow: hidden;
-  background: #241111;
+  background: #1a0000;
   border: 3px solid rgba(0,0,0,0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Anton', sans-serif;
   font-size: 64px;
-  color: rgba(166,0,0,0.6);
+  color: rgba(204,0,0,0.6);
   box-shadow:
     0 0 0 1px rgba(200,168,75,0.15),
-    0 0 40px rgba(166,0,0,0.5),
+    0 0 40px rgba(204,0,0,0.5),
     inset 0 0 30px rgba(0,0,0,0.5);
 }
 .avatar-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
@@ -218,7 +218,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   gap: 0;
 }
 .level-badge-inner {
-  background: linear-gradient(135deg, #760000, var(--red), #a60000);
+  background: linear-gradient(135deg, #8B0000, var(--red), #FF2222);
   color: #fff;
   font-family: 'Anton', sans-serif;
   font-size: 11px;
@@ -226,7 +226,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   padding: 4px 18px 4px 14px;
   clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
   white-space: nowrap;
-  box-shadow: 0 0 16px rgba(166,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6);
+  box-shadow: 0 0 16px rgba(204,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6);
   position: relative;
 }
 .level-badge-inner::before {
@@ -246,7 +246,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   z-index: 20;
   width: 52px;
   height: 52px;
-  filter: drop-shadow(0 0 10px rgba(166,0,0,0.7));
+  filter: drop-shadow(0 0 10px rgba(204,0,0,0.7));
 }
 
 /* ── IDENTITY — nome + cargo ── */
@@ -273,7 +273,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   letter-spacing: -1px;
   color: #fff;
   text-shadow:
-    0 0 60px rgba(166,0,0,0.4),
+    0 0 60px rgba(204,0,0,0.4),
     0 4px 24px rgba(0,0,0,0.8),
     2px 2px 0 rgba(0,0,0,0.4);
   margin-bottom: 14px;
@@ -384,8 +384,8 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 .xp-fill {
   position: absolute;
   top: 0; left: 0; bottom: 0;
-  background: linear-gradient(90deg, #760000, var(--red), #eeeeee);
-  box-shadow: 0 0 10px rgba(166,0,0,0.9), 0 0 3px rgba(166,0,0,0.6);
+  background: linear-gradient(90deg, #8B0000, var(--red), #FF5555);
+  box-shadow: 0 0 10px rgba(204,0,0,0.9), 0 0 3px rgba(255,120,120,0.6);
   transition: width 1.4s cubic-bezier(0.22,1,0.36,1);
 }
 .xp-fill::after {
@@ -419,7 +419,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   line-height: 1;
   color: #fff;
 }
-.hn-val.red { color: #a60000; }
+.hn-val.red { color: #FF5533; }
 .hn-val.gold { color: var(--gold); }
 .hn-label { font-size: 9px; color: var(--txt3); letter-spacing: 2px; text-transform: uppercase; font-weight: 400; }
 
@@ -470,14 +470,14 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(166,0,0,0.05) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(204,0,0,0.05) 0%, transparent 60%);
 }
 .xp-card::after {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(166,0,0,0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(204,0,0,0.4), transparent);
 }
 .xp-card-top {
   display: flex;
@@ -503,9 +503,9 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   letter-spacing: 2px;
   padding: 2px 9px;
   border-radius: 2px;
-  background: rgba(166,0,0,0.2);
-  color: #eeeeee;
-  border: 1px solid rgba(166,0,0,0.3);
+  background: rgba(204,0,0,0.2);
+  color: #FF6666;
+  border: 1px solid rgba(204,0,0,0.3);
 }
 /* Hexagon next level icon */
 .hex-next {
@@ -550,8 +550,8 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 .xp-card-fill {
   height: 100%;
   border-radius: 4px;
-  background: linear-gradient(90deg, var(--red-dark), var(--red), #eeeeee);
-  box-shadow: 0 0 12px rgba(166,0,0,0.7);
+  background: linear-gradient(90deg, var(--red-dark), var(--red), #FF4444);
+  box-shadow: 0 0 12px rgba(204,0,0,0.7);
   transition: width 1.3s cubic-bezier(0.22,1,0.36,1);
   position: relative;
 }
@@ -560,7 +560,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   position: absolute;
   top: 0; right: 0; bottom: 0;
   width: 40%;
-  background: linear-gradient(90deg, transparent, rgba(166,0,0,0.3));
+  background: linear-gradient(90deg, transparent, rgba(255,160,160,0.3));
   animation: shimmer 2s ease-in-out infinite;
 }
 @keyframes shimmer { 0%,100%{opacity:.3} 50%{opacity:.9} }
@@ -571,7 +571,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   transform: translateY(-50%);
   font-size: 8px;
   font-family: 'Anton', sans-serif;
-  color: rgba(166,0,0,0.9);
+  color: rgba(255,120,120,0.9);
   letter-spacing: 1px;
   z-index: 2;
   pointer-events: none;
@@ -605,7 +605,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   inset: 0;
   background:
     radial-gradient(ellipse 100% 80% at 50% -10%, rgba(200,168,75,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 30% 100%, rgba(166,0,0,0.1) 0%, transparent 50%);
+    radial-gradient(ellipse 60% 40% at 30% 100%, rgba(139,0,0,0.1) 0%, transparent 50%);
   z-index: 0;
 }
 /* Cantos decorativos */
@@ -720,7 +720,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 /* ── STAT CARDS GRID ── */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-bottom: 8px;
 }
@@ -735,7 +735,6 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   -webkit-tap-highlight-color: transparent;
 }
 .stat-card:active { transform: scale(0.97); }
-@media(max-width:400px){.stats-grid{grid-template-columns:1fr 1fr}.stats-grid .wordle{grid-column:1/-1}}
 .stat-card::after {
   content: '';
   position: absolute;
@@ -745,7 +744,8 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 .stat-card.streak::after { background: linear-gradient(90deg, transparent, rgba(255,107,43,0.7), transparent); }
 .stat-card.acertos::after { background: linear-gradient(90deg, transparent, rgba(78,205,196,0.7), transparent); }
 .stat-card.wordle::after { background: linear-gradient(90deg, transparent, rgba(200,168,75,0.7), transparent); }
-.stat-card.quiz::after { background: linear-gradient(90deg, transparent, rgba(166,0,0,0.7), transparent); }
+.stat-card.palpites::after { background: linear-gradient(90deg, transparent, rgba(155,93,229,0.7), transparent); }
+.stat-card.quiz::after { background: linear-gradient(90deg, transparent, rgba(204,0,0,0.7), transparent); }
 
 .sc-icon-wrap {
   width: 80px;
@@ -762,6 +762,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 .sc-icon-wrap.streak {}
 .sc-icon-wrap.acertos {}
 .sc-icon-wrap.wordle {}
+.sc-icon-wrap.palpites {}
 .sc-icon-wrap.quiz {}
 
 .sc-val {
@@ -774,7 +775,8 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 .sc-val.streak { color: #FF6B2B; }
 .sc-val.acertos { color: #4ECDC4; }
 .sc-val.wordle { color: var(--gold); }
-.sc-val.quiz { color: #eeeeee; }
+.sc-val.palpites { color: #9B5DE5; }
+.sc-val.quiz { color: #FF4444; }
 .sc-name { font-size: 9px; letter-spacing: 2px; color: var(--txt3); text-transform: uppercase; margin-bottom: 6px; }
 .sc-sub { font-size: 11px; color: var(--txt2); line-height: 1.4; }
 
@@ -796,10 +798,10 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(166,0,0,0.5), transparent);
+  background: linear-gradient(90deg, transparent, rgba(204,0,0,0.5), transparent);
 }
 .scf-info { flex: 1; }
-.scf-val { font-family: 'Anton', sans-serif; font-size: 42px; color: #eeeeee; line-height: 1; margin-bottom: 2px; }
+.scf-val { font-family: 'Anton', sans-serif; font-size: 42px; color: #FF4444; line-height: 1; margin-bottom: 2px; }
 .scf-name { font-size: 9px; letter-spacing: 2px; color: var(--txt3); text-transform: uppercase; margin-bottom: 4px; }
 .scf-sub { font-size: 11px; color: var(--txt2); }
 .scf-bar { height: 3px; background: rgba(255,255,255,0.04); border-radius: 2px; margin-top: 10px; overflow: hidden; }
@@ -839,24 +841,8 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 .stats-grid { animation: fadeUp .5s .2s ease both; }
 .stat-card-full { animation: fadeUp .5s .25s ease both; }
 </style>
-<link rel="stylesheet" href="suite-premium.css?v=20261029-r14"><link rel="stylesheet" href="pwa.css?v=20261029-r14"><script src="js/data-service.js?v=20261029-r14"></script>
-<meta name="theme-color" content="#111111">
-<meta name="application-name" content="MAGAZINE TRICOLOR">
-<meta name="apple-mobile-web-app-title" content="MAGAZINE TRICOLOR">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="msapplication-TileColor" content="#111111">
-<meta name="msapplication-TileImage" content="icons/mt-r12-tile-150.png">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/x-icon" href="icons/mt-r12-favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/mt-r12-favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="icons/mt-r12-favicon-16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="icons/mt-r12-apple-180.png">
-<link rel="apple-touch-icon" sizes="167x167" href="icons/mt-r12-apple-167.png">
-<link rel="apple-touch-icon" sizes="152x152" href="icons/mt-r12-apple-152.png">
-<link rel="apple-touch-icon" sizes="120x120" href="icons/mt-r12-apple-120.png">
-</head>
-<body data-suite="perfil"><nav class="profile-nav" aria-label="Navegação do perfil"><a href="index.html">← MAGAZINE TRICOLOR</a><a href="notificacoes.html">Notificações</a><a href="quiz.html#ranking">Ver ranking ↗</a></nav>
+<link rel="stylesheet" href="suite-premium.css?v=20261023"></head>
+<body data-suite="perfil">
 
 <!-- ════════════ HERO ════════════ -->
 <div class="hero">
@@ -871,10 +857,10 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
     <div class="avatar-halo-outer"></div>
     <div class="avatar-ring-gold"></div>
     <div class="avatar-ring-inner"></div>
-    <div class="avatar-photo" id="heroAvatar">T</div>
+    <div class="avatar-photo" id="heroAvatar">R</div>
     <img class="avatar-shield" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt="SPFC">
     <div class="avatar-level-badge">
-      <div class="level-badge-inner" id="heroLevel">NÍVEL 1</div>
+      <div class="level-badge-inner" id="heroLevel">NÍVEL 9</div>
     </div>
   </div>
 
@@ -882,29 +868,29 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   <div class="hero-identity">
     <div class="identity-rule"></div>
     <div class="identity-name">
-      <span id="firstName">TORCEDOR</span>
-      <span class="ln" id="lastName"></span>
+      <span id="firstName">RAFAEL</span>
+      <span class="ln" id="lastName">TORCEDOR</span>
     </div>
     <div class="identity-cargo">
       <img class="cargo-icon" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1779821701/S%C3%A3o_Paulo_Futebol_Clube_sbbrig.png" alt="">
       <div class="cargo-text">
-        <span class="cargo-title" id="cargoTitle">TORCEDOR</span>
+        <span class="cargo-title" id="cargoTitle">GUARDIÃO DO MORUMBI</span>
         <span class="cargo-sub">FÉ · TRADIÇÃO · PAIXÃO</span>
       </div>
     </div>
     <div class="identity-since">
       <span>Membro desde</span>
-      <span id="sinceDate" style="color:rgba(255,255,255,0.4)">—</span>
+      <span id="sinceDate" style="color:rgba(255,255,255,0.4)">Fev 2024</span>
       <div class="since-dot"></div>
-      <span id="sinceDays">—</span>
+      <span id="sinceDays">486 dias</span>
     </div>
   </div>
 
   <!-- XP Strip -->
   <div class="hero-xp">
     <div class="xp-meta">
-      <span class="xp-meta-left" id="xpMetaLeft">0 XP</span>
-      <span class="xp-meta-right" id="xpMetaPct">0%</span>
+      <span class="xp-meta-left" id="xpMetaLeft">2.840 / 3.000 XP · 160 para o próximo</span>
+      <span class="xp-meta-right" id="xpMetaPct">63%</span>
     </div>
     <div class="xp-track">
       <div class="xp-fill" id="xpHeroFill" style="width:0%"></div>
@@ -914,15 +900,15 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   <!-- Numbers -->
   <div class="hero-numbers">
     <div class="hn-item">
-      <div class="hn-val red" id="hn1">0</div>
+      <div class="hn-val red" id="hn1">🔥 47</div>
       <div class="hn-label">Streak dias</div>
     </div>
     <div class="hn-item">
-      <div class="hn-val" id="hn2">0</div>
-      <div class="hn-label">Perguntas respondidas</div>
+      <div class="hn-val" id="hn2">312</div>
+      <div class="hn-label">Quiz jogados</div>
     </div>
     <div class="hn-item">
-      <div class="hn-val gold" id="hn3">0%</div>
+      <div class="hn-val gold" id="hn3">74%</div>
       <div class="hn-label">Taxa acertos</div>
     </div>
   </div>
@@ -941,16 +927,16 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   <div class="xp-card">
     <div class="xp-card-top">
       <div class="xp-card-level">
-        <div class="xp-card-lvlnum" id="xpCardLvl">NÍVEL 1</div>
-        <div class="xp-tier-badge" id="xpTier">—</div>
+        <div class="xp-card-lvlnum" id="xpCardLvl">NÍVEL 9</div>
+        <div class="xp-tier-badge" id="xpTier">ÉPICO</div>
       </div>
-      <div class="hex-next" id="xpHexNext">2</div>
+      <div class="hex-next" id="xpHexNext">10</div>
     </div>
-    <div class="xp-card-vals"><span id="xpCardCurr">0</span> / <span id="xpCardNext">—</span> XP</div>
-    <div class="xp-card-rem">Faltam <b id="xpCardDiff">—</b> para o próximo nível</div>
+    <div class="xp-card-vals"><span id="xpCardCurr">2.840</span> / <span id="xpCardNext">3.000</span> XP</div>
+    <div class="xp-card-rem">Faltam <b id="xpCardDiff">160 XP</b> para o próximo nível</div>
     <div class="xp-card-bar">
       <div class="xp-card-fill" id="xpCardFill" style="width:0%"></div>
-      <div class="xp-pct-label" id="xpCardPct">0%</div>
+      <div class="xp-pct-label" id="xpCardPct">63%</div>
     </div>
   </div>
 
@@ -970,7 +956,7 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
         <div class="laurel-wrap">
           <img class="laurel-img" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417254/left_vgohzf.png" alt="">
           <div class="ranking-number-wrap">
-            <span class="ranking-num" id="rankNum">—</span>
+            <span class="ranking-num" id="rankNum">#12</span>
             <span class="ranking-num-label">RANKING</span>
           </div>
           <img class="laurel-img" src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417391/image_err3hg.png" alt="">
@@ -978,8 +964,8 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
       </div>
       <div class="ranking-right">
         <div class="ranking-title">RANKING GERAL</div>
-        <div class="ranking-top-badge" id="rankTop">Ver ranking no quiz</div>
-        <div class="ranking-desc">Acompanhe sua posição<br>no ranking do quiz</div>
+        <div class="ranking-top-badge" id="rankTop">TOP 1%</div>
+        <div class="ranking-desc">Entre os melhores<br>torcedores do Brasil</div>
       </div>
     </div>
   </div>
@@ -996,9 +982,9 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
       <div class="sc-icon-wrap streak">
         <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780417811/de823f35-5371-4482-9eb8-4543f1349e11_kyvv5z.png" alt="">
       </div>
-      <div class="sc-val streak" id="scStreak">0</div>
+      <div class="sc-val streak" id="scStreak">47</div>
       <div class="sc-name">Streak dias</div>
-      <div class="sc-sub">Melhor sequência<br><b id="bestStreakDays">—</b></div>
+      <div class="sc-sub">Melhor sequência<br><b>47 dias</b></div>
     </div>
 
     <!-- Acertos -->
@@ -1006,9 +992,9 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
       <div class="sc-icon-wrap acertos">
         <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780419535/8b87ee5e-72d4-49c5-b4ea-14ffb9ccb138_mcqetr.png" alt="">
       </div>
-      <div class="sc-val acertos" id="scAcertos">0%</div>
+      <div class="sc-val acertos" id="scAcertos">74%</div>
       <div class="sc-name">% Acertos quiz</div>
-      <div class="sc-sub">Cada acerto<br>faz a diferença.</div>
+      <div class="sc-sub">Você está voando!<br>Continue assim!</div>
     </div>
 
     <!-- Wordle -->
@@ -1026,14 +1012,23 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
           <rect x="17" y="17" width="4" height="4" rx="1" fill="#C8A84B" opacity=".9"/>
         </svg>
       </div>
-      <div class="sc-val wordle" id="scWordle">0</div>
+      <div class="sc-val wordle" id="scWordle">18</div>
       <div class="sc-name">Wordle vencidos</div>
       <div class="sc-sub">Vocabulário de<br><b>craque!</b></div>
     </div>
 
+    <!-- Palpites -->
+    <div class="stat-card palpites">
+      <div class="sc-icon-wrap palpites">
+        <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780419959/ee6549f4-21ed-44a6-9eb4-dfa77b7c82c5_acjuza.png" alt="">
+      </div>
+      <div class="sc-val palpites" id="scPalpites">9</div>
+      <div class="sc-name">Palpites certos</div>
+      <div class="sc-sub">Intuição tricolor<br>aflorada!</div>
+    </div>
   </div>
 
-  <!-- Perguntas respondidas — full width -->
+  <!-- Quiz jogados — full width -->
   <div class="stat-card-full">
     <div class="sc-icon-wrap quiz" style="width:80px;height:80px">
       <svg class="quiz-icon-svg" viewBox="0 0 24 24" fill="none">
@@ -1044,9 +1039,9 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
       </svg>
     </div>
     <div class="scf-info">
-      <div class="scf-val" id="scQuiz">0</div>
-      <div class="scf-name">Perguntas respondidas</div>
-      <div class="scf-sub">Sua trajetória no quiz tricolor.</div>
+      <div class="scf-val" id="scQuiz">312</div>
+      <div class="scf-name">Quiz jogados</div>
+      <div class="scf-sub">Incrível! Você é uma máquina!</div>
       <div class="scf-bar"><div class="scf-bar-fill" id="quizBarFill" style="width:0%"></div></div>
     </div>
   </div>
@@ -1054,9 +1049,9 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   <!-- Zona de perigo -->
   <div class="danger-zone">
     <div class="danger-zone-title">⚠ Dados locais</div>
-    <button class="btn-clear-data" onclick="showClearConfirm()">Redefinir dados locais</button>
+    <button class="btn-clear-data" onclick="showClearConfirm()">Limpar cache e dados locais</button>
     <div class="clear-confirm" id="clearConfirm">
-      Isso remove o progresso e as preferências locais do aplicativo neste dispositivo.
+      Isso remove todos os dados salvos neste dispositivo (cache, ranking, streak local).
       Seus pontos no servidor <strong>não</strong> são apagados.
       <div class="clear-confirm-btns">
         <button class="btn-confirm-yes" onclick="clearAllLocalData()">Limpar</button>
@@ -1076,15 +1071,15 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 <style>
 .danger-zone {
   margin: 0 16px 32px;
-  border: 1px solid rgba(166,0,0,0.15);
+  border: 1px solid rgba(255,60,60,0.15);
   border-radius: 12px;
   padding: 16px;
-  background: rgba(166,0,0,0.03);
+  background: rgba(255,0,0,0.03);
 }
 .danger-zone-title {
   font-size: 9px;
   letter-spacing: 3px;
-  color: rgba(166,0,0,0.4);
+  color: rgba(255,80,80,0.4);
   text-transform: uppercase;
   margin-bottom: 12px;
 }
@@ -1092,9 +1087,9 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   width: 100%;
   padding: 12px;
   background: transparent;
-  border: 1px solid rgba(166,0,0,0.3);
+  border: 1px solid rgba(255,60,60,0.3);
   border-radius: 8px;
-  color: rgba(166,0,0,0.7);
+  color: rgba(255,80,80,0.7);
   font-family: 'Rajdhani', sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -1104,9 +1099,9 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
   transition: all 0.2s;
 }
 .btn-clear-data:hover {
-  background: rgba(166,0,0,0.08);
-  border-color: rgba(166,0,0,0.6);
-  color: #eeeeee;
+  background: rgba(255,0,0,0.08);
+  border-color: rgba(255,60,60,0.6);
+  color: #ff5555;
 }
 .clear-confirm {
   display: none;
@@ -1119,9 +1114,9 @@ html, body { background: var(--bg); color: var(--txt); font-family: 'Rajdhani', 
 .clear-confirm.show { display: block; }
 .clear-confirm-btns { display: flex; gap: 8px; margin-top: 10px; }
 .btn-confirm-yes {
-  flex: 1; padding: 10px; background: rgba(166,0,0,0.15);
-  border: 1px solid rgba(166,0,0,0.4); border-radius: 8px;
-  color: #eeeeee; font-family: 'Rajdhani',sans-serif;
+  flex: 1; padding: 10px; background: rgba(255,0,0,0.15);
+  border: 1px solid rgba(255,60,60,0.4); border-radius: 8px;
+  color: #ff5555; font-family: 'Rajdhani',sans-serif;
   font-size: 13px; font-weight: 700; letter-spacing: 1px; cursor: pointer;
 }
 .btn-confirm-no {
@@ -1150,9 +1145,12 @@ const TIERS = [
 ];
 
 const DATA = {
-  name:'Torcedor', initial:'T', avatarUrl:'', sinceDate:'—', sinceMs:null,
-  xp:0, streak:0, streakMax:0, rankPos:null, rankTotal:null,
-  quizAcertos:0, quizTotal:0, wordleWins:0, cardsTotal:0,
+  name:'Rafael Torcedor', initial:'R', avatarUrl:'',
+  sinceDate:'Fev 2024', sinceMs:new Date('2024-02-01').getTime(),
+  xp:2840, streak:47, streakMax:47,
+  rankPos:12, rankTotal:1200,
+  quizAcertos:231, quizTotal:312,
+  wordleWins:18, palpitesCertos:9, cardsTotal:26,
 };
 
 function getLvl(xp){
@@ -1172,12 +1170,12 @@ function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
 
 function render(){
   const d=DATA, info=getLvl(d.xp);
-  const days=d.sinceMs ? Math.max(0,Math.floor((Date.now()-d.sinceMs)/86400000)) : null;
+  const days=Math.floor((Date.now()-d.sinceMs)/86400000)||486;
   const parts=d.name.trim().split(' ');
 
   // Avatar
   if(d.avatarUrl){
-    const image=document.createElement('img'); image.src=d.avatarUrl; image.alt='Seu avatar'; document.getElementById('heroAvatar').replaceChildren(image);
+    document.getElementById('heroAvatar').innerHTML=`<img src="${d.avatarUrl}">`;
   } else {
     set('heroAvatar', d.initial.toUpperCase());
   }
@@ -1188,7 +1186,7 @@ function render(){
   set('lastName', parts.slice(1).join(' ').toUpperCase());
   set('cargoTitle', info.title.toUpperCase());
   set('sinceDate', d.sinceDate);
-  set('sinceDays', days === null ? '—' : fmt(days)+' dias');
+  set('sinceDays', fmt(days)+' dias');
 
   // XP hero strip
   const diff=info.diff>0?` · ${fmt(info.diff)} para o próximo`:'';
@@ -1211,14 +1209,14 @@ function render(){
   set('xpCardPct', info.pct+'%');
 
   // Ranking
-  set('rankNum',d.rankPos?'#'+d.rankPos:'—');
-  set('rankTop',d.rankPos&&d.rankTotal?getRankTop(d.rankPos,d.rankTotal):'Ver ranking no quiz');
+  set('rankNum','#'+d.rankPos);
+  set('rankTop', getRankTop(d.rankPos,d.rankTotal));
 
   // Stats
   set('scStreak', d.streak);
-  set('bestStreakDays',fmt(d.streakMax)+' dias');
   set('scAcertos', qpct+'%');
   set('scWordle', d.wordleWins);
+  set('scPalpites', d.palpitesCertos);
   set('scQuiz', fmt(d.quizTotal));
   set('colCount', d.cardsTotal);
 
@@ -1244,17 +1242,17 @@ function hideClearConfirm() {
 function clearAllLocalData() {
   try {
     // Remove todas as chaves do localStorage que pertencem ao app
-    const keys = Object.keys(localStorage).filter(k => /^spfc[_-]/i.test(k));
+    const keys = Object.keys(localStorage).filter(k => k.startsWith('spfc_'));
     keys.forEach(k => localStorage.removeItem(k));
     hideClearConfirm();
     // Feedback visual
     const btn = document.querySelector('.btn-clear-data');
     if (btn) {
-      btn.textContent = '✓ Dados locais redefinidos!';
+      btn.textContent = '✓ Cache limpo!';
       btn.style.color = '#22c55e';
       btn.style.borderColor = 'rgba(34,197,94,0.4)';
       setTimeout(() => {
-        btn.textContent = 'Redefinir dados locais';
+        btn.textContent = 'Limpar cache e dados locais';
         btn.style.color = '';
         btn.style.borderColor = '';
       }, 3000);
@@ -1262,7 +1260,7 @@ function clearAllLocalData() {
   } catch(e) {}
 }
 
-// API pública para receber dados do index.html
+// API pública para receber dados do main.html
 window.fillPerfilFromCache = async function(data, user){
   if(!data||!user) return;
   DATA.name = data.displayName || data.name || user.email?.split('@')[0] || 'Torcedor';
@@ -1275,8 +1273,8 @@ window.fillPerfilFromCache = async function(data, user){
   DATA.streakMax = data.bestStreak || DATA.streak;
 
   // Ranking — lido da coleção ranking/{uid}_geral (passado opcionalmente)
-  DATA.rankPos = data.rankPos || null;
-  DATA.rankTotal = data.rankTotal || null;
+  DATA.rankPos = data.rankPos || 999;
+  DATA.rankTotal = data.rankTotal || 1000;
 
   // Quiz stats — quiz.html salva como quizAcertos/quizTotal no users doc
   // mas também podem vir como totalAcertos/totalRespostas (campos legados)
@@ -1284,6 +1282,7 @@ window.fillPerfilFromCache = async function(data, user){
   DATA.quizTotal   = data.quizTotal   || data.totalRespostas || 0;
 
   DATA.wordleWins     = data.wordleWins    || 0;
+  DATA.palpitesCertos = data.palpitesExatos || data.palpitesCertos || 0;
   DATA.cardsTotal     = data.cardsTotal    || 0;
 
   // Data de membro: tenta createdAt, depois firstLogin, depois updatedAt
@@ -1305,5 +1304,5 @@ window.fillPerfilFromCache = async function(data, user){
   render();
 };
 </script>
-<script src="pwa.js?v=20261029-r14"></script><script src="js/profile-auth.js?v=20261029-r14"></script></body>
+</body>
 </html>

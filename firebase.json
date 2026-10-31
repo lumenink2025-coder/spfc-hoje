@@ -1,72 +1,24 @@
 {
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default"
+    }
+  ],
   "hosting": {
     "public": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
-      "functions/**",
-      "tests/**",
-      "qa/**",
-      "*.md"
+      "functions/**"
     ],
     "headers": [
       {
         "source": "/data/**",
         "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "public, max-age=300"
-          },
-          {
-            "key": "Access-Control-Allow-Origin",
-            "value": "*"
-          }
-        ]
-      },
-      {
-        "source": "**",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "public, max-age=0, must-revalidate"
-          }
-        ]
-      },
-      {
-        "source": "sw.js",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-store"
-          }
-        ]
-      },
-      {
-        "source": "push-config.js",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-store"
-          }
-        ]
-      },
-      {
-        "source": "push/**",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-store"
-          }
-        ]
-      },
-      {
-        "source": "OneSignalSDKWorker.js",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-store"
-          }
+          { "key": "Cache-Control", "value": "public, max-age=300" },
+          { "key": "Access-Control-Allow-Origin", "value": "*" }
         ]
       }
     ]

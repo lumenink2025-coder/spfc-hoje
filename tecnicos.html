@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  
-  
+  <meta name="theme-color" content="#080808"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  
+  <meta name="apple-mobile-web-app-title" content="SPFC Técnicos"/>
   <meta name="description" content="Técnicos Campeões do São Paulo Futebol Clube"/>
-  <title>Técnicos Campeões – SPFC — MAGAZINE TRICOLOR</title>
-  
+  <title>Técnicos Campeões – SPFC</title>
+  <link rel="manifest" href="manifest.json"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -18,7 +18,7 @@
 
     :root {
       --red:    #C9A84C;
-      --gold:   #a60000;
+      --gold:   #C8102E;
       --black:  #0E0E0E;
       --white:  #FFFFFF;
       --bg:     #F2F2F2;
@@ -244,32 +244,16 @@
       .stats-banner { max-width: 540px; margin-left: auto; margin-right: auto; }
     }
   </style>
-<link rel="stylesheet" href="suite-premium.css?v=20261029-r14"><link rel="stylesheet" href="pwa.css?v=20261029-r14">
-<meta name="theme-color" content="#111111">
-<meta name="application-name" content="MAGAZINE TRICOLOR">
-<meta name="apple-mobile-web-app-title" content="MAGAZINE TRICOLOR">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="msapplication-TileColor" content="#111111">
-<meta name="msapplication-TileImage" content="icons/mt-r12-tile-150.png">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/x-icon" href="icons/mt-r12-favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/mt-r12-favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="icons/mt-r12-favicon-16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="icons/mt-r12-apple-180.png">
-<link rel="apple-touch-icon" sizes="167x167" href="icons/mt-r12-apple-167.png">
-<link rel="apple-touch-icon" sizes="152x152" href="icons/mt-r12-apple-152.png">
-<link rel="apple-touch-icon" sizes="120x120" href="icons/mt-r12-apple-120.png">
-</head>
+<link rel="stylesheet" href="suite-premium.css?v=20261023"></head>
 <body data-suite="tecnicos">
 
 <!-- HEADER -->
 <header class="header">
-  <a href="index.html" class="btn-back">
+  <a href="main.html" class="btn-back">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     Início
   </a>
-  <img src="assets/app-icon.png" class="header-logo" alt="SPFC"/>
+  <img src="https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png" class="header-logo" alt="SPFC"/>
   <div class="header-text">
     <div class="header-title">Técnicos Campeões</div>
     <div class="header-sub">A história de quem fez o Tricolor vencer</div>
@@ -360,7 +344,7 @@
 
 <script>
 const JSON_URL = 'data/spfc-tecnicos-titulos.json';
-const LOGO = 'assets/app-icon.png';
+const LOGO = 'https://res.cloudinary.com/dkjlv0hcs/image/upload/v1780443967/393e3b8f-8e91-47f1-8476-65c51f103210_sdu0er.png';
 
 let COACHES = [], AGE_DATA = [];
 
@@ -473,5 +457,5 @@ function closeModal(e) { if(e && e.target !== document.getElementById('modalOver
 
 init();
 </script>
-<script src="pwa.js?v=20261029-r14"></script></body>
+</body>
 </html>

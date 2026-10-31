@@ -1,10 +1,11 @@
 // ============================================
 // unified-identity.js
 // Sistema Unico de Identidade — Firebase v10 Modular
-// Unifica: cadastro.html + quiz.html + index.html
+// Unifica: cadastro.html + quiz.html + palpitometro.html + index.html
 //
 // Substitui colecoes legadas:
 //   - usuarios  (cadastro)
+//   - ranking   (palpitometro)
 //   - users     (quiz)
 //   - nicknames (quiz)
 //
@@ -33,7 +34,7 @@ class UnifiedIdentity {
   // HELPERS (usam API modular via window.FB ou window.FB_CAD)
   // ============================================
   _getFB() {
-    // Tenta window.FB primeiro (quiz), depois window.FB_CAD (cadastro)
+    // Tenta window.FB primeiro (palpitometro, quiz), depois window.FB_CAD (cadastro)
     return window.FB || window.FB_CAD || {};
   }
 
@@ -120,6 +121,8 @@ class UnifiedIdentity {
       nicknameLocked: false, lives: 3,
       xp: 0, level: 1, streak: 0, totalQuizPlayed: 0,
       totalPontos: 0, totalAcertos: 0, totalErros: 0,
+      totalPalpites: 0, placareExatos: 0, pontosMes: 0,
+      apostas: [],
       migratedFrom: [], legacyCollections: []
     };
   }
@@ -216,6 +219,7 @@ class UnifiedIdentity {
   async migrateFromLegacy(uid) {
     const sources = [
       { collection: 'usuarios', system: 'cadastro' },
+      { collection: 'ranking', system: 'palpitometro' },
       { collection: 'users', system: 'quiz' },
       { collection: 'nicknames', system: 'quiz' }
     ];
@@ -270,6 +274,15 @@ class UnifiedIdentity {
         if (source.streak !== undefined) r.streak = source.streak;
         if (source.totalScore !== undefined) r.totalPontos = source.totalScore;
         if (source.bestStreak !== undefined) r.bestStreak = source.bestStreak;
+        break;
+      case 'palpitometro':
+        if (source.displayName) { r.displayName = source.displayName; r.name = source.displayName; }
+        if (source.totalPontos !== undefined) r.totalPontos = source.totalPontos;
+        if (source.totalAcertos !== undefined) r.totalAcertos = source.totalAcertos;
+        if (source.totalErros !== undefined) r.totalErros = source.totalErros;
+        if (source.totalPalpites !== undefined) r.totalPalpites = source.totalPalpites;
+        if (source.placareExatos !== undefined) r.placareExatos = source.placareExatos;
+        if (source.pontosMes !== undefined) r.pontosMes = source.pontosMes;
         break;
     }
     return r;
