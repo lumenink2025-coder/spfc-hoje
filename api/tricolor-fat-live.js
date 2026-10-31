@@ -31,6 +31,29 @@ function playerSaysLive(player) {
   return null;
 }
 
+function playerHtmlSaysLive(html) {
+  const marker = /ytInitialPlayerResponse\s*=\s*/.exec(html);
+  if (!marker) return null;
+  const start = marker.index + marker[0].length;
+  let depth = 0, quoted = false, escaped = false;
+  for (let i = start; i < html.length; i++) {
+    const char = html[i];
+    if (quoted) {
+      if (escaped) escaped = false;
+      else if (char === '\\') escaped = true;
+      else if (char === '"') quoted = false;
+      continue;
+    }
+    if (char === '"') quoted = true;
+    else if (char === '{') depth++;
+    else if (char === '}' && --depth === 0) {
+      const playerText = html.slice(start, i + 1);
+      return /"isLiveNow"\s*:\s*true/.test(playerText) || /"videoDetails"\s*:\s*\{[^{}]*"isLive"\s*:\s*true/.test(playerText);
+    }
+  }
+  return null;
+}
+
 function channelStreamBadge(data) {
   const stack = [data];
   while (stack.length) {
@@ -66,14 +89,16 @@ export default async function handler(req, res) {
 
     const player = extractAssignedJson(html, 'ytInitialPlayerResponse');
     let live = playerSaysLive(player);
+    if (live === null) live = playerHtmlSaysLive(html);
     if (live === null) {
       const data = extractAssignedJson(html, 'ytInitialData');
       if (!data) throw new Error('Status de transmissão indisponível');
       live = channelStreamBadge(data);
     }
 
-    res.setHeader('Cache-Control', 'public, max-age=10, s-maxage=15, stale-while-revalidate=30');
-    return res.status(200).json({ live, checkedAt: new Date().toISOString() });
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('X-Tricolor-Live-Detector', 'player-r22');
+    return res.status(200).json({ live, detector: 'player-r22', checkedAt: new Date().toISOString() });
   } catch {
     res.setHeader('Cache-Control', 'no-store');
     return res.status(502).json({ error: 'Não foi possível consultar o status do Tricolor FAT.' });
