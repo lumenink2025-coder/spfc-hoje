@@ -1,6 +1,6 @@
 'use strict';
 /* Change RELEASE with each complete deployment. Never unregister notification workers. */
-const RELEASE = '20261031-r19';
+const RELEASE = '20261031-r20';
 const MUSIC_PATH = 'assets/audio/quiz-show-fever.mp3';
 const SCOPE_URL = new URL(self.registration.scope);
 const SCOPE_KEY = SCOPE_URL.pathname.replace(/[^a-z0-9]/gi, '_');
