@@ -1,3 +1,4 @@
+/* Perfil identifica a sessão pelo Firebase Authentication; não consulta documentos de usuário no Firestore. */
 (async () => {
   const notice = document.createElement('div');
   notice.className = 'profile-auth-status'; notice.setAttribute('role', 'status');
@@ -6,15 +7,8 @@
   try {
     const fb = await SPFCData.firebase();
     fb.onAuthStateChanged(fb.auth, async user => {
-      if (!user) {
-        notice.innerHTML = 'Entre para ver seu progresso e suas conquistas. <a href="cadastro.html" style="color:#ff8ba3;text-decoration:underline">Entrar ou criar conta</a>';
-        return;
-      }
-      try {
-        const snap = await SPFCData.deadline(fb.getDoc(fb.doc(fb.db, 'users', user.uid)));
-        await window.fillPerfilFromCache(snap.exists() ? snap.data() : {}, user);
-        notice.remove();
-      } catch { notice.textContent = 'Não foi possível carregar os dados do perfil. Confira sua conexão e recarregue a página.'; }
+      if (!user) { notice.innerHTML = 'Entre para ver seu progresso e suas conquistas. <a href="cadastro.html" style="color:#ff8ba3;text-decoration:underline">Entrar ou criar conta</a>'; return; }
+      await window.fillPerfilFromCache({}, user); notice.remove();
     });
-  } catch { notice.textContent = 'O perfil precisa de conexão para carregar seus dados. Tente novamente quando estiver online.'; }
+  } catch { notice.textContent = 'Não foi possível verificar sua sessão. Tente novamente quando estiver online.'; }
 })();

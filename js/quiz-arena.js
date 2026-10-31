@@ -164,10 +164,10 @@
     for (const [key,label] of [['effects','Effects'],['music','Music'],['crowd','Crowd']]) $('arena'+label+'Volume').addEventListener('input', e => { ArenaAudio.set(key,Number(e.target.value)/100); refreshSettings(); });
     window.addEventListener('arena-audio-change', refreshSettings);
     // Unlock from an actual gesture in any mode, including Wondler and Sexta Temática.
-    document.addEventListener('pointerdown', () => { if (ArenaAudio.diagnostics.state !== 'running') ArenaAudio.unlock(); }, { passive:true });
+    document.addEventListener('pointerdown', () => { if (ArenaAudio.diagnostics.state !== 'running' || ArenaAudio.diagnostics.music === 'blocked') ArenaAudio.unlock(); }, { passive:true });
     document.addEventListener('visibilitychange', () => { if (!document.hidden && typeof refreshCountdown === 'function') refreshCountdown(); });
     document.addEventListener('keydown', e => {
-      if (!e.repeat && !e.ctrlKey && !e.altKey && !e.metaKey && ArenaAudio.diagnostics.state !== 'running') ArenaAudio.unlock();
+      if (!e.repeat && !e.ctrlKey && !e.altKey && !e.metaKey && (ArenaAudio.diagnostics.state !== 'running' || ArenaAudio.diagnostics.music === 'blocked')) ArenaAudio.unlock();
       if (e.repeat || e.ctrlKey || e.altKey || e.metaKey || ['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName) || document.querySelector('dialog[open], .modal-overlay.open')) return;
       if (!$('screen-quiz').classList.contains('active')) return;
       if (e.key === 'Enter' && continuation) { e.preventDefault(); next(); }

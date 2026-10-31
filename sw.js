@@ -1,6 +1,7 @@
 'use strict';
 /* Change RELEASE with each complete deployment. Never unregister notification workers. */
-const RELEASE = '20261029-r15';
+const RELEASE = '20261031-r18';
+const MUSIC_PATH = 'assets/audio/quiz-show-fever.mp3';
 const SCOPE_URL = new URL(self.registration.scope);
 const SCOPE_KEY = SCOPE_URL.pathname.replace(/[^a-z0-9]/gi, '_');
 const CACHE_PREFIX = 'spfc-hoje-app-' + SCOPE_KEY + '-';
@@ -10,6 +11,7 @@ const SHELL = [
   'js/events-summary.js', 'js/home-data.js', 'js/news-sources.js', 'js/news.js', 'js/daily-highlight.js', 'pwa.js', 'pwa.css', 'js/data-service.js', 'manifest.json', 'assets/app-icon.png', 'assets/tricolor-fat-parceiro.png', 'icons/mt-r12-icon-192.png', 'icons/mt-r12-icon-512.png', 'icons/mt-r12-maskable-512.png', 'icons/mt-r12-apple-180.png', 'icons/mt-r12-favicon-32.png', 'icons/mt-r12-favicon-16.png', 'icons/mt-r12-favicon.ico'
 ];
 const OPTIONAL = [
+  MUSIC_PATH,
   'events.js', 'icons/mt-r12-icon-1024.png', 'icons/mt-r12-maskable-1024.png', 'icons/mt-r12-apple-167.png', 'icons/mt-r12-apple-152.png', 'icons/mt-r12-apple-120.png', 'icons/mt-r12-tile-150.png',
   'notificacoes.html', 'notificacoes.css', 'js/push-client.js',
   'quiz.html', 'quiz-arena.css', 'js/arena-audio.js', 'js/quiz-arena.js', 'quiz-premium.css', 'quiz-sports.css', 'quiz-fixes.css',
@@ -22,9 +24,9 @@ const OPTIONAL = [
 const EXCLUDED = /^(?:api\/|functions\/|push\/|push-config\.js$|main\.html$|admin(?:\.|-)|cadastro\.html$|perfil\.html$|palpitometro\.html$|sw\.js$|OneSignal|js\/profile-auth\.js$)/;
 function keyFor(url) { const key = new URL(url); key.search = ''; key.hash = ''; if (key.pathname === SCOPE_URL.pathname) key.pathname += 'index.html'; return key.href; }
 async function store(cache, request, response) {
-  if (!response.ok || response.type !== 'basic' || response.headers.get('Cache-Control')?.includes('no-store')) return;
+  if (!response.ok || response.status === 206 || response.type !== 'basic' || response.headers.get('Cache-Control')?.includes('no-store')) return;
   const url = new URL(typeof request === 'string' ? request : request.url);
-  if (/\.(?:js|css|json)$/.test(url.pathname) && response.headers.get('Content-Type')?.includes('text/html')) return;
+  if (/\.(?:js|css|json|mp3)$/.test(url.pathname) && response.headers.get('Content-Type')?.includes('text/html')) return;
   await cache.put(keyFor(url), response.clone()).catch(() => {});
 }
 self.addEventListener('install', event => {
@@ -53,11 +55,42 @@ self.addEventListener('activate', event => {
     await self.clients.claim();
   })());
 });
+// Media elements request byte ranges, including on iOS. Serve them from the full
+// cached MP3 without ever storing a partial response as if it were the full song.
+async function musicResponse(request) {
+  const cache = await caches.open(CACHE_NAME);
+  const cached = await cache.match(keyFor(request.url));
+  if (!cached || cached.status !== 200) {
+    const response = await fetch(request);
+    await store(cache, request, response);
+    return response;
+  }
+  const range = request.headers.get('Range');
+  if (!range) return cached;
+  const blob = await cached.blob(), size = blob.size;
+  const match = /^bytes=(\d*)-(\d*)$/.exec(range.trim());
+  const invalid = () => new Response(null, { status: 416, headers: { 'Content-Range': 'bytes */' + size, 'Accept-Ranges': 'bytes' } });
+  if (!match || (!match[1] && !match[2]) || !size) return invalid();
+  const start = match[1] ? Number(match[1]) : Math.max(0, size - Number(match[2]));
+  const end = match[1] && match[2] ? Math.min(Number(match[2]), size - 1) : size - 1;
+  if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start >= size || end < start) return invalid();
+  return new Response(blob.slice(start, end + 1), { status: 206, headers: {
+    'Content-Type': 'audio/mpeg', 'Accept-Ranges': 'bytes',
+    'Content-Length': String(end - start + 1), 'Content-Range': `bytes ${start}-${end}/${size}`
+  } });
+}
 self.addEventListener('fetch', event => {
   const request = event.request, url = new URL(request.url);
   if (request.method !== 'GET' || url.origin !== SCOPE_URL.origin || !url.pathname.startsWith(SCOPE_URL.pathname)) return;
   const path = url.pathname.slice(SCOPE_URL.pathname.length);
-  if (EXCLUDED.test(path) || request.headers.has('Authorization') || request.headers.has('Range')) return;
+  if (EXCLUDED.test(path) || request.headers.has('Authorization')) return;
+  if (path === MUSIC_PATH) {
+    const work = musicResponse(request);
+    event.respondWith(work);
+    event.waitUntil(work.then(() => {}).catch(() => {}));
+    return;
+  }
+  if (request.headers.has('Range')) return;
   if (path && !/\.(?:html|css|js|json|png|webp|jpg|jpeg|ico)$/.test(path)) return;
   const work = (async () => {
     const cache = await caches.open(CACHE_NAME);

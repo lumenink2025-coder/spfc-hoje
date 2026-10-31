@@ -181,7 +181,7 @@ input[type="date"].cad-input{color-scheme:dark}
 <script type="module">
 import { initializeApp, getApps }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, signInWithPopup, signInWithRedirect, getRedirectResult,
+import { getAuth, signInWithRedirect, getRedirectResult,
          GoogleAuthProvider, createUserWithEmailAndPassword,
          signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
@@ -206,33 +206,26 @@ gProvider.setCustomParameters({ prompt: 'select_account' });
 /* Expõe tudo que o JS inline vai precisar */
 window.FB_CAD = {
   auth, db,
-  signInWithPopup, signInWithRedirect, getRedirectResult, gProvider,
+  signInWithRedirect, getRedirectResult, gProvider,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
   sendPasswordResetEmail,
   doc, setDoc, getDoc, serverTimestamp, runTransaction
 };
 
-/* ── Captura retorno do redirect Google (com timeout) ── */
+/* ── Captura retorno do redirect Google ── */
 (async () => {
   try {
-    const result = await Promise.race([
-      getRedirectResult(auth),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('REDIRECT_TIMEOUT')), 5000))
-    ]);
-
+    const result = await getRedirectResult(auth);
     if (result?.user) {
       showLoading('VERIFICANDO...');
     }
   } catch(e) {
     hideLoading();
-    if (e.message === 'REDIRECT_TIMEOUT') return;
-
     if (e.code === 'auth/unauthorized-domain') {
       showS1Err('Domínio não autorizado no Firebase. Adicione este domínio no console do Firebase.');
     } else if (e.code && e.code !== 'auth/null-user') {
       showS1Err('Erro ao autenticar: ' + (e.code || e.message));
     }
-    showStep(1);
   }
 })();
 
@@ -523,43 +516,20 @@ async function entrarGoogle() {
     return;
   }
 
-  showLoading('ABRINDO GOOGLE...');
+  showLoading('REDIRECIONANDO PARA O GOOGLE...');
 
   try {
-    // ✅ Tenta popup primeiro — resolve em 2-3 segundos
-    const result = await window.FB_CAD.signInWithPopup(window.FB_CAD.auth, window.FB_CAD.gProvider);
-
-    if (result?.user) {
-      showLoading('VERIFICANDO PERFIL...');
-    }
+    await window.FB_CAD.signInWithRedirect(window.FB_CAD.auth, window.FB_CAD.gProvider);
   } catch(e) {
     hideLoading();
-
-    // Se popup foi bloqueado ou fechado, tenta redirect como fallback
-    if (e.code === 'auth/popup-blocked') {
-      showS1Err('Popup bloqueado. Redirecionando para login...');
-      try {
-        await window.FB_CAD.signInWithRedirect(window.FB_CAD.auth, window.FB_CAD.gProvider);
-      } catch(redirectErr) {
-        showS1Err('Erro no redirect: ' + (redirectErr.code || redirectErr.message));
-      }
-      return;
-    }
-
     const msgs = {
-      'auth/popup-closed-by-user':  'Você fechou a janela do Google antes de completar o login.',
-      'auth/cancelled-popup-request':'Múltiplas tentativas de login. Aguarde e tente novamente.',
-      'auth/network-request-failed':'Sem conexão com a internet. Verifique sua rede.',
-      'auth/unauthorized-domain':   'Domínio não autorizado no Firebase Console.',
-      'auth/invalid-credential':    'Credencial inválida. Tente novamente.',
+      'auth/network-request-failed': 'Sem conexão com a internet. Verifique sua rede.',
+      'auth/unauthorized-domain': 'Domínio não autorizado no Firebase Console.',
+      'auth/invalid-credential': 'Credencial inválida. Tente novamente.',
     };
-
-    const msg = msgs[e.code] || 'Erro no login: ' + (e.code || e.message);
-    showS1Err(msg);
-    console.error('Firebase Auth Error:', e.code, e.message, e);
+    showS1Err(msgs[e.code] || 'Erro no login: ' + (e.code || e.message));
   }
 }
-
 /* Login com e-mail existente */
 async function submitEmail() {
   if (!window.FB_CAD) return;

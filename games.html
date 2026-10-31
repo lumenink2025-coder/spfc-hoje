@@ -117,7 +117,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--txt);min-height:
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import { getFirestore, collection, query, orderBy, limit, getDocs, doc, getDoc, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getFirestore, collection, query, orderBy, limit, getDocs, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAsjpwQwio7Y2SREpnrJf0DSb9fySkhlSY",
@@ -155,27 +155,12 @@ onAuthStateChanged(auth, async user => {
     else if(av) av.textContent = (user.displayName||user.email||'U')[0].toUpperCase();
     if(nm) nm.textContent = user.displayName || user.email || 'Você';
     document.getElementById('userPill').style.display = 'flex';
-    loadUserStats(user);
+    // Não consultar documentos de perfil; a área usa somente os dados do ranking.
   loadRanking(currentTab, currentPeriod);
 });
 
 // ── USER STATS ────────────────────────────────────────────────────
-async function loadUserStats(user){
-  try{
-    const d = await getDoc(doc(db,'users',user.uid));
-    if(!d.exists()) return;
-    const data = d.data();
-    // quiz streak
-    const qs = document.getElementById('ghcQuizStreak');
-    if(qs) qs.querySelector('span').textContent = data.quizStreak || data.streak || 0;
-    // wordle streak
-    const ws = document.getElementById('ghcWordleStreak');
-    if(ws) ws.querySelector('span').textContent = data.wordleStreak || 0;
-    // game buttons streaks
-    setStreakBadge('quizStreakBadge', data.quizStreak || data.streak || 0);
-    setStreakBadge('wordleStreakBadge', data.wordleStreak || 0);
-  }catch(e){ console.warn('user stats:', e); }
-}
+async function loadUserStats(_user){ /* Estatísticas pessoais ficam locais; sem leitura de users no Firestore. */ }
 
 function setStreakBadge(id, val){
   const el = document.getElementById(id);
