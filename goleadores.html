@@ -1178,6 +1178,117 @@
 
     </style>
 <link rel="stylesheet" href="suite-premium.css?v=20261029-r14"><link rel="stylesheet" href="pwa.css?v=20261029-r14">
+<style>
+  /* Artilharia editorial: contraste, hierarquia e registros em primeiro plano. */
+  body[data-suite="goleadores"] { background:#101012; color:#f4f1eb; }
+  body[data-suite="goleadores"] .page-header { padding:14px 0; background:rgba(17,17,19,.93); border-bottom:1px solid rgba(255,255,255,.09); }
+  body[data-suite="goleadores"] .header-inner { max-width:1320px; padding:0 28px; }
+  body[data-suite="goleadores"] .header-brand h1 { font-family:Inter,sans-serif; font-size:15px; letter-spacing:.01em; background:none; color:#f5f2ec; -webkit-text-fill-color:initial; }
+  body[data-suite="goleadores"] .header-brand span { color:#a8a39b; font-size:10px; letter-spacing:.12em; }
+  body[data-suite="goleadores"] .header-back { border-radius:8px; padding:9px 13px; background:#ffffff08; border-color:#ffffff18; color:#d2cdc5; font-size:10px; letter-spacing:.09em; }
+  body[data-suite="goleadores"] .hero-section { position:relative; isolation:isolate; padding:42px 0 34px; overflow:hidden; background:radial-gradient(ellipse at 85% 7%,rgba(166,0,0,.3),transparent 32%),radial-gradient(ellipse at 6% 100%,rgba(212,175,55,.08),transparent 32%),linear-gradient(120deg,#1c1c1f,#111113 68%); border-bottom:1px solid #ffffff12; }
+  body[data-suite="goleadores"] .hero-bg { opacity:.22; background:repeating-linear-gradient(133deg,transparent 0 40px,rgba(255,255,255,.035) 41px 42px,transparent 43px 82px); }
+  body[data-suite="goleadores"] .hero-inner { max-width:1240px; padding:0 30px; }
+  body[data-suite="goleadores"] .hero-label { color:#ddc17f; font-size:9px; font-weight:700; letter-spacing:.2em; }
+  body[data-suite="goleadores"] .hero-label::before { width:22px; height:2px; background:#a60000; }
+  body[data-suite="goleadores"] .hero-title { margin-top:12px; color:#f5f2ec; font-family:Georgia,'Times New Roman',serif; font-size:clamp(34px,5vw,54px); letter-spacing:-.035em; }
+  body[data-suite="goleadores"] .hero-subtitle { max-width:670px; margin:10px 0 0; color:#b8b3ab; font-size:12px; line-height:1.7; }
+  body[data-suite="goleadores"] .hero-record { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:12px 20px; max-width:780px; margin:24px 0 23px; padding:17px 21px; border:1px solid rgba(216,187,121,.24); background:linear-gradient(105deg,rgba(166,0,0,.16),rgba(28,28,30,.92) 65%); }
+  body[data-suite="goleadores"] .record-kicker { color:#d8bb79; font-size:8px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; }
+  body[data-suite="goleadores"] .record-name { margin-top:6px; color:#f4f1eb; font:600 20px/1.1 Georgia,'Times New Roman',serif; }
+  body[data-suite="goleadores"] .record-meta { margin-top:5px; color:#aaa49b; font-size:10px; }
+  body[data-suite="goleadores"] .record-goals { display:flex; align-items:baseline; gap:7px; color:#e1c27b; font:600 50px/.9 Georgia,'Times New Roman',serif; font-variant-numeric:tabular-nums; }
+  body[data-suite="goleadores"] .record-goals span { color:#b6a27a; font:700 8px Inter,sans-serif; letter-spacing:.15em; }
+  body[data-suite="goleadores"] .record-stats { grid-column:1/-1; display:flex; gap:0; padding-top:12px; border-top:1px solid #ffffff16; }
+  body[data-suite="goleadores"] .record-stat { min-width:110px; padding:0 15px; border-right:1px solid #ffffff16; }
+  body[data-suite="goleadores"] .record-stat:first-child { padding-left:0; }
+  body[data-suite="goleadores"] .record-stat:last-child { border:0; }
+  body[data-suite="goleadores"] .record-stat strong { display:block; color:#eeeae3; font:600 16px Georgia,serif; }
+  body[data-suite="goleadores"] .record-stat small { display:block; margin-top:4px; color:#9f9a92; font-size:8px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; }
+  body[data-suite="goleadores"] .podium { max-width:960px; margin-top:4px; gap:12px; align-items:stretch; }
+  body[data-suite="goleadores"] .podium-item { transform:none!important; }
+  body[data-suite="goleadores"] .podium-card { min-height:172px; border-radius:12px; background:linear-gradient(145deg,#222225,#19191b); border:1px solid #ffffff16; }
+  body[data-suite="goleadores"] .podium-item.first .podium-card { border-color:#d8bb7955; background:radial-gradient(ellipse at 0 0,#d8bb7918,transparent 60%),linear-gradient(145deg,#29272a,#1b1b1e); }
+  body[data-suite="goleadores"] .podium-card-inner { padding:18px 14px 14px; }
+  body[data-suite="goleadores"] .podium-photo { border-radius:9px; border:1px solid #ffffff1a; background:#101012; }
+  body[data-suite="goleadores"] .podium-name { color:#f4f1eb; font-family:Georgia,'Times New Roman',serif; font-size:16px; }
+  body[data-suite="goleadores"] .podium-meta { color:#aaa49b; font-size:9px; }
+  body[data-suite="goleadores"] .podium-goals { color:#e1c27b; font-family:Georgia,'Times New Roman',serif; font-size:30px; }
+  body[data-suite="goleadores"] .podium-goals-label { color:#aaa49b; font-size:8px; letter-spacing:.14em; }
+  body[data-suite="goleadores"] .category-nav { top:72px; padding:0; border-block:1px solid #ffffff12; background:rgba(20,20,22,.95); backdrop-filter:blur(18px); }
+  body[data-suite="goleadores"] .category-nav-inner { max-width:1240px; padding:9px 30px; gap:8px; }
+  body[data-suite="goleadores"] .category-scroll { gap:6px; }
+  body[data-suite="goleadores"] .category-btn { min-height:36px; padding:0 13px; border:1px solid #ffffff12; border-radius:5px; background:transparent; color:#aaa69e; font-size:9px; font-weight:600; letter-spacing:.05em; }
+  body[data-suite="goleadores"] .category-btn.active { border-color:#d8bb7950; background:#d8bb7914; color:#ead39f; }
+  body[data-suite="goleadores"] .cat-dropdown-btn { min-height:40px; border:1px solid #ffffff18; border-radius:6px; background:#202023; color:#e4dfd6; }
+  body[data-suite="goleadores"] #mainContent { max-width:1240px; margin:0 auto; padding:26px 30px 44px; }
+  body[data-suite="goleadores"] .section { padding:0; border:0; background:transparent; box-shadow:none; }
+  body[data-suite="goleadores"] .section-header { margin-bottom:15px; }
+  body[data-suite="goleadores"] .section-title { color:#f4f1eb; font:600 23px Georgia,'Times New Roman',serif; letter-spacing:-.02em; }
+  body[data-suite="goleadores"] .section-count { color:#aaa49b; font-size:9px; letter-spacing:.1em; text-transform:uppercase; }
+  body[data-suite="goleadores"] .players-grid { display:flex; flex-direction:column; gap:0; border-top:1px solid #ffffff16; }
+  body[data-suite="goleadores"] .player-card { display:grid; grid-template-columns:66px 38px minmax(0,1fr); align-items:center; min-height:86px; border:0; border-bottom:1px solid #ffffff12; border-radius:0; background:transparent; box-shadow:none; transform:none!important; }
+  body[data-suite="goleadores"] .player-card:hover { background:#ffffff06; box-shadow:none; }
+  body[data-suite="goleadores"] .player-card-photo { grid-column:1; grid-row:1; width:52px; height:62px; margin-left:5px; aspect-ratio:auto; border-radius:7px; background:#222225; }
+  body[data-suite="goleadores"] .player-card-photo img { object-fit:cover; object-position:top; }
+  body[data-suite="goleadores"] .player-card-photo-overlay { display:none; }
+  body[data-suite="goleadores"] .player-card-rank { position:static; grid-column:2; grid-row:1; width:auto; height:auto; border-radius:0; background:none; color:#938b7d; box-shadow:none; font:600 11px Inter,sans-serif; }
+  body[data-suite="goleadores"] .player-card-info { grid-column:3; grid-row:1; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0; }
+  body[data-suite="goleadores"] .player-card-name { margin:0; color:#f1eee8; font-size:13px; font-weight:600; }
+  body[data-suite="goleadores"] .player-card-meta { margin:4px 0 0; color:#9f9a92; font-size:9px; }
+  body[data-suite="goleadores"] .player-card-stats { flex:0 0 auto; gap:17px; }
+  body[data-suite="goleadores"] .player-card-stat-value { color:#e1c27b; font:600 19px Georgia,serif; }
+  body[data-suite="goleadores"] .player-card-stat-label { color:#928d85; font-size:7px; letter-spacing:.1em; }
+  body[data-suite="goleadores"] .table-container { overflow:auto; border:1px solid #ffffff12; border-radius:9px; background:#19191b; }
+  body[data-suite="goleadores"] .data-table { color:#eeeae3; }
+  body[data-suite="goleadores"] .data-table th { color:#a7a198; background:#222225; border-color:#ffffff12; }
+  body[data-suite="goleadores"] .data-table td { border-color:#ffffff0f; }
+  body[data-suite="goleadores"] .data-table tr:hover { background:#ffffff07; }
+  body[data-suite="goleadores"] .data-table td.highlight { color:#e1c27b; }
+  body[data-suite="goleadores"] .modal-overlay { background:rgba(0,0,0,.76); backdrop-filter:blur(10px); }
+  body[data-suite="goleadores"] .modal-sheet { border:1px solid #ffffff18; border-radius:18px 18px 0 0; background:#1a1a1d; box-shadow:0 -24px 80px #0008; }
+  body[data-suite="goleadores"] .modal-close { border:1px solid #ffffff18; border-radius:50%; background:#262629; color:#f4f1eb; }
+  @media(max-width:700px) {
+    body[data-suite="goleadores"] .header-inner { padding:0 14px; }
+    body[data-suite="goleadores"] .hero-section { padding:25px 0 20px; }
+    body[data-suite="goleadores"] .hero-inner { padding:0 14px; }
+    body[data-suite="goleadores"] .hero-title { font-size:clamp(30px,8vw,42px); }
+    body[data-suite="goleadores"] .hero-record { max-width:none; margin:18px 0 17px; padding:13px 14px; }
+    body[data-suite="goleadores"] .record-name { font-size:17px; }
+    body[data-suite="goleadores"] .record-goals { font-size:39px; }
+    body[data-suite="goleadores"] .record-stat { min-width:0; flex:1; padding:0 10px; }
+    body[data-suite="goleadores"] .record-stat strong { font-size:14px; }
+    body[data-suite="goleadores"] .record-stat small { font-size:7px; }
+    body[data-suite="goleadores"] .podium { gap:7px; }
+    body[data-suite="goleadores"] .podium-card { min-height:125px; border-radius:9px; }
+    body[data-suite="goleadores"] .podium-card-inner { padding:15px 7px 10px; }
+    body[data-suite="goleadores"] .podium-item.first .podium-card-inner,body[data-suite="goleadores"] .podium-item.second .podium-card-inner,body[data-suite="goleadores"] .podium-item.third .podium-card-inner { min-height:0; }
+    body[data-suite="goleadores"] .podium-photo { width:48px; height:48px; margin-bottom:8px; }
+    body[data-suite="goleadores"] .podium-name { font-size:11px; }
+    body[data-suite="goleadores"] .podium-item.first .podium-name { font-size:12px; }
+    body[data-suite="goleadores"] .podium-meta { font-size:8px; }
+    body[data-suite="goleadores"] .podium-item.first .podium-goals { font-size:24px; }
+    body[data-suite="goleadores"] .podium-item.second .podium-goals,body[data-suite="goleadores"] .podium-item.third .podium-goals { font-size:20px; }
+    body[data-suite="goleadores"] .category-nav { top:64px; }
+    body[data-suite="goleadores"] .category-nav-inner { padding:7px 12px; }
+    body[data-suite="goleadores"] #mainContent { padding:22px 14px 34px; }
+    body[data-suite="goleadores"] .section-title { font-size:20px; }
+    body[data-suite="goleadores"] .player-card { grid-template-columns:49px 26px minmax(0,1fr); min-height:76px; }
+    body[data-suite="goleadores"] .player-card-photo { width:40px; height:50px; margin-left:2px; }
+    body[data-suite="goleadores"] .player-card-info { gap:7px; }
+    body[data-suite="goleadores"] .player-card-name { font-size:11px; }
+    body[data-suite="goleadores"] .player-card-meta { font-size:8px; }
+    body[data-suite="goleadores"] .player-card-stats { gap:9px; }
+    body[data-suite="goleadores"] .player-card-stat-value { font-size:16px; }
+    body[data-suite="goleadores"] .player-card-stat-label { font-size:6px; letter-spacing:.06em; }
+  }
+  @media(max-width:380px) {
+    body[data-suite="goleadores"] .record-stats { gap:0; }
+    body[data-suite="goleadores"] .record-stat { padding:0 6px; }
+    body[data-suite="goleadores"] .player-card-stats { gap:6px; }
+    body[data-suite="goleadores"] .player-card-stat-label { letter-spacing:0; }
+  }
+</style>
 <meta name="theme-color" content="#111111">
 <meta name="application-name" content="MAGAZINE TRICOLOR">
 <meta name="apple-mobile-web-app-title" content="MAGAZINE TRICOLOR">
@@ -1234,6 +1345,20 @@
         <h2 class="hero-title">Maiores Goleadores</h2>
         <p class="hero-subtitle">Os artilheiros que eternizaram seus nomes na história do Tricolor Paulista.</p>
 
+        <div class="hero-record" id="heroRecord" style="display:none">
+            <div class="record-copy">
+                <div class="record-kicker">Maior marca nesta categoria</div>
+                <div class="record-name" id="heroRecordName">Serginho Chulapa</div>
+                <div class="record-meta" id="heroRecordMeta">AT · 1973</div>
+            </div>
+            <div class="record-goals"><strong id="heroRecordGoals">242</strong><span>GOLS</span></div>
+            <div class="record-stats">
+                <div class="record-stat"><strong id="heroRecordGames">399</strong><small>Jogos</small></div>
+                <div class="record-stat"><strong id="heroRecordAverage">0,61</strong><small>Gols por jogo</small></div>
+                <div class="record-stat"><strong id="heroRecordWin">61,9%</strong><small>Aproveitamento</small></div>
+            </div>
+        </div>
+
         <div class="podium" id="podium"></div>
     </div>
 </section>
@@ -1277,7 +1402,6 @@ const CONFIG = {
     jsonUrl: 'data/spfc-enciclopedia-gols.json',
 
     // Cloudinary base URL (ajuste conforme seu setup)
-    cloudinaryBase: 'https://res.cloudinary.com/seu-cloud/image/upload/spfc/jogadores/',
 };
 
 // ============================================================
@@ -1303,13 +1427,13 @@ const getPlayerSlug = (nome) => {
 };
 
 const getPlayerPhoto = (nome, playerIdOverride) => {
-    // Tenta buscar no dicionário de jogadores primeiro
-    const pid = playerIdOverride || getPlayerSlug(nome);
-    if (jogadoresData[pid] && jogadoresData[pid].foto) {
-        return jogadoresData[pid].foto;
+    // Usa o cadastro editorial da enciclopédia e tenta o slug do nome se o ID não existir.
+    const candidates = [...new Set([playerIdOverride, getPlayerSlug(nome)].filter(Boolean))];
+    for (const pid of candidates) {
+        const photo = jogadoresData[pid]?.foto;
+        if (photo) return photo;
     }
-    // Fallback: Cloudinary genérico
-    return `${CONFIG.cloudinaryBase}${pid}.jpg`;
+    return '';
 };
 
 const getInitials = (nome) => {
@@ -1360,6 +1484,20 @@ const renderPodium = (category) => {
     if (heroSection) heroSection.style.display = isRanking ? '' : 'none';
     if (!isRanking) return;
     const top3 = category.linhas.filter(r => r.NOME && r.NOME !== 'NOME' && r.GM !== 'GM').slice(0, 3);
+    const record = document.getElementById('heroRecord');
+    const leader = top3[0];
+    if (record && leader) {
+        const leaderName = leader.NOME.split('(')[0].trim();
+        const leaderMeta = leader.NOME.match(/\(([^)]+)\)/)?.[1] || 'Registro histórico';
+        const leaderGoals = leader.GM || leader['GOLS'] || leader['GOLS COMO GOLEIRO'] || leader['GOLS DE FALTA'] || '0';
+        document.getElementById('heroRecordName').textContent = leaderName;
+        document.getElementById('heroRecordMeta').textContent = leaderMeta;
+        document.getElementById('heroRecordGoals').textContent = leaderGoals;
+        document.getElementById('heroRecordGames').textContent = leader.J || leader['JOGOS'] || '—';
+        document.getElementById('heroRecordAverage').textContent = leader.MGM || '—';
+        document.getElementById('heroRecordWin').textContent = leader['%PG'] ? leader['%PG'] + '%' : '—';
+        record.style.display = 'grid';
+    } else if (record) record.style.display = 'none';
 
     const order = [1, 0, 2];
 
@@ -1381,11 +1519,11 @@ const renderPodium = (category) => {
                     <div class="podium-rank">${rank}</div>
                     <div class="podium-card-inner">
                         <div class="podium-photo">
-                            <img src="${photoUrl}" 
+                            <img ${photoUrl ? `src="${photoUrl}"` : ''} style="${photoUrl ? '' : 'display:none'}" 
                                  alt="${name}" 
                                  loading="eager"
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                            <div class="podium-photo-placeholder" style="display:none; background: linear-gradient(135deg, ${getRandomColor(name)}22, ${getRandomColor(name)}44); color: ${getRandomColor(name)}">
+                            <div class="podium-photo-placeholder" style="display:${photoUrl ? 'none' : 'flex'}; background: linear-gradient(135deg, ${getRandomColor(name)}22, ${getRandomColor(name)}44); color: ${getRandomColor(name)}">
                                 ${getInitials(name)}
                             </div>
                         </div>
@@ -1496,9 +1634,9 @@ const renderMainContent = (categoryIndex) => {
             return `
                 <div class="player-card animate-in stagger-${((i) % 5) + 1}" onclick="openPlayerModal('${category.titulo}', '${row.player_id || (i + 3)}')">
                     <div class="player-card-photo">
-                        <img src="${photoUrl}" alt="${name}" loading="lazy" 
+                        <img ${photoUrl ? `src="${photoUrl}"` : ''} style="${photoUrl ? '' : 'display:none'}" alt="${name}" loading="lazy" 
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="player-card-photo-placeholder" style="display:none">
+                        <div class="player-card-photo-placeholder" style="display:${photoUrl ? 'none' : 'flex'}">
                             ${getInitials(name)}
                         </div>
                         <div class="player-card-photo-overlay">
@@ -1566,9 +1704,11 @@ const openPlayerModal = (categoryTitle, playerId) => {
 
     // Busca pelo player_id ou pelo índice numérico (fallback legado)
     const filteredLines = category.linhas.filter(r => r.NOME && r.NOME !== 'NOME' && r.GM !== 'GM');
-    const player = typeof playerId === 'number'
-        ? filteredLines[playerId]
-        : filteredLines.find(r => r.player_id === playerId);
+    const numericId = Number(playerId);
+    const isNumericIndex = String(playerId).trim() !== '' && Number.isInteger(numericId);
+    const player = isNumericIndex
+        ? filteredLines[numericId]
+        : filteredLines.find(r => r.player_id === playerId || getPlayerSlug(r.NOME) === playerId);
     const modal = document.getElementById('playerModal');
     const content = document.getElementById('modalContent');
 
@@ -1595,9 +1735,9 @@ const openPlayerModal = (categoryTitle, playerId) => {
     content.innerHTML = `
         <div class="modal-hero">
             <div class="modal-photo">
-                <img src="${photoUrl}" alt="${name}" 
+                <img ${photoUrl ? `src="${photoUrl}"` : ''} style="${photoUrl ? '' : 'display:none'}" alt="${name}" 
                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                <div class="modal-photo-placeholder" style="display:none">
+                <div class="modal-photo-placeholder" style="display:${photoUrl ? 'none' : 'flex'}">
                     ${getInitials(name)}
                 </div>
             </div>
