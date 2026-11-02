@@ -1245,6 +1245,19 @@
   .player-card-name { font-family:Georgia,"Times New Roman",serif; font-size:15px; }
   .player-card-rank { background:#850c12; }
   .player-card-photo-overlay { background:linear-gradient(180deg,transparent 30%,rgba(8,9,10,.86)); }
+  .modal-competition-breakdown { margin:16px 0; padding:16px; border:1px solid #c6a75f35; border-radius:9px; background:linear-gradient(140deg,#1b1b1d,#131416); }
+  .modal-competition-heading { display:flex; justify-content:space-between; align-items:flex-end; gap:12px; margin-bottom:11px; }
+  .modal-competition-heading span { color:#c6a75f; font-size:8px; font-weight:700; letter-spacing:.18em; }
+  .modal-competition-heading h3 { margin:5px 0 0; color:#ded9cf; font:500 21px Georgia,"Times New Roman",serif; }
+  .modal-competition-heading small { color:#85827b; font-size:8px; text-align:right; }
+  .modal-competition-row { display:grid; grid-template-columns:minmax(150px,1.6fr) repeat(4,minmax(68px,1fr)); align-items:center; gap:9px; min-height:48px; padding:8px 0; border-top:1px solid #ffffff11; }
+  .modal-competition-name { color:#d2cdc4; font-size:10px; font-weight:600; text-transform:capitalize; }
+  .modal-competition-row strong { color:#d3b76e; font:600 17px Georgia,serif; }
+  .modal-competition-row strong small { margin-left:4px; color:#8f8a80; font:700 7px Inter,sans-serif; letter-spacing:.12em; }
+  .modal-competition-row > span { color:#98948b; font-size:8px; text-align:right; }
+  .modal-competition-row.unavailable { grid-template-columns:minmax(150px,1fr) auto; }
+  .modal-competition-row .modal-competition-missing { color:#77746e; font-size:8px; text-align:right; }
+  .modal-competition-note { margin:10px 0 0; color:#77746e; font-size:8px; line-height:1.6; }
   .modal-overlay { background:rgba(4,5,6,.82); backdrop-filter:blur(8px); }
   .modal-sheet { background:#151619; border:1px solid #ffffff1c; }
   .modal-close { background:#202124; color:#d3cec5; }
@@ -1264,6 +1277,11 @@
     #mainContent .section { padding:22px 14px 36px; }
     .players-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
     .player-card-photo { aspect-ratio:4/4.8; }
+    .modal-competition-breakdown { padding:12px; }
+    .modal-competition-row { grid-template-columns:minmax(95px,1.3fr) repeat(2,minmax(52px,1fr)); gap:7px; }
+    .modal-competition-row > span:nth-of-type(n+2) { display:none; }
+    .modal-competition-row.unavailable { grid-template-columns:1fr; }
+    .modal-competition-row .modal-competition-missing { text-align:left; }
   }
 </style>
 </head>
@@ -1633,15 +1651,48 @@ const renderMainContent = (categoryIndex) => {
 // ============================================================
 // MODAL
 // ============================================================
+const getPlayerCompetitionBreakdown = (player) => {
+    const playerName = (player?.NOME || '').split('(')[0].trim();
+    const playerId = player?.player_id || getPlayerSlug(playerName);
+    const competitions = appData.filter(category =>
+        /^MAIS GOLS MARCADOS (?:NO|NA) /i.test(category.titulo || '') &&
+        !/SÉCULO|JOGOS?|TEMPORADA|EDIÇÃO|TEMPO|PRIMEIR|SEGUNDO|ACRÉSCIM/i.test(category.titulo || '')
+    );
+
+    return competitions.map(category => {
+        const rows = (category.linhas || []).filter(row => row.NOME && row.NOME !== 'NOME');
+        const row = rows.find(item =>
+            (item.player_id && item.player_id === playerId) || getPlayerSlug(item.NOME) === getPlayerSlug(playerName)
+        );
+        const label = (category.titulo || '')
+            .replace(/^MAIS GOLS MARCADOS\s*/i, '')
+            .replace(/^(NO|NA)\s+/i, '')
+            .toLocaleLowerCase('pt-BR')
+            .replace(/^\p{L}/u, letter => letter.toLocaleUpperCase('pt-BR'));
+
+        return {
+            label,
+            row,
+            goals: row?.GM || row?.GOLS || row?.['GOLS MARCADOS'] || '—',
+            games: row?.J || row?.JOGOS || '—',
+            average: row?.MGM || '—',
+            winRate: row?.['%PG'] ? `${row['%PG']}%` : '—'
+        };
+    });
+};
+
 const openPlayerModal = (categoryTitle, playerId) => {
     const category = appData.find(c => c.titulo === categoryTitle);
     if (!category) return;
 
     // Busca pelo player_id ou pelo índice numérico (fallback legado)
     const filteredLines = category.linhas.filter(r => r.NOME && r.NOME !== 'NOME' && r.GM !== 'GM');
-    const player = typeof playerId === 'number'
-        ? filteredLines[playerId]
-        : filteredLines.find(r => r.player_id === playerId);
+    const numericId = Number(playerId);
+    const isNumericIndex = String(playerId).trim() !== '' && Number.isInteger(numericId);
+    const player = isNumericIndex
+        ? filteredLines[numericId]
+        : filteredLines.find(r => r.player_id === playerId || getPlayerSlug(r.NOME) === playerId);
+    if (!player) return;
     const modal = document.getElementById('playerModal');
     const content = document.getElementById('modalContent');
 
@@ -1649,8 +1700,9 @@ const openPlayerModal = (categoryTitle, playerId) => {
     const metaMatch = player.NOME.match(/\(([^)]+)\)/);
     const meta = metaMatch ? metaMatch[1] : '';
     const photoUrl = getPlayerPhoto(player.NOME, player.player_id);
+    const competitionStats = getPlayerCompetitionBreakdown(player);
 
-    const keys = Object.keys(player).filter(k => k !== 'NOME');
+    const keys = Object.keys(player).filter(k => !['NOME', 'player_id', 'foto'].includes(k));
 
     let primaryStat = { label: 'Gols', value: '0' };
     if (player.GM) primaryStat = { label: 'Gols Marcados', value: player.GM };
@@ -1692,6 +1744,32 @@ const openPlayerModal = (categoryTitle, playerId) => {
                 </div>
             `).join('')}
         </div>
+
+        <section class="modal-competition-breakdown">
+            <div class="modal-competition-heading">
+                <div>
+                    <span>ACERVO DE ARTILHARIA</span>
+                    <h3>Gols por competição</h3>
+                </div>
+                <small>${competitionStats.length} competições catalogadas</small>
+            </div>
+            <div class="modal-competition-list">
+                ${competitionStats.length ? competitionStats.map(item => `
+                    <article class="modal-competition-row ${item.row ? '' : 'unavailable'}">
+                        <div class="modal-competition-name">${item.label}</div>
+                        ${item.row ? `
+                            <strong>${item.goals}<small>GOLS</small></strong>
+                            <span>${item.games} jogos</span>
+                            <span>${item.average} gol/jogo</span>
+                            <span>${item.winRate} aproveitamento</span>
+                        ` : '<span class="modal-competition-missing">Sem registro disponível neste recorte</span>'}
+                    </article>
+                `).join('') : `
+                    <p class="modal-competition-note">O acervo atual ainda não possui totais separados por competição para este jogador.</p>
+                `}
+            </div>
+            <p class="modal-competition-note">Um traço indica que o jogador não aparece no recorte atual; não significa zero gols.</p>
+        </section>
 
         <div style="padding: 16px; background: var(--bg-tertiary); border-radius: var(--radius-md); border: 1px solid var(--border);">
             <div style="font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px;">
