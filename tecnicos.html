@@ -243,6 +243,209 @@
       .section-card { max-width: 540px; margin-left: auto; margin-right: auto; }
       .stats-banner { max-width: 540px; margin-left: auto; margin-right: auto; }
     }
+
+    /* Premium high-contrast treatment for the shared dark app theme. */
+    :root {
+      --red: #a60000;
+      --gold: #d3b06a;
+      --black: #101012;
+      --white: #f7f5f1;
+      --bg: #111113;
+      --card: #202023;
+      --border: rgba(255,255,255,.09);
+      --text: #f4f1ec;
+      --muted: #a6a3a0;
+    }
+    html, body { background: #111113; color: var(--text); }
+    body { padding-bottom: calc(78px + var(--safe-bot)); }
+    .header {
+      min-height: 78px; padding-left: max(18px, calc((100vw - 1100px)/2));
+      padding-right: max(18px, calc((100vw - 1100px)/2)); gap: 14px;
+      background: linear-gradient(105deg, #19191b 0%, #111113 72%);
+      border-bottom: 1px solid rgba(255,255,255,.09);
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+    }
+    .btn-back { color: #e7e3dc; background: rgba(255,255,255,.055); border-color: rgba(255,255,255,.12); }
+    .header-logo { width: 38px; height: 42px; }
+    .header-title { font-size: clamp(22px, 4vw, 28px); letter-spacing: .01em; }
+    .header-sub { color: #aaa6a0; font-size: 12px; margin-top: 5px; }
+    .header-trophy { color: var(--gold); opacity: .9; }
+    .tabs {
+      top: calc(78px + var(--safe-top)); background: rgba(25,25,27,.96);
+      border-bottom-color: rgba(255,255,255,.1); backdrop-filter: blur(16px);
+    }
+    .tab { min-height: 52px; color: #aaa6a0; font-size: 13px; letter-spacing: .08em; }
+    .tab.active { color: #f1d18d; }
+    .tab.active::after { height: 3px; background: linear-gradient(90deg, #9c0000, #e2c47f); }
+    .panel { max-width: 900px; margin: 0 auto; padding: 24px 20px 0; }
+    .section-card {
+      max-width: none !important; margin: 0 auto 18px !important;
+      border: 1px solid rgba(255,255,255,.09); border-radius: 18px;
+      background: linear-gradient(145deg, #232326, #1b1b1e 72%);
+      box-shadow: 0 20px 50px rgba(0,0,0,.24);
+    }
+    .section-title {
+      padding: 20px 22px 16px; color: #f5f2ed; font-size: 19px;
+      letter-spacing: .01em; border-bottom-color: rgba(255,255,255,.09);
+    }
+    .table-header {
+      grid-template-columns: minmax(0,1fr) 64px 118px;
+      padding: 10px 22px 10px 88px; background: rgba(255,255,255,.035);
+      border-bottom-color: rgba(255,255,255,.08);
+    }
+    .th { color: #b7b1a8; font-size: 10px; letter-spacing: .16em; }
+    .th:last-child { text-align: center; }
+    .coach-row {
+      gap: 13px; min-height: 82px; padding: 10px 20px;
+      border-bottom-color: rgba(255,255,255,.075); color: var(--text);
+      transition: background .2s, transform .2s;
+    }
+    .coach-row:hover { background: rgba(255,255,255,.035); }
+    .coach-row:active { background: rgba(255,255,255,.06); }
+    .coach-avatar {
+      width: 54px; height: 54px; border-radius: 15px !important;
+      background: #121214; outline: 1px solid rgba(255,255,255,.12);
+    }
+    .coach-avatar.rank-1 { box-shadow: 0 0 0 2px #e0bd70, 0 5px 16px rgba(211,176,106,.18); }
+    .coach-avatar.rank-2 { box-shadow: 0 0 0 2px #aeb4bc; }
+    .coach-avatar.rank-3 { box-shadow: 0 0 0 2px #bd8057; }
+    .coach-name { color: #f6f3ee !important; font-size: 16px; font-weight: 700; line-height: 1.25; }
+    .coach-period { color: #aaa6a0; font-size: 11px; line-height: 1.45; margin-top: 4px; }
+    .coach-count { width: 48px; color: #e3c27c; font-size: 30px; }
+    .coach-trophies { justify-content: center; min-width: 0; }
+    .trophy-icon { width: 14px; height: 14px; color: #d3b06a; opacity: .86; }
+    .trophy-more { color: #f1d18d; background: rgba(211,176,106,.14); border: 1px solid rgba(211,176,106,.24); border-radius: 5px; padding: 2px 5px; }
+    .row-arrow { color: #817d77; }
+    .see-all { padding: 17px 22px; border-top-color: rgba(255,255,255,.08); }
+    .see-all:active { background: rgba(255,255,255,.04); }
+    .see-all-text { color: #f4f1ec; font-size: 13px; letter-spacing: .12em; }
+    .see-all-icon { color: #e0bd70; }
+    .stats-banner {
+      max-width: none !important; margin: 0 auto 24px !important; padding: 19px 22px;
+      border: 1px solid rgba(211,176,106,.18); border-radius: 16px;
+      background: radial-gradient(ellipse at 0 50%, rgba(166,0,0,.26), transparent 55%), linear-gradient(110deg,#242326,#18181a);
+    }
+    .banner-icon { border-color: rgba(227,194,124,.6); color: #e3c27c; }
+    .banner-main { color: #f7f3eb; font-size: 16px; }
+    .banner-sub { color: #aaa6a0; font-size: 12px; margin-top: 5px; }
+    .age-row { padding: 14px 20px; border-bottom-color: rgba(255,255,255,.075); }
+    .age-row:active, .modal-row:active { background: rgba(255,255,255,.05); }
+    .age-rank { color: #d3b06a; font-size: 14px; }
+    .age-avatar, .modal-avatar { background: #121214; outline: 1px solid rgba(255,255,255,.12); }
+    .age-name, .modal-name { color: #f6f3ee; }
+    .age-game { color: #aaa6a0; }
+    .age-val, .modal-count { color: #e3c27c; }
+    .modal-overlay { background: rgba(0,0,0,.72); }
+    .modal-sheet { max-width: 720px; margin: 0 auto; background: #1d1d20; border: 1px solid rgba(255,255,255,.12); }
+    .modal-header { border-bottom-color: rgba(255,255,255,.1); }
+    .modal-title { color: #f6f3ee; font-size: 20px; }
+    .modal-row { border-bottom-color: rgba(255,255,255,.07); }
+    .modal-t svg { color: #d3b06a; }
+    .loading-spinner { border-color: rgba(255,255,255,.13); border-top-color: #e3c27c; }
+    @media (min-width: 600px) {
+      .section-card, .stats-banner { max-width: none; }
+      .panel { padding-top: 30px; }
+    }
+    @media (max-width: 480px) {
+      .header { min-height: 72px; padding-left: 12px; padding-right: 14px; gap: 10px; }
+      .btn-back { padding: 8px 9px; gap: 4px; font-size: 11px; }
+      .header-logo { width: 32px; height: 36px; }
+      .header-title { font-size: 21px; }
+      .header-sub { font-size: 10px; line-height: 1.35; }
+      .header-trophy { width: 28px; height: 28px; }
+      .tabs { top: calc(72px + var(--safe-top)); }
+      .tab { padding: 11px 5px; gap: 5px; font-size: 11px; letter-spacing: .04em; }
+      .panel { padding: 16px 12px 0; }
+      .section-title { padding: 17px 16px 14px; font-size: 17px; }
+      .table-header { grid-template-columns: minmax(0,1fr) 52px; padding: 9px 16px 9px 75px; }
+      .table-header .th:last-child { display: none; }
+      .coach-row { gap: 10px; min-height: 76px; padding: 9px 14px; }
+      .coach-avatar { width: 48px; height: 48px; border-radius: 13px !important; }
+      .coach-name { font-size: 15px; }
+      .coach-period { font-size: 10px; }
+      .coach-count { width: 42px; font-size: 27px; }
+      .coach-trophies { display: none; }
+      .row-arrow svg { width: 13px; }
+      .see-all { padding: 15px 16px; gap: 8px; }
+      .see-all-text { font-size: 11px; letter-spacing: .08em; }
+      .stats-banner { padding: 16px; gap: 12px; }
+    }
+
+    /* Hall of fame presentation */
+    .legacy-hero {
+      position: relative; isolation: isolate; overflow: hidden;
+      max-width: 1160px; margin: 28px auto 0; padding: 34px 40px 26px;
+      border: 1px solid rgba(255,255,255,.11); border-radius: 22px;
+      background: radial-gradient(ellipse at 82% 12%,rgba(166,0,0,.34),transparent 37%),
+                  radial-gradient(ellipse at 4% 100%,rgba(194,151,75,.11),transparent 38%),
+                  linear-gradient(125deg,#202023 0%,#151517 58%,#191719 100%);
+      box-shadow: 0 26px 70px rgba(0,0,0,.34);
+    }
+    .legacy-hero::before { content:''; position:absolute; inset:0; z-index:-1; opacity:.35; background:linear-gradient(118deg,transparent 0 60%,rgba(255,255,255,.025) 60.1% 60.3%,transparent 60.4% 100%),repeating-linear-gradient(135deg,transparent 0 17px,rgba(255,255,255,.014) 18px 19px,transparent 20px 36px); mask-image:linear-gradient(90deg,#000,transparent 90%); }
+    .legacy-hero::after { content:'SPFC'; position:absolute; z-index:-1; right:24px; top:8px; font:900 clamp(110px,20vw,245px)/.9 'Barlow Condensed',sans-serif; letter-spacing:-.075em; color:rgba(255,255,255,.025); }
+    .hero-kicker { display:flex; align-items:center; gap:9px; color:#dfc17d; font:700 10px/1.2 'Barlow Condensed',sans-serif; letter-spacing:.22em; text-transform:uppercase; }
+    .hero-kicker i { display:block; width:22px; height:2px; background:#a60000; box-shadow:0 0 12px rgba(166,0,0,.8); }
+    .hero-heading { max-width:720px; margin-top:18px; color:#f5f2ed; font:800 clamp(36px,6vw,68px)/.93 'Barlow Condensed',sans-serif; letter-spacing:-.035em; text-transform:uppercase; }
+    .hero-heading em { display:block; color:#d5b36e; font-style:normal; }
+    .hero-copy { max-width:620px; margin-top:14px; color:#b8b3ac; font-size:14px; line-height:1.7; }
+    .hero-stats { display:flex; gap:0; width:min(690px,100%); margin-top:29px; border-top:1px solid rgba(255,255,255,.12); padding-top:19px; }
+    .hero-stat { flex:1; min-width:0; padding:0 20px; border-right:1px solid rgba(255,255,255,.11); }
+    .hero-stat:first-child { padding-left:0; }
+    .hero-stat:last-child { border-right:0; }
+    .hero-stat strong { display:block; color:#f4f0e8; font:800 29px/1 'Barlow Condensed',sans-serif; font-variant-numeric:tabular-nums; }
+    .hero-stat span { display:block; margin-top:6px; color:#aaa49b; font:700 9px/1.3 'Barlow Condensed',sans-serif; letter-spacing:.16em; text-transform:uppercase; }
+    .hero-stat.leader strong { color:#e0bd70; font-size:19px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .panel { max-width:1200px; padding:25px 20px 0; }
+    .podium-wrap { margin-bottom:22px; }
+    .editorial-heading { display:flex; align-items:end; justify-content:space-between; gap:16px; margin:0 2px 13px; }
+    .editorial-heading .eyebrow { color:#d4b674; font:700 9px/1.3 'Barlow Condensed',sans-serif; letter-spacing:.2em; text-transform:uppercase; }
+    .editorial-heading h2 { margin-top:6px; color:#f4f1eb; font:800 25px/1 'Barlow Condensed',sans-serif; letter-spacing:.01em; text-transform:uppercase; }
+    .editorial-heading p { margin-top:6px; color:#99958f; font-size:11px; }
+    .podium { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:13px; }
+    .podium-card { position:relative; display:flex; align-items:center; gap:15px; min-height:128px; padding:18px; overflow:hidden; border:1px solid rgba(255,255,255,.1); border-radius:17px; color:inherit; text-decoration:none; background:linear-gradient(135deg,#242427,#1b1b1e); box-shadow:0 12px 30px rgba(0,0,0,.2); transition:transform .2s,border-color .2s,background .2s; }
+    .podium-card:hover { transform:translateY(-3px); border-color:rgba(216,186,119,.42); background:linear-gradient(135deg,#29282a,#1e1e20); }
+    .podium-card.first { border-color:rgba(216,186,119,.4); background:radial-gradient(ellipse at 0 0,rgba(197,155,75,.13),transparent 55%),linear-gradient(135deg,#282528,#1b1b1e); }
+    .podium-place { position:absolute; top:12px; right:13px; color:#d3b06a; font:800 11px/1 'Barlow Condensed',sans-serif; letter-spacing:.12em; }
+    .podium-photo { width:67px; height:78px; flex:0 0 67px; overflow:hidden; border-radius:12px; background:#101012; border:1px solid rgba(255,255,255,.13); }
+    .podium-photo img { width:100%; height:100%; object-fit:cover; object-position:top center; }
+    .podium-info { min-width:0; }
+    .podium-label { color:#aaa49b; font:700 9px/1.2 'Barlow Condensed',sans-serif; letter-spacing:.15em; text-transform:uppercase; }
+    .podium-name { margin-top:7px; color:#f5f2ed; font:700 19px/1.05 'Barlow Condensed',sans-serif; }
+    .podium-period { margin-top:5px; color:#aaa6a0; font-size:10px; line-height:1.4; }
+    .podium-score { display:flex; align-items:baseline; gap:5px; margin-top:8px; color:#e3c27c; font:900 27px/.9 'Barlow Condensed',sans-serif; }
+    .podium-score small { color:#aaa49b; font:600 9px/1 'Barlow',sans-serif; }
+    .ranking-title { display:flex; flex-direction:column; gap:5px; }
+    .ranking-title strong { color:#f4f1eb; font:800 19px/1 'Barlow Condensed',sans-serif; text-transform:uppercase; }
+    .ranking-title span { color:#99958f; font-size:10px; }
+    .rank-index { width:29px; flex:0 0 29px; color:#89847d; text-align:center; font:700 15px/1 'Barlow Condensed',sans-serif; font-variant-numeric:tabular-nums; }
+    .rank-index.top { color:#e0bd70; }
+    .section-title { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .section-title::after { content:'CLASSIFICAÇÃO HISTÓRICA'; color:#918b82; font:700 8px/1 'Barlow Condensed',sans-serif; letter-spacing:.16em; }
+    @media (max-width: 700px) {
+      .legacy-hero { margin:16px 12px 0; padding:25px 20px 20px; border-radius:18px; }
+      .legacy-hero::after { right:8px; top:6px; font-size:140px; }
+      .hero-heading { max-width:410px; margin-top:15px; font-size:clamp(37px,10vw,55px); }
+      .hero-copy { max-width:440px; margin-top:11px; font-size:12px; line-height:1.6; }
+      .hero-stats { margin-top:22px; padding-top:15px; }
+      .hero-stat { padding:0 12px; }
+      .hero-stat strong { font-size:25px; }
+      .hero-stat span { font-size:8px; letter-spacing:.12em; }
+      .hero-stat.leader strong { font-size:15px; }
+      .panel { padding:20px 12px 0; }
+      .podium { grid-template-columns:1fr; gap:9px; }
+      .podium-card { min-height:92px; padding:11px 14px; gap:13px; }
+      .podium-photo { width:55px; height:64px; flex-basis:55px; }
+      .podium-place { top:11px; right:12px; }
+      .podium-name { font-size:17px; }
+      .podium-score { margin-top:5px; font-size:23px; }
+      .editorial-heading h2 { font-size:22px; }
+      .section-title::after { content:none; }
+      .rank-index { width:20px; flex-basis:20px; font-size:12px; }
+    }
+    @media (min-width: 701px) and (max-width: 1000px) {
+      .podium { grid-template-columns:1fr; }
+      .podium-card { min-height:96px; }
+    }
   </style>
 <link rel="stylesheet" href="suite-premium.css?v=20261029-r14"><link rel="stylesheet" href="pwa.css?v=20261029-r14">
 <meta name="theme-color" content="#111111">
@@ -279,6 +482,17 @@
   </svg>
 </header>
 
+<section class="legacy-hero" aria-labelledby="legacyTitle">
+  <div class="hero-kicker"><i></i> ARQUIVO DE CAMPEÕES · SÃO PAULO FC</div>
+  <h1 class="hero-heading" id="legacyTitle">Arquitetos de <em>uma história gigante.</em></h1>
+  <p class="hero-copy">Os técnicos que transformaram trabalho em taças e escreveram capítulos eternos na história tricolor.</p>
+  <div class="hero-stats" aria-label="Resumo da galeria">
+    <div class="hero-stat"><strong id="heroCoachCount">—</strong><span>Técnicos campeões</span></div>
+    <div class="hero-stat"><strong id="heroTitleCount">—</strong><span>Títulos registrados</span></div>
+    <div class="hero-stat leader"><strong id="heroLeader">—</strong><span>Líder em conquistas</span></div>
+  </div>
+</section>
+
 <!-- TABS -->
 <div class="tabs">
   <button class="tab active" id="tabTitulos" onclick="switchTab('titulos')">
@@ -295,8 +509,13 @@
 <div class="panel active" id="panelTitulos">
   <div class="loading-wrap" id="loadingTitulos"><div class="loading-spinner"></div></div>
 
+  <section class="podium-wrap" id="podiumWrap" style="display:none" aria-labelledby="podiumTitle">
+    <div class="editorial-heading"><div><span class="eyebrow">O PANTEÃO TRICOLOR</span><h2 id="podiumTitle">Os maiores vencedores</h2><p>Uma carreira medida em conquistas que atravessam gerações.</p></div></div>
+    <div class="podium" id="coachPodium"></div>
+  </section>
+
   <div class="section-card" id="cardTitulos" style="display:none">
-    <div class="section-title">Técnicos por Número de Títulos</div>
+    <div class="section-title"><span class="ranking-title"><strong>Ranking de títulos</strong><span>Classificação histórica · maior número de títulos primeiro</span></span></div>
     <div class="table-header">
       <span class="th">Técnico</span>
       <span class="th" style="text-align:center">Títulos</span>
@@ -394,7 +613,9 @@ async function init() {
     const json = await res.json();
     const t1 = json.find(t => t.tabela === 1);
     const t2 = json.find(t => t.tabela === 2);
-    COACHES = t1.linhas.filter(r => r.col_0 !== 'TÉCNICO');
+    COACHES = t1.linhas
+      .filter(r => r.col_0 !== 'TÉCNICO')
+      .sort((a, b) => (parseInt(b.col_1, 10) || 0) - (parseInt(a.col_1, 10) || 0) || a.col_0.localeCompare(b.col_0, 'pt-BR'));
     AGE_DATA = t2.linhas.filter(r => r.col_0 !== 'TÉCNICO');
     render();
   } catch(e) {
@@ -405,14 +626,27 @@ async function init() {
 function render() {
   // ── TITLES TAB ──
   const list = document.getElementById('coachList');
-  const TOP = 6;
-  COACHES.slice(0, TOP).forEach((c, i) => {
-    const n = parseInt(c.col_1);
+  const podium = document.getElementById('coachPodium');
+  const champions = COACHES.filter(c => (parseInt(c.col_1, 10) || 0) > 0);
+  const TOP = 10;
+  champions.slice(0, 3).forEach((c, i) => {
+    const n = parseInt(c.col_1, 10) || 0;
+    const a = document.createElement('a');
+    a.className = `podium-card${i === 0 ? ' first' : ''}`;
+    a.href = `tecnico.html?name=${encodeURIComponent(c.col_0)}`;
+    const photo = c.foto ? `<img src="${c.foto}" alt="${c.col_0}" loading="lazy" onerror="this.remove()"/>` : `<span class="avatar-initials">${initials(c.col_0)}</span>`;
+    a.innerHTML = `<span class="podium-place">${String(i + 1).padStart(2, '0')} / 03</span><div class="podium-photo">${photo}</div><div class="podium-info"><div class="podium-label">${i === 0 ? 'MESTRE CAMPEÃO' : 'TÉCNICO CAMPEÃO'}</div><div class="podium-name">${c.col_0}</div><div class="podium-period">${c.periodo || 'Uma trajetória de conquistas'}</div><div class="podium-score">${n}<small>${n === 1 ? 'TÍTULO' : 'TÍTULOS'}</small></div></div>`;
+    podium.appendChild(a);
+  });
+  document.getElementById('podiumWrap').style.display = champions.length ? 'block' : 'none';
+  champions.slice(3, TOP).forEach((c, i) => {
+    const n = parseInt(c.col_1, 10) || 0;
     const a = document.createElement('a');
     a.className = 'coach-row';
     a.href = `tecnico.html?name=${encodeURIComponent(c.col_0)}`;
-    const av = `<div class="coach-avatar ${rankClass(i)}">${c.foto ? `<img src="${c.foto}" alt="${c.col_0}" loading="lazy"/>` : `<span class="avatar-initials">${initials(c.col_0)}</span>`}</div>`;
-    a.innerHTML = `${av}
+    const rank = i + 4;
+    const av = `<div class="coach-avatar">${c.foto ? `<img src="${c.foto}" alt="${c.col_0}" loading="lazy"/>` : `<span class="avatar-initials">${initials(c.col_0)}</span>`}</div>`;
+    a.innerHTML = `<span class="rank-index">${String(rank).padStart(2, '0')}</span>${av}
       <span class="coach-name">${c.col_0}${c.periodo ? `<div class="coach-period">${c.periodo}</div>` : ''}</span>
       <span class="coach-count">${n}</span>
       <div class="coach-trophies">${trophyIcons(n)}</div>
@@ -420,8 +654,11 @@ function render() {
     list.appendChild(a);
   });
 
-  const total = COACHES.reduce((s,c) => s+parseInt(c.col_1), 0);
-  document.getElementById('bannerMain').textContent = COACHES.length + ' técnicos campeões';
+  const total = champions.reduce((s,c) => s + (parseInt(c.col_1, 10) || 0), 0);
+  document.getElementById('heroCoachCount').textContent = champions.length;
+  document.getElementById('heroTitleCount').textContent = total;
+  document.getElementById('heroLeader').textContent = champions[0]?.col_0 || '—';
+  document.getElementById('bannerMain').textContent = champions.length + ' técnicos campeões';
   document.getElementById('bannerSub').textContent = total + ' títulos conquistados';
 
   document.getElementById('loadingTitulos').style.display = 'none';
@@ -451,7 +688,7 @@ function render() {
 
   // ── MODAL ──
   const mb = document.getElementById('modalBody');
-  COACHES.forEach(c => {
+  champions.forEach(c => {
     const a = document.createElement('a');
     a.className = 'modal-row';
     a.href = `tecnico.html?name=${encodeURIComponent(c.col_0)}`;
