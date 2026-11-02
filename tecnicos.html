@@ -369,6 +369,8 @@
       .see-all { padding: 15px 16px; gap: 8px; }
       .see-all-text { font-size: 11px; letter-spacing: .08em; }
       .stats-banner { padding: 16px; gap: 12px; }
+      .tabs { gap: 0; }
+      .tab { font-size: 9px; letter-spacing: .02em; }
     }
 
     /* Hall of fame presentation */
@@ -421,6 +423,15 @@
     .rank-index.top { color:#e0bd70; }
     .section-title { display:flex; align-items:center; justify-content:space-between; gap:10px; }
     .section-title::after { content:'CLASSIFICAÇÃO HISTÓRICA'; color:#918b82; font:700 8px/1 'Barlow Condensed',sans-serif; letter-spacing:.16em; }
+    .all-coach-summary { display:flex; align-items:center; justify-content:space-between; gap:14px; margin:0 0 14px; padding:16px 18px; border:1px solid rgba(255,255,255,.1); border-radius:14px; background:linear-gradient(115deg,rgba(166,0,0,.2),rgba(31,31,34,.94) 56%); }
+    .all-coach-summary strong { color:#f4f1eb; font:800 18px/1.1 'Barlow Condensed',sans-serif; text-transform:uppercase; }
+    .all-coach-summary p { margin-top:5px; color:#aaa49b; font-size:11px; line-height:1.5; }
+    .all-coach-total { flex:0 0 auto; color:#e3c27c; font:900 30px/1 'Barlow Condensed',sans-serif; }
+    .no-title-badge { display:inline-flex; align-items:center; padding:5px 8px; border:1px solid rgba(255,255,255,.13); border-radius:5px; color:#b9b4ac; background:rgba(255,255,255,.045); font:700 8px/1 'Barlow Condensed',sans-serif; letter-spacing:.1em; white-space:nowrap; }
+    .all-coach-row .coach-count { color:#e3c27c; }
+    .all-coach-row.no-titles .coach-count { color:#77736e; font-size:21px; }
+    .all-coach-row.no-titles .coach-trophies { justify-content:flex-start; }
+    .all-coach-row.no-titles .coach-avatar { filter:saturate(.72); }
     @media (max-width: 700px) {
       .legacy-hero { margin:16px 12px 0; padding:25px 20px 20px; border-radius:18px; }
       .legacy-hero::after { right:8px; top:6px; font-size:140px; }
@@ -441,6 +452,11 @@
       .editorial-heading h2 { font-size:22px; }
       .section-title::after { content:none; }
       .rank-index { width:20px; flex-basis:20px; font-size:12px; }
+      .all-coach-summary { padding:13px 14px; }
+      .all-coach-summary strong { font-size:16px; }
+      .all-coach-summary p { font-size:10px; }
+      .all-coach-total { font-size:26px; }
+      .all-coach-row.no-titles .coach-trophies { display:block; flex:0 0 auto; }
     }
     @media (min-width: 701px) and (max-width: 1000px) {
       .podium { grid-template-columns:1fr; }
@@ -503,6 +519,10 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
     Por Idade na Conquista
   </button>
+  <button class="tab" id="tabTodos" onclick="switchTab('todos')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2.5 20c0-3.5 2.8-6 6.5-6s6.5 2.5 6.5 6M17 4.5a3.5 3.5 0 010 7M18 15c2.2.7 3.5 2.4 3.5 5"/></svg>
+    Todos os Técnicos
+  </button>
 </div>
 
 <!-- PANEL: POR TÍTULOS -->
@@ -548,24 +568,37 @@
   </div>
 </div>
 
+<!-- PANEL: ACERVO COMPLETO -->
+<div class="panel" id="panelTodos">
+  <section class="all-coach-summary" aria-live="polite">
+    <div><strong>Uma história feita por muitas gerações</strong><p>Consulte todos os técnicos registrados no acervo, com ou sem títulos conquistados pelo Tricolor.</p></div>
+    <span class="all-coach-total" id="allCoachTotal">—</span>
+  </section>
+  <div class="section-card">
+    <div class="section-title"><span class="ranking-title"><strong>Todos os técnicos</strong><span>Ordenados por títulos; empatados em ordem alfabética</span></span></div>
+    <div class="table-header"><span class="th">Técnico</span><span class="th" style="text-align:center">Títulos</span><span class="th">Conquistas</span></div>
+    <div id="allCoachList"></div>
+  </div>
+</div>
+
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
-  <button class="bottom-item" onclick="openModal(event)">
+  <button class="bottom-item" data-tab="todos" onclick="switchTab('todos')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
     Todos
   </button>
-  <button class="bottom-item active">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 20c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6"/></svg>
-    Técnicos
-  </button>
-  <button class="bottom-item" onclick="switchTab('titulos')">
+  <button class="bottom-item active" data-tab="titulos" onclick="switchTab('titulos')">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3H5v3H3v4a4 4 0 004 4v.17A3 3 0 005 17v1h14v-1a3 3 0 00-2-2.83V14a4 4 0 004-4V6h-2V3h-2v3H7V3z"/></svg>
     Títulos
   </button>
-  <button class="bottom-item" onclick="switchTab('idade')">
+  <button class="bottom-item" data-tab="idade" onclick="switchTab('idade')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
     Idade
   </button>
+  <a class="bottom-item" href="index.html" style="text-decoration:none">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 01-1 1h-5v-7H9v7H4a1 1 0 01-1-1z"/></svg>
+    Início
+  </a>
 </nav>
 
 <!-- MODAL -->
@@ -654,6 +687,23 @@ function render() {
     list.appendChild(a);
   });
 
+  const allCoachList = document.getElementById('allCoachList');
+  document.getElementById('allCoachTotal').textContent = COACHES.length;
+  COACHES.forEach((c, i) => {
+    const n = parseInt(c.col_1, 10) || 0;
+    const a = document.createElement('a');
+    a.className = `coach-row all-coach-row${n === 0 ? ' no-titles' : ''}`;
+    a.href = `tecnico.html?name=${encodeURIComponent(c.col_0)}`;
+    const av = `<div class="coach-avatar">${c.foto ? `<img src="${c.foto}" alt="${c.col_0}" loading="lazy"/>` : `<span class="avatar-initials">${initials(c.col_0)}</span>`}</div>`;
+    const distinction = n === 0 ? '<span class="no-title-badge">SEM TÍTULOS</span>' : trophyIcons(n);
+    a.innerHTML = `<span class="rank-index">${String(i + 1).padStart(2, '0')}</span>${av}
+      <span class="coach-name">${c.col_0}${c.periodo ? `<div class="coach-period">${c.periodo}</div>` : ''}</span>
+      <span class="coach-count">${n}</span>
+      <div class="coach-trophies">${distinction}</div>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>`;
+    allCoachList.appendChild(a);
+  });
+
   const total = champions.reduce((s,c) => s + (parseInt(c.col_1, 10) || 0), 0);
   document.getElementById('heroCoachCount').textContent = champions.length;
   document.getElementById('heroTitleCount').textContent = total;
@@ -699,10 +749,10 @@ function render() {
 }
 
 function switchTab(id) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab' + (id==='titulos'?'Titulos':'Idade')).classList.add('active');
-  document.getElementById('panel' + (id==='titulos'?'Titulos':'Idade')).classList.add('active');
+  const names = {titulos:'Titulos', idade:'Idade', todos:'Todos'};
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.id === 'tab' + names[id]));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel' + names[id]));
+  document.querySelectorAll('.bottom-item[data-tab]').forEach(item => item.classList.toggle('active', item.dataset.tab === id));
 }
 
 function openModal(e) { if(e) e.preventDefault(); document.getElementById('modalOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
